@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN"
+    "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<!-- 提交后缀名 -->
+	<constant name="struts.action.extension" value="htm" /> 
+	<!-- 请求参数的编码方式-->
+    <constant name="struts.i18n.encoding" value="UTF-8"/>
+	<!-- 国际化文件 -->
+	<constant name="struts.custom.i18n.resources" value="i18n.mess" />
+	<!-- ongl 调用静态方法  -->
+	<constant name="struts.ognl.allowStaticMethodAccess" value="true" />
+	<!-- Action动态方法调用 关闭  -->
+	<constant name="struts.enable.DynamicMethodInvocation" value="false" />
+	<!-- 默认模板主题 -->
+	<constant name="struts.ui.theme" value="general" />
+	<!-- 所允许上传文件的大小2M -->
+    <constant name="struts.multipart.maxSize" value="2097152"/>
+	<!-- 默认包 -->
+	<constant name="struts.convention.default.parent.package" value="struts-base" />
+    <!-- value值表示扫描那个包名，这里为action -->
+    <constant name="struts.convention.package.locators" value="action" />
+     
+	<!-- 基础包 -->
+	<package name="struts-base" abstract="true" extends="struts-default">  
+        <interceptors>
+        	<!-- 基于defaultStack 增加store interceptor保证actionMessage在redirect后不会丢失 -->
+            <interceptor-stack name="wdStack">
+                <interceptor-ref name="store">
+                    <param name="operationMode">AUTOMATIC</param>
+                </interceptor-ref>
+                <interceptor-ref name="defaultStack" />
+            </interceptor-stack>
+            <!-- 最简单包 用户http json API -->
+            <interceptor-stack name="simpleStack">  
+                <interceptor-ref name="alias"/> 
+                <interceptor-ref name="params">
+                    <param name="excludeParams">^dojo\..*,^struts\..*,^session\..*,^request\..*,^application\..*,^servlet(Request|Response)\..*,^parameters\..*,^action:.*,^method:.*</param>
+                </interceptor-ref>
+                <interceptor-ref name="servletConfig"/>   
+                <interceptor-ref name="staticParams"/>
+                <interceptor-ref name="actionMappingParams"/> 
+            </interceptor-stack>
+            <!-- 高级包 比simple多了国际化与上传包 -->
+            <interceptor-stack name="highStack">  
+                <interceptor-ref name="defaultStack" />  
+                <interceptor-ref name="i18n"/>
+                <interceptor-ref name="fileUpload"/>  
+            </interceptor-stack>
+        </interceptors>
+        <default-interceptor-ref name="wdStack" /> 
+	</package>
+	
+	<!-- Struts2 默认配置 -->
+	<include file="struts-default.xml" />
+	<!-- Struts2 插件配置 -->
+	<include file="struts-plugin.xml" />	
+</struts>
