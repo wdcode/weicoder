@@ -9,7 +9,7 @@ import com.weicoder.common.util.EmptyUtil;
  * @since JDK7
  * @version 1.0 2014-2-13
  */
-public final class ByteBuffer {
+public final class ByteBuf {
 	/** 默认的初始容量大小 */
 	public static final int	CAPACITY		= 32;
 	/** 默认的动态数据或文字的最大长度，400k */
@@ -24,28 +24,28 @@ public final class ByteBuffer {
 	/**
 	 * 按默认的大小构造一个字节缓存对象
 	 */
-	public ByteBuffer() {
+	public ByteBuf() {
 		this(CAPACITY);
 	}
 
 	/**
 	 * 按指定的大小构造一个字节缓存对象
 	 */
-	public ByteBuffer(int capacity) {
+	public ByteBuf(int capacity) {
 		this(new byte[capacity], 0, 0);
 	}
 
 	/**
 	 * 按指定的字节数组构造一个字节缓存对象
 	 */
-	public ByteBuffer(byte[] data) {
+	public ByteBuf(byte[] data) {
 		this(data, 0, data.length);
 	}
 
 	/**
 	 * 按指定的字节数组构造一个字节缓存对象
 	 */
-	public ByteBuffer(byte[] data, int index, int length) {
+	public ByteBuf(byte[] data, int index, int length) {
 		bytes = data;
 		top = index + length;
 		offset = index;
@@ -287,8 +287,8 @@ public final class ByteBuffer {
 	 * 读出一个短字符串，长度不超过254
 	 */
 	public String readShortString() {
-		int len = readUnsignedByte();
-		if (len == 255)
+		int len = readShort();
+		if (len == 65535)
 			return null;
 		return readString(len);
 	}
@@ -297,10 +297,7 @@ public final class ByteBuffer {
 	 * 读出一个字符串，长度不超过65534
 	 */
 	public String readString() {
-		int len = readUnsignedShort();
-		if (len == 65535)
-			return null;
-		return readString(len);
+		return readString(readInt());
 	}
 
 	/**
@@ -664,9 +661,9 @@ public final class ByteBuffer {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (!(obj instanceof ByteBuffer))
+		if (!(obj instanceof ByteBuf))
 			return false;
-		ByteBuffer bb = (ByteBuffer) obj;
+		ByteBuf bb = (ByteBuf) obj;
 		if (bb.top != top)
 			return false;
 		if (bb.offset != offset)

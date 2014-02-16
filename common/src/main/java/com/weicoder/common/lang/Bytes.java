@@ -65,6 +65,15 @@ public final class Bytes {
 	 * @param obj d
 	 * @return 字节数组
 	 */
+	public static byte[] toBytes(boolean b) {
+		return new byte[] { (byte) (b ? 1 : 0) };
+	}
+
+	/**
+	 * 转换Collection变成字节数组
+	 * @param obj d
+	 * @return 字节数组
+	 */
 	public static byte[] toBytes(Collection<?> c) {
 		return toBytes(c.size(), c.toArray());
 	}
@@ -112,7 +121,7 @@ public final class Bytes {
 			b = new byte[] { Conversion.toByte(obj) };
 		} else if (obj instanceof Boolean) {
 			// Short
-			b = new byte[] { (byte) (Conversion.toBoolean(obj) ? 1 : 0) };
+			b = toBytes(Conversion.toBoolean(obj));
 		} else if (obj instanceof String) {
 			// String
 			b = toBytes(Conversion.toString(obj));

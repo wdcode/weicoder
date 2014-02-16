@@ -235,23 +235,6 @@ public final class Sockets {
 	}
 
 	/**
-	 * 获得客户端Session
-	 * @param name
-	 * @return
-	 */
-	public static Session session(String name) {
-		return client(name).getSession();
-	}
-
-	/**
-	 * 获得客户端Session
-	 * @return
-	 */
-	public static Session session() {
-		return client().getSession();
-	}
-
-	/**
 	 * 启动Socket
 	 */
 	public static void start() {

@@ -15,51 +15,59 @@ import com.weicoder.common.interfaces.Close;
 public interface Dao extends Close {
 	/**
 	 * 持久化对象，添加操作
+	 * @param entity 对象实体
+	 * @return 返回插入实体
+	 */
+	<E> E insert(E entity);
+
+	/**
+	 * 持久化对象，添加操作
 	 * @param entitys 对象实体
 	 * @return 返回插入实体
 	 */
-	<E> List<E> insert(E... entitys);
+	<E> List<E> insert(List<E> entitys);
+
+	/**
+	 * 持久化数据，锁表 更新表中一行数据
+	 * @param entity 对象实体
+	 * @return 是否成功
+	 */
+	<E> E update(E entity);
 
 	/**
 	 * 持久化数据，锁表 更新表中一行数据
 	 * @param entitys 对象实体
 	 * @return 是否成功
 	 */
-	<E> List<E> update(E... entitys);
+	<E> List<E> update(List<E> entitys);
+
+	/**
+	 * 批量持久化对象 保存或更新，如果存在就更新，不存在就插入
+	 * @param entity 需要持久化的对象
+	 * @return 列表对象
+	 */
+	<E> E insertOrUpdate(E entity);
 
 	/**
 	 * 批量持久化对象 保存或更新，如果存在就更新，不存在就插入
 	 * @param entitys 需要持久化的对象
 	 * @return 列表对象
 	 */
-	<E> List<E> insertOrUpdate(E... entitys);
+	<E> List<E> insertOrUpdate(List<E> entitys);
+
+	/**
+	 * 持久化数据，删除表中多行数据
+	 * @param entity 需要持久话对象的集合
+	 * @return 是否成功
+	 */
+	<E> E delete(E entity);
 
 	/**
 	 * 持久化数据，删除表中多行数据
 	 * @param entitys 需要持久话对象的集合
 	 * @return 是否成功
 	 */
-	<E> List<E> delete(E... entitys);
-
-	/**
-	 * 使用索引查询
-	 * @param entityClass 实体类
-	 * @param property 属性名
-	 * @param value 属性值
-	 * @param firstResult 重第几条开始查询
-	 * @param maxResults 一共查回多少条
-	 * @return 数据列表
-	 */
-	<E> List<E> search(Class<E> entityClass, String property, Object value, int firstResult, int maxResults);
-
-	/**
-	 * 使用索引查询
-	 * @param entity 实体
-	 * @param firstResult 重第几条开始查询
-	 * @param maxResults 一共查回多少条
-	 * @return 数据列表
-	 */
-	<E> List<E> search(E entity, int firstResult, int maxResults);
+	<E> List<E> delete(List<E> entitys);
 
 	/**
 	 * 获得持久化对象
@@ -215,6 +223,26 @@ public interface Dao extends Close {
 	 * @return 数据列表
 	 */
 	<E> List<E> order(Class<E> entityClass, Map<String, Object> orders, int firstResult, int maxResults);
+
+	/**
+	 * 使用索引查询
+	 * @param entityClass 实体类
+	 * @param property 属性名
+	 * @param value 属性值
+	 * @param firstResult 重第几条开始查询
+	 * @param maxResults 一共查回多少条
+	 * @return 数据列表
+	 */
+	<E> List<E> search(Class<E> entityClass, String property, Object value, int firstResult, int maxResults);
+
+	/**
+	 * 使用索引查询
+	 * @param entity 实体
+	 * @param firstResult 重第几条开始查询
+	 * @param maxResults 一共查回多少条
+	 * @return 数据列表
+	 */
+	<E> List<E> search(E entity, int firstResult, int maxResults);
 
 	/**
 	 * 获得查询的对象实体总数

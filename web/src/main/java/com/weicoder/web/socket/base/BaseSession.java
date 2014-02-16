@@ -2,7 +2,6 @@ package com.weicoder.web.socket.base;
 
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
-import java.nio.ByteBuffer;
 
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.StringConstants;
@@ -10,6 +9,7 @@ import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.web.socket.interfaces.Session;
+import com.weicoder.web.socket.simple.ByteBuf;
 import com.weicoder.web.socket.simple.Message;
 
 /**
@@ -29,26 +29,15 @@ public abstract class BaseSession implements Session {
 	@Override
 	public void send(int id, Object message) {
 		// 声明字节数组
-		byte[] data = null;
-		// 判断类型
-		if (message == null) {
-			// 空
-			data = ArrayConstants.BYTES_EMPTY;
-		} else if (message instanceof String) {
-			// 字符串
-			data = StringUtil.toBytes(Conversion.toString(message));
-		} else if (message instanceof Message) {
-			// 消息体
-			data = ((Message) message).toBytes();
-		} else if (message instanceof ByteBuffer) {
-			// ByteBuffer
-			data = ((ByteBuffer) message).array();
-		} else {
-			// 不知道的类型 以字节数组发送
-			data = Bytes.toBytes(message);
-		}
+		byte[] data = toByte(message);
 		// 发送数据
 		send(Bytes.toBytes(data.length + 4, id, data));
+	}
+
+	@Override
+	public void send(Object message) {
+		// 发送数据
+		send(toByte(message));
 	}
 
 	@Override
@@ -81,6 +70,35 @@ public abstract class BaseSession implements Session {
 			this.ip = StringUtil.subString(host, StringConstants.BACKSLASH, StringConstants.COLON);
 			this.port = Conversion.toInt(StringUtil.subString(host, StringConstants.COLON));
 		}
+	}
+
+	/**
+	 * 转换message为字节数组
+	 * @param message
+	 * @return
+	 */
+	protected byte[] toByte(Object message) {
+		// 声明字节数组
+		byte[] data = null;
+		// 判断类型
+		if (message == null) {
+			// 空
+			data = ArrayConstants.BYTES_EMPTY;
+		} else if (message instanceof String) {
+			// 字符串
+			data = StringUtil.toBytes(Conversion.toString(message));
+		} else if (message instanceof Message) {
+			// 消息体
+			data = ((Message) message).toBytes();
+		} else if (message instanceof ByteBuf) {
+			// ByteBuf
+			data = ((ByteBuf) message).array();
+		} else {
+			// 不知道的类型 以字节数组发送
+			data = Bytes.toBytes(message);
+		}
+		// 返回字节数组
+		return data;
 	}
 
 	/**

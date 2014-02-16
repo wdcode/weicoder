@@ -78,20 +78,38 @@ public final class HibernateDao implements Dao {
 
 	/**
 	 * 持久化对象，添加操作，此方法会向对应的数据库表中插入一条数据
+	 * @param entity 对象实体
+	 * @return 返回插入数据的唯一标识(主键) 出现异常返回0
+	 */
+	public <E> E insert(final E entity) {
+		return insert(Lists.getList(entity)).get(0);
+	}
+
+	/**
+	 * 持久化对象，添加操作，此方法会向对应的数据库表中插入一条数据
 	 * @param entitys 对象实体
 	 * @return 返回插入数据的唯一标识(主键) 出现异常返回0
 	 */
-	public <E> List<E> insert(final E... entitys) {
-		return execute(entitys[0].getClass(), new Callback<List<E>>() {
+	public <E> List<E> insert(final List<E> entitys) {
+		return execute(entitys.get(0).getClass(), new Callback<List<E>>() {
 			public List<E> callback(Session session) {
 				// 循环添加
 				for (E e : entitys) {
 					session.save(e);
 				}
 				// 返回实体
-				return Lists.getList(entitys);
+				return entitys;
 			}
 		});
+	}
+
+	/**
+	 * 持久化数据，锁表 更新表中一行数据
+	 * @param entity 对象实体
+	 * @return 是否成功
+	 */
+	public <E> E update(final E entity) {
+		return update(Lists.getList(entity)).get(0);
 	}
 
 	/**
@@ -101,17 +119,26 @@ public final class HibernateDao implements Dao {
 	 * @return 是否成功
 	 * @see org.hibernate.LockMode
 	 */
-	public <E> List<E> update(final E... entitys) {
-		return execute(entitys[0].getClass(), new Callback<List<E>>() {
+	public <E> List<E> update(final List<E> entitys) {
+		return execute(entitys.get(0).getClass(), new Callback<List<E>>() {
 			public List<E> callback(Session session) {
 				// 循环更新
 				for (E e : entitys) {
 					session.update(e);
 				}
 				// 返回实体
-				return Lists.getList(entitys);
+				return entitys;
 			}
 		});
+	}
+
+	/**
+	 * 批量持久化对象 保存或更新，如果存在就更新，不存在就插入
+	 * @param entity 需要持久化的对象
+	 * @return 列表对象
+	 */
+	public <E> E insertOrUpdate(E entity) {
+		return insertOrUpdate(Lists.getList(entity)).get(0);
 	}
 
 	/**
@@ -119,17 +146,26 @@ public final class HibernateDao implements Dao {
 	 * @param entitys 需要持久化的对象
 	 * @return 列表对象
 	 */
-	public <E> List<E> insertOrUpdate(final E... entitys) {
-		return execute(entitys[0].getClass(), new Callback<List<E>>() {
+	public <E> List<E> insertOrUpdate(final List<E> entitys) {
+		return execute(entitys.get(0).getClass(), new Callback<List<E>>() {
 			public List<E> callback(Session session) {
 				// 循环更新
 				for (E e : entitys) {
 					session.saveOrUpdate(e);
 				}
 				// 返回实体
-				return Lists.getList(entitys);
+				return entitys;
 			}
 		});
+	}
+
+	/**
+	 * 持久化数据，删除表中多行数据
+	 * @param entity 需要持久话对象的集合
+	 * @return 是否成功
+	 */
+	public <E> E delete(E entity) {
+		return delete(Lists.getList(entity)).get(0);
 	}
 
 	/**
@@ -137,15 +173,15 @@ public final class HibernateDao implements Dao {
 	 * @param entitys 需要持久话对象的集合
 	 * @return 是否成功
 	 */
-	public <E> List<E> delete(final E... entitys) {
-		return execute(entitys[0].getClass(), new Callback<List<E>>() {
+	public <E> List<E> delete(final List<E> entitys) {
+		return execute(entitys.get(0).getClass(), new Callback<List<E>>() {
 			public List<E> callback(Session session) {
 				// 循环更新
 				for (E e : entitys) {
 					session.delete(e);
 				}
 				// 返回实体
-				return Lists.getList(entitys);
+				return entitys;
 			}
 		});
 	}

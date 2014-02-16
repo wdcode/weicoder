@@ -18,9 +18,9 @@ import com.weicoder.base.service.SuperService;
 import com.weicoder.base.token.AuthToken;
 import com.weicoder.common.constants.DateConstants;
 import com.weicoder.common.lang.Conversion;
+import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.base.bean.Pagination;
-import com.weicoder.common.util.ArrayUtil;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.DateUtil;
 import com.weicoder.common.util.EmptyUtil;
@@ -139,7 +139,7 @@ public abstract class SuperAction extends BasicAction {
 	 */
 	public String add() throws Exception {
 		Logs.info("add entity=" + entity);
-		return callback(entity = service.insert(add(entity)).get(0));
+		return callback(entity = service.insert(add(entity)));
 	}
 
 	/**
@@ -149,7 +149,7 @@ public abstract class SuperAction extends BasicAction {
 	 */
 	public String addOrUpdata() throws Exception {
 		Logs.info("addOrUpdata entity=" + entity);
-		return callback(entity = service.insertOrUpdate(add(entity)).get(0));
+		return callback(entity = service.insertOrUpdate(add(entity)));
 	}
 
 	/**
@@ -168,7 +168,7 @@ public abstract class SuperAction extends BasicAction {
 			add(e);
 		}
 		// 添加并返回结果
-		return callback(service.insert(ArrayUtil.toArray(entitys)));
+		return callback(service.insert(entitys));
 	}
 
 	/**
@@ -181,7 +181,7 @@ public abstract class SuperAction extends BasicAction {
 		// 获得要更像的实体
 		Entity e = service.get(entityClass, entity.getKey());
 		// 实体不为空 更新 否则返回错误
-		return callback(entity = service.update(BeanUtil.copyProperties(upload(entity), e)).get(0));
+		return callback(entity = service.update(BeanUtil.copyProperties(upload(entity), e)));
 	}
 
 	/**
@@ -197,14 +197,16 @@ public abstract class SuperAction extends BasicAction {
 		}
 		// 实体列表不为空
 		if (!EmptyUtil.isEmpty(entitys)) {
+			// 获得列表长度
+			int size = entitys.size();
 			// 声明修改实体数组
-			Entity[] es = ArrayUtil.getArray(entityClass, entitys.size());
+			List<Entity> es = Lists.getList(size);
 			// 循环获取持久化数据实体
-			for (int i = 0; i < entitys.size(); i++) {
+			for (int i = 0; i < size; i++) {
 				// 获得修改实体
 				Entity e = entitys.get(i);
 				// 把新修改的值赋值给修改是实体
-				es[i] = BeanUtil.copyProperties(e, service.get(entityClass, e.getKey()));
+				es.add(BeanUtil.copyProperties(e, service.get(entityClass, e.getKey())));
 			}
 			// 修改实体
 			entitys = service.update(es);

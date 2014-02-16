@@ -23,7 +23,26 @@ public abstract class BaseClient extends BaseSocket implements Client {
 	}
 
 	@Override
-	public Session getSession() {
+	public void send(int id, Object message) {
+		getSession().send(id, message);
+	}
+
+	@Override
+	public void send(Object message) {
+		getSession().send(message);
+	}
+
+	/**
+	 * 获得session
+	 * @return
+	 */
+	protected Session getSession() {
+		// 如果session为空 或 未连接
+		if (session == null || session.isClose() || !session.isConnect()) {
+			// 连接
+			connect();
+		}
+		// 返回session
 		return session;
 	}
 

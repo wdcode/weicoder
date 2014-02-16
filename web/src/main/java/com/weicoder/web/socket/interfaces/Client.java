@@ -1,7 +1,5 @@
 package com.weicoder.web.socket.interfaces;
 
-
-
 /**
  * Socket 客户端
  * @author WD
@@ -15,8 +13,16 @@ public interface Client extends Socket {
 	void connect();
 
 	/**
-	 * 获得Session
-	 * @return Session
+	 * 写入数据
+	 * @param id 指令
+	 * @param message 消息
 	 */
-	Session getSession();
+	void send(int id, Object message);
+
+	/**
+	 * 写入数据
+	 * @param id 指令
+	 * @param message 消息
+	 */
+	void send(Object message);
 }
