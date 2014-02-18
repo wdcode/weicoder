@@ -9,7 +9,7 @@ import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.web.socket.interfaces.Session;
-import com.weicoder.web.socket.simple.ByteBuf;
+import com.weicoder.web.socket.simple.DataBuffer;
 import com.weicoder.web.socket.simple.Message;
 
 /**
@@ -27,17 +27,19 @@ public abstract class BaseSession implements Session {
 	protected int		port;
 
 	@Override
-	public void send(int id, Object message) {
+	public void send(short id, Object message) {
 		// 声明字节数组
 		byte[] data = toByte(message);
 		// 发送数据
-		send(Bytes.toBytes(data.length + 4, id, data));
+		send(Bytes.toBytes(data.length + 2, id, data));
 	}
 
 	@Override
 	public void send(Object message) {
+		// 声明字节数组
+		byte[] data = toByte(message);
 		// 发送数据
-		send(toByte(message));
+		send(Bytes.toBytes(data.length, data));
 	}
 
 	@Override
@@ -90,9 +92,9 @@ public abstract class BaseSession implements Session {
 		} else if (message instanceof Message) {
 			// 消息体
 			data = ((Message) message).toBytes();
-		} else if (message instanceof ByteBuf) {
+		} else if (message instanceof DataBuffer) {
 			// ByteBuf
-			data = ((ByteBuf) message).array();
+			data = ((DataBuffer) message).array();
 		} else {
 			// 不知道的类型 以字节数组发送
 			data = Bytes.toBytes(message);

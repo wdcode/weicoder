@@ -26,12 +26,12 @@ public final class HeartHandler implements Handler<Integer>, Heart {
 	// 心跳检测时间
 	private int						heart;
 	// 心跳检查ID指令
-	private int						id;
+	private short					id;
 
 	/**
 	 * 构造
 	 */
-	public HeartHandler(int id, int time) {
+	public HeartHandler(short id, int time) {
 		this.id = id;
 		this.heart = time;
 		times = Maps.getConcurrentMap();
@@ -92,7 +92,7 @@ public final class HeartHandler implements Handler<Integer>, Heart {
 	}
 
 	@Override
-	public int getId() {
+	public short getId() {
 		return id;
 	}
 

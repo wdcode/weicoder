@@ -3,7 +3,6 @@ package com.weicoder.web.socket.interfaces;
 import java.util.List;
 import java.util.Set;
 
-
 /**
  * Socket Session 管理器
  * @author WD
@@ -29,8 +28,8 @@ public interface Manager {
 	boolean remove(String key, int id);
 
 	/**
-	 * 从列表删除Session 根据ID删除 循环所有服务器列表删除
-	 * @param id 注册ID
+	 * 根据Session Id 删除
+	 * @param id SessionID
 	 * @return true 删除成功 false 删除成功
 	 */
 	boolean remove(int id);
@@ -41,6 +40,21 @@ public interface Manager {
 	 * @return true 删除成功 false 删除成功
 	 */
 	boolean remove(Session session);
+
+	/**
+	 * 根据注册ID获得Session
+	 * @param key 注册键
+	 * @param id 注册ID
+	 * @return true 删除成功 false 删除成功
+	 */
+	Session get(String key, int id);
+
+	/**
+	 * 根据SessionID获得Session
+	 * @param id 注册ID
+	 * @return true 删除成功 false 删除成功
+	 */
+	Session get(int id);
 
 	/**
 	 * 根据键获得注册Session列表

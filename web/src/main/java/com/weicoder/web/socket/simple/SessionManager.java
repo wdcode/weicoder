@@ -88,16 +88,13 @@ public final class SessionManager implements Manager {
 	 * @return true 删除成功 false 删除成功
 	 */
 	public boolean remove(int id) {
-		// 删除标识
-		boolean is = false;
-		// 循环删除列表
-		for (String key : keys()) {
-			if (is = remove(key, id)) {
-				continue;
-			}
+		// 如果存在
+		if (keys.containsKey(id) && ids.containsKey(id)) {
+			// 删除Session
+			return remove(keys.get(id), ids.get(id));
+		} else {
+			return false;
 		}
-		// 返回是否成功
-		return is;
 	}
 
 	/**
@@ -106,15 +103,26 @@ public final class SessionManager implements Manager {
 	 * @return true 删除成功 false 删除成功
 	 */
 	public boolean remove(Session session) {
-		// Session ID
-		int id = session.getId();
-		// 如果存在
-		if (keys.containsKey(id) && ids.containsKey(id)) {
-			// 删除Session
-			return remove(keys.get(id), ids.get(id));
-		} else {
-			return false;
-		}
+		return remove(session.getId());
+	}
+
+	/**
+	 * 根据注册ID获得Session
+	 * @param key 注册键
+	 * @param id 注册ID
+	 * @return true 删除成功 false 删除成功
+	 */
+	public Session get(String key, int id) {
+		return registers.get(key).get(id);
+	}
+
+	/**
+	 * 根据SessionID获得Session
+	 * @param id 注册ID
+	 * @return true 删除成功 false 删除成功
+	 */
+	public Session get(int id) {
+		return get(keys.get(id), ids.get(id));
 	}
 
 	/**

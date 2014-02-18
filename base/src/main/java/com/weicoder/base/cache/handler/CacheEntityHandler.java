@@ -28,7 +28,7 @@ public final class CacheEntityHandler implements Handler<CacheEntity> {
 	private Context			context;
 
 	@Override
-	public int getId() {
+	public short getId() {
 		return 2;
 	}
 

@@ -75,7 +75,7 @@ public final class Bytes {
 	 * @return 字节数组
 	 */
 	public static byte[] toBytes(Collection<?> c) {
-		return toBytes(c.size(), c.toArray());
+		return toBytes(Conversion.toShort(c.size()), c.toArray());
 	}
 
 	/**
@@ -520,7 +520,8 @@ public final class Bytes {
 	 * @return 字节数组
 	 */
 	public static byte[] toBytes(String s) {
-		return toBytes(s.length(), StringUtil.toBytes(s));
+		byte[] b = StringUtil.toBytes(s);
+		return toBytes(Conversion.toShort(b.length), b);
 	}
 
 	/**
@@ -540,7 +541,7 @@ public final class Bytes {
 	 * @return 字符串
 	 */
 	public static String toString(byte[] b, int offset) {
-		return StringUtil.toString(copy(b, offset + 4, offset + 4 + toInt(b, offset)));
+		return StringUtil.toString(copy(b, offset + 2, offset + 2 + toShort(b, offset)));
 	}
 
 	/**

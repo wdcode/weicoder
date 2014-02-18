@@ -20,7 +20,7 @@ public interface Session extends Close {
 	 * @param id 指令
 	 * @param message 消息
 	 */
-	void send(int id, Object message);
+	void send(short id, Object message);
 
 	/**
 	 * 写入数据

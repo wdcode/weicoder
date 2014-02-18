@@ -23,7 +23,7 @@ public abstract class BaseClient extends BaseSocket implements Client {
 	}
 
 	@Override
-	public void send(int id, Object message) {
+	public void send(short id, Object message) {
 		getSession().send(id, message);
 	}
 

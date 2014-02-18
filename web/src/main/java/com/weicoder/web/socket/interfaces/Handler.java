@@ -1,6 +1,5 @@
 package com.weicoder.web.socket.interfaces;
 
-
 /**
  * Socket 处理器
  * @author WD
@@ -12,7 +11,7 @@ public interface Handler<E> {
 	 * 处理消息ID
 	 * @return
 	 */
-	int getId();
+	short getId();
 
 	/**
 	 * 处理器

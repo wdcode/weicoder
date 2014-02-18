@@ -55,6 +55,11 @@ public final class Netty3Buffer implements Buffer {
 	}
 
 	@Override
+	public short getShort() {
+		return buf.readShort();
+	}
+
+	@Override
 	public void get(byte[] data) {
 		buf.readBytes(data);
 	}

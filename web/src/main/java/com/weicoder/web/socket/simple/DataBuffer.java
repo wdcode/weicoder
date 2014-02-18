@@ -9,43 +9,43 @@ import com.weicoder.common.util.EmptyUtil;
  * @since JDK7
  * @version 1.0 2014-2-13
  */
-public final class ByteBuf {
+public final class DataBuffer {
 	/** 默认的初始容量大小 */
-	public static final int	CAPACITY		= 32;
+	private static final int	CAPACITY		= 32;
 	/** 默认的动态数据或文字的最大长度，400k */
-	public static final int	MAX_DATA_LENGTH	= 400 * 1024;
+	private static final int	MAX_DATA_LENGTH	= 400 * 1024;
 	// 字节数组
-	private byte[]			bytes;
+	private byte[]				bytes;
 	// 写数据的偏移量，每写一次增加
-	private int				top;
+	private int					top;
 	// 读数据的偏移量,每读一次增加 */
-	private int				offset;
+	private int					offset;
 
 	/**
 	 * 按默认的大小构造一个字节缓存对象
 	 */
-	public ByteBuf() {
+	public DataBuffer() {
 		this(CAPACITY);
 	}
 
 	/**
 	 * 按指定的大小构造一个字节缓存对象
 	 */
-	public ByteBuf(int capacity) {
+	public DataBuffer(int capacity) {
 		this(new byte[capacity], 0, 0);
 	}
 
 	/**
 	 * 按指定的字节数组构造一个字节缓存对象
 	 */
-	public ByteBuf(byte[] data) {
+	public DataBuffer(byte[] data) {
 		this(data, 0, data.length);
 	}
 
 	/**
 	 * 按指定的字节数组构造一个字节缓存对象
 	 */
-	public ByteBuf(byte[] data, int index, int length) {
+	public DataBuffer(byte[] data, int index, int length) {
 		bytes = data;
 		top = index + length;
 		offset = index;
@@ -54,7 +54,7 @@ public final class ByteBuf {
 	/**
 	 * 设置字节缓存的容积，只能扩大容积
 	 */
-	public void setCapacity(int len) {
+	public void capacity(int len) {
 		int c = bytes.length;
 		if (len <= c)
 			return;
@@ -79,7 +79,7 @@ public final class ByteBuf {
 		if (top < offset)
 			throw new IllegalArgumentException(this + " setTop, invalid top:" + top);
 		if (top > bytes.length)
-			setCapacity(top);
+			capacity(top);
 		this.top = top;
 	}
 
@@ -297,7 +297,7 @@ public final class ByteBuf {
 	 * 读出一个字符串，长度不超过65534
 	 */
 	public String readString() {
-		return readString(readInt());
+		return readString(readShort());
 	}
 
 	/**
@@ -382,9 +382,19 @@ public final class ByteBuf {
 	 * @param pos 指定的字节数组的起始位置
 	 * @param len 写入的长度
 	 */
+	public void write(byte[] data) {
+		write(data, top(), data.length);
+	}
+
+	/**
+	 * 写入指定字节数组
+	 * @param data 指定的字节数组
+	 * @param pos 指定的字节数组的起始位置
+	 * @param len 写入的长度
+	 */
 	public void write(byte[] data, int pos, int len) {
 		if (bytes.length < top + len)
-			setCapacity(top + len);
+			capacity(top + len);
 		System.arraycopy(data, pos, bytes, top, len);
 		top += len;
 	}
@@ -394,7 +404,7 @@ public final class ByteBuf {
 	 */
 	public void writeBoolean(boolean b) {
 		if (bytes.length < top + 1)
-			setCapacity(top + CAPACITY);
+			capacity(top + CAPACITY);
 		bytes[top++] = (byte) (b ? 1 : 0);
 	}
 
@@ -403,7 +413,7 @@ public final class ByteBuf {
 	 */
 	public void writeByte(int b) {
 		if (bytes.length < top + 1)
-			setCapacity(top + CAPACITY);
+			capacity(top + CAPACITY);
 		bytes[top++] = (byte) b;
 	}
 
@@ -420,7 +430,7 @@ public final class ByteBuf {
 	public void writeShort(int s) {
 		int pos = top;
 		if (bytes.length < pos + 2)
-			setCapacity(pos + CAPACITY);
+			capacity(pos + CAPACITY);
 		bytes[pos] = (byte) (s >>> 8);
 		bytes[pos + 1] = (byte) s;
 		top += 2;
@@ -431,7 +441,7 @@ public final class ByteBuf {
 	 */
 	public void writeShort(int s, int pos) {
 		if (bytes.length < pos + 2)
-			setCapacity(pos + CAPACITY);
+			capacity(pos + CAPACITY);
 		bytes[pos] = (byte) (s >>> 8);
 		bytes[pos + 1] = (byte) s;
 	}
@@ -442,7 +452,7 @@ public final class ByteBuf {
 	public void writeInt(int i) {
 		int pos = top;
 		if (bytes.length < pos + 4)
-			setCapacity(pos + CAPACITY);
+			capacity(pos + CAPACITY);
 		bytes[pos] = (byte) (i >>> 24);
 		bytes[pos + 1] = (byte) (i >>> 16);
 		bytes[pos + 2] = (byte) (i >>> 8);
@@ -455,7 +465,7 @@ public final class ByteBuf {
 	 */
 	public void writeInt(int i, int pos) {
 		if (bytes.length < pos + 4)
-			setCapacity(pos + CAPACITY);
+			capacity(pos + CAPACITY);
 		bytes[pos] = (byte) (i >>> 24);
 		bytes[pos + 1] = (byte) (i >>> 16);
 		bytes[pos + 2] = (byte) (i >>> 8);
@@ -475,7 +485,7 @@ public final class ByteBuf {
 	public void writeLong(long l) {
 		int pos = top;
 		if (bytes.length < pos + 8)
-			setCapacity(pos + CAPACITY);
+			capacity(pos + CAPACITY);
 		bytes[pos] = (byte) (l >>> 56);
 		bytes[pos + 1] = (byte) (l >>> 48);
 		bytes[pos + 2] = (byte) (l >>> 40);
@@ -532,10 +542,10 @@ public final class ByteBuf {
 	 */
 	public void writeString(String s) {
 		if (EmptyUtil.isEmpty(s)) {
-			writeInt(0);
+			writeShort(0);
 		} else {
 			byte[] temp = s.getBytes();
-			writeInt(temp.length);
+			writeShort(temp.length);
 			write(temp, 0, temp.length);
 		}
 	}
@@ -580,7 +590,7 @@ public final class ByteBuf {
 		writeLength(len + 1);
 		int pos = top;
 		if (bytes.length < pos + len)
-			setCapacity(pos + len);
+			capacity(pos + len);
 		writeUTF(str, index, length, bytes, pos);
 		top += len;
 	}
@@ -606,9 +616,35 @@ public final class ByteBuf {
 	}
 
 	/**
+	 * 在指定位置写入一个字节，length不变
+	 */
+	public void writeByte(int b, int pos) {
+		if (bytes.length < pos + 1)
+			capacity(pos + CAPACITY);
+		bytes[pos] = (byte) b;
+	}
+
+	// /**
+	// * 得到可读取的字节数组，长度为写偏移量-读偏移量
+	// */
+	// public byte[] getTopBytes() {
+	// byte[] data = new byte[top - offset];
+	// System.arraycopy(bytes, offset, data, 0, data.length);
+	// return data;
+	// }
+
+	/**
+	 * 清除字节缓存对象
+	 */
+	public void clear() {
+		top = 0;
+		offset = 0;
+	}
+
+	/**
 	 * 获得指定的字符串转换为UTF8格式的字节数据的长度
 	 */
-	public int getUTFLength(String str, int index, int len) {
+	private int getUTFLength(String str, int index, int len) {
 		int utfLen = 0;
 		int c;
 		for (int i = index; i < len; i++) {
@@ -623,32 +659,6 @@ public final class ByteBuf {
 		return utfLen;
 	}
 
-	/**
-	 * 在指定位置写入一个字节，length不变
-	 */
-	public void writeByte(int b, int pos) {
-		if (bytes.length < pos + 1)
-			setCapacity(pos + CAPACITY);
-		bytes[pos] = (byte) b;
-	}
-
-	/**
-	 * 得到可读取的字节数组，长度为写偏移量-读偏移量
-	 */
-	public byte[] getTopBytes() {
-		byte[] data = new byte[top - offset];
-		System.arraycopy(bytes, offset, data, 0, data.length);
-		return data;
-	}
-
-	/**
-	 * 清除字节缓存对象
-	 */
-	public void clear() {
-		top = 0;
-		offset = 0;
-	}
-
 	@Override
 	public int hashCode() {
 		int hash = 17;
@@ -661,9 +671,9 @@ public final class ByteBuf {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (!(obj instanceof ByteBuf))
+		if (!(obj instanceof DataBuffer))
 			return false;
-		ByteBuf bb = (ByteBuf) obj;
+		DataBuffer bb = (DataBuffer) obj;
 		if (bb.top != top)
 			return false;
 		if (bb.offset != offset)

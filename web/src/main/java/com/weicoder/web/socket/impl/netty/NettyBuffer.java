@@ -56,6 +56,11 @@ public final class NettyBuffer implements Buffer {
 	}
 
 	@Override
+	public short getShort() {
+		return buf.readShort();
+	}
+
+	@Override
 	public void get(byte[] data) {
 		buf.readBytes(data);
 	}

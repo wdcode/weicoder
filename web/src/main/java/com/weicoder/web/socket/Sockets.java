@@ -130,10 +130,10 @@ public final class Sockets {
 	 * @param id 发送指令
 	 * @param message 发送消息
 	 */
-	public static void radio(int id, Object message) {
+	public static void send(short id, Object message) {
 		// 循环发送
 		for (String name : SERVERS.keySet()) {
-			radio(name, id, message);
+			send(name, id, message);
 		}
 	}
 
@@ -143,10 +143,10 @@ public final class Sockets {
 	 * @param id 发送指令
 	 * @param message 发送消息
 	 */
-	public static void radio(String name, int id, Object message) {
+	public static void send(String name, short id, Object message) {
 		// 循环发送消息
 		for (String key : manager(name).keys()) {
-			radio(name, key, id, message);
+			send(name, key, id, message);
 		}
 	}
 
@@ -156,31 +156,11 @@ public final class Sockets {
 	 * @param id 发送指令
 	 * @param message 发送消息
 	 */
-	public static void radio(String name, String key, int id, Object message) {
+	public static void send(String name, String key, short id, Object message) {
 		// 循环发送消息
 		for (Session session : manager(name).sessions(key)) {
 			session.send(id, message);
 		}
-	}
-
-	/**
-	 * 发送消息
-	 * @param key 注册键
-	 * @param id 发送指令
-	 * @param message 发送消息
-	 */
-	public static void send(int id, Object message) {
-		radio(StringConstants.EMPTY, id, message);
-	}
-
-	/**
-	 * 发送消息
-	 * @param key 注册键
-	 * @param id 发送指令
-	 * @param message 发送消息
-	 */
-	public static void send(String key, int id, Object message) {
-		radio(StringConstants.EMPTY, key, id, message);
 	}
 
 	/**

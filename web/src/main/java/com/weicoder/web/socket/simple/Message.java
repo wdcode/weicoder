@@ -70,7 +70,7 @@ public abstract class Message implements BytesBean {
 				} else if (type.equals(String.class)) {
 					String s = Bytes.toString(b, offset);
 					BeanUtil.setFieldValue(this, field, s);
-					offset += s.length() + 4;
+					offset += s.length() + 2;
 				} else {
 					BytesBean bean = Bytes.toBean(b, offset);
 					BeanUtil.setFieldValue(this, field, bean);

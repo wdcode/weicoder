@@ -26,7 +26,7 @@ public final class CacheLoadHandler implements Handler<String> {
 	private Context			context;
 
 	@Override
-	public int getId() {
+	public short getId() {
 		return 1;
 	}
 

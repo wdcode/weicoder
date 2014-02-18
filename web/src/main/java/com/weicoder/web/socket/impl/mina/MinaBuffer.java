@@ -59,4 +59,9 @@ public final class MinaBuffer implements Buffer {
 	public void get(byte[] data) {
 		buffer.get(data);
 	}
+
+	@Override
+	public short getShort() {
+		return buffer.getShort();
+	}
 }

@@ -24,17 +24,17 @@ import com.weicoder.web.socket.interfaces.Session;
  */
 public final class Processor implements Process {
 	// Handler列表
-	private Map<Integer, Handler<Object>>	handlers	= Maps.getConcurrentMap();
+	private Map<Short, Handler<Object>>	handlers	= Maps.getConcurrentMap();
 	// 保存Session
-	private Map<Integer, Session>			sessions	= Maps.getConcurrentMap();
+	private Map<Integer, Session>		sessions	= Maps.getConcurrentMap();
 	// 保存全局IoBuffer
-	private Map<Integer, Buffer>			buffers		= Maps.getConcurrentMap();
+	private Map<Integer, Buffer>		buffers		= Maps.getConcurrentMap();
 	// SessionManager
-	private Manager							manager;
+	private Manager						manager;
 	// 心跳处理
-	private Heart							heart;
+	private Heart						heart;
 	// 关闭处理
-	private Closed							closed;
+	private Closed						closed;
 
 	/**
 	 * Session管理
@@ -138,12 +138,12 @@ public final class Processor implements Process {
 			} else {
 				// 读取指令id
 				// int id = Integer.reverseBytes(buff.getInt());
-				int id = buff.getInt();
+				short id = buff.getShort();
 				// 获得相应的
 				Handler<Object> handler = handlers.get(id);
 				Logs.info("socket len=" + length + ";id=" + id + ";handler=" + handler + ";time=" + DateUtil.getTheDate());
 				// 消息长度
-				int len = length - 4;
+				int len = length - 2;
 				// 当前时间
 				long curr = System.currentTimeMillis();
 				// 如果消息长度为0
@@ -163,9 +163,9 @@ public final class Processor implements Process {
 					if (type.equals(String.class)) {
 						// 字符串
 						mess = StringUtil.toString(data);
-					} else if (type.equals(ByteBuf.class)) {
+					} else if (type.equals(DataBuffer.class)) {
 						// 字节流
-						mess = new ByteBuf(data);
+						mess = new DataBuffer(data);
 					} else if (type.equals(int.class) || type.equals(Integer.class)) {
 						// 整型
 						mess = Bytes.toInt(data);

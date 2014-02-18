@@ -74,8 +74,8 @@ public final class SocketParams {
 	 * XML: {@literal <socket><heart><id>?</id></heart></socket>}</h2>
 	 * @return 获得Socket心跳检测ID指令
 	 */
-	public static int getHeartId(String name) {
-		return Params.getInt(Params.getKey(PREFIX, name, "heart.id"));
+	public static short getHeartId(String name) {
+		return Params.getShort(Params.getKey(PREFIX, name, "heart.id"), (short) 0);
 	}
 
 	/**

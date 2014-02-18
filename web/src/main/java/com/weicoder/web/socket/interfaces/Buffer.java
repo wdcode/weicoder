@@ -48,6 +48,12 @@ public interface Buffer {
 	int getInt();
 
 	/**
+	 * 读取缓冲区一个int整型
+	 * @return
+	 */
+	short getShort();
+
+	/**
 	 * 读取指定长度的字节流
 	 * @param data 字节流
 	 */
