@@ -1,7 +1,6 @@
 package com.weicoder.admin.po
 
 import javax.persistence.Entity
-
 import org.hibernate.annotations.DynamicInsert
 import org.hibernate.annotations.DynamicUpdate
 import org.springframework.context.annotation.Scope
@@ -10,6 +9,7 @@ import org.springframework.stereotype.Component
 import org.springframework.beans.factory.config.ConfigurableBeanFactory
 import com.weicoder.base.annotation.Cache
 import com.weicoder.site.entity.base.BaseEntityId
+import scala.beans.BeanProperty
 
 /**
  * 权限实体
@@ -23,9 +23,11 @@ import com.weicoder.site.entity.base.BaseEntityId
 @Cache
 @DynamicInsert
 @DynamicUpdate
-class Authority extends BaseEntityId implements GrantedAuthority {
-	// 权限
-	String				authority
-	// 名称
-	String				name
+class Authority extends BaseEntityId with GrantedAuthority {
+  // 权限
+  @BeanProperty
+  var authority: String = null
+  // 名称
+  @BeanProperty
+  var name: String = null
 }

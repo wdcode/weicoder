@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2014/2/14 21:48:33                           */
+/* Created on:     2014/2/22 15:01:09                           */
 /*==============================================================*/
 
 
@@ -11,8 +11,10 @@ create table admin
 (
    id                   int not null auto_increment,
    name                 varchar(50) not null comment '用户名',
+   email                varchar(50),
    password             char(40) comment '用户密码',
    state                tinyint default 1 comment 'Email',
+   ip                   char(15),
    time                 int default 0,
    role_id              int comment '用户状态 0 无效 1 有效 2 已删除',
    login_ip             char(15),

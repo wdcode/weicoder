@@ -1,10 +1,8 @@
 package com.weicoder.admin.po
 
 import java.io.Serializable
-
 import javax.persistence.Entity
 import javax.persistence.Id
-
 import org.hibernate.annotations.DynamicInsert
 import org.hibernate.annotations.DynamicUpdate
 import org.springframework.context.annotation.Scope
@@ -13,6 +11,7 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory
 import com.weicoder.base.annotation.Cache
 import com.weicoder.common.lang.Conversion
 import com.weicoder.site.entity.base.BaseEntity
+import scala.beans.BeanProperty
 
 /**
  * 操作实体
@@ -27,25 +26,23 @@ import com.weicoder.site.entity.base.BaseEntity
 @DynamicUpdate
 @Cache
 class Operate extends BaseEntity {
-	// 操作连接
-	@Id
-	String		link
-	// 名称
-	String		name
-	//类型
-	Integer		type
+  // 操作连接
+  @Id
+  @BeanProperty
+  var link: String = null
+  // 名称
+  @BeanProperty
+  var name: String = null
+  //类型
+  //	var type:Integer
 
-	/**
-	 * 获得主键
-	 */
-	public Serializable getKey() {
-		return link
-	}
+  /**
+   * 获得主键
+   */
+  def getKey: Serializable = link
 
-	/**
-	 * 设置主键
-	 */
-	public void setKey(Serializable key) {
-		link = Conversion.toString(key)
-	}
+  /**
+   * 设置主键
+   */
+  def setKey(key: Serializable) = link = Conversion.toString(key)
 }

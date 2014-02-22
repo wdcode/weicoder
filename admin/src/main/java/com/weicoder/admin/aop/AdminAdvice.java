@@ -22,7 +22,7 @@ import com.weicoder.admin.po.Operate;
 import com.weicoder.admin.po.Role;
 import com.weicoder.base.entity.Entity;
 import com.weicoder.base.service.SuperService;
-import com.weicoder.common.lang.Conversion;
+import com.weicoder.common.lang.Lists;
 import com.weicoder.common.util.DateUtil;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.site.action.SiteAction;
@@ -67,11 +67,11 @@ public final class AdminAdvice {
 				throw new AdminException("not,operate," + link);
 			}
 			// 判断是否类型验证
-			if (AdminParams.SECURITY_TYPE > 0) {
-				if (AdminParams.SECURITY_TYPE != Conversion.toInt(operate.getType())) {
-					throw new AdminException("not,type=" + operate.getType());
-				}
-			}
+			// if (AdminParams.SECURITY_TYPE > 0) {
+			// if (AdminParams.SECURITY_TYPE != Conversion.toInt(operate.getType())) {
+			// throw new AdminException("not,type=" + operate.getType());
+			// }
+			// }
 			// 判断是否开启角色权限验证
 			if (AdminParams.SECURITY_ROLE && action.getToken().isLogin()) {
 				// 获得角色
@@ -81,7 +81,8 @@ public final class AdminAdvice {
 					throw new AdminException("not,role");
 				}
 				// 获得自己的权限列表
-				List<Operate> lsOperate = role.getOperates();
+				// List<Operate> lsOperate = role.getOperates();
+				List<Operate> lsOperate = Lists.getList();
 				// 不是所有权限 继续判断
 				if (EmptyUtil.isEmpty(lsOperate) || !lsOperate.contains(operate)) {
 					throw new AdminException("role,operate");

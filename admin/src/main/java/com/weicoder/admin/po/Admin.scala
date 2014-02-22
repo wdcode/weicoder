@@ -2,7 +2,6 @@ package com.weicoder.admin.po
 
 import javax.persistence.Entity
 import javax.validation.constraints.Size
-
 import org.hibernate.annotations.DynamicInsert
 import org.hibernate.annotations.DynamicUpdate
 import org.springframework.context.annotation.Scope
@@ -12,6 +11,7 @@ import com.weicoder.base.annotation.Cache
 import com.weicoder.base.entity.EntityUser
 import com.weicoder.common.crypto.Digest
 import com.weicoder.site.entity.base.BaseEntityIdTime
+import scala.beans.BeanProperty
 
 /**
  * 管理员
@@ -25,30 +25,36 @@ import com.weicoder.site.entity.base.BaseEntityIdTime
 @Cache
 @DynamicInsert
 @DynamicUpdate
-class Admin extends BaseEntityIdTime implements EntityUser {
-	// 名称
-	@Size(min=5)
-	String		name
-	// 密码
-	String		password
-	// 状态
-	Integer		state
-	// 权限
-	Integer		roleId
-	//IP
-	String		ip
-	//Email
-	String		email
-	//登录IP
-	String		loginIp
-	//登录时间
-	Integer		loginTime
+class Admin extends BaseEntityIdTime with EntityUser {
+  // 名称
+  @Size(min = 5)
+  @BeanProperty
+  var name: String = null
+  // 密码
+  @BeanProperty
+  var password: String = null
+  // 状态
+  @BeanProperty
+  var state: Integer = null
+  // 权限
+  @BeanProperty
+  var roleId: Integer = null
+  //IP
+  @BeanProperty
+  var ip: String = null
+  //Email
+  @BeanProperty
+  var email: String = null
+  //登录IP
+  @BeanProperty
+  var loginIp: String = null
+  //登录时间
+  @BeanProperty
+  var loginTime: Integer = null
 
-	/**
-	 * 设置用户密码
-	 * @param password 用户密码
-	 */
-	public void setPassword(String password){
-		this.password = Digest.password(password)
-	}
+//  /**
+//   * 设置用户密码
+//   * @param password 用户密码
+//   */ 
+  //  def password_$eq(password: String) = { this.password = Digest.password(password) }
 }

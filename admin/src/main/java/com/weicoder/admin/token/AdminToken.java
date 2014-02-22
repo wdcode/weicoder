@@ -6,7 +6,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.weicoder.admin.params.AdminParams;
 import com.weicoder.admin.po.Admin;
 import com.weicoder.admin.po.Authority;
-import com.weicoder.admin.po.Menu;
 import com.weicoder.admin.po.Role;
 import com.weicoder.base.service.SuperService;
 import com.weicoder.base.token.AuthToken;
@@ -42,9 +41,9 @@ public final class AdminToken extends LoginToken implements UserDetails, AuthTok
 		// 获得角色
 		role = service.get(Role.class, Conversion.toInt(admin.getRoleId()));
 		// 对权限和菜单赋值
-		if (role != null && AdminParams.ADMIN.equals(admin.getName())) {
-			role.setMenus(service.all(Menu.class));
-		}
+		// if (role != null && AdminParams.ADMIN.equals(admin.getName())) {
+		// role.setMenus(service.all(Menu.class));
+		// }
 		// 对权限和菜单赋值
 		if (AdminParams.ADMIN.equals(admin.getName())) {
 
