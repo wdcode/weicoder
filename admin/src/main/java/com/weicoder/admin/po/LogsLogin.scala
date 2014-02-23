@@ -16,7 +16,7 @@ import scala.beans.BeanProperty
  * 登录日志实体
  * @author WD
  * @since JDK7
- * @version 1.0 2011-04-03
+ * @version 1._ 2_11-_4-_3
  */
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
@@ -26,14 +26,14 @@ import scala.beans.BeanProperty
 class LogsLogin extends BaseEntityIdTime with EntityIp {
   // 登录IP
   @BeanProperty
-  var ip: String = null
+  var ip: String = _
   // 用户ID
   @BeanProperty
-  var userId: Integer = null
+  var userId: Integer = _
   // 状态
   @BeanProperty
-  var state: Integer = null
+  var state: Integer = _
   // 名称
   @BeanProperty
-  var name: String = null
+  var name: String = _
 }

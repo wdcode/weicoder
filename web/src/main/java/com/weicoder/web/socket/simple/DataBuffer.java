@@ -2,6 +2,7 @@ package com.weicoder.web.socket.simple;
 
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.util.StringUtil;
 
 /**
  * 类说明：数据包类 ,字节缓存类，字节操作高位在前，低位在后
@@ -554,21 +555,18 @@ public final class DataBuffer {
 	 * 写入一个字符串，以指定的字符进行编码
 	 */
 	public void writeUTF(String str, String charsetName) {
-		if (str == null) {
+		// 转换成字节数组
+		byte[] data = StringUtil.toBytes(str, charsetName);
+		// 判断长度
+		if (data.length == 0) {
+			// 为空
 			writeLength(0);
-			return;
+		} else {
+			// 写长度
+			writeLength(data.length + 1);
+			// 数据
+			write(data, 0, data.length);
 		}
-		byte[] data;
-		if (charsetName != null) {
-			try {
-				data = str.getBytes(charsetName);
-			} catch (Exception e) {
-				throw new IllegalArgumentException(this + " writeUTF, invalid charsetName:" + charsetName);
-			}
-		} else
-			data = str.getBytes();
-		writeLength(data.length + 1);
-		write(data, 0, data.length);
 	}
 
 	/**

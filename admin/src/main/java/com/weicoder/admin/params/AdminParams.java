@@ -35,7 +35,7 @@ public final class AdminParams {
 	/**
 	 * 后台路径
 	 */
-	public final static String			BACK_PATH		= Params.getString("back.path", "/back/");
+	public final static String			BACK_PATH		= Params.getString("back.path", StringConstants.BACKSLASH);
 	/**
 	 * 判断是否开启权限认证
 	 */

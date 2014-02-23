@@ -15,7 +15,7 @@ import scala.beans.BeanProperty
  * 权限实体
  * @author WD
  * @since JDK6
- * @version 1.0 2013-01-07
+ * @version 1._ 2_13-_1-_7
  */
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
@@ -26,8 +26,8 @@ import scala.beans.BeanProperty
 class Authority extends BaseEntityId with GrantedAuthority {
   // 权限
   @BeanProperty
-  var authority: String = null
+  var authority: String = _
   // 名称
   @BeanProperty
-  var name: String = null
+  var name: String = _
 }

@@ -22,7 +22,7 @@ import scala.beans.BeanProperty
  * 角色实体
  * @author WD
  * @since JDK7
- * @version 1.0 2009-11-23
+ * @version 1._ 2__9-11-23
  */
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
@@ -33,17 +33,17 @@ import scala.beans.BeanProperty
 class Role extends BaseEntityId {
   // 名称
   @BeanProperty
-  var name: String = null
+  var name: String = _
   // 操作列表
 //  @ManyToMany //  	@JoinTable(name = "role_operate",joinColumns = @JoinColumn(name = "role_id"), inverseJoinColumns = @JoinColumn(name = "operate"))
 //  @JoinTable(name = "role_operate",joinColumns=Array(@JoinColumn(name="role_id")))
 //  @BeanProperty
-//  var operates: List[Operate] = null
+//  var operates: List[Operate] = _
 //  // 菜单
 //  @ManyToMany //  	@JoinTable(name = "role_menu", joinColumns = @JoinColumn(name = "role_id"), inverseJoinColumns = @JoinColumn(name = "menu_id"))
 //  @JoinTable(name = "role_menu")
 //  @BeanProperty
-//  var menus: List[Menu] = null
+//  var menus: List[Menu] = _
 
   /**
    * 设置菜单

@@ -17,7 +17,7 @@ import scala.beans.BeanProperty
  * 操作实体
  * @author WD
  * @since JDK7
- * @version 1.0 2009-11-23
+ * @version 1._ 2__9-11-23
  */
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
@@ -29,10 +29,10 @@ class Operate extends BaseEntity {
   // 操作连接
   @Id
   @BeanProperty
-  var link: String = null
+  var link: String = _
   // 名称
   @BeanProperty
-  var name: String = null
+  var name: String = _
   //类型
   //	var type:Integer
 

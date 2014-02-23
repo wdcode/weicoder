@@ -17,7 +17,7 @@ import scala.beans.BeanProperty
  * 管理员
  * @author WD
  * @since JDK7
- * @version 1.0 2012-07-29
+ * @version 1._ 2_12-_7-29
  */
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
@@ -29,32 +29,29 @@ class Admin extends BaseEntityIdTime with EntityUser {
   // 名称
   @Size(min = 5)
   @BeanProperty
-  var name: String = null
-  // 密码
-  @BeanProperty
-  var password: String = null
+  var name: String = _
+  // 密码 
+  var password: String = _
   // 状态
   @BeanProperty
-  var state: Integer = null
+  var state: Integer = _
   // 权限
   @BeanProperty
-  var roleId: Integer = null
+  var roleId: Integer = _
   //IP
   @BeanProperty
-  var ip: String = null
+  var ip: String = _
   //Email
   @BeanProperty
-  var email: String = null
+  var email: String = _
   //登录IP
   @BeanProperty
-  var loginIp: String = null
+  var loginIp: String = _
   //登录时间
   @BeanProperty
-  var loginTime: Integer = null
+  var loginTime: Integer = _
 
-//  /**
-//   * 设置用户密码
-//   * @param password 用户密码
-//   */ 
-  //  def password_$eq(password: String) = { this.password = Digest.password(password) }
+  override def setPassword(password: String) = this.password = Digest.password(password)
+
+  override def getPassword: String = password
 }
