@@ -51,7 +51,7 @@ public final class RandomUtil {
 	 * @return int 返回的随机数
 	 */
 	public static int nextInt(int m, int n) {
-		return n > m ? 0 : nextInt(n - m) + m;
+		return m > n ? 0 : nextInt(n - m) + m;
 	}
 
 	/**

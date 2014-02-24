@@ -1,12 +1,12 @@
 package com.weicoder.common.io;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.channels.Channels;
 
-import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.util.CloseUtil;
 import com.weicoder.common.util.EmptyUtil;
@@ -372,7 +372,7 @@ public final class IOUtil {
 		 * @return 是否成功
 		 */
 		public boolean write(OutputStream out, byte[] b, boolean isClose) {
-			return write(out, Bytes.getInputStream(b), isClose);
+			return write(out, new ByteArrayInputStream(b), isClose);
 		}
 	}
 

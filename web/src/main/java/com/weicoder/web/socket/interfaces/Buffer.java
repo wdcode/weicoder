@@ -1,12 +1,14 @@
 package com.weicoder.web.socket.interfaces;
 
+import com.weicoder.common.interfaces.Clear;
+
 /**
  * 字节缓冲接口
  * @author WD
  * @since JDK7
  * @version 1.0 2013-12-22
  */
-public interface Buffer {
+public interface Buffer extends Clear {
 	/**
 	 * 添加字节流到缓冲区
 	 * @param src 字节流

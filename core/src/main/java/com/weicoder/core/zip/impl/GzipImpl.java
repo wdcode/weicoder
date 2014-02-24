@@ -1,11 +1,11 @@
 package com.weicoder.core.zip.impl;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
 import com.weicoder.common.io.IOUtil;
-import com.weicoder.common.lang.Bytes;
 import com.weicoder.core.zip.Zip;
 
 /**
@@ -21,7 +21,7 @@ public final class GzipImpl implements Zip {
 	 * @return 压缩后的字节数组
 	 */
 	public byte[] compress(byte[] b) {
-		try (ByteArrayOutputStream baos = Bytes.getOutputStream(); GZIPOutputStream gzip = new GZIPOutputStream(baos)) {
+		try (ByteArrayOutputStream baos = new ByteArrayOutputStream(); GZIPOutputStream gzip = new GZIPOutputStream(baos)) {
 			// 把压缩后的字节数组写到输出流
 			IOUtil.write(gzip, b, false);
 			// 完成压缩数据
@@ -39,7 +39,7 @@ public final class GzipImpl implements Zip {
 	 * @return 解压后数据
 	 */
 	public byte[] extract(byte[] b) {
-		try (GZIPInputStream gzip = new GZIPInputStream(Bytes.getInputStream(b))) {
+		try (GZIPInputStream gzip = new GZIPInputStream(new ByteArrayInputStream(b))) {
 			return IOUtil.read(gzip, false);
 		} catch (Exception e) {
 			return b;

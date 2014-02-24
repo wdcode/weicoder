@@ -1,11 +1,11 @@
 package com.weicoder.core.zip.impl;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 
 import org.apache.commons.compress.compressors.bzip2.BZip2CompressorInputStream;
 import org.apache.commons.compress.compressors.bzip2.BZip2CompressorOutputStream;
 import com.weicoder.common.io.IOUtil;
-import com.weicoder.common.lang.Bytes;
 import com.weicoder.core.zip.Zip;
 
 /**
@@ -21,7 +21,7 @@ public final class BZip2Impl implements Zip {
 	 * @return 压缩后的字节数组
 	 */
 	public byte[] compress(byte[] b) {
-		try (ByteArrayOutputStream baos = Bytes.getOutputStream(); BZip2CompressorOutputStream bzip = new BZip2CompressorOutputStream(baos)) {
+		try (ByteArrayOutputStream baos = new ByteArrayOutputStream(); BZip2CompressorOutputStream bzip = new BZip2CompressorOutputStream(baos)) {
 			IOUtil.write(bzip, b);
 			// 压缩
 			bzip.finish();
@@ -39,7 +39,7 @@ public final class BZip2Impl implements Zip {
 	 * @return 解压后数据
 	 */
 	public byte[] extract(byte[] b) {
-		try (BZip2CompressorInputStream gis = new BZip2CompressorInputStream(Bytes.getInputStream(b))) {
+		try (BZip2CompressorInputStream gis = new BZip2CompressorInputStream(new ByteArrayInputStream(b))) {
 			return IOUtil.read(gis, false);
 		} catch (Exception e) {
 			return b;

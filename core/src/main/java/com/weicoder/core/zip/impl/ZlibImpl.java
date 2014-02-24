@@ -1,10 +1,10 @@
 package com.weicoder.core.zip.impl;
 
+import java.io.ByteArrayInputStream;
 import java.util.zip.DeflaterInputStream;
 import java.util.zip.InflaterInputStream;
 
-import com.weicoder.common.io.IOUtil;
-import com.weicoder.common.lang.Bytes;
+import com.weicoder.common.io.IOUtil; 
 import com.weicoder.core.zip.Zip;
 
 /**
@@ -20,7 +20,7 @@ public final class ZlibImpl implements Zip {
 	 * @return 压缩后的字节数组
 	 */
 	public byte[] compress(byte[] b) {
-		return IOUtil.read(new DeflaterInputStream(Bytes.getInputStream(b)));
+		return IOUtil.read(new DeflaterInputStream(new ByteArrayInputStream(b)));
 	}
 
 	/**
@@ -29,6 +29,6 @@ public final class ZlibImpl implements Zip {
 	 * @return 解压后数据
 	 */
 	public byte[] extract(byte[] b) {
-		return IOUtil.read(new InflaterInputStream(Bytes.getInputStream(b)));
+		return IOUtil.read(new InflaterInputStream(new ByteArrayInputStream(b)));
 	}
 }

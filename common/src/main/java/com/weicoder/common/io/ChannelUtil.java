@@ -1,5 +1,6 @@
 package com.weicoder.common.io;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,7 +10,6 @@ import java.nio.channels.ReadableByteChannel;
 import java.nio.channels.WritableByteChannel;
 
 import com.weicoder.common.constants.ArrayConstants;
-import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.util.CloseUtil;
 
@@ -38,7 +38,7 @@ public final class ChannelUtil {
 	 */
 	public static byte[] read(ReadableByteChannel ch, boolean isClose) {
 		// 创建结果字节缓存
-		ByteArrayOutputStream out = Bytes.getOutputStream(CommonParams.IO_BUFFERSIZE * 10);
+		ByteArrayOutputStream out = new ByteArrayOutputStream(CommonParams.IO_BUFFERSIZE * 10);
 		try {
 			// 获得一个ByteBuffer
 			ByteBuffer buffer = ByteBuffer.allocate(CommonParams.IO_BUFFERSIZE);
@@ -80,7 +80,7 @@ public final class ChannelUtil {
 	 * @return true false
 	 */
 	public static boolean write(WritableByteChannel wbc, byte[] b, boolean isClose) {
-		return write(wbc, Bytes.getInputStream(b), isClose);
+		return write(wbc, new ByteArrayInputStream(b), isClose);
 	}
 
 	/**

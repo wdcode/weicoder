@@ -118,7 +118,7 @@ public final class Bytes {
 			b = toBytes(Conversion.toShort(obj));
 		} else if (obj instanceof Byte) {
 			// Short
-			b = new byte[] { Conversion.toByte(obj) };
+			b = new byte[] { (byte) (obj) };
 		} else if (obj instanceof Boolean) {
 			// Short
 			b = toBytes(Conversion.toBoolean(obj));
@@ -195,20 +195,23 @@ public final class Bytes {
 	 * @return 字节数组
 	 */
 	public static byte[] toBytes(int i) {
+		// 声明字节数组
+		byte[] b = new byte[4];
 		// 使用什么算法
 		if (IS_JAVA) {
-			// Java自带算法
-			return allocate(4).putInt(i).array();
+			// 高位在前
+			b[3] = (byte) (i & 0xFF);
+			b[2] = (byte) ((i >> 8) & 0xFF);
+			b[1] = (byte) ((i >> 16) & 0xFF);
+			b[0] = (byte) ((i >> 24) & 0xFF);
 		} else {
-			// 标准算法
-			byte[] b = new byte[4];
-			b[0] = Conversion.toByte(i & 0xFF);
-			b[1] = Conversion.toByte((i >> 8) & 0xFF);
-			b[2] = Conversion.toByte((i >> 16) & 0xFF);
-			b[3] = Conversion.toByte((i >> 24) & 0xFF);
-			// 返回字节数组
-			return b;
-		}
+			// 低位在前
+			b[0] = (byte) (i & 0xFF);
+			b[1] = (byte) ((i >> 8) & 0xFF);
+			b[2] = (byte) ((i >> 16) & 0xFF);
+			b[3] = (byte) ((i >> 24) & 0xFF);
+		}// 返回字节数组
+		return b;
 	}
 
 	/**
@@ -263,20 +266,24 @@ public final class Bytes {
 	 * @return int
 	 */
 	public static int toInt(byte[] b, int offset) {
+		// 声明int
+		int i = 0;
 		// 使用什么算法
 		if (IS_JAVA) {
-			// Java自带算法
-			return allocate(4).put(b, offset, 4).getInt(0);
+			// 高位在前
+			i = b[offset + 0] & 0xFF;
+			i = (i << 8) | (b[offset + 1] & 0xFF);
+			i = (i << 8) | (b[offset + 2] & 0xFF);
+			i = (i << 8) | (b[offset + 3] & 0xFF);
 		} else {
-			// 标准算法
-			int i = 0;
+			// 低位在前
 			i = b[offset + 3] & 0xFF;
 			i = (i << 8) | (b[offset + 2] & 0xFF);
 			i = (i << 8) | (b[offset + 1] & 0xFF);
 			i = (i << 8) | (b[offset + 0] & 0xFF);
-			// 返回整数
-			return i;
 		}
+		// 返回整数
+		return i;
 	}
 
 	/**
@@ -285,18 +292,20 @@ public final class Bytes {
 	 * @return 字节数组
 	 */
 	public static byte[] toBytes(short s) {
+		// 声明数组
+		byte[] b = new byte[2];
 		// 使用什么算法
 		if (IS_JAVA) {
-			// Java自带算法
-			return allocate(2).putShort(s).array();
+			// 高位在前
+			b[1] = (byte) (s & 0xFF);
+			b[0] = (byte) ((s >> 8) & 0xFF);
 		} else {
-			// 标准算法
-			byte[] b = new byte[2];
-			b[0] = Conversion.toByte(s & 0xFF);
-			b[1] = Conversion.toByte((s >> 8) & 0xFF);
-			// 返回字节数组
-			return b;
+			// 低位在前
+			b[0] = (byte) (s & 0xFF);
+			b[1] = (byte) ((s >> 8) & 0xFF);
 		}
+		// 返回字节数组
+		return b;
 	}
 
 	/**
@@ -315,18 +324,20 @@ public final class Bytes {
 	 * @return short
 	 */
 	public static short toShort(byte[] b, int offset) {
+		// 声明返回值
+		short s = 0;
 		// 使用什么算法
 		if (IS_JAVA) {
-			// Java自带算法
-			return allocate(2).put(b, offset, 2).getShort(0);
+			// 高位在前
+			s = (short) (b[offset + 0] & 0xFF);
+			s = (short) ((s << 8) | (b[offset + 1] & 0xFF));
 		} else {
-			// 标准算法
-			short s = 0;
-			s = Conversion.toShort(b[offset + 1] & 0xFF);
-			s = Conversion.toShort((s << 8) | (b[offset + 0] & 0xFF));
-			// 返回整数
-			return s;
+			// 低位在前
+			s = (short) (b[offset + 1] & 0xFF);
+			s = (short) ((s << 8) | (b[offset + 0] & 0xFF));
 		}
+		// 返回整数
+		return s;
 	}
 
 	/**
@@ -335,18 +346,7 @@ public final class Bytes {
 	 * @return 字节数组
 	 */
 	public static byte[] toBytes(char c) {
-		// 使用什么算法
-		if (IS_JAVA) {
-			// Java自带算法
-			return allocate(2).putChar(c).array();
-		} else {
-			// 标准算法
-			byte[] b = new byte[2];
-			b[0] = Conversion.toByte(c & 0xFF);
-			b[1] = Conversion.toByte((c >> 8) & 0xFF);
-			// 返回字节数组
-			return b;
-		}
+		return toBytes((short) c);
 	}
 
 	/**
@@ -365,7 +365,7 @@ public final class Bytes {
 	 * @return char
 	 */
 	public static char toChar(byte[] b, int offset) {
-		return allocate(2).put(b, offset, 2).getChar(0);
+		return (char) toShort(b, offset);
 	}
 
 	/**
@@ -374,14 +374,7 @@ public final class Bytes {
 	 * @return 字节数组
 	 */
 	public static byte[] toBytes(float f) {
-		// 使用什么算法
-		if (IS_JAVA) {
-			// Java自带算法
-			return allocate(4).putFloat(f).array();
-		} else {
-			// 标准算法
-			return toBytes(Float.floatToIntBits(f));
-		}
+		return toBytes(Float.floatToIntBits(f));
 	}
 
 	/**
@@ -400,14 +393,7 @@ public final class Bytes {
 	 * @return float
 	 */
 	public static float toFloat(byte[] b, int offset) {
-		// 使用什么算法
-		if (IS_JAVA) {
-			// Java自带算法
-			return allocate(4).put(b, offset, 4).getFloat(0);
-		} else {
-			// 标准算法
-			return Float.intBitsToFloat(toInt(b, offset));
-		}
+		return Float.intBitsToFloat(toInt(b, offset));
 	}
 
 	/**
@@ -416,14 +402,7 @@ public final class Bytes {
 	 * @return 字节数组
 	 */
 	public static byte[] toBytes(double d) {
-		// 使用什么算法
-		if (IS_JAVA) {
-			// Java自带算法
-			return allocate(8).putDouble(d).array();
-		} else {
-			// 标准算法
-			return toBytes(Double.doubleToLongBits(d));
-		}
+		return toBytes(Double.doubleToLongBits(d));
 	}
 
 	/**
@@ -442,14 +421,7 @@ public final class Bytes {
 	 * @return double
 	 */
 	public static double toDouble(byte[] b, int offset) {
-		// 使用什么算法
-		if (IS_JAVA) {
-			// Java自带算法
-			return allocate(8).put(b, offset, 8).getDouble(0);
-		} else {
-			// 标准算法
-			return Double.longBitsToDouble(toLong(b, offset));
-		}
+		return Double.longBitsToDouble(toLong(b, offset));
 	}
 
 	/**
@@ -458,24 +430,32 @@ public final class Bytes {
 	 * @return 字节数组
 	 */
 	public static byte[] toBytes(long l) {
+		// 声明返回字节数组
+		byte[] b = new byte[8];
 		// 使用什么算法
 		if (IS_JAVA) {
 			// Java自带算法
-			return allocate(8).putLong(l).array();
+			b[7] = (byte) (l & 0xFF);
+			b[6] = (byte) ((l >> 8) & 0xFF);
+			b[5] = (byte) ((l >> 16) & 0xFF);
+			b[4] = (byte) ((l >> 24) & 0xFF);
+			b[3] = (byte) ((l >> 32) & 0xFF);
+			b[2] = (byte) ((l >> 40) & 0xFF);
+			b[1] = (byte) ((l >> 48) & 0xFF);
+			b[0] = (byte) ((l >> 56) & 0xFF);
 		} else {
-			// 标准算法
-			byte[] b = new byte[8];
-			b[0] = Conversion.toByte(l & 0xFF);
-			b[1] = Conversion.toByte((l >> 8) & 0xFF);
-			b[2] = Conversion.toByte((l >> 16) & 0xFF);
-			b[3] = Conversion.toByte((l >> 24) & 0xFF);
-			b[4] = Conversion.toByte((l >> 32) & 0xFF);
-			b[5] = Conversion.toByte((l >> 40) & 0xFF);
-			b[6] = Conversion.toByte((l >> 48) & 0xFF);
-			b[7] = Conversion.toByte((l >> 56) & 0xFF);
-			// 返回字节数组
-			return b;
+			// 低位在前
+			b[0] = (byte) (l & 0xFF);
+			b[1] = (byte) ((l >> 8) & 0xFF);
+			b[2] = (byte) ((l >> 16) & 0xFF);
+			b[3] = (byte) ((l >> 24) & 0xFF);
+			b[4] = (byte) ((l >> 32) & 0xFF);
+			b[5] = (byte) ((l >> 40) & 0xFF);
+			b[6] = (byte) ((l >> 48) & 0xFF);
+			b[7] = (byte) ((l >> 56) & 0xFF);
 		}
+		// 返回字节数组
+		return b;
 	}
 
 	/**
@@ -494,13 +474,21 @@ public final class Bytes {
 	 * @return long
 	 */
 	public static long toLong(byte[] b, int offset) {
+		// 返回整数
+		long l = 0;
 		// 使用什么算法
 		if (IS_JAVA) {
-			// Java自带算法
-			return allocate(8).put(b, offset, 8).getLong(0);
+			// 高位在前
+			l = b[offset + 0] & 0xFF;
+			l = (l << 8) | (b[offset + 1] & 0xFF);
+			l = (l << 8) | (b[offset + 2] & 0xFF);
+			l = (l << 8) | (b[offset + 3] & 0xFF);
+			l = (l << 8) | (b[offset + 4] & 0xFF);
+			l = (l << 8) | (b[offset + 5] & 0xFF);
+			l = (l << 8) | (b[offset + 6] & 0xFF);
+			l = (l << 8) | (b[offset + 7] & 0xFF);
 		} else {
-			// 标准算法
-			long l = 0;
+			// 低位在前
 			l = b[offset + 7] & 0xFF;
 			l = (l << 8) | (b[offset + 6] & 0xFF);
 			l = (l << 8) | (b[offset + 5] & 0xFF);
@@ -509,9 +497,9 @@ public final class Bytes {
 			l = (l << 8) | (b[offset + 2] & 0xFF);
 			l = (l << 8) | (b[offset + 1] & 0xFF);
 			l = (l << 8) | (b[offset + 0] & 0xFF);
-			// 返回整数
-			return l;
 		}
+		// 返回整数
+		return l;
 	}
 
 	/**
@@ -676,41 +664,6 @@ public final class Bytes {
 			return b;
 		}
 		return ArrayConstants.BYTES_EMPTY;
-	}
-
-	/**
-	 * 分配一个新的字节缓冲区
-	 * @param 新缓冲区的容量，以字节为单位
-	 * @return 新的字节缓冲区
-	 */
-	public static ByteBuffer allocate(int capacity) {
-		return ByteBuffer.allocate(capacity);
-	}
-
-	/**
-	 * 获得字节输入流
-	 * @param b 变成流的数组
-	 * @return 字节输入流
-	 */
-	public static ByteArrayInputStream getInputStream(byte[] b) {
-		return new ByteArrayInputStream(b);
-	}
-
-	/**
-	 * 获得字节输出流
-	 * @return 字节输出流
-	 */
-	public static ByteArrayOutputStream getOutputStream() {
-		return getOutputStream(CommonParams.IO_BUFFERSIZE);
-	}
-
-	/**
-	 * 获得字节输出流
-	 * @param size 输出流初始化大小
-	 * @return 字节输出流
-	 */
-	public static ByteArrayOutputStream getOutputStream(int size) {
-		return new ByteArrayOutputStream(size);
 	}
 
 	/**

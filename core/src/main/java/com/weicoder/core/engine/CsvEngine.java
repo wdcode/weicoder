@@ -1,5 +1,6 @@
 package com.weicoder.core.engine;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -8,7 +9,6 @@ import java.io.Reader;
 import java.io.Writer;
 import java.util.List;
 
-import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.core.log.Logs;
@@ -31,7 +31,7 @@ public final class CsvEngine {
 	 * @return List 所有集合
 	 */
 	public static List<String[]> read(byte[] b) {
-		return read(Bytes.getInputStream(b));
+		return read(new ByteArrayInputStream(b));
 	}
 
 	/**
@@ -65,7 +65,7 @@ public final class CsvEngine {
 	 * @return List 所有集合
 	 */
 	public static <E> List<E> read(byte[] b, Class<E> entityClass) {
-		return read(Bytes.getInputStream(b), entityClass);
+		return read(new ByteArrayInputStream(b), entityClass);
 	}
 
 	/**

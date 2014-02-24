@@ -1,5 +1,6 @@
 package com.weicoder.core.zip.impl;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -7,7 +8,6 @@ import java.util.zip.ZipOutputStream;
 
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.io.IOUtil;
-import com.weicoder.common.lang.Bytes;
 import com.weicoder.core.zip.Zip;
 
 /**
@@ -43,7 +43,7 @@ public final class ZipImpl implements Zip {
 	 * @return 解压后数据
 	 */
 	public byte[] extract(byte[] b) {
-		try (ByteArrayOutputStream baos = Bytes.getOutputStream(); ZipInputStream zin = new ZipInputStream(Bytes.getInputStream(b))) {
+		try (ByteArrayOutputStream baos = new ByteArrayOutputStream(); ZipInputStream zin = new ZipInputStream(new ByteArrayInputStream(b))) {
 			// 循环解压缩
 			while (zin.getNextEntry() != null) {
 				baos.write(IOUtil.read(zin, false));

@@ -1,6 +1,7 @@
 package com.weicoder.web.socket.simple;
 
 import com.weicoder.common.constants.StringConstants;
+import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
 
@@ -12,9 +13,7 @@ import com.weicoder.common.util.StringUtil;
  */
 public final class DataBuffer {
 	/** 默认的初始容量大小 */
-	private static final int	CAPACITY		= 32;
-	/** 默认的动态数据或文字的最大长度，400k */
-	private static final int	MAX_DATA_LENGTH	= 400 * 1024;
+	private static final int	CAPACITY	= 32;
 	// 字节数组
 	private byte[]				bytes;
 	// 写数据的偏移量，每写一次增加
@@ -78,7 +77,7 @@ public final class DataBuffer {
 	 */
 	public void top(int top) {
 		if (top < offset)
-			throw new IllegalArgumentException(this + " setTop, invalid top:" + top);
+			return;
 		if (top > bytes.length)
 			capacity(top);
 		this.top = top;
@@ -96,7 +95,7 @@ public final class DataBuffer {
 	 */
 	public void offset(int offset) {
 		if (offset < 0 || offset > top)
-			throw new IllegalArgumentException(this + " setOffset, invalid offset:" + offset);
+			return;
 		this.offset = offset;
 	}
 
@@ -138,7 +137,7 @@ public final class DataBuffer {
 	/**
 	 * 设置指定偏移位置的字节
 	 */
-	public void write(int b, int pos) {
+	public void write(byte b, int pos) {
 		bytes[pos] = (byte) b;
 	}
 
@@ -148,9 +147,20 @@ public final class DataBuffer {
 	 * @param pos 指定的字节数组的起始位置
 	 * @param len 读入的长度
 	 */
-	public void read(byte[] data, int pos, int len) {
+	public byte[] read(byte[] data) {
+		return read(data, 0, data.length);
+	}
+
+	/**
+	 * 按当前偏移位置读入指定的字节数组
+	 * @param data 指定的字节数组
+	 * @param pos 指定的字节数组的起始位置
+	 * @param len 读入的长度
+	 */
+	public byte[] read(byte[] data, int pos, int len) {
 		System.arraycopy(bytes, offset, data, pos, len);
 		offset += len;
+		return data;
 	}
 
 	/**
@@ -168,33 +178,19 @@ public final class DataBuffer {
 	}
 
 	/**
-	 * 读出一个无符号字节
-	 */
-	public int readUnsignedByte() {
-		return bytes[offset++] & 0xff;
-	}
-
-	/**
 	 * 读出一个字符
 	 */
 	public char readChar() {
-		return (char) readUnsignedShort();
+		return (char) readShort();
 	}
 
 	/**
 	 * 读出一个短整型数值
 	 */
 	public short readShort() {
-		return (short) readUnsignedShort();
-	}
-
-	/**
-	 * 读出一个无符号的短整型数值
-	 */
-	public int readUnsignedShort() {
 		int pos = offset;
 		offset += 2;
-		return (bytes[pos + 1] & 0xff) + ((bytes[pos] & 0xff) << 8);
+		return Bytes.toShort(bytes, pos);
 	}
 
 	/**
@@ -203,7 +199,7 @@ public final class DataBuffer {
 	public int readInt() {
 		int pos = offset;
 		offset += 4;
-		return (bytes[pos + 3] & 0xff) + ((bytes[pos + 2] & 0xff) << 8) + ((bytes[pos + 1] & 0xff) << 16) + ((bytes[pos] & 0xff) << 24);
+		return Bytes.toInt(bytes, pos);
 	}
 
 	/**
@@ -219,7 +215,7 @@ public final class DataBuffer {
 	public long readLong() {
 		int pos = offset;
 		offset += 8;
-		return (bytes[pos + 7] & 0xffL) + ((bytes[pos + 6] & 0xffL) << 8) + ((bytes[pos + 5] & 0xffL) << 16) + ((bytes[pos + 4] & 0xffL) << 24) + ((bytes[pos + 3] & 0xffL) << 32) + ((bytes[pos + 2] & 0xffL) << 40) + ((bytes[pos + 1] & 0xffL) << 48) + ((bytes[pos] & 0xffL) << 56);
+		return Bytes.toLong(bytes, pos);
 	}
 
 	/**
@@ -230,68 +226,12 @@ public final class DataBuffer {
 	}
 
 	/**
-	 * 读出动态长度， 数据大小采用动态长度，整数类型下，最大为512M 1xxx,xxxx表示（0~0x80） 0~128B 01xx,xxxx,xxxx,xxxx表示（0~0x4000）
-	 * 0~16K 001x,xxxx,xxxx,xxxx,xxxx,xxxx,xxxx,xxxx表示（0~0x20000000） 0~512M
-	 */
-	public int readLength() {
-		int n = bytes[offset] & 0xff;
-		if (n >= 0x80) {
-			offset++;
-			return n - 0x80;
-		} else if (n >= 0x40)
-			return readUnsignedShort() - 0x4000;
-		else if (n >= 0x20)
-			return readInt() - 0x20000000;
-		else
-			throw new IllegalArgumentException(this + " readLength, invalid number:" + n);
-	}
-
-	/**
-	 * 读出一个指定长度的字节数组，可以为null
-	 */
-	public byte[] readData() {
-		int len = readLength() - 1;
-		if (len < 0)
-			return null;
-		if (len > MAX_DATA_LENGTH)
-			throw new IllegalArgumentException(this + " readData, data overflow:" + len);
-		byte[] data = new byte[len];
-		read(data, 0, len);
-		return data;
-	}
-
-	/**
-	 * 读出一个短字节数组，长度不超过254
-	 */
-	public byte[] readShortData() {
-		int len = readUnsignedByte();
-		if (len == 255)
-			return null;
-		byte[] data = new byte[len];
-		if (len != 0)
-			read(data, 0, len);
-		return data;
-	}
-
-	/**
 	 * 读出一个指定长度的字符串
 	 */
 	public String readString(int len) {
-		byte[] data = new byte[len];
 		if (len == 0)
-			return "";
-		read(data, 0, len);
-		return new String(data);
-	}
-
-	/**
-	 * 读出一个短字符串，长度不超过254
-	 */
-	public String readShortString() {
-		int len = readShort();
-		if (len == 65535)
-			return null;
-		return readString(len);
+			return StringConstants.EMPTY;
+		return new String(read(new byte[len], 0, len));
 	}
 
 	/**
@@ -299,82 +239,6 @@ public final class DataBuffer {
 	 */
 	public String readString() {
 		return readString(readShort());
-	}
-
-	/**
-	 * 读出一个指定长度和编码类型的字符串
-	 */
-	public String readUTF(String charsetName) {
-		int len = readLength() - 1;
-		if (len < 0)
-			return null;
-		if (len > MAX_DATA_LENGTH)
-			throw new IllegalArgumentException(this + " readUTF, data overflow:" + len);
-		byte[] data = new byte[len];
-		read(data, 0, len);
-		if (charsetName == null)
-			return new String(data);
-		try {
-			return new String(data, charsetName);
-		} catch (Exception e) {
-			throw new IllegalArgumentException(this + " readUTF, invalid charsetName:" + charsetName);
-		}
-	}
-
-	/**
-	 * 读出一个指定长度的utf字符串
-	 */
-	public String readUTF() {
-		int len = readLength() - 1;
-		if (len < 0)
-			return null;
-		if (len == 0)
-			return StringConstants.EMPTY;
-		if (len > MAX_DATA_LENGTH)
-			throw new IllegalArgumentException(this + " readUTF, data overflow:" + len);
-		offset += len;
-		return readUTF(offset, len);
-	}
-
-	/**
-	 * 将指定的UTF8格式的字节数据转换为字符串， 返回0表示成功，否则表示失败位置
-	 */
-	public String readUTF(int pos, int len) {
-		StringBuffer sb = new StringBuffer(len);
-		int i, c, cc, ccc;
-		int end = pos + len;
-		while (pos < end) {
-			c = bytes[pos] & 0xff;
-			i = c >> 4;
-			if (i < 8) {
-				// 0xxx xxxx
-				pos++;
-				sb.append((char) c);
-			} else if (i == 12 || i == 13) {
-				// 110x xxxx 10xx xxxx
-				pos += 2;
-				if (pos > end)
-					return StringConstants.EMPTY;
-				cc = bytes[pos - 1];
-				if ((cc & 0xC0) != 0x80)
-					return StringConstants.EMPTY;
-				sb.append((char) (((c & 0x1f) << 6) | (cc & 0x3f)));
-			} else if (i == 14) {
-				// 1110 xxxx 10xx xxxx 10xx
-				// xxxx
-				pos += 3;
-				if (pos > end)
-					return StringConstants.EMPTY;
-				cc = bytes[pos - 2];
-				ccc = bytes[pos - 1];
-				if (((cc & 0xC0) != 0x80) || ((ccc & 0xC0) != 0x80))
-					return StringConstants.EMPTY;
-				sb.append((char) (((c & 0x0f) << 12) | ((cc & 0x3f) << 6) | (ccc & 0x3f)));
-			} else
-				// 10xx xxxx 1111 xxxx
-				return StringConstants.EMPTY;
-		}
-		return StringConstants.EMPTY;
 	}
 
 	/**
@@ -412,65 +276,52 @@ public final class DataBuffer {
 	/**
 	 * 写入一个字节
 	 */
-	public void writeByte(int b) {
+	public void writeByte(byte b) {
 		if (bytes.length < top + 1)
 			capacity(top + CAPACITY);
-		bytes[top++] = (byte) b;
+		bytes[top++] = b;
 	}
 
 	/**
 	 * 写入一个字符
 	 */
-	public void writeChar(int c) {
-		writeShort(c);
+	public void writeChar(char c) {
+		write(Bytes.toBytes(c), 0, 2);
 	}
 
 	/**
 	 * 写入一个短整型数值
 	 */
-	public void writeShort(int s) {
-		int pos = top;
-		if (bytes.length < pos + 2)
-			capacity(pos + CAPACITY);
-		bytes[pos] = (byte) (s >>> 8);
-		bytes[pos + 1] = (byte) s;
-		top += 2;
+	public void writeShort(int i) {
+		writeShort((short) i);
+	}
+
+	/**
+	 * 写入一个短整型数值
+	 */
+	public void writeShort(short s) {
+		writeShort(s, 0);
 	}
 
 	/**
 	 * 在指定位置写入一个短整型数值，length不变
 	 */
-	public void writeShort(int s, int pos) {
-		if (bytes.length < pos + 2)
-			capacity(pos + CAPACITY);
-		bytes[pos] = (byte) (s >>> 8);
-		bytes[pos + 1] = (byte) s;
+	public void writeShort(short s, int pos) {
+		write(Bytes.toBytes(s), pos, pos + 2);
 	}
 
 	/**
 	 * 写入一个整型数值
 	 */
 	public void writeInt(int i) {
-		int pos = top;
-		if (bytes.length < pos + 4)
-			capacity(pos + CAPACITY);
-		bytes[pos] = (byte) (i >>> 24);
-		bytes[pos + 1] = (byte) (i >>> 16);
-		bytes[pos + 2] = (byte) (i >>> 8);
-		bytes[pos + 3] = (byte) i;
-		top += 4;
+		writeInt(i, 0);
 	}
 
 	/**
 	 * 在指定位置写入一个整型数值，length不变
 	 */
 	public void writeInt(int i, int pos) {
-		if (bytes.length < pos + 4)
-			capacity(pos + CAPACITY);
-		bytes[pos] = (byte) (i >>> 24);
-		bytes[pos + 1] = (byte) (i >>> 16);
-		bytes[pos + 2] = (byte) (i >>> 8);
-		bytes[pos + 3] = (byte) i;
+		write(Bytes.toBytes(i), pos, pos + 4);
 	}
 
 	/**
@@ -484,18 +335,14 @@ public final class DataBuffer {
 	 * 写入一个长整型数值
 	 */
 	public void writeLong(long l) {
-		int pos = top;
-		if (bytes.length < pos + 8)
-			capacity(pos + CAPACITY);
-		bytes[pos] = (byte) (l >>> 56);
-		bytes[pos + 1] = (byte) (l >>> 48);
-		bytes[pos + 2] = (byte) (l >>> 40);
-		bytes[pos + 3] = (byte) (l >>> 32);
-		bytes[pos + 4] = (byte) (l >>> 24);
-		bytes[pos + 5] = (byte) (l >>> 16);
-		bytes[pos + 6] = (byte) (l >>> 8);
-		bytes[pos + 7] = (byte) l;
-		top += 8;
+		writeLong(l, 0);
+	}
+
+	/**
+	 * 写入一个长整型数值
+	 */
+	public void writeLong(long l, int pos) {
+		write(Bytes.toBytes(l), pos, pos + 8);
 	}
 
 	/**
@@ -506,130 +353,26 @@ public final class DataBuffer {
 	}
 
 	/**
-	 * 写入动态长度
-	 */
-	public void writeLength(int len) {
-		if (len >= 0x20000000 || len < 0)
-			throw new IllegalArgumentException(this + " writeLength, invalid len:" + len);
-		if (len >= 0x4000)
-			writeInt(len + 0x20000000);
-		else if (len >= 0x80)
-			writeShort(len + 0x4000);
-		else
-			writeByte(len + 0x80);
-	}
-
-	/**
-	 * 写入一个字节数组，可以为null
-	 */
-	public void writeData(byte[] data) {
-		writeData(data, 0, (data != null) ? data.length : 0);
-	}
-
-	/**
-	 * 写入一个字节数组，可以为null
-	 */
-	public void writeData(byte[] data, int pos, int len) {
-		if (data == null) {
-			writeLength(0);
-			return;
-		}
-		writeLength(len + 1);
-		write(data, pos, len);
-	}
-
-	/**
 	 * 写入一个字符串，可以为null
 	 */
 	public void writeString(String s) {
 		if (EmptyUtil.isEmpty(s)) {
 			writeShort(0);
 		} else {
-			byte[] temp = s.getBytes();
+			byte[] temp = StringUtil.toBytes(s);
 			writeShort(temp.length);
 			write(temp, 0, temp.length);
 		}
 	}
 
 	/**
-	 * 写入一个字符串，以指定的字符进行编码
-	 */
-	public void writeUTF(String str, String charsetName) {
-		// 转换成字节数组
-		byte[] data = StringUtil.toBytes(str, charsetName);
-		// 判断长度
-		if (data.length == 0) {
-			// 为空
-			writeLength(0);
-		} else {
-			// 写长度
-			writeLength(data.length + 1);
-			// 数据
-			write(data, 0, data.length);
-		}
-	}
-
-	/**
-	 * 写入一个utf字符串，可以为null
-	 */
-	public void writeUTF(String str) {
-		writeUTF(str, 0, (str != null) ? str.length() : 0);
-	}
-
-	/**
-	 * 写入一个utf字符串中指定的部分，可以为null
-	 */
-	public void writeUTF(String str, int index, int length) {
-		if (str == null) {
-			writeLength(0);
-			return;
-		}
-		int len = getUTFLength(str, index, length);
-		writeLength(len + 1);
-		int pos = top;
-		if (bytes.length < pos + len)
-			capacity(pos + len);
-		writeUTF(str, index, length, bytes, pos);
-		top += len;
-	}
-
-	/**
-	 * 将指定的字符串转换为UTF8格式的字节数据
-	 */
-	public void writeUTF(String str, int index, int len, byte[] data, int pos) {
-		int c;
-		for (int i = index; i < len; i++) {
-			c = str.charAt(i);
-			if ((c >= 0x0001) && (c <= 0x007f)) {
-				data[pos++] = (byte) c;
-			} else if (c > 0x07ff) {
-				data[pos++] = (byte) (0xe0 | ((c >> 12) & 0x0f));
-				data[pos++] = (byte) (0x80 | ((c >> 6) & 0x3f));
-				data[pos++] = (byte) (0x80 | (c & 0x3f));
-			} else {
-				data[pos++] = (byte) (0xc0 | ((c >> 6) & 0x1f));
-				data[pos++] = (byte) (0x80 | (c & 0x3f));
-			}
-		}
-	}
-
-	/**
 	 * 在指定位置写入一个字节，length不变
 	 */
-	public void writeByte(int b, int pos) {
+	public void writeByte(byte b, int pos) {
 		if (bytes.length < pos + 1)
 			capacity(pos + CAPACITY);
-		bytes[pos] = (byte) b;
+		bytes[pos] = b;
 	}
-
-	// /**
-	// * 得到可读取的字节数组，长度为写偏移量-读偏移量
-	// */
-	// public byte[] getTopBytes() {
-	// byte[] data = new byte[top - offset];
-	// System.arraycopy(bytes, offset, data, 0, data.length);
-	// return data;
-	// }
 
 	/**
 	 * 清除字节缓存对象
@@ -637,24 +380,6 @@ public final class DataBuffer {
 	public void clear() {
 		top = 0;
 		offset = 0;
-	}
-
-	/**
-	 * 获得指定的字符串转换为UTF8格式的字节数据的长度
-	 */
-	private int getUTFLength(String str, int index, int len) {
-		int utfLen = 0;
-		int c;
-		for (int i = index; i < len; i++) {
-			c = str.charAt(i);
-			if ((c >= 0x0001) && (c <= 0x007f))
-				utfLen++;
-			else if (c > 0x07ff)
-				utfLen += 3;
-			else
-				utfLen += 2;
-		}
-		return utfLen;
 	}
 
 	@Override
