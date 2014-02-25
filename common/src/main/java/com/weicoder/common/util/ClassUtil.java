@@ -173,14 +173,14 @@ public final class ClassUtil {
 		// 声明返回类列表
 		List<Class<?>> classes = Lists.getList();
 		// 转换报名为路径格式
-		String path = packageName.replace('.', '/');
+		String path = packageName.replace(StringConstants.POINT, StringConstants.BACKSLASH);
 		// 获得资包所在路径目录
-		File dir = new File(ResourceUtil.getResource(path).getFile());
-		// 如果目录不存在
-		if (!dir.exists()) {
-			// 返回列表
-			return classes;
-		}
+		File dir = new File(ResourceUtil.getResource(path).getPath());
+//		// 如果目录不存在
+//		if (dir.exists()) {
+//			// 返回列表
+//			return classes;
+//		}
 		// 循环目录下的所有文件与目录
 		for (File f : dir.listFiles()) {
 			// 如果是目录

@@ -59,7 +59,6 @@ public final class Processor implements Process {
 	public void addHandler(Handler<?>... handler) {
 		for (Handler<?> h : handler) {
 			handlers.put(h.getId(), (Handler<Object>) h);
-
 		}
 	}
 
