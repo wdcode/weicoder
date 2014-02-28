@@ -33,7 +33,7 @@ public final class CommonParams {
 	/**
 	 * 转换字节数组算法
 	 */
-	public final static String	BYTES					= Params.getString(StringConstants.BYTES, StringConstants.JAVA);
+	public final static String	BYTES					= Params.getString(StringConstants.BYTES, "high");
 	/**
 	 * DES加密使用的密钥的长度(位)
 	 */

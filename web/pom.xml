@@ -27,7 +27,7 @@
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
-			<version>4.3.1</version>
+			<version>4.3.3</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -45,7 +45,7 @@
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpasyncclient</artifactId>
-			<version>4.0</version>
+			<version>4.0.1</version>
 			<scope>provided</scope>
 		</dependency> 
 		<dependency>
@@ -69,7 +69,7 @@
 		<dependency>
 			<groupId>io.netty</groupId>
 			<artifactId>netty-all</artifactId>
-    		<version>4.0.15.Final</version>
+    		<version>4.0.17.Final</version>
 			<scope>provided</scope>
 		</dependency> 
 		<dependency>

@@ -162,6 +162,9 @@ public final class Processor implements Process {
 					if (type.equals(String.class)) {
 						// 字符串
 						mess = StringUtil.toString(data);
+					} else if (type.equals(Null.class)) {
+						// 字节流
+						mess = Null.NULL;
 					} else if (type.equals(DataBuffer.class)) {
 						// 字节流
 						mess = new DataBuffer(data);

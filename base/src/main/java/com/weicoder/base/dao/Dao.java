@@ -168,7 +168,7 @@ public interface Dao extends Close {
 	 * @param maxResults 一共查回多少条
 	 * @return 数据列表
 	 */
-	<E> List<E> in(Class<E> entityClass, String property, List<Object> values, int firstResult, int maxResults);
+	<E> List<E> in(Class<E> entityClass, String property, List<?> values, int firstResult, int maxResults);
 
 	/**
 	 * 查询属性名含有列表的实体列表

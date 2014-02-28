@@ -371,7 +371,7 @@ public final class HibernateDao implements Dao {
 	 * @param maxResults 一共查回多少条
 	 * @return 数据列表
 	 */
-	public <E> List<E> in(Class<E> entityClass, String property, List<Object> values, int firstResult, int maxResults) {
+	public <E> List<E> in(Class<E> entityClass, String property, List<?> values, int firstResult, int maxResults) {
 		return queryCriteria(entityClass, DetachedCriteria.forClass(entityClass).add(Restrictions.in(property, values)), firstResult, maxResults);
 	}
 

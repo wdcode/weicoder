@@ -11,6 +11,7 @@ import com.weicoder.common.util.StringUtil;
 import com.weicoder.web.socket.interfaces.Session;
 import com.weicoder.web.socket.simple.DataBuffer;
 import com.weicoder.web.socket.simple.Message;
+import com.weicoder.web.socket.simple.Null;
 
 /**
  * 基础Socket Session实现
@@ -84,6 +85,9 @@ public abstract class BaseSession implements Session {
 		byte[] data = null;
 		// 判断类型
 		if (message == null) {
+			// 空
+			data = ArrayConstants.BYTES_EMPTY;
+		} else if (message instanceof Null) {
 			// 空
 			data = ArrayConstants.BYTES_EMPTY;
 		} else if (message instanceof String) {

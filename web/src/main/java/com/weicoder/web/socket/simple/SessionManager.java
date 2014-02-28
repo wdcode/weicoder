@@ -71,15 +71,15 @@ public final class SessionManager implements Manager {
 	 * @param id 注册ID
 	 * @return true 删除成功 false 删除成功
 	 */
-	public boolean remove(String key, int id) {
+	public Session remove(String key, int id) {
 		// 获得注册列表
 		Map<Integer, Session> register = registers.get(key);
 		// 列表为null
 		if (register == null) {
-			return false;
+			return null;
 		}
 		// 删除列表
-		return register.remove(id) != null;
+		return register.remove(id);
 	}
 
 	/**
@@ -87,13 +87,13 @@ public final class SessionManager implements Manager {
 	 * @param id 注册ID
 	 * @return true 删除成功 false 删除成功
 	 */
-	public boolean remove(int id) {
+	public Session remove(int id) {
 		// 如果存在
 		if (keys.containsKey(id) && ids.containsKey(id)) {
 			// 删除Session
 			return remove(keys.get(id), ids.get(id));
 		} else {
-			return false;
+			return null;
 		}
 	}
 
@@ -102,7 +102,7 @@ public final class SessionManager implements Manager {
 	 * @param Session session
 	 * @return true 删除成功 false 删除成功
 	 */
-	public boolean remove(Session session) {
+	public Session remove(Session session) {
 		return remove(session.getId());
 	}
 

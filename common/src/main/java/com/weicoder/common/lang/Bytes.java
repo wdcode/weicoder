@@ -14,7 +14,6 @@ import java.util.Arrays;
 import java.util.Collection;
 
 import com.weicoder.common.constants.ArrayConstants;
-import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.interfaces.BytesBean;
 import com.weicoder.common.io.ChannelUtil;
 import com.weicoder.common.io.FileUtil;
@@ -33,13 +32,13 @@ import com.weicoder.common.util.StringUtil;
  */
 public final class Bytes {
 	// 使用使用Java算法
-	private final static boolean	IS_JAVA;
+	private final static boolean	IS_HIGH;
 
 	/**
 	 * 静态初始化
 	 */
 	static {
-		IS_JAVA = StringConstants.JAVA.equals(CommonParams.BYTES);
+		IS_HIGH = "high".equals(CommonParams.BYTES);
 	}
 
 	/**
@@ -198,7 +197,7 @@ public final class Bytes {
 		// 声明字节数组
 		byte[] b = new byte[4];
 		// 使用什么算法
-		if (IS_JAVA) {
+		if (IS_HIGH) {
 			// 高位在前
 			b[3] = (byte) (i & 0xFF);
 			b[2] = (byte) ((i >> 8) & 0xFF);
@@ -269,7 +268,7 @@ public final class Bytes {
 		// 声明int
 		int i = 0;
 		// 使用什么算法
-		if (IS_JAVA) {
+		if (IS_HIGH) {
 			// 高位在前
 			i = b[offset + 0] & 0xFF;
 			i = (i << 8) | (b[offset + 1] & 0xFF);
@@ -295,7 +294,7 @@ public final class Bytes {
 		// 声明数组
 		byte[] b = new byte[2];
 		// 使用什么算法
-		if (IS_JAVA) {
+		if (IS_HIGH) {
 			// 高位在前
 			b[1] = (byte) (s & 0xFF);
 			b[0] = (byte) ((s >> 8) & 0xFF);
@@ -327,7 +326,7 @@ public final class Bytes {
 		// 声明返回值
 		short s = 0;
 		// 使用什么算法
-		if (IS_JAVA) {
+		if (IS_HIGH) {
 			// 高位在前
 			s = (short) (b[offset + 0] & 0xFF);
 			s = (short) ((s << 8) | (b[offset + 1] & 0xFF));
@@ -433,7 +432,7 @@ public final class Bytes {
 		// 声明返回字节数组
 		byte[] b = new byte[8];
 		// 使用什么算法
-		if (IS_JAVA) {
+		if (IS_HIGH) {
 			// Java自带算法
 			b[7] = (byte) (l & 0xFF);
 			b[6] = (byte) ((l >> 8) & 0xFF);
@@ -477,7 +476,7 @@ public final class Bytes {
 		// 返回整数
 		long l = 0;
 		// 使用什么算法
-		if (IS_JAVA) {
+		if (IS_HIGH) {
 			// 高位在前
 			l = b[offset + 0] & 0xFF;
 			l = (l << 8) | (b[offset + 1] & 0xFF);

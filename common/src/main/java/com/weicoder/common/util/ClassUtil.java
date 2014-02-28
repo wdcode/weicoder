@@ -210,7 +210,11 @@ public final class ClassUtil {
 		return Lists.emptyList();
 	}
 
-	private static List<String> getClassesFromJARFile(String jar, String name) throws Error {
+	private static List<String> getClassesFromJARFile(String jar, String name) {
+		// 判断jar第二位是否: 不为:默认linux前面加上/
+		if (jar.indexOf(StringConstants.COLON) == -1) {
+			jar = StringConstants.BACKSLASH + jar;
+		}
 		// 声明返回列表
 		List<String> list = Lists.getList();
 		// 获得jar流

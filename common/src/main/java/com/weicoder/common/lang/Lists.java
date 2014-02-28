@@ -72,7 +72,9 @@ public final class Lists {
 		// 循环集合
 		for (int i = 0; i < c.length; i++) {
 			// 添加到列表中
-			list.addAll(c[i]);
+			if (!EmptyUtil.isEmpty(c[i])) {
+				list.addAll(c[i]);
+			}
 		}
 		// 返回列表
 		return list;

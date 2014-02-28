@@ -185,6 +185,11 @@ public class SuperService {
 	 * @return 实体
 	 */
 	public <E extends Entity> List<E> gets(Class<E> entityClass, Serializable... pks) {
+		// 如果主键为空
+		if (EmptyUtil.isEmpty(pks)) {
+			return Lists.emptyList();
+		}
+		// 转换主键
 		pks = keys(pks);
 		// 获得缓存
 		Cache<E> cache = getCache(entityClass);
@@ -410,8 +415,8 @@ public class SuperService {
 	 * @param maxResults 一共查回多少条
 	 * @return 数据列表
 	 */
-	public <E extends Entity> List<E> in(Class<E> entityClass, String property, List<Object> values, int firstResult, int maxResults) {
-		return dao.in(entityClass, property, values, firstResult, maxResults);
+	public <E extends Entity> List<E> in(Class<E> entityClass, String property, List<?> values, int firstResult, int maxResults) {
+		return (List<E>) (EmptyUtil.isEmpty(values) ? Lists.getList() : dao.in(entityClass, property, values, firstResult, maxResults));
 	}
 
 	/**

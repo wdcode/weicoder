@@ -23,23 +23,23 @@ public interface Manager {
 	 * 从列表删除Session
 	 * @param key 注册键
 	 * @param id 注册ID
-	 * @return true 删除成功 false 删除成功
+	 * @return 返回删除的session
 	 */
-	boolean remove(String key, int id);
+	Session remove(String key, int id);
 
 	/**
 	 * 根据Session Id 删除
 	 * @param id SessionID
-	 * @return true 删除成功 false 删除成功
+	 * @return 返回删除的session
 	 */
-	boolean remove(int id);
+	Session remove(int id);
 
 	/**
 	 * 从列表删除Session 根据Session删除 循环所有服务器列表删除
 	 * @param Session session
-	 * @return true 删除成功 false 删除成功
+	 * @return 返回删除的session
 	 */
-	boolean remove(Session session);
+	Session remove(Session session);
 
 	/**
 	 * 根据注册ID获得Session
