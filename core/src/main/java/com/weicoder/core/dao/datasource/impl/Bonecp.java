@@ -11,7 +11,7 @@ import com.jolbox.bonecp.BoneCPDataSource;
  * @since JDK7
  * @version 1.0 2010-01-30
  */
-public final class DataSourceBonecp extends BaseDataSource {
+public final class Bonecp extends BaseDataSource {
 	// BoneCPDataSource数据源
 	private BoneCPDataSource	ds	= new BoneCPDataSource();
 

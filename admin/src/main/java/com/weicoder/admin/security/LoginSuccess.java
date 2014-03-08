@@ -11,7 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 import com.weicoder.admin.params.AdminParams;
-import com.weicoder.admin.po.Admin;
+import com.weicoder.admin.po.Admin; 
 import com.weicoder.admin.token.AdminToken;
 import com.weicoder.base.service.SuperService;
 import com.weicoder.common.util.DateUtil;

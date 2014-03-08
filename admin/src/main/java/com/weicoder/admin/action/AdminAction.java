@@ -54,7 +54,7 @@ public class AdminAction extends SiteAction<Admin> {
 		// 认证不为空
 		if (auth == null) {
 			// 如果是后台主页
-			if (!request.getServletPath().equals(AdminParams.BACK_PATH + "index.htm")) {
+			if (request.getServletPath().equals(AdminParams.BACK_PATH + "index.htm")) {
 				// 凭证置空
 				token = LoginEngine.empty();
 			}

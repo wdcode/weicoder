@@ -32,6 +32,4 @@ class Menu extends BaseEntityId {
   // 名称
   @BeanProperty
   var name: String = _
-  //类型
-  //	var type:Integer		
 }

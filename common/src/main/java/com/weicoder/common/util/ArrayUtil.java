@@ -29,15 +29,6 @@ public final class ArrayUtil {
 	 * @param e 元素数组
 	 * @return 元素列表
 	 */
-	public static <E> E[] toArray(List<E> list) {
-		return (E[]) list.toArray(getArray(list.get(0).getClass(), list.size()));
-	}
-
-	/**
-	 * 把数组转换成列表
-	 * @param e 元素数组
-	 * @return 元素列表
-	 */
 	public static <E> List<E> toList(E... e) {
 		return Arrays.asList(e);
 	}

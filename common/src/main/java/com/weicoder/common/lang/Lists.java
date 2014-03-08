@@ -241,6 +241,19 @@ public final class Lists {
 	}
 
 	/**
+	 * 把一个列表变成数组
+	 * @return 一个不可变的空List
+	 */
+	public static <E> E[] toArray(List<Object> list, Class<E> clazz) {
+		// 判断列表不为空
+		if (EmptyUtil.isEmpty(list)) {
+			return ArrayUtil.getArray(clazz, 0);
+		}
+		// 返回数组
+		return list.toArray(ArrayUtil.getArray(clazz, list.size()));
+	}
+
+	/**
 	 * 获得一个不可变的空List
 	 * @return 一个不可变的空List
 	 */

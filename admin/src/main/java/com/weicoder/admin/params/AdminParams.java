@@ -19,7 +19,7 @@ public final class AdminParams {
 	/**
 	 * 创建者ID
 	 */
-	public final static String			ADMIN			= Params.getString("admin", "admin");
+	public final static int				ADMIN			= Params.getInt("admin", 1);
 	/**
 	 * 后台页面记录是否开启
 	 */

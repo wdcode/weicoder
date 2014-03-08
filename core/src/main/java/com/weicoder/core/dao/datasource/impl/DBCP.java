@@ -1,157 +1,166 @@
 package com.weicoder.core.dao.datasource.impl;
 
-import org.logicalcobwebs.proxool.ProxoolDataSource;
-import org.logicalcobwebs.proxool.ProxoolFacade;
-import com.weicoder.common.lang.Conversion;
+import java.sql.SQLException;
+
+import org.apache.commons.dbcp.BasicDataSource;
+import com.weicoder.core.log.Logs;
 import com.weicoder.core.dao.datasource.base.BaseDataSource;
 
 /**
- * Proxool连接池实现
+ * DBCP连接池实现
  * @author WD
  * @since JDK7
- * @version 1.0 2010-1-23
+ * @version 1.0 2010-01-23
  */
-public final class DataSourceProxool extends BaseDataSource {
-	// ProxoolDataSource数据源
-	private ProxoolDataSource	ds	= new ProxoolDataSource();
+public final class DBCP extends BaseDataSource {
+	// BasicDataSource数据源
+	private BasicDataSource	ds = new BasicDataSource();
+
+	/**
+	 * 获得驱动类
+	 */
+	public String getDriver() {
+		return ds.getDriverClassName();
+	}
 
 	/**
 	 * 获得多长时间检查一次空闲连接
 	 */
 	public long getIdleTimeout() {
-		return ds.getHouseKeepingSleepTime();
+		return ds.getTimeBetweenEvictionRunsMillis();
 	}
 
 	/**
 	 * 获得初始化连接数
 	 */
 	public int getInitialPoolSize() {
-		return ds.getMinimumConnectionCount();
+		return ds.getInitialSize();
 	}
 
 	/**
 	 * 获得测试空闲连接时间 超出时间回收
 	 */
 	public long getMaxIdleTime() {
-		return ds.getMaximumActiveTime();
+		return ds.getMinEvictableIdleTimeMillis();
 	}
 
 	/**
 	 * 获得连接池最大连接数
 	 */
 	public int getMaxPoolSize() {
-		return ds.getMaximumConnectionCount();
+		return ds.getMaxIdle();
 	}
 
 	/**
 	 * 获得最大连接数
 	 */
 	public int getMaxSize() {
-		return ds.getMaximumConnectionCount();
+		return ds.getMaxActive();
 	}
 
 	/**
 	 * 获得连接池最小连接数
 	 */
 	public int getMinPoolSize() {
-		return ds.getMinimumConnectionCount();
+		return ds.getMinIdle();
 	}
 
 	/**
 	 * 获得超时等待时间
 	 */
 	public long getTimeout() {
-		return ds.getOverloadWithoutRefusalLifetime();
+		return ds.getMaxWait();
+	}
+
+	/**
+	 * 获得用户名
+	 */
+	public String getUser() {
+		return ds.getUsername();
+	}
+
+	/**
+	 * 设置驱动类
+	 */
+	public void setDriver(String driver) {
+		ds.setDriverClassName(driver);
 	}
 
 	/**
 	 * 设置多长时间检查一次空闲连接
 	 */
 	public void setIdleTimeout(long idleTimeout) {
-		ds.setHouseKeepingSleepTime(Conversion.toInt(idleTimeout));
+		ds.setTimeBetweenEvictionRunsMillis(idleTimeout);
 	}
 
 	/**
 	 * 设置初始化连接数
 	 */
 	public void setInitialPoolSize(int initialPoolSize) {
-		ds.setMinimumConnectionCount(initialPoolSize);
+		ds.setInitialSize(initialPoolSize);
 	}
 
 	/**
 	 * 设置 测试空闲连接时间 超出时间回收
 	 */
 	public void setMaxIdleTime(long maxIdleTime) {
-		ds.setMaximumActiveTime(maxIdleTime);
+		ds.setMinEvictableIdleTimeMillis(maxIdleTime);
 	}
 
 	/**
 	 * 设置连接池最大连接数
 	 */
 	public void setMaxPoolSize(int maxPoolSize) {
-		ds.setMaximumConnectionCount(maxPoolSize);
+		ds.setMaxIdle(maxPoolSize);
 	}
 
 	/**
 	 * 设置最大连接数
 	 */
 	public void setMaxSize(int maxSize) {
-		ds.setMaximumConnectionCount(maxSize);
+		ds.setMaxActive(maxSize);
 	}
 
 	/**
 	 * 设置连接池最小连接数
 	 */
 	public void setMinPoolSize(int minPoolSize) {
-		ds.setMinimumConnectionCount(minPoolSize);
+		ds.setMinIdle(minPoolSize);
 	}
 
 	/**
 	 * 设置超时等待时间
 	 */
 	public void setTimeout(long timeout) {
-		ds.setOverloadWithoutRefusalLifetime(Conversion.toInt(timeout));
+		ds.setMaxWait(timeout);
+	}
+
+	/**
+	 * 设置用户
+	 */
+	public void setUser(String user) {
+		ds.setUsername(user);
 	}
 
 	/**
 	 * 关闭资源
 	 */
 	public void close() {
-		ProxoolFacade.shutdown();
+		try {
+			ds.close();
+		} catch (SQLException e) {
+			Logs.warn(e);
+		}
 	}
 
-	/**
-	 * 获得url
-	 */
+	@Override
 	public String getUrl() {
-		return ds.getDriverUrl();
+		return ds.getUrl();
 	}
 
-	/**
-	 * 设置url
-	 */
+	@Override
 	public void setUrl(String url) {
-		ds.setDriverUrl(url);
-	}
-
-	@Override
-	public String getDriver() {
-		return ds.getDriver();
-	}
-
-	@Override
-	public void setDriver(String driver) {
-		ds.setDriver(driver);
-	}
-
-	@Override
-	public String getUser() {
-		return ds.getUser();
-	}
-
-	@Override
-	public void setUser(String user) {
-		ds.setUser(user);
+		ds.setUrl(url);
 	}
 
 	@Override

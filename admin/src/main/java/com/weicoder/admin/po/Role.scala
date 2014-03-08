@@ -45,10 +45,10 @@ class Role extends BaseEntityId {
 //  @BeanProperty
 //  var menus: List[Menu] = _
 
-  /**
-   * 设置菜单
-   * @param operates
-   */
+//  /**
+//   * 设置菜单
+//   * @param operates
+//   */
   //	def menu.(ms:String)= {
   //		//操作链接不为空
   //		if(!EmptyUtil.isEmpty(ms)){
@@ -66,10 +66,10 @@ class Role extends BaseEntityId {
   //		}
   //	}
 
-  /**
-   * 设置操作
-   * @param operates
-   */
+//  /**
+//   * 设置操作
+//   * @param operates
+//   */
   //	def   operate(ops:String)= {
   //		//操作链接不为空
   //		if(!EmptyUtil.isEmpty(ops)){

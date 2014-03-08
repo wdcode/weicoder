@@ -6,11 +6,12 @@ import java.sql.SQLException;
 import java.sql.SQLFeatureNotSupportedException;
 import java.util.logging.Logger;
 
-import com.weicoder.core.dao.datasource.impl.DataSourceBonecp;
-import com.weicoder.core.dao.datasource.impl.DataSourceC3P0;
-import com.weicoder.core.dao.datasource.impl.DataSourceDBCP;
-import com.weicoder.core.dao.datasource.impl.DataSourceDruid;
-import com.weicoder.core.dao.datasource.impl.DataSourceProxool;
+import com.weicoder.core.dao.datasource.impl.Bonecp;
+import com.weicoder.core.dao.datasource.impl.C3P0;
+import com.weicoder.core.dao.datasource.impl.DBCP;
+import com.weicoder.core.dao.datasource.impl.DBCP2;
+import com.weicoder.core.dao.datasource.impl.Druid;
+import com.weicoder.core.dao.datasource.impl.Proxool;
 
 /**
  * 封装 DataSource类 主要给Spring注入用
@@ -30,19 +31,22 @@ public final class BasicDataSource implements DataSource {
 		// 判断数据源
 		switch (parse) {
 			case "dbcp":
-				ds = new DataSourceDBCP();
+				ds = new DBCP();
+				break;
+			case "dbcp2":
+				ds = new DBCP2();
 				break;
 			case "c3p0":
-				ds = new DataSourceC3P0();
+				ds = new C3P0();
 				break;
 			case "proxool":
-				ds = new DataSourceProxool();
+				ds = new Proxool();
 				break;
 			case "bonecp":
-				ds = new DataSourceBonecp();
+				ds = new Bonecp();
 				break;
 			case "druid":
-				ds = new DataSourceDruid();
+				ds = new Druid();
 				break;
 		}
 	}

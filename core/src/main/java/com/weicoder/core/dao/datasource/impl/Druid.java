@@ -11,7 +11,7 @@ import com.alibaba.druid.pool.DruidDataSource;
  * @since JDK6
  * @version 1.0 2013-03-18
  */
-public final class DataSourceDruid extends BaseDataSource {
+public final class Druid extends BaseDataSource {
 	// DruidDataSource数据源
 	private DruidDataSource	ds	= new DruidDataSource();
 

@@ -2,7 +2,8 @@ package com.weicoder.core.dao.datasource.impl;
 
 import java.sql.SQLException;
 
-import org.apache.commons.dbcp.BasicDataSource;
+import org.apache.commons.dbcp2.BasicDataSource;
+
 import com.weicoder.core.log.Logs;
 import com.weicoder.core.dao.datasource.base.BaseDataSource;
 
@@ -12,9 +13,9 @@ import com.weicoder.core.dao.datasource.base.BaseDataSource;
  * @since JDK7
  * @version 1.0 2010-01-23
  */
-public final class DataSourceDBCP extends BaseDataSource {
+public final class DBCP2 extends BaseDataSource {
 	// BasicDataSource数据源
-	private BasicDataSource	ds = new BasicDataSource();
+	private BasicDataSource	ds	= new BasicDataSource();
 
 	/**
 	 * 获得驱动类
@@ -55,7 +56,7 @@ public final class DataSourceDBCP extends BaseDataSource {
 	 * 获得最大连接数
 	 */
 	public int getMaxSize() {
-		return ds.getMaxActive();
+		return ds.getMaxTotal();
 	}
 
 	/**
@@ -69,7 +70,7 @@ public final class DataSourceDBCP extends BaseDataSource {
 	 * 获得超时等待时间
 	 */
 	public long getTimeout() {
-		return ds.getMaxWait();
+		return ds.getMaxWaitMillis();
 	}
 
 	/**
@@ -118,7 +119,7 @@ public final class DataSourceDBCP extends BaseDataSource {
 	 * 设置最大连接数
 	 */
 	public void setMaxSize(int maxSize) {
-		ds.setMaxActive(maxSize);
+		ds.setMaxTotal(maxSize);
 	}
 
 	/**
@@ -132,7 +133,7 @@ public final class DataSourceDBCP extends BaseDataSource {
 	 * 设置超时等待时间
 	 */
 	public void setTimeout(long timeout) {
-		ds.setMaxWait(timeout);
+		ds.setMaxWaitMillis(timeout);
 	}
 
 	/**
