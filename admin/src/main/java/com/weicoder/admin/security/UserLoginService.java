@@ -75,6 +75,5 @@ public final class UserLoginService implements UserDetailsService {
 		}
 		// 声明返回凭证
 		return new AdminToken(admin, role, authorities, menus);
-		// return new AdminToken(admin, service);
 	}
 }

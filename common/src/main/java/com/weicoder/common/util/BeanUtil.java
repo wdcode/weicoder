@@ -46,10 +46,8 @@ public final class BeanUtil {
 			try {
 				// 不是符合字段
 				if (!field.isSynthetic()) {
-					// 强行设置Field可访问.
-					makeAccessible(field);
 					// 设置字段值
-					setFieldValue(target, field, field.get(source));
+					setFieldValue(target, getField(target, field.getName()), getFieldValue(source, field));
 				}
 			} catch (Exception e) {}
 		}
@@ -187,15 +185,12 @@ public final class BeanUtil {
 		if (EmptyUtil.isEmpty(field)) {
 			return null;
 		}
-		// 强行设置Field可访问.
-		makeAccessible(field);
-		// 声明对象 保存返回值
-		Object result = null;
 		try {
 			// 获得字段值
-			result = field.get(object);
-		} catch (IllegalAccessException e) {}
-		return result;
+			return makeAccessible(field).get(object);
+		} catch (IllegalAccessException e) {
+			return null;
+		}
 	}
 
 	/**
@@ -206,7 +201,7 @@ public final class BeanUtil {
 	 */
 	public static Object getFieldValue(Object object, Field field) {
 		// 判断字段为空 返回null
-		if (EmptyUtil.isEmpty(field)) {
+		if (object == null || field == null) {
 			return null;
 		}
 		try {
@@ -232,11 +227,9 @@ public final class BeanUtil {
 		if (object == null || field == null || value == null) {
 			return;
 		}
-		// 强行设置Field可访问.
-		makeAccessible(field);
 		// 设置字段值
 		try {
-			field.set(object, Conversion.to(value, field.getType()));
+			makeAccessible(field).set(object, Conversion.to(value, field.getType()));
 		} catch (IllegalAccessException e) {}
 	}
 

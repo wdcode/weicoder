@@ -39,7 +39,7 @@ public abstract class Message implements BytesBean {
 		// 循环设置字段值
 		for (Field field : fields) {
 			// 如果偏移与字节长度相同 没有数据 跳出
-			if (b.length == offset) {
+			if (b.length >= offset) {
 				break;
 			}
 			if (!field.isSynthetic()) {

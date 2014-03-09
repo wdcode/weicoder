@@ -20,6 +20,7 @@ import com.weicoder.site.token.LoginToken
 import com.weicoder.admin.po.Role
 import scala.beans.BeanProperty
 import scala.beans.BooleanBeanProperty
+import com.weicoder.common.util.DateUtil
 
 /**
  * Spring Security 登录凭证
@@ -56,6 +57,7 @@ final class AdminToken extends LoginToken with UserDetails with AuthToken {
   def this(admin: Admin, role: Role, authorities: List[Authority], menus: List[Menu]) = {
     this();
     this.admin = admin
+    this.time = DateUtil.getTime
     this.id = admin.getId
     this.password = admin.getPassword
     this.username = admin.getName

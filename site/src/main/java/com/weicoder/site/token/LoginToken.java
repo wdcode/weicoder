@@ -34,7 +34,6 @@ public class LoginToken implements AuthToken {
 	 * 构造方法
 	 * @param id 登录用户ID
 	 * @param name 用户名
-	 * @param time 登录时间
 	 * @param loginIp 登录IP
 	 * @param serverIp 服务器IP
 	 */
@@ -46,7 +45,6 @@ public class LoginToken implements AuthToken {
 	 * 构造方法
 	 * @param id 登录用户ID
 	 * @param name 用户名
-	 * @param time 登录时间
 	 * @param loginIp 登录IP
 	 * @param serverIp 服务器IP
 	 */
@@ -59,7 +57,7 @@ public class LoginToken implements AuthToken {
 
 	@Override
 	public boolean isLogin() {
-		return id != 0 && SiteParams.LOGIN_MAX_AGE > 0 ? DateUtil.getTime() - time < SiteParams.LOGIN_MAX_AGE : time > 0;
+		return id != 0 && (SiteParams.LOGIN_MAX_AGE > 0 ? DateUtil.getTime() - time < SiteParams.LOGIN_MAX_AGE : time > 0);
 	}
 
 	@Override
