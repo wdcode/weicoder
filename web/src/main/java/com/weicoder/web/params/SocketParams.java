@@ -134,8 +134,8 @@ public final class SocketParams {
 	 * XML: {@literal <socket><*><closed>?</closed></*></socket>}</h2>
 	 * @return socket Session关闭处理器
 	 */
-	public static String getClosed(String name) {
-		return Params.getString(Params.getKey(PREFIX, name, "closed"));
+	public static String[] getClosed(String name) {
+		return Params.getStringArray(Params.getKey(PREFIX, name, "closed"), ArrayConstants.STRING_EMPTY);
 	}
 
 	/**

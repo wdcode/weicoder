@@ -11,6 +11,7 @@ import com.weicoder.base.context.Context;
 import com.weicoder.common.lang.Sets;
 import com.weicoder.web.params.SocketParams;
 import com.weicoder.web.socket.Sockets;
+import com.weicoder.web.socket.interfaces.Closed;
 import com.weicoder.web.socket.interfaces.Handler;
 import com.weicoder.web.socket.interfaces.Socket;
 
@@ -34,11 +35,13 @@ public final class SocketStarter {
 	public void init() {
 		// 获得全部Handler
 		Collection<Handler> handlers = context.getBeans(Handler.class).values();
+		// 获得全部Closed
+		Collection<Closed> closeds = context.getBeans(Closed.class).values();
 		// 判断任务不为空
 		if (SocketParams.SPRING) {
 			// 循环数组
 			for (String name : SocketParams.NAMES) {
-				init(name, handlers);
+				init(name, handlers, closeds);
 			}
 			Sockets.start();
 		}
@@ -49,16 +52,23 @@ public final class SocketStarter {
 	 * @param name 名
 	 */
 	@SuppressWarnings("rawtypes")
-	private void init(String name, Collection<Handler> handlers) {
+	private void init(String name, Collection<Handler> handlers, Collection<Closed> closeds) {
 		// Socket
 		Socket socket = Sockets.init(name);
-		// 获得指定的handler包
+		// 获得指定的包
 		Set<String> set = Sets.getSet(SocketParams.getPackage(name));
 		// 设置Handler
 		for (Handler<?> handler : handlers) {
 			// 在指定包内
 			if (set.contains(handler.getClass().getPackage().getName())) {
 				socket.addHandler(handler);
+			}
+		}
+		// 设置Closed
+		for (Closed closed : closeds) {
+			// 在指定包内
+			if (set.contains(closed.getClass().getPackage().getName())) {
+				socket.addClosed(closed);
 			}
 		}
 	}

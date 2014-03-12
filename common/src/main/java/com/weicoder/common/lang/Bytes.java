@@ -157,7 +157,7 @@ public final class Bytes {
 	 */
 	public static byte[] toBytes(BytesBean bean) {
 		// 转换成字节数组
-		byte[] b = EmptyUtil.isEmpty(bean) ? ArrayConstants.BYTES_EMPTY : bean.toBytes();
+		byte[] b = EmptyUtil.isEmpty(bean) ? ArrayConstants.BYTES_EMPTY : bean.array();
 		// 加上长度返回
 		return EmptyUtil.isEmpty(b) ? b : toBytes(bean.getClass().getName(), b.length, b);
 	}
@@ -598,10 +598,10 @@ public final class Bytes {
 		if (bean == null) {
 			return null;
 		}
-		// 设置偏移
-		int offset = 8 + name.length();
+		// 设置偏移 6=4(字节数组)+2(字符串)
+		int offset = 6 + name.length();
 		// 返回Bean
-		return bean.toBean(copy(b, offset, toInt(b) + offset));
+		return bean.array(copy(b, offset, toInt(b) + offset));
 	}
 
 	/**

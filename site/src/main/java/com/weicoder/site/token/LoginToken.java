@@ -96,12 +96,12 @@ public class LoginToken implements AuthToken {
 	}
 
 	@Override
-	public byte[] toBytes() {
+	public byte[] array() {
 		return Bytes.toBytes(id, time, IpUtil.encode(loginIp), IpUtil.encode(serverIp));
 	}
 
 	@Override
-	public LoginToken toBean(byte[] b) {
+	public LoginToken array(byte[] b) {
 		// 判断字节数组不为空
 		if (!EmptyUtil.isEmpty(b)) {
 			this.id = Bytes.toInt(b);

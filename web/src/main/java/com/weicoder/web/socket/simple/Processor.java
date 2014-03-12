@@ -1,8 +1,10 @@
 package com.weicoder.web.socket.simple;
 
+import java.util.List;
 import java.util.Map;
 
 import com.weicoder.common.lang.Bytes;
+import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.util.DateUtil;
@@ -23,18 +25,19 @@ import com.weicoder.web.socket.interfaces.Session;
  * @version 1.0 2013-12-22
  */
 public final class Processor implements Process {
+	// 关闭处理
+	private List<Closed>				closeds		= Lists.getList();
 	// Handler列表
-	private Map<Short, Handler<Object>>	handlers	= Maps.getConcurrentMap();
+	private Map<Short, Handler<Object>>	handlers	= Maps.getMap();
 	// 保存Session
 	private Map<Integer, Session>		sessions	= Maps.getConcurrentMap();
 	// 保存全局IoBuffer
 	private Map<Integer, Buffer>		buffers		= Maps.getConcurrentMap();
+
 	// SessionManager
 	private Manager						manager;
 	// 心跳处理
 	private Heart						heart;
-	// 关闭处理
-	private Closed						closed;
 
 	/**
 	 * Session管理
@@ -51,15 +54,13 @@ public final class Processor implements Process {
 	}
 
 	@Override
-	public void setClosed(Closed closed) {
-		this.closed = closed;
+	public void addClosed(Closed closed) {
+		closeds.add(closed);
 	}
 
 	@Override
-	public void addHandler(Handler<?>... handler) {
-		for (Handler<?> h : handler) {
-			handlers.put(h.getId(), (Handler<Object>) h);
-		}
+	public void addHandler(Handler<?> handler) {
+		handlers.put(handler.getId(), (Handler<Object>) handler);
 	}
 
 	@Override
@@ -83,8 +84,8 @@ public final class Processor implements Process {
 		if (heart != null) {
 			heart.remove(session);
 		}
-		// 关闭处理器不为空
-		if (closed != null) {
+		// 关闭处理器
+		for (Closed closed : closeds) {
 			closed.closed(session);
 		}
 		// 删除Session管理中的注册Session
@@ -188,7 +189,7 @@ public final class Processor implements Process {
 						mess = data;
 					} else {
 						// 默认使用消息体
-						mess = ((Message) ClassUtil.newInstance(type)).toBean(data);
+						mess = ((Message) ClassUtil.newInstance(type)).array(data);
 					}
 					Logs.info("socket handler message=" + mess + ";time=" + (System.currentTimeMillis() - curr));
 					curr = System.currentTimeMillis();

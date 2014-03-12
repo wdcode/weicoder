@@ -2,7 +2,6 @@ package com.weicoder.web.socket.interfaces;
 
 import java.util.Map;
 
-
 /**
  * Socket 数据处理接口
  * @author WD
@@ -33,13 +32,13 @@ public interface Process {
 	 * 添加关闭处理器
 	 * @param closed 关闭处理器
 	 */
-	void setClosed(Closed closed);
+	void addClosed(Closed closed);
 
 	/**
 	 * 添加要处理的Handler
 	 * @param handler
 	 */
-	void addHandler(Handler<?>... handler);
+	void addHandler(Handler<?> handler);
 
 	/**
 	 * Session连接时

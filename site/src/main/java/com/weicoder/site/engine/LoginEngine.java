@@ -33,8 +33,8 @@ public final class LoginEngine {
 	 * @param key 登录标识
 	 * @return true 登录 false 未登录
 	 */
-	public static boolean isLogin(HttpServletRequest request, HttpServletResponse response, String key) {
-		return getLoginBean(request, response, key).isLogin();
+	public static boolean isLogin(HttpServletRequest request, String key) {
+		return getLoginBean(request, key).isLogin();
 	}
 
 	/**
@@ -73,7 +73,7 @@ public final class LoginEngine {
 	 * @param key 登录标识
 	 * @return 用户信息
 	 */
-	public static LoginToken getLoginBean(HttpServletRequest request, HttpServletResponse response, String key) {
+	public static LoginToken getLoginBean(HttpServletRequest request, String key) {
 		// 读取用户信息
 		String info = Conversion.toString(AttributeUtil.get(request, key + INFO));
 		// 如果用户信息为空

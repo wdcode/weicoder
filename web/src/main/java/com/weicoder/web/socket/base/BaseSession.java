@@ -95,7 +95,7 @@ public abstract class BaseSession implements Session {
 			data = StringUtil.toBytes(Conversion.toString(message));
 		} else if (message instanceof Message) {
 			// 消息体
-			data = ((Message) message).toBytes();
+			data = ((Message) message).array();
 		} else if (message instanceof DataBuffer) {
 			// ByteBuf
 			data = ((DataBuffer) message).array();

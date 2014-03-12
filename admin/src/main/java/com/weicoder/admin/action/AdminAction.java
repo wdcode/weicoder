@@ -222,6 +222,6 @@ public class AdminAction extends SiteAction<Admin> {
 
 	@Override
 	protected AuthToken auth() {
-		return LoginEngine.getLoginBean(request, response, Admin.class.getSimpleName());
+		return LoginEngine.getLoginBean(request, Admin.class.getSimpleName());
 	}
 }

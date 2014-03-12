@@ -17,7 +17,7 @@ import com.weicoder.core.json.JsonEngine;
  */
 public abstract class Message implements BytesBean {
 	@Override
-	public byte[] toBytes() {
+	public byte[] array() {
 		// 字段值
 		List<Object> values = Lists.getList();
 		// 获得字段赋值
@@ -31,7 +31,7 @@ public abstract class Message implements BytesBean {
 	}
 
 	@Override
-	public BytesBean toBean(byte[] b) {
+	public BytesBean array(byte[] b) {
 		// 获得全部字段
 		List<Field> fields = BeanUtil.getFields(this.getClass());
 		// 偏移
@@ -39,7 +39,7 @@ public abstract class Message implements BytesBean {
 		// 循环设置字段值
 		for (Field field : fields) {
 			// 如果偏移与字节长度相同 没有数据 跳出
-			if (b.length >= offset) {
+			if (b.length <= offset) {
 				break;
 			}
 			if (!field.isSynthetic()) {
@@ -71,10 +71,19 @@ public abstract class Message implements BytesBean {
 					String s = Bytes.toString(b, offset);
 					BeanUtil.setFieldValue(this, field, s);
 					offset += s.length() + 2;
-				} else {
+				} else if (type.isAssignableFrom(BytesBean.class)) {
+					// 转换为BytesBean
 					BytesBean bean = Bytes.toBean(b, offset);
 					BeanUtil.setFieldValue(this, field, bean);
-					offset += Bytes.toInt(b, offset);
+					// 类的字符串长度
+					offset += 2 + Bytes.toShort(b, offset);
+					// 字节数组长度
+					offset += 4 + Bytes.toInt(b, offset);
+				} else if (type.equals(byte[].class)) {
+					// 字节数组会获得后面全部的 所以一般这个类型也是本类的最后一个字段
+					byte[] t = Bytes.copy(b, offset, b.length);
+					BeanUtil.setFieldValue(this, field, t);
+					offset += t.length;
 				}
 			}
 		}

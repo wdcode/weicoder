@@ -424,6 +424,6 @@ public class SiteAction<U extends EntityUser> extends SuperAction {
 
 	@Override
 	protected AuthToken auth() {
-		return LoginEngine.getLoginBean(request, response, getLoginKey());
+		return LoginEngine.getLoginBean(request, getLoginKey());
 	}
 }

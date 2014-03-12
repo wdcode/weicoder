@@ -18,7 +18,13 @@ public interface Socket extends Close {
 	 * 添加要处理的Handler
 	 * @param handler
 	 */
-	void addHandler(Handler<?>... handler);
+	void addHandler(Handler<?> handler);
+
+	/**
+	 * 添加关闭处理器
+	 * @param closed 关闭处理器
+	 */
+	void addClosed(Closed closed);
 
 	/**
 	 * 添加心跳包处理器

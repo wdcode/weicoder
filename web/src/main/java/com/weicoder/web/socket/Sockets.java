@@ -15,6 +15,7 @@ import com.weicoder.web.socket.impl.netty.NettyServer;
 import com.weicoder.web.socket.impl.netty3.Netty3Client;
 import com.weicoder.web.socket.impl.netty3.Netty3Server;
 import com.weicoder.web.socket.interfaces.Client;
+import com.weicoder.web.socket.interfaces.Closed;
 import com.weicoder.web.socket.interfaces.Handler;
 import com.weicoder.web.socket.interfaces.Manager;
 import com.weicoder.web.socket.interfaces.Server;
@@ -80,10 +81,19 @@ public final class Sockets {
 		for (String c : SocketParams.getHandler(name)) {
 			socket.addHandler((Handler<?>) BeanUtil.newInstance(c));
 		}
+		// 设置关闭处理器
+		for (String c : SocketParams.getClosed(name)) {
+			socket.addClosed((Closed) BeanUtil.newInstance(c));
+		}
 		// 按包处理
 		for (String p : SocketParams.getPackage(name)) {
+			// Handler
 			for (Class<?> c : ClassUtil.getAssignedClass(p, Handler.class)) {
 				socket.addHandler((Handler<?>) BeanUtil.newInstance(c));
+			}
+			// Closed
+			for (Class<?> c : ClassUtil.getAssignedClass(p, Closed.class)) {
+				socket.addClosed((Closed) BeanUtil.newInstance(c));
 			}
 		}
 		// 返回Socket

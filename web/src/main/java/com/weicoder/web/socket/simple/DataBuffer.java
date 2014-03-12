@@ -1,6 +1,7 @@
 package com.weicoder.web.socket.simple;
 
 import com.weicoder.common.constants.StringConstants;
+import com.weicoder.common.interfaces.BytesBean;
 import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
@@ -11,7 +12,7 @@ import com.weicoder.common.util.StringUtil;
  * @since JDK7
  * @version 1.0 2014-2-13
  */
-public final class DataBuffer {
+public final class DataBuffer implements BytesBean {
 	/** 默认的初始容量大小 */
 	private static final int	CAPACITY	= 32;
 	// 字节数组
@@ -411,5 +412,11 @@ public final class DataBuffer {
 	@Override
 	public String toString() {
 		return super.toString() + "[" + top + "," + offset + "," + bytes.length + "] ";
+	}
+
+	@Override
+	public BytesBean array(byte[] b) {
+		write(b);
+		return this;
 	}
 }

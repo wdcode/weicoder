@@ -26,7 +26,7 @@ public final class TokenEngine {
 	 */
 	public static String encrypt(AuthToken token) {
 		// 加密登录凭证字符串
-		String info = Hex.encode(Encrypts.rc4(token.toBytes()));
+		String info = Hex.encode(Encrypts.rc4(token.array()));
 		// 返回加密字符串
 		return Digest.absolute(info, LENGHT) + StringConstants.MIDLINE + info;
 	}
@@ -47,7 +47,7 @@ public final class TokenEngine {
 				if (!EmptyUtil.isEmpty(temp) && temp.length == 2) {
 					// 判断校验串是否合法
 					if (temp[0].equals(Digest.absolute(temp[1], LENGHT))) {
-						token.toBean(Decrypts.rc4(Hex.decode(temp[1])));
+						token.array(Decrypts.rc4(Hex.decode(temp[1])));
 					}
 				}
 			}

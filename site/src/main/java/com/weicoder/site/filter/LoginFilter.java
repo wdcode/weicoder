@@ -80,7 +80,7 @@ public final class LoginFilter<L extends EntityUser> implements Filter {
 		// 判断检查
 		if (find) {
 			// 是否登录
-			if (LoginEngine.isLogin(httpRequest, httpResponse, login)) {
+			if (LoginEngine.isLogin(httpRequest, login)) {
 				chain.doFilter(request, response);
 			} else {
 				// 判断跳转方式

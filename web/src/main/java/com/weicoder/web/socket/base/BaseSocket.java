@@ -1,7 +1,5 @@
 package com.weicoder.web.socket.base;
 
-import com.weicoder.common.util.BeanUtil;
-import com.weicoder.web.params.SocketParams;
 import com.weicoder.web.socket.interfaces.Closed;
 import com.weicoder.web.socket.interfaces.Handler;
 import com.weicoder.web.socket.interfaces.Heart;
@@ -34,11 +32,6 @@ public abstract class BaseSocket implements Socket {
 		this.name = name;
 		manager = new SessionManager();
 		process = new Processor(manager);
-		// 获得关闭处理器
-		Closed closed = (Closed) BeanUtil.newInstance(SocketParams.getClosed(name));
-		if (closed != null) {
-			process.setClosed(closed);
-		}
 	}
 
 	@Override
@@ -47,8 +40,13 @@ public abstract class BaseSocket implements Socket {
 	}
 
 	@Override
-	public void addHandler(Handler<?>... h) {
-		process.addHandler(h);
+	public void addHandler(Handler<?> handler) {
+		process.addHandler(handler);
+	}
+
+	@Override
+	public void addClosed(Closed closed) {
+		process.addClosed(closed);
 	}
 
 	@Override
