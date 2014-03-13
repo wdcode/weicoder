@@ -1,14 +1,13 @@
 package com.weicoder.base.starter;
 
 import java.util.Collection;
-import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Component;
 import com.weicoder.base.context.Context;
-import com.weicoder.common.lang.Sets;
+import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.web.params.SocketParams;
 import com.weicoder.web.socket.Sockets;
 import com.weicoder.web.socket.interfaces.Closed;
@@ -56,18 +55,18 @@ public final class SocketStarter {
 		// Socket
 		Socket socket = Sockets.init(name);
 		// 获得指定的包
-		Set<String> set = Sets.getSet(SocketParams.getPackage(name));
+		String pack = SocketParams.getPackage(name);
 		// 设置Handler
 		for (Handler<?> handler : handlers) {
 			// 在指定包内
-			if (set.contains(handler.getClass().getPackage().getName())) {
+			if (EmptyUtil.isEmpty(pack) || handler.getClass().getPackage().getName().indexOf(pack) > -1) {
 				socket.addHandler(handler);
 			}
 		}
 		// 设置Closed
 		for (Closed closed : closeds) {
 			// 在指定包内
-			if (set.contains(closed.getClass().getPackage().getName())) {
+			if (EmptyUtil.isEmpty(pack) || closed.getClass().getPackage().getName().indexOf(pack) > -1) {
 				socket.addClosed(closed);
 			}
 		}

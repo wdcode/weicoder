@@ -37,8 +37,8 @@ public final class NettyServer extends BaseServer {
 		bootstrap.childOption(ChannelOption.TCP_NODELAY, true);
 		bootstrap.childOption(ChannelOption.SO_KEEPALIVE, true);
 		bootstrap.childOption(ChannelOption.SO_REUSEADDR, true);
-		bootstrap.childOption(ChannelOption.CONNECT_TIMEOUT_MILLIS, 5000);
-		bootstrap.childOption(ChannelOption.SO_TIMEOUT, 5000);
+		bootstrap.childOption(ChannelOption.CONNECT_TIMEOUT_MILLIS, 30000);
+		bootstrap.childOption(ChannelOption.SO_TIMEOUT, 30000);
 		bootstrap.childOption(ChannelOption.SO_SNDBUF, 1024 * 32);
 		bootstrap.childOption(ChannelOption.SO_RCVBUF, 1024 * 8);
 		// 设置channel

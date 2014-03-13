@@ -5,9 +5,7 @@ import java.util.List;
 
 import com.weicoder.common.interfaces.BytesBean;
 import com.weicoder.common.lang.Bytes;
-import com.weicoder.common.lang.Lists;
 import com.weicoder.common.util.BeanUtil;
-import com.weicoder.core.json.JsonEngine;
 
 /**
  * Socket 传递消息实体
@@ -15,21 +13,7 @@ import com.weicoder.core.json.JsonEngine;
  * @since JDK7
  * @version 1.0 2013-12-19
  */
-public abstract class Message implements BytesBean {
-	@Override
-	public byte[] array() {
-		// 字段值
-		List<Object> values = Lists.getList();
-		// 获得字段赋值
-		for (Field field : BeanUtil.getFields(this.getClass())) {
-			if (!field.isSynthetic()) {
-				values.add(BeanUtil.getFieldValue(this, field));
-			}
-		}
-		// 返回字节数组
-		return Bytes.toBytes(values.toArray());
-	}
-
+public abstract class Message extends Send implements BytesBean {
 	@Override
 	public BytesBean array(byte[] b) {
 		// 获得全部字段
@@ -70,7 +54,7 @@ public abstract class Message implements BytesBean {
 				} else if (type.equals(String.class)) {
 					String s = Bytes.toString(b, offset);
 					BeanUtil.setFieldValue(this, field, s);
-					offset += s.length() + 2;
+					offset += Bytes.toShort(b, offset) + 2;
 				} else if (type.isAssignableFrom(BytesBean.class)) {
 					// 转换为BytesBean
 					BytesBean bean = Bytes.toBean(b, offset);
@@ -89,10 +73,5 @@ public abstract class Message implements BytesBean {
 		}
 		// 返回本身
 		return this;
-	}
-
-	@Override
-	public String toString() {
-		return JsonEngine.toJson(this);
 	}
 }

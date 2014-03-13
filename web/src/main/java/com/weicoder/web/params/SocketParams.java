@@ -122,8 +122,20 @@ public final class SocketParams {
 	 * XML: {@literal <socket><*><package>?</package></*></socket>}</h2>
 	 * @return socket处理handler包
 	 */
-	public static String[] getPackage(String name) {
-		return Params.getStringArray(Params.getKey(PREFIX, name, "package"), ArrayConstants.STRING_EMPTY);
+	public static String getPackage(String name) {
+		return Params.getString(Params.getKey(PREFIX, name, "package"));
+	}
+
+	/**
+	 * 获得socket处理handler包<br/>
+	 * 需在配置文件中配置<br/>
+	 * <h2>配置方式如下: <br/>
+	 * Properties: socket.*.packages = ? <br/>
+	 * XML: {@literal <socket><*><packages>?</packages></*></socket>}</h2>
+	 * @return socket处理handler包
+	 */
+	public static String[] getPackages(String name) {
+		return Params.getStringArray(Params.getKey(PREFIX, name, "packages"), ArrayConstants.STRING_EMPTY);
 	}
 
 	/**

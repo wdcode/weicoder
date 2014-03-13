@@ -8,7 +8,6 @@ import org.apache.mina.transport.socket.SocketConnector;
 import org.apache.mina.transport.socket.SocketSessionConfig;
 import org.apache.mina.transport.socket.nio.NioSocketConnector;
 import com.weicoder.common.lang.Conversion;
-import com.weicoder.common.params.CommonParams;
 import com.weicoder.web.params.SocketParams;
 import com.weicoder.web.socket.base.BaseClient;
 
@@ -33,7 +32,7 @@ public final class MinaClient extends BaseClient {
 	public MinaClient(String name) {
 		super(name);
 		// 客户端
-		this.connector = new NioSocketConnector(CommonParams.THREAD_POOL);
+		this.connector = new NioSocketConnector(1);
 		// 实例化handler
 		handler = new MinaHandler(process);
 		// 获得Session配置

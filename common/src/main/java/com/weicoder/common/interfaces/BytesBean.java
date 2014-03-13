@@ -6,13 +6,7 @@ package com.weicoder.common.interfaces;
  * @since JDK6
  * @version 1.0 2013-10-8
  */
-public interface BytesBean {
-	/**
-	 * 把相关字段转换成字节数组
-	 * @return 字节数组
-	 */
-	byte[] array();
-
+public interface BytesBean extends ByteArray {
 	/**
 	 * 把字节数组转换成自己的字段
 	 * @param b 要转换的字节数组

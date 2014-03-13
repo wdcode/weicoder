@@ -86,7 +86,7 @@ public final class Sockets {
 			socket.addClosed((Closed) BeanUtil.newInstance(c));
 		}
 		// 按包处理
-		for (String p : SocketParams.getPackage(name)) {
+		for (String p : SocketParams.getPackages(name)) {
 			// Handler
 			for (Class<?> c : ClassUtil.getAssignedClass(p, Handler.class)) {
 				socket.addHandler((Handler<?>) BeanUtil.newInstance(c));

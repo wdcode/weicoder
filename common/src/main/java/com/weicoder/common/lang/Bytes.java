@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.Collection;
 
 import com.weicoder.common.constants.ArrayConstants;
+import com.weicoder.common.interfaces.ByteArray;
 import com.weicoder.common.interfaces.BytesBean;
 import com.weicoder.common.io.ChannelUtil;
 import com.weicoder.common.io.FileUtil;
@@ -33,6 +34,8 @@ import com.weicoder.common.util.StringUtil;
 public final class Bytes {
 	// 使用使用Java算法
 	private final static boolean	IS_HIGH;
+	/** 零长度 */
+	public final static byte[]		ZERO_SIZE	= new byte[] { 0, 0 };
 
 	/**
 	 * 静态初始化
@@ -74,7 +77,10 @@ public final class Bytes {
 	 * @return 字节数组
 	 */
 	public static byte[] toBytes(Collection<?> c) {
-		return toBytes(Conversion.toShort(c.size()), c.toArray());
+		// 获得列表长度
+		short size = Conversion.toShort(EmptyUtil.isEmpty(c) ? 0 : c.size());
+		// 判断如果列表为0只返回长度
+		return size == 0 ? toBytes(size) : toBytes(size, c.toArray());
 	}
 
 	/**
@@ -87,7 +93,7 @@ public final class Bytes {
 		byte[] b = ArrayConstants.BYTES_EMPTY;
 		// 判断类型
 		if (obj == null) {
-			return b;
+			return ZERO_SIZE;
 		} else if (obj instanceof byte[]) {
 			// byte[]
 			b = (byte[]) obj;
@@ -127,6 +133,9 @@ public final class Bytes {
 		} else if (obj instanceof ByteBuffer) {
 			// String
 			b = toBytes((ByteBuffer) obj);
+		} else if (obj instanceof ByteArray) {
+			// File
+			b = toBytes((ByteArray) obj);
 		} else if (obj instanceof BytesBean) {
 			// File
 			b = toBytes((BytesBean) obj);
@@ -148,6 +157,15 @@ public final class Bytes {
 		}
 		// 返回字节数组
 		return b;
+	}
+
+	/**
+	 * 转换BytesBean变成字节数组
+	 * @param bean BytesBean类型
+	 * @return 字节数组
+	 */
+	public static byte[] toBytes(ByteArray array) {
+		return EmptyUtil.isEmpty(array) ? ArrayConstants.BYTES_EMPTY : array.array();
 	}
 
 	/**
@@ -507,8 +525,12 @@ public final class Bytes {
 	 * @return 字节数组
 	 */
 	public static byte[] toBytes(String s) {
+		// 转换为字节数组
 		byte[] b = StringUtil.toBytes(s);
-		return toBytes(Conversion.toShort(b.length), b);
+		// 获得长度
+		short size = Conversion.toShort(b.length);
+		// 如果长度为0 只返回长度
+		return size == 0 ? toBytes(size) : toBytes(size, b);
 	}
 
 	/**

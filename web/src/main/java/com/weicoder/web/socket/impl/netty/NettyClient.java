@@ -6,7 +6,6 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 
-import com.weicoder.common.params.CommonParams;
 import com.weicoder.web.params.SocketParams;
 import com.weicoder.web.socket.base.BaseClient;
 
@@ -35,13 +34,13 @@ public final class NettyClient extends BaseClient {
 		// NettyHandler
 		handler = new NettyHandler(process);
 		// 设置group
-		bootstrap.group(new NioEventLoopGroup(CommonParams.THREAD_POOL));
+		bootstrap.group(new NioEventLoopGroup(1));
 		// 设置属性
 		bootstrap.option(ChannelOption.TCP_NODELAY, true);
 		bootstrap.option(ChannelOption.SO_KEEPALIVE, true);
 		bootstrap.option(ChannelOption.SO_REUSEADDR, true);
-		bootstrap.option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 5000);
-		bootstrap.option(ChannelOption.SO_TIMEOUT, 5000);
+		bootstrap.option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 30000);
+		// bootstrap.option(ChannelOption.SO_TIMEOUT, 30000);
 		bootstrap.option(ChannelOption.SO_SNDBUF, 1024 * 32);
 		bootstrap.option(ChannelOption.SO_RCVBUF, 1024 * 8);
 		// 设置channel
