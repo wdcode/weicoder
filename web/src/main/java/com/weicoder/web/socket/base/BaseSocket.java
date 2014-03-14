@@ -22,8 +22,6 @@ public abstract class BaseSocket implements Socket {
 	protected Process	process;
 	// 注册Session
 	protected Manager	manager;
-	// 心跳处理
-	protected Heart		heart;
 
 	/**
 	 * 构造
@@ -56,7 +54,6 @@ public abstract class BaseSocket implements Socket {
 
 	@Override
 	public void setHeart(Heart heart) {
-		this.heart = heart;
 		process.setHeart(heart);
 	}
 }

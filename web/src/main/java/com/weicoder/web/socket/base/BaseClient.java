@@ -1,6 +1,10 @@
 package com.weicoder.web.socket.base;
 
 import com.weicoder.common.constants.StringConstants;
+import com.weicoder.common.util.DateUtil;
+import com.weicoder.common.util.ScheduledUtile;
+import com.weicoder.core.log.Logs;
+import com.weicoder.web.params.SocketParams;
 import com.weicoder.web.socket.interfaces.Client;
 import com.weicoder.web.socket.interfaces.Session;
 
@@ -50,12 +54,25 @@ public abstract class BaseClient extends BaseSocket implements Client {
 	 * 设置 Session
 	 * @param session Session
 	 */
-	protected void setSession(Session session) {
+	protected void setSession(final Session session) {
 		this.session = session;
 		manager.register(StringConstants.EMPTY, session.getId(), session);
-		// 心跳出来不为空
-		if (heart != null) {
-			heart.add(session);
+		// 是否启动心跳
+		int heart = SocketParams.getHeartTime(name);
+		if (heart > 0) {
+			// 心跳指令
+			final short id = SocketParams.getHeartId(name);
+			// 定时发送心跳信息
+			ScheduledUtile.rate(new Runnable() {
+				@Override
+				public void run() {
+					// 获得当前时间
+					int time = DateUtil.getTime();
+					// 循环发送心跳信息
+					session.send(id, time);
+					Logs.debug("send heart session=" + session.getId());
+				}
+			}, heart);
 		}
 	}
 }

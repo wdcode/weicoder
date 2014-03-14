@@ -18,7 +18,7 @@ import com.weicoder.web.socket.interfaces.Session;
  * @since JDK7
  * @version 1.0 2013-12-30
  */
-public final class HeartHandler implements Handler<Integer>, Heart {
+public final class HeartHandler implements Handler<Null>, Heart {
 	// 保存Session 时间
 	private Map<Integer, Integer>	times;
 	// 保存Session
@@ -33,7 +33,7 @@ public final class HeartHandler implements Handler<Integer>, Heart {
 	 */
 	public HeartHandler(short id, int time) {
 		this.id = id;
-		this.heart = time;
+		this.heart = time + 30;
 		times = Maps.getConcurrentMap();
 		sessions = Maps.getConcurrentMap();
 		// 定时检测
@@ -58,19 +58,6 @@ public final class HeartHandler implements Handler<Integer>, Heart {
 				}
 			}
 		}, heart);
-		// 定时发送心跳信息
-		ScheduledUtile.rate(new Runnable() {
-			@Override
-			public void run() {
-				// 获得当前时间
-				int time = DateUtil.getTime();
-				// 循环发送心跳信息
-				for (Session session : sessions.values()) {
-					session.send(getId(), time);
-					Logs.debug("send heart session=" + session.getId());
-				}
-			}
-		}, heart / 2);
 	}
 
 	/**
@@ -97,14 +84,8 @@ public final class HeartHandler implements Handler<Integer>, Heart {
 	}
 
 	@Override
-	public void handler(Session session, Integer data, Manager manager) {
-		// 获得session id
-		int id = session.getId();
-		// data一般为服务器心跳来的时间戳
-		times.put(id, data);
-		// 如果session 列表中不存在
-		if (!sessions.containsKey(id)) {
-			sessions.put(id, session);
-		}
+	public void handler(Session session, Null data, Manager manager) {
+		// 记录时间
+		times.put(session.getId(), DateUtil.getTime());
 	}
 }
