@@ -7,10 +7,11 @@ import com.weicoder.common.lang.Maps;
 import com.weicoder.common.util.DateUtil;
 import com.weicoder.common.util.ScheduledUtile;
 import com.weicoder.core.log.Logs;
-import com.weicoder.web.socket.interfaces.Handler;
-import com.weicoder.web.socket.interfaces.Heart;
-import com.weicoder.web.socket.interfaces.Manager;
-import com.weicoder.web.socket.interfaces.Session;
+import com.weicoder.web.socket.Handler;
+import com.weicoder.web.socket.Heart;
+import com.weicoder.web.socket.Manager;
+import com.weicoder.web.socket.Session;
+import com.weicoder.web.socket.message.Null;
 
 /**
  * 心跳检测

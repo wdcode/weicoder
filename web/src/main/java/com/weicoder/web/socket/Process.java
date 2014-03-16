@@ -1,6 +1,7 @@
-package com.weicoder.web.socket.interfaces;
+package com.weicoder.web.socket;
 
 import java.util.Map;
+
 
 /**
  * Socket 数据处理接口

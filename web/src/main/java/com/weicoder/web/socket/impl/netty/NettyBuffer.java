@@ -3,7 +3,7 @@ package com.weicoder.web.socket.impl.netty;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.PooledByteBufAllocator;
 
-import com.weicoder.web.socket.interfaces.Buffer;
+import com.weicoder.web.socket.Buffer;
 
 /**
  * Netty 缓冲区实现

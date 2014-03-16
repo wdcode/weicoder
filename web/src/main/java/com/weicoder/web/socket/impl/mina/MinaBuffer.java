@@ -2,7 +2,7 @@ package com.weicoder.web.socket.impl.mina;
 
 import org.apache.mina.core.buffer.IoBuffer;
 import com.weicoder.common.params.CommonParams;
-import com.weicoder.web.socket.interfaces.Buffer;
+import com.weicoder.web.socket.Buffer;
 
 /**
  * mina缓冲区实现

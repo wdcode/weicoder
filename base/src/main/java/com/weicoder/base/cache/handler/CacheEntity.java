@@ -1,6 +1,6 @@
 package com.weicoder.base.cache.handler;
 
-import com.weicoder.web.socket.simple.Message;
+import com.weicoder.web.socket.message.Message;
 
 /**
  * 缓存更新消息实体

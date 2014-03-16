@@ -2,8 +2,9 @@ package com.weicoder.web.socket.impl.netty3;
 
 import org.jboss.netty.buffer.ChannelBuffers;
 import org.jboss.netty.channel.Channel;
+
+import com.weicoder.web.socket.Session;
 import com.weicoder.web.socket.base.BaseSession;
-import com.weicoder.web.socket.interfaces.Session;
 
 /**
  * netty Session实现

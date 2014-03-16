@@ -1,5 +1,6 @@
-package com.weicoder.web.socket.interfaces;
+package com.weicoder.web.socket;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -87,4 +88,28 @@ public interface Manager {
 	 * @return 数量
 	 */
 	int size(String key);
+
+	/**
+	 * 广播数据 发送给管理器下所有的session
+	 * @param id 指令
+	 * @param message 消息
+	 */
+	void broad(short id, Object message);
+
+	/**
+	 * 广播数据 发送给管理器指定KEY下所有的session
+	 * @param key 注册KEY
+	 * @param id 指令
+	 * @param message 消息
+	 */
+	void broad(String key, short id, Object message);
+
+	/**
+	 * 广播数据 发送给管理器指定KEY下所有的session
+	 * @param key 注册KEY
+	 * @param ids 注册的ID
+	 * @param id 指令
+	 * @param message 消息
+	 */
+	void broad(String key, Collection<Integer> ids, short id, Object message);
 }

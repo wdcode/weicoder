@@ -1,5 +1,6 @@
 package com.weicoder.common.util;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
@@ -17,10 +18,50 @@ import com.weicoder.common.params.CommonParams;
  * @version 1.0 2012-09-10
  */
 public final class ExecutorUtil {
-	// 并发服务类
-	private final static ExecutorService	ES;
-	static {
-		ES = Executors.newFixedThreadPool(CommonParams.THREAD_POOL);
+	/** 并发线程池 */
+	public final static ExecutorService			POOL		= Executors.newFixedThreadPool(CommonParams.THREAD_POOL);
+	// 保存线程
+	private final static List<Runnable>			RUNNABLES	= Lists.getList();
+	private final static List<Callable<Object>>	CALLABLES	= Lists.getList();
+
+	/**
+	 * 添加线程
+	 * @param task
+	 */
+	public static void add(Runnable task) {
+		RUNNABLES.add(task);
+	}
+
+	/**
+	 * 添加线程
+	 * @param task
+	 */
+	public static void add(Callable<Object> task) {
+		CALLABLES.add(task);
+	}
+
+	/**
+	 * 执行列表中的任务
+	 */
+	public static void execute() {
+		// 声明列表
+		List<Runnable> tasks = Lists.getList(RUNNABLES);
+		// 清空任务
+		RUNNABLES.clear();
+		// 执行线程
+		execute(tasks);
+	}
+
+	/**
+	 * 执行列表中的任务
+	 */
+	public static List<Object> submit() {
+		// 声明列表
+		List<Callable<Object>> calls = Lists.getList(CALLABLES);
+		// 清空任务
+		CALLABLES.clear();
+		// 执行线程
+		return submit(calls);
 	}
 
 	/**
@@ -28,15 +69,15 @@ public final class ExecutorUtil {
 	 * @param tasks 任务
 	 */
 	public static void execute(Runnable task) {
-		ES.execute(task);
+		POOL.execute(task);
 	}
 
 	/**
 	 * 执行任务 不需要等待
 	 * @param tasks 任务
 	 */
-	public static <T> Future<T> execute(Callable<T> task) {
-		return ES.submit(task);
+	public static <T> Future<T> submit(Callable<T> task) {
+		return POOL.submit(task);
 	}
 
 	/**
@@ -44,27 +85,22 @@ public final class ExecutorUtil {
 	 * @param tasks 任务
 	 */
 	public static void execute(List<Runnable> tasks) {
-		execute(Lists.toArray(tasks));
-	}
-
-	/**
-	 * 执行任务 等待任务结束
-	 * @param tasks 任务
-	 */
-	public static void execute(Runnable... tasks) {
-		// 声明线程池
-		ExecutorService es = Executors.newFixedThreadPool(CommonParams.THREAD_POOL > tasks.length ? tasks.length : CommonParams.THREAD_POOL);
+		// 声明结果列表
+		List<Future<?>> list = Lists.getList(tasks.size());
 		// 执行任务
 		for (Runnable task : tasks) {
-			es.execute(task);
+			list.add(POOL.submit(task));
 		}
-		// 关闭线程池
-		es.shutdown();
 		// 循环等待
 		while (true) {
 			// 是否全部完成
-			if (es.isTerminated()) {
-				// 跳槽循环
+			for (Iterator<Future<?>> it = list.iterator(); it.hasNext();) {
+				if (it.next().isDone()) {
+					it.remove();
+				}
+			}
+			// 如果列表为空
+			if (EmptyUtil.isEmpty(list)) {
 				break;
 			}
 			// 等待
@@ -80,7 +116,7 @@ public final class ExecutorUtil {
 	 * @return 表示该任务的 Future
 	 */
 	public static <T> List<T> submit(List<Callable<T>> tasks) {
-		return submit(Lists.toArray(tasks));
+		return submit(tasks, 0);
 	}
 
 	/**
@@ -89,50 +125,31 @@ public final class ExecutorUtil {
 	 * @param timeout 如果可以最多等待的时间
 	 * @return 表示该任务的 Future
 	 */
-	public static <T> List<T> submit(long timeout, List<Callable<T>> tasks) {
-		return submit(timeout, Lists.toArray(tasks));
-	}
-
-	/**
-	 * 提交一个 Runnable 任务用于执行，并返回一个表示该任务的 Future
-	 * @param task Runnable 任务
-	 * @return 表示该任务的 Future
-	 */
-	public static <T> List<T> submit(Callable<T>... tasks) {
-		return submit(CommonParams.THREAD_TIME_OUT, tasks);
-	}
-
-	/**
-	 * 提交一个 Runnable 任务用于执行，并返回一个表示该任务的 Future
-	 * @param task Runnable 任务
-	 * @param timeout 如果可以最多等待的时间
-	 * @return 表示该任务的 Future
-	 */
-	public static <T> List<T> submit(long timeout, Callable<T>... tasks) {
-		// 声明线程池
-		ExecutorService es = Executors.newFixedThreadPool(CommonParams.THREAD_POOL > tasks.length ? tasks.length : CommonParams.THREAD_POOL);
+	public static <T> List<T> submit(List<Callable<T>> tasks, long timeout) {
+		// 获得列表长度
+		int len = tasks.size();
 		// 声明结果列表
-		List<Future<T>> list = Lists.getList(tasks.length);
+		List<Future<T>> list = Lists.getList(len);
 		// 声明返回列表
-		List<T> ls = Lists.getList(tasks.length);
+		List<T> ls = Lists.getList(len);
 		// 执行任务
 		for (Callable<T> task : tasks) {
-			list.add(es.submit(task));
+			list.add(POOL.submit(task));
 		}
 		// 循环获得结果
 		for (Future<T> f : list) {
 			try {
-				ls.add(f.get(timeout, TimeUnit.MILLISECONDS));
+				if (timeout > 0) {
+					ls.add(f.get(timeout, TimeUnit.MILLISECONDS));
+				} else {
+					ls.add(f.get());
+				}
 			} catch (Exception e) {}
 		}
-		// 关闭线程池
-		es.shutdown();
 		// 返回列表
 		return ls;
 	}
 
-	/**
-	 * 私有构造
-	 */
+	/** 私有构造 */
 	private ExecutorUtil() {}
 }

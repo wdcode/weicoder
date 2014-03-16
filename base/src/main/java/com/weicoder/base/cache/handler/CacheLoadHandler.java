@@ -6,9 +6,9 @@ import org.springframework.stereotype.Component;
 import com.weicoder.base.context.Context;
 import com.weicoder.base.entity.Entity;
 import com.weicoder.base.service.SuperService;
-import com.weicoder.web.socket.interfaces.Handler;
-import com.weicoder.web.socket.interfaces.Manager;
-import com.weicoder.web.socket.interfaces.Session;
+import com.weicoder.web.socket.Handler;
+import com.weicoder.web.socket.Manager;
+import com.weicoder.web.socket.Session;
 
 /**
  * 缓存Socket通知类

@@ -1,7 +1,7 @@
 package com.weicoder.web.socket.simple;
 
 import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.interfaces.BytesBean;
+import com.weicoder.common.interfaces.ByteArray;
 import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
@@ -12,14 +12,14 @@ import com.weicoder.common.util.StringUtil;
  * @since JDK7
  * @version 1.0 2014-2-13
  */
-public final class DataBuffer implements BytesBean {
+public final class DataBuffer implements ByteArray {
 	/** 默认的初始容量大小 */
 	private static final int	CAPACITY	= 32;
 	// 字节数组
 	private byte[]				bytes;
 	// 写数据的偏移量，每写一次增加
 	private int					top;
-	// 读数据的偏移量,每读一次增加 */
+	// 读数据的偏移量,每读一次增加
 	private int					offset;
 
 	/**
@@ -125,7 +125,7 @@ public final class DataBuffer implements BytesBean {
 	 * 得到字节缓存的字节数组
 	 */
 	public byte[] array() {
-		return bytes;
+		return read(new byte[remaining()]);
 	}
 
 	/**
@@ -249,7 +249,7 @@ public final class DataBuffer implements BytesBean {
 	 * @param len 写入的长度
 	 */
 	public void write(byte[] data) {
-		write(data, top(), data.length);
+		write(data, 0, data.length);
 	}
 
 	/**
@@ -379,6 +379,7 @@ public final class DataBuffer implements BytesBean {
 	 * 清除字节缓存对象
 	 */
 	public void clear() {
+		bytes = new byte[length()];
 		top = 0;
 		offset = 0;
 	}
@@ -412,11 +413,5 @@ public final class DataBuffer implements BytesBean {
 	@Override
 	public String toString() {
 		return super.toString() + "[" + top + "," + offset + "," + bytes.length + "] ";
-	}
-
-	@Override
-	public BytesBean array(byte[] b) {
-		write(b);
-		return this;
 	}
 }

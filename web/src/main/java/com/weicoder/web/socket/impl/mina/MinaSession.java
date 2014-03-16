@@ -2,8 +2,9 @@ package com.weicoder.web.socket.impl.mina;
 
 import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.session.IoSession;
+
+import com.weicoder.web.socket.Session;
 import com.weicoder.web.socket.base.BaseSession;
-import com.weicoder.web.socket.interfaces.Session;
 
 /**
  * Mina实现

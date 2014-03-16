@@ -7,11 +7,13 @@ import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.lang.Conversion;
+import com.weicoder.common.util.ScheduledUtile;
 import com.weicoder.common.util.StringUtil;
-import com.weicoder.web.socket.interfaces.Session;
+import com.weicoder.web.params.SocketParams;
+import com.weicoder.web.socket.Session;
+import com.weicoder.web.socket.message.Message;
+import com.weicoder.web.socket.message.Null;
 import com.weicoder.web.socket.simple.DataBuffer;
-import com.weicoder.web.socket.simple.Message;
-import com.weicoder.web.socket.simple.Null;
 
 /**
  * 基础Socket Session实现
@@ -21,18 +23,47 @@ import com.weicoder.web.socket.simple.Null;
  */
 public abstract class BaseSession implements Session {
 	// SessionId
-	protected int		id;
+	protected int			id;
 	// 保存IP
-	protected String	ip;
+	protected String		ip;
 	// 保存端口
-	protected int		port;
+	protected int			port;
+	// 写缓存
+	protected DataBuffer	buffer;
+
+	/**
+	 * 构造
+	 * @param name
+	 */
+	public BaseSession() {
+		// 使用写缓存
+		if (SocketParams.WRITE > 0) {
+			// 声明缓存
+			buffer = new DataBuffer();
+			// 定时监控写缓存
+			ScheduledUtile.delay(new Runnable() {
+				@Override
+				public void run() {
+					// 有写入数据
+					if (buffer.hasRemaining()) {
+						// 获得写入缓存字节数组
+						byte[] b = buffer.array();
+						// 清除缓存
+						buffer.clear();
+						// 写缓存
+						send(b);
+					}
+				}
+			}, SocketParams.WRITE);
+		}
+	}
 
 	@Override
 	public void send(short id, Object message) {
 		// 声明字节数组
 		byte[] data = toByte(message);
 		// 发送数据
-		send(Bytes.toBytes(data.length + 2, id, data));
+		write(Bytes.toBytes(data.length + 2, id, data));
 	}
 
 	@Override
@@ -40,7 +71,7 @@ public abstract class BaseSession implements Session {
 		// 声明字节数组
 		byte[] data = toByte(message);
 		// 发送数据
-		send(Bytes.toBytes(data.length, data));
+		write(Bytes.toBytes(data.length, data));
 	}
 
 	@Override
@@ -96,15 +127,27 @@ public abstract class BaseSession implements Session {
 		} else if (message instanceof Message) {
 			// 消息体
 			data = ((Message) message).array();
-		} else if (message instanceof DataBuffer) {
-			// ByteBuf
-			data = ((DataBuffer) message).array();
 		} else {
 			// 不知道的类型 以字节数组发送
 			data = Bytes.toBytes(message);
 		}
 		// 返回字节数组
 		return data;
+	}
+
+	/**
+	 * 写入数据
+	 * @param data 字节流数据
+	 */
+	protected void write(byte[] data) {
+		// 是否使用写缓存
+		if (SocketParams.WRITE > 0) {
+			// 使用缓存
+			buffer.write(data);
+		} else {
+			// 不用缓存 发送数据
+			send(data);
+		}
 	}
 
 	/**

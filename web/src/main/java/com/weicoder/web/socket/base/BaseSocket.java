@@ -1,11 +1,11 @@
 package com.weicoder.web.socket.base;
 
-import com.weicoder.web.socket.interfaces.Closed;
-import com.weicoder.web.socket.interfaces.Handler;
-import com.weicoder.web.socket.interfaces.Heart;
-import com.weicoder.web.socket.interfaces.Manager;
-import com.weicoder.web.socket.interfaces.Process;
-import com.weicoder.web.socket.interfaces.Socket;
+import com.weicoder.web.socket.Closed;
+import com.weicoder.web.socket.Handler;
+import com.weicoder.web.socket.Heart;
+import com.weicoder.web.socket.Manager;
+import com.weicoder.web.socket.Process;
+import com.weicoder.web.socket.Socket;
 import com.weicoder.web.socket.simple.Processor;
 import com.weicoder.web.socket.simple.SessionManager;
 

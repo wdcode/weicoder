@@ -3,8 +3,8 @@ package com.weicoder.web.socket.impl.netty;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.util.StringUtil;
-import com.weicoder.web.socket.interfaces.Process;
-import com.weicoder.web.socket.interfaces.Session;
+import com.weicoder.web.socket.Process;
+import com.weicoder.web.socket.Session;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;

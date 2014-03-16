@@ -1,4 +1,6 @@
-package com.weicoder.web.socket.interfaces;
+package com.weicoder.web.socket;
+
+
 
 /**
  * Socket 处理器

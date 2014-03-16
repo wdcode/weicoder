@@ -2,7 +2,8 @@ package com.weicoder.web.socket.impl.netty3;
 
 import org.jboss.netty.buffer.ChannelBuffer;
 import org.jboss.netty.buffer.ChannelBuffers;
-import com.weicoder.web.socket.interfaces.Buffer;
+
+import com.weicoder.web.socket.Buffer;
 
 /**
  * Netty 缓冲区实现

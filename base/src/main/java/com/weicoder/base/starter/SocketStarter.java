@@ -9,10 +9,10 @@ import org.springframework.stereotype.Component;
 import com.weicoder.base.context.Context;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.web.params.SocketParams;
+import com.weicoder.web.socket.Closed;
+import com.weicoder.web.socket.Handler;
+import com.weicoder.web.socket.Socket;
 import com.weicoder.web.socket.Sockets;
-import com.weicoder.web.socket.interfaces.Closed;
-import com.weicoder.web.socket.interfaces.Handler;
-import com.weicoder.web.socket.interfaces.Socket;
 
 /**
  * Socket 相关类

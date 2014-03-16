@@ -1,4 +1,4 @@
-package com.weicoder.web.socket.interfaces;
+package com.weicoder.web.socket;
 
 import com.weicoder.common.interfaces.Clear;
 

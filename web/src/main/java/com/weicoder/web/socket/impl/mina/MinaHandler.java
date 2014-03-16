@@ -4,8 +4,8 @@ import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IoSession;
 import com.weicoder.common.lang.Conversion;
-import com.weicoder.web.socket.interfaces.Process;
-import com.weicoder.web.socket.interfaces.Session;
+import com.weicoder.web.socket.Process;
+import com.weicoder.web.socket.Session;
 
 /**
  * mina实现

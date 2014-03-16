@@ -12,13 +12,15 @@ import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.util.DateUtil;
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.core.log.Logs;
-import com.weicoder.web.socket.interfaces.Buffer;
-import com.weicoder.web.socket.interfaces.Closed;
-import com.weicoder.web.socket.interfaces.Handler;
-import com.weicoder.web.socket.interfaces.Heart;
-import com.weicoder.web.socket.interfaces.Manager;
-import com.weicoder.web.socket.interfaces.Process;
-import com.weicoder.web.socket.interfaces.Session;
+import com.weicoder.web.socket.Buffer;
+import com.weicoder.web.socket.Closed;
+import com.weicoder.web.socket.Handler;
+import com.weicoder.web.socket.Heart;
+import com.weicoder.web.socket.Manager;
+import com.weicoder.web.socket.Process;
+import com.weicoder.web.socket.Session;
+import com.weicoder.web.socket.message.Message;
+import com.weicoder.web.socket.message.Null;
 
 /**
  * Socket 数据处理器实现

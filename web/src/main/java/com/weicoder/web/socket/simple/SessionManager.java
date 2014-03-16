@@ -1,5 +1,6 @@
 package com.weicoder.web.socket.simple;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -7,9 +8,10 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
+import com.weicoder.common.util.ExecutorUtil;
 import com.weicoder.web.params.SocketParams;
-import com.weicoder.web.socket.interfaces.Manager;
-import com.weicoder.web.socket.interfaces.Session;
+import com.weicoder.web.socket.Manager;
+import com.weicoder.web.socket.Session;
 
 /**
  * Session管理类
@@ -171,5 +173,55 @@ public final class SessionManager implements Manager {
 	@Override
 	public int size(String key) {
 		return Maps.size(registers.get(key));
+	}
+
+	@Override
+	public void broad(short id, Object message) {
+		// 声明Sesson列表
+		List<Session> sessions = Lists.getList();
+		// 获得相应的Session
+		for (Map<Integer, Session> map : registers.values()) {
+			sessions.addAll(map.values());
+		}
+		// 广播
+		broad(sessions, id, message);
+	}
+
+	@Override
+	public void broad(String key, short id, Object message) {
+		broad(sessions(key), id, message);
+	}
+
+	@Override
+	public void broad(String key, Collection<Integer> ids, short id, Object message) {
+		// 声明Sesson列表
+		List<Session> sessions = Lists.getList();
+		// 获得相应的Session
+		for (Map.Entry<Integer, Session> e : registers.get(key).entrySet()) {
+			// ID存在
+			if (ids.contains(e.getKey())) {
+				sessions.add(e.getValue());
+			}
+		}
+		// 广播
+		broad(sessions, id, message);
+	}
+
+	/**
+	 * 广播
+	 * @param sessions
+	 * @param id
+	 * @param message
+	 */
+	private void broad(final Collection<Session> sessions, final short id, final Object message) {
+		ExecutorUtil.execute(new Runnable() {
+			@Override
+			public void run() {
+				// 广播消息
+				for (Session session : sessions) {
+					session.send(id, message);
+				}
+			}
+		});
 	}
 }

@@ -33,7 +33,7 @@ public final class Netty3Client extends BaseClient {
 	public Netty3Client(String name) {
 		super(name);
 		// 实例化ServerBootstrap
-		bootstrap = new ClientBootstrap(new NioClientSocketChannelFactory(Executors.newSingleThreadExecutor(), Executors.newSingleThreadExecutor()));
+		bootstrap = new ClientBootstrap(new NioClientSocketChannelFactory(Executors.newCachedThreadPool(), Executors.newCachedThreadPool()));
 		// NettyHandler
 		handler = new Netty3Handler(process);
 		// 设置属性

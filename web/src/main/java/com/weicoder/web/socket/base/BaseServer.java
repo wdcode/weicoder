@@ -2,8 +2,8 @@ package com.weicoder.web.socket.base;
 
 import java.util.Map;
 
-import com.weicoder.web.socket.interfaces.Server;
-import com.weicoder.web.socket.interfaces.Session;
+import com.weicoder.web.socket.Server;
+import com.weicoder.web.socket.Session;
 
 /**
  * 基础Server

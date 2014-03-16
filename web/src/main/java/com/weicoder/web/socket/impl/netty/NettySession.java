@@ -3,8 +3,8 @@ package com.weicoder.web.socket.impl.netty;
 import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.channel.Channel;
 
+import com.weicoder.web.socket.Session;
 import com.weicoder.web.socket.base.BaseSession;
-import com.weicoder.web.socket.interfaces.Session;
 
 /**
  * netty Session实现

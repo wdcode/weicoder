@@ -1,4 +1,4 @@
-package com.weicoder.web.socket.simple;
+package com.weicoder.web.socket.message;
 
 import java.lang.reflect.Field;
 import java.util.List;

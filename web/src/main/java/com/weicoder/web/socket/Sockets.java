@@ -14,13 +14,6 @@ import com.weicoder.web.socket.impl.netty.NettyClient;
 import com.weicoder.web.socket.impl.netty.NettyServer;
 import com.weicoder.web.socket.impl.netty3.Netty3Client;
 import com.weicoder.web.socket.impl.netty3.Netty3Server;
-import com.weicoder.web.socket.interfaces.Client;
-import com.weicoder.web.socket.interfaces.Closed;
-import com.weicoder.web.socket.interfaces.Handler;
-import com.weicoder.web.socket.interfaces.Manager;
-import com.weicoder.web.socket.interfaces.Server;
-import com.weicoder.web.socket.interfaces.Session;
-import com.weicoder.web.socket.interfaces.Socket;
 import com.weicoder.web.socket.simple.HeartHandler;
 
 /**
@@ -289,13 +282,13 @@ public final class Sockets {
 	 */
 	private static Server getServer(String name) {
 		switch (SocketParams.getParse(name)) {
-			case "netty":
-				return new NettyServer(name);
+			case "mina":
+				return new MinaServer(name);
 			case "netty3":
 				return new Netty3Server(name);
 			default:
-				// 默认mina
-				return new MinaServer(name);
+				// 默认netty
+				return new NettyServer(name);
 		}
 	}
 
@@ -306,13 +299,13 @@ public final class Sockets {
 	 */
 	private static Client getClient(String name) {
 		switch (SocketParams.getParse(name)) {
-			case "netty":
-				return new NettyClient(name);
+			case "mina":
+				return new MinaClient(name);
 			case "netty3":
 				return new Netty3Client(name);
 			default:
-				// 默认mina
-				return new MinaClient(name);
+				// 默认netty
+				return new NettyClient(name);
 		}
 	}
 

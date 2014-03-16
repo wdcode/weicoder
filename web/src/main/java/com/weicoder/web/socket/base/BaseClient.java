@@ -1,12 +1,11 @@
 package com.weicoder.web.socket.base;
 
 import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.util.DateUtil;
 import com.weicoder.common.util.ScheduledUtile;
 import com.weicoder.core.log.Logs;
 import com.weicoder.web.params.SocketParams;
-import com.weicoder.web.socket.interfaces.Client;
-import com.weicoder.web.socket.interfaces.Session;
+import com.weicoder.web.socket.Client;
+import com.weicoder.web.socket.Session;
 
 /**
  * 基础Client
@@ -66,10 +65,8 @@ public abstract class BaseClient extends BaseSocket implements Client {
 			ScheduledUtile.rate(new Runnable() {
 				@Override
 				public void run() {
-					// 获得当前时间
-					int time = DateUtil.getTime();
 					// 循环发送心跳信息
-					session.send(id, time);
+					session.send(id, null);
 					Logs.debug("send heart session=" + session.getId());
 				}
 			}, heart);

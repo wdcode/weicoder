@@ -6,6 +6,7 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import com.weicoder.common.constants.DateConstants;
+import com.weicoder.common.params.CommonParams;
 
 /**
  * 定时任务工具类
@@ -14,11 +15,8 @@ import com.weicoder.common.constants.DateConstants;
  * @version 1.0 2013-12-30
  */
 public final class ScheduledUtile {
-	// 保存定时任务执行器
-	private final static ScheduledExecutorService	SES;
-	static {
-		SES = Executors.newSingleThreadScheduledExecutor();
-	}
+	/** 并发定时任务池 */
+	public final static ScheduledExecutorService	POOL	= Executors.newScheduledThreadPool(CommonParams.THREAD_POOL);
 
 	/**
 	 * 执行定时任务 按初始时间间隔
@@ -27,7 +25,7 @@ public final class ScheduledUtile {
 	 * @return
 	 */
 	public static ScheduledFuture<?> rate(Runnable command, long period) {
-		return SES.scheduleAtFixedRate(command, 0, period, TimeUnit.MILLISECONDS);
+		return POOL.scheduleAtFixedRate(command, DateConstants.TIME_SECOND, period, TimeUnit.MILLISECONDS);
 	}
 
 	/**
@@ -47,7 +45,7 @@ public final class ScheduledUtile {
 	 * @return
 	 */
 	public static ScheduledFuture<?> delay(Runnable command, long delay) {
-		return SES.scheduleWithFixedDelay(command, 0, delay, TimeUnit.MILLISECONDS);
+		return POOL.scheduleWithFixedDelay(command, DateConstants.TIME_SECOND, delay, TimeUnit.MILLISECONDS);
 	}
 
 	/**

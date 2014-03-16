@@ -6,8 +6,9 @@ import org.jboss.netty.channel.ChannelHandlerContext;
 import org.jboss.netty.channel.ChannelStateEvent;
 import org.jboss.netty.channel.MessageEvent;
 import org.jboss.netty.channel.SimpleChannelHandler;
-import com.weicoder.web.socket.interfaces.Process;
-import com.weicoder.web.socket.interfaces.Session;
+
+import com.weicoder.web.socket.Process;
+import com.weicoder.web.socket.Session;
 
 /**
  * @author WD
