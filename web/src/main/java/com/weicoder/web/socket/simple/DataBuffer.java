@@ -125,7 +125,7 @@ public final class DataBuffer implements ByteArray {
 	 * 得到字节缓存的字节数组
 	 */
 	public byte[] array() {
-		return read(new byte[remaining()]);
+		return Bytes.copy(bytes, 0, top);
 	}
 
 	/**

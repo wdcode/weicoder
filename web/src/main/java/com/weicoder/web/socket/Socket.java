@@ -27,12 +27,6 @@ public interface Socket extends Close {
 	void addClosed(Closed closed);
 
 	/**
-	 * 添加心跳包处理器
-	 * @param heart
-	 */
-	void setHeart(Heart heart);
-
-	/**
 	 * 获得Manager
 	 * @return Manager
 	 */

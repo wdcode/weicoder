@@ -2,7 +2,6 @@ package com.weicoder.web.socket;
 
 import java.util.Map;
 
-
 /**
  * Socket 服务器
  * @author WD
@@ -14,6 +13,12 @@ public interface Server extends Socket {
 	 * 启动服务器监听
 	 */
 	void bind();
+
+	/**
+	 * 添加心跳包处理器
+	 * @param heart
+	 */
+	void setHeart(Heart heart);
 
 	/**
 	 * 根据ID获得session

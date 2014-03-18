@@ -14,7 +14,6 @@ import com.weicoder.web.socket.impl.netty.NettyClient;
 import com.weicoder.web.socket.impl.netty.NettyServer;
 import com.weicoder.web.socket.impl.netty3.Netty3Client;
 import com.weicoder.web.socket.impl.netty3.Netty3Server;
-import com.weicoder.web.socket.simple.HeartHandler;
 
 /**
  * Socket 相关类
@@ -60,15 +59,6 @@ public final class Sockets {
 			socket = addClient(name);
 		} else {
 			socket = addServer(name);
-		}
-		// 获得心跳时间
-		int heart = SocketParams.getHeartTime(name);
-		// 配置了心跳
-		if (heart > 0) {
-			// 设置心跳
-			HeartHandler handler = new HeartHandler(SocketParams.getHeartId(name), heart);
-			socket.setHeart(handler);
-			socket.addHandler(handler);
 		}
 		// 设置Handler
 		for (String c : SocketParams.getHandler(name)) {

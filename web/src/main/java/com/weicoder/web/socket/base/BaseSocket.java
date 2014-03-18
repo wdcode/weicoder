@@ -2,7 +2,6 @@ package com.weicoder.web.socket.base;
 
 import com.weicoder.web.socket.Closed;
 import com.weicoder.web.socket.Handler;
-import com.weicoder.web.socket.Heart;
 import com.weicoder.web.socket.Manager;
 import com.weicoder.web.socket.Process;
 import com.weicoder.web.socket.Socket;
@@ -50,10 +49,5 @@ public abstract class BaseSocket implements Socket {
 	@Override
 	public Manager getManager() {
 		return manager;
-	}
-
-	@Override
-	public void setHeart(Heart heart) {
-		process.setHeart(heart);
 	}
 }

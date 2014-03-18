@@ -47,6 +47,8 @@ public final class CacheMemcached<E extends Entity> extends BaseCache<E> {
 			}
 			// 加数量
 			MEMCACHE.set(getKeySize(), size() + 1);
+		} else {
+			MEMCACHE.set(key, entity.toString());
 		}
 		// 返回实体
 		return entity;

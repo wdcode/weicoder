@@ -78,7 +78,7 @@ public final class SessionManager implements Manager {
 		Map<Integer, Session> register = registers.get(key);
 		// 列表为null
 		if (register == null) {
-			return null;
+			return SessionEmpty.EMPTY;
 		}
 		// 删除列表
 		return register.remove(id);
@@ -95,7 +95,7 @@ public final class SessionManager implements Manager {
 			// 删除Session
 			return remove(keys.get(id), ids.get(id));
 		} else {
-			return null;
+			return SessionEmpty.EMPTY;
 		}
 	}
 
@@ -115,7 +115,10 @@ public final class SessionManager implements Manager {
 	 * @return true 删除成功 false 删除成功
 	 */
 	public Session get(String key, int id) {
-		return registers.get(key).get(id);
+		// 获得Session
+		Session session = registers.get(key).get(id);
+		// 如果Session为空 返回空实现
+		return session == null ? SessionEmpty.EMPTY : session;
 	}
 
 	/**

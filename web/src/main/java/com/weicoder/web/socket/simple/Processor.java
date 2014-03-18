@@ -81,6 +81,10 @@ public final class Processor implements Process {
 
 	@Override
 	public void closed(Session session) {
+		// 关闭处理器
+		for (Closed closed : closeds) {
+			closed.closed(session);
+		}
 		// 删除session
 		sessions.remove(session.getId());
 		// 删除缓存
@@ -90,12 +94,7 @@ public final class Processor implements Process {
 			heart.remove(session);
 		}
 		// 删除Session管理中的注册Session
-		if (manager.remove(session) != null) {
-			// 关闭处理器
-			for (Closed closed : closeds) {
-				closed.closed(session);
-			}
-		}
+		manager.remove(session);
 		Logs.info("socket close=" + session.getId());
 	}
 
@@ -111,7 +110,7 @@ public final class Processor implements Process {
 
 	@Override
 	public void process(final Session session, final byte[] message) {
-		Logs.debug("socket receive=" + session.getId() + ";len=" + message.length);
+		Logs.debug("socket=" + session.getId() + ";receive=" + session.getId() + ";len=" + message.length);
 		// 获得全局buffer
 		Buffer buff = buffers.get(session.getId());
 		// 添加新消息到全局缓存中
@@ -147,7 +146,7 @@ public final class Processor implements Process {
 				final short id = buff.getShort();
 				// 获得相应的
 				final Handler<Object> handler = handlers.get(id);
-				Logs.info("socket len=" + length + ";id=" + id + ";handler=" + handler + ";time=" + DateUtil.getTheDate());
+				Logs.info("socket=" + session.getId() + ";receive len=" + length + ";id=" + id + ";handler=" + handler + ";time=" + DateUtil.getTheDate());
 				// 消息长度
 				final int len = length - 2;
 				// 读取指定长度的字节数
@@ -160,60 +159,64 @@ public final class Processor implements Process {
 				ES.execute(new Runnable() {
 					@Override
 					public void run() {
-						// 当前时间
-						long curr = System.currentTimeMillis();
-						// 如果消息长度为0
-						if (len == 0) {
-							handler.handler(session, null, manager);
-							Logs.info("socket handler message is null end time=" + (System.currentTimeMillis() - curr));
-						} else {
-							// 如果处理器为空
-							if (handler == null) {
-								// 抛弃这次消息
-								Logs.warn("socket handler message discard id=" + id + ";message len=" + len);
-								return;
-							}
-							// 获得处理器消息类
-							Class<?> type = ClassUtil.getGenericClass(handler.getClass());
-							// 消息实体
-							Object mess = null;
-							// 判断消息实体类型
-							if (type.equals(String.class)) {
-								// 字符串
-								mess = StringUtil.toString(data);
-							} else if (type.equals(Null.class)) {
-								// 字节流
-								mess = Null.NULL;
-							} else if (type.equals(DataBuffer.class)) {
-								// 字节流
-								mess = new DataBuffer(data);
-							} else if (type.equals(int.class) || type.equals(Integer.class)) {
-								// 整型
-								mess = Bytes.toInt(data);
-							} else if (type.equals(long.class) || type.equals(Long.class)) {
-								// 长整型
-								mess = Bytes.toLong(data);
-							} else if (type.equals(boolean.class) || type.equals(Boolean.class)) {
-								// 布尔
-								mess = Bytes.toLong(data);
-							} else if (type.equals(float.class) || type.equals(Float.class)) {
-								// float型
-								mess = Bytes.toFloat(data);
-							} else if (type.equals(double.class) || type.equals(Double.class)) {
-								// Double型
-								mess = Bytes.toDouble(data);
-							} else if (type.equals(byte[].class)) {
-								// 字节流
-								mess = data;
+						try {
+							// 当前时间
+							long curr = System.currentTimeMillis();
+							// 如果消息长度为0
+							if (len == 0) {
+								handler.handler(session, null, manager);
+								Logs.info("socket=" + session.getId() + ";handler message is null end time=" + (System.currentTimeMillis() - curr));
 							} else {
-								// 默认使用消息体
-								mess = ((Message) ClassUtil.newInstance(type)).array(data);
+								// 如果处理器为空
+								if (handler == null) {
+									// 抛弃这次消息
+									Logs.warn("socket=" + session.getId() + ";handler message discard id=" + id + ";message len=" + len);
+									return;
+								}
+								// 获得处理器消息类
+								Class<?> type = ClassUtil.getGenericClass(handler.getClass());
+								// 消息实体
+								Object mess = null;
+								// 判断消息实体类型
+								if (type.equals(String.class)) {
+									// 字符串
+									mess = StringUtil.toString(data);
+								} else if (type.equals(Null.class)) {
+									// 字节流
+									mess = Null.NULL;
+								} else if (type.equals(DataBuffer.class)) {
+									// 字节流
+									mess = new DataBuffer(data);
+								} else if (type.equals(int.class) || type.equals(Integer.class)) {
+									// 整型
+									mess = Bytes.toInt(data);
+								} else if (type.equals(long.class) || type.equals(Long.class)) {
+									// 长整型
+									mess = Bytes.toLong(data);
+								} else if (type.equals(boolean.class) || type.equals(Boolean.class)) {
+									// 布尔
+									mess = Bytes.toLong(data);
+								} else if (type.equals(float.class) || type.equals(Float.class)) {
+									// float型
+									mess = Bytes.toFloat(data);
+								} else if (type.equals(double.class) || type.equals(Double.class)) {
+									// Double型
+									mess = Bytes.toDouble(data);
+								} else if (type.equals(byte[].class)) {
+									// 字节流
+									mess = data;
+								} else {
+									// 默认使用消息体
+									mess = ((Message) ClassUtil.newInstance(type)).array(data);
+								}
+								Logs.info("socket=" + session.getId() + ";handler message=" + mess + ";time=" + (System.currentTimeMillis() - curr));
+								curr = System.currentTimeMillis();
+								// 回调处理器
+								handler.handler(session, mess, manager);
+								Logs.info("socket=" + session.getId() + ";handler end time=" + (System.currentTimeMillis() - curr));
 							}
-							Logs.info("socket handler message=" + mess + ";time=" + (System.currentTimeMillis() - curr));
-							curr = System.currentTimeMillis();
-							// 回调处理器
-							handler.handler(session, mess, manager);
-							Logs.info("socket handler end time=" + (System.currentTimeMillis() - curr));
+						} catch (Exception e) {
+							Logs.error(e);
 						}
 					}
 				});

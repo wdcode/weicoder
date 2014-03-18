@@ -9,6 +9,7 @@ import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.util.ScheduledUtile;
 import com.weicoder.common.util.StringUtil;
+import com.weicoder.core.log.Logs;
 import com.weicoder.web.params.SocketParams;
 import com.weicoder.web.socket.Session;
 import com.weicoder.web.socket.message.Message;
@@ -47,11 +48,12 @@ public abstract class BaseSession implements Session {
 					// 有写入数据
 					if (buffer.hasRemaining()) {
 						// 获得写入缓存字节数组
-						byte[] b = buffer.array();
+						byte[] data = buffer.array();
 						// 清除缓存
 						buffer.clear();
+						Logs.info("socket=" + id + ";buffer send len=" + Bytes.toInt(data) + ";id=" + Bytes.toShort(data, 4) + ";data=" + (data.length - 6));
 						// 写缓存
-						send(b);
+						send(data);
 					}
 				}
 			}, SocketParams.WRITE);
@@ -145,6 +147,7 @@ public abstract class BaseSession implements Session {
 			// 使用缓存
 			buffer.write(data);
 		} else {
+			Logs.info("socket=" + id + ";send len=" + Bytes.toInt(data) + ";id=" + Bytes.toShort(data, 4) + ";data=" + (data.length - 6));
 			// 不用缓存 发送数据
 			send(data);
 		}
