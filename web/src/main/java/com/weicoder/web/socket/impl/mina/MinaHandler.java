@@ -60,7 +60,7 @@ public final class MinaHandler extends IoHandlerAdapter {
 		// 如果为null
 		if (s == null) {
 			// 实例化包装Session
-			s = new MinaSession(id, session);
+			s = new MinaSession(session);
 		}
 		// 返回
 		return s;

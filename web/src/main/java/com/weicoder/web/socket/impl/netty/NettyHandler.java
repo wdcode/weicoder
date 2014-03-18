@@ -1,12 +1,10 @@
 package com.weicoder.web.socket.impl.netty;
 
-import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.lang.Conversion;
-import com.weicoder.common.util.StringUtil;
 import com.weicoder.web.socket.Process;
 import com.weicoder.web.socket.Session;
 
 import io.netty.buffer.ByteBuf;
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
@@ -30,14 +28,14 @@ public final class NettyHandler extends SimpleChannelInboundHandler<ByteBuf> {
 
 	@Override
 	public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
-		process.closed(getSesson(ctx));
-		super.channelUnregistered(ctx);
+		process.closed(getSesson(ctx.channel()));
+		// super.channelUnregistered(ctx);
 	}
 
 	@Override
 	public void channelActive(ChannelHandlerContext ctx) throws Exception {
-		process.connected(getSesson(ctx), new NettyBuffer());
-		super.channelActive(ctx);
+		process.connected(getSesson(ctx.channel()), new NettyBuffer());
+		// super.channelActive(ctx);
 	}
 
 	@Override
@@ -47,7 +45,7 @@ public final class NettyHandler extends SimpleChannelInboundHandler<ByteBuf> {
 		// 读取字节流
 		msg.readBytes(data);
 		// 交给数据处理器
-		process.process(getSesson(ctx), data);
+		process.process(getSesson(ctx.channel()), data);
 	}
 
 	/**
@@ -55,15 +53,15 @@ public final class NettyHandler extends SimpleChannelInboundHandler<ByteBuf> {
 	 * @param session Mina session
 	 * @return
 	 */
-	private Session getSesson(ChannelHandlerContext ctx) {
+	private Session getSesson(Channel channel) {
 		// 获得SessionId
-		int id = Conversion.toInt(StringUtil.subString(ctx.name(), StringConstants.WELL));
+		int id = channel.hashCode();
 		// 获得包装Session
 		Session s = process.getSession(id);
 		// 如果为null
 		if (s == null) {
 			// 实例化包装Session
-			s = new NettySession(id, ctx.channel());
+			s = new NettySession(channel);
 		}
 		// 返回
 		return s;

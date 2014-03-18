@@ -21,8 +21,8 @@ public final class NettySession extends BaseSession implements Session {
 	 * @param id sessionId
 	 * @param channel
 	 */
-	public NettySession(int id, Channel channel) {
-		this.id = id;
+	public NettySession(Channel channel) {
+		this.id = channel.hashCode();
 		this.channel = channel;
 		address(channel.remoteAddress());
 	}

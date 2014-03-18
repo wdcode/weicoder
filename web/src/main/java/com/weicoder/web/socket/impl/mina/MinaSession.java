@@ -3,6 +3,7 @@ package com.weicoder.web.socket.impl.mina;
 import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.session.IoSession;
 
+import com.weicoder.common.lang.Conversion;
 import com.weicoder.web.socket.Session;
 import com.weicoder.web.socket.base.BaseSession;
 
@@ -21,8 +22,8 @@ public final class MinaSession extends BaseSession implements Session {
 	 * @param id sessionId
 	 * @param session
 	 */
-	public MinaSession(int id, IoSession session) {
-		this.id = id;
+	public MinaSession(IoSession session) {
+		this.id = Conversion.toInt(id);
 		this.session = session;
 		address(session.getRemoteAddress());
 	}

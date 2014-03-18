@@ -15,7 +15,7 @@ import com.weicoder.web.socket.Session;
  * @since JDK7
  * @version 1.0 2013-12-15
  */
-@org.jboss.netty.channel.ChannelHandler.Sharable
+//@org.jboss.netty.channel.ChannelHandler.Sharable
 public final class Netty3Handler extends SimpleChannelHandler {
 	// 消息处理器
 	private Process	process;
@@ -31,13 +31,13 @@ public final class Netty3Handler extends SimpleChannelHandler {
 	@Override
 	public void channelConnected(ChannelHandlerContext ctx, ChannelStateEvent e) throws Exception {
 		process.connected(getSesson(ctx.getChannel()), new Netty3Buffer());
-		super.channelConnected(ctx, e);
+//		super.channelConnected(ctx, e);
 	}
 
 	@Override
 	public void channelClosed(ChannelHandlerContext ctx, ChannelStateEvent e) throws Exception {
 		process.closed(getSesson(ctx.getChannel()));
-		super.channelClosed(ctx, e);
+//		super.channelClosed(ctx, e);
 	}
 
 	@Override
