@@ -38,7 +38,6 @@ public final class NettyClient extends BaseClient {
 		// 设置属性
 		bootstrap.option(ChannelOption.TCP_NODELAY, true);
 		bootstrap.option(ChannelOption.SO_KEEPALIVE, true);
-		bootstrap.option(ChannelOption.SO_REUSEADDR, true);
 		bootstrap.option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 30000);
 		// bootstrap.option(ChannelOption.SO_TIMEOUT, 30000);
 		bootstrap.option(ChannelOption.SO_SNDBUF, 1024 * 32);

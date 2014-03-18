@@ -15,6 +15,7 @@ import com.weicoder.web.socket.Session;
  * @since JDK7
  * @version 1.0 2013-12-15
  */
+@org.jboss.netty.channel.ChannelHandler.Sharable
 public final class Netty3Handler extends SimpleChannelHandler {
 	// 消息处理器
 	private Process	process;
