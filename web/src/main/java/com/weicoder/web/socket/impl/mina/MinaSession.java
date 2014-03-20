@@ -23,7 +23,7 @@ public final class MinaSession extends BaseSession implements Session {
 	 * @param session
 	 */
 	public MinaSession(IoSession session) {
-		this.id = Conversion.toInt(id);
+		this.id = Conversion.toInt(session.getId());
 		this.session = session;
 		address(session.getRemoteAddress());
 	}
