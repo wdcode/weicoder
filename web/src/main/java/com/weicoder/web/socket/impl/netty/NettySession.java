@@ -44,7 +44,7 @@ public final class NettySession extends BaseSession implements Session {
 	}
 
 	@Override
-	protected void send(byte[] data) {
+	public void send(byte[] data) {
 		channel.writeAndFlush(PooledByteBufAllocator.DEFAULT.buffer().writeBytes(data));
 	}
 }

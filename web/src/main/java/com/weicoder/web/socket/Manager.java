@@ -1,6 +1,5 @@
 package com.weicoder.web.socket;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -111,5 +110,5 @@ public interface Manager {
 	 * @param id 指令
 	 * @param message 消息
 	 */
-	void broad(String key, Collection<Integer> ids, short id, Object message);
+	void broad(String key, Set<Integer> ids, short id, Object message);
 }

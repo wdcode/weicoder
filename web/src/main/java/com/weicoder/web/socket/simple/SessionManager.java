@@ -1,6 +1,5 @@
 package com.weicoder.web.socket.simple;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -8,10 +7,14 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
+import com.weicoder.common.params.CommonParams;
+import com.weicoder.common.util.DateUtil;
 import com.weicoder.common.util.ExecutorUtil;
+import com.weicoder.core.log.Logs;
 import com.weicoder.web.params.SocketParams;
 import com.weicoder.web.socket.Manager;
 import com.weicoder.web.socket.Session;
+import com.weicoder.web.socket.Sockets;
 
 /**
  * Session管理类
@@ -196,9 +199,12 @@ public final class SessionManager implements Manager {
 	}
 
 	@Override
-	public void broad(String key, Collection<Integer> ids, short id, Object message) {
+	public void broad(String key, Set<Integer> ids, short id, Object message) {
 		// 声明Sesson列表
 		List<Session> sessions = Lists.getList();
+		// 日志
+		long curr = System.currentTimeMillis();
+		Logs.info("manager broad start key=" + key + ";ids=" + ids.size() + ";id=" + id + ";time=" + DateUtil.getTheDate());
 		// 获得相应的Session
 		for (Map.Entry<Integer, Session> e : registers.get(key).entrySet()) {
 			// ID存在
@@ -206,6 +212,8 @@ public final class SessionManager implements Manager {
 				sessions.add(e.getValue());
 			}
 		}
+		// 日志
+		Logs.info("manager broad end key=" + key + ";ids=" + ids.size() + ";id=" + id + ";time=" + (System.currentTimeMillis() - curr));
 		// 广播
 		broad(sessions, id, message);
 	}
@@ -216,15 +224,33 @@ public final class SessionManager implements Manager {
 	 * @param id
 	 * @param message
 	 */
-	private void broad(final Collection<Session> sessions, final short id, final Object message) {
-		ExecutorUtil.execute(new Runnable() {
-			@Override
-			public void run() {
-				// 广播消息
-				for (Session session : sessions) {
-					session.send(id, message);
+	private void broad(List<Session> sessions, short id, Object message) {
+		// 获得列表长度
+		int size = sessions.size();
+		// 如果线程池乘2倍
+		int pool = CommonParams.THREAD_POOL * 10;
+		// 包装数据
+		final byte[] data = Sockets.pack(id, message);
+		// 日志
+		Logs.info("manager broad num=" + size + ";pool=" + pool + ";id=" + id + ";data=" + data.length + ";time=" + DateUtil.getTheDate());
+		// 循环分组广播
+		for (int i = 0; i < size;) {
+			// 获得执行Session列表
+			final List<Session> list = Lists.subList(sessions, i, i += pool);
+			// 线程执行
+			ExecutorUtil.execute(new Runnable() {
+				@Override
+				public void run() {
+					// 日志
+					long curr = System.currentTimeMillis();
+					Logs.info("manager pool broad start size=" + list.size() + ";time=" + DateUtil.getTheDate());
+					// 广播消息
+					for (Session session : list) {
+						session.send(data);
+					}
+					Logs.info("manager pool broad end size=" + list.size() + ";time=" + (System.currentTimeMillis() - curr));
 				}
-			}
-		});
+			});
+		}
 	}
 }

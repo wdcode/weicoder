@@ -189,21 +189,25 @@ public final class Lists {
 		if (begin > size) {
 			return emptyList();
 		}
-		// 判断firstResult
+		// 判断begin
 		begin = begin < 0 ? 0 : begin;
-		// 判断maxResults
-		end = end < 1 || (begin + end) > size ? size - begin : end;
-		// 获得循环长度
-		int len = begin + end;
-		// 声明一个保存结果的列表
-		List<E> ls = getList(end);
-		// 循环获得元素
-		for (int i = begin; i < len; i++) {
-			// 添加元素
-			ls.add(list.get(i));
-		}
+		// 如果begin>end
+		end = begin > end ? begin + end : end;
+		// 判断end
+		end = end < 1 || end > size ? size : end;
 		// 返回列表
-		return ls;
+		return list.subList(begin, end);
+		// // 获得循环长度
+		// int len = begin + end;
+		// // 声明一个保存结果的列表
+		// List<E> ls = getList(end);
+		// // 循环获得元素
+		// for (int i = begin; i < len; i++) {
+		// // 添加元素
+		// ls.add(list.get(i));
+		// }
+		// // 返回列表
+		// return ls;
 	}
 
 	/**

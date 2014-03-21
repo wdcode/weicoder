@@ -155,6 +155,12 @@ public final class Processor implements Process {
 				if (len > 0) {
 					buff.get(data);
 				}
+				// 如果处理器为空
+				if (handler == null) {
+					// 抛弃这次消息
+					Logs.warn("socket=" + session.getId() + ";handler message discard id=" + id + ";message len=" + len);
+					return;
+				}
 				// 线程执行
 				ES.execute(new Runnable() {
 					@Override
@@ -167,12 +173,6 @@ public final class Processor implements Process {
 								handler.handler(session, null, manager);
 								Logs.info("socket=" + session.getId() + ";handler message is null end time=" + (System.currentTimeMillis() - curr));
 							} else {
-								// 如果处理器为空
-								if (handler == null) {
-									// 抛弃这次消息
-									Logs.warn("socket=" + session.getId() + ";handler message discard id=" + id + ";message len=" + len);
-									return;
-								}
 								// 获得处理器消息类
 								Class<?> type = ClassUtil.getGenericClass(handler.getClass());
 								// 消息实体

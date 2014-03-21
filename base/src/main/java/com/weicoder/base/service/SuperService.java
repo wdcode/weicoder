@@ -261,7 +261,7 @@ public class SuperService {
 		// 判断有缓存
 		if (cache.isValid()) {
 			// 返回新列表
-			return Lists.subList(cache.list(), firstResult, maxResults);
+			return Lists.subList(cache.list(), firstResult, firstResult + maxResults);
 		} else {
 			// 查询数据库
 			return toString(dao.list(entityClass, firstResult, maxResults));

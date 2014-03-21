@@ -44,7 +44,7 @@ public final class MinaSession extends BaseSession implements Session {
 	}
 
 	@Override
-	protected void send(byte[] data) {
+	public void send(byte[] data) {
 		session.write(IoBuffer.wrap(data));
 	}
 }

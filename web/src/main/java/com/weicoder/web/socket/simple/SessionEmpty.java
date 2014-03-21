@@ -46,5 +46,8 @@ public final class SessionEmpty implements Session {
 		return 0;
 	}
 
+	@Override
+	public void send(byte[] message) {}
+
 	private SessionEmpty() {}
 }

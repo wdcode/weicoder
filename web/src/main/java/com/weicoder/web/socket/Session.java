@@ -30,6 +30,13 @@ public interface Session extends Close {
 	void send(Object message);
 
 	/**
+	 * 写入数据
+	 * @param id 指令
+	 * @param message 消息
+	 */
+	void send(byte[] message);
+
+	/**
 	 * 是否连接
 	 * @return true 为有连接 false 未连接
 	 */

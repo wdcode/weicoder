@@ -44,7 +44,7 @@ public final class Netty3Session extends BaseSession implements Session {
 	}
 
 	@Override
-	protected void send(byte[] data) {
+	public void send(byte[] data) {
 		channel.write(ChannelBuffers.wrappedBuffer(data));
 	}
 }
