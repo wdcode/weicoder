@@ -5,7 +5,6 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
-import com.weicoder.common.params.CommonParams;
 import com.weicoder.web.params.SocketParams;
 import com.weicoder.web.socket.base.BaseServer;
 
@@ -32,13 +31,13 @@ public final class NettyServer extends BaseServer {
 		// NettyHandler
 		handler = new NettyHandler(process);
 		// 设置group
-		bootstrap.group(new NioEventLoopGroup(CommonParams.THREAD_POOL));
+		bootstrap.group(new NioEventLoopGroup(SocketParams.POOL));
 		// 设置属性
 		bootstrap.childOption(ChannelOption.TCP_NODELAY, true);
 		bootstrap.childOption(ChannelOption.SO_KEEPALIVE, true);
 		bootstrap.childOption(ChannelOption.SO_REUSEADDR, true);
 		bootstrap.childOption(ChannelOption.CONNECT_TIMEOUT_MILLIS, 30000);
-//		bootstrap.childOption(ChannelOption.SO_TIMEOUT, 30000);
+		// bootstrap.childOption(ChannelOption.SO_TIMEOUT, 30000);
 		bootstrap.childOption(ChannelOption.SO_SNDBUF, 1024 * 32);
 		bootstrap.childOption(ChannelOption.SO_RCVBUF, 1024 * 8);
 		bootstrap.option(ChannelOption.SO_REUSEADDR, true);

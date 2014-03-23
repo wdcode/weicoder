@@ -2,6 +2,7 @@ package com.weicoder.web.params;
 
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.StringConstants;
+import com.weicoder.common.constants.SystemConstants;
 import com.weicoder.common.params.Params;
 
 /**
@@ -23,6 +24,10 @@ public final class SocketParams {
 	public final static String[]	REGISTERS	= Params.getStringArray(PREFIX + ".registers", new String[] { StringConstants.EMPTY });
 	/** 写缓存间隔时间 */
 	public final static long		WRITE		= Params.getLong(PREFIX + ".write", 0);
+	/** 线程池数 */
+	public final static int			POOL		= Params.getInt(PREFIX + ".pool", SystemConstants.CPU_NUM + 1);
+	/** 线程池数 */
+	public final static int			BROAD		= Params.getInt(PREFIX + ".broad", 1000);
 
 	/**
 	 * 获得Socket使用解析包<br/>

@@ -13,7 +13,7 @@ public final class RedisParams {
 	private final static String	PREFIX;	// 前缀
 	private final static String	HOST;		// 服务器地址
 	private final static String	PORT;		// 服务器端口
-	private final static String	MAX_ACTIVE; // 最大活动数
+	private final static String	MAX_TOTAL;	// 最大活动数
 	private final static String	MAX_IDLE;	// 最大空闲数
 	private final static String	MAX_WAIT;	// 最大等待时间
 
@@ -25,7 +25,7 @@ public final class RedisParams {
 		PREFIX = "redis"; // 键
 		HOST = "host"; // 服务器地址
 		PORT = "port"; // 服务器端口
-		MAX_ACTIVE = "maxActive"; // 服务器
+		MAX_TOTAL = "maxTotal"; // 服务器
 		MAX_IDLE = "maxIdle"; // 服务器
 		MAX_WAIT = "maxWait"; // 服务器
 	}
@@ -33,7 +33,7 @@ public final class RedisParams {
 	/* Redis使用 */
 	private static String		host;		// 服务器地址
 	private static int			port;		// 服务器端口
-	private static int			maxActive;	// 最大活动数
+	private static int			maxTotal;	// 最大活动数
 	private static int			maxIdle;	// 最大空闲数
 	private static long			maxWait;	// 最大等待时间
 
@@ -43,7 +43,7 @@ public final class RedisParams {
 	static {
 		host = "127.0.0.1"; // 服务器地址
 		port = 6379; // 服务器端口
-		maxActive = 100; // 最大活动数
+		maxTotal = 100; // 最大活动数
 		maxIdle = 30; // 最大空闲数
 		maxWait = 1000; // 最大等待时间
 	}
@@ -76,12 +76,12 @@ public final class RedisParams {
 	 * Redis最大活动数<br/>
 	 * 需在配置文件中配置<br/>
 	 * <h2>配置方式如下: <br/>
-	 * Properties: nosql.redis.maxActive = ? <br/>
-	 * XML: {@literal <nosql><redis><maxActive>?</maxActive></redis></nosql>}</h2>
+	 * Properties: nosql.redis.maxTotal = ? <br/>
+	 * XML: {@literal <nosql><redis><maxTotal>?</maxTotal></redis></nosql>}</h2>
 	 * @return Redis最大活动数
 	 */
-	public static int getMaxActive(String name) {
-		return Params.getInt(getKey(name, MAX_ACTIVE), maxActive);
+	public static int getMaxTotal(String name) {
+		return Params.getInt(getKey(name, MAX_TOTAL), maxTotal);
 	}
 
 	/**

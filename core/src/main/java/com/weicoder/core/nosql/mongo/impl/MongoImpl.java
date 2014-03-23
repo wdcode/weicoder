@@ -303,6 +303,11 @@ public final class MongoImpl extends BaseNoSQL implements Mongo {
 	}
 
 	@Override
+	public boolean append(String key, Object value) {
+		return false;
+	}
+
+	@Override
 	public void clear() {
 		getCollection(StringConstants.EMPTY).drop();
 	}

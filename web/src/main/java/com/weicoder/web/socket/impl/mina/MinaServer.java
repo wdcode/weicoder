@@ -6,7 +6,6 @@ import java.net.InetSocketAddress;
 import org.apache.mina.transport.socket.SocketAcceptor;
 import org.apache.mina.transport.socket.SocketSessionConfig;
 import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
-import com.weicoder.common.params.CommonParams;
 import com.weicoder.core.log.Logs;
 import com.weicoder.web.params.SocketParams;
 import com.weicoder.web.socket.base.BaseServer;
@@ -30,7 +29,7 @@ public final class MinaServer extends BaseServer {
 	public MinaServer(String name) {
 		super(name);
 		// 服务器
-		this.acceptor = new NioSocketAcceptor(CommonParams.THREAD_POOL);
+		this.acceptor = new NioSocketAcceptor(SocketParams.POOL);
 		// 实例化handler
 		handler = new MinaHandler(process);
 		// 获得Session配置

@@ -7,7 +7,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
-import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.util.DateUtil;
 import com.weicoder.common.util.ExecutorUtil;
 import com.weicoder.core.log.Logs;
@@ -228,15 +227,15 @@ public final class SessionManager implements Manager {
 		// 获得列表长度
 		int size = sessions.size();
 		// 如果线程池乘2倍
-		int pool = CommonParams.THREAD_POOL * 10;
+		int broad = SocketParams.BROAD;
 		// 包装数据
 		final byte[] data = Sockets.pack(id, message);
 		// 日志
-		Logs.info("manager broad num=" + size + ";pool=" + pool + ";id=" + id + ";data=" + data.length + ";time=" + DateUtil.getTheDate());
+		Logs.info("manager broad num=" + size + ";broad=" + broad + ";id=" + id + ";data=" + data.length + ";time=" + DateUtil.getTheDate());
 		// 循环分组广播
 		for (int i = 0; i < size;) {
 			// 获得执行Session列表
-			final List<Session> list = Lists.subList(sessions, i, i += pool);
+			final List<Session> list = Lists.subList(sessions, i, i += broad);
 			// 线程执行
 			ExecutorUtil.execute(new Runnable() {
 				@Override

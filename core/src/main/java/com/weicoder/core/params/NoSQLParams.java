@@ -24,7 +24,7 @@ public final class NoSQLParams {
 	 * @return NoSQL使用的包
 	 */
 	public static String getParse(String name) {
-		return Params.getString(Params.getKey("nosql", name, "parse"), "memcached");
+		return Params.getString(Params.getKey("nosql", name, "parse"), "memcache");
 	}
 
 	private NoSQLParams() {}

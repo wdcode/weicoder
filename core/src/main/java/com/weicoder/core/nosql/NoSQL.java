@@ -1,5 +1,7 @@
 package com.weicoder.core.nosql;
 
+import java.util.List;
+
 import com.weicoder.common.interfaces.Clear;
 import com.weicoder.common.interfaces.Close;
 
@@ -25,6 +27,20 @@ public interface NoSQL extends Clear, Close {
 	byte[] extract(String key);
 
 	/**
+	 * 获得多个键的数组
+	 * @param keys 键
+	 * @return 值
+	 */
+	List<byte[]> extract(String... keys);
+
+	/**
+	 * 追加键值
+	 * @param key 键
+	 * @param value 值
+	 */
+	boolean append(String key, Object value);
+
+	/**
 	 * 设置键值 无论存储空间是否存在相同键，都保存
 	 * @param key 键
 	 * @param value 值
@@ -37,6 +53,13 @@ public interface NoSQL extends Clear, Close {
 	 * @return 值
 	 */
 	Object get(String key);
+
+	/**
+	 * 获得多个键的数组
+	 * @param keys 键
+	 * @return 值
+	 */
+	Object[] get(String... keys);
 
 	/**
 	 * 删除键值

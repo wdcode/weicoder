@@ -14,7 +14,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Component;
 import com.weicoder.base.cache.Cache;
 import com.weicoder.base.cache.impl.CacheMap;
-import com.weicoder.base.cache.impl.CacheMemcached;
+import com.weicoder.base.cache.impl.CacheNoSQL;
 import com.weicoder.base.entity.Entity;
 import com.weicoder.base.params.BaseParams;
 import com.weicoder.common.lang.Lists;
@@ -105,7 +105,7 @@ public final class Context {
 	 * @return 缓存
 	 */
 	public <E extends Entity> Cache<E> getCache() {
-		return "memcached".equals(BaseParams.CACHE_TYPE) ? getBean(CacheMemcached.class) : getBean(CacheMap.class);
+		return "map".equals(BaseParams.CACHE_TYPE) ? getBean(CacheMap.class) : getBean(CacheNoSQL.class);
 	}
 
 	/**

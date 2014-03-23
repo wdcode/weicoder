@@ -1,5 +1,7 @@
 package com.weicoder.core.nosql.hbase.factory;
 
+import java.util.List;
+
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.HColumnDescriptor;
@@ -103,6 +105,11 @@ final class HBaseImpl extends FactoryKey<String, HBaseDao> implements HBase {
 		}
 	}
 
+	@Override
+	public boolean append(String key, Object value) {
+		return false;
+	}
+
 	/**
 	 * 实例化一个新对象
 	 */
@@ -150,4 +157,14 @@ final class HBaseImpl extends FactoryKey<String, HBaseDao> implements HBase {
 
 	@Override
 	public void close() {}
+
+	@Override
+	public List<byte[]> extract(String... keys) {
+		return null;
+	}
+
+	@Override
+	public Object[] get(String... keys) {
+		return null;
+	}
 }

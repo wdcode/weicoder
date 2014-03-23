@@ -23,18 +23,11 @@ public final class RedisJedis extends BaseNoSQL implements Redis {
 		// 实例化Jedis配置
 		JedisPoolConfig config = new JedisPoolConfig();
 		// 设置属性
-		config.setMaxActive(RedisParams.getMaxActive(name));
+		config.setMaxTotal(RedisParams.getMaxTotal(name));
 		config.setMaxIdle(RedisParams.getMaxIdle(name));
-		config.setMaxWait(RedisParams.getMaxWait(name));
+		config.setMaxWaitMillis(RedisParams.getMaxWait(name));
 		// 实例化连接池
 		pool = new JedisPool(config, RedisParams.getHost(name), RedisParams.getPort(name));
-	}
-
-	/**
-	 * 关闭资源方法
-	 */
-	public void close() {
-		pool.destroy();
 	}
 
 	/**
@@ -99,11 +92,29 @@ public final class RedisJedis extends BaseNoSQL implements Redis {
 	}
 
 	@Override
+	public boolean append(String key, Object value) {
+		// 获得Jedis对象
+		Jedis jedis = pool.getResource();
+		// 设置值
+		jedis.append(Bytes.toBytes(key), Bytes.toBytes(value));
+		// 回收Jedis
+		pool.returnResource(jedis);
+		// 返回成功
+		return true;
+	}
+
+	@Override
+	public void close() {
+		pool.destroy();
+	}
+
+	@Override
 	public void clear() {
 		// 获得Jedis对象
-		// Jedis jedis = pool.getResource();
-		// // 清空
-		// // 回收Jedis
-		// pool.returnResource(jedis);
+		Jedis jedis = pool.getResource();
+		// 清除
+		jedis.flushAll();
+		// 回收Jedis
+		pool.returnResource(jedis);
 	}
 }

@@ -27,7 +27,7 @@ public final class NoSQLFactory extends FactoryKey<String, NoSQL> {
 	 * @param name 配置名
 	 * @return NoSQL接口
 	 */
-	public NoSQL getNoSQL(String name) {
+	public static NoSQL getNoSQL(String name) {
 		return FACTORY.getInstance(name);
 	}
 
@@ -36,12 +36,12 @@ public final class NoSQLFactory extends FactoryKey<String, NoSQL> {
 		switch (NoSQLParams.getParse(key)) {
 			case "memcache":
 				return MemcacheFactory.getMemcache(key);
+			case "redis":
+				return RedisFactory.getRedis(key);
 			case "hbase":
 				return HBaseFactory.getHBase(key);
 			case "mongodb":
 				return MongoFactory.getMongo(key);
-			case "redis":
-				return RedisFactory.getRedis(key);
 			case "berkeleydb":
 				return BerkeleyFactory.getBerkeley(key);
 		}

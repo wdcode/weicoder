@@ -1,12 +1,8 @@
 package com.weicoder.core.nosql.memcache.base;
 
-import java.util.List;
-
-import com.weicoder.common.lang.Lists;
 import com.weicoder.core.nosql.base.BaseNoSQL;
 import com.weicoder.core.nosql.memcache.Memcache;
 import com.weicoder.core.params.MemcacheParams;
-import com.weicoder.core.zip.ZipEngine;
 
 /**
  * MemCacheClient基础抽象
@@ -29,22 +25,6 @@ public abstract class BaseMemcache extends BaseNoSQL implements Memcache {
 			name, MemcacheParams.getServers(name), MemcacheParams.getWeights(name), MemcacheParams.getInitConn(name), MemcacheParams.getMinConn(name), MemcacheParams.getMaxConn(name), MemcacheParams.getMaxIdle(name), MemcacheParams.getSleep(name), MemcacheParams.getTO(name),
 			MemcacheParams.getConnectTO(name), MemcacheParams.getBinary(name));
 
-	}
-
-	/**
-	 * 获得多个键的数组
-	 * @param keys 键
-	 * @return 值
-	 */
-	public List<byte[]> extract(String... keys) {
-		// 声明列表
-		List<byte[]> list = Lists.getList(keys.length);
-		// 循环解压数据
-		for (Object o : get(keys)) {
-			list.add(ZipEngine.extract(o));
-		}
-		// 返回列表
-		return list;
 	}
 
 	/**

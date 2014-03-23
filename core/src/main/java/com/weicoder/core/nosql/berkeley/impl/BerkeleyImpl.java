@@ -111,6 +111,11 @@ public final class BerkeleyImpl extends BaseNoSQL implements Berkeley {
 	}
 
 	@Override
+	public boolean append(String key, Object value) {
+		return false;
+	}
+
+	@Override
 	public void clear() {
 		String name = db.getDatabaseName();
 		env.removeDatabase(null, name);
