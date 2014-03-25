@@ -2,6 +2,8 @@ package com.weicoder.web.socket;
 
 import java.util.Map;
 
+import com.weicoder.web.socket.heart.Heart;
+
 /**
  * Socket 服务器
  * @author WD

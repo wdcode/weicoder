@@ -1,7 +1,9 @@
-package com.weicoder.web.socket;
+package com.weicoder.web.socket.manager;
 
 import java.util.List;
 import java.util.Set;
+
+import com.weicoder.web.socket.Session;
 
 /**
  * Socket Session 管理器

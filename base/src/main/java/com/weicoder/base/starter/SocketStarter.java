@@ -64,10 +64,12 @@ public final class SocketStarter {
 			}
 		}
 		// 设置Closed
+		String close = SocketParams.getClosed(name);
 		for (Closed closed : closeds) {
 			// 在指定包内
-			if (EmptyUtil.isEmpty(pack) || closed.getClass().getPackage().getName().indexOf(pack) > -1) {
-				socket.addClosed(closed);
+			if (closed.getClass().getName().equals(close)) {
+				socket.setClosed(closed);
+				break;
 			}
 		}
 	}

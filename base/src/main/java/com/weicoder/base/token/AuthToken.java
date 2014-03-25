@@ -1,6 +1,6 @@
 package com.weicoder.base.token;
 
-import com.weicoder.common.interfaces.BytesBean;
+import com.weicoder.common.binary.BytesBean;
 
 /**
  * 获得当前网站用户 可获得是是否登录 和用户基本信息接口

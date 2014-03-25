@@ -3,9 +3,10 @@ package com.weicoder.web.socket.impl.mina;
 import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IoSession;
+
 import com.weicoder.common.lang.Conversion;
-import com.weicoder.web.socket.Process;
 import com.weicoder.web.socket.Session;
+import com.weicoder.web.socket.process.Process;
 
 /**
  * mina实现
@@ -27,7 +28,7 @@ public final class MinaHandler extends IoHandlerAdapter {
 
 	@Override
 	public void sessionOpened(IoSession session) throws Exception {
-		process.connected(getSesson(session), new MinaBuffer());
+		process.connected(getSesson(session));
 	}
 
 	@Override

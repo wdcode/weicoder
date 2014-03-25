@@ -1,7 +1,7 @@
 package com.weicoder.web.socket.impl.netty;
 
-import com.weicoder.web.socket.Process;
 import com.weicoder.web.socket.Session;
+import com.weicoder.web.socket.process.Process;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
@@ -34,7 +34,7 @@ public final class NettyHandler extends SimpleChannelInboundHandler<ByteBuf> {
 
 	@Override
 	public void channelActive(ChannelHandlerContext ctx) throws Exception {
-		process.connected(getSesson(ctx.channel()), new NettyBuffer());
+		process.connected(getSesson(ctx.channel()));
 		// super.channelActive(ctx);
 	}
 

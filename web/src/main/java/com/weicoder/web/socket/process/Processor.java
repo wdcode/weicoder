@@ -1,24 +1,21 @@
-package com.weicoder.web.socket.simple;
+package com.weicoder.web.socket.process;
 
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import com.weicoder.common.binary.Buffer;
 import com.weicoder.common.lang.Bytes;
-import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.util.DateUtil;
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.core.log.Logs;
-import com.weicoder.web.socket.Buffer;
 import com.weicoder.web.socket.Closed;
 import com.weicoder.web.socket.Handler;
-import com.weicoder.web.socket.Heart;
-import com.weicoder.web.socket.Manager;
-import com.weicoder.web.socket.Process;
 import com.weicoder.web.socket.Session;
+import com.weicoder.web.socket.heart.Heart;
+import com.weicoder.web.socket.manager.Manager;
 import com.weicoder.web.socket.message.Message;
 import com.weicoder.web.socket.message.Null;
 
@@ -31,8 +28,6 @@ import com.weicoder.web.socket.message.Null;
 public final class Processor implements Process {
 	// 线程池
 	private ExecutorService				ES			= Executors.newCachedThreadPool();
-	// 关闭处理
-	private List<Closed>				closeds		= Lists.getList();
 	// Handler列表
 	private Map<Short, Handler<Object>>	handlers	= Maps.getMap();
 	// 保存Session
@@ -43,6 +38,8 @@ public final class Processor implements Process {
 	private Manager						manager;
 	// 心跳处理
 	private Heart						heart;
+	// 关闭处理
+	private Closed						closed;
 
 	/**
 	 * Session管理
@@ -59,8 +56,8 @@ public final class Processor implements Process {
 	}
 
 	@Override
-	public void addClosed(Closed closed) {
-		closeds.add(closed);
+	public void setClosed(Closed closed) {
+		this.closed = closed;
 	}
 
 	@Override
@@ -69,9 +66,9 @@ public final class Processor implements Process {
 	}
 
 	@Override
-	public void connected(Session session, Buffer buffer) {
+	public void connected(Session session) {
 		sessions.put(session.getId(), session);
-		buffers.put(session.getId(), buffer);
+		buffers.put(session.getId(), new Buffer());
 		// 如果心跳处理不为空
 		if (heart != null) {
 			heart.add(session);
@@ -82,7 +79,7 @@ public final class Processor implements Process {
 	@Override
 	public void closed(Session session) {
 		// 关闭处理器
-		for (Closed closed : closeds) {
+		if (closed != null) {
 			closed.closed(session);
 		}
 		// 删除session
@@ -114,9 +111,9 @@ public final class Processor implements Process {
 		// 获得全局buffer
 		Buffer buff = buffers.get(session.getId());
 		// 添加新消息到全局缓存中
-		buff.put(message);
+		buff.write(message);
 		// 反转缓存区
-		buff.flip();
+		// buff.flip();
 		// 循环读取数据
 		while (true) {
 			// 剩余字节长度不足，等待下次信息
@@ -127,7 +124,7 @@ public final class Processor implements Process {
 			}
 			// 获得信息长度
 			// int length = Integer.reverseBytes(buff.getInt());
-			int length = buff.getInt();
+			int length = buff.readInt();
 			// 无长度 发送消息不符合 关掉连接
 			if (length == 0) {
 				session.close();
@@ -143,7 +140,7 @@ public final class Processor implements Process {
 			} else {
 				// 读取指令id
 				// int id = Integer.reverseBytes(buff.getInt());
-				final short id = buff.getShort();
+				final short id = buff.readShort();
 				// 获得相应的
 				final Handler<Object> handler = handlers.get(id);
 				Logs.info("socket=" + session.getId() + ";receive len=" + length + ";id=" + id + ";handler=" + handler + ";time=" + DateUtil.getTheDate());
@@ -153,7 +150,7 @@ public final class Processor implements Process {
 				final byte[] data = new byte[len];
 				// 读取指定长度字节数组
 				if (len > 0) {
-					buff.get(data);
+					buff.read(data);
 				}
 				// 如果处理器为空
 				if (handler == null) {
@@ -184,9 +181,9 @@ public final class Processor implements Process {
 								} else if (type.equals(Null.class)) {
 									// 字节流
 									mess = Null.NULL;
-								} else if (type.equals(DataBuffer.class)) {
+								} else if (type.equals(Buffer.class)) {
 									// 字节流
-									mess = new DataBuffer(data);
+									mess = new Buffer(data);
 								} else if (type.equals(int.class) || type.equals(Integer.class)) {
 									// 整型
 									mess = Bytes.toInt(data);
@@ -229,7 +226,7 @@ public final class Processor implements Process {
 					// 压缩
 					buff.compact();
 					// 反转缓存区
-					buff.flip();
+					// buff.flip();
 				}
 			}
 		}

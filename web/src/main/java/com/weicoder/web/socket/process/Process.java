@@ -1,7 +1,11 @@
-package com.weicoder.web.socket;
+package com.weicoder.web.socket.process;
 
 import java.util.Map;
 
+import com.weicoder.web.socket.Closed;
+import com.weicoder.web.socket.Handler;
+import com.weicoder.web.socket.Session;
+import com.weicoder.web.socket.heart.Heart;
 
 /**
  * Socket 数据处理接口
@@ -24,16 +28,16 @@ public interface Process {
 	Map<Integer, Session> getSessions();
 
 	/**
-	 * 添加心跳包处理器
+	 * 设置心跳包处理器
 	 * @param heart
 	 */
 	void setHeart(Heart heart);
 
 	/**
-	 * 添加关闭处理器
+	 * 设置关闭处理器
 	 * @param closed 关闭处理器
 	 */
-	void addClosed(Closed closed);
+	void setClosed(Closed closed);
 
 	/**
 	 * 添加要处理的Handler
@@ -45,7 +49,7 @@ public interface Process {
 	 * Session连接时
 	 * @param session
 	 */
-	void connected(Session session, Buffer buffer);
+	void connected(Session session);
 
 	/**
 	 * Session关闭时

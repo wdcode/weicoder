@@ -3,6 +3,7 @@ package com.weicoder.web.socket.base;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 
+import com.weicoder.common.binary.Buffer;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.lang.Conversion;
@@ -12,7 +13,6 @@ import com.weicoder.core.log.Logs;
 import com.weicoder.web.params.SocketParams;
 import com.weicoder.web.socket.Session;
 import com.weicoder.web.socket.Sockets;
-import com.weicoder.web.socket.simple.DataBuffer;
 
 /**
  * 基础Socket Session实现
@@ -28,7 +28,7 @@ public abstract class BaseSession implements Session {
 	// 保存端口
 	protected int			port;
 	// 写缓存
-	protected DataBuffer	buffer;
+	protected Buffer	buffer;
 
 	/**
 	 * 构造
@@ -38,7 +38,7 @@ public abstract class BaseSession implements Session {
 		// 使用写缓存
 		if (SocketParams.WRITE > 0) {
 			// 声明缓存
-			buffer = new DataBuffer();
+			buffer = new Buffer();
 			// 定时监控写缓存
 			ScheduledUtile.delay(new Runnable() {
 				@Override

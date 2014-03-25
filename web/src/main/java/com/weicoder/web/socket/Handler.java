@@ -1,5 +1,7 @@
 package com.weicoder.web.socket;
 
+import com.weicoder.web.socket.manager.Manager;
+
 
 
 /**

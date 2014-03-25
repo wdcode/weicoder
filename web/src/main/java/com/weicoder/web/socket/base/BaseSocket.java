@@ -2,11 +2,11 @@ package com.weicoder.web.socket.base;
 
 import com.weicoder.web.socket.Closed;
 import com.weicoder.web.socket.Handler;
-import com.weicoder.web.socket.Manager;
-import com.weicoder.web.socket.Process;
 import com.weicoder.web.socket.Socket;
-import com.weicoder.web.socket.simple.Processor;
-import com.weicoder.web.socket.simple.SessionManager;
+import com.weicoder.web.socket.manager.Manager;
+import com.weicoder.web.socket.manager.SessionManager;
+import com.weicoder.web.socket.process.Process;
+import com.weicoder.web.socket.process.Processor;
 
 /**
  * 基础Socket
@@ -42,8 +42,8 @@ public abstract class BaseSocket implements Socket {
 	}
 
 	@Override
-	public void addClosed(Closed closed) {
-		process.addClosed(closed);
+	public void setClosed(Closed closed) {
+		process.setClosed(closed);
 	}
 
 	@Override

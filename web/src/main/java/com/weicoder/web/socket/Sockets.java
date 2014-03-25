@@ -18,6 +18,7 @@ import com.weicoder.web.socket.impl.netty.NettyClient;
 import com.weicoder.web.socket.impl.netty.NettyServer;
 import com.weicoder.web.socket.impl.netty3.Netty3Client;
 import com.weicoder.web.socket.impl.netty3.Netty3Server;
+import com.weicoder.web.socket.manager.Manager;
 import com.weicoder.web.socket.message.Message;
 import com.weicoder.web.socket.message.Null;
 
@@ -70,21 +71,15 @@ public final class Sockets {
 		for (String c : SocketParams.getHandler(name)) {
 			socket.addHandler((Handler<?>) BeanUtil.newInstance(c));
 		}
-		// 设置关闭处理器
-		for (String c : SocketParams.getClosed(name)) {
-			socket.addClosed((Closed) BeanUtil.newInstance(c));
-		}
 		// 按包处理
 		for (String p : SocketParams.getPackages(name)) {
 			// Handler
 			for (Class<?> c : ClassUtil.getAssignedClass(p, Handler.class)) {
 				socket.addHandler((Handler<?>) BeanUtil.newInstance(c));
 			}
-			// Closed
-			for (Class<?> c : ClassUtil.getAssignedClass(p, Closed.class)) {
-				socket.addClosed((Closed) BeanUtil.newInstance(c));
-			}
 		}
+		// 设置关闭处理器
+		socket.setClosed((Closed) BeanUtil.newInstance(SocketParams.getClosed(name)));
 		// 返回Socket
 		return socket;
 	}
@@ -332,13 +327,13 @@ public final class Sockets {
 	 */
 	private static Server getServer(String name) {
 		switch (SocketParams.getParse(name)) {
-			case "mina":
-				return new MinaServer(name);
+			case "netty":
+				return new NettyServer(name);
 			case "netty3":
 				return new Netty3Server(name);
 			default:
-				// 默认netty
-				return new NettyServer(name);
+				// 默认mina
+				return new MinaServer(name);
 		}
 	}
 
@@ -349,13 +344,13 @@ public final class Sockets {
 	 */
 	private static Client getClient(String name) {
 		switch (SocketParams.getParse(name)) {
-			case "mina":
-				return new MinaClient(name);
+			case "netty":
+				return new NettyClient(name);
 			case "netty3":
 				return new Netty3Client(name);
 			default:
-				// 默认netty
-				return new NettyClient(name);
+				// 默认mina
+				return new MinaClient(name);
 		}
 	}
 

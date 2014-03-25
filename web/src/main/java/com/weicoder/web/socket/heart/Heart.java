@@ -1,7 +1,6 @@
-package com.weicoder.web.socket;
+package com.weicoder.web.socket.heart;
 
-
-
+import com.weicoder.web.socket.Session;
 
 /**
  * 心跳协议处理器

@@ -3,10 +3,10 @@ package com.weicoder.web.socket.base;
 import java.util.Map;
 
 import com.weicoder.web.params.SocketParams;
-import com.weicoder.web.socket.Heart;
 import com.weicoder.web.socket.Server;
 import com.weicoder.web.socket.Session;
-import com.weicoder.web.socket.simple.HeartHandler;
+import com.weicoder.web.socket.heart.Heart;
+import com.weicoder.web.socket.heart.HeartHandler;
 
 /**
  * 基础Server

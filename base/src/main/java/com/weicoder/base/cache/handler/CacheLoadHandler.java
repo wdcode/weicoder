@@ -7,8 +7,8 @@ import com.weicoder.base.context.Context;
 import com.weicoder.base.entity.Entity;
 import com.weicoder.base.service.SuperService;
 import com.weicoder.web.socket.Handler;
-import com.weicoder.web.socket.Manager;
 import com.weicoder.web.socket.Session;
+import com.weicoder.web.socket.manager.Manager;
 
 /**
  * 缓存Socket通知类

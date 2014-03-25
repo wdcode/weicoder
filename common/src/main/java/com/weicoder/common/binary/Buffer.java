@@ -1,7 +1,6 @@
-package com.weicoder.web.socket.simple;
+package com.weicoder.common.binary;
 
 import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.interfaces.ByteArray;
 import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
@@ -12,7 +11,7 @@ import com.weicoder.common.util.StringUtil;
  * @since JDK7
  * @version 1.0 2014-2-13
  */
-public final class DataBuffer implements ByteArray {
+public final class Buffer implements ByteArray {
 	/** 默认的初始容量大小 */
 	private static final int	CAPACITY	= 32;
 	// 字节数组
@@ -25,28 +24,28 @@ public final class DataBuffer implements ByteArray {
 	/**
 	 * 按默认的大小构造一个字节缓存对象
 	 */
-	public DataBuffer() {
+	public Buffer() {
 		this(CAPACITY);
 	}
 
 	/**
 	 * 按指定的大小构造一个字节缓存对象
 	 */
-	public DataBuffer(int capacity) {
+	public Buffer(int capacity) {
 		this(new byte[capacity], 0, 0);
 	}
 
 	/**
 	 * 按指定的字节数组构造一个字节缓存对象
 	 */
-	public DataBuffer(byte[] data) {
+	public Buffer(byte[] data) {
 		this(data, 0, data.length);
 	}
 
 	/**
 	 * 按指定的字节数组构造一个字节缓存对象
 	 */
-	public DataBuffer(byte[] data, int index, int length) {
+	public Buffer(byte[] data, int index, int length) {
 		bytes = data;
 		top = index + length;
 		offset = index;
@@ -376,6 +375,22 @@ public final class DataBuffer implements ByteArray {
 	}
 
 	/**
+	 * 压缩缓冲区 抛弃以读数据 并把容量截取到写坐标
+	 */
+	public void compact() {
+		bytes = Bytes.copy(bytes, offset, top);
+		top -= offset;
+		offset = 0;
+	}
+
+	/**
+	 * 重置读坐标为0
+	 */
+	public void rewind() {
+		this.offset = 0;
+	}
+
+	/**
 	 * 清除字节缓存对象
 	 */
 	public void clear() {
@@ -396,9 +411,9 @@ public final class DataBuffer implements ByteArray {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (!(obj instanceof DataBuffer))
+		if (!(obj instanceof Buffer))
 			return false;
-		DataBuffer bb = (DataBuffer) obj;
+		Buffer bb = (Buffer) obj;
 		if (bb.top != top)
 			return false;
 		if (bb.offset != offset)
@@ -412,6 +427,13 @@ public final class DataBuffer implements ByteArray {
 
 	@Override
 	public String toString() {
-		return super.toString() + "[" + top + "," + offset + "," + bytes.length + "] ";
+		return "[" + top + "," + offset + "," + bytes.length + "] ";
+	}
+
+	@Override
+	public ByteArray array(byte[] b) {
+		clear();
+		write(b);
+		return this;
 	}
 }

@@ -1,4 +1,4 @@
-package com.weicoder.web.socket.simple;
+package com.weicoder.web.socket.manager;
 
 import java.util.List;
 import java.util.Map;
@@ -11,9 +11,9 @@ import com.weicoder.common.util.DateUtil;
 import com.weicoder.common.util.ExecutorUtil;
 import com.weicoder.core.log.Logs;
 import com.weicoder.web.params.SocketParams;
-import com.weicoder.web.socket.Manager;
 import com.weicoder.web.socket.Session;
 import com.weicoder.web.socket.Sockets;
+import com.weicoder.web.socket.empty.SessionEmpty;
 
 /**
  * Session管理类

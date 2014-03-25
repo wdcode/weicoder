@@ -1,4 +1,4 @@
-package com.weicoder.web.socket.simple;
+package com.weicoder.web.socket.empty;
 
 import com.weicoder.web.socket.Session;
 
@@ -17,7 +17,7 @@ public final class SessionEmpty implements Session {
 
 	@Override
 	public int getId() {
-		return 0;
+		return -1;
 	}
 
 	@Override

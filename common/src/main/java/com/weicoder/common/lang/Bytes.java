@@ -8,14 +8,17 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.lang.reflect.Field;
 import java.nio.ByteBuffer;
 import java.nio.channels.ReadableByteChannel;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
+import com.weicoder.common.binary.Binary;
+import com.weicoder.common.binary.ByteArray;
+import com.weicoder.common.binary.BytesBean;
 import com.weicoder.common.constants.ArrayConstants;
-import com.weicoder.common.interfaces.ByteArray;
-import com.weicoder.common.interfaces.BytesBean;
 import com.weicoder.common.io.ChannelUtil;
 import com.weicoder.common.io.FileUtil;
 import com.weicoder.common.io.IOUtil;
@@ -133,12 +136,15 @@ public final class Bytes {
 		} else if (obj instanceof ByteBuffer) {
 			// String
 			b = toBytes((ByteBuffer) obj);
-		} else if (obj instanceof ByteArray) {
+		} else if (obj instanceof Binary) {
 			// File
-			b = toBytes((ByteArray) obj);
+			b = toBytes((Binary) obj);
 		} else if (obj instanceof BytesBean) {
 			// File
 			b = toBytes((BytesBean) obj);
+		} else if (obj instanceof ByteArray) {
+			// File
+			b = toBytes((ByteArray) obj);
 		} else if (obj instanceof File) {
 			// File
 			b = FileUtil.read((File) obj);
@@ -160,7 +166,29 @@ public final class Bytes {
 	}
 
 	/**
-	 * 转换BytesBean变成字节数组
+	 * 转换Binary序列化
+	 * @param bean
+	 * @return 字节数组
+	 */
+	public static byte[] toBytes(Binary binary) {
+		// 对象为空
+		if (EmptyUtil.isEmpty(binary)) {
+			return ArrayConstants.BYTES_EMPTY;
+		}
+		// 字段值
+		List<Object> values = Lists.getList();
+		// 获得字段赋值
+		for (Field field : BeanUtil.getFields(binary.getClass())) {
+			if (!field.isSynthetic()) {
+				values.add(BeanUtil.getFieldValue(binary, field));
+			}
+		}
+		// 返回字节数组
+		return Bytes.toBytes(values.toArray());
+	}
+
+	/**
+	 * 转换ByteArray变成字节数组
 	 * @param bean BytesBean类型
 	 * @return 字节数组
 	 */
@@ -175,7 +203,7 @@ public final class Bytes {
 	 */
 	public static byte[] toBytes(BytesBean bean) {
 		// 转换成字节数组
-		byte[] b = EmptyUtil.isEmpty(bean) ? ArrayConstants.BYTES_EMPTY : bean.array();
+		byte[] b = toBytes((ByteArray) bean);
 		// 加上长度返回
 		return EmptyUtil.isEmpty(b) ? b : toBytes(bean.getClass().getName(), b.length, b);
 	}
@@ -561,7 +589,7 @@ public final class Bytes {
 	 * @return 字节数组
 	 */
 	public static byte[] copy(byte[] b, int offset, int len) {
-		return Arrays.copyOfRange(b, offset, len);
+		return EmptyUtil.isEmpty(b) || (offset == 0 && b.length == len) ? b : Arrays.copyOfRange(b, offset, len);
 	}
 
 	/**
@@ -593,8 +621,8 @@ public final class Bytes {
 	 * @param b 字节数组
 	 * @return 转换后的对象
 	 */
-	public static BytesBean toBean(byte[] b, int offset) {
-		return toBean(copy(b, offset, b.length));
+	public static BytesBean toBean(byte[] b) {
+		return toBean(b, 0, b.length);
 	}
 
 	/**
@@ -603,13 +631,27 @@ public final class Bytes {
 	 * @param b 字节数组
 	 * @return 转换后的对象
 	 */
-	public static BytesBean toBean(byte[] b) {
+	public static BytesBean toBean(byte[] b, int offset) {
+		return toBean(b, offset, b.length);
+	}
+
+	/**
+	 * 把字节数组转换为BytesBean
+	 * @param obj BytesBean对象
+	 * @param b 字节数组
+	 * @param offset 偏移
+	 * @param len 长度
+	 * @return 转换后的对象
+	 */
+	public static BytesBean toBean(byte[] b, int offset, int len) {
 		// 如果字节流为空
 		if (EmptyUtil.isEmpty(b)) {
 			return null;
 		}
+		// 获得字节数组
+		byte[] data = copy(b, offset, len);
 		// 获得Bean的Class
-		String name = toString(b);
+		String name = toString(data);
 		// Class名为空
 		if (EmptyUtil.isEmpty(name)) {
 			return null;
@@ -621,9 +663,113 @@ public final class Bytes {
 			return null;
 		}
 		// 设置偏移 6=4(字节数组)+2(字符串)
-		int offset = 6 + name.length();
+		int pos = 6 + name.length();
 		// 返回Bean
-		return bean.array(copy(b, offset, toInt(b) + offset));
+		return (BytesBean) toBean(bean, data, pos);
+	}
+
+	/**
+	 * 把字节数组转换为ByteArray
+	 * @param array ByteArray 对象
+	 * @param b 字节数组
+	 * @return ByteArray对象
+	 */
+	public static ByteArray toBean(ByteArray array, byte[] b) {
+		return toBean(array, b, 0, b.length);
+	}
+
+	/**
+	 * 把字节数组转换为ByteArray
+	 * @param array ByteArray 对象
+	 * @param b 字节数组
+	 * @param offset 偏移
+	 * @return ByteArray对象
+	 */
+	public static ByteArray toBean(ByteArray array, byte[] b, int offset) {
+		return toBean(array, b, offset, b.length);
+	}
+
+	/**
+	 * 把字节数组转换为ByteArray
+	 * @param array ByteArray 对象
+	 * @param b 字节数组
+	 * @param offset 偏移
+	 * @param len 长度
+	 * @return ByteArray对象
+	 */
+	public static ByteArray toBean(ByteArray array, byte[] b, int offset, int len) {
+		return array.array(copy(b, offset, len));
+	}
+
+	/**
+	 * 读取字节数组变成对象
+	 * @param b 字节数组
+	 * @return 对象
+	 */
+	public static <B extends Binary> B toBinary(B binary, byte[] b) {
+		// 获得全部字段
+		List<Field> fields = BeanUtil.getFields(binary.getClass());
+		// 偏移
+		int offset = 0;
+		// 循环设置字段值
+		for (Field field : fields) {
+			// 如果偏移与字节长度相同 没有数据 跳出
+			if (b.length <= offset) {
+				break;
+			}
+			if (!field.isSynthetic()) {
+				// 获得字段类型
+				Class<?> type = field.getType();
+				// 转换字节值
+				if (type.equals(Integer.class) || type.equals(int.class)) {
+					BeanUtil.setFieldValue(binary, field, Bytes.toInt(b, offset));
+					offset += 4;
+				} else if (type.equals(Long.class) || type.equals(long.class)) {
+					BeanUtil.setFieldValue(binary, field, Bytes.toLong(b, offset));
+					offset += 8;
+				} else if (type.equals(Double.class) || type.equals(double.class)) {
+					BeanUtil.setFieldValue(binary, field, Bytes.toDouble(b, offset));
+					offset += 8;
+				} else if (type.equals(Float.class) || type.equals(float.class)) {
+					BeanUtil.setFieldValue(binary, field, Bytes.toFloat(b, offset));
+					offset += 4;
+				} else if (type.equals(Short.class) || type.equals(short.class)) {
+					BeanUtil.setFieldValue(binary, field, Bytes.toShort(b, offset));
+					offset += 2;
+				} else if (type.equals(Byte.class) || type.equals(byte.class)) {
+					BeanUtil.setFieldValue(binary, field, Bytes.toByte(b, offset));
+					offset += 1;
+				} else if (type.equals(Boolean.class) || type.equals(boolean.class)) {
+					BeanUtil.setFieldValue(binary, field, Bytes.toBoolean(b, offset));
+					offset += 1;
+				} else if (type.equals(String.class)) {
+					String s = Bytes.toString(b, offset);
+					BeanUtil.setFieldValue(binary, field, s);
+					offset += Bytes.toShort(b, offset) + 2;
+				} else if (type.isAssignableFrom(BytesBean.class)) {
+					// 转换为BytesBean
+					BytesBean bean = Bytes.toBean(b, offset);
+					BeanUtil.setFieldValue(binary, field, bean);
+					// 类的字符串长度
+					offset += 2 + Bytes.toShort(b, offset);
+					// 字节数组长度
+					offset += 4 + Bytes.toInt(b, offset);
+				} else if (type.isAssignableFrom(ByteArray.class)) {
+					// 转换为BytesBean
+					ByteArray bean = Bytes.toBean((ByteArray) BeanUtil.newInstance(type), b, offset);
+					BeanUtil.setFieldValue(binary, field, bean);
+					// 字节数组长度
+					offset += bean.array().length;
+				} else if (type.equals(byte[].class)) {
+					// 字节数组会获得后面全部的 所以一般这个类型也是本类的最后一个字段
+					byte[] t = Bytes.copy(b, offset, b.length);
+					BeanUtil.setFieldValue(binary, field, t);
+					offset += t.length;
+				}
+			}
+		}
+		// 返回对象
+		return binary;
 	}
 
 	/**

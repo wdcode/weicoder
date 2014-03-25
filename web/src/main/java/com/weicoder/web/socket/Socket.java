@@ -1,6 +1,7 @@
 package com.weicoder.web.socket;
 
 import com.weicoder.common.interfaces.Close;
+import com.weicoder.web.socket.manager.Manager;
 
 /**
  * Socket接口
@@ -24,7 +25,7 @@ public interface Socket extends Close {
 	 * 添加关闭处理器
 	 * @param closed 关闭处理器
 	 */
-	void addClosed(Closed closed);
+	void setClosed(Closed closed);
 
 	/**
 	 * 获得Manager

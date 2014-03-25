@@ -1,4 +1,4 @@
-package com.weicoder.web.socket.simple;
+package com.weicoder.web.socket.heart;
 
 import java.util.Map;
 
@@ -8,9 +8,8 @@ import com.weicoder.common.util.DateUtil;
 import com.weicoder.common.util.ScheduledUtile;
 import com.weicoder.core.log.Logs;
 import com.weicoder.web.socket.Handler;
-import com.weicoder.web.socket.Heart;
-import com.weicoder.web.socket.Manager;
 import com.weicoder.web.socket.Session;
+import com.weicoder.web.socket.manager.Manager;
 import com.weicoder.web.socket.message.Null;
 
 /**
