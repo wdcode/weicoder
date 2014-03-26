@@ -13,7 +13,7 @@ public interface Session extends Close {
 	 * 获得SessionId
 	 * @return SessionId
 	 */
-	int getId();
+	int id();
 
 	/**
 	 * 写入数据
@@ -52,11 +52,11 @@ public interface Session extends Close {
 	 * 获得连接IP
 	 * @return IP
 	 */
-	String getIp();
+	String ip();
 
 	/**
 	 * 获得连接端口
 	 * @return port
 	 */
-	int getPort();
+	int port();
 }

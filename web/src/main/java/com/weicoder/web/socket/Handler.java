@@ -1,9 +1,5 @@
 package com.weicoder.web.socket;
 
-import com.weicoder.web.socket.manager.Manager;
-
-
-
 /**
  * Socket 处理器
  * @author WD
@@ -15,13 +11,12 @@ public interface Handler<E> {
 	 * 处理消息ID
 	 * @return
 	 */
-	short getId();
+	short id();
 
 	/**
 	 * 处理器
 	 * @param session Socket Session
 	 * @param data 传送的数据
-	 * @param manager Session管理器 可以注册获得Session
 	 */
-	void handler(Session session, E data, Manager manager);
+	void handler(Session session, E data);
 }

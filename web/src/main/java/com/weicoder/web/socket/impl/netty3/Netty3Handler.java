@@ -59,7 +59,7 @@ public final class Netty3Handler extends SimpleChannelHandler {
 	 */
 	private Session getSesson(Channel channel) {
 		// 获得Session
-		Session session = process.getSession(channel.getId());
+		Session session = process.session(channel.getId());
 		// 如果Session为空
 		if (session == null) {
 			session = new Netty3Session(channel);

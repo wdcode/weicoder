@@ -4,13 +4,13 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Component;
 import com.weicoder.base.cache.Cache;
+import com.weicoder.base.cache.message.CacheEntity;
 import com.weicoder.base.context.Context;
 import com.weicoder.base.entity.Entity;
 import com.weicoder.base.service.SuperService;
 import com.weicoder.core.json.JsonEngine;
 import com.weicoder.web.socket.Handler;
 import com.weicoder.web.socket.Session;
-import com.weicoder.web.socket.manager.Manager;
 
 /**
  * 缓存Socket通知类
@@ -28,12 +28,12 @@ public final class CacheEntityHandler implements Handler<CacheEntity> {
 	private Context			context;
 
 	@Override
-	public short getId() {
+	public short id() {
 		return 2;
 	}
 
 	@Override
-	public void handler(Session session, CacheEntity data, Manager manager) {
+	public void handler(Session session, CacheEntity data) {
 		// 获得实体类
 		Class<Entity> entity = context.getClass(data.getEntity());
 		// 实体不为空

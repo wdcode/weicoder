@@ -8,7 +8,6 @@ import com.weicoder.base.entity.Entity;
 import com.weicoder.base.service.SuperService;
 import com.weicoder.web.socket.Handler;
 import com.weicoder.web.socket.Session;
-import com.weicoder.web.socket.manager.Manager;
 
 /**
  * 缓存Socket通知类
@@ -26,12 +25,12 @@ public final class CacheLoadHandler implements Handler<String> {
 	private Context			context;
 
 	@Override
-	public short getId() {
+	public short id() {
 		return 1;
 	}
 
 	@Override
-	public void handler(Session session, String data, Manager manager) {
+	public void handler(Session session, String data) {
 		// 获得要更新缓存的类
 		Class<? extends Entity> c = context.getClass(data);
 		// 判断类是否为空

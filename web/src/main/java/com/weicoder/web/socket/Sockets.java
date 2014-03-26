@@ -33,10 +33,13 @@ public final class Sockets {
 	private final static Map<String, Server>	SERVERS;
 	// 保存SocketClient
 	private final static Map<String, Client>	CLIENTS;
+	// 保存Manager Session管理器 一般给Server使用
+	private final static Map<String, Manager>	MANAGERS;
 
 	static {
 		SERVERS = Maps.getConcurrentMap();
 		CLIENTS = Maps.getConcurrentMap();
+		MANAGERS = Maps.getConcurrentMap();
 	}
 
 	/**
@@ -67,6 +70,8 @@ public final class Sockets {
 		} else {
 			socket = addServer(name);
 		}
+		// 设置管理器
+		MANAGERS.put(name, new Manager());
 		// 设置Handler
 		for (String c : SocketParams.getHandler(name)) {
 			socket.addHandler((Handler<?>) BeanUtil.newInstance(c));
@@ -79,7 +84,7 @@ public final class Sockets {
 			}
 		}
 		// 设置关闭处理器
-		socket.setClosed((Closed) BeanUtil.newInstance(SocketParams.getClosed(name)));
+		socket.closed((Closed) BeanUtil.newInstance(SocketParams.getClosed(name)));
 		// 返回Socket
 		return socket;
 	}
@@ -97,7 +102,7 @@ public final class Sockets {
 	 * @param name 名称
 	 */
 	public static Server addServer(Server server) {
-		SERVERS.put(server.getName(), server);
+		SERVERS.put(server.name(), server);
 		return server;
 	}
 
@@ -114,7 +119,7 @@ public final class Sockets {
 	 * @param name 名称
 	 */
 	public static Client addClient(Client client) {
-		CLIENTS.put(client.getName(), client);
+		CLIENTS.put(client.name(), client);
 		return client;
 	}
 
@@ -180,7 +185,7 @@ public final class Sockets {
 	 * @return
 	 */
 	public static Manager manager(String name) {
-		return server(name).getManager();
+		return MANAGERS.get(name);
 	}
 
 	/**
@@ -188,7 +193,7 @@ public final class Sockets {
 	 * @return
 	 */
 	public static Manager manager() {
-		return server().getManager();
+		return manager(StringConstants.EMPTY);
 	}
 
 	/**

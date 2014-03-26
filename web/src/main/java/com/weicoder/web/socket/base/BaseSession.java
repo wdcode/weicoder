@@ -22,11 +22,11 @@ import com.weicoder.web.socket.Sockets;
  */
 public abstract class BaseSession implements Session {
 	// SessionId
-	protected int			id;
+	protected int		id;
 	// 保存IP
-	protected String		ip;
+	protected String	ip;
 	// 保存端口
-	protected int			port;
+	protected int		port;
 	// 写缓存
 	protected Buffer	buffer;
 
@@ -71,17 +71,17 @@ public abstract class BaseSession implements Session {
 	}
 
 	@Override
-	public int getId() {
+	public int id() {
 		return id;
 	}
 
 	@Override
-	public String getIp() {
+	public String ip() {
 		return ip;
 	}
 
 	@Override
-	public int getPort() {
+	public int port() {
 		return port;
 	}
 

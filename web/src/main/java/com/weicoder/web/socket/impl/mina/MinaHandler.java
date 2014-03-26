@@ -57,7 +57,7 @@ public final class MinaHandler extends IoHandlerAdapter {
 		// 获得SessionId
 		int id = Conversion.toInt(session.getId());
 		// 获得包装Session
-		Session s = process.getSession(id);
+		Session s = process.session(id);
 		// 如果为null
 		if (s == null) {
 			// 实例化包装Session

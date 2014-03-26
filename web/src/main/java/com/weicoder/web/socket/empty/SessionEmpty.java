@@ -16,7 +16,7 @@ public final class SessionEmpty implements Session {
 	public void close() {}
 
 	@Override
-	public int getId() {
+	public int id() {
 		return -1;
 	}
 
@@ -37,12 +37,12 @@ public final class SessionEmpty implements Session {
 	}
 
 	@Override
-	public String getIp() {
+	public String ip() {
 		return null;
 	}
 
 	@Override
-	public int getPort() {
+	public int port() {
 		return 0;
 	}
 

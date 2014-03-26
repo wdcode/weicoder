@@ -1,4 +1,4 @@
-package com.weicoder.base.cache.handler;
+package com.weicoder.base.cache.message;
 
 import com.weicoder.web.socket.message.Message;
 

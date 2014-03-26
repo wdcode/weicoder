@@ -16,7 +16,7 @@ import com.weicoder.admin.po.Authority;
 import com.weicoder.admin.po.Menu;
 import com.weicoder.admin.po.Role;
 import com.weicoder.admin.po.RoleAuthority;
-import com.weicoder.admin.po.RoleMenu; 
+import com.weicoder.admin.po.RoleMenu;
 import com.weicoder.admin.token.AdminToken;
 import com.weicoder.base.service.SuperService;
 import com.weicoder.common.lang.Conversion;

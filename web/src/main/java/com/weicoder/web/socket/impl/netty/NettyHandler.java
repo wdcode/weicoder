@@ -57,7 +57,7 @@ public final class NettyHandler extends SimpleChannelInboundHandler<ByteBuf> {
 		// 获得SessionId
 		int id = channel.hashCode();
 		// 获得包装Session
-		Session s = process.getSession(id);
+		Session s = process.session(id);
 		// 如果为null
 		if (s == null) {
 			// 实例化包装Session

@@ -68,7 +68,7 @@ public final class SocketStarter {
 		for (Closed closed : closeds) {
 			// 在指定包内
 			if (closed.getClass().getName().equals(close)) {
-				socket.setClosed(closed);
+				socket.closed(closed);
 				break;
 			}
 		}
