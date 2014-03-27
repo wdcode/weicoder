@@ -2,6 +2,7 @@ package com.weicoder.web.socket.base;
 
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
+import java.util.Arrays;
 
 import com.weicoder.common.binary.Buffer;
 import com.weicoder.common.constants.StringConstants;
@@ -54,7 +55,7 @@ public abstract class BaseSession implements Session {
 						byte[] data = buffer.array();
 						// 清除缓存
 						buffer.clear();
-						Logs.info("socket=" + id + ";buffer send len=" + Bytes.toInt(data) + ";id=" + Bytes.toShort(data, 4) + ";data=" + (data.length - 6));
+						Logs.info("socket=" + id + ";buffer send len=" + Bytes.toInt(data) + ";id=" + Bytes.toShort(data, 4) + ";data=" + Arrays.toString(data));
 						// 写缓存
 						send(data);
 					}
@@ -125,7 +126,7 @@ public abstract class BaseSession implements Session {
 			// 使用缓存
 			buffer.write(data);
 		} else {
-			Logs.info("socket=" + id + ";send len=" + Bytes.toInt(data) + ";id=" + Bytes.toShort(data, 4) + ";data=" + (data.length - 6));
+			Logs.info("socket=" + id + ";send len=" + Bytes.toInt(data) + ";id=" + Bytes.toShort(data, 4) + ";data=" + Arrays.toString(data));
 			// 不用缓存 发送数据
 			send(data);
 		}
