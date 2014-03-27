@@ -49,8 +49,23 @@ public final class IpUtil {
 		if (EmptyUtil.isEmpty(SERVER_IP) && !LOCAL_IP.equals(SERVER_IP)) {
 			// 获得ip列表
 			String[] ips = getIps();
-			// 返回第一个ip
-			return EmptyUtil.isEmpty(ips) ? StringConstants.EMPTY : ips[0];
+			// 如果为空
+			if (EmptyUtil.isEmpty(ips)) {
+				return StringConstants.EMPTY;
+			}
+			// 获得第一个IP
+			String ip = ips[0];
+			// 循环全部IP
+			for (int i = 1; i < ips.length; i++) {
+				// 不是内网IP
+				String tmp = ips[i];
+				if (!tmp.startsWith("192.168") && !tmp.startsWith("10.")) {
+					ip = tmp;
+					break;
+				}
+			}
+			// 返回ip
+			return ip;
 		} else {
 			return SERVER_IP;
 		}
