@@ -67,9 +67,7 @@ public final class MinaClient extends BaseClient {
 
 	@Override
 	public void close() {
-		// 关闭Session
-		future.getSession().close(false).awaitUninterruptibly();
-		// 关闭acceptor
+		session.close();
 		connector.dispose(false);
 	}
 }

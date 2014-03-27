@@ -9,6 +9,7 @@ import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.util.ScheduledUtile;
 import com.weicoder.common.util.StringUtil;
+import com.weicoder.common.util.ThreadUtil;
 import com.weicoder.core.log.Logs;
 import com.weicoder.web.params.SocketParams;
 import com.weicoder.web.socket.Session;
@@ -29,12 +30,16 @@ public abstract class BaseSession implements Session {
 	protected int		port;
 	// 写缓存
 	protected Buffer	buffer;
+	// 关闭延迟时间
+	protected long		close;
 
 	/**
 	 * 构造
 	 * @param name
 	 */
 	public BaseSession() {
+		// 关闭延迟时间
+		close = SocketParams.CLOSE;
 		// 使用写缓存
 		if (SocketParams.WRITE > 0) {
 			// 声明缓存
@@ -60,13 +65,11 @@ public abstract class BaseSession implements Session {
 
 	@Override
 	public void send(short id, Object message) {
-		// 发送数据
 		write(Sockets.pack(id, message));
 	}
 
 	@Override
 	public void send(Object message) {
-		// 发送数据
 		write(Sockets.pack(message));
 	}
 
@@ -83,6 +86,16 @@ public abstract class BaseSession implements Session {
 	@Override
 	public int port() {
 		return port;
+	}
+
+	@Override
+	public void close() {
+		// 如果需要延迟关闭
+		if (close > 0) {
+			ThreadUtil.sleep(close);
+		}
+		// 调用关闭
+		close0();
 	}
 
 	/**
@@ -117,4 +130,9 @@ public abstract class BaseSession implements Session {
 			send(data);
 		}
 	}
+
+	/**
+	 * 关闭
+	 */
+	protected abstract void close0();
 }

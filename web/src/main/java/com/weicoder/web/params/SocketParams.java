@@ -24,6 +24,8 @@ public final class SocketParams {
 	public final static String[]	REGISTERS	= Params.getStringArray(PREFIX + ".registers", new String[] { StringConstants.EMPTY });
 	/** 写缓存间隔时间 */
 	public final static long		WRITE		= Params.getLong(PREFIX + ".write", 0);
+	/** 写缓存间隔时间 */
+	public final static long		CLOSE		= Params.getLong(PREFIX + ".close", 3000);
 	/** 线程池数 */
 	public final static int			POOL		= Params.getInt(PREFIX + ".pool", SystemConstants.CPU_NUM + 1);
 	/** 线程池数 */

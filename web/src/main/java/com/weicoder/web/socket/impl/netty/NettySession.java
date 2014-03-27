@@ -28,12 +28,6 @@ public final class NettySession extends BaseSession implements Session {
 	}
 
 	@Override
-	public void close() {
-		channel.disconnect();
-		channel.close();
-	}
-
-	@Override
 	public boolean isConnect() {
 		return channel.isActive();
 	}
@@ -46,5 +40,11 @@ public final class NettySession extends BaseSession implements Session {
 	@Override
 	public void send(byte[] data) {
 		channel.writeAndFlush(PooledByteBufAllocator.DEFAULT.buffer().writeBytes(data));
+	}
+
+	@Override
+	protected void close0() {
+		channel.close();
+		channel.disconnect();
 	}
 }

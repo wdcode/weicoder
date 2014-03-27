@@ -28,12 +28,6 @@ public final class Netty3Session extends BaseSession implements Session {
 	}
 
 	@Override
-	public void close() {
-		channel.disconnect();
-		channel.close();
-	}
-
-	@Override
 	public boolean isConnect() {
 		return channel.isConnected();
 	}
@@ -46,5 +40,11 @@ public final class Netty3Session extends BaseSession implements Session {
 	@Override
 	public void send(byte[] data) {
 		channel.write(ChannelBuffers.wrappedBuffer(data));
+	}
+
+	@Override
+	protected void close0() {
+		channel.close();
+		channel.disconnect();
 	}
 }

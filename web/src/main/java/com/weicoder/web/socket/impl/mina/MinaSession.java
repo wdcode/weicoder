@@ -29,11 +29,6 @@ public final class MinaSession extends BaseSession implements Session {
 	}
 
 	@Override
-	public void close() {
-		session.close(false);
-	}
-
-	@Override
 	public boolean isConnect() {
 		return session.isConnected();
 	}
@@ -46,5 +41,10 @@ public final class MinaSession extends BaseSession implements Session {
 	@Override
 	public void send(byte[] data) {
 		session.write(IoBuffer.wrap(data));
+	}
+
+	@Override
+	protected void close0() {
+		session.close(false);
 	}
 }
