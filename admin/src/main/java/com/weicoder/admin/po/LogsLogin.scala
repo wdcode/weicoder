@@ -9,7 +9,7 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory
 import com.weicoder.base.entity.EntityIp
 import com.weicoder.base.entity.EntityShards
 import com.weicoder.base.entity.EntityUserId
-import com.weicoder.site.entity.base.BaseEntityIdTime
+import com.weicoder.site.entity.base.BaseEntityIdTime 
 import scala.beans.BeanProperty
 
 /**
@@ -23,17 +23,15 @@ import scala.beans.BeanProperty
 @Entity
 @DynamicInsert
 @DynamicUpdate
-class LogsLogin extends BaseEntityIdTime with EntityIp {
-  // 登录IP
+class LogsLogin extends BaseEntityIdTime with EntityIp with EntityUserId {
+  // 登录IP 
   @BeanProperty
   var ip: String = _
-  // 用户ID
+  // 用户ID 
   @BeanProperty
   var userId: Integer = _
-  // 状态
-  @BeanProperty
+  // 状态 
   var state: Integer = _
-  // 名称
-  @BeanProperty
+  // 名称 
   var name: String = _
 }

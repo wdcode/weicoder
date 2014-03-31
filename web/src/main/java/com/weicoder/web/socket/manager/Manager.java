@@ -276,12 +276,12 @@ public final class Manager {
 				public void run() {
 					// 日志
 					long curr = System.currentTimeMillis();
-					Logs.info("manager pool broad start size=" + list.size() + ";time=" + DateUtil.getTheDate());
+					Logs.debug("manager pool broad start size=" + list.size() + ";time=" + DateUtil.getTheDate());
 					// 广播消息
 					for (Session session : list) {
 						session.send(data);
 					}
-					Logs.info("manager pool broad end size=" + list.size() + ";time=" + (System.currentTimeMillis() - curr));
+					Logs.debug("manager pool broad end size=" + list.size() + ";time=" + (System.currentTimeMillis() - curr));
 				}
 			});
 		}

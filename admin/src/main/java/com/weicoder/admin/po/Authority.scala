@@ -27,7 +27,6 @@ class Authority extends BaseEntityId with GrantedAuthority {
   // 权限
   @BeanProperty
   var authority: String = _
-  // 名称
-  @BeanProperty
+  // 名称 
   var name: String = _
 }

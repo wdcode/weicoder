@@ -1,7 +1,6 @@
 package com.weicoder.admin.po
 
-import com.weicoder.site.entity.base.BaseEntityId
-import scala.beans.BeanProperty
+import com.weicoder.site.entity.base.BaseEntityId 
 import org.springframework.stereotype.Component
 import org.springframework.context.annotation.Scope
 import org.springframework.beans.factory.config.ConfigurableBeanFactory
@@ -20,10 +19,8 @@ import com.weicoder.base.annotation.Cache
 @DynamicUpdate
 @Cache
 class RoleAuthority extends BaseEntityId {
-  //操作	
-  @BeanProperty
+  //操作	 
   var authorityId: Int = _
-  //角色
-  @BeanProperty
+  //角色 
   var roleId: Int = _
 }

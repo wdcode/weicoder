@@ -30,16 +30,12 @@ public abstract class BaseSession implements Session {
 	protected int		port;
 	// 写缓存
 	protected Buffer	buffer;
-	// 关闭延迟时间
-	protected long		close;
 
 	/**
 	 * 构造
 	 * @param name
 	 */
 	public BaseSession() {
-		// 关闭延迟时间
-		close = SocketParams.CLOSE;
 		// 使用写缓存
 		if (SocketParams.WRITE > 0) {
 			// 声明缓存
@@ -52,11 +48,11 @@ public abstract class BaseSession implements Session {
 					if (buffer.hasRemaining()) {
 						// 获得写入缓存字节数组
 						byte[] data = buffer.array();
-						// 清除缓存
-						buffer.clear();
 						Logs.info("socket=" + id + ";buffer send len=" + Bytes.toInt(data) + ";id=" + Bytes.toShort(data, 4) + ";data=" + (data.length - 6));
 						// 写缓存
 						send(data);
+						// 清除缓存
+						buffer.clear();
 					}
 				}
 			}, SocketParams.WRITE);
@@ -90,9 +86,11 @@ public abstract class BaseSession implements Session {
 
 	@Override
 	public void close() {
-		// 如果需要延迟关闭
-		if (close > 0) {
-			ThreadUtil.sleep(close);
+		// 使用写缓存
+		if (SocketParams.WRITE > 0) {
+			while (buffer.hasRemaining()) {
+				ThreadUtil.sleep(1);
+			}
 		}
 		// 调用关闭
 		close0();

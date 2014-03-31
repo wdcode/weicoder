@@ -7,7 +7,10 @@ import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
 import org.springframework.beans.factory.config.ConfigurableBeanFactory
 import com.weicoder.site.entity.base.BaseEntityIdTime
+import com.weicoder.base.entity.EntityUser
+import com.weicoder.base.entity.EntityIp
 import scala.beans.BeanProperty
+import com.weicoder.base.entity.EntityUserId
 
 /**
  * 操作日志实体
@@ -20,20 +23,17 @@ import scala.beans.BeanProperty
 @Entity
 @DynamicInsert
 @DynamicUpdate
-class Logs extends BaseEntityIdTime {
-  // 内容
-  @BeanProperty
+class LogsOperate extends BaseEntityIdTime with EntityUserId with EntityIp {
+  // 内容 
   var content: String = _
-  // 用户ID
+  // 用户ID 
   @BeanProperty
   var userId: Integer = _
-  // 状态
-  @BeanProperty
+  // 状态 
   var state: Integer = _
-  // 名称
-  @BeanProperty
+  // 名称 
   var name: String = _
-  //操作IP
+  //操作IP 
   @BeanProperty
   var ip: String = _
 }

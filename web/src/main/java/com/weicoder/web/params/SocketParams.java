@@ -24,8 +24,6 @@ public final class SocketParams {
 	public final static String[]	REGISTERS	= Params.getStringArray(PREFIX + ".registers", new String[] { StringConstants.EMPTY });
 	/** 写缓存间隔时间 */
 	public final static long		WRITE		= Params.getLong(PREFIX + ".write", 0);
-	/** 写缓存间隔时间 */
-	public final static long		CLOSE		= Params.getLong(PREFIX + ".close", 3000);
 	/** 线程池数 */
 	public final static int			POOL		= Params.getInt(PREFIX + ".pool", SystemConstants.CPU_NUM + 1);
 	/** 线程池数 */
@@ -65,6 +63,18 @@ public final class SocketParams {
 	 */
 	public static int getPort(String name) {
 		return Params.getInt(Params.getKey(PREFIX, name, "port"));
+	}
+
+	/**
+	 * 延迟关闭 0立即关闭 有可能数据发不全 但不占系统资源<br/>
+	 * 需在配置文件中配置<br/>
+	 * <h2>配置方式如下: <br/>
+	 * Properties: socket.linger = ? <br/>
+	 * XML: {@literal <socket><linger>?</linger></socket>}</h2>
+	 * @return 延迟关闭
+	 */
+	public static int getLinger(String name) {
+		return Params.getInt(Params.getKey(PREFIX, name, "linger"), 1);
 	}
 
 	/**

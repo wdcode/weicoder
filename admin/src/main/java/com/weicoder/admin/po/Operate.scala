@@ -10,8 +10,7 @@ import org.springframework.stereotype.Component
 import org.springframework.beans.factory.config.ConfigurableBeanFactory
 import com.weicoder.base.annotation.Cache
 import com.weicoder.common.lang.Conversion
-import com.weicoder.site.entity.base.BaseEntity
-import scala.beans.BeanProperty
+import com.weicoder.site.entity.base.BaseEntity 
 
 /**
  * 操作实体
@@ -27,11 +26,9 @@ import scala.beans.BeanProperty
 @Cache
 class Operate extends BaseEntity {
   // 操作连接
-  @Id
-  @BeanProperty
+  @Id 
   var link: String = _
-  // 名称
-  @BeanProperty
+  // 名称 
   var name: String = _
   //类型
   //	var type:Integer

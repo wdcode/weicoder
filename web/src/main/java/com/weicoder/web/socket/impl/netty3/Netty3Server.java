@@ -37,6 +37,7 @@ public final class Netty3Server extends BaseServer {
 		bootstrap.setOption("child.tcpNoDelay", true);
 		bootstrap.setOption("child.keepAlive", true);
 		bootstrap.setOption("child.reuseAddress", true);
+		bootstrap.setOption("child.soLinger", SocketParams.getLinger(name));
 		bootstrap.setOption("reuseAddress", true);
 		bootstrap.setOption("localAddress", new InetSocketAddress(SocketParams.getPort(name)));
 		// 设置handler

@@ -39,6 +39,7 @@ public final class Netty3Client extends BaseClient {
 		// 设置属性
 		bootstrap.setOption("tcpNoDelay", true);
 		bootstrap.setOption("keepAlive", true);
+		bootstrap.setOption("soLinger", SocketParams.getLinger(name));
 		bootstrap.setOption("remoteAddress", new InetSocketAddress(SocketParams.getHost(name), SocketParams.getPort(name)));
 		// 设置handler
 		bootstrap.setPipelineFactory(new ChannelPipelineFactory() {

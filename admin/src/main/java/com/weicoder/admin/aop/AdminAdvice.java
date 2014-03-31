@@ -15,9 +15,9 @@ import org.springframework.stereotype.Component;
 import com.opensymphony.xwork2.Action;
 import com.weicoder.admin.action.AdminAction;
 import com.weicoder.admin.exception.AdminException;
-import com.weicoder.admin.params.AdminParams;
-import com.weicoder.admin.po.Logs;
+import com.weicoder.admin.params.AdminParams; 
 import com.weicoder.admin.po.LogsLogin;
+import com.weicoder.admin.po.LogsOperate;
 import com.weicoder.admin.po.Operate;
 import com.weicoder.admin.po.Role;
 import com.weicoder.base.entity.Entity;
@@ -114,10 +114,10 @@ public final class AdminAdvice {
 			LogsLogin logs = new LogsLogin();
 			// 设置属性
 			logs.setUserId(uid);
-			logs.setName(key);
+			logs.name_$eq(key);
 			logs.setTime(DateUtil.getTime());
 			logs.setIp(ip);
-			logs.setState(state);
+			logs.state_$eq(state);
 			// 添加到数据库
 			service.insert(logs);
 		}
@@ -143,22 +143,22 @@ public final class AdminAdvice {
 			// 获得删除的IDS
 			Serializable[] keys = action.getKeys();
 			// 添加日志
-			Logs logs = new Logs();
+			LogsOperate logs = new LogsOperate();
 			// 设置用户ID
 			logs.setUserId(action.getToken().getId());
 			logs.setTime(DateUtil.getTime());
-			logs.setState(state);
-			logs.setName(link);
+			logs.state_$eq(state);
+			logs.name_$eq(link);
 			logs.setIp(action.getIp());
 			// 判断操作
 			if (EmptyUtil.isEmpty(keys)) {
 				// 判断实体不为空
 				if (!EmptyUtil.isEmpty(entity)) {
-					logs.setContent(entity.toString());
+					logs.content_$eq(entity.toString());
 				}
 			} else {
 				// 删除多个数据
-				logs.setContent(Arrays.toString((keys)));
+				logs.content_$eq(Arrays.toString((keys)));
 			}
 			// 记录日志
 			service.insert(logs);

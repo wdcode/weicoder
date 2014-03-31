@@ -40,7 +40,7 @@ public final class NettyServer extends BaseServer {
 		// bootstrap.childOption(ChannelOption.SO_TIMEOUT, 30000);
 		bootstrap.childOption(ChannelOption.SO_SNDBUF, 1024 * 32);
 		bootstrap.childOption(ChannelOption.SO_RCVBUF, 1024 * 8);
-		bootstrap.option(ChannelOption.SO_REUSEADDR, true);
+		bootstrap.childOption(ChannelOption.SO_LINGER, SocketParams.getLinger(name));
 		// 设置channel
 		bootstrap.channel(NioServerSocketChannel.class);
 		// 设置初始化 handler

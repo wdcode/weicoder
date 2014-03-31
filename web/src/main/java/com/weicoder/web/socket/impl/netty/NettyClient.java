@@ -42,6 +42,7 @@ public final class NettyClient extends BaseClient {
 		// bootstrap.option(ChannelOption.SO_TIMEOUT, 30000);
 		bootstrap.option(ChannelOption.SO_SNDBUF, 1024 * 32);
 		bootstrap.option(ChannelOption.SO_RCVBUF, 1024 * 8);
+		bootstrap.option(ChannelOption.SO_LINGER, SocketParams.getLinger(name));
 		// 设置channel
 		bootstrap.channel(NioSocketChannel.class);
 		// 设置初始化 handler

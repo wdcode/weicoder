@@ -7,8 +7,7 @@ import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
 import org.springframework.beans.factory.config.ConfigurableBeanFactory
 import com.weicoder.base.annotation.Cache
-import com.weicoder.site.entity.base.BaseEntityId
-import scala.beans.BeanProperty
+import com.weicoder.site.entity.base.BaseEntityId 
 
 /**
  * 菜单实体
@@ -23,13 +22,10 @@ import scala.beans.BeanProperty
 @DynamicUpdate
 @Cache
 class Menu extends BaseEntityId {
-  // 上级菜单ID
-  @BeanProperty
+  // 上级菜单ID  
   var menuId: Integer = _
-  // 链接
-  @BeanProperty
+  // 链接 
   var url: String = _
-  // 名称
-  @BeanProperty
+  // 名称 
   var name: String = _
 }

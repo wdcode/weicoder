@@ -15,8 +15,7 @@ import com.weicoder.common.constants.StringConstants
 import com.weicoder.common.lang.Conversion
 import com.weicoder.common.lang.Lists
 import com.weicoder.common.util.EmptyUtil
-import com.weicoder.site.entity.base.BaseEntityId
-import scala.beans.BeanProperty
+import com.weicoder.site.entity.base.BaseEntityId 
 
 /**
  * 角色实体
@@ -31,8 +30,7 @@ import scala.beans.BeanProperty
 @DynamicUpdate
 @Cache
 class Role extends BaseEntityId {
-  // 名称
-  @BeanProperty
+  // 名称 
   var name: String = _
   // 操作列表
 //  @ManyToMany //  	@JoinTable(name = "role_operate",joinColumns = @JoinColumn(name = "role_id"), inverseJoinColumns = @JoinColumn(name = "operate"))

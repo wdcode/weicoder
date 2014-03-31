@@ -46,9 +46,9 @@ public final class MinaClient extends BaseClient {
 		sc.setSendBufferSize(1024 * 32);
 		// flush函数的调用 设置为非延迟发送，为true则不组装成大包发送，收到东西马上发出
 		sc.setTcpNoDelay(true);
-		sc.setSoLinger(0);
+		sc.setSoLinger(SocketParams.getLinger(name));
 		// 设置超时时间
-		sc.setWriteTimeout(10000);
+		sc.setWriteTimeout(3000);
 		sc.setWriterIdleTime(60);
 		sc.setReaderIdleTime(30);
 		sc.setBothIdleTime(180);
@@ -68,6 +68,6 @@ public final class MinaClient extends BaseClient {
 	@Override
 	public void close() {
 		session.close();
-		connector.dispose(false);
+		connector.dispose();
 	}
 }
