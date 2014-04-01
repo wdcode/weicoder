@@ -44,7 +44,7 @@
             </interceptor-stack>
             <!-- 高级包 比simple多了国际化与上传包 -->
             <interceptor-stack name="highStack">  
-                <interceptor-ref name="defaultStack" />  
+                <interceptor-ref name="simpleStack" />  
                 <interceptor-ref name="i18n"/>
                 <interceptor-ref name="fileUpload"/>  
             </interceptor-stack>

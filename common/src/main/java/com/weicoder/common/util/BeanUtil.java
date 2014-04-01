@@ -303,6 +303,10 @@ public final class BeanUtil {
 		if (clazz == null || EmptyUtil.isEmpty(name)) {
 			return null;
 		}
+		// 如果有复杂字段
+		if (name.indexOf(StringConstants.POINT) > -1) {
+			return getField(getField(clazz, StringUtil.subStringEnd(name, StringConstants.POINT)), StringUtil.subString(name, StringConstants.POINT));
+		}
 		// 声明字段
 		Field f = null;
 		// 循环对象类

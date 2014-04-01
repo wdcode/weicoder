@@ -87,7 +87,7 @@ public class SiteAction<U extends EntityUser> extends SuperAction {
 			// 获得原Bean
 			EntityUser u = service.get(user.getClass(), key);
 			// 判断是否原始密码
-			if (Digest.absolute(oldPwd).equals(u.getPassword())) {
+			if (password(oldPwd).equals(u.getPassword())) {
 				// 设置新密码
 				u.setPassword(newPwd);
 				// 返回成功
@@ -404,6 +404,15 @@ public class SiteAction<U extends EntityUser> extends SuperAction {
 	@Autowired
 	public void setUser(U user) {
 		this.user = user;
+	}
+
+	/**
+	 * 加密密码
+	 * @param oldPwd
+	 * @return
+	 */
+	protected String password(String oldPwd) {
+		return Digest.password(oldPwd);
 	}
 
 	/**
