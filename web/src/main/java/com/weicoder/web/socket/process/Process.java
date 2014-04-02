@@ -9,6 +9,7 @@ import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.util.DateUtil;
+import com.weicoder.common.util.ScheduledUtile;
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.core.log.Logs;
 import com.weicoder.web.params.SocketParams;
@@ -32,6 +33,8 @@ public final class Process {
 	private Map<Short, Handler<Object>>	handlers	= Maps.getMap();
 	// 保存Session
 	private Map<Integer, Session>		sessions	= Maps.getConcurrentMap();
+	// 保存Session
+	private Map<Integer, Integer>		times		= Maps.getConcurrentMap();
 	// 保存全局IoBuffer
 	private Map<Integer, Buffer>		buffers		= Maps.getConcurrentMap();
 	// 心跳处理
@@ -53,6 +56,23 @@ public final class Process {
 			Heart handler = new Heart(SocketParams.getHeartId(name), heart);
 			addHandler(handler);
 		}
+		// 检测时间
+		final int time = SocketParams.getTime(name);
+		// 定时检测
+		ScheduledUtile.rate(new Runnable() {
+			@Override
+			public void run() {
+				// 检测连接超时
+				try {
+					for (Map.Entry<Integer, Integer> e : times.entrySet()) {
+						// 超时
+						if (DateUtil.getTime() - e.getValue() > time) {
+							sessions.get(e.getKey()).close();
+						}
+					}
+				} catch (Exception e) {}
+			}
+		}, time);
 	}
 
 	/**
@@ -78,6 +98,7 @@ public final class Process {
 	public void connected(Session session) {
 		sessions.put(session.id(), session);
 		buffers.put(session.id(), new Buffer());
+		times.put(session.id(), DateUtil.getTime());
 		// 如果心跳处理不为空
 		if (heart != null) {
 			heart.add(session);
@@ -128,9 +149,15 @@ public final class Process {
 	 * @param data 字节流
 	 */
 	public void process(final Session session, final byte[] message) {
-		Logs.debug("socket=" + session.id() + ";receive=" + session.id() + ";len=" + message.length);
+		// 获得session id
+		final int sid = session.id();
+		// 是否存在
+		if (times.containsKey(sid)) {
+			times.remove(sid);
+		}
+		Logs.debug("socket=" + sid + ";receive=" + sid + ";len=" + message.length);
 		// 获得全局buffer
-		Buffer buff = buffers.get(session.id());
+		Buffer buff = buffers.get(sid);
 		// 添加新消息到全局缓存中
 		buff.write(message);
 		// 反转缓存区
@@ -164,7 +191,7 @@ public final class Process {
 				final short id = buff.readShort();
 				// 获得相应的
 				final Handler<Object> handler = handlers.get(id);
-				Logs.info("socket=" + session.id() + ";receive len=" + length + ";id=" + id + ";handler=" + handler + ";time=" + DateUtil.getTheDate());
+				Logs.info("socket=" + sid + ";receive len=" + length + ";id=" + id + ";handler=" + handler + ";time=" + DateUtil.getTheDate());
 				// 消息长度
 				final int len = length - 2;
 				// 读取指定长度的字节数
@@ -176,7 +203,7 @@ public final class Process {
 				// 如果处理器为空
 				if (handler == null) {
 					// 抛弃这次消息
-					Logs.warn("socket=" + session.id() + ";handler message discard id=" + id + ";message len=" + len);
+					Logs.warn("socket=" + sid + ";handler message discard id=" + id + ";message len=" + len);
 					return;
 				}
 				// 线程执行
@@ -189,7 +216,7 @@ public final class Process {
 							// 如果消息长度为0
 							if (len == 0) {
 								handler.handler(session, null);
-								Logs.info("socket=" + session.id() + ";handler message is null end time=" + (System.currentTimeMillis() - curr));
+								Logs.info("socket=" + sid + ";handler message is null end time=" + (System.currentTimeMillis() - curr));
 							} else {
 								// 获得处理器消息类
 								Class<?> type = ClassUtil.getGenericClass(handler.getClass());
@@ -227,11 +254,11 @@ public final class Process {
 									// 默认使用消息体
 									mess = ((Message) ClassUtil.newInstance(type)).array(data);
 								}
-								Logs.info("socket=" + session.id() + ";handler message=" + mess + ";time=" + (System.currentTimeMillis() - curr));
+								Logs.info("socket=" + sid + ";handler message=" + mess + ";time=" + (System.currentTimeMillis() - curr));
 								curr = System.currentTimeMillis();
 								// 回调处理器
 								handler.handler(session, mess);
-								Logs.info("socket=" + session.id() + ";handler end time=" + (System.currentTimeMillis() - curr));
+								Logs.info("socket=" + sid + ";handler end time=" + (System.currentTimeMillis() - curr));
 							}
 						} catch (Exception e) {
 							Logs.error(e);

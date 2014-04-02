@@ -25,7 +25,7 @@ public final class ScheduledUtile {
 	 * @return
 	 */
 	public static ScheduledFuture<?> rate(Runnable command, long period) {
-		return POOL.scheduleAtFixedRate(command, DateConstants.TIME_SECOND, period, TimeUnit.MILLISECONDS);
+		return POOL.scheduleAtFixedRate(command, period, period, TimeUnit.MILLISECONDS);
 	}
 
 	/**
@@ -45,7 +45,7 @@ public final class ScheduledUtile {
 	 * @return
 	 */
 	public static ScheduledFuture<?> delay(Runnable command, long delay) {
-		return POOL.scheduleWithFixedDelay(command, DateConstants.TIME_SECOND, delay, TimeUnit.MILLISECONDS);
+		return POOL.scheduleWithFixedDelay(command, delay, delay, TimeUnit.MILLISECONDS);
 	}
 
 	/**

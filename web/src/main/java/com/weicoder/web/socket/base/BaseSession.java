@@ -48,11 +48,11 @@ public abstract class BaseSession implements Session {
 					if (buffer.hasRemaining()) {
 						// 获得写入缓存字节数组
 						byte[] data = buffer.array();
-						Logs.info("socket=" + id + ";buffer send len=" + Bytes.toInt(data) + ";id=" + Bytes.toShort(data, 4) + ";data=" + (data.length - 6));
-						// 写缓存
-						send(data);
 						// 清除缓存
 						buffer.clear();
+						// 写缓存
+						send(data);
+						Logs.info("socket=" + id + ";buffer send len=" + data.length);
 					}
 				}
 			}, SocketParams.WRITE);
@@ -89,7 +89,7 @@ public abstract class BaseSession implements Session {
 		// 使用写缓存
 		if (SocketParams.WRITE > 0) {
 			while (buffer.hasRemaining()) {
-				ThreadUtil.sleep(1);
+				ThreadUtil.sleep(SocketParams.WRITE + 5);
 			}
 		}
 		// 调用关闭
@@ -123,9 +123,9 @@ public abstract class BaseSession implements Session {
 			// 使用缓存
 			buffer.write(data);
 		} else {
-			Logs.info("socket=" + id + ";send len=" + Bytes.toInt(data) + ";id=" + Bytes.toShort(data, 4) + ";data=" + (data.length - 6));
 			// 不用缓存 发送数据
 			send(data);
+			Logs.info("socket=" + id + ";send len=" + data.length + ";id=" + Bytes.toShort(data, 4));
 		}
 	}
 
