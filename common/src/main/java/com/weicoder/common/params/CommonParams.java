@@ -43,7 +43,9 @@ public final class CommonParams {
 	/** 加密使用摘要算法 */
 	public final static String	ENCRYPT_DIGEST			= Params.getString("encrypt.digest", EncryptConstants.ALGO_SHA_1);
 	/** 线程池数 */
-	public final static int		THREAD_POOL				= Params.getInt("thread.pool", SystemConstants.CPU_NUM * 2 + 2);
+	public final static int		POOL_THREAD				= Params.getInt("pool.thread", SystemConstants.CPU_NUM * 2);
+	/** 线程池数 */
+	public final static int		POOL_TIMER				= Params.getInt("pool.timer", SystemConstants.CPU_NUM);
 
 	/** 私有构造 */
 	private CommonParams() {}

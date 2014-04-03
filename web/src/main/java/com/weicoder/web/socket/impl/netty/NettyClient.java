@@ -34,15 +34,14 @@ public final class NettyClient extends BaseClient {
 		// NettyHandler
 		handler = new NettyHandler(process);
 		// 设置group
-		bootstrap.group(new NioEventLoopGroup(1));
+		bootstrap.group(new NioEventLoopGroup(SocketParams.getPool(name)));
 		// 设置属性
 		bootstrap.option(ChannelOption.TCP_NODELAY, true);
-		bootstrap.option(ChannelOption.SO_KEEPALIVE, true);
+		bootstrap.option(ChannelOption.SO_KEEPALIVE, false);
+		bootstrap.option(ChannelOption.SO_LINGER, 0);
 		bootstrap.option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 30000);
-		// bootstrap.option(ChannelOption.SO_TIMEOUT, 30000);
 		bootstrap.option(ChannelOption.SO_SNDBUF, 1024 * 32);
 		bootstrap.option(ChannelOption.SO_RCVBUF, 1024 * 8);
-		bootstrap.option(ChannelOption.SO_LINGER, SocketParams.getLinger(name));
 		// 设置channel
 		bootstrap.channel(NioSocketChannel.class);
 		// 设置初始化 handler

@@ -84,7 +84,6 @@ public final class Heart implements Handler<Null> {
 
 	@Override
 	public void handler(Session session, Null data) {
-		// 记录时间
 		times.put(session.id(), DateUtil.getTime());
 	}
 }

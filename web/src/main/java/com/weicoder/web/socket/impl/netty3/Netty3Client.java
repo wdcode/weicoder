@@ -1,7 +1,6 @@
 package com.weicoder.web.socket.impl.netty3;
 
 import java.net.InetSocketAddress;
-import java.util.concurrent.Executors;
 
 import org.jboss.netty.bootstrap.ClientBootstrap;
 import org.jboss.netty.channel.ChannelFuture;
@@ -33,13 +32,13 @@ public final class Netty3Client extends BaseClient {
 	public Netty3Client(String name) {
 		super(name);
 		// 实例化ServerBootstrap
-		bootstrap = new ClientBootstrap(new NioClientSocketChannelFactory(Executors.newCachedThreadPool(), Executors.newCachedThreadPool()));
+		bootstrap = new ClientBootstrap(new NioClientSocketChannelFactory());
 		// NettyHandler
 		handler = new Netty3Handler(process);
 		// 设置属性
 		bootstrap.setOption("tcpNoDelay", true);
-		bootstrap.setOption("keepAlive", true);
-		bootstrap.setOption("soLinger", SocketParams.getLinger(name));
+		bootstrap.setOption("keepAlive", false);
+		bootstrap.setOption("soLinger", 0);
 		bootstrap.setOption("remoteAddress", new InetSocketAddress(SocketParams.getHost(name), SocketParams.getPort(name)));
 		// 设置handler
 		bootstrap.setPipelineFactory(new ChannelPipelineFactory() {

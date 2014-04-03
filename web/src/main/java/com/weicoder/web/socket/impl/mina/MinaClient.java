@@ -31,22 +31,21 @@ public final class MinaClient extends BaseClient {
 	public MinaClient(String name) {
 		super(name);
 		// 客户端
-		this.connector = new NioSocketConnector(1);
+		this.connector = new NioSocketConnector(SocketParams.getPool(name));
 		// 实例化handler
 		handler = new MinaHandler(process);
 		// 获得Session配置
 		SocketSessionConfig sc = connector.getSessionConfig();
-		// 设置每一个非主监听连接的端口可以重用
-		sc.setReuseAddress(true);
+		// flush函数的调用 设置为非延迟发送，为true则不组装成大包发送，收到东西马上发出
+		sc.setTcpNoDelay(true);
+		sc.setKeepAlive(false);
+		sc.setSoLinger(0);
 		// 设置最小读取缓存
 		sc.setMinReadBufferSize(64);
 		// 设置输入缓冲区的大小
 		sc.setReceiveBufferSize(1024 * 8);
 		// 设置输出缓冲区的大小
 		sc.setSendBufferSize(1024 * 32);
-		// flush函数的调用 设置为非延迟发送，为true则不组装成大包发送，收到东西马上发出
-		sc.setTcpNoDelay(true);
-		sc.setSoLinger(SocketParams.getLinger(name));
 		// 设置超时时间
 		sc.setWriteTimeout(3000);
 		sc.setWriterIdleTime(60);

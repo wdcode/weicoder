@@ -31,16 +31,15 @@ public final class NettyServer extends BaseServer {
 		// NettyHandler
 		handler = new NettyHandler(process);
 		// 设置group
-		bootstrap.group(new NioEventLoopGroup(SocketParams.POOL));
+		bootstrap.group(new NioEventLoopGroup(SocketParams.getPool(name)), new NioEventLoopGroup(SocketParams.getPool(name)));
 		// 设置属性
-		bootstrap.childOption(ChannelOption.TCP_NODELAY, true);
-		bootstrap.childOption(ChannelOption.SO_KEEPALIVE, true);
 		bootstrap.childOption(ChannelOption.SO_REUSEADDR, true);
+		bootstrap.childOption(ChannelOption.TCP_NODELAY, true);
+		bootstrap.childOption(ChannelOption.SO_KEEPALIVE, false);
+		bootstrap.childOption(ChannelOption.SO_LINGER, 0);
 		bootstrap.childOption(ChannelOption.CONNECT_TIMEOUT_MILLIS, 30000);
-		// bootstrap.childOption(ChannelOption.SO_TIMEOUT, 30000);
 		bootstrap.childOption(ChannelOption.SO_SNDBUF, 1024 * 32);
 		bootstrap.childOption(ChannelOption.SO_RCVBUF, 1024 * 8);
-		bootstrap.childOption(ChannelOption.SO_LINGER, SocketParams.getLinger(name));
 		// 设置channel
 		bootstrap.channel(NioServerSocketChannel.class);
 		// 设置初始化 handler

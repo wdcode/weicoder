@@ -16,7 +16,7 @@ import com.weicoder.common.params.CommonParams;
  */
 public final class ScheduledUtile {
 	/** 并发定时任务池 */
-	public final static ScheduledExecutorService	POOL	= Executors.newScheduledThreadPool(CommonParams.THREAD_POOL);
+	public final static ScheduledExecutorService	POOL	= Executors.newScheduledThreadPool(CommonParams.POOL_TIMER);
 
 	/**
 	 * 执行定时任务 按初始时间间隔
