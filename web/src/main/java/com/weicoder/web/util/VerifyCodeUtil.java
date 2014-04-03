@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.weicoder.common.constants.ImageConstants;
+import com.weicoder.common.crypto.Decrypts;
+import com.weicoder.common.crypto.Encrypts;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.core.log.Logs;
 import com.weicoder.web.constants.HttpConstants;
@@ -120,7 +122,7 @@ public final class VerifyCodeUtil {
 			g.dispose();
 
 			// 保存属性
-			AttributeUtil.set(request, response, key, rand);
+			AttributeUtil.set(request, response, key, Encrypts.encrypt(rand));
 
 			// 写文字到response
 			ImageUtil.write(image, ImageConstants.JPEG, response.getOutputStream(), isClose);
@@ -136,7 +138,7 @@ public final class VerifyCodeUtil {
 	 * @return 验证码
 	 */
 	public static String getValue(HttpServletRequest request) {
-		return Conversion.toString(AttributeUtil.get(request, WebParams.VERIFY_KEY));
+		return Decrypts.decryptString(Conversion.toString(AttributeUtil.get(request, WebParams.VERIFY_KEY)));
 	}
 
 	/**

@@ -3,8 +3,7 @@ package com.weicoder.web.util;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.weicoder.common.crypto.Decrypts;
-import com.weicoder.common.crypto.Encrypts;
+import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.util.EmptyUtil;
 
 /**
@@ -36,7 +35,7 @@ public final class AttributeUtil {
 	public static void set(HttpServletRequest request, HttpServletResponse response, String key, Object value, int maxAge) {
 		// 判断使用什么方式保存属性
 		// 使用Cookie保存
-		CookieUtil.add(response, key, Encrypts.encrypt(value), maxAge);
+		CookieUtil.add(response, key, Conversion.toString(value), maxAge);
 		// 使用Session保存
 		SessionUtil.setAttribute(RequestUtil.getSession(request), key, value, maxAge);
 	}
@@ -51,7 +50,7 @@ public final class AttributeUtil {
 		// 先获得cookie保存
 		String value = CookieUtil.getCookieValue(request, key);
 		// 如果值为空 获得Session保存
-		return EmptyUtil.isEmpty(value) ? SessionUtil.getAttribute(RequestUtil.getSession(request), key) : Decrypts.decryptString(value);
+		return EmptyUtil.isEmpty(value) ? SessionUtil.getAttribute(RequestUtil.getSession(request), key) : value;
 	}
 
 	/**
