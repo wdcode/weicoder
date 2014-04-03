@@ -284,7 +284,9 @@ public final class Manager {
 					Logs.debug("manager pool broad start size=" + list.size() + ";time=" + DateUtil.getTheDate());
 					// 广播消息
 					for (Session session : list) {
-						session.send(data);
+						if (session != null) {
+							session.send(data);
+						}
 					}
 					Logs.debug("manager pool broad end size=" + list.size() + ";time=" + (System.currentTimeMillis() - curr));
 				}
