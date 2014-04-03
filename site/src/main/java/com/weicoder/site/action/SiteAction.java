@@ -11,6 +11,7 @@ import com.weicoder.common.crypto.Decrypts;
 import com.weicoder.common.crypto.Digest;
 import com.weicoder.common.crypto.Encrypts;
 import com.weicoder.common.lang.Conversion;
+import com.weicoder.common.lang.Validate;
 import com.weicoder.common.util.DateUtil;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.site.constants.SiteConstants;
@@ -201,6 +202,12 @@ public class SiteAction<U extends EntityUser> extends SuperAction {
 			// 返回登陆页
 			return callback(LOGIN);
 		}
+		// 登录IP
+		String ip = user.getLoginIp();
+		if (!Validate.isIp(ip)) {
+			ip = getIp();
+		}
+		user.setLoginIp(null);
 		// 查询获得用户实体
 		U bean = service.get(user);
 		// 登录标识
@@ -228,7 +235,7 @@ public class SiteAction<U extends EntityUser> extends SuperAction {
 			// 添加用户登录信息
 			token = LoginEngine.addLogin(request, response, bean, getLoginTime());
 			// 添加登录信息
-			bean.setLoginIp(getIp());
+			bean.setLoginIp(ip);
 			bean.setLoginTime(DateUtil.getTime());
 			service.update(bean);
 			// 登录成功

@@ -232,19 +232,24 @@ public final class Manager {
 	 * @param id 指令
 	 * @param message 消息
 	 */
-	public void broad(String key, Set<Integer> ids, short id, Object message) {
+	public void broad(String key, List<Integer> ids, short id, Object message) {
 		// 声明Sesson列表
 		List<Session> sessions = Lists.getList();
 		// 日志
 		long curr = System.currentTimeMillis();
 		Logs.info("manager broad start key=" + key + ";ids=" + ids.size() + ";id=" + id + ";time=" + DateUtil.getTheDate());
+		// 获得Session Map
+		Map<Integer, Session> map = registers.get(key);
 		// 获得相应的Session
-		for (Map.Entry<Integer, Session> e : registers.get(key).entrySet()) {
-			// ID存在
-			if (ids.contains(e.getKey())) {
-				sessions.add(e.getValue());
-			}
+		for (Integer sid : ids) {
+			sessions.add(map.get(sid));
 		}
+		// for (Map.Entry<Integer, Session> e : registers.get(key).entrySet()) {
+		// // ID存在
+		// if (ids.contains(e.getKey())) {
+		// sessions.add(e.getValue());
+		// }
+		// }
 		// 日志
 		Logs.info("manager broad end key=" + key + ";ids=" + ids.size() + ";id=" + id + ";time=" + (System.currentTimeMillis() - curr));
 		// 广播
