@@ -49,12 +49,12 @@ public final class Process {
 	 */
 	public Process(String name) {
 		// 获得心跳时间
-		int heart = SocketParams.getHeartTime(name);
+		int htime = SocketParams.getHeartTime(name);
 		// 配置了心跳
-		if (heart > 0) {
+		if (htime > 0) {
 			// 设置心跳
-			Heart handler = new Heart(SocketParams.getHeartId(name), heart);
-			addHandler(handler);
+			heart = new Heart(SocketParams.getHeartId(name), htime);
+			addHandler(heart);
 		}
 		// 检测时间
 		final int time = SocketParams.getTime(name);
@@ -64,15 +64,17 @@ public final class Process {
 			public void run() {
 				// 检测连接超时
 				try {
+					// 获得当前时间
+					long curr = DateUtil.getTime();
 					for (Map.Entry<Integer, Integer> e : times.entrySet()) {
 						// 超时
-						if (DateUtil.getTime() - e.getValue() > time) {
+						if (curr - e.getValue() > time) {
 							sessions.get(e.getKey()).close();
 						}
 					}
 				} catch (Exception e) {}
 			}
-		}, time);
+		}, time / 2);
 	}
 
 	/**
