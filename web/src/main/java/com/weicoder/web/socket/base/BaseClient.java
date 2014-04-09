@@ -60,11 +60,11 @@ public abstract class BaseClient extends BaseSocket implements Client {
 			// 心跳指令
 			final short id = SocketParams.getHeartId(name);
 			// 定时发送心跳信息
-			ScheduledUtile.rate(new Runnable() {
+			ScheduledUtile.delay(new Runnable() {
 				@Override
 				public void run() {
 					// 循环发送心跳信息
-					session.send(id, null);
+					session.send(id);
 					Logs.debug("send heart session=" + session.id());
 				}
 			}, heart);

@@ -84,7 +84,7 @@ public final class SocketParams {
 	 * @return 获得Socket检测时间 单位秒
 	 */
 	public static int getTime(String name) {
-		return Params.getInt(Params.getKey(PREFIX, name, "time"), 30);
+		return Params.getInt(Params.getKey(PREFIX, name, "time"), isClient(name) ? 0 : 30);
 	}
 
 	/**
@@ -112,15 +112,15 @@ public final class SocketParams {
 	}
 
 	/**
-	 * 获得Socket类型server或则client 只有host和type=client是才是客户端<br/>
+	 * 获得Socket是否客户端 <br/>
 	 * 需在配置文件中配置<br/>
 	 * <h2>配置方式如下: <br/>
-	 * Properties: socket.*.type = ? <br/>
-	 * XML: {@literal <socket><*><type>?</type></*></socket>}</h2>
-	 * @return socket客户端连接服务器
+	 * Properties: socket.*.client = ? <br/>
+	 * XML: {@literal <socket><*><client>?</client></*></socket>}</h2>
+	 * @return socket是否客户端
 	 */
-	public static String getType(String name) {
-		return Params.getString(Params.getKey(PREFIX, name, "type"));
+	public static boolean isClient(String name) {
+		return Params.getBoolean(Params.getKey(PREFIX, name, "client"), false);
 	}
 
 	/**

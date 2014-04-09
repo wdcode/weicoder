@@ -51,30 +51,33 @@ public final class Process {
 		// 获得心跳时间
 		int htime = SocketParams.getHeartTime(name);
 		// 配置了心跳
-		if (htime > 0) {
+		if (htime > 0 && !SocketParams.isClient(name)) {
 			// 设置心跳
 			heart = new Heart(SocketParams.getHeartId(name), htime);
 			addHandler(heart);
 		}
 		// 检测时间
 		final int time = SocketParams.getTime(name);
-		// 定时检测
-		ScheduledUtile.rate(new Runnable() {
-			@Override
-			public void run() {
-				// 检测连接超时
-				try {
-					// 获得当前时间
-					long curr = DateUtil.getTime();
-					for (Map.Entry<Integer, Integer> e : times.entrySet()) {
-						// 超时
-						if (curr - e.getValue() > time) {
-							sessions.get(e.getKey()).close();
+		if (time > 0) {
+			// 定时检测
+			ScheduledUtile.rate(new Runnable() {
+				@Override
+				public void run() {
+					// 检测连接超时
+					try {
+						// 获得当前时间
+						int curr = DateUtil.getTime();
+						for (Map.Entry<Integer, Integer> e : times.entrySet()) {
+							// 超时
+							if (curr - e.getValue() > time) {
+								sessions.get(e.getKey()).close();
+								Logs.info("overtime close id=" + e.getKey());
+							}
 						}
-					}
-				} catch (Exception e) {}
-			}
-		}, time / 2);
+					} catch (Exception e) {}
+				}
+			}, time / 2);
+		}
 	}
 
 	/**
@@ -176,8 +179,9 @@ public final class Process {
 			// int length = Integer.reverseBytes(buff.getInt());
 			int length = buff.readInt();
 			// 无长度 发送消息不符合 关掉连接
-			if (length == 0) {
+			if (length == 0 || length > Short.MAX_VALUE) {
 				session.close();
+				Logs.info("error len close id=" + session.id());
 				return;
 			}
 			// 剩余字节长度不足，等待下次信息

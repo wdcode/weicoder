@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 import javax.servlet.ServletContext;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -23,7 +22,6 @@ import com.opensymphony.xwork2.util.ValueStack;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.dispatcher.mapper.ActionMapping;
 import org.apache.struts2.util.TextProviderHelper;
-import com.weicoder.base.context.Context;
 import com.weicoder.base.entity.Entity;
 import com.weicoder.base.params.UploadParams;
 import com.weicoder.common.codec.Hex;
@@ -57,7 +55,7 @@ import com.weicoder.web.util.ResponseUtil;
  * @since JDK7
  * @version 1.0 2009-08-26
  */
-public abstract class BasicAction {
+public class BasicAction {
 	// 成功
 	protected static final String				SUCCESS	= "success";
 	// 错误
@@ -68,9 +66,6 @@ public abstract class BasicAction {
 	protected final static String				LIST	= "list";
 	// 回调方法处理
 	protected final static Map<String, Method>	METHODS	= Maps.getMap();
-	// 全局Context
-	@Resource
-	protected Context							context;
 	// 提交的url
 	protected String							url;
 	// 跨域方法

@@ -41,7 +41,7 @@ public abstract class BaseSession implements Session {
 			// 声明缓存
 			buffer = new Buffer();
 			// 定时监控写缓存
-			ScheduledUtile.delay(new Runnable() {
+			ScheduledUtile.rate(new Runnable() {
 				@Override
 				public void run() {
 					// 有写入数据

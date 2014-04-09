@@ -32,11 +32,11 @@ public final class Heart implements Handler<Null> {
 	 */
 	public Heart(short id, int time) {
 		this.id = id;
-		this.heart = time + 30;
+		this.heart = time;
 		times = Maps.getConcurrentMap();
 		sessions = Maps.getConcurrentMap();
 		// 定时检测
-		ScheduledUtile.rate(new Runnable() {
+		ScheduledUtile.delay(new Runnable() {
 			@Override
 			public void run() {
 				// 获得当前时间
@@ -52,7 +52,7 @@ public final class Heart implements Handler<Null> {
 						sessions.get(e.getKey()).close();
 						sessions.remove(e.getKey());
 						times.remove(e.getKey());
-						Logs.debug("heart close session=" + e.getKey());
+						Logs.info("heart close session=" + e.getKey());
 					}
 				}
 			}

@@ -65,7 +65,7 @@ public final class Sockets {
 		// Socket
 		Socket socket = null;
 		// 判断是否客户端
-		if (!EmptyUtil.isEmpty(SocketParams.getHost(name)) && "client".equals(SocketParams.getType(name))) {
+		if (!EmptyUtil.isEmpty(SocketParams.getHost(name)) && SocketParams.isClient(name)) {
 			socket = addClient(name);
 		} else {
 			socket = addServer(name);

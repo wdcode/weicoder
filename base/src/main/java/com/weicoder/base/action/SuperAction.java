@@ -21,6 +21,7 @@ import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.base.bean.Pagination;
+import com.weicoder.base.context.Context;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.DateUtil;
 import com.weicoder.common.util.EmptyUtil;
@@ -38,6 +39,9 @@ import com.weicoder.web.constants.HttpConstants;
 public abstract class SuperAction extends BasicAction {
 	// 时间字段
 	protected final static String	TIME_FIELD	= "time";
+	// 全局Context
+	@Resource
+	protected Context				context;
 	// 通用业务接口
 	@Resource
 	protected SuperService			service;
