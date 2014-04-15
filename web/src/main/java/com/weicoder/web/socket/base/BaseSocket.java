@@ -1,6 +1,7 @@
 package com.weicoder.web.socket.base;
 
 import com.weicoder.web.socket.Closed;
+import com.weicoder.web.socket.Connected;
 import com.weicoder.web.socket.Handler;
 import com.weicoder.web.socket.Socket;
 import com.weicoder.web.socket.process.Process;
@@ -33,6 +34,11 @@ public abstract class BaseSocket implements Socket {
 	@Override
 	public void addHandler(Handler<?> handler) {
 		process.addHandler(handler);
+	}
+
+	@Override
+	public void connected(Connected connected) {
+		process.connected(connected);
 	}
 
 	@Override

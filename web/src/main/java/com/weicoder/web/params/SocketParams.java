@@ -84,7 +84,7 @@ public final class SocketParams {
 	 * @return 获得Socket检测时间 单位秒
 	 */
 	public static int getTime(String name) {
-		return Params.getInt(Params.getKey(PREFIX, name, "time"), isClient(name) ? 0 : 30);
+		return Params.getInt(Params.getKey(PREFIX, name, "time"), isClient(name) ? 0 : 3);
 	}
 
 	/**
@@ -157,6 +157,18 @@ public final class SocketParams {
 	 */
 	public static String[] getPackages(String name) {
 		return Params.getStringArray(Params.getKey(PREFIX, name, "packages"), ArrayConstants.STRING_EMPTY);
+	}
+
+	/**
+	 * 获得socket Session连接处理器<br/>
+	 * 需在配置文件中配置<br/>
+	 * <h2>配置方式如下: <br/>
+	 * Properties: socket.*.connected = ? <br/>
+	 * XML: {@literal <socket><*><connected>?</connected></*></socket>}</h2>
+	 * @return socket Session连接处理器
+	 */
+	public static String getConnected(String name) {
+		return Params.getString(Params.getKey(PREFIX, name, "connected"));
 	}
 
 	/**

@@ -83,6 +83,8 @@ public final class Sockets {
 				socket.addHandler((Handler<?>) BeanUtil.newInstance(c));
 			}
 		}
+		// 设置连接处理器
+		socket.connected((Connected) BeanUtil.newInstance(SocketParams.getConnected(name)));
 		// 设置关闭处理器
 		socket.closed((Closed) BeanUtil.newInstance(SocketParams.getClosed(name)));
 		// 返回Socket

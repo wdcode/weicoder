@@ -21,6 +21,12 @@ public interface Socket extends Close {
 	String name();
 
 	/**
+	 * 设置连接管理处理器
+	 * @param connected 连接处理器
+	 */
+	void connected(Connected connected);
+
+	/**
 	 * 添加关闭处理器
 	 * @param closed 关闭处理器
 	 */

@@ -1,19 +1,19 @@
 package com.weicoder.web.socket.process;
 
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import com.weicoder.common.binary.Buffer;
 import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.util.DateUtil;
+import com.weicoder.common.util.ExecutorUtil;
 import com.weicoder.common.util.ScheduledUtile;
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.core.log.Logs;
 import com.weicoder.web.params.SocketParams;
 import com.weicoder.web.socket.Closed;
+import com.weicoder.web.socket.Connected;
 import com.weicoder.web.socket.Handler;
 import com.weicoder.web.socket.Session;
 import com.weicoder.web.socket.heart.Heart;
@@ -27,8 +27,6 @@ import com.weicoder.web.socket.message.Null;
  * @version 1.0 2013-12-22
  */
 public final class Process {
-	// 线程池
-	private ExecutorService				ES			= Executors.newCachedThreadPool();
 	// Handler列表
 	private Map<Short, Handler<Object>>	handlers	= Maps.getMap();
 	// 保存Session
@@ -39,21 +37,29 @@ public final class Process {
 	private Map<Integer, Buffer>		buffers		= Maps.getConcurrentMap();
 	// 心跳处理
 	private Heart						heart;
+	// 连接处理
+	private Connected					connected;
 	// 关闭处理
 	private Closed						closed;
+	// 心跳ID
+	private short						heartId;
+	// 处理器名字
+	private String						name;
 
 	/**
 	 * 构造
 	 * @param name 名称
 	 * @param manager Session管理
 	 */
-	public Process(String name) {
+	public Process(final String name) {
+		// 设置属性
+		this.name = name;
 		// 获得心跳时间
 		int htime = SocketParams.getHeartTime(name);
 		// 配置了心跳
 		if (htime > 0 && !SocketParams.isClient(name)) {
 			// 设置心跳
-			heart = new Heart(SocketParams.getHeartId(name), htime);
+			heart = new Heart(heartId = SocketParams.getHeartId(name), htime);
 			addHandler(heart);
 		}
 		// 检测时间
@@ -69,15 +75,23 @@ public final class Process {
 						int curr = DateUtil.getTime();
 						for (Map.Entry<Integer, Integer> e : times.entrySet()) {
 							// 超时
-							if (curr - e.getValue() > time) {
+							if (curr - e.getValue() >= time) {
 								sessions.get(e.getKey()).close();
-								Logs.info("overtime close id=" + e.getKey());
+								Logs.info("name=" + name + ";overtime close id=" + e.getKey());
 							}
 						}
 					} catch (Exception e) {}
 				}
-			}, time / 2);
+			}, 1);
 		}
+	}
+
+	/**
+	 * 设置连接管理处理器
+	 * @param connected 连接处理器
+	 */
+	public void connected(Connected connected) {
+		this.connected = connected;
 	}
 
 	/**
@@ -101,14 +115,24 @@ public final class Process {
 	 * @param session
 	 */
 	public void connected(Session session) {
-		sessions.put(session.id(), session);
-		buffers.put(session.id(), new Buffer());
-		times.put(session.id(), DateUtil.getTime());
-		// 如果心跳处理不为空
-		if (heart != null) {
-			heart.add(session);
+		// 是否连接
+		boolean is = true;
+		// 如果连接处理器不为空
+		if (connected != null) {
+			is = connected.connected(session);
 		}
-		Logs.info("socket conn=" + session.id());
+		// 允许连接
+		if (is) {
+			sessions.put(session.id(), session);
+			buffers.put(session.id(), new Buffer());
+			times.put(session.id(), DateUtil.getTime());
+			// 如果心跳处理不为空
+			if (heart != null) {
+				heart.add(session);
+			}
+		}
+		// 日志
+		Logs.info("name=" + name + ";socket conn=" + session.id() + ";ip=" + session.ip() + ";is=" + is);
 	}
 
 	/**
@@ -128,7 +152,7 @@ public final class Process {
 		if (heart != null) {
 			heart.remove(session);
 		}
-		Logs.info("socket close=" + session.id());
+		Logs.info("name=" + name + ";socket close=" + session.id() + ";ip=" + session.ip());
 	}
 
 	/**
@@ -156,11 +180,7 @@ public final class Process {
 	public void process(final Session session, final byte[] message) {
 		// 获得session id
 		final int sid = session.id();
-		// 是否存在
-		if (times.containsKey(sid)) {
-			times.remove(sid);
-		}
-		Logs.debug("socket=" + sid + ";receive=" + sid + ";len=" + message.length);
+		Logs.debug("name=" + name + ";socket=" + sid + ";receive=" + sid + ";len=" + message.length);
 		// 获得全局buffer
 		Buffer buff = buffers.get(sid);
 		// 添加新消息到全局缓存中
@@ -175,13 +195,17 @@ public final class Process {
 				buff.compact();
 				break;
 			}
+			// 是否存在
+			if (times.containsKey(sid)) {
+				times.remove(sid);
+			}
 			// 获得信息长度
 			// int length = Integer.reverseBytes(buff.getInt());
 			int length = buff.readInt();
 			// 无长度 发送消息不符合 关掉连接
 			if (length == 0 || length > Short.MAX_VALUE) {
 				session.close();
-				Logs.info("error len close id=" + session.id());
+				Logs.info("name=" + name + ";error len close id=" + session.id());
 				return;
 			}
 			// 剩余字节长度不足，等待下次信息
@@ -197,7 +221,14 @@ public final class Process {
 				final short id = buff.readShort();
 				// 获得相应的
 				final Handler<Object> handler = handlers.get(id);
-				Logs.info("socket=" + sid + ";receive len=" + length + ";id=" + id + ";handler=" + handler + ";time=" + DateUtil.getTheDate());
+				// 日志
+				String log = "name=" + name + ";socket=" + sid + ";receive len=" + length + ";id=" + id + ";handler=" + handler + ";time=" + DateUtil.getTheDate();
+				// 心跳包用debug 其它info
+				if (id == heartId) {
+					Logs.debug(log);
+				} else {
+					Logs.info(log);
+				}
 				// 消息长度
 				final int len = length - 2;
 				// 读取指定长度的字节数
@@ -209,20 +240,29 @@ public final class Process {
 				// 如果处理器为空
 				if (handler == null) {
 					// 抛弃这次消息
-					Logs.warn("socket=" + sid + ";handler message discard id=" + id + ";message len=" + len);
+					Logs.warn("name=" + name + ";socket=" + sid + ";handler message discard id=" + id + ";message len=" + len);
 					return;
 				}
 				// 线程执行
-				ES.execute(new Runnable() {
+				ExecutorUtil.execute(new Runnable() {
 					@Override
 					public void run() {
 						try {
 							// 当前时间
 							long curr = System.currentTimeMillis();
+							// 日志
+							String log = null;
 							// 如果消息长度为0
 							if (len == 0) {
 								handler.handler(session, null);
-								Logs.info("socket=" + sid + ";handler message is null end time=" + (System.currentTimeMillis() - curr));
+								// 日志
+								log = "name=" + name + ";socket=" + sid + ";handler message is null end time=" + (System.currentTimeMillis() - curr);
+								// 心跳包用debug 其它info
+								if (id == heartId) {
+									Logs.debug(log);
+								} else {
+									Logs.info(log);
+								}
 							} else {
 								// 获得处理器消息类
 								Class<?> type = ClassUtil.getGenericClass(handler.getClass());
@@ -260,11 +300,23 @@ public final class Process {
 									// 默认使用消息体
 									mess = ((Message) ClassUtil.newInstance(type)).array(data);
 								}
-								Logs.info("socket=" + sid + ";handler message=" + mess + ";time=" + (System.currentTimeMillis() - curr));
+								log = "name=" + name + ";socket=" + sid + ";handler message=" + mess + ";time=" + (System.currentTimeMillis() - curr);
+								// 心跳包用debug 其它info
+								if (id == heartId) {
+									Logs.debug(log);
+								} else {
+									Logs.info(log);
+								}
 								curr = System.currentTimeMillis();
 								// 回调处理器
 								handler.handler(session, mess);
-								Logs.info("socket=" + sid + ";handler end time=" + (System.currentTimeMillis() - curr));
+								log = "name=" + name + ";socket=" + sid + ";handler end time=" + (System.currentTimeMillis() - curr);
+								// 心跳包用debug 其它info
+								if (id == heartId) {
+									Logs.debug(log);
+								} else {
+									Logs.info(log);
+								}
 							}
 						} catch (Exception e) {
 							Logs.error(e);

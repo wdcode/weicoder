@@ -1,6 +1,5 @@
 package com.weicoder.web.socket;
 
-
 /**
  * Session 关闭处理接口
  * @author WD
