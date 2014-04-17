@@ -118,8 +118,12 @@ public final class Process {
 		// 是否连接
 		boolean is = true;
 		// 如果连接处理器不为空
-		if (connected != null) {
-			is = connected.connected(session);
+		try {
+			if (connected != null) {
+				is = connected.connected(session);
+			}
+		} catch (Exception e) {
+			Logs.error(e);
 		}
 		// 允许连接
 		if (is) {
@@ -130,6 +134,8 @@ public final class Process {
 			if (heart != null) {
 				heart.add(session);
 			}
+		} else {
+			session.close();
 		}
 		// 日志
 		Logs.info("name=" + name + ";socket conn=" + session.id() + ";ip=" + session.ip() + ";is=" + is);
@@ -141,8 +147,12 @@ public final class Process {
 	 */
 	public void closed(Session session) {
 		// 关闭处理器
-		if (closed != null) {
-			closed.closed(session);
+		try {
+			if (closed != null) {
+				closed.closed(session);
+			}
+		} catch (Exception e) {
+			Logs.error(e);
 		}
 		// 删除session
 		sessions.remove(session.id());

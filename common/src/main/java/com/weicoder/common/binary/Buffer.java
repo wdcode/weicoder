@@ -1,5 +1,7 @@
 package com.weicoder.common.binary;
 
+import java.util.Arrays;
+
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.util.EmptyUtil;
@@ -427,7 +429,7 @@ public final class Buffer implements ByteArray {
 
 	@Override
 	public String toString() {
-		return "[" + top + "," + offset + "," + bytes.length + "] ";
+		return "(top=" + top + ",offset=" + offset + ",len=" + bytes.length + ")=" + Arrays.toString(bytes);
 	}
 
 	@Override

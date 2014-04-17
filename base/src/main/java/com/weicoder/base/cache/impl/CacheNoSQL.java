@@ -75,7 +75,9 @@ public final class CacheNoSQL<E extends Entity> extends BaseCache<E> {
 		List<E> list = Lists.getList(objs.length);
 		// 循环转换对象
 		for (Object o : objs) {
-			list.add((E) JsonEngine.toBean(Conversion.toString(o), clazz));
+			if (o != null) {
+				list.add((E) JsonEngine.toBean(Conversion.toString(o), clazz));
+			}
 		}
 		// 返回列表
 		return list;

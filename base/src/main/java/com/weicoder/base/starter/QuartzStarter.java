@@ -47,6 +47,8 @@ final class QuartzStarter {
 					MethodInvokingJobDetailFactoryBean method = new MethodInvokingJobDetailFactoryBean();
 					// 设置任务对象
 					method.setTargetObject(job);
+					// 设置不可以并发
+					method.setConcurrent(false);
 					// // 设置执行方法
 					method.setTargetMethod(e.getKey());
 					// 设置group
