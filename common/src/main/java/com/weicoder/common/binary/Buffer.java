@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Bytes;
+import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
 
@@ -14,20 +15,18 @@ import com.weicoder.common.util.StringUtil;
  * @version 1.0 2014-2-13
  */
 public final class Buffer implements ByteArray {
-	/** 默认的初始容量大小 */
-	private static final int	CAPACITY	= 32;
 	// 字节数组
-	private byte[]				bytes;
+	private byte[]	bytes;
 	// 写数据的偏移量，每写一次增加
-	private int					top;
+	private int		top;
 	// 读数据的偏移量,每读一次增加
-	private int					offset;
+	private int		offset;
 
 	/**
 	 * 按默认的大小构造一个字节缓存对象
 	 */
 	public Buffer() {
-		this(CAPACITY);
+		this(CommonParams.IO_BUFFERSIZE);
 	}
 
 	/**
@@ -271,7 +270,7 @@ public final class Buffer implements ByteArray {
 	 */
 	public void writeBoolean(boolean b) {
 		if (bytes.length < top + 1)
-			capacity(top + CAPACITY);
+			capacity(top + CommonParams.IO_BUFFERSIZE);
 		bytes[top++] = (byte) (b ? 1 : 0);
 	}
 
@@ -280,7 +279,7 @@ public final class Buffer implements ByteArray {
 	 */
 	public void writeByte(byte b) {
 		if (bytes.length < top + 1)
-			capacity(top + CAPACITY);
+			capacity(top + CommonParams.IO_BUFFERSIZE);
 		bytes[top++] = b;
 	}
 
@@ -372,7 +371,7 @@ public final class Buffer implements ByteArray {
 	 */
 	public void writeByte(byte b, int pos) {
 		if (bytes.length < pos + 1)
-			capacity(pos + CAPACITY);
+			capacity(pos + CommonParams.IO_BUFFERSIZE);
 		bytes[pos] = b;
 	}
 

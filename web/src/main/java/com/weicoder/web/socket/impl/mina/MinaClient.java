@@ -7,6 +7,8 @@ import org.apache.mina.core.session.IoSession;
 import org.apache.mina.transport.socket.SocketConnector;
 import org.apache.mina.transport.socket.SocketSessionConfig;
 import org.apache.mina.transport.socket.nio.NioSocketConnector;
+
+import com.weicoder.core.log.Logs;
 import com.weicoder.web.params.SocketParams;
 import com.weicoder.web.socket.base.BaseClient;
 
@@ -68,5 +70,6 @@ public final class MinaClient extends BaseClient {
 	public void close() {
 		session.close();
 		connector.dispose();
+		Logs.info("client close name=" + name);
 	}
 }

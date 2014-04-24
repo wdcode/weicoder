@@ -6,6 +6,7 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 
+import com.weicoder.core.log.Logs;
 import com.weicoder.web.params.SocketParams;
 import com.weicoder.web.socket.base.BaseClient;
 
@@ -60,5 +61,6 @@ public final class NettyClient extends BaseClient {
 	public void close() {
 		session.close();
 		bootstrap.group().shutdownGracefully();
+		Logs.info("client close name=" + name);
 	}
 }

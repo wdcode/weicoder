@@ -2,7 +2,6 @@ package com.weicoder.admin.aop;
 
 import java.io.Serializable;
 import java.util.Arrays;
-import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -15,14 +14,13 @@ import org.springframework.stereotype.Component;
 import com.opensymphony.xwork2.Action;
 import com.weicoder.admin.action.AdminAction;
 import com.weicoder.admin.exception.AdminException;
-import com.weicoder.admin.params.AdminParams; 
+import com.weicoder.admin.params.AdminParams;
 import com.weicoder.admin.po.LogsLogin;
 import com.weicoder.admin.po.LogsOperate;
 import com.weicoder.admin.po.Operate;
 import com.weicoder.admin.po.Role;
 import com.weicoder.base.entity.Entity;
 import com.weicoder.base.service.SuperService;
-import com.weicoder.common.lang.Lists;
 import com.weicoder.common.util.DateUtil;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.site.action.SiteAction;
@@ -82,11 +80,11 @@ public final class AdminAdvice {
 				}
 				// 获得自己的权限列表
 				// List<Operate> lsOperate = role.getOperates();
-				List<Operate> lsOperate = Lists.getList();
-				// 不是所有权限 继续判断
-				if (EmptyUtil.isEmpty(lsOperate) || !lsOperate.contains(operate)) {
-					throw new AdminException("role,operate");
-				}
+				// List<Operate> lsOperate = Lists.getList();
+				// // 不是所有权限 继续判断
+				// if (EmptyUtil.isEmpty(lsOperate) || !lsOperate.contains(operate)) {
+				// throw new AdminException("role,operate");
+				// }
 			}
 		}
 	}

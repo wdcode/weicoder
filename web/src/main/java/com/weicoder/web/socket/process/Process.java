@@ -7,7 +7,6 @@ import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.util.DateUtil;
-import com.weicoder.common.util.ExecutorUtil;
 import com.weicoder.common.util.ScheduledUtile;
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.core.log.Logs;
@@ -136,6 +135,7 @@ public final class Process {
 			}
 		} else {
 			session.close();
+			Logs.info("name=" + name + ";connected - close id=" + session.id());
 		}
 		// 日志
 		Logs.info("name=" + name + ";socket conn=" + session.id() + ";ip=" + session.ip() + ";is=" + is);
@@ -254,85 +254,88 @@ public final class Process {
 					return;
 				}
 				// 线程执行
-				ExecutorUtil.execute(new Runnable() {
-					@Override
-					public void run() {
-						try {
-							// 当前时间
-							long curr = System.currentTimeMillis();
-							// 日志
-							String log = null;
-							// 如果消息长度为0
-							if (len == 0) {
-								handler.handler(session, null);
-								// 日志
-								log = "name=" + name + ";socket=" + sid + ";handler message is null end time=" + (System.currentTimeMillis() - curr);
-								// 心跳包用debug 其它info
-								if (id == heartId) {
-									Logs.debug(log);
-								} else {
-									Logs.info(log);
-								}
-							} else {
-								// 获得处理器消息类
-								Class<?> type = ClassUtil.getGenericClass(handler.getClass());
-								// 消息实体
-								Object mess = null;
-								// 判断消息实体类型
-								if (type.equals(String.class)) {
-									// 字符串
-									mess = StringUtil.toString(data);
-								} else if (type.equals(Null.class)) {
-									// 字节流
-									mess = Null.NULL;
-								} else if (type.equals(Buffer.class)) {
-									// 字节流
-									mess = new Buffer(data);
-								} else if (type.equals(int.class) || type.equals(Integer.class)) {
-									// 整型
-									mess = Bytes.toInt(data);
-								} else if (type.equals(long.class) || type.equals(Long.class)) {
-									// 长整型
-									mess = Bytes.toLong(data);
-								} else if (type.equals(boolean.class) || type.equals(Boolean.class)) {
-									// 布尔
-									mess = Bytes.toLong(data);
-								} else if (type.equals(float.class) || type.equals(Float.class)) {
-									// float型
-									mess = Bytes.toFloat(data);
-								} else if (type.equals(double.class) || type.equals(Double.class)) {
-									// Double型
-									mess = Bytes.toDouble(data);
-								} else if (type.equals(byte[].class)) {
-									// 字节流
-									mess = data;
-								} else {
-									// 默认使用消息体
-									mess = ((Message) ClassUtil.newInstance(type)).array(data);
-								}
-								log = "name=" + name + ";socket=" + sid + ";handler message=" + mess + ";time=" + (System.currentTimeMillis() - curr);
-								// 心跳包用debug 其它info
-								if (id == heartId) {
-									Logs.debug(log);
-								} else {
-									Logs.info(log);
-								}
-								curr = System.currentTimeMillis();
-								// 回调处理器
-								handler.handler(session, mess);
-								log = "name=" + name + ";socket=" + sid + ";handler end time=" + (System.currentTimeMillis() - curr);
-								// 心跳包用debug 其它info
-								if (id == heartId) {
-									Logs.debug(log);
-								} else {
-									Logs.info(log);
-								}
-							}
-						} catch (Exception e) {
-							Logs.error(e);
+				// ExecutorUtil.execute(new Runnable() {
+				// @Override
+				// public void run() {
+				try {
+					// 当前时间
+					long curr = System.currentTimeMillis();
+					// 日志
+					// String log = null;
+					// 如果消息长度为0
+					if (len == 0) {
+						handler.handler(session, null);
+						// 日志
+						log = "name=" + name + ";socket=" + sid + ";handler message is null end time=" + (System.currentTimeMillis() - curr);
+						// 心跳包用debug 其它info
+						if (id == heartId) {
+							Logs.debug(log);
+						} else {
+							Logs.info(log);
+						}
+					} else {
+						// 获得处理器消息类
+						Class<?> type = ClassUtil.getGenericClass(handler.getClass());
+						// 消息实体
+						Object mess = null;
+						// 判断消息实体类型
+						if (type.equals(String.class)) {
+							// 字符串
+							mess = StringUtil.toString(data);
+						} else if (type.equals(Null.class)) {
+							// 字节流
+							mess = Null.NULL;
+						} else if (type.equals(Buffer.class)) {
+							// 字节流
+							mess = new Buffer(data);
+						} else if (type.equals(int.class) || type.equals(Integer.class)) {
+							// 整型
+							mess = Bytes.toInt(data);
+						} else if (type.equals(long.class) || type.equals(Long.class)) {
+							// 长整型
+							mess = Bytes.toLong(data);
+						} else if (type.equals(boolean.class) || type.equals(Boolean.class)) {
+							// 布尔
+							mess = Bytes.toLong(data);
+						} else if (type.equals(float.class) || type.equals(Float.class)) {
+							// float型
+							mess = Bytes.toFloat(data);
+						} else if (type.equals(double.class) || type.equals(Double.class)) {
+							// Double型
+							mess = Bytes.toDouble(data);
+						} else if (type.equals(byte.class) || type.equals(Byte.class)) {
+							// 字节流
+							mess = data[0];
+						} else if (type.equals(byte[].class)) {
+							// 字节流
+							mess = data;
+						} else {
+							// 默认使用消息体
+							mess = ((Message) ClassUtil.newInstance(type)).array(data);
+						}
+						log = "name=" + name + ";socket=" + sid + ";handler message=" + mess + ";time=" + (System.currentTimeMillis() - curr);
+						// 心跳包用debug 其它info
+						if (id == heartId) {
+							Logs.debug(log);
+						} else {
+							Logs.info(log);
+						}
+						curr = System.currentTimeMillis();
+						// 回调处理器
+						handler.handler(session, mess);
+						log = "name=" + name + ";socket=" + sid + ";handler end time=" + (System.currentTimeMillis() - curr);
+						// 心跳包用debug 其它info
+						if (id == heartId) {
+							Logs.debug(log);
+						} else {
+							Logs.info(log);
 						}
 					}
-				});
+				} catch (Exception e) {
+					Logs.error(e);
+				}
+				// }
+				// });
 				// 如果缓存区为空
 				if (buff.remaining() == 0) {
 					// 清除并跳出

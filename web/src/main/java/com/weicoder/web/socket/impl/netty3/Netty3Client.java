@@ -8,6 +8,8 @@ import org.jboss.netty.channel.ChannelPipeline;
 import org.jboss.netty.channel.ChannelPipelineFactory;
 import org.jboss.netty.channel.Channels;
 import org.jboss.netty.channel.socket.nio.NioClientSocketChannelFactory;
+
+import com.weicoder.core.log.Logs;
 import com.weicoder.web.params.SocketParams;
 import com.weicoder.web.socket.base.BaseClient;
 
@@ -60,5 +62,6 @@ public final class Netty3Client extends BaseClient {
 		session.close();
 		bootstrap.releaseExternalResources();
 		bootstrap.shutdown();
+		Logs.info("client close name=" + name);
 	}
 }

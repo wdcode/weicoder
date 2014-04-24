@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.util.BeanUtil;
+import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.core.json.Json;
 
 import com.google.gson.Gson;
@@ -39,9 +40,20 @@ public final class JsonGson implements Json {
 	public <E> List<E> toList(String json, Class<E> clazz) {
 		try {
 			// 转换成list
-			List<Map<String, Object>> list = GSON.fromJson(json, new TypeToken<List<Map<String, Object>>>() {}.getType());
+			List<E> list = GSON.fromJson(json, new TypeToken<E>() {}.getType());
+			// 如果返回列表类型与传入类型不同
+			if (!EmptyUtil.isEmpty(list) && !list.get(0).getClass().equals(clazz)) {
+				// 声明列表
+				List<E> ls = Lists.getList(list.size());
+				// 转换列表
+				for (Object o : list) {
+					ls.add(BeanUtil.copyProperties(clazz, (Map<String, ?>) o));
+				}
+				// 返回列表
+				return ls;
+			}
 			// 返回列表
-			return BeanUtil.copyProperties(clazz, list);
+			return list;
 		} catch (Exception e) {
 			return Lists.getList();
 		}
