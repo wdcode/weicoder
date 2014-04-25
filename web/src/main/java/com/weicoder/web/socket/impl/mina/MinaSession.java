@@ -41,11 +41,13 @@ public final class MinaSession extends BaseSession implements Session {
 
 	@Override
 	public void send(byte[] data) {
+		// 发送数据过多
 		if (session.getScheduledWriteBytes() > Short.MAX_VALUE || session.getScheduledWriteMessages() > Byte.MAX_VALUE) {
 			Logs.info("message num many close=" + id);
 			close();
 			return;
 		}
+		// 发送数据
 		session.write(IoBuffer.wrap(data));
 	}
 
