@@ -31,7 +31,7 @@ public final class MinaServer extends BaseServer {
 		// 服务器
 		this.acceptor = new NioSocketAcceptor(SocketParams.getPool(name));
 		// 实例化handler
-		handler = new MinaHandler(process);
+		handler = new MinaHandler(name, process);
 		// 获得Session配置
 		SocketSessionConfig sc = acceptor.getSessionConfig();
 		// 设置每一个非主监听连接的端口可以重用

@@ -1,6 +1,8 @@
 package com.weicoder.common.binary;
 
 import java.util.Arrays;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Bytes;
@@ -16,54 +18,98 @@ import com.weicoder.common.util.StringUtil;
  */
 public final class Buffer implements ByteArray {
 	// 字节数组
-	private byte[]	bytes;
+	private byte[]	data;
 	// 写数据的偏移量，每写一次增加
 	private int		top;
 	// 读数据的偏移量,每读一次增加
 	private int		offset;
+	// 是否线程安全
+	private boolean	sync;
+	// 线程锁
+	private Lock	lock;
 
 	/**
 	 * 按默认的大小构造一个字节缓存对象
 	 */
 	public Buffer() {
-		this(CommonParams.IO_BUFFERSIZE);
+		this(CommonParams.IO_BUFFERSIZE, false);
+	}
+
+	/**
+	 * 按默认的大小构造一个字节缓存对象
+	 * @param sync 是否线程安全
+	 */
+	public Buffer(boolean sync) {
+		this(CommonParams.IO_BUFFERSIZE, false);
 	}
 
 	/**
 	 * 按指定的大小构造一个字节缓存对象
+	 * @param capacity 初始容量
+	 * @param sync 是否线程安全
 	 */
-	public Buffer(int capacity) {
-		this(new byte[capacity], 0, 0);
+	public Buffer(int capacity, boolean sync) {
+		this(new byte[capacity], 0, 0, sync);
 	}
 
 	/**
 	 * 按指定的字节数组构造一个字节缓存对象
+	 * @param data 初始化数组
+	 * @param sync 是否线程安全
 	 */
 	public Buffer(byte[] data) {
-		this(data, 0, data.length);
+		this(data, 0, data.length, false);
 	}
 
 	/**
 	 * 按指定的字节数组构造一个字节缓存对象
+	 * @param data 初始化数组
+	 * @param sync 是否线程安全
 	 */
-	public Buffer(byte[] data, int index, int length) {
-		bytes = data;
+	public Buffer(byte[] data, boolean sync) {
+		this(data, 0, data.length, sync);
+	}
+
+	/**
+	 * 按指定的字节数组构造一个字节缓存对象
+	 * @param data 初始化数组
+	 * @param index 读索引
+	 * @param length 写索引
+	 * @param sync 是否线程安全
+	 */
+	public Buffer(byte[] data, int index, int length, boolean sync) {
+		this.data = data;
 		top = index + length;
 		offset = index;
+		this.sync = sync;
+		// 线程安全 初始化锁
+		if (sync) {
+			lock = new ReentrantLock(true);
+		}
 	}
 
 	/**
 	 * 设置字节缓存的容积，只能扩大容积
 	 */
 	public void capacity(int len) {
-		int c = bytes.length;
-		if (len <= c)
+		// 要扩展的容量小于原长度 放弃修改
+		if (len <= data.length) {
 			return;
-		for (; c < len; c = (c << 1) + 1)
-			;
-		byte[] temp = new byte[c];
-		System.arraycopy(bytes, 0, temp, 0, top);
-		bytes = temp;
+		}
+		// 如果同步 加锁
+		if (sync) {
+			lock.lock();
+		}
+		// 声明个新长度临时数组
+		byte[] temp = new byte[len < CommonParams.IO_BUFFERSIZE ? CommonParams.IO_BUFFERSIZE : len];
+		// 读取原有数据
+		System.arraycopy(data, 0, temp, 0, top);
+		// 复制到新数组
+		data = temp;
+		// 如果同步 解锁
+		if (sync) {
+			lock.unlock();
+		}
 	}
 
 	/**
@@ -79,7 +125,7 @@ public final class Buffer implements ByteArray {
 	public void top(int top) {
 		if (top < offset)
 			return;
-		if (top > bytes.length)
+		if (top > length())
 			capacity(top);
 		this.top = top;
 	}
@@ -118,28 +164,15 @@ public final class Buffer implements ByteArray {
 	 * 得到字节数组的长度
 	 */
 	public int length() {
-		return bytes.length;
+		return data.length;
 	}
 
 	/**
-	 * 得到字节缓存的字节数组
+	 * 按当前偏移位置读入指定的长度的字节数组
+	 * @param len
 	 */
-	public byte[] array() {
-		return Bytes.copy(bytes, 0, top);
-	}
-
-	/**
-	 * 得到指定偏移位置的字节
-	 */
-	public byte read(int pos) {
-		return bytes[pos];
-	}
-
-	/**
-	 * 设置指定偏移位置的字节
-	 */
-	public void write(byte b, int pos) {
-		bytes[pos] = (byte) b;
+	public byte[] read(int len) {
+		return read(new byte[len]);
 	}
 
 	/**
@@ -159,8 +192,23 @@ public final class Buffer implements ByteArray {
 	 * @param len 读入的长度
 	 */
 	public byte[] read(byte[] data, int pos, int len) {
-		System.arraycopy(bytes, offset, data, pos, len);
+		// // 如果数组长度小于读取长度
+		// if (data.length < pos + len) {
+		// // 返回空数组
+		// return ArrayConstants.BYTES_EMPTY;
+		// }
+		// 如果同步 加锁
+		if (sync) {
+			lock.lock();
+		}
+		// 复制原数组
+		System.arraycopy(this.data, offset, data, pos, len);
 		offset += len;
+		// 如果同步 解锁
+		if (sync) {
+			lock.unlock();
+		}
+		// 返回数据
 		return data;
 	}
 
@@ -168,14 +216,14 @@ public final class Buffer implements ByteArray {
 	 * 读出一个布尔值
 	 */
 	public boolean readBoolean() {
-		return (bytes[offset++] != 0);
+		return readByte() != 0;
 	}
 
 	/**
 	 * 读出一个字节
 	 */
 	public byte readByte() {
-		return bytes[offset++];
+		return read(read(1))[0];
 	}
 
 	/**
@@ -189,41 +237,35 @@ public final class Buffer implements ByteArray {
 	 * 读出一个短整型数值
 	 */
 	public short readShort() {
-		int pos = offset;
-		offset += 2;
-		return Bytes.toShort(bytes, pos);
+		return Bytes.toShort(read(2));
 	}
 
 	/**
 	 * 读出一个整型数值
 	 */
 	public int readInt() {
-		int pos = offset;
-		offset += 4;
-		return Bytes.toInt(bytes, pos);
+		return Bytes.toInt(read(4));
 	}
 
 	/**
 	 * 读出一个浮点数值
 	 */
 	public float readFloat() {
-		return Float.intBitsToFloat(readInt());
+		return Bytes.toFloat(read(4));
 	}
 
 	/**
 	 * 读出一个长整型数值
 	 */
 	public long readLong() {
-		int pos = offset;
-		offset += 8;
-		return Bytes.toLong(bytes, pos);
+		return Bytes.toLong(read(8));
 	}
 
 	/**
 	 * 读出一个双浮点数值
 	 */
 	public double readDouble() {
-		return Double.longBitsToDouble(readLong());
+		return Bytes.toDouble(read(8));
 	}
 
 	/**
@@ -259,28 +301,35 @@ public final class Buffer implements ByteArray {
 	 * @param len 写入的长度
 	 */
 	public void write(byte[] data, int pos, int len) {
-		if (bytes.length < top + len)
+		// 容量不足扩容
+		if (data.length < top + len) {
 			capacity(top + len);
-		System.arraycopy(data, pos, bytes, top, len);
+		}
+		// 如果同步 加锁
+		if (sync) {
+			lock.lock();
+		}
+		// 复制原数组
+		System.arraycopy(data, pos, this.data, top, len);
 		top += len;
+		// 如果同步 解锁
+		if (sync) {
+			lock.unlock();
+		}
 	}
 
 	/**
 	 * 写入一个布尔值
 	 */
 	public void writeBoolean(boolean b) {
-		if (bytes.length < top + 1)
-			capacity(top + CommonParams.IO_BUFFERSIZE);
-		bytes[top++] = (byte) (b ? 1 : 0);
+		writeByte((byte) (b ? 1 : 0));
 	}
 
 	/**
 	 * 写入一个字节
 	 */
 	public void writeByte(byte b) {
-		if (bytes.length < top + 1)
-			capacity(top + CommonParams.IO_BUFFERSIZE);
-		bytes[top++] = b;
+		write(new byte[] { b });
 	}
 
 	/**
@@ -367,68 +416,49 @@ public final class Buffer implements ByteArray {
 	}
 
 	/**
-	 * 在指定位置写入一个字节，length不变
-	 */
-	public void writeByte(byte b, int pos) {
-		if (bytes.length < pos + 1)
-			capacity(pos + CommonParams.IO_BUFFERSIZE);
-		bytes[pos] = b;
-	}
-
-	/**
 	 * 压缩缓冲区 抛弃以读数据 并把容量截取到写坐标
 	 */
 	public void compact() {
-		bytes = Bytes.copy(bytes, offset, top);
-		top -= offset;
-		offset = 0;
+		// 读位置不为0时才需要压缩
+		if (offset > 0) {
+			// 如果同步 加锁
+			if (sync) {
+				lock.lock();
+			}
+			data = Bytes.copy(data, offset, top);
+			top -= offset;
+			offset = 0;
+			// 如果同步 解锁
+			if (sync) {
+				lock.unlock();
+			}
+		}
 	}
 
+	// /**
+	// * 重置读坐标为0
+	// */
+	// public void rewind() {
+	// this.offset = 0;
+	// }
+
 	/**
-	 * 重置读坐标为0
+	 * 获得有效数据
 	 */
-	public void rewind() {
-		this.offset = 0;
+	public byte[] array() {
+		return Bytes.copy(data, 0, top);
 	}
 
 	/**
 	 * 清除字节缓存对象
 	 */
 	public void clear() {
-		bytes = new byte[length()];
+		// 如果数组长度小于默认缓存长度 重新生成数组
+		if (length() < CommonParams.IO_BUFFERSIZE) {
+			data = new byte[CommonParams.IO_BUFFERSIZE];
+		}
 		top = 0;
 		offset = 0;
-	}
-
-	@Override
-	public int hashCode() {
-		int hash = 17;
-		for (int i = top - 1; i >= 0; i--)
-			hash = 65537 * hash + bytes[i];
-		return hash;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!(obj instanceof Buffer))
-			return false;
-		Buffer bb = (Buffer) obj;
-		if (bb.top != top)
-			return false;
-		if (bb.offset != offset)
-			return false;
-		for (int i = top - 1; i >= 0; i--) {
-			if (bb.bytes[i] != bytes[i])
-				return false;
-		}
-		return true;
-	}
-
-	@Override
-	public String toString() {
-		return "(top=" + top + ",offset=" + offset + ",len=" + bytes.length + ")=" + Arrays.toString(bytes);
 	}
 
 	@Override
@@ -436,5 +466,10 @@ public final class Buffer implements ByteArray {
 		clear();
 		write(b);
 		return this;
+	}
+
+	@Override
+	public String toString() {
+		return "(top=" + top + ",offset=" + offset + ")=" + Arrays.toString(array());
 	}
 }

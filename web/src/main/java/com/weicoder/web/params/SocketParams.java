@@ -84,7 +84,19 @@ public final class SocketParams {
 	 * @return 获得Socket检测时间 单位秒
 	 */
 	public static int getTime(String name) {
-		return Params.getInt(Params.getKey(PREFIX, name, "time"), isClient(name) ? 0 : 3);
+		return Params.getInt(Params.getKey(PREFIX, name, "time"), isClient(name) ? 0 : 5);
+	}
+
+	/**
+	 * 获得Socket 数据是否压缩 默认true<br/>
+	 * 需在配置文件中配置<br/>
+	 * <h2>配置方式如下: <br/>
+	 * Properties: socket.zip = ? <br/>
+	 * XML: {@literal <socket><zip>?</zip></socket>}</h2>
+	 * @return 获得Socket检测时间 单位秒
+	 */
+	public static boolean getZip(String name) {
+		return Params.getBoolean(Params.getKey(PREFIX, name, "zip"), true);
 	}
 
 	/**
@@ -109,6 +121,30 @@ public final class SocketParams {
 	 */
 	public static int getHeartTime(String name) {
 		return Params.getInt(Params.getKey(PREFIX, name, "heart.time"));
+	}
+
+	/**
+	 * 获得Socket是否需要登录 大于0的指令为登录<br/>
+	 * 需在配置文件中配置<br/>
+	 * <h2>配置方式如下: <br/>
+	 * Properties: socket.login.id = ? <br/>
+	 * XML: {@literal <socket><login><id>?</id></login></socket>}</h2>
+	 * @return 获得Socket是否需要登录 大于0的指令为登录
+	 */
+	public static short getLoginId(String name) {
+		return Params.getShort(Params.getKey(PREFIX, name, "login.id"), (short) 0);
+	}
+
+	/**
+	 * 获得Socket登录消息<br/>
+	 * 需在配置文件中配置<br/>
+	 * <h2>配置方式如下: <br/>
+	 * Properties: socket.login.message = ? <br/>
+	 * XML: {@literal <socket><login><message>?</message></login></socket>}</h2>
+	 * @return 获得Socket登录消息
+	 */
+	public static String getLoginMessage(String name) {
+		return Params.getString(Params.getKey(PREFIX, name, "login.message"));
 	}
 
 	/**

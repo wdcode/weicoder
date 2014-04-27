@@ -21,7 +21,8 @@ public final class NettySession extends BaseSession implements Session {
 	 * @param id sessionId
 	 * @param channel
 	 */
-	public NettySession(Channel channel) {
+	public NettySession(String name, Channel channel) {
+		super(name);
 		this.id = channel.hashCode();
 		this.channel = channel;
 		address(channel.remoteAddress());
@@ -38,7 +39,7 @@ public final class NettySession extends BaseSession implements Session {
 	}
 
 	@Override
-	public void send(byte[] data) {
+	public void write(byte[] data) {
 		channel.writeAndFlush(PooledByteBufAllocator.DEFAULT.buffer().writeBytes(data));
 	}
 

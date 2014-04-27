@@ -29,7 +29,7 @@ public final class NettyServer extends BaseServer {
 		// 实例化ServerBootstrap
 		bootstrap = new ServerBootstrap();
 		// NettyHandler
-		handler = new NettyHandler(process);
+		handler = new NettyHandler(name, process);
 		// 设置group
 		bootstrap.group(new NioEventLoopGroup(SocketParams.getPool(name)), new NioEventLoopGroup(SocketParams.getPool(name)));
 		// 设置属性

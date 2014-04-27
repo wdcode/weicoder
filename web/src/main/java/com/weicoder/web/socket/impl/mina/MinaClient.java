@@ -35,7 +35,7 @@ public final class MinaClient extends BaseClient {
 		// 客户端
 		this.connector = new NioSocketConnector(SocketParams.getPool(name));
 		// 实例化handler
-		handler = new MinaHandler(process);
+		handler = new MinaHandler(name, process);
 		// 获得Session配置
 		SocketSessionConfig sc = connector.getSessionConfig();
 		// flush函数的调用 设置为非延迟发送，为true则不组装成大包发送，收到东西马上发出
@@ -63,7 +63,7 @@ public final class MinaClient extends BaseClient {
 	public void connect() {
 		future = connector.connect().awaitUninterruptibly();
 		IoSession io = future.getSession();
-		session(new MinaSession(io));
+		session(new MinaSession(name, io));
 	}
 
 	@Override

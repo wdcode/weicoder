@@ -21,7 +21,8 @@ public final class Netty3Session extends BaseSession implements Session {
 	 * @param id sessionId
 	 * @param channel
 	 */
-	public Netty3Session(Channel channel) {
+	public Netty3Session(String name, Channel channel) {
+		super(name);
 		this.id = channel.getId();
 		this.channel = channel;
 		address(channel.getRemoteAddress());
@@ -38,7 +39,7 @@ public final class Netty3Session extends BaseSession implements Session {
 	}
 
 	@Override
-	public void send(byte[] data) {
+	public void write(byte[] data) {
 		channel.write(ChannelBuffers.wrappedBuffer(data));
 	}
 

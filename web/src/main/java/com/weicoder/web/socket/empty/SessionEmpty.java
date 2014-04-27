@@ -1,5 +1,6 @@
 package com.weicoder.web.socket.empty;
 
+import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.web.socket.Session;
 
 /**
@@ -21,10 +22,22 @@ public final class SessionEmpty implements Session {
 	}
 
 	@Override
-	public void send(short id, Object message) {}
+	public byte[] send(short id, Object message) {
+		return ArrayConstants.BYTES_EMPTY;
+	}
 
 	@Override
-	public void send(Object message) {}
+	public byte[] send(Object message) {
+		return ArrayConstants.BYTES_EMPTY;
+	}
+
+	@Override
+	public byte[] send(byte[] data) {
+		return ArrayConstants.BYTES_EMPTY;
+	}
+
+	@Override
+	public void write(byte[] data) {}
 
 	@Override
 	public boolean isConnect() {
@@ -45,9 +58,6 @@ public final class SessionEmpty implements Session {
 	public int port() {
 		return 0;
 	}
-
-	@Override
-	public void send(byte[] message) {}
 
 	private SessionEmpty() {}
 }

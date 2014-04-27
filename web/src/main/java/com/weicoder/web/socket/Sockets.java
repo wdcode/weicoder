@@ -2,15 +2,11 @@ package com.weicoder.web.socket;
 
 import java.util.Map;
 
-import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.lang.Bytes;
-import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.util.EmptyUtil;
-import com.weicoder.common.util.StringUtil;
 import com.weicoder.web.params.SocketParams;
 import com.weicoder.web.socket.impl.mina.MinaClient;
 import com.weicoder.web.socket.impl.mina.MinaServer;
@@ -19,8 +15,6 @@ import com.weicoder.web.socket.impl.netty.NettyServer;
 import com.weicoder.web.socket.impl.netty3.Netty3Client;
 import com.weicoder.web.socket.impl.netty3.Netty3Server;
 import com.weicoder.web.socket.manager.Manager;
-import com.weicoder.web.socket.message.Message;
-import com.weicoder.web.socket.message.Null;
 
 /**
  * Socket 相关类
@@ -271,60 +265,6 @@ public final class Sockets {
 			// 删除Map中的引用
 			SERVERS.remove(name);
 		}
-	}
-
-	/**
-	 * 包装数据
-	 * @param id 指令
-	 * @param message 消息
-	 * @return 字节数组
-	 */
-	public static byte[] pack(short id, Object message) {
-		// 声明字节数组
-		byte[] data = toByte(message);
-		// 返回数据
-		return Bytes.toBytes(data.length + 2, id, data);
-	}
-
-	/**
-	 * 包装数据
-	 * @param message 消息
-	 * @return 字节数组
-	 */
-	public static byte[] pack(Object message) {
-		// 声明字节数组
-		byte[] data = toByte(message);
-		// 返回数据
-		return Bytes.toBytes(data.length, data);
-	}
-
-	/**
-	 * 转换message为字节数组
-	 * @param message
-	 * @return
-	 */
-	private static byte[] toByte(Object message) {
-		// 声明字节数组
-		byte[] data = null;
-		// 判断类型
-		if (message == null) {
-			// 空
-			data = ArrayConstants.BYTES_EMPTY;
-		} else if (message instanceof Null) {
-			// 空
-			data = ArrayConstants.BYTES_EMPTY;
-		} else if (message instanceof String) {
-			// 字符串
-			data = StringUtil.toBytes(Conversion.toString(message));
-		} else if (message instanceof Message) {
-			// 消息体
-			data = ((Message) message).array();
-		} else {
-			// 不知道的类型 以字节数组发送
-			data = Bytes.toBytes(message);
-		}
-		// 返回字节数组
-		return data;
 	}
 
 	/**

@@ -20,21 +20,26 @@ public interface Session extends Close {
 	 * @param id 指令
 	 * @param message 消息
 	 */
-	void send(short id, Object message);
+	byte[] send(short id, Object message);
 
 	/**
 	 * 写入数据
 	 * @param id 指令
 	 * @param message 消息
 	 */
-	void send(Object message);
+	byte[] send(Object message);
 
 	/**
 	 * 写入数据
-	 * @param id 指令
-	 * @param message 消息
+	 * @param data 原始数据
 	 */
-	void send(byte[] message);
+	byte[] send(byte[] data);
+
+	/**
+	 * 写入原始数据 不做其它处理
+	 * @param data 原始数据
+	 */
+	void write(byte[] data);
 
 	/**
 	 * 是否连接

@@ -15,14 +15,18 @@ import com.weicoder.web.socket.process.Process;
  * @version 1.0 2013-11-28
  */
 public final class MinaHandler extends IoHandlerAdapter {
+	// 名称
+	private String	name;
 	// 消息处理器
 	private Process	process;
 
 	/**
 	 * 构造
+	 * @param name
 	 * @param process
 	 */
-	public MinaHandler(Process process) {
+	public MinaHandler(String name, Process process) {
+		this.name = name;
 		this.process = process;
 	}
 
@@ -61,7 +65,7 @@ public final class MinaHandler extends IoHandlerAdapter {
 		// 如果为null
 		if (s == null) {
 			// 实例化包装Session
-			s = new MinaSession(session);
+			s = new MinaSession(name, session);
 		}
 		// 返回
 		return s;

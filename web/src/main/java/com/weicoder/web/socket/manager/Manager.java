@@ -8,11 +8,11 @@ import java.util.concurrent.ConcurrentHashMap;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.util.DateUtil;
+import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.ExecutorUtil;
 import com.weicoder.core.log.Logs;
 import com.weicoder.web.params.SocketParams;
 import com.weicoder.web.socket.Session;
-import com.weicoder.web.socket.Sockets;
 import com.weicoder.web.socket.empty.SessionEmpty;
 
 /**
@@ -263,16 +263,20 @@ public final class Manager {
 	 * @param message
 	 */
 	private void broad(List<Session> sessions, short id, Object message) {
+		// 列表为空
+		if (EmptyUtil.isEmpty(sessions)) {
+			return;
+		}
 		// 获得列表长度
 		int size = sessions.size();
 		// 如果线程池乘2倍
 		int broad = SocketParams.BROAD;
 		// 包装数据
-		final byte[] data = Sockets.pack(id, message);
+		final byte[] data = sessions.get(0).send(id, message);
 		// 日志
 		Logs.info("manager broad num=" + size + ";broad=" + broad + ";id=" + id + ";data=" + data.length + ";time=" + DateUtil.getTheDate());
 		// 循环分组广播
-		for (int i = 0; i < size;) {
+		for (int i = 1; i < size;) {
 			// 获得执行Session列表
 			final List<Session> list = Lists.subList(sessions, i, i += broad);
 			// 线程执行
@@ -285,7 +289,7 @@ public final class Manager {
 					// 广播消息
 					for (Session session : list) {
 						if (session != null) {
-							session.send(data);
+							session.write(data);
 						}
 					}
 					Logs.debug("manager pool broad end size=" + list.size() + ";time=" + (System.currentTimeMillis() - curr));

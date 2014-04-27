@@ -36,7 +36,7 @@ public final class Netty3Client extends BaseClient {
 		// 实例化ServerBootstrap
 		bootstrap = new ClientBootstrap(new NioClientSocketChannelFactory());
 		// NettyHandler
-		handler = new Netty3Handler(process);
+		handler = new Netty3Handler(name, process);
 		// 设置属性
 		bootstrap.setOption("tcpNoDelay", true);
 		bootstrap.setOption("keepAlive", false);
@@ -54,7 +54,7 @@ public final class Netty3Client extends BaseClient {
 	@Override
 	public void connect() {
 		future = bootstrap.connect().awaitUninterruptibly();
-		session(new Netty3Session(future.getChannel()));
+		session(new Netty3Session(name, future.getChannel()));
 	}
 
 	@Override

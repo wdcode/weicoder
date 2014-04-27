@@ -301,7 +301,7 @@ public final class Bytes {
 	 * @return int
 	 */
 	public static boolean toBoolean(byte[] b, int offset) {
-		return copy(b, offset, offset + 1)[0] == 1;
+		return b[offset] != 1;
 	}
 
 	/**

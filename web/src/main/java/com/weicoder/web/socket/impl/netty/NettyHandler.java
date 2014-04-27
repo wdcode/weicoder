@@ -15,6 +15,8 @@ import io.netty.channel.SimpleChannelInboundHandler;
  */
 @io.netty.channel.ChannelHandler.Sharable
 public final class NettyHandler extends SimpleChannelInboundHandler<ByteBuf> {
+	// 名称
+	private String	name;
 	// 消息处理器
 	private Process	process;
 
@@ -22,7 +24,8 @@ public final class NettyHandler extends SimpleChannelInboundHandler<ByteBuf> {
 	 * 构造
 	 * @param process
 	 */
-	public NettyHandler(Process process) {
+	public NettyHandler(String name, Process process) {
+		this.name = name;
 		this.process = process;
 	}
 
@@ -61,7 +64,7 @@ public final class NettyHandler extends SimpleChannelInboundHandler<ByteBuf> {
 		// 如果为null
 		if (s == null) {
 			// 实例化包装Session
-			s = new NettySession(channel);
+			s = new NettySession(name, channel);
 		}
 		// 返回
 		return s;

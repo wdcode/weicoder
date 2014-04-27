@@ -4,6 +4,7 @@ import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 
 import com.weicoder.common.binary.Buffer;
+import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.lang.Conversion;
@@ -11,9 +12,11 @@ import com.weicoder.common.util.ScheduledUtile;
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.common.util.ThreadUtil;
 import com.weicoder.core.log.Logs;
+import com.weicoder.core.zip.ZipEngine;
 import com.weicoder.web.params.SocketParams;
 import com.weicoder.web.socket.Session;
-import com.weicoder.web.socket.Sockets;
+import com.weicoder.web.socket.message.Message;
+import com.weicoder.web.socket.message.Null;
 
 /**
  * 基础Socket Session实现
@@ -22,6 +25,8 @@ import com.weicoder.web.socket.Sockets;
  * @version 1.0 2013-12-22
  */
 public abstract class BaseSession implements Session {
+	// 名称
+	protected String	name;
 	// SessionId
 	protected int		id;
 	// 保存IP
@@ -30,12 +35,18 @@ public abstract class BaseSession implements Session {
 	protected int		port;
 	// 写缓存
 	protected Buffer	buffer;
+	// 是否使用压缩
+	protected boolean	zip;
 
 	/**
 	 * 构造
 	 * @param name
 	 */
-	public BaseSession() {
+	public BaseSession(final String name) {
+		// 获得名称
+		this.name = name;
+		// 获得是否压缩
+		this.zip = SocketParams.getZip(name);
 		// 使用写缓存
 		if (SocketParams.WRITE > 0) {
 			// 声明缓存
@@ -51,22 +62,12 @@ public abstract class BaseSession implements Session {
 						// 清除缓存
 						buffer.clear();
 						// 写缓存
-						send(data);
-						Logs.info("socket=" + id + ";buffer send len=" + data.length);
+						write(data);
+						Logs.info("name=" + name + ";socket=" + id + ";buffer send len=" + data.length);
 					}
 				}
 			}, SocketParams.WRITE);
 		}
-	}
-
-	@Override
-	public void send(short id, Object message) {
-		write(Sockets.pack(id, message));
-	}
-
-	@Override
-	public void send(Object message) {
-		write(Sockets.pack(message));
 	}
 
 	@Override
@@ -82,6 +83,31 @@ public abstract class BaseSession implements Session {
 	@Override
 	public int port() {
 		return port;
+	}
+
+	@Override
+	public byte[] send(short id, Object message) {
+		return send(pack(id, message));
+	}
+
+	@Override
+	public byte[] send(Object message) {
+		return send(pack(message));
+	}
+
+	@Override
+	public byte[] send(byte[] data) {
+		// 是否使用写缓存
+		if (SocketParams.WRITE > 0) {
+			// 使用缓存
+			buffer.write(data);
+		} else {
+			// 不用缓存 发送数据
+			write(data);
+			Logs.info("name=" + name + ";socket=" + id + ";send len=" + data.length + ";id=" + Bytes.toShort(data, 4));
+		}
+		// 返回原始数据
+		return data;
 	}
 
 	@Override
@@ -114,19 +140,59 @@ public abstract class BaseSession implements Session {
 	}
 
 	/**
-	 * 写入数据
-	 * @param data 字节流数据
+	 * 包装数据
+	 * @param id 指令
+	 * @param message 消息
+	 * @return 字节数组
 	 */
-	protected void write(byte[] data) {
-		// 是否使用写缓存
-		if (SocketParams.WRITE > 0) {
-			// 使用缓存
-			buffer.write(data);
+	protected byte[] pack(short id, Object message) {
+		// 声明字节数组
+		byte[] data = toBytes(message);
+		// 返回数据
+		return Bytes.toBytes(data.length + 2, id, data);
+	}
+
+	/**
+	 * 包装数据
+	 * @param message 消息
+	 * @return 字节数组
+	 */
+	protected byte[] pack(Object message) {
+		// 声明字节数组
+		byte[] data = toBytes(message);
+		// 返回数据
+		return Bytes.toBytes(data.length, data);
+	}
+
+	/**
+	 * 转换message为字节数组
+	 * @param message
+	 * @return
+	 */
+	protected byte[] toBytes(Object message) {
+		// 日志
+		Logs.info("name=" + name + ";socket=" + id + ";message=" + message);
+		// 声明字节数组
+		byte[] data = null;
+		// 判断类型
+		if (message == null) {
+			// 空
+			data = ArrayConstants.BYTES_EMPTY;
+		} else if (message instanceof Null) {
+			// 空
+			data = ArrayConstants.BYTES_EMPTY;
+		} else if (message instanceof String) {
+			// 字符串
+			data = StringUtil.toBytes(Conversion.toString(message));
+		} else if (message instanceof Message) {
+			// 消息体
+			data = ((Message) message).array();
 		} else {
-			// 不用缓存 发送数据
-			send(data);
-			Logs.info("socket=" + id + ";send len=" + data.length + ";id=" + Bytes.toShort(data, 4));
+			// 不知道的类型 以字节数组发送
+			data = Bytes.toBytes(message);
 		}
+		// 使用压缩并且长度大于一个字节长度返回压缩 不使用直接返回字节数组
+		return zip && data.length > Byte.MAX_VALUE ? ZipEngine.compress(data) : data;
 	}
 
 	/**

@@ -31,7 +31,7 @@ public final class Netty3Server extends BaseServer {
 		// 实例化ServerBootstrap
 		bootstrap = new ServerBootstrap(new NioServerSocketChannelFactory());
 		// NettyHandler
-		handler = new Netty3Handler(process);
+		handler = new Netty3Handler(name, process);
 		// 设置属性
 		bootstrap.setOption("child.reuseAddress", true);
 		bootstrap.setOption("child.tcpNoDelay", true);

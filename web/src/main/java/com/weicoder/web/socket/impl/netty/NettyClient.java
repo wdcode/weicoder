@@ -33,7 +33,7 @@ public final class NettyClient extends BaseClient {
 		// 实例化ClientBootstrap
 		bootstrap = new Bootstrap();
 		// NettyHandler
-		handler = new NettyHandler(process);
+		handler = new NettyHandler(name, process);
 		// 设置group
 		bootstrap.group(new NioEventLoopGroup(SocketParams.getPool(name)));
 		// 设置属性
@@ -54,7 +54,7 @@ public final class NettyClient extends BaseClient {
 	@Override
 	public void connect() {
 		future = bootstrap.connect().awaitUninterruptibly();
-		session(new NettySession(future.channel()));
+		session(new NettySession(name, future.channel()));
 	}
 
 	@Override

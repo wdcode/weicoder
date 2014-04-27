@@ -17,6 +17,8 @@ import com.weicoder.web.socket.process.Process;
  */
 // @org.jboss.netty.channel.ChannelHandler.Sharable
 public final class Netty3Handler extends SimpleChannelHandler {
+	// 名称
+	private String	name;
 	// 消息处理器
 	private Process	process;
 
@@ -24,7 +26,8 @@ public final class Netty3Handler extends SimpleChannelHandler {
 	 * 构造
 	 * @param process
 	 */
-	public Netty3Handler(Process process) {
+	public Netty3Handler(String name, Process process) {
+		this.name = name;
 		this.process = process;
 	}
 
@@ -62,7 +65,7 @@ public final class Netty3Handler extends SimpleChannelHandler {
 		Session session = process.session(channel.getId());
 		// 如果Session为空
 		if (session == null) {
-			session = new Netty3Session(channel);
+			session = new Netty3Session(name, channel);
 		}
 		// 返回Session
 		return session;

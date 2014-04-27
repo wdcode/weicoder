@@ -4,8 +4,8 @@ import java.io.ByteArrayInputStream;
 import java.util.zip.DeflaterInputStream;
 import java.util.zip.InflaterInputStream;
 
-import com.weicoder.common.io.IOUtil; 
-import com.weicoder.core.zip.Zip;
+import com.weicoder.common.io.IOUtil;
+import com.weicoder.core.zip.base.BaseZip;
 
 /**
  * ZLIB压缩
@@ -13,22 +13,15 @@ import com.weicoder.core.zip.Zip;
  * @since JDK7
  * @version 1.0 2012-09-15
  */
-public final class ZlibImpl implements Zip {
-	/**
-	 * 压缩数据
-	 * @param b 字节数组
-	 * @return 压缩后的字节数组
-	 */
-	public byte[] compress(byte[] b) {
+public final class ZlibImpl extends BaseZip {
+
+	@Override
+	protected byte[] compress0(byte[] b) throws Exception {
 		return IOUtil.read(new DeflaterInputStream(new ByteArrayInputStream(b)));
 	}
 
-	/**
-	 * 解压数据
-	 * @param b 压缩字节
-	 * @return 解压后数据
-	 */
-	public byte[] extract(byte[] b) {
+	@Override
+	protected byte[] extract0(byte[] b) throws Exception {
 		return IOUtil.read(new InflaterInputStream(new ByteArrayInputStream(b)));
 	}
 }

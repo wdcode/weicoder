@@ -8,7 +8,7 @@ import java.util.zip.ZipOutputStream;
 
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.io.IOUtil;
-import com.weicoder.core.zip.Zip;
+import com.weicoder.core.zip.base.BaseZip;
 
 /**
  * ZIP压缩
@@ -16,13 +16,10 @@ import com.weicoder.core.zip.Zip;
  * @since JDK7
  * @version 1.0 2012-09-15
  */
-public final class ZipImpl implements Zip {
-	/**
-	 * 压缩数据
-	 * @param b 字节数组
-	 * @return 压缩后的字节数组
-	 */
-	public byte[] compress(byte[] b) {
+public final class ZipImpl extends BaseZip {
+
+	@Override
+	protected byte[] compress0(byte[] b) throws Exception {
 		try (ByteArrayOutputStream baos = new ByteArrayOutputStream(); ZipOutputStream zip = new ZipOutputStream(baos)) {
 			// 设置压缩实体
 			zip.putNextEntry(new ZipEntry(StringConstants.EMPTY));
@@ -32,17 +29,11 @@ public final class ZipImpl implements Zip {
 			zip.finish();
 			// 返回字节数组
 			return baos.toByteArray();
-		} catch (Exception e) {
-			return b;
 		}
 	}
 
-	/**
-	 * 解压数据
-	 * @param b 压缩字节
-	 * @return 解压后数据
-	 */
-	public byte[] extract(byte[] b) {
+	@Override
+	protected byte[] extract0(byte[] b) throws Exception {
 		try (ByteArrayOutputStream baos = new ByteArrayOutputStream(); ZipInputStream zin = new ZipInputStream(new ByteArrayInputStream(b))) {
 			// 循环解压缩
 			while (zin.getNextEntry() != null) {
@@ -51,8 +42,6 @@ public final class ZipImpl implements Zip {
 			}
 			// 返回字节数组
 			return baos.toByteArray();
-		} catch (Exception e) {
-			return b;
 		}
 	}
 }

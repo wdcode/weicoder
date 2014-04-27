@@ -10,6 +10,7 @@ import com.weicoder.common.util.DateUtil;
 import com.weicoder.common.util.ScheduledUtile;
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.core.log.Logs;
+import com.weicoder.core.zip.ZipEngine;
 import com.weicoder.web.params.SocketParams;
 import com.weicoder.web.socket.Closed;
 import com.weicoder.web.socket.Connected;
@@ -44,6 +45,8 @@ public final class Process {
 	private short						heartId;
 	// 处理器名字
 	private String						name;
+	// 是否使用压缩
+	private boolean						zip;
 
 	/**
 	 * 构造
@@ -53,6 +56,8 @@ public final class Process {
 	public Process(final String name) {
 		// 设置属性
 		this.name = name;
+		// 获得是否压缩
+		this.zip = SocketParams.getZip(name);
 		// 获得心跳时间
 		int htime = SocketParams.getHeartTime(name);
 		// 配置了心跳
@@ -202,7 +207,7 @@ public final class Process {
 			// 剩余字节长度不足，等待下次信息
 			if (buff.remaining() < 4) {
 				// 压缩并跳出循环
-				buff.compact();
+//				buff.compact();
 				break;
 			}
 			// 是否存在
@@ -221,9 +226,10 @@ public final class Process {
 			// 剩余字节长度不足，等待下次信息
 			if (buff.remaining() < length) {
 				// 重置缓存
-				buff.rewind();
+				buff.offset(buff.offset() - 4);
+				// buff.rewind();
 				// 压缩并跳出循环
-				buff.compact();
+				// buff.compact();
 				break;
 			} else {
 				// 读取指令id
@@ -240,12 +246,18 @@ public final class Process {
 					Logs.info(log);
 				}
 				// 消息长度
-				final int len = length - 2;
+				int len = length - 2;
 				// 读取指定长度的字节数
-				final byte[] data = new byte[len];
+				byte[] data = new byte[len];
 				// 读取指定长度字节数组
 				if (len > 0) {
+					// 读取字节数组
 					buff.read(data);
+					// 启用压缩
+					if (zip) {
+						// 解压缩
+						data = ZipEngine.extract(data);
+					}
 				}
 				// 如果处理器为空
 				if (handler == null) {
@@ -343,7 +355,7 @@ public final class Process {
 					break;
 				} else {
 					// 压缩
-					buff.compact();
+					// buff.compact();
 					// 反转缓存区
 					// buff.flip();
 				}

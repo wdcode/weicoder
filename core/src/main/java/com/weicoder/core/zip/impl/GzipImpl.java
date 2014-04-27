@@ -6,7 +6,7 @@ import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
 import com.weicoder.common.io.IOUtil;
-import com.weicoder.core.zip.Zip;
+import com.weicoder.core.zip.base.BaseZip;
 
 /**
  * GZIP压缩
@@ -14,13 +14,10 @@ import com.weicoder.core.zip.Zip;
  * @since JDK7
  * @version 1.0 2012-09-15
  */
-public final class GzipImpl implements Zip {
-	/**
-	 * 压缩数据
-	 * @param b 字节数组
-	 * @return 压缩后的字节数组
-	 */
-	public byte[] compress(byte[] b) {
+public final class GzipImpl extends BaseZip {
+
+	@Override
+	protected byte[] compress0(byte[] b) throws Exception {
 		try (ByteArrayOutputStream baos = new ByteArrayOutputStream(); GZIPOutputStream gzip = new GZIPOutputStream(baos)) {
 			// 把压缩后的字节数组写到输出流
 			IOUtil.write(gzip, b, false);
@@ -28,21 +25,13 @@ public final class GzipImpl implements Zip {
 			gzip.finish();
 			// 返回字节数组
 			return baos.toByteArray();
-		} catch (Exception e) {
-			return b;
 		}
 	}
 
-	/**
-	 * 解压数据
-	 * @param b 压缩字节
-	 * @return 解压后数据
-	 */
-	public byte[] extract(byte[] b) {
+	@Override
+	protected byte[] extract0(byte[] b) throws Exception {
 		try (GZIPInputStream gzip = new GZIPInputStream(new ByteArrayInputStream(b))) {
 			return IOUtil.read(gzip, false);
-		} catch (Exception e) {
-			return b;
 		}
 	}
 }

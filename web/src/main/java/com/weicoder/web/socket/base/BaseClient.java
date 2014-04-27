@@ -54,6 +54,11 @@ public abstract class BaseClient extends BaseSocket implements Client {
 	 */
 	protected void session(final Session session) {
 		this.session = session;
+		// 是否需要登录
+		short login = SocketParams.getLoginId(name);
+		if (login > 0) {
+			send(login, SocketParams.getLoginMessage(name));
+		}
 		// 是否启动心跳
 		int heart = SocketParams.getHeartTime(name);
 		if (heart > 0) {
