@@ -16,7 +16,9 @@ import com.weicoder.web.socket.Closed;
 import com.weicoder.web.socket.Connected;
 import com.weicoder.web.socket.Handler;
 import com.weicoder.web.socket.Session;
+import com.weicoder.web.socket.Sockets;
 import com.weicoder.web.socket.heart.Heart;
+import com.weicoder.web.socket.manager.Manager;
 import com.weicoder.web.socket.message.Message;
 import com.weicoder.web.socket.message.Null;
 
@@ -35,6 +37,8 @@ public final class Process {
 	private Map<Integer, Integer>		times		= Maps.getConcurrentMap();
 	// 保存全局IoBuffer
 	private Map<Integer, Buffer>		buffers		= Maps.getConcurrentMap();
+	// 管理器
+	private Manager						manager;
 	// 心跳处理
 	private Heart						heart;
 	// 连接处理
@@ -58,6 +62,10 @@ public final class Process {
 		this.name = name;
 		// 获得是否压缩
 		this.zip = SocketParams.getZip(name);
+		// 获得管理器
+		if (!SocketParams.isClient(name)) {
+			this.manager = Sockets.manager(name);
+		}
 		// 获得心跳时间
 		int htime = SocketParams.getHeartTime(name);
 		// 配置了心跳
@@ -151,10 +159,14 @@ public final class Process {
 	 * @param session
 	 */
 	public void closed(Session session) {
-		// 关闭处理器
 		try {
+			// 关闭处理器
 			if (closed != null) {
 				closed.closed(session);
+			}
+			// 删除管理器注册Session
+			if (manager != null) {
+				manager.remove(session);
 			}
 		} catch (Exception e) {
 			Logs.error(e);
@@ -207,7 +219,7 @@ public final class Process {
 			// 剩余字节长度不足，等待下次信息
 			if (buff.remaining() < 4) {
 				// 压缩并跳出循环
-//				buff.compact();
+				// buff.compact();
 				break;
 			}
 			// 是否存在

@@ -39,6 +39,7 @@ public final class MinaServer extends BaseServer {
 		// flush函数的调用 设置为非延迟发送，为true则不组装成大包发送，收到东西马上发出
 		sc.setTcpNoDelay(true);
 		sc.setKeepAlive(false);
+		sc.setUseReadOperation(false);
 		sc.setSoLinger(0);
 		// 设置最小读取缓存
 		sc.setMinReadBufferSize(64);
@@ -47,7 +48,7 @@ public final class MinaServer extends BaseServer {
 		// 设置输出缓冲区的大小
 		sc.setSendBufferSize(1024 * 32);
 		// 设置超时时间
-		sc.setWriteTimeout(3000);
+		sc.setWriteTimeout(30);
 		sc.setWriterIdleTime(60);
 		sc.setReaderIdleTime(30);
 		sc.setBothIdleTime(180);

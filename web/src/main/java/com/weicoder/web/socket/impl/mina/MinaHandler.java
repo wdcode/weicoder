@@ -48,6 +48,9 @@ public final class MinaHandler extends IoHandlerAdapter {
 		byte[] b = new byte[buffer.remaining()];
 		// 读取字节流
 		buffer.get(b);
+		// 清理缓存
+		buffer.clear();
+		buffer.free();
 		// 交给数据处理器处理
 		process.process(getSesson(session), b);
 	}

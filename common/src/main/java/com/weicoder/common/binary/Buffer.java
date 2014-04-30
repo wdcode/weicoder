@@ -223,7 +223,7 @@ public final class Buffer implements ByteArray {
 	 * 读出一个字节
 	 */
 	public byte readByte() {
-		return read(read(1))[0];
+		return read(1)[0];
 	}
 
 	/**
@@ -425,7 +425,9 @@ public final class Buffer implements ByteArray {
 			if (sync) {
 				lock.lock();
 			}
-			data = Bytes.copy(data, offset, top);
+			// 移动数据
+			System.arraycopy(data, offset, data, 0, remaining());
+			// 重置下标
 			top -= offset;
 			offset = 0;
 			// 如果同步 解锁

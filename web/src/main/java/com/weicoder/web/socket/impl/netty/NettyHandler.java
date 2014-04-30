@@ -42,6 +42,9 @@ public final class NettyHandler extends SimpleChannelInboundHandler<ByteBuf> {
 	}
 
 	@Override
+	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {}
+
+	@Override
 	protected void channelRead0(ChannelHandlerContext ctx, ByteBuf msg) throws Exception {
 		// 声明字节流
 		byte[] data = new byte[msg.readableBytes()];

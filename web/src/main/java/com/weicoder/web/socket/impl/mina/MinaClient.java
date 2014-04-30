@@ -49,7 +49,7 @@ public final class MinaClient extends BaseClient {
 		// 设置输出缓冲区的大小
 		sc.setSendBufferSize(1024 * 32);
 		// 设置超时时间
-		sc.setWriteTimeout(3000);
+		sc.setWriteTimeout(30);
 		sc.setWriterIdleTime(60);
 		sc.setReaderIdleTime(30);
 		sc.setBothIdleTime(180);

@@ -50,7 +50,7 @@ public abstract class BaseSession implements Session {
 		// 使用写缓存
 		if (SocketParams.WRITE > 0) {
 			// 声明缓存
-			buffer = new Buffer();
+			buffer = new Buffer(true);
 			// 定时监控写缓存
 			ScheduledUtile.rate(new Runnable() {
 				@Override
