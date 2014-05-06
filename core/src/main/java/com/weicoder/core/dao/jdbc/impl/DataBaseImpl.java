@@ -272,7 +272,7 @@ public final class DataBaseImpl implements DataBase {
 	 * @return List
 	 */
 	public <E> List<E> query(String sql, Class<E> c, Object... parame) {
-		return BeanUtil.copyProperties(c, queryMultiRowMultiCol(sql, parame));
+		return BeanUtil.copy(queryMultiRowMultiCol(sql, parame), c);
 	}
 
 	/**

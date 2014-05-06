@@ -1,7 +1,6 @@
 package com.weicoder.core.json.impl;
 
 import java.util.List;
-import java.util.Map;
 
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.util.BeanUtil;
@@ -47,7 +46,7 @@ public final class JsonGson implements Json {
 				List<E> ls = Lists.getList(list.size());
 				// 转换列表
 				for (Object o : list) {
-					ls.add(BeanUtil.copyProperties(clazz, (Map<String, ?>) o));
+					ls.add(BeanUtil.copy(o, clazz));
 				}
 				// 返回列表
 				return ls;

@@ -185,7 +185,7 @@ public abstract class SuperAction extends BasicAction {
 		// 获得要更像的实体
 		Entity e = service.get(entityClass, entity.getKey());
 		// 实体不为空 更新 否则返回错误
-		return callback(entity = service.update(BeanUtil.copyProperties(upload(entity), e)));
+		return callback(entity = service.update(BeanUtil.copy(upload(entity), e)));
 	}
 
 	/**
@@ -210,7 +210,7 @@ public abstract class SuperAction extends BasicAction {
 				// 获得修改实体
 				Entity e = entitys.get(i);
 				// 把新修改的值赋值给修改是实体
-				es.add(BeanUtil.copyProperties(e, service.get(entityClass, e.getKey())));
+				es.add(BeanUtil.copy(e, service.get(entityClass, e.getKey())));
 			}
 			// 修改实体
 			entitys = service.update(es);

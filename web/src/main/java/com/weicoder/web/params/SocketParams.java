@@ -131,20 +131,8 @@ public final class SocketParams {
 	 * XML: {@literal <socket><login><id>?</id></login></socket>}</h2>
 	 * @return 获得Socket是否需要登录 大于0的指令为登录
 	 */
-	public static short getLoginId(String name) {
-		return Params.getShort(Params.getKey(PREFIX, name, "login.id"), (short) 0);
-	}
-
-	/**
-	 * 获得Socket登录消息<br/>
-	 * 需在配置文件中配置<br/>
-	 * <h2>配置方式如下: <br/>
-	 * Properties: socket.login.message = ? <br/>
-	 * XML: {@literal <socket><login><message>?</message></login></socket>}</h2>
-	 * @return 获得Socket登录消息
-	 */
-	public static String getLoginMessage(String name) {
-		return Params.getString(Params.getKey(PREFIX, name, "login.message"));
+	public static String getLogin(String name) {
+		return Params.getString(Params.getKey(PREFIX, name, "login"));
 	}
 
 	/**

@@ -275,26 +275,40 @@ public final class Manager {
 		final byte[] data = sessions.get(0).send(id, message);
 		// 日志
 		Logs.info("manager broad num=" + size + ";broad=" + broad + ";id=" + id + ";data=" + data.length + ";time=" + DateUtil.getTheDate());
-		// 循环分组广播
-		for (int i = 1; i < size;) {
-			// 获得执行Session列表
-			final List<Session> list = Lists.subList(sessions, i, i += broad);
-			// 线程执行
-			ExecutorUtil.execute(new Runnable() {
-				@Override
-				public void run() {
-					// 日志
-					long curr = System.currentTimeMillis();
-					Logs.debug("manager pool broad start size=" + list.size() + ";time=" + DateUtil.getTheDate());
-					// 广播消息
-					for (Session session : list) {
-						if (session != null) {
-							session.write(data);
-						}
+		// 如果要广播的Session小于 分组广播 直接广播数据
+		if (broad == 0 || size <= broad) {
+			broad(Lists.subList(sessions, 1, size), data);
+		} else {
+			// 循环分组广播
+			for (int i = 1; i < size;) {
+				// 获得执行Session列表
+				final List<Session> list = Lists.subList(sessions, i, i += broad);
+				// 线程执行
+				ExecutorUtil.execute(new Runnable() {
+					@Override
+					public void run() {
+						broad(list, data);
 					}
-					Logs.debug("manager pool broad end size=" + list.size() + ";time=" + (System.currentTimeMillis() - curr));
-				}
-			});
+				});
+			}
 		}
+	}
+
+	/**
+	 * 广播
+	 * @param sessions
+	 * @param data
+	 */
+	private void broad(List<Session> sessions, byte[] data) {
+		// 日志
+		long curr = System.currentTimeMillis();
+		Logs.debug("manager pool broad start size=" + sessions.size() + ";time=" + DateUtil.getTheDate());
+		// 广播消息
+		for (Session session : sessions) {
+			if (session != null) {
+				session.write(data);
+			}
+		}
+		Logs.debug("manager pool broad end size=" + sessions.size() + ";time=" + (System.currentTimeMillis() - curr));
 	}
 }

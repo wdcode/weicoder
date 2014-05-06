@@ -70,7 +70,7 @@ public final class DbfEngine {
 			List<E> list = Lists.getList(size);
 			// 循环填充数据
 			for (int i = 0; i < size; i++) {
-				list.add(BeanUtil.copyProperties(entityClass, Maps.getMap(cols, reader.nextRecord())));
+				list.add(BeanUtil.copy(Maps.getMap(cols, reader.nextRecord()), entityClass));
 			}
 			// 返回数据列表
 			return list;

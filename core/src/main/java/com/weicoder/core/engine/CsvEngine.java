@@ -99,7 +99,7 @@ public final class CsvEngine {
 		List<E> entitys = Lists.getList(list.size());
 		// 循环获得实体列表
 		for (int i = 1; i < size; i++) {
-			entitys.add(BeanUtil.copyProperties(entityClass, Maps.getMap(cols, list.get(i))));
+			entitys.add(BeanUtil.copy(Maps.getMap(cols, list.get(i)), entityClass));
 		}
 		// 返回实体列表
 		return entitys;

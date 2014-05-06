@@ -147,7 +147,16 @@ public final class JsonEngine extends FactoryKey<String, Json> {
 		Map<String, E> data = Maps.getMap(map.size());
 		// 循环生成类
 		for (Map.Entry<String, Object> e : map.entrySet()) {
-			data.put(e.getKey(), BeanUtil.copyProperties(e.getValue(), value));
+			// 声明值
+			E val = null;
+			// 是一个类型
+			if (e.getValue().equals(value)) {
+				val = (E) e.getValue();
+			} else {
+				val = BeanUtil.copy(e.getValue(), value);
+			}
+			// 添加到列表
+			data.put(e.getKey(), val);
 		}
 		// 返回数据
 		return data;

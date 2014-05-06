@@ -1,10 +1,12 @@
 package com.weicoder.web.socket.base;
 
+import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.ScheduledUtile;
 import com.weicoder.core.log.Logs;
 import com.weicoder.web.params.SocketParams;
 import com.weicoder.web.socket.Client;
 import com.weicoder.web.socket.Session;
+import com.weicoder.web.socket.message.Login;
 
 /**
  * 基础Client
@@ -55,9 +57,9 @@ public abstract class BaseClient extends BaseSocket implements Client {
 	protected void session(final Session session) {
 		this.session = session;
 		// 是否需要登录
-		short login = SocketParams.getLoginId(name);
-		if (login > 0) {
-			send(login, SocketParams.getLoginMessage(name));
+		Login login = (Login) BeanUtil.newInstance(SocketParams.getLogin(name));
+		if (login != null) {
+			send(login.id(), login.message());
 		}
 		// 是否启动心跳
 		int heart = SocketParams.getHeartTime(name);

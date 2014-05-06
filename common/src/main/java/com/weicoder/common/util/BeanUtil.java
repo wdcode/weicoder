@@ -26,8 +26,8 @@ public final class BeanUtil {
 	 * @param entity 目标类
 	 * @return 目标对象
 	 */
-	public static <T> T copyProperties(Object source, Class<T> entity) {
-		return copyProperties(source, newInstance(entity));
+	public static <T> T copy(Object source, Class<T> entity) {
+		return copy(source, newInstance(entity));
 	}
 
 	/**
@@ -36,10 +36,14 @@ public final class BeanUtil {
 	 * @param target 目标对象
 	 * @return 目标对象
 	 */
-	public static <T> T copyProperties(Object source, T target) {
+	public static <T> T copy(Object source, T target) {
 		// 判读对象为空
 		if (source == null || target == null) {
 			return target;
+		}
+		// 如果源为Map
+		if (source instanceof Map<?, ?>) {
+			return copy((Map<?, ?>) source, target);
 		}
 		// 循环字段
 		for (Field field : getFields(source.getClass())) {
@@ -57,14 +61,14 @@ public final class BeanUtil {
 
 	/**
 	 * 把Map的Key与Object属性相同的字段赋值 就是把Map对应的值赋给Object
-	 * @param dest 目标对象
 	 * @param map 源对象
+	 * @param dest 目标对象
 	 * @return dest 目标对象
 	 */
-	public static <T> T copyProperties(T dest, Map<String, ?> map) {
+	public static <T> T copy(Map<?, ?> map, T dest) {
 		// 循环Map的实体
-		for (Map.Entry<String, ?> entry : map.entrySet()) {
-			setFieldValue(dest, entry.getKey(), entry.getValue());
+		for (Map.Entry<?, ?> entry : map.entrySet()) {
+			setFieldValue(dest, Conversion.toString(entry.getKey()), entry.getValue());
 		}
 		// 返回对象
 		return dest;
@@ -73,12 +77,12 @@ public final class BeanUtil {
 	/**
 	 * 把Map的Key与Class的实例属性相同的字段赋值 就是把Map对应的值赋给Object<br/>
 	 * <h2>注: 此方法回返回Class的一个新实例对象</h2>
-	 * @param dest 目标对象的Class用dest.newInstance()生成一个新的实例
 	 * @param map 源对象
+	 * @param dest 目标对象的Class用dest.newInstance()生成一个新的实例 *
 	 * @return dest 目标对象的新实例
 	 */
-	public static <T> T copyProperties(Class<T> dest, Map<String, ?> map) {
-		return copyProperties(newInstance(dest), map);
+	public static <T> T copy(Map<?, ?> map, Class<T> dest) {
+		return copy(map, newInstance(dest));
 	}
 
 	/**
@@ -87,14 +91,14 @@ public final class BeanUtil {
 	 * @param list map对象列表
 	 * @return List<E>转换后的对象
 	 */
-	public static <T> List<T> copyProperties(Class<T> dest, List<Map<String, Object>> list) {
+	public static <T> List<T> copy(List<Map<String, Object>> list, Class<T> dest) {
 		// 获得列表大小
 		int size = list.size();
 		// 获得列表
 		List<T> ls = Lists.getList(size);
 		// 是 ArrayList
 		for (int i = 0; i < size; i++) {
-			ls.add(copyProperties(dest, list.get(i)));
+			ls.add(copy(list.get(i), dest));
 		}
 		// 返回列表
 		return ls;

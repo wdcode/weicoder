@@ -21,7 +21,7 @@ public final class JsonSmart implements Json {
 
 	@Override
 	public <E> E toBean(String json, Class<E> clazz) {
-		return (E) BeanUtil.copyProperties(JSONValue.parse(json), BeanUtil.newInstance(clazz));
+		return (E) BeanUtil.copy(JSONValue.parse(json), BeanUtil.newInstance(clazz));
 	}
 
 	@Override
