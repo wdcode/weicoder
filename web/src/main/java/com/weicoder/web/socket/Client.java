@@ -13,16 +13,8 @@ public interface Client extends Socket {
 	void connect();
 
 	/**
-	 * 写入数据
-	 * @param id 指令
-	 * @param message 消息
+	 * 获得客户端Session
+	 * @return
 	 */
-	void send(short id, Object message);
-
-	/**
-	 * 写入数据
-	 * @param id 指令
-	 * @param message 消息
-	 */
-	void send(Object message);
+	Session session();
 }

@@ -31,17 +31,11 @@ public final class MinaSession extends BaseSession implements Session {
 	}
 
 	@Override
-	public boolean isConnect() {
-		return session.isConnected();
-	}
-
-	@Override
-	public boolean isClose() {
-		return session.isClosing();
-	}
-
-	@Override
 	public void write(byte[] data) {
+		// Session为null
+		if (session == null) {
+			return;
+		}
 		// 发送数据过多
 		if (session.getScheduledWriteBytes() > Short.MAX_VALUE || session.getScheduledWriteMessages() > Byte.MAX_VALUE) {
 			Logs.info("message num many close=" + id);
@@ -55,5 +49,11 @@ public final class MinaSession extends BaseSession implements Session {
 	@Override
 	protected void close0() {
 		session.close(false);
+		session = null;
+	}
+
+	@Override
+	public boolean isEmpty() {
+		return session == null;
 	}
 }

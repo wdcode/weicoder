@@ -40,16 +40,6 @@ public final class SessionEmpty implements Session {
 	public void write(byte[] data) {}
 
 	@Override
-	public boolean isConnect() {
-		return false;
-	}
-
-	@Override
-	public boolean isClose() {
-		return false;
-	}
-
-	@Override
 	public String ip() {
 		return null;
 	}
@@ -59,5 +49,23 @@ public final class SessionEmpty implements Session {
 		return 0;
 	}
 
+	@Override
+	public boolean isEmpty() {
+		return false;
+	}
+
 	private SessionEmpty() {}
+
+	@Override
+	public byte[] buffer(short id, Object message) {
+		return null;
+	}
+
+	@Override
+	public byte[] buffer(Object message) {
+		return null;
+	}
+
+	@Override
+	public void flush() {}
 }

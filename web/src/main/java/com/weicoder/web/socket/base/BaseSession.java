@@ -47,24 +47,15 @@ public abstract class BaseSession implements Session {
 		this.name = name;
 		// 获得是否压缩
 		this.zip = SocketParams.getZip(name);
+		// 声明缓存
+		buffer = new Buffer();
 		// 使用写缓存
 		if (SocketParams.WRITE > 0) {
-			// 声明缓存
-			buffer = new Buffer(true);
 			// 定时监控写缓存
 			ScheduledUtile.rate(new Runnable() {
 				@Override
 				public void run() {
-					// 有写入数据
-					if (buffer.hasRemaining()) {
-						// 获得写入缓存字节数组
-						byte[] data = buffer.array();
-						// 清除缓存
-						buffer.clear();
-						// 写缓存
-						write(data);
-						Logs.info("name=" + name + ";socket=" + id + ";buffer send len=" + data.length);
-					}
+					flush();
 				}
 			}, SocketParams.WRITE);
 		}
@@ -93,6 +84,30 @@ public abstract class BaseSession implements Session {
 	@Override
 	public byte[] send(Object message) {
 		return send(pack(message));
+	}
+
+	@Override
+	public byte[] buffer(short id, Object message) {
+		return buffer.write(pack(id, message));
+	}
+
+	@Override
+	public byte[] buffer(Object message) {
+		return buffer.write(pack(message));
+	}
+
+	@Override
+	public void flush() {
+		// 有写入数据
+		if (buffer.hasRemaining()) {
+			// 获得写入缓存字节数组
+			byte[] data = buffer.array();
+			// 清除缓存
+			buffer.clear();
+			// 写缓存
+			write(data);
+			Logs.info("name=" + name + ";socket=" + id + ";buffer send len=" + data.length);
+		}
 	}
 
 	@Override

@@ -290,8 +290,8 @@ public final class Buffer implements ByteArray {
 	 * @param pos 指定的字节数组的起始位置
 	 * @param len 写入的长度
 	 */
-	public void write(byte[] data) {
-		write(data, 0, data.length);
+	public byte[] write(byte[] data) {
+		return write(data, 0, data.length);
 	}
 
 	/**
@@ -300,7 +300,7 @@ public final class Buffer implements ByteArray {
 	 * @param pos 指定的字节数组的起始位置
 	 * @param len 写入的长度
 	 */
-	public void write(byte[] data, int pos, int len) {
+	public byte[] write(byte[] data, int pos, int len) {
 		// 容量不足扩容
 		if (data.length < top + len) {
 			capacity(top + len);
@@ -316,6 +316,8 @@ public final class Buffer implements ByteArray {
 		if (sync) {
 			lock.unlock();
 		}
+		// 返回数组
+		return data;
 	}
 
 	/**

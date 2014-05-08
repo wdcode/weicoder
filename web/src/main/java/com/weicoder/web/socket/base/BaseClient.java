@@ -27,22 +27,9 @@ public abstract class BaseClient extends BaseSocket implements Client {
 	}
 
 	@Override
-	public void send(short id, Object message) {
-		session().send(id, message);
-	}
-
-	@Override
-	public void send(Object message) {
-		session().send(message);
-	}
-
-	/**
-	 * 获得session
-	 * @return
-	 */
-	protected Session session() {
+	public Session session() {
 		// 如果session为空 或 未连接
-		if (session == null || session.isClose() || !session.isConnect()) {
+		if (session == null || session.isEmpty()) {
 			// 连接
 			connect();
 		}
@@ -59,7 +46,7 @@ public abstract class BaseClient extends BaseSocket implements Client {
 		// 是否需要登录
 		Login login = (Login) BeanUtil.newInstance(SocketParams.getLogin(name));
 		if (login != null) {
-			send(login.id(), login.message());
+			session.send(login.id(), login.message());
 		}
 		// 是否启动心跳
 		int heart = SocketParams.getHeartTime(name);

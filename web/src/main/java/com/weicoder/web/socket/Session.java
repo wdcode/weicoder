@@ -1,6 +1,7 @@
 package com.weicoder.web.socket;
 
 import com.weicoder.common.interfaces.Close;
+import com.weicoder.common.interfaces.Empty;
 
 /**
  * Socket Session
@@ -8,7 +9,7 @@ import com.weicoder.common.interfaces.Close;
  * @since JDK7
  * @version 1.0 2013-11-28
  */
-public interface Session extends Close {
+public interface Session extends Close, Empty {
 	/**
 	 * 获得SessionId
 	 * @return SessionId
@@ -42,18 +43,6 @@ public interface Session extends Close {
 	void write(byte[] data);
 
 	/**
-	 * 是否连接
-	 * @return true 为有连接 false 未连接
-	 */
-	boolean isConnect();
-
-	/**
-	 * 是否关闭
-	 * @return true 关闭 false 未关闭
-	 */
-	boolean isClose();
-
-	/**
 	 * 获得连接IP
 	 * @return IP
 	 */
@@ -64,4 +53,23 @@ public interface Session extends Close {
 	 * @return port
 	 */
 	int port();
+
+	/**
+	 * 写入缓存
+	 * @param id 指令
+	 * @param message 消息
+	 */
+	byte[] buffer(short id, Object message);
+
+	/**
+	 * 写入缓存
+	 * @param id 指令
+	 * @param message 消息
+	 */
+	byte[] buffer(Object message);
+
+	/**
+	 * 把缓存区的数据一次性写入
+	 */
+	void flush();
 }
