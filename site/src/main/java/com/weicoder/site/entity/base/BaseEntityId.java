@@ -33,6 +33,14 @@ public abstract class BaseEntityId extends BaseEntity {
 	}
 
 	/**
+	 * 获得ID
+	 * @return ID
+	 */
+	public int id() {
+		return id;
+	}
+
+	/**
 	 * 设置ID
 	 * @param id ID
 	 */
@@ -57,5 +65,10 @@ public abstract class BaseEntityId extends BaseEntity {
 		} else {
 			this.id = Conversion.toInt(key);
 		}
+	}
+
+	@Override
+	public Serializable key() {
+		return getKey();
 	}
 }

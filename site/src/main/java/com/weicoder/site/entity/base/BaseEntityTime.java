@@ -1,5 +1,7 @@
 package com.weicoder.site.entity.base;
 
+import java.io.Serializable;
+
 import javax.persistence.MappedSuperclass;
 
 import com.weicoder.base.entity.Entity;
@@ -41,6 +43,21 @@ public abstract class BaseEntityTime extends BaseEntity implements EntityTime {
 	 */
 	public String getDate() {
 		return EmptyUtil.isEmpty(time) ? StringConstants.EMPTY : DateUtil.toString(time);
+	}
+
+	@Override
+	public Serializable key() {
+		return getKey();
+	}
+
+	@Override
+	public Integer time() {
+		return getTime();
+	}
+
+	@Override
+	public String date() {
+		return getDate();
 	}
 
 	@Override

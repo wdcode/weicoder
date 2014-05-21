@@ -3,19 +3,21 @@ package com.weicoder.core.log;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.weicoder.common.lang.Conversion;
 import com.weicoder.core.params.CoreParams;
 
 /**
- * 用于记录各种日志以及打印DEBG信息等<br/>
+ * 用于记录各种日志以及打印DEBG信息等
  * @author WD
  * @since JDK7
- * @version 1.0 2012-02-17
+ * @version 1.0 2014-05-18
  */
-public final class Logs {
+public final class Loggers {
 	// loggin日志对象
-	private final static Log				LOG		= LogFactory.getLog(Logs.class);
+	private final static Logger				LOG		= LoggerFactory.getLogger(Loggers.class);
 	// 异步线程
 	private final static ExecutorService	SERVICE	= Executors.newSingleThreadExecutor();
 
@@ -60,16 +62,6 @@ public final class Logs {
 	}
 
 	/**
-	 * 使用fatal打印日志
-	 * @param info 日志信息
-	 */
-	public static void fatal(Object info) {
-		if (LOG.isFatalEnabled()) {
-			log(LogEnum.FATAL, info);
-		}
-	}
-
-	/**
 	 * 异步打印日志
 	 * @param logEnum 日志枚举
 	 * @param obj 日志信息
@@ -106,14 +98,14 @@ public final class Logs {
 	 */
 	private static void syncLog(LogEnum logEnum, Object obj) {
 		// 日志信息
-		Object mess = null;
+		String mess = null;
 		// 异常
 		Throwable t = null;
 		// 判断传人信息类型
 		if (obj instanceof Throwable) {
 			t = (Throwable) obj;
 		} else {
-			mess = obj;
+			mess = Conversion.toString(obj);
 		}
 		// 打印日志
 		switch (logEnum) {
@@ -137,11 +129,6 @@ public final class Logs {
 					LOG.error(mess, t);
 				}
 				break;
-			case FATAL:
-				if (LOG.isFatalEnabled()) {
-					LOG.fatal(mess, t);
-				}
-				break;
 		}
 	}
 
@@ -152,9 +139,9 @@ public final class Logs {
 	 * @version 1.0 2012-02-17
 	 */
 	static enum LogEnum {
-		DEBUG, INFO, WARN, ERROR, FATAL
+		DEBUG, INFO, WARN, ERROR
 	}
 
 	/** 私有构造 */
-	private Logs() {}
+	private Loggers() {}
 }

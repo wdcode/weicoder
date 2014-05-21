@@ -14,6 +14,12 @@ public interface EntityUser extends Entity, EntityIp, EntityTime {
 	int getId();
 
 	/**
+	 * 获得ID
+	 * @return ID
+	 */
+	int id();
+
+	/**
 	 * 设置Id
 	 * @param id ID
 	 */
@@ -25,6 +31,11 @@ public interface EntityUser extends Entity, EntityIp, EntityTime {
 	String getName();
 
 	/**
+	 * 获得名称
+	 */
+	String name();
+
+	/**
 	 * 设置名称
 	 */
 	void setName(String name);
@@ -34,6 +45,12 @@ public interface EntityUser extends Entity, EntityIp, EntityTime {
 	 * @return Email
 	 */
 	String getEmail();
+
+	/**
+	 * 获得Email
+	 * @return Email
+	 */
+	String email();
 
 	/**
 	 * 设置Email
@@ -66,9 +83,20 @@ public interface EntityUser extends Entity, EntityIp, EntityTime {
 	String getLoginIp();
 
 	/**
+	 * 获得登录IP
+	 * @return 登录IP
+	 */
+	String loginIp();
+
+	/**
 	 * 获得登录时间
 	 */
 	Integer getLoginTime();
+
+	/**
+	 * 获得登录时间
+	 */
+	Integer loginTime();
 
 	/**
 	 * 设置登录时间
@@ -80,6 +108,12 @@ public interface EntityUser extends Entity, EntityIp, EntityTime {
 	 * @param state
 	 */
 	Integer getState();
+
+	/**
+	 * 获得状态
+	 * @param state
+	 */
+	Integer state();
 
 	/**
 	 * 设置状态

@@ -14,6 +14,12 @@ public interface EntityUserId {
 	Integer getUserId();
 
 	/**
+	 * 获得用户ID
+	 * @return 用户ID
+	 */
+	Integer userId();
+
+	/**
 	 * 设置用户ID
 	 * @param userId 用户ID
 	 */

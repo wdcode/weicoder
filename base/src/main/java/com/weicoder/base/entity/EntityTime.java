@@ -13,6 +13,11 @@ public interface EntityTime {
 	Integer getTime();
 
 	/**
+	 * 获得创建时间
+	 */
+	Integer time();
+
+	/**
 	 * 设置创建时间
 	 */
 	void setTime(Integer time);
@@ -21,4 +26,9 @@ public interface EntityTime {
 	 * 获得日期
 	 */
 	String getDate();
+
+	/**
+	 * 获得日期
+	 */
+	String date();
 }

@@ -18,6 +18,12 @@ public interface Entity extends Serializable, Empty, Comparable<Entity> {
 	Serializable getKey();
 
 	/**
+	 * 获得本实体的Key 确保本实体下是唯一的
+	 * @return Key
+	 */
+	Serializable key();
+
+	/**
 	 * 设置Key
 	 * @param key 键
 	 */

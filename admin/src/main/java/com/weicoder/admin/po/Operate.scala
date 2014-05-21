@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component
 import org.springframework.beans.factory.config.ConfigurableBeanFactory
 import com.weicoder.base.annotation.Cache
 import com.weicoder.common.lang.Conversion
-import com.weicoder.site.entity.base.BaseEntity 
+import com.weicoder.site.entity.base.BaseEntity
 
 /**
  * 操作实体
@@ -26,20 +26,19 @@ import com.weicoder.site.entity.base.BaseEntity
 @Cache
 class Operate extends BaseEntity {
   // 操作连接
-  @Id 
+  @Id
   var link: String = _
   // 名称 
   var name: String = _
   //类型
   //	var type:Integer
 
-  /**
-   * 获得主键
-   */
+  /**  获得主键 */
   def getKey: Serializable = link
 
-  /**
-   * 设置主键
-   */
+  /**  获得主键 */
+  def key: Serializable = getKey
+
+  /**  设置主键  */
   def setKey(key: Serializable) = link = Conversion.toString(key)
 }

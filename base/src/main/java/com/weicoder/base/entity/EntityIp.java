@@ -14,6 +14,12 @@ public interface EntityIp {
 	String getIp();
 
 	/**
+	 * 获得IP
+	 * @return IP
+	 */
+	String ip();
+
+	/**
 	 * 设置IP
 	 * @param ip IP
 	 */

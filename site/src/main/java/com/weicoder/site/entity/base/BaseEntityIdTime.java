@@ -34,6 +34,16 @@ public abstract class BaseEntityIdTime extends BaseEntityId implements EntityTim
 		this.time = time;
 	}
 
+	@Override
+	public Integer time() {
+		return getTime();
+	}
+
+	@Override
+	public String date() {
+		return getDate();
+	}
+
 	/**
 	 * 获得日期
 	 */
