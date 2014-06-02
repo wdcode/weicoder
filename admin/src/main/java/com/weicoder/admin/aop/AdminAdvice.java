@@ -2,6 +2,7 @@ package com.weicoder.admin.aop;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -19,11 +20,11 @@ import com.weicoder.admin.po.LogsLogin;
 import com.weicoder.admin.po.LogsOperate;
 import com.weicoder.admin.po.Operate;
 import com.weicoder.admin.po.Role;
-import com.weicoder.base.entity.Entity;
-import com.weicoder.base.service.SuperService;
+import com.weicoder.frame.action.SiteAction;
+import com.weicoder.frame.entity.Entity;
+import com.weicoder.frame.service.SuperService;
 import com.weicoder.common.util.DateUtil;
 import com.weicoder.common.util.EmptyUtil;
-import com.weicoder.site.action.SiteAction;
 
 /**
  * 权限拦截器
@@ -41,7 +42,7 @@ public final class AdminAdvice {
 	 * 验证权限方法
 	 * @param point
 	 */
-	@Before("execution(* com.weicoder.base.action.SuperAction.add(..)) or execution(* com.weicoder.base.action.SuperAction.adds(..)) or execution(* com.weicoder.base.action.SuperAction.edit(..)) or execution(* com.weicoder.base.action.SuperAction.dels(..)) or execution(* com.weicoder.base.action.SuperAction.del(..)) or execution(* com.weicoder.base.action.SuperAction.trun(..))")
+	@Before("execution(* com.weicoder.frame.action.SuperAction.add(..)) or execution(* com.weicoder.frame.action.SuperAction.adds(..)) or execution(* com.weicoder.frame.action.SuperAction.edit(..)) or execution(* com.weicoder.frame.action.SuperAction.dels(..)) or execution(* com.weicoder.frame.action.SuperAction.del(..)) or execution(* com.weicoder.frame.action.SuperAction.trun(..))")
 	public void security(JoinPoint point) {
 		// 判断是否开启权限验证
 		if (AdminParams.SECURITY_POWER) {
@@ -64,12 +65,6 @@ public final class AdminAdvice {
 			if (operate == null) {
 				throw new AdminException("not,operate," + link);
 			}
-			// 判断是否类型验证
-			// if (AdminParams.SECURITY_TYPE > 0) {
-			// if (AdminParams.SECURITY_TYPE != Conversion.toInt(operate.getType())) {
-			// throw new AdminException("not,type=" + operate.getType());
-			// }
-			// }
 			// 判断是否开启角色权限验证
 			if (AdminParams.SECURITY_ROLE && action.getToken().isLogin()) {
 				// 获得角色
@@ -79,12 +74,11 @@ public final class AdminAdvice {
 					throw new AdminException("not,role");
 				}
 				// 获得自己的权限列表
-				// List<Operate> lsOperate = role.getOperates();
-				// List<Operate> lsOperate = Lists.getList();
-				// // 不是所有权限 继续判断
-				// if (EmptyUtil.isEmpty(lsOperate) || !lsOperate.contains(operate)) {
-				// throw new AdminException("role,operate");
-				// }
+				List<Operate> lsOperate = role.getOperates();
+				// 不是所有权限 继续判断
+				if (EmptyUtil.isEmpty(lsOperate) || !lsOperate.contains(operate)) {
+					throw new AdminException("role,operate");
+				}
 			}
 		}
 	}
@@ -94,7 +88,7 @@ public final class AdminAdvice {
 	 * @param point aop切点信息
 	 * @param retVal 返回值
 	 */
-	@AfterReturning(pointcut = "execution(* com.weicoder.site.action.SiteAction.login())", returning = "retVal")
+	@AfterReturning(pointcut = "execution(* com.weicoder.frame.action.SiteAction.login())", returning = "retVal")
 	public void login(JoinPoint point, Object retVal) {
 		// 获得登录Login
 		SiteAction<?> login = (SiteAction<?>) point.getTarget();
@@ -112,10 +106,10 @@ public final class AdminAdvice {
 			LogsLogin logs = new LogsLogin();
 			// 设置属性
 			logs.setUserId(uid);
-			logs.name_$eq(key);
+			logs.setName(key);
 			logs.setTime(DateUtil.getTime());
 			logs.setIp(ip);
-			logs.state_$eq(state);
+			logs.setState(state);
 			// 添加到数据库
 			service.insert(logs);
 		}
@@ -126,7 +120,7 @@ public final class AdminAdvice {
 	 * @param point aop切点信息
 	 * @param retVal 返回值
 	 */
-	@AfterReturning(pointcut = "execution(* com.weicoder.base.action.SuperAction.add(..)) or execution(* com.weicoder.base.action.SuperAction.adds(..)) or execution(* com.weicoder.base.action.SuperAction.edit(..)) or execution(* com.weicoder.base.action.SuperAction.dels(..)) or execution(* com.weicoder.base.action.SuperAction.del(..)) or execution(* com.weicoder.base.action.SuperAction.trun(..))", returning = "retVal")
+	@AfterReturning(pointcut = "execution(* com.weicoder.frame.action.SuperAction.add(..)) or execution(* com.weicoder.frame.action.SuperAction.adds(..)) or execution(* com.weicoder.frame.action.SuperAction.edit(..)) or execution(* com.weicoder.frame.action.SuperAction.dels(..)) or execution(* com.weicoder.frame.action.SuperAction.del(..)) or execution(* com.weicoder.frame.action.SuperAction.trun(..))", returning = "retVal")
 	public void logs(JoinPoint point, Object retVal) {
 		// 判断是否开启操作日志记录
 		if (AdminParams.LOGS) {
@@ -145,18 +139,18 @@ public final class AdminAdvice {
 			// 设置用户ID
 			logs.setUserId(action.getToken().getId());
 			logs.setTime(DateUtil.getTime());
-			logs.state_$eq(state);
-			logs.name_$eq(link);
+			logs.setState(state);
+			logs.setName(link);
 			logs.setIp(action.getIp());
 			// 判断操作
 			if (EmptyUtil.isEmpty(keys)) {
 				// 判断实体不为空
 				if (!EmptyUtil.isEmpty(entity)) {
-					logs.content_$eq(entity.toString());
+					logs.setContent(entity.toString());
 				}
 			} else {
 				// 删除多个数据
-				logs.content_$eq(Arrays.toString((keys)));
+				logs.setContent(Arrays.toString(keys));
 			}
 			// 记录日志
 			service.insert(logs);

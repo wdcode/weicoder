@@ -4,6 +4,7 @@ import java.util.Map;
 
 import com.weicoder.common.binary.Buffer;
 import com.weicoder.common.lang.Bytes;
+import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.util.DateUtil;
@@ -37,6 +38,10 @@ public final class Process {
 	private Map<Integer, Integer>		times		= Maps.getConcurrentMap();
 	// 保存全局IoBuffer
 	private Map<Integer, Buffer>		buffers		= Maps.getConcurrentMap();
+	// 限制IP连接
+	private Map<String, Boolean>		limits		= Maps.getConcurrentMap();
+	// 连接超时错误
+	private Map<String, Integer>		overs		= Maps.getConcurrentMap();
 	// 管理器
 	private Manager						manager;
 	// 心跳处理
@@ -76,6 +81,8 @@ public final class Process {
 		}
 		// 检测时间
 		final int time = SocketParams.getTime(name);
+		// 超时次数
+		final int over = SocketParams.getOver(name);
 		if (time > 0) {
 			// 定时检测
 			ScheduledUtile.rate(new Runnable() {
@@ -88,7 +95,21 @@ public final class Process {
 						for (Map.Entry<Integer, Integer> e : times.entrySet()) {
 							// 超时
 							if (curr - e.getValue() >= time) {
-								sessions.get(e.getKey()).close();
+								// 获得Session
+								Session session = sessions.get(e.getKey());
+								// IP
+								String ip = session.ip();
+								// 获得本IP次数
+								int num = Conversion.toInt(overs.get(ip));
+								// 判断超时超过一定次数
+								if (num > over) {
+									// 添加到拒绝列表
+									limits.put(ip, true);
+								}
+								// 添加次数
+								overs.put(ip, ++num);
+								// 关闭
+								session.close();
 								Logs.info("name=" + name + ";overtime close id=" + e.getKey());
 							}
 						}
@@ -127,6 +148,12 @@ public final class Process {
 	 * @param session
 	 */
 	public void connected(Session session) {
+		// 是否拒绝连接
+		if (Conversion.toBoolean(limits.get(session.ip()))) {
+			session.close();
+			Logs.info("name=" + name + ";limits ip=" + session.ip() + " close id=" + session.id());
+			return;
+		}
 		// 是否连接
 		boolean is = true;
 		// 如果连接处理器不为空
@@ -225,6 +252,10 @@ public final class Process {
 			// 是否存在
 			if (times.containsKey(sid)) {
 				times.remove(sid);
+			}
+			// 是否存在
+			if (limits.containsKey(sid)) {
+				limits.remove(sid);
 			}
 			// 获得信息长度
 			// int length = Integer.reverseBytes(buff.getInt());

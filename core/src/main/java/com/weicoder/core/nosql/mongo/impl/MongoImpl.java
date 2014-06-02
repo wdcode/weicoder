@@ -51,18 +51,8 @@ public final class MongoImpl extends BaseNoSQL implements Mongo {
 			builder.threadsAllowedToBlockForConnectionMultiplier(100);
 			// 实例化客户端
 			client = new MongoClient(new ServerAddress(MongoParams.getHost(key), MongoParams.getPort(key)), builder.build());
-			// 实例化DB
 			// 如果库存在
-			boolean is = client.getDatabaseNames().contains(MongoParams.getDB(key));
 			db = client.getDB(MongoParams.getDB(key));
-			// 库存在
-			if (is) {
-				// 验证用户
-				db.authenticate(MongoParams.getUser(key), MongoParams.getPassword(key).toCharArray());
-			} else {
-				// 不存在 添加用户
-				db.addUser(MongoParams.getUser(key), MongoParams.getPassword(key).toCharArray());
-			}
 			dbc = db.getCollection(MongoParams.getCollection(key));
 			dbcs = Maps.getConcurrentMap();
 		} catch (Exception e) {

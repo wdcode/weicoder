@@ -7,18 +7,22 @@ package com.weicoder.common.constants;
  * @version 1.0 2010-06-07
  */
 public final class UnitConstants {
-	/**
-	 * 一个字节占用的位
-	 */
+	/** 一个字节占用的位 */
 	public final static int	BYTE_BIT	= 8;
-
-	/**
-	 * 一个字节占用的空间
-	 */
+	/** 一个字节占用的空间 */
 	public final static int	BYTE		= 1;
+	/** 一个短整型占用的位 */
+	public final static int	SHORT_BIT	= 16;
+	/** 一个短整型占用的空间 */
+	public final static int	SHORT		= 2;
+	/** 一个整型占用的位 */
+	public final static int	INT_BIT		= 32;
+	/** 一个整型占用的空间 */
+	public final static int	INT			= 4;
+	/** 一个长整型占用的位 */
+	public final static int	LONG_BIT	= 64;
+	/** 一个长整型占用的空间 */
+	public final static int	LONG		= 8;
 
-	/**
-	 * 私有构造
-	 */
 	private UnitConstants() {}
 }

@@ -39,7 +39,7 @@
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-compress</artifactId>
-			<version>1.8</version>
+			<version>1.8.1</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -63,25 +63,25 @@
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-dbcp2</artifactId>
-			<version>2.0</version>
+			<version>2.0.1</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>druid</artifactId>
-			<version>1.0.4</version>
+			<version>1.0.5</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi</artifactId>
-			<version>3.9</version>
+			<version>3.10-FINAL</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi-ooxml</artifactId>
-			<version>3.9</version>
+			<version>3.10-FINAL</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -129,7 +129,7 @@
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>fastjson</artifactId>
-			<version>1.1.37</version>
+			<version>1.1.41</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -159,13 +159,13 @@
 		<dependency>
 			<groupId>net.spy</groupId>
 			<artifactId>spymemcached</artifactId>
-			<version>2.11.0</version>
+			<version>2.11.2</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.mongodb</groupId>
 			<artifactId>mongo-java-driver</artifactId>
-			<version>2.11.3</version>
+			<version>2.12.2</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -177,19 +177,19 @@
 		<dependency>
 			<groupId>org.apache.hadoop</groupId>
 			<artifactId>hadoop-common</artifactId>
-			<version>2.2.0</version>
+			<version>2.4.0</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.hbase</groupId>
 			<artifactId>asynchbase</artifactId>
-			<version>1.4.1</version>
+			<version>1.5.0</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.hbase</groupId>
 			<artifactId>hbase-client</artifactId>
-			<version>0.96.1-hadoop2</version>
+			<version>0.98.2-hadoop2</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -213,13 +213,13 @@
 		<dependency>
 			<groupId>redis.clients</groupId>
 			<artifactId>jedis</artifactId>
-			<version>2.4.2</version>
+			<version>2.5.0</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.redisson</groupId>
 			<artifactId>redisson</artifactId>
-			<version>1.0.2</version>
+			<version>1.0.3</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>

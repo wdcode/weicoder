@@ -12,6 +12,5 @@ public final class ArrayConstants {
 	/** 一个空的字符串数组 */
 	public final static String[]	STRING_EMPTY	= new String[0];
 
-	/** 私有构造禁止外部实例化 */
 	private ArrayConstants() {}
 }

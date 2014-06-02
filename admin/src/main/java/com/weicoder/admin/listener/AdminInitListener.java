@@ -7,7 +7,7 @@ import javax.servlet.ServletContextEvent;
 import com.weicoder.admin.constants.AdminConstants;
 import com.weicoder.admin.params.AdminParams;
 import com.weicoder.admin.template.TemplateEngine;
-import com.weicoder.site.listener.InitListener;
+import com.weicoder.web.listener.InitListener;
 
 /**
  * 后台初始化监听器

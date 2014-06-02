@@ -4,28 +4,23 @@ import java.io.File;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.context.annotation.Scope;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.context.WebApplicationContext;
 import com.weicoder.admin.constants.AdminConstants;
 import com.weicoder.admin.params.AdminParams;
 import com.weicoder.admin.po.Admin;
 import com.weicoder.admin.template.TemplateEngine;
-import com.weicoder.admin.token.AdminToken;
-import com.weicoder.base.entity.Entity;
-import com.weicoder.base.token.AuthToken;
+import com.weicoder.frame.action.SiteAction;
+import com.weicoder.frame.engine.LoginEngine;
+import com.weicoder.frame.entity.Entity;
+import com.weicoder.frame.token.AuthToken;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.io.FileUtil;
 import com.weicoder.common.params.Params;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.util.EmptyUtil;
-import com.weicoder.site.action.SiteAction;
-import com.weicoder.site.engine.LoginEngine;
 import com.weicoder.web.constants.HttpConstants;
 import com.weicoder.web.util.HttpUtil;
 
@@ -45,30 +40,30 @@ public class AdminAction extends SiteAction<Admin> {
 	// 模版目录列表
 	private List<String>			themes;
 
-	@PostConstruct
-	protected void init() {
-		// 父类初始化
-		super.init();
-		// 获得认证凭证
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		// 认证不为空
-		if (auth == null) {
-			// 如果是后台主页
-			if (request.getServletPath().equals(AdminParams.BACK_PATH + "index.htm")) {
-				// 凭证置空
-				token = LoginEngine.empty();
-			}
-		} else {
-			// 获得登录管理员
-			Object principal = auth.getPrincipal();
-			if (principal instanceof AdminToken) {
-				token = ((AdminToken) principal);
-			} else {
-				// 凭证置空
-				token = LoginEngine.empty();
-			}
-		}
-	}
+	// @PostConstruct
+	// protected void init() {
+	// // 父类初始化
+	// super.init();
+	// // 获得认证凭证
+	// Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	// // 认证不为空
+	// if (auth == null) {
+	// // 如果是后台主页
+	// if (request.getServletPath().equals(AdminParams.BACK_PATH + "index.htm")) {
+	// // 凭证置空
+	// token = LoginEngine.empty();
+	// }
+	// } else {
+	// // 获得登录管理员
+	// Object principal = auth.getPrincipal();
+	// if (principal instanceof AdminToken) {
+	// token = ((AdminToken) principal);
+	// } else {
+	// // 凭证置空
+	// token = LoginEngine.empty();
+	// }
+	// }
+	// }
 
 	/**
 	 * 主入口
@@ -116,7 +111,7 @@ public class AdminAction extends SiteAction<Admin> {
 	 */
 	public String toThemes() throws Exception {
 		// 获得模版路径
-		String path = getRealPath(File.separator) + "back";
+		String path = getRealPath(File.separator) + "WEB-INF/template";
 		// 获得目录文件
 		File theme = FileUtil.getFile(path);
 		// 获得目录下所有文件

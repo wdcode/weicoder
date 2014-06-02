@@ -1,8 +1,8 @@
 package com.weicoder.tag.ui;
 
-import com.weicoder.base.params.BaseParams;
+import com.weicoder.frame.params.BaseParams;
 import com.weicoder.common.constants.StringConstants;
-import com.weicoder.base.bean.Pagination;
+import com.weicoder.frame.bean.Pagination;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.tag.base.BaseSimpleTag;
 

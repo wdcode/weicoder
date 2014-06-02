@@ -6,7 +6,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Component;
-import com.weicoder.base.context.Context;
+import com.weicoder.frame.context.Context;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.pay.Pay;
 

@@ -76,6 +76,18 @@ public final class SocketParams {
 	}
 
 	/**
+	 * 获得Socket检测拒绝次数<br/>
+	 * 需在配置文件中配置<br/>
+	 * <h2>配置方式如下: <br/>
+	 * Properties: socket.time = ? <br/>
+	 * XML: {@literal <socket><over>?</over></socket>}</h2>
+	 * @return 获得Socket检测拒绝次数
+	 */
+	public static int getOver(String name) {
+		return Params.getInt(Params.getKey(PREFIX, name, "over"), 10);
+	}
+
+	/**
 	 * 获得Socket检测时间 单位秒<br/>
 	 * 需在配置文件中配置<br/>
 	 * <h2>配置方式如下: <br/>
@@ -207,8 +219,6 @@ public final class SocketParams {
 		return Params.getString(Params.getKey(PREFIX, name, "closed"));
 	}
 
-	/**
-	 * 私有构造
-	 */
+	/** 私有构造 */
 	private SocketParams() {}
 }
