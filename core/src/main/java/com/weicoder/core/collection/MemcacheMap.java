@@ -56,6 +56,7 @@ public final class MemcacheMap<K, V> implements Map<K, V> {
 		return values().contains(value);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public V get(Object key) {
 		return (V) memcache.get(getKey(key));
@@ -119,11 +120,13 @@ public final class MemcacheMap<K, V> implements Map<K, V> {
 		memcache.remove(getKey());
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Set<K> keySet() {
 		return (Set<K>) Sets.getSet(getKeys());
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Collection<V> values() {
 		return (Collection<V>) Lists.getList(memcache.get(getKeys()));
@@ -138,6 +141,7 @@ public final class MemcacheMap<K, V> implements Map<K, V> {
 	 * 转成HashMap
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	public Map<K, V> map() {
 		String[] keys = getKeys();
 		Object[] values = memcache.get(getKey(keys));

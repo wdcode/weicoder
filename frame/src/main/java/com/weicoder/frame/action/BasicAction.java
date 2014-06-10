@@ -516,6 +516,7 @@ public class BasicAction {
 	 * 获得当前Action
 	 * @return Action
 	 */
+	@SuppressWarnings("unchecked")
 	public <E extends Action> E getAction() {
 		// 获得值栈里的对象
 		Object action = ActionContext.getContext().getValueStack().peek();

@@ -24,6 +24,7 @@ public final class JsonSmart implements Json {
 		return (E) BeanUtil.copy(JSONValue.parse(json), BeanUtil.newInstance(clazz));
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public <E> List<E> toList(String json, Class<E> clazz) {
 		return (List<E>) JSONValue.parse(json);

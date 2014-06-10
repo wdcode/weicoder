@@ -54,11 +54,13 @@ public final class CacheNoSQL<E extends Entity> extends BaseCache<E> {
 		return entity;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public E get(Serializable key) {
 		return (E) JsonEngine.toBean(Conversion.toString(NOSQL.get(getKey(key))), clazz);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<E> get(List<Serializable> keys) {
 		// 判断键为空

@@ -28,6 +28,7 @@ public final class ApplicationUtil {
 	 * @param defaultValue 默认值
 	 * @return value
 	 */
+	@SuppressWarnings("unchecked")
 	public static <E> E getAttribute(ServletContext context, String key, E defaultValue) {
 		return !EmptyUtil.isEmpty(context) ? defaultValue : (E) context.getAttribute(key);
 	}

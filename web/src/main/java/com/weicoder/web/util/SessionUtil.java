@@ -57,6 +57,7 @@ public final class SessionUtil {
 	 * @param defaultValue 默认值
 	 * @return value
 	 */
+	@SuppressWarnings("unchecked")
 	public static <E> E getAttribute(HttpSession session, String key, E defaultValue) {
 		return EmptyUtil.isEmpty(session) ? defaultValue : (E) session.getAttribute(key);
 	}

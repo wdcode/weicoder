@@ -45,6 +45,7 @@ public class SuperService {
 	/**
 	 * 初始化
 	 */
+	@SuppressWarnings("unchecked")
 	@PostConstruct
 	protected void init() {
 		// 获得所有带缓存实体
@@ -413,6 +414,7 @@ public class SuperService {
 	 * @param maxResults 一共查回多少条
 	 * @return 数据列表
 	 */
+	@SuppressWarnings("unchecked")
 	public <E extends Entity> List<E> in(Class<E> entityClass, String property, List<?> values, int firstResult, int maxResults) {
 		return (List<E>) (EmptyUtil.isEmpty(values) ? Lists.getList() : dao.in(entityClass, property, values, firstResult, maxResults));
 	}
@@ -785,6 +787,7 @@ public class SuperService {
 	 * @param entityClass 实体类
 	 * @return 缓存
 	 */
+	@SuppressWarnings("unchecked")
 	public <E extends Entity> Cache<E> getCache(Class<E> entityClass) {
 		// 获得缓存
 		Cache<E> cache = (Cache<E>) caches.get(entityClass);
@@ -808,6 +811,7 @@ public class SuperService {
 	 * @param entity 实体类
 	 * @return 缓存
 	 */
+	@SuppressWarnings("unchecked")
 	private <E extends Entity> Cache<E> getCache(E entity) {
 		return getCache((Class<E>) entity.getClass());
 	}

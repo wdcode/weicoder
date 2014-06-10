@@ -14,6 +14,7 @@ import com.opensymphony.xwork2.interceptor.AbstractInterceptor;
 public class BasicInterceptor<E extends BasicAction> extends AbstractInterceptor {
 	private static final long	serialVersionUID	= 8518576935365577689L;
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public String intercept(ActionInvocation invocation) throws Exception {
 		// 验证是否拦截Action

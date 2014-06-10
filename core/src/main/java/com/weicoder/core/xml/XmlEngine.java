@@ -54,6 +54,7 @@ public final class XmlEngine {
 	 * @param clazz 要转换的类型
 	 * @return 特定实体对象
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> T toBean(String xml, Class<T> clazz) {
 		return (T) toBean(xml);
 	}

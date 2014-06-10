@@ -29,6 +29,7 @@ public final class ArrayUtil {
 	 * @param e 元素数组
 	 * @return 元素列表
 	 */
+	@SafeVarargs
 	public static <E> List<E> toList(E... e) {
 		return Arrays.asList(e);
 	}
@@ -206,6 +207,7 @@ public final class ArrayUtil {
 	 * @param twoLength 第二个数组长度 一共相加多少长度
 	 * @return 相加后的数组
 	 */
+	@SuppressWarnings("unchecked")
 	public static <E> E[] add(E[] one, int onePos, int oneLength, E[] two, int twoPos, int twoLength) {
 		// 声明一个数组,长度是第一个和第二个数组长度的和
 		E[] result = (E[]) getArray(one.getClass(), oneLength + twoLength);
@@ -223,6 +225,7 @@ public final class ArrayUtil {
 	 * @param length 数组长度
 	 * @return 数组
 	 */
+	@SuppressWarnings("unchecked")
 	public static <E> E[] getArray(Class<E> clazz, int length) {
 		return (E[]) Array.newInstance(clazz, length);
 	}
@@ -232,6 +235,7 @@ public final class ArrayUtil {
 	 * @param e 要组成数据的参数
 	 * @return e数组
 	 */
+	@SafeVarargs
 	public static <E> E[] getArray(E... e) {
 		return e;
 	}

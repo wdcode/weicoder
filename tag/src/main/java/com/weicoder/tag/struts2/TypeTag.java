@@ -105,6 +105,7 @@ public final class TypeTag extends AbstractUITag {
 	/**
 	 * 初始化操作
 	 */
+	@SuppressWarnings("unchecked")
 	protected void init() {
 		// 设置标签为空
 		tag = null;

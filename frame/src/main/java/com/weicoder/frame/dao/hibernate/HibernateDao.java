@@ -80,7 +80,7 @@ public final class HibernateDao implements Dao {
 	 * 持久化对象，添加操作，此方法会向对应的数据库表中插入一条数据
 	 * @param entity 对象实体
 	 * @return 返回插入数据的唯一标识(主键) 出现异常返回0
-	 */
+	 */ 
 	public <E> E insert(final E entity) {
 		return insert(Lists.getList(entity)).get(0);
 	}
@@ -200,6 +200,7 @@ public final class HibernateDao implements Dao {
 		}
 		// 查找对象
 		return execute(entityClass, new Callback<E>() {
+			@SuppressWarnings("unchecked")
 			public E callback(Session session) {
 				return (E) session.get(entityClass, pk);
 			}
@@ -214,6 +215,7 @@ public final class HibernateDao implements Dao {
 		}
 		// 查找对象
 		return execute(entityClass, new Callback<List<E>>() {
+			@SuppressWarnings("unchecked")
 			public List<E> callback(Session session) {
 				// 声明返回对象
 				List<E> list = Lists.getList(pks.length);
@@ -270,6 +272,7 @@ public final class HibernateDao implements Dao {
 
 	public <E> List<E> list(final E entity, final int firstResult, final int maxResults) {
 		return execute(entity.getClass(), new Callback<List<E>>() {
+			@SuppressWarnings("unchecked")
 			public List<E> callback(Session session) {
 				// 获得Criteria
 				Criteria criteria = session.createCriteria(entity.getClass());
@@ -535,6 +538,7 @@ public final class HibernateDao implements Dao {
 	 */
 	public <E> List<E> query(Class<?> entityClass, final String sql, final List<Object> values, final int firstResult, final int maxResults) {
 		return execute(entityClass, new Callback<List<E>>() {
+			@SuppressWarnings("unchecked")
 			public List<E> callback(Session session) {
 				return setParameter(session.createSQLQuery(sql), values, firstResult, maxResults).list();
 			}
@@ -599,6 +603,7 @@ public final class HibernateDao implements Dao {
 	 */
 	private <E> List<E> queryCriteria(Class<?> entityClass, final DetachedCriteria criteria, final int firstResult, final int maxResults) {
 		return execute(entityClass, new Callback<List<E>>() {
+			@SuppressWarnings("unchecked")
 			public List<E> callback(Session session) {
 				// 获得Criteria
 				Criteria executableCriteria = criteria.getExecutableCriteria(session);

@@ -73,6 +73,7 @@ public final class ClassUtil {
 	 * @param index 索引
 	 * @return 这个类型的泛型
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> Class<T> getGenericClass(Type type, int index) {
 		try {
 			return (Class<T>) ((ParameterizedType) type).getActualTypeArguments()[index];

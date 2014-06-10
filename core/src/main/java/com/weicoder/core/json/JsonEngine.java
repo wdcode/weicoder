@@ -117,6 +117,7 @@ public final class JsonEngine extends FactoryKey<String, Json> {
 	 * @param json JSON字符串
 	 * @return List
 	 */
+	@SuppressWarnings("unchecked")
 	public static <E> List<E> toList(String json, Class<E> clazz) {
 		return EmptyUtil.isEmpty(json) ? (List<E>) Lists.getList() : JSON.toList(json, clazz);
 	}
@@ -126,6 +127,7 @@ public final class JsonEngine extends FactoryKey<String, Json> {
 	 * @param json JSON字符串
 	 * @return Map
 	 */
+	@SuppressWarnings("unchecked")
 	public static Map<String, Object> toMap(String json) {
 		return toBean(json, Map.class);
 	}
@@ -136,6 +138,7 @@ public final class JsonEngine extends FactoryKey<String, Json> {
 	 * @param value Map值类
 	 * @return Map
 	 */
+	@SuppressWarnings("unchecked")
 	public static <E> Map<String, E> toMap(String json, Class<E> value) {
 		// 获得Map
 		Map<String, Object> map = toBean(json, Map.class);

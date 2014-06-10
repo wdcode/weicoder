@@ -16,6 +16,7 @@ public final class NativeEngine {
 	 * @param interfaceClass 接口类
 	 * @return 接口实习对象
 	 */
+	@SuppressWarnings("unchecked")
 	public static <E extends Library> E loadLibrary(String name, Class<E> interfaceClass) {
 		return (E) Native.loadLibrary(name, interfaceClass);
 	}

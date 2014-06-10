@@ -78,6 +78,7 @@ public final class RequestUtil {
 	 * @param defaultValue 默认值
 	 * @return value
 	 */
+	@SuppressWarnings("unchecked")
 	public static <E> E getAttribute(ServletRequest request, String key, E defaultValue) {
 		// 获得值
 		E value = EmptyUtil.isEmpty(request) ? defaultValue : (E) request.getAttribute(key);

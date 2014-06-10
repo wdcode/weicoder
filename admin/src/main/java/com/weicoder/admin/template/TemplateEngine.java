@@ -23,46 +23,26 @@ import com.weicoder.core.xml.builder.XmlBuilder;
  * @version 1.0 2012-02-20
  */
 public final class TemplateEngine {
-	/**
-	 * Class路径
-	 */
+	/**  Class路径 */
 	public static String												classPath;
-	// 模板列表
-	public final static Map<String, Map<String, Map<String, Object>>>	TEMPLATES;
-	// 基本模板Map
-	private final static Map<String, Map<String, Object>>				TEMPLATES_BASE;
-	// 模板路径
-	private final static String											TEMPLET_PATH;
-	// 基础模板路径
-	private final static String											TEMPLET_BASE;
+	/** 模板列表*/
+	public final static Map<String, Map<String, Map<String, Object>>>	TEMPLATES= Maps.getMap();
+	/** 基本模板Map */
+	private final static Map<String, Map<String, Object>>				TEMPLATES_BASIC= Maps.getMap();
+	 
 	/* 字符常量 */
-	private final static String											STRING_BASE;
-	private final static String											STRING_MODULE;
-	private final static String											STRING_TEMPLATE;
-	private final static String											STRING_NODE;
-	private final static String											STRING_NEXT;
-	private final static String											STRING_REF;
-
-	/**
-	 * 静态初始化
-	 */
-	static {
-		// 基本模板Map
-		TEMPLATES_BASE = Maps.getMap();
-		// 模板列表
-		TEMPLATES = Maps.getMap();
-		/* 字符常量 */
-		STRING_BASE = "base";
-		STRING_MODULE = "module";
-		STRING_TEMPLATE = "template";
-		STRING_NODE = "node";
-		STRING_NEXT = "next";
-		STRING_REF = "ref";
-		// 模板路径
-		TEMPLET_PATH = Params.getString("templates.path", "templates");
-		// 基础模板路径
-		TEMPLET_BASE = File.separator + STRING_BASE + StringConstants.POINT + FileConstants.SUFFIX_XML;
-	}
+	private final static String											STRING_BASIC= "basic";
+	private final static String											STRING_MODULE = "module";
+	private final static String											STRING_TEMPLATE= "template";
+	private final static String											STRING_NODE = "node";
+	private final static String											STRING_NEXT= "next";
+	private final static String											STRING_REF = "ref";
+	
+	/** 模板路径 */
+	private final static String											TEMPLET_PATH= Params.getString("templates.path", "templates");
+	/** 基础模板路径 */
+	private final static String											TEMPLET_BASIC= File.separator + STRING_BASIC + StringConstants.POINT + FileConstants.SUFFIX_XML;
+ 
 
 	/**
 	 * 初始化模板
@@ -74,7 +54,7 @@ public final class TemplateEngine {
 		// 获得模板路径
 		String path = classPath + TEMPLET_PATH;
 		// 加载基础模板
-		base(XmlBuilder.readDocument(FileUtil.getFile(path + TEMPLET_BASE)).getRootElement());
+		base(XmlBuilder.readDocument(FileUtil.getFile(path + TEMPLET_BASIC)).getRootElement());
 		// 循环模板文件 加载模板
 		for (File file : FileUtil.getFile(path).listFiles()) {
 			template(XmlBuilder.readDocument(file).getRootElement());
@@ -85,7 +65,7 @@ public final class TemplateEngine {
 	 * 清空列表
 	 */
 	private static void clear() {
-		TEMPLATES_BASE.clear();
+		TEMPLATES_BASIC.clear();
 		TEMPLATES.clear();
 	}
 
@@ -95,11 +75,11 @@ public final class TemplateEngine {
 	 */
 	private static void base(Element root) {
 		// 循环基础模板列表
-		for (Element base : root.getElements(STRING_BASE)) {
+		for (Element basic : root.getElements(STRING_BASIC)) {
 			// 声明一个Map
-			Map<String, Object> map = getElement(base);
+			Map<String, Object> map = getElement(basic);
 			// 添加到基础模板常量
-			TEMPLATES_BASE.put(Conversion.toString(map.remove(StringConstants.KEY)), map);
+			TEMPLATES_BASIC.put(Conversion.toString(map.remove(StringConstants.KEY)), map);
 		}
 	}
 
@@ -156,7 +136,7 @@ public final class TemplateEngine {
 		// 判断不为空
 		if (!EmptyUtil.isEmpty(ref)) {
 			// 获得ref base map
-			Map<String, Object> refMap = TEMPLATES_BASE.get(ref);
+			Map<String, Object> refMap = TEMPLATES_BASIC.get(ref);
 			// refMap不为空
 			if (!EmptyUtil.isEmpty(refMap)) {
 				// 在基础模板里获得节点
@@ -179,6 +159,7 @@ public final class TemplateEngine {
 	 * @param e 含有节点元素的Element
 	 * @return 解析后的节点元素
 	 */
+	@SuppressWarnings("unchecked")
 	private static void node(Element eTemple, Map<String, Object> mapTemple) {
 		// 循环节点
 		for (Element eNode : eTemple.getElements(STRING_NODE)) {

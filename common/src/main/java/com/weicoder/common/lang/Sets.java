@@ -58,6 +58,7 @@ public final class Sets {
 	 * @param es 初始化的数组
 	 * @return Set
 	 */
+	@SafeVarargs
 	public static <E> Set<E> getSet(E... es) {
 		return getLinkedHashSet(es);
 	}
@@ -127,6 +128,7 @@ public final class Sets {
 	 * @param es 初始化的集合
 	 * @return Set
 	 */
+	@SafeVarargs
 	public static <E> LinkedHashSet<E> getLinkedHashSet(E... es) {
 		return getLinkedHashSet(Lists.getList(es));
 	}
@@ -162,6 +164,7 @@ public final class Sets {
 	 * @param es 初始化的集合
 	 * @return Set
 	 */
+	@SafeVarargs
 	public static <E> HashSet<E> getHashSet(E... es) {
 		return getHashSet(Lists.getList(es));
 	}
@@ -188,6 +191,7 @@ public final class Sets {
 	 * @param es 初始化的集合
 	 * @return Set
 	 */
+	@SafeVarargs
 	public static <E> TreeSet<E> getTreeSet(E... es) {
 		return getTreeSet(Lists.getList(es));
 	}

@@ -48,6 +48,7 @@ public final class Lists {
 	 * @param es 初始化的数组
 	 * @return List
 	 */
+	@SafeVarargs
 	public static <E> List<E> getList(E... e) {
 		return getList(ArrayUtil.toList(e));
 	}
@@ -66,6 +67,7 @@ public final class Lists {
 	 * @param c 初始化的集合
 	 * @return List
 	 */
+	@SafeVarargs
 	public static <E> List<E> getList(Collection<E>... c) {
 		// 获得一个列表
 		List<E> list = getList();
@@ -102,6 +104,7 @@ public final class Lists {
 	 * @param es 初始化的数组
 	 * @return List
 	 */
+	@SafeVarargs
 	public static <E> ArrayList<E> getArrayList(E... e) {
 		return getArrayList(ArrayUtil.toList(e));
 	}
@@ -128,6 +131,7 @@ public final class Lists {
 	 * @param e 初始化数组
 	 * @return 同步的List
 	 */
+	@SafeVarargs
 	public static <E> CopyOnWriteArrayList<E> getConcurrenrList(E... e) {
 		return new CopyOnWriteArrayList<E>(e);
 	}
@@ -163,6 +167,7 @@ public final class Lists {
 	 * @param es 初始化的数组
 	 * @return List
 	 */
+	@SafeVarargs
 	public static <E> List<E> getLinkedList(E... e) {
 		return getLinkedList(ArrayUtil.toList(e));
 	}
@@ -235,6 +240,7 @@ public final class Lists {
 	 * 把一个列表变成数组
 	 * @return 一个不可变的空List
 	 */
+	@SuppressWarnings("unchecked")
 	public static <E> E[] toArray(List<E> list) {
 		// 判断列表不为空
 		if (EmptyUtil.isEmpty(list)) {

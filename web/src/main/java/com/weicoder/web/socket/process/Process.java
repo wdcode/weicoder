@@ -139,6 +139,7 @@ public final class Process {
 	 * 添加要处理的Handler
 	 * @param handler
 	 */
+	@SuppressWarnings("unchecked")
 	public void addHandler(Handler<?> handler) {
 		handlers.put(handler.id(), (Handler<Object>) handler);
 	}

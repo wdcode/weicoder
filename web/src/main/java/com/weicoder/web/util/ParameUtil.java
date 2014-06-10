@@ -208,6 +208,7 @@ public final class ParameUtil {
 	 * @param defaultValue 默认值
 	 * @return value
 	 */
+	@SuppressWarnings("unchecked")
 	public static <E> E get(HttpServletRequest request, String key, E defaultValue) {
 		// 获得value
 		String value = getParameter(request, key, Conversion.toString(defaultValue));

@@ -39,6 +39,7 @@ public final class QuartzEngine {
 	/**
 	 * 初始化任务
 	 */
+	@SuppressWarnings("unchecked")
 	public static void init() {
 		// 判断任务开启
 		if (QuartzParams.POWER) {

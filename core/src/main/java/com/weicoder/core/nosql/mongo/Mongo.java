@@ -24,6 +24,7 @@ public interface Mongo extends NoSQL {
 	 * @param name 数据集合
 	 * @param data 数据对象
 	 */
+	@SuppressWarnings("unchecked")
 	void insert(String name, Map<String, Object>... data);
 
 	/**
@@ -61,6 +62,7 @@ public interface Mongo extends NoSQL {
 	 * @param name 数据集合
 	 * @param data 数据
 	 */
+	@SuppressWarnings("unchecked")
 	void delete(String name, Map<String, Object>... data);
 
 	/**

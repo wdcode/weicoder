@@ -72,6 +72,7 @@ public final class MongoImpl extends BaseNoSQL implements Mongo {
 	 * 插入数据
 	 * @param maps 数据对象
 	 */
+	@SuppressWarnings("unchecked")
 	public void insert(String name, Map<String, Object>... maps) {
 		// 声明DBObject数组
 		DBObject[] objs = new DBObject[maps.length];
@@ -135,6 +136,7 @@ public final class MongoImpl extends BaseNoSQL implements Mongo {
 	/**
 	 * 删除数据
 	 */
+	@SuppressWarnings("unchecked")
 	public void delete(String name, Map<String, Object>... maps) {
 		// 获得数据集合
 		DBCollection dbc = getCollection(name);
@@ -221,6 +223,7 @@ public final class MongoImpl extends BaseNoSQL implements Mongo {
 	 * @param object DBObject
 	 * @return Map
 	 */
+	@SuppressWarnings("unchecked")
 	private Map<String, Object> toMap(DBObject object) {
 		return EmptyUtil.isEmpty(object) ? Maps.getMap() : object.toMap();
 	}

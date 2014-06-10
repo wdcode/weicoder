@@ -104,6 +104,7 @@ public final class Maps {
 	 * @param map 初始化的Map
 	 * @return Map
 	 */
+	@SafeVarargs
 	public static <K, V> Map<K, V> getMap(Map<K, V>... maps) {
 		// 获得一个map
 		Map<K, V> map = getMap();

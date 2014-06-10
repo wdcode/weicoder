@@ -51,6 +51,7 @@ public final class HibernateSearch {
 	 * @param maxResults 一共查回多少条
 	 * @return 数据列表
 	 */
+	@SuppressWarnings("unchecked")
 	public <E> List<E> search(Session session, Class<E> entityClass, final String property, final Object value, final int firstResult, final int maxResults) {
 		// 通过Hibernate的Session获取FullTextSession对象
 		FullTextSession fullTextSession = Search.getFullTextSession(session);
@@ -82,6 +83,7 @@ public final class HibernateSearch {
 	 * @param maxResults 一共查回多少条
 	 * @return 数据列表
 	 */
+	@SuppressWarnings("unchecked")
 	public <E> List<E> search(Session session, E entity, int firstResult, int maxResults) {
 		// 通过Hibernate的Session获取FullTextSession对象
 		FullTextSession fullTextSession = Search.getFullTextSession(session);

@@ -21,11 +21,13 @@ public final class JsonLib implements Json {
 		return JSONUtils.isArray(obj) ? JSONArray.fromObject(obj).toString() : JSONObject.fromObject(obj).toString();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public <E> E toBean(String json, Class<E> clazz) {
 		return (E) JSONObject.toBean(JSONObject.fromObject(json), clazz);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public <E> List<E> toList(String json, Class<E> clazz) {
 		return Lists.getList(JSONArray.toCollection(JSONArray.fromObject(json), clazz));

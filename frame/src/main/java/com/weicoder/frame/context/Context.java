@@ -66,6 +66,7 @@ public final class Context {
 	 * @param entity 实体名
 	 * @return 类对象
 	 */
+	@SuppressWarnings("unchecked")
 	public <E extends Entity> Class<E> getClass(String entity) {
 		return (Class<E>) entitys.get(entity);
 	}
@@ -95,6 +96,7 @@ public final class Context {
 	 * @param 参数
 	 * @return 实体
 	 */
+	@SuppressWarnings("unchecked")
 	public <E> E getBean(Class<E> requiredType, Object... args) {
 		return (E) cac.getBean(requiredType.getName(), args);
 	}
@@ -104,6 +106,7 @@ public final class Context {
 	 * @param type 实体类型
 	 * @return 缓存
 	 */
+	@SuppressWarnings("unchecked")
 	public <E extends Entity> Cache<E> getCache() {
 		return "map".equals(BaseParams.CACHE_TYPE) ? getBean(CacheMap.class) : getBean(CacheNoSQL.class);
 	}

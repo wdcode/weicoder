@@ -282,23 +282,7 @@ public class SiteAction<U extends EntityUser> extends SuperAction {
 	public String token() throws Exception {
 		return callback(LoginEngine.encrypt(token));
 	}
-
-	/**
-	 * 获得登录凭证
-	 * @return 获得登录凭证
-	 */
-	public String verifyToken() throws Exception {
-		return callback(token = LoginEngine.decrypt(Conversion.toString(key)));
-	}
-
-	/**
-	 * 获得登录凭证
-	 * @return 获得登录凭证
-	 */
-	public String tokenUser() throws Exception {
-		return callback(user = (U) service.get(getUser().getClass(), token.getId()));
-	}
-
+ 
 	/**
 	 * 获得登录凭证
 	 * @return 获得登录凭证
