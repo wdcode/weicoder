@@ -30,7 +30,7 @@ public final class Heart implements Handler<Null> {
 	/**
 	 * 构造
 	 */
-	public Heart(short id, int time) {
+	public Heart(final short id, int time) {
 		this.id = id;
 		this.heart = time;
 		times = Maps.getConcurrentMap();
@@ -57,6 +57,22 @@ public final class Heart implements Handler<Null> {
 				}
 			}
 		}, heart);
+		// 是否启动心跳
+		if (heart > 0) {
+			// 心跳指令
+			// 定时发送心跳信息
+			ScheduledUtile.delay(new Runnable() {
+				@Override
+				public void run() {
+					// 循环发送心跳信息
+					for (Session session : sessions.values()) {
+						// 发送心跳消息
+						session.send(id, null);
+					}
+					Logs.debug("send heart session");
+				}
+			}, heart / 2);
+		}
 	}
 
 	/**

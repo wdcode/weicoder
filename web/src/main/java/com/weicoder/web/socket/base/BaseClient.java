@@ -1,8 +1,6 @@
 package com.weicoder.web.socket.base;
 
 import com.weicoder.common.util.BeanUtil;
-import com.weicoder.common.util.ScheduledUtile;
-import com.weicoder.core.log.Logs;
 import com.weicoder.web.params.SocketParams;
 import com.weicoder.web.socket.Client;
 import com.weicoder.web.socket.Session;
@@ -47,21 +45,6 @@ public abstract class BaseClient extends BaseSocket implements Client {
 		Login login = (Login) BeanUtil.newInstance(SocketParams.getLogin(name));
 		if (login != null) {
 			session.send(login.id(), login.message());
-		}
-		// 是否启动心跳
-		int heart = SocketParams.getHeartTime(name);
-		if (heart > 0) {
-			// 心跳指令
-			final short id = SocketParams.getHeartId(name);
-			// 定时发送心跳信息
-			ScheduledUtile.delay(new Runnable() {
-				@Override
-				public void run() {
-					// 循环发送心跳信息
-					session.send(id);
-					Logs.debug("send heart session=" + session.id());
-				}
-			}, heart);
 		}
 	}
 }

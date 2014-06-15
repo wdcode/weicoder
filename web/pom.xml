@@ -96,6 +96,18 @@
 			<version>4.0.4</version>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-server</artifactId>
+			<version>9.2.1.v20140609</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-webapp</artifactId>
+			<version>9.2.1.v20140609</version> 
+			<scope>provided</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
