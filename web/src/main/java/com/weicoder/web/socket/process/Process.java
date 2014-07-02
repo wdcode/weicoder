@@ -1,5 +1,6 @@
 package com.weicoder.web.socket.process;
 
+import java.util.Arrays;
 import java.util.Map;
 
 import com.weicoder.common.binary.Buffer;
@@ -235,7 +236,7 @@ public final class Process {
 	public void process(final Session session, final byte[] message) {
 		// 获得session id
 		final int sid = session.id();
-		Logs.debug("name=" + name + ";socket=" + sid + ";receive=" + sid + ";len=" + message.length);
+		Logs.debug("name=" + name + ";socket=" + sid + ";receive=" + sid + ";len=" + message.length + ";message=" + Arrays.toString(message));
 		// 获得全局buffer
 		Buffer buff = buffers.get(sid);
 		// 添加新消息到全局缓存中
@@ -262,9 +263,9 @@ public final class Process {
 			// int length = Integer.reverseBytes(buff.getInt());
 			int length = buff.readInt();
 			// 无长度 发送消息不符合 关掉连接
-			if (length == 0 || length > Short.MAX_VALUE) {
+			if (length < 2 || length > Short.MAX_VALUE) {
 				session.close();
-				Logs.info("name=" + name + ";error len close id=" + session.id());
+				Logs.info("name=" + name + ";error len close id=" + session.id() + ";len=" + length);
 				return;
 			}
 			// 剩余字节长度不足，等待下次信息
