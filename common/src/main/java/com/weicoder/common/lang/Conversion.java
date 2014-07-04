@@ -94,7 +94,7 @@ public final class Conversion {
 			} else if (obj instanceof Character) {
 				return ((Character) obj).charValue();
 			} else {
-				return Math.round(toFloat(obj, defaultValue));
+				return toInt(Math.round(toDouble(obj, defaultValue)));
 			}
 		} catch (RuntimeException re) {
 			return defaultValue;
