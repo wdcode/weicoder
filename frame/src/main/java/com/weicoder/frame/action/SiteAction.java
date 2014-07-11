@@ -210,7 +210,6 @@ public class SiteAction<U extends EntityUser> extends SuperAction {
 		if (!Validate.isIp(ip)) {
 			ip = getIp();
 		}
-		user.setLoginIp(null);
 		// 查询获得用户实体
 		U bean = service.get(user);
 		// 登录标识
@@ -282,7 +281,7 @@ public class SiteAction<U extends EntityUser> extends SuperAction {
 	public String token() throws Exception {
 		return callback(LoginEngine.encrypt(token));
 	}
- 
+
 	/**
 	 * 获得登录凭证
 	 * @return 获得登录凭证
