@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -24,8 +26,8 @@ import com.weicoder.frame.entity.base.BaseEntityId;
 @Entity
 @DynamicInsert
 @DynamicUpdate
-@Data
-@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
 public class Menu extends BaseEntityId {
 	// 上级菜单ID
 	private Integer	menuId;

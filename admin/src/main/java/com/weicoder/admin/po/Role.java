@@ -7,8 +7,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -29,8 +29,8 @@ import com.weicoder.frame.entity.base.BaseEntityId;
 @Entity
 @DynamicInsert
 @DynamicUpdate
-@Data
-@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
 public class Role extends BaseEntityId {
 	// 名称
 	private String			name;

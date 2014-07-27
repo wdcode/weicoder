@@ -7,6 +7,8 @@ import javax.persistence.Id;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -28,8 +30,8 @@ import com.weicoder.common.lang.Conversion;
 @Entity
 @DynamicInsert
 @DynamicUpdate
-@Data
-@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
 public class Operate extends BaseEntity {
 	// 操作连接
 	@Id

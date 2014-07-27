@@ -3,8 +3,8 @@ package com.weicoder.admin.po;
 import javax.persistence.Entity;
 import javax.validation.constraints.Size;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -27,8 +27,8 @@ import com.weicoder.common.crypto.Digest;
 @Entity
 @DynamicInsert
 @DynamicUpdate
-@Data
-@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
 public class Admin extends BaseEntityIdTime implements EntityUser {
 	// 名称
 	@Size(min = 5)
