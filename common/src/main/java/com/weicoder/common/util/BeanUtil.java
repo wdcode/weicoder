@@ -261,6 +261,18 @@ public final class BeanUtil {
 	 * @param parameters 参数
 	 * @return 方法返回值
 	 */
+	public static Object invoke(Object object, String name) {
+		return invoke(object, name, null, null);
+	}
+
+	/**
+	 * 直接调用对象方法
+	 * @param object 调用的对象
+	 * @param name 方法名
+	 * @param parameterTypes 参数类型
+	 * @param parameters 参数
+	 * @return 方法返回值
+	 */
 	public static Object invoke(Object object, String name, Class<?>[] parameterTypes, Object[] parameters) {
 		// 声明Class
 		Class<?> c = null;

@@ -20,6 +20,7 @@ import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.util.ExecutorUtil;
 
 /**
  * 超级通用业务hibernate实现
@@ -173,8 +174,10 @@ public class SuperService {
 		pk = key(pk);
 		// 获得缓存
 		Cache<E> cache = getCache(entityClass);
-		// 返回查询结果
-		return cache.isValid() ? cache.get(pk) : dao.get(entityClass, pk);
+		// 声明返回对象
+		E e = cache.get(pk);
+		// 如果对象为null 使用数据库查询
+		return e == null ? cache.set(dao.get(entityClass, pk)) : e;
 	}
 
 	/**
@@ -192,20 +195,17 @@ public class SuperService {
 		pks = keys(pks);
 		// 获得缓存
 		Cache<E> cache = getCache(entityClass);
+		// 声明列表
+		List<E> list = Lists.getList();
 		// 缓存存在
 		if (cache.isValid()) {
-			// 声明列表
-			List<E> list = Lists.getList();
 			// 循环赋值
 			for (Serializable pk : pks) {
 				list.add(cache.get(key(pk)));
 			}
-			// 返回列表
-			return list;
-		} else {
-			// 无缓存 返回查询结果
-			return dao.gets(entityClass, pks);
 		}
+		// 无缓存查询数据库 返回查询结果
+		return EmptyUtil.isEmpty(list) ? cache.set(dao.gets(entityClass, pks)) : list;
 	}
 
 	/**
@@ -257,14 +257,16 @@ public class SuperService {
 	public <E extends Entity> List<E> list(Class<E> entityClass, int firstResult, int maxResults) {
 		// 获得缓存
 		Cache<E> cache = getCache(entityClass);
+		// 声明返回值列表
+		List<E> list = null;
 		// 判断有缓存
 		if (cache.isValid()) {
 			// 返回新列表
-			return Lists.subList(cache.list(), firstResult, firstResult + maxResults);
-		} else {
-			// 查询数据库
-			return toString(dao.list(entityClass, firstResult, maxResults));
+			list = Lists.subList(cache.list(), firstResult, firstResult + maxResults);
 		}
+		// 查询数据库
+		return EmptyUtil.isEmpty(list) ? cache.set(dao.list(entityClass, firstResult, maxResults)) : list;
+
 	}
 
 	/**
@@ -649,7 +651,7 @@ public class SuperService {
 	 * @return 数量
 	 */
 	public <E extends Entity> int count(E entity) {
-		return getCache(entity).isEmpty() ? list(entity, -1, -1).size() : dao.count(entity);
+		return isCache(entity.getClass()) ? list(entity, -1, -1).size() : dao.count(entity);
 	}
 
 	/**
@@ -769,17 +771,22 @@ public class SuperService {
 	 * 加载指定类的所有数据
 	 * @param entityClass 实体类
 	 */
-	public <E extends Entity> void load(Class<E> entityClass) {
-		// 获得缓存
-		Cache<E> cache = getCache(entityClass);
-		// 获得所有数据列表
-		List<E> beans = dao.list(entityClass, -1, -1);
-		// 判断有缓存
-		if (cache.isValid()) {
-			cache.clear();
-			cache.set(beans);
-			loads.put(entityClass, true);
-		}
+	public <E extends Entity> void load(final Class<E> entityClass) {
+		ExecutorUtil.execute(new Runnable() {
+			@Override
+			public void run() {
+				// 获得缓存
+				Cache<E> cache = getCache(entityClass);
+				// 获得所有数据列表
+				List<E> beans = dao.list(entityClass, -1, -1);
+				// 判断有缓存
+				if (cache.isValid()) {
+					cache.clear();
+					cache.set(beans);
+					loads.put(entityClass, true);
+				}
+			}
+		});
 	}
 
 	/**
@@ -875,17 +882,17 @@ public class SuperService {
 		return Conversion.toInt(key) > 0 ? Conversion.toInt(key) : Conversion.toString(key);
 	}
 
-	/**
-	 * 调用每个元素的toString()方法
-	 * @param list
-	 * @return
-	 */
-	private static <E> List<E> toString(List<E> list) {
-		// 循环调用
-		for (E e : list) {
-			e.toString();
-		}
-		// 返回list
-		return list;
-	}
+	// /**
+	// * 调用每个元素的toString()方法
+	// * @param list
+	// * @return
+	// */
+	// private static <E> List<E> toString(List<E> list) {
+	// // 循环调用
+	// for (E e : list) {
+	// e.toString();
+	// }
+	// // 返回list
+	// return list;
+	// }
 }
