@@ -291,7 +291,7 @@ public final class BeanUtil {
 			return null;
 		} else {
 			try {
-				return getMethod(c, name, parameterTypes).invoke(c, parameters);
+				return getMethod(c, name, parameterTypes).invoke(object, parameters);
 			} catch (Exception e) {
 				return null;
 			}

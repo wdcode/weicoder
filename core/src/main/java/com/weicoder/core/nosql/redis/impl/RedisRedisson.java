@@ -22,8 +22,8 @@ public final class RedisRedisson extends BaseNoSQL implements Redis {
 		// 实例化Jedis配置
 		Config config = new Config();
 		// 设置属性
-		config.setConnectionPoolSize(RedisParams.getMaxTotal(name));
-		config.addAddress(RedisParams.getHost(name) + StringConstants.COLON + RedisParams.getPort(name));
+		config.useSingleServer().setConnectionPoolSize(RedisParams.getMaxTotal(name));
+		config.useSingleServer().setAddress(RedisParams.getHost(name) + StringConstants.COLON + RedisParams.getPort(name));
 		// 实例化连接池
 		client = Redisson.create(config);
 	}
