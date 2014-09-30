@@ -8,11 +8,11 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Component;
 import com.weicoder.frame.context.Context;
 import com.weicoder.common.util.EmptyUtil;
-import com.weicoder.web.params.SocketParams;
-import com.weicoder.web.socket.Closed;
-import com.weicoder.web.socket.Handler;
-import com.weicoder.web.socket.Socket;
-import com.weicoder.web.socket.Sockets;
+import com.weicoder.core.params.SocketParams;
+import com.weicoder.core.socket.Closed;
+import com.weicoder.core.socket.Handler;
+import com.weicoder.core.socket.Socket;
+import com.weicoder.core.socket.Sockets;
 
 /**
  * Socket 相关类

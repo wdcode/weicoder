@@ -1,5 +1,6 @@
 package com.weicoder.frame.action;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +18,7 @@ import com.weicoder.frame.service.QueryService;
 import com.weicoder.frame.service.SuperService;
 import com.weicoder.frame.token.AuthToken;
 import com.weicoder.common.constants.DateConstants;
+import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
@@ -36,7 +38,7 @@ import com.weicoder.web.constants.HttpConstants;
  * @since JDK7
  * @version 1.0 2012-07-4
  */
-public abstract class SuperAction extends BasicAction {
+public abstract class SuperAction extends UploadAction {
 	// 时间字段
 	protected final static String	TIME_FIELD	= "time";
 	// 全局Context
@@ -69,38 +71,63 @@ public abstract class SuperAction extends BasicAction {
 	// 实体是否初始化
 	protected boolean				isEntity;
 
+	// 主键
+	protected Serializable			key;
+	// 主键数组
+	protected Serializable[]		keys;
+
 	@PostConstruct
 	protected void init() {
 		// 父类初始化
-		super.init();
-		// 初始化空排序
-		orders = Maps.getMap();
-		// 获得实体类
-		entityClass = context.getClass(module);
-		// 获得ContentType
-		String contentType = request.getContentType();
-		// 判断为上传文件表单
-		if (!EmptyUtil.isEmpty(contentType) && contentType.indexOf(HttpConstants.CONTENT_TYPE_FILE) > -1) {
-			isEntity = true;
-			// 获得实体
-			entity = entityClass == null ? null : context.getBean(module, entityClass);
-		} else {
-			// 是否初始化实体
-			for (Map.Entry<String, String[]> e : request.getParameterMap().entrySet()) {
-				if (e.getKey().indexOf("entity") > -1) {
-					isEntity = true;
-					// 获得实体
-					entity = entityClass == null ? null : context.getBean(module, entityClass);
-					break;
+		try {
+			// 声明错误信息
+			error = Lists.getList();
+			// 声明信息
+			message = Lists.getList();
+			// 获得request与response
+			// request = ServletActionContext.getRequest();
+			// response = ServletActionContext.getResponse();
+			// 获得提交Action地址
+			String actionName = getActionName();
+			// 分解提交action
+			String[] action = StringUtil.split(actionName, StringConstants.UNDERLINE);
+			// 获得模板名
+			module = action[0];
+			// 方法名
+			method = action.length > 1 ? action[1] : action[0];
+			// 获得方法名
+			mode = EmptyUtil.isEmpty(mode) ? action.length > 2 ? action[2] : action.length == 2 ? action[1] : action[0] : mode;
+			// 初始化空排序
+			orders = Maps.getMap();
+			// 获得实体类
+			entityClass = context.getClass(module);
+			// 获得ContentType
+			String contentType = request.getContentType();
+			// 判断为上传文件表单
+			if (!EmptyUtil.isEmpty(contentType) && contentType.indexOf(HttpConstants.CONTENT_TYPE_FILE) > -1) {
+				isEntity = true;
+				// 获得实体
+				entity = entityClass == null ? null : context.getBean(module, entityClass);
+			} else {
+				// 是否初始化实体
+				for (Map.Entry<String, String[]> e : request.getParameterMap().entrySet()) {
+					if (e.getKey().indexOf("entity") > -1) {
+						isEntity = true;
+						// 获得实体
+						entity = entityClass == null ? null : context.getBean(module, entityClass);
+						break;
+					}
 				}
 			}
-		}
-		// 如果查询自己的数据 添加登录用户名
-		if (entity == null && entityClass != null && EntityUserId.class.isAssignableFrom(entityClass)) {
-			entity = context.getBean(module, entityClass);
-		}
-		if (entity instanceof EntityUserId) {
-			((EntityUserId) entity).setUserId(token.getId());
+			// 如果查询自己的数据 添加登录用户名
+			if (entity == null && entityClass != null && EntityUserId.class.isAssignableFrom(entityClass)) {
+				entity = context.getBean(module, entityClass);
+			}
+			if (entity instanceof EntityUserId) {
+				((EntityUserId) entity).setUserId(token.getId());
+			}
+		} catch (Exception e) {
+			Logs.error(e);
 		}
 	}
 
@@ -407,6 +434,19 @@ public abstract class SuperAction extends BasicAction {
 	}
 
 	/**
+	 * 获得Action方法名 只保留x_x
+	 * @return Action方法名
+	 */
+	public String getLink() {
+		// 获得提交Action地址
+		String actionName = getActionName();
+		// 分解名称
+		String[] name = StringUtil.split(actionName, StringConstants.UNDERLINE);
+		// 返回链接名
+		return name.length > 2 ? name[0] + StringConstants.UNDERLINE + name[1] : actionName;
+	}
+
+	/**
 	 * 直接跳转
 	 * @return
 	 * @throws Exception
@@ -545,6 +585,60 @@ public abstract class SuperAction extends BasicAction {
 	}
 
 	/**
+	 * 获得主键
+	 * @return 主键
+	 */
+	public Serializable getKey() {
+		return key;
+	}
+
+	/**
+	 * 设置主键
+	 * @param key 主键
+	 */
+	public void setKey(Serializable key) {
+		// 如果传递进来的是数组
+		if (key.getClass().isArray()) {
+			// 转换成数组
+			Serializable[] keys = (Serializable[]) key;
+			// 如果只有一个值 赋值给key 否则赋值给keys
+			if (keys.length == 1) {
+				setKey(keys[0]);
+			} else {
+				setKeys(keys);
+			}
+		} else if (key instanceof String) {
+			// 传的是字符串
+			String s = Conversion.toString(key);
+			// 如果是json串
+			if (!JsonEngine.isJson(s) && s.indexOf(StringConstants.COMMA) > -1) {
+				// ,号分割的字符串 转换成数组setKey
+				setKey(s.split(StringConstants.COMMA));
+			} else {
+				this.key = s;
+			}
+		} else {
+			this.key = key;
+		}
+	}
+
+	/**
+	 * 获得主键数组
+	 * @return 主键数组
+	 */
+	public Serializable[] getKeys() {
+		return keys;
+	}
+
+	/**
+	 * 设置主键数组
+	 * @param keys 主键数组
+	 */
+	public void setKeys(Serializable[] keys) {
+		this.keys = keys;
+	}
+
+	/**
 	 * 添加实体
 	 * @param e
 	 * @return
@@ -629,4 +723,10 @@ public abstract class SuperAction extends BasicAction {
 	 * 获得验证登录凭证
 	 */
 	protected abstract AuthToken auth();
+
+	/**
+	 * 获得Action方法名
+	 * @return Action方法名
+	 */
+	public abstract String getActionName();
 }

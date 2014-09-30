@@ -1,5 +1,6 @@
 package com.weicoder.frame.starter;
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +17,7 @@ import com.weicoder.frame.quartz.Job;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.core.log.Logs;
 import com.weicoder.core.params.QuartzParams;
 
 /**
@@ -72,7 +74,11 @@ final class QuartzStarter {
 						// 设置时间
 						cron.setCronExpression(trigger);
 						// 执行初始化
-						cron.afterPropertiesSet();
+						try {
+							cron.afterPropertiesSet();
+						} catch (ParseException ex) {
+							Logs.error(ex);
+						}
 						// 添加到定时列表中
 						triggers.add(cron.getObject());
 					}

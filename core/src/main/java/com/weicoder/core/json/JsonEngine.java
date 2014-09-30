@@ -144,7 +144,7 @@ public final class JsonEngine extends FactoryKey<String, Json> {
 		Map<String, Object> map = toBean(json, Map.class);
 		// 如果map为空
 		if (EmptyUtil.isEmpty(map)) {
-			return Maps.emptyMap();
+			return Maps.getMap();
 		}
 		// 声明返回map
 		Map<String, E> data = Maps.getMap(map.size());

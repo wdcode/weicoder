@@ -40,7 +40,7 @@ public final class LuceneEngine {
 	// 索引写入器
 	private static IndexWriter		writer;
 	// 版本
-	private static Version			version	= Version.LUCENE_4_9;
+	private static Version			version	= Version.LUCENE_4_10_1;
 	// 索引查询器
 	private static IndexSearcher	searcher;
 
@@ -50,7 +50,7 @@ public final class LuceneEngine {
 	 */
 	public static void init(String path) {
 		try {
-			init("ram".equals(path) ? new RAMDirectory() : FSDirectory.open(FileUtil.getFile(path)), new StandardAnalyzer(version), version);
+			init("ram".equals(path) ? new RAMDirectory() : FSDirectory.open(FileUtil.getFile(path)), new StandardAnalyzer(), version);
 		} catch (IOException e) {
 			Logs.debug(e);
 		}
@@ -113,7 +113,7 @@ public final class LuceneEngine {
 		if (searcher()) {
 			try {
 				// 实例化查询器
-				Query query = new QueryParser(version, field, analyzer).parse(value);
+				Query query = new QueryParser(field, analyzer).parse(value);
 				// 获得文档索引
 				ScoreDoc[] hits = searcher.search(query, null, n).scoreDocs;
 				// 循环读取数据

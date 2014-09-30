@@ -26,7 +26,7 @@ import com.weicoder.web.util.VerifyCodeUtil;
  * @since JDK7
  * @version 1.0 2009-07-14
  */
-public class SiteAction<U extends EntityUser> extends SuperAction {
+public class SiteAction<U extends EntityUser> extends StrutsAction {
 	// 状态无效 0
 	protected final static int	STATE_INAVAIL	= 0;
 	// 状态无效 1
