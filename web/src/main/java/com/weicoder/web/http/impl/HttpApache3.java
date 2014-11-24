@@ -1,5 +1,6 @@
 package com.weicoder.web.http.impl;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 
@@ -248,5 +249,15 @@ public final class HttpApache3 extends BaseHttp {
 		} catch (URIException e) {
 			Logs.warn(e);
 		}
+	}
+
+	@Override
+	public String upload(String url, File file) {
+		return null;
+	}
+
+	@Override
+	public String uploads(String url, File... files) {
+		return null;
 	}
 }

@@ -1,5 +1,6 @@
 package com.weicoder.web.http.impl;
 
+import java.io.File;
 import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,9 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.config.ConnectionConfig;
 import org.apache.http.cookie.Cookie;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.DefaultRedirectStrategy;
@@ -209,6 +213,94 @@ public final class HttpApache4 extends BaseHttp implements Http {
 		} finally {
 			// 销毁get
 			get.abort();
+		}
+	}
+
+	/**
+	 * 上传文件
+	 * @param url post提交地址
+	 * @param files 上传文件
+	 */
+	public String uploads(String url, File... files) {
+		// 声明HttpPost
+		HttpPost post = null;
+		try {
+			// 获得HttpPost
+			post = new HttpPost(url);
+			// 如果文件为空
+			if (EmptyUtil.isEmpty(files)) {
+				// 返回空
+				return StringConstants.EMPTY;
+			}
+			// 多提交实体构造器
+			MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+			// 设置浏览器上传
+			builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+			// 添加上传文件
+			for (File file : files) {
+				builder.addPart("files", new FileBody(file));
+			}
+			// 设置提交文件参数
+			post.setEntity(builder.build());
+			// 获得HttpResponse参数
+			HttpResponse response = client.execute(post);
+			// 获得状态码
+			int status = response.getStatusLine().getStatusCode();
+			// 判断状态
+			if (status == 200 || (status > 200 && status < 300)) {
+				// 返回字节数组
+				return StringUtil.toString(IOUtil.read(response.getEntity().getContent()), encoding);
+			} else {
+				return Conversion.toString(status);
+			}
+		} catch (Exception e) {
+			return e.getMessage();
+		} finally {
+			// 销毁post
+			post.abort();
+		}
+	}
+
+	/**
+	 * 上传文件
+	 * @param url post提交地址
+	 * @param file 上传文件
+	 */
+	public String upload(String url, File file) {
+		// 声明HttpPost
+		HttpPost post = null;
+		try {
+			// 获得HttpPost
+			post = new HttpPost(url);
+			// 如果文件为空
+			if (file == null) {
+				// 返回空
+				return StringConstants.EMPTY;
+			}
+			// 多提交实体构造器
+			MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+			// 设置浏览器上传
+			builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+			// 添加上传文件
+			builder.addPart("file", new FileBody(file));
+			// 设置提交文件参数
+			post.setEntity(builder.build());
+			// 获得HttpResponse参数
+			HttpResponse response = client.execute(post);
+			// 获得状态码
+			int status = response.getStatusLine().getStatusCode();
+			// 判断状态
+			if (status == 200 || (status > 200 && status < 300)) {
+				// 返回字节数组
+				return StringUtil.toString(IOUtil.read(response.getEntity().getContent()), encoding);
+			} else {
+				return Conversion.toString(status);
+			}
+		} catch (Exception e) {
+			return e.getMessage();
+		} finally {
+			// 销毁post
+			post.abort();
 		}
 	}
 

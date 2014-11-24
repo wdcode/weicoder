@@ -4,14 +4,14 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import com.weicoder.frame.engine.LoginEngine;
 import com.weicoder.frame.entity.Entity;
 import com.weicoder.frame.entity.EntityIp;
 import com.weicoder.frame.entity.EntityStartEndTime;
-import com.weicoder.frame.entity.EntityFile;
-import com.weicoder.frame.entity.EntityFiles;
 import com.weicoder.frame.entity.EntityTime;
 import com.weicoder.frame.entity.EntityUserId;
 import com.weicoder.frame.service.QueryService;
@@ -30,7 +30,9 @@ import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.core.json.JsonEngine;
 import com.weicoder.core.log.Logs;
+import com.weicoder.web.action.BasicAction;
 import com.weicoder.web.constants.HttpConstants;
+import com.weicoder.web.util.IpUtil;
 
 /**
  * 超级通用Action
@@ -38,7 +40,15 @@ import com.weicoder.web.constants.HttpConstants;
  * @since JDK7
  * @version 1.0 2012-07-4
  */
-public abstract class SuperAction extends UploadAction {
+public abstract class SuperAction extends BasicAction {
+	// 成功
+	protected static final String	SUCCESS		= "success";
+	// 错误
+	protected static final String	ERROR		= "error";
+	// 登录页
+	protected static final String	LOGIN		= "login";
+	// LIST
+	protected final static String	LIST		= "list";
 	// 时间字段
 	protected final static String	TIME_FIELD	= "time";
 	// 全局Context
@@ -76,19 +86,23 @@ public abstract class SuperAction extends UploadAction {
 	// 主键数组
 	protected Serializable[]		keys;
 
-	@PostConstruct
-	protected void init() {
+	// HttpServletRequest
+	protected HttpServletRequest	request;
+	// HttpServletResponse
+	protected HttpServletResponse	response;
+
+	/**
+	 * 初始化Action
+	 * @param request HttpServletRequest
+	 * @param response HttpServletResponse
+	 * @param actionName action名称
+	 */
+	protected void init(HttpServletRequest request, HttpServletResponse response, String actionName) {
 		// 父类初始化
 		try {
-			// 声明错误信息
-			error = Lists.getList();
-			// 声明信息
-			message = Lists.getList();
 			// 获得request与response
-			// request = ServletActionContext.getRequest();
-			// response = ServletActionContext.getResponse();
-			// 获得提交Action地址
-			String actionName = getActionName();
+			this.request = request;
+			this.response = response;
 			// 分解提交action
 			String[] action = StringUtil.split(actionName, StringConstants.UNDERLINE);
 			// 获得模板名
@@ -97,6 +111,10 @@ public abstract class SuperAction extends UploadAction {
 			method = action.length > 1 ? action[1] : action[0];
 			// 获得方法名
 			mode = EmptyUtil.isEmpty(mode) ? action.length > 2 ? action[2] : action.length == 2 ? action[1] : action[0] : mode;
+			// 如果mode为空
+			if (EmptyUtil.isEmpty(mode)) {
+				mode = "call";
+			}
 			// 初始化空排序
 			orders = Maps.getMap();
 			// 获得实体类
@@ -212,7 +230,7 @@ public abstract class SuperAction extends UploadAction {
 		// 获得要更像的实体
 		Entity e = service.get(entityClass, entity.getKey());
 		// 实体不为空 更新 否则返回错误
-		return callback(entity = service.update(BeanUtil.copy(upload(entity), e)));
+		return callback(entity = service.update(BeanUtil.copy(upload(request, entity), e)));
 	}
 
 	/**
@@ -433,18 +451,18 @@ public abstract class SuperAction extends UploadAction {
 		return callback(entitys = service.search(entity, pager));
 	}
 
-	/**
-	 * 获得Action方法名 只保留x_x
-	 * @return Action方法名
-	 */
-	public String getLink() {
-		// 获得提交Action地址
-		String actionName = getActionName();
-		// 分解名称
-		String[] name = StringUtil.split(actionName, StringConstants.UNDERLINE);
-		// 返回链接名
-		return name.length > 2 ? name[0] + StringConstants.UNDERLINE + name[1] : actionName;
-	}
+	// /**
+	// * 获得Action方法名 只保留x_x
+	// * @return Action方法名
+	// */
+	// public String getLink() {
+	// // 获得提交Action地址
+	// String actionName = getActionName();
+	// // 分解名称
+	// String[] name = StringUtil.split(actionName, StringConstants.UNDERLINE);
+	// // 返回链接名
+	// return name.length > 2 ? name[0] + StringConstants.UNDERLINE + name[1] : actionName;
+	// }
 
 	/**
 	 * 直接跳转
@@ -462,6 +480,14 @@ public abstract class SuperAction extends UploadAction {
 	 */
 	public String tos() throws Exception {
 		return LIST;
+	}
+
+	/**
+	 * 获得提交IP
+	 * @return 提交IP
+	 */
+	public String getIp() {
+		return IpUtil.getIp(request);
 	}
 
 	/**
@@ -639,6 +665,38 @@ public abstract class SuperAction extends UploadAction {
 	}
 
 	/**
+	 * 方法回调 所有直接Action回调的方法 一边统一处理
+	 * @param obj 处理对象
+	 * @return 返回标识
+	 */
+	public String callback(Object obj) {
+		return call(response, obj);
+	}
+
+	/**
+	 * 方法回调 所有直接Action回调的方法 一边统一处理
+	 * @param response
+	 * @param obj 处理对象
+	 * @return 返回标识
+	 */
+	public String call(HttpServletResponse response, Object obj) {
+		if (obj == null) {
+			return addMessage(ERROR);
+		} else if (obj instanceof String) {
+			String re = Conversion.toString(obj);
+			return SUCCESS.equals(re) || ERROR.equals(re) ? addMessage(re) : re;
+		} else if (obj instanceof List<?> || obj instanceof Map<?, ?>) {
+			return LIST;
+		} else if (obj instanceof Boolean) {
+			return Conversion.toBoolean(obj) ? SUCCESS : ERROR;
+		} else if (obj instanceof Integer) {
+			return EmptyUtil.isEmpty(obj) ? ERROR : SUCCESS;
+		} else {
+			return addMessage(SUCCESS);
+		}
+	}
+
+	/**
 	 * 添加实体
 	 * @param e
 	 * @return
@@ -691,42 +749,57 @@ public abstract class SuperAction extends UploadAction {
 			((EntityUserId) e).setUserId(token.getId());
 		}
 		// 返回E
-		return upload(e);
+		return upload(request, e);
 	}
 
 	/**
-	 * 上次文件
+	 * 上传文件
+	 * @param request
 	 * @param e
 	 * @return
 	 */
-	protected Entity upload(Entity e) {
-		if (e instanceof EntityFile) {
-			// 上次文件
-			String path = upload(file, fileFileName);
-			// 路径不为空
-			if (!EmptyUtil.isEmpty(path)) {
-				((EntityFile) e).setPath(path);
-			}
-		}
-		if (e instanceof EntityFiles) {
-			// 上次文件
-			String[] paths = uploads(files, filesFileName);
-			// 路径不为空
-			if (!EmptyUtil.isEmpty(paths)) {
-				((EntityFiles) e).setPaths(paths);
-			}
-		}
+	protected Entity upload(HttpServletRequest request, Entity e) {
+		// if (e instanceof EntityFile) {
+		// // 上次文件
+		// String path = upload(request, file, fileFileName);
+		// // 路径不为空
+		// if (!EmptyUtil.isEmpty(path)) {
+		// ((EntityFile) e).setPath(path);
+		// }
+		// }
+		// if (e instanceof EntityFiles) {
+		// // 上次文件
+		// String[] paths = uploads(request, files, filesFileName);
+		// // 路径不为空
+		// if (!EmptyUtil.isEmpty(paths)) {
+		// ((EntityFiles) e).setPaths(paths);
+		// }
+		// }
 		return e;
+	}
+
+	/**
+	 * 以sign模式输出数据到客户端方法
+	 * @param response
+	 * @param json 对象
+	 */
+	protected String sign(HttpServletResponse response, Object obj) {
+		return ajax(response, obj instanceof String || obj instanceof Number ? obj : EmptyUtil.isEmpty(obj) ? ERROR : SUCCESS);
+	}
+
+	/**
+	 * 以key模式输出数据到客户端方法
+	 * @param response
+	 * @param json 对象
+	 */
+	protected String key(HttpServletResponse response, Object obj) {
+		return ajax(response, obj instanceof String || obj instanceof Number ? obj : obj instanceof Entity ? ((Entity) obj).getKey() : ERROR);
 	}
 
 	/**
 	 * 获得验证登录凭证
 	 */
-	protected abstract AuthToken auth();
-
-	/**
-	 * 获得Action方法名
-	 * @return Action方法名
-	 */
-	public abstract String getActionName();
+	protected AuthToken auth() {
+		return LoginEngine.getLoginBean(request, "user");
+	}
 }

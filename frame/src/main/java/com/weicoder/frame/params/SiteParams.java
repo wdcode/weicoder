@@ -11,6 +11,8 @@ import com.weicoder.common.params.Params;
  */
 public final class SiteParams {
 	/** email验证是否开启 */
+	public final static int		USER_STATE					= Params.getInt("user.state", 1);
+	/** email验证是否开启 */
 	public final static boolean	USER_VERIFY_STATE			= Params.getBoolean("user.verify.state", false);
 	/** email验证是否开启 */
 	public final static boolean	USER_VERIFY_EMAIL			= Params.getBoolean("user.verify.email", false);

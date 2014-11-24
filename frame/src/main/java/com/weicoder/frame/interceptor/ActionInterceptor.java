@@ -1,6 +1,6 @@
 package com.weicoder.frame.interceptor;
 
-import com.weicoder.frame.action.BasicAction;
+import com.weicoder.web.action.BasicAction;
 import com.weicoder.common.util.EmptyUtil;
 
 import com.opensymphony.xwork2.ActionInvocation;

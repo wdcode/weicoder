@@ -8,7 +8,6 @@ import com.weicoder.frame.engine.LoginEngine;
 import com.weicoder.frame.entity.EntityUser;
 import com.weicoder.frame.params.SiteParams;
 import com.weicoder.frame.token.AuthToken;
-import com.weicoder.frame.token.LoginToken;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.crypto.Decrypts;
 import com.weicoder.common.crypto.Digest;
@@ -63,7 +62,7 @@ public class SiteAction<U extends EntityUser> extends StrutsAction {
 	 */
 	public void setToken(String token) {
 		// 解析登录凭证
-		LoginToken login = LoginEngine.decrypt(token);
+		AuthToken login = LoginEngine.decrypt(token);
 		// 登录凭证不为空
 		if (!EmptyUtil.isEmpty(login)) {
 			this.token = login;
@@ -95,11 +94,11 @@ public class SiteAction<U extends EntityUser> extends StrutsAction {
 				// 设置新密码
 				u.setPassword(newPwd);
 				// 返回成功
-				return callback(service.update(u));
+				return callback(response, service.update(u));
 			}
 		}
 		// 返回失败
-		return callback(ERROR);
+		return callback(response, ERROR);
 	}
 
 	/**
@@ -287,7 +286,7 @@ public class SiteAction<U extends EntityUser> extends StrutsAction {
 	 * @return 获得登录凭证
 	 */
 	public String token(Object obj) throws Exception {
-		return ajax(LoginEngine.encrypt(token));
+		return ajax(response, LoginEngine.encrypt(token));
 	}
 
 	/**

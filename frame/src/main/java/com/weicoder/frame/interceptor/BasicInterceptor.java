@@ -1,6 +1,10 @@
 package com.weicoder.frame.interceptor;
 
-import com.weicoder.frame.action.BasicAction;
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.struts2.ServletActionContext;
+
+import com.weicoder.web.action.BasicAction;
 import com.weicoder.common.constants.StringConstants;
 
 import com.opensymphony.xwork2.Action;
@@ -22,7 +26,7 @@ public class BasicInterceptor<E extends BasicAction> extends AbstractInterceptor
 			// 获得Action
 			E action = (E) invocation.getAction();
 			// 前置方法
-			if (before(action)) {
+			if (before(action, ServletActionContext.getRequest())) {
 				// 执行方法
 				try {
 					// 后置方法 返回结果
@@ -49,8 +53,9 @@ public class BasicInterceptor<E extends BasicAction> extends AbstractInterceptor
 	/**
 	 * 前置通知方法
 	 * @param action
+	 * @param request
 	 */
-	protected boolean before(E action) {
+	protected boolean before(E action, HttpServletRequest request) {
 		return true;
 	}
 

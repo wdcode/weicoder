@@ -53,7 +53,5 @@
 	</package>
 	
 	<!-- Struts2 默认配置 -->
-	<include file="struts-default.xml" />
-	<!-- Struts2 插件配置 -->
-	<include file="struts-plugin.xml" />	
+	<include file="struts-default.xml" /> 
 </struts>

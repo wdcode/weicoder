@@ -1,5 +1,6 @@
 package com.weicoder.web.http;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 
@@ -94,4 +95,18 @@ public interface Http extends Close {
 	 * @return byte[] 提交失败
 	 */
 	String post(String url, Map<String, Object> data, String encoding, String referer);
+
+	/**
+	 * 上传文件
+	 * @param url post提交地址
+	 * @param file 上传文件
+	 */
+	public String upload(String url, File file);
+
+	/**
+	 * 上传文件
+	 * @param url post提交地址
+	 * @param files 上传文件
+	 */
+	public String uploads(String url, File... files);
 }

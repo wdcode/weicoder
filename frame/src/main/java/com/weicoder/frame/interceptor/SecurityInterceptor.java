@@ -3,8 +3,10 @@ package com.weicoder.frame.interceptor;
 import java.util.List;
 import java.util.Map;
 
-import com.weicoder.frame.action.BasicAction;
+import javax.servlet.http.HttpServletRequest;
+
 import com.weicoder.frame.params.SecurityParams;
+import com.weicoder.web.action.BasicAction;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.util.EmptyUtil;
 
@@ -30,11 +32,11 @@ public final class SecurityInterceptor extends BasicInterceptor<BasicAction> {
 	}
 
 	@Override
-	protected boolean before(BasicAction action) {
+	protected boolean before(BasicAction action, HttpServletRequest request) {
 		// 过滤IP
 		if (SecurityParams.SECURITY_POWER_IP) {
 			// 获得IP
-			String ip = action.getIp();
+			String ip = action.getIp(request);
 			// 如果不存在允许列表中
 			if (!SecurityParams.SECURITY_IPS.contains(ip)) {
 				return false;

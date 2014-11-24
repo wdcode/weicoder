@@ -1,5 +1,6 @@
 package com.weicoder.web.http.impl;
 
+import java.io.File;
 import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Map;
@@ -284,5 +285,15 @@ public final class HttpApache4Async extends BaseHttp implements Http {
 	private void updateCurrentUrl(HttpUriRequest request) {
 		// 获得当前Url
 		currentURL = request.getURI().toString();
+	}
+
+	@Override
+	public String upload(String url, File file) {
+		return null;
+	}
+
+	@Override
+	public String uploads(String url, File... files) {
+		return null;
 	}
 }

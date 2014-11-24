@@ -5,14 +5,12 @@ import java.net.URL;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import javax.servlet.annotation.WebListener;
 
 import org.apache.log4j.xml.DOMConfigurator;
 import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.params.Params;
-import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.ResourceUtil;
-import com.weicoder.core.config.ConfigFactory;
-import com.weicoder.core.engine.QuartzEngine; 
+import com.weicoder.core.engine.QuartzEngine;
 import com.weicoder.web.engine.StaticsEngine;
 import com.weicoder.web.params.WebParams;
 import com.weicoder.core.params.QuartzParams;
@@ -20,16 +18,12 @@ import com.weicoder.core.params.SocketParams;
 import com.weicoder.core.socket.Sockets;
 
 /**
- * 初始化监听器 在web.xml中配置 configLocation 配置文件位置,参数文件默认在classPath下
- * <p>
- * <listener> <listener-class> org.springframework.web.context.ContextLoaderListener
- * </listener-class> </listener> <context-param> <param-name>config</param-name>
- * <param-value>../config/config.xml</param-value> </context-param>
- * <p>
+ * 初始化监听器
  * @author WD
  * @since JDK7
- * @version 1.0 2009-09-08
+ * @version 1.0
  */
+@WebListener
 public class InitListener implements ServletContextListener {
 	/**
 	 * 初始化资源
@@ -40,11 +34,11 @@ public class InitListener implements ServletContextListener {
 		// 设置路径
 		setPath(context);
 		// 设置配置文件
-		setConfig(context.getInitParameter("config"));
+		// setConfig(context.getInitParameter("config"));
 		// 设置log4j配置
 		setLog4j(context);
 		// 配置数据源配置文件路径
-		System.setProperty("dataSourceConfig", WebParams.DATA_SOURCE_CONFIG);
+		// System.setProperty("dataSourceConfig", WebParams.DATA_SOURCE_CONFIG);
 
 		// 是否静态化
 		if (WebParams.STAICS_POWER) {
@@ -102,11 +96,12 @@ public class InitListener implements ServletContextListener {
 		System.setProperty(path, context.getRealPath(StringConstants.EMPTY));
 	}
 
-	/**
-	 * 设置配置文件
-	 * @param config 配置文件
-	 */
-	private void setConfig(String fileName) {
-		Params.setConfig(EmptyUtil.isEmpty(fileName) ? ConfigFactory.getConfig() : ConfigFactory.getConfig(fileName));
-	}
+	// /**
+	// * 设置配置文件
+	// * @param config 配置文件
+	// */
+	// private void setConfig(String fileName) {
+	// Params.setConfig(EmptyUtil.isEmpty(fileName) ? ConfigFactory.getConfig() :
+	// ConfigFactory.getConfig(fileName));
+	// }
 }

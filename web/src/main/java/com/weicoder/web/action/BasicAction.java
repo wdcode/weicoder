@@ -1,4 +1,4 @@
-package com.weicoder.frame.action;
+package com.weicoder.web.action;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -6,12 +6,10 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.PostConstruct;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.weicoder.frame.entity.Entity;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.crypto.Encrypts;
 import com.weicoder.common.io.IOUtil;
@@ -37,14 +35,6 @@ import com.weicoder.web.util.ResponseUtil;
  * @version 1.0 2009-08-26
  */
 public abstract class BasicAction {
-	// 成功
-	protected static final String				SUCCESS	= "success";
-	// 错误
-	protected static final String				ERROR	= "error";
-	// 登录页
-	protected static final String				LOGIN	= "login";
-	// LIST
-	protected final static String				LIST	= "list";
 	// 回调方法处理
 	protected final static Map<String, Method>	METHODS	= Maps.getMap();
 	// 提交的url
@@ -60,25 +50,10 @@ public abstract class BasicAction {
 	protected String							mode;
 	// 要回执消息的字段
 	protected String							field;
-	// HttpServletRequest
-	protected HttpServletRequest				request;
-	// HttpServletResponse
-	protected HttpServletResponse				response;
 	// 错误信息
-	protected List<String>						error;
+	protected List<String>						error	= Lists.getList();
 	// 错误信息
-	protected List<String>						message;
-
-	/**
-	 * 初始化方法
-	 */
-	@PostConstruct
-	protected void init() {
-		// 声明错误信息
-		error = Lists.getList();
-		// 声明信息
-		message = Lists.getList();
-	}
+	protected List<String>						message	= Lists.getList();
 
 	/**
 	 * 获得url
@@ -153,10 +128,10 @@ public abstract class BasicAction {
 
 	/**
 	 * 获得域名路径
-	 * @param name 文件名
+	 * @param request
 	 * @return 域名路径
 	 */
-	public String getServer() {
+	public String getServer(HttpServletRequest request) {
 		// 获得path
 		String path = request.getServerName();
 		// 返回域名路径
@@ -165,55 +140,62 @@ public abstract class BasicAction {
 
 	/**
 	 * 获得域名路径
-	 * @param name 文件名
+	 * @param request
 	 * @return 域名路径
 	 */
-	public String getDomain() {
+	public String getDomain(HttpServletRequest request) {
 		// 获得域名
-		String domain = HttpConstants.HTTP + getServer() + getBase();
+		String domain = HttpConstants.HTTP + getServer(request) + getBase(request);
 		// 返回域名
 		return domain.endsWith(StringConstants.BACKSLASH) ? domain : domain + StringConstants.BACKSLASH;
 	}
 
 	/**
 	 * 获得项目路径
+	 * @param request
 	 * @return 项目路径
 	 */
-	public String getBase() {
+	public String getBase(HttpServletRequest request) {
 		return request.getContextPath();
 	}
 
 	/**
 	 * 获得提交IP
+	 * @param request
 	 * @return 提交IP
 	 */
-	public String getIp() {
+	public String getIp(HttpServletRequest request) {
 		return IpUtil.getIp(request);
 	}
 
 	/**
 	 * 设置属性
+	 * @param request
+	 * @param response
 	 * @param key 属性键
 	 * @param value 属性值
 	 */
-	public void set(String key, Object value) {
+	public void set(HttpServletRequest request, HttpServletResponse response, String key, Object value) {
 		AttributeUtil.set(request, response, key, value);
 	}
 
 	/**
 	 * 根据属性键获得属性值
+	 * @param request
 	 * @param key 属性键
 	 * @return 属性值
 	 */
-	public Object get(String key) {
+	public Object get(HttpServletRequest request, String key) {
 		return AttributeUtil.get(request, key);
 	}
 
 	/**
 	 * 删除属性
+	 * @param request
+	 * @param response
 	 * @param key 属性键
 	 */
-	public void remove(String key) {
+	public void remove(HttpServletRequest request, HttpServletResponse response, String key) {
 		AttributeUtil.remove(request, response, key);
 	}
 
@@ -236,62 +218,51 @@ public abstract class BasicAction {
 	}
 
 	/**
-	 * 获得HttpServletRequest
-	 * @return HttpServletRequest
-	 */
-	public HttpServletRequest getRequest() {
-		return request;
-	}
-
-	/**
-	 * 获得HttpServletResponse
-	 * @return HttpServletResponse
-	 */
-	public HttpServletResponse getResponse() {
-		return response;
-	}
-
-	/**
 	 * 获得客户端的Cookie数组
+	 * @param request
 	 * @return Cookie数组
 	 */
-	public Cookie[] getCookies() {
+	public Cookie[] getCookies(HttpServletRequest request) {
 		return request.getCookies();
 	}
 
 	/**
 	 * 添加Cookie到客户端
+	 * @param response
 	 * @param name CookieName
 	 * @param value CookieValue
 	 */
-	public void addCookie(String name, String value) {
+	public void addCookie(HttpServletResponse response, String name, String value) {
 		CookieUtil.add(response, name, Encrypts.encrypt(value));
 	}
 
 	/**
 	 * 删除Cookie
+	 * @param response
 	 * @param name CookieName
 	 * @param value CookieValue
 	 */
-	public void removeCookie(String name) {
+	public void removeCookie(HttpServletResponse response, String name) {
 		CookieUtil.remove(response, name);
 	}
 
 	/**
 	 * 根据name获得Cookie 没找到返回null
+	 * @param request
 	 * @param name CookieName
 	 * @return Cookie
 	 */
-	public Cookie getCookie(String name) {
+	public Cookie getCookie(HttpServletRequest request, String name) {
 		return CookieUtil.getCookie(request, name);
 	}
 
 	/**
 	 * 根据name获得CookieValue 没找到返回""
+	 * @param request
 	 * @param name CookieName
 	 * @return CookieValue
 	 */
-	public String getCookieValue(String name) {
+	public String getCookieValue(HttpServletRequest request, String name) {
 		return CookieUtil.getCookieValue(request, name);
 	}
 
@@ -340,18 +311,20 @@ public abstract class BasicAction {
 
 	/**
 	 * 写数据到前端
+	 * @param response
 	 * @param str 要写的字符串
 	 */
-	public void write(String str) {
-		write(str, CommonParams.ENCODING);
+	public void write(HttpServletResponse response, String str) {
+		write(response, str, CommonParams.ENCODING);
 	}
 
 	/**
 	 * 写数据到前端
+	 * @param response
 	 * @param str 要写的字符串
 	 * @param charsetName 编码
 	 */
-	public void write(String str, String charsetName) {
+	public void write(HttpServletResponse response, String str, String charsetName) {
 		// 清除缓存
 		ResponseUtil.noCache(response);
 		// 设置编码
@@ -366,16 +339,17 @@ public abstract class BasicAction {
 	 * 写数据到前端
 	 * @param str 要写的字符串
 	 */
-	public void out(String str) {
-		out(str, CommonParams.ENCODING);
+	public void out(HttpServletResponse response, String str) {
+		out(response, str, CommonParams.ENCODING);
 	}
 
 	/**
 	 * 写数据到前端
+	 * @param response
 	 * @param str 要写的字符串
 	 * @param charsetName 编码
 	 */
-	public void out(String str, String charsetName) {
+	public void out(HttpServletResponse response, String str, String charsetName) {
 		// 清除缓存
 		ResponseUtil.noCache(response);
 		// 写入到前端
@@ -408,22 +382,33 @@ public abstract class BasicAction {
 
 	/**
 	 * 输出数据到客户端方法
+	 * @param response
 	 * @param data 数据对象
 	 * @param charsetName 编码
 	 */
-	public String ajax(Object data, String charsetName) {
+	public String ajax(HttpServletResponse response, Object data, String charsetName) {
 		// 写字符串
-		write(json(data), charsetName);
+		write(response, json(data), charsetName);
 		// 返回空
 		return null;
 	}
 
 	/**
+	 * 以ajax模式输出数据到客户端方法
+	 * @param response
+	 * @param json 对象
+	 */
+	public String ajax(HttpServletResponse response, Object obj) {
+		return ajax(response, obj == null ? StringConstants.EMPTY : !EmptyUtil.isEmpty(field) ? BeanUtil.getFieldValue(obj, field) : obj, CommonParams.ENCODING);
+	}
+
+	/**
 	 * 方法回调 所有直接Action回调的方法 一边统一处理
+	 * @param response
 	 * @param obj 处理对象
 	 * @return 返回标识
 	 */
-	public String callback(Object obj) {
+	public String callback(HttpServletResponse response, Object obj) {
 		// 声明方法
 		Method method = null;
 		// 获得Key相对的方法是否存在
@@ -437,22 +422,10 @@ public abstract class BasicAction {
 		}
 		// 方法不为空
 		if (method != null) {
-			return Conversion.toString(BeanUtil.invoke(this, method, obj), null);
+			obj = BeanUtil.invoke(this, method, response, obj);
 		}
-		if (obj == null) {
-			return addMessage(ERROR);
-		} else if (obj instanceof String) {
-			String re = Conversion.toString(obj);
-			return SUCCESS.equals(re) || ERROR.equals(re) ? addMessage(re) : re;
-		} else if (obj instanceof List<?> || obj instanceof Map<?, ?>) {
-			return LIST;
-		} else if (obj instanceof Boolean) {
-			return Conversion.toBoolean(obj) ? SUCCESS : ERROR;
-		} else if (obj instanceof Integer) {
-			return EmptyUtil.isEmpty(obj) ? ERROR : SUCCESS;
-		} else {
-			return addMessage(SUCCESS);
-		}
+		// 返回对象字符串
+		return Conversion.toString(obj, null);
 	}
 
 	/**
@@ -480,33 +453,12 @@ public abstract class BasicAction {
 	}
 
 	/**
-	 * 以ajax模式输出数据到客户端方法
-	 * @param json 对象
-	 */
-	protected String ajax(Object obj) {
-		return ajax(obj == null ? ERROR : !EmptyUtil.isEmpty(field) && obj instanceof Entity ? BeanUtil.getFieldValue(obj, field) : obj, CommonParams.ENCODING);
-	}
-
-	/**
-	 * 以sign模式输出数据到客户端方法
-	 * @param json 对象
-	 */
-	protected String sign(Object obj) {
-		return ajax(obj instanceof String || obj instanceof Number ? obj : EmptyUtil.isEmpty(obj) ? ERROR : SUCCESS);
-	}
-
-	/**
-	 * 以key模式输出数据到客户端方法
-	 * @param json 对象
-	 */
-	protected String key(Object obj) {
-		return ajax(obj instanceof String || obj instanceof Number ? obj : obj instanceof Entity ? ((Entity) obj).getKey() : ERROR);
-	}
-
-	/**
 	 * 获得程序路径
+	 * @param request
 	 * @param name 文件名
 	 * @return 程序路径
 	 */
-	public abstract String getRealPath(String name);
+	public String getRealPath(HttpServletRequest request, String name) {
+		return request.getServletContext().getRealPath(StringConstants.BACKSLASH) + name;
+	}
 }

@@ -351,7 +351,7 @@ public final class FileUtil {
 	 */
 	public static FileInputStream getInputStream(File file) {
 		try {
-			return file.exists() ? new FileInputStream(file) : null;
+			return file == null ? null : file.exists() ? new FileInputStream(file) : null;
 		} catch (Exception e) {
 			return null;
 		}

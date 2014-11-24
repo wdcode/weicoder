@@ -1,4 +1,4 @@
-package com.weicoder.frame.params;
+package com.weicoder.web.params;
 
 import java.util.List;
 
@@ -16,9 +16,9 @@ public final class UploadParams {
 	/** 上传文件路径 */
 	public final static String			UPLOAD_PATH					= Params.getString("upload.path", "upload/");
 	/** 是否上传的资源目录 */
-	public final static boolean			UPLOAD_RESOURCE				= Params.getBoolean("upload.resource", false);
+//	public final static boolean			UPLOAD_RESOURCE				= Params.getBoolean("upload.resource", false);
 	/** 是否使用服务器地址保存文件路径 */
-	public final static boolean			UPLOAD_SERVER				= Params.getBoolean("upload.server", true);
+//	public final static boolean			UPLOAD_SERVER				= Params.getBoolean("upload.server", true);
 	/** 是否需要上传后缀名 */
 	public final static boolean			UPLOAD_SUFFIX				= Params.getBoolean("upload.suffix", true);
 	/** 是否需要上传后缀名 */

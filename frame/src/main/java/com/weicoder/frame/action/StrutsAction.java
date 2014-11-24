@@ -1,6 +1,6 @@
 package com.weicoder.frame.action;
 
-import javax.servlet.ServletContext;
+import javax.annotation.PostConstruct;
 
 import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionContext;
@@ -12,6 +12,7 @@ import org.apache.struts2.dispatcher.mapper.ActionMapping;
 import org.apache.struts2.util.TextProviderHelper;
 
 import com.weicoder.common.constants.StringConstants;
+import com.weicoder.common.util.StringUtil;
 
 /**
  * Struts2 Action
@@ -19,6 +20,15 @@ import com.weicoder.common.constants.StringConstants;
  * @version 1.0
  */
 public abstract class StrutsAction extends SuperAction {
+
+	/**
+	 * 初始化Action
+	 */
+	@PostConstruct
+	protected void init() {
+		init(ServletActionContext.getRequest(), ServletActionContext.getResponse(), getActionName());
+	}
+
 	/**
 	 * 获得国际化值
 	 */
@@ -35,31 +45,6 @@ public abstract class StrutsAction extends SuperAction {
 			sb.append(TextProviderHelper.getText(val[i], val[i], vs));
 		}
 		return sb.toString();
-	}
-
-	/**
-	 * 获得ServletContext
-	 * @return ServletContext
-	 */
-	public ServletContext getServletContext() {
-		return ServletActionContext.getServletContext();
-	}
-
-	/**
-	 * 获得程序路径
-	 * @param name 文件名
-	 * @return 程序路径
-	 */
-	public String getRealPath(String name) {
-		return getServletContext().getRealPath(StringConstants.BACKSLASH) + name;
-	}
-
-	/**
-	 * 获得Action方法名
-	 * @return Action方法名
-	 */
-	public String getActionName() {
-		return ((ActionMapping) getRequest().getAttribute(ServletActionContext.ACTION_MAPPING)).getName();
 	}
 
 	/**
@@ -83,5 +68,26 @@ public abstract class StrutsAction extends SuperAction {
 		}
 		// 如果都不符合返回null
 		return null;
+	}
+
+	/**
+	 * 获得Action方法名 只保留x_x
+	 * @return Action方法名
+	 */
+	public String getLink() {
+		// 获得提交Action地址
+		String actionName = getActionName();
+		// 分解名称
+		String[] name = StringUtil.split(actionName, StringConstants.UNDERLINE);
+		// 返回链接名
+		return name.length > 2 ? name[0] + StringConstants.UNDERLINE + name[1] : actionName;
+	}
+
+	/**
+	 * 获得Action方法名
+	 * @return Action方法名
+	 */
+	public String getActionName() {
+		return ((ActionMapping) request.getAttribute(ServletActionContext.ACTION_MAPPING)).getName();
 	}
 }

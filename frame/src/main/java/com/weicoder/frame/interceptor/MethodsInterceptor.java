@@ -2,7 +2,7 @@ package com.weicoder.frame.interceptor;
 
 import java.util.List;
 
-import com.weicoder.frame.action.BasicAction;
+import com.weicoder.web.action.BasicAction;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.util.EmptyUtil;

@@ -1,5 +1,6 @@
 package com.weicoder.web.http.impl;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -195,5 +196,15 @@ public final class HttpJava extends BaseHttp {
 		} catch (Exception e) {}
 		// 返回连接connection
 		return connection;
+	}
+
+	@Override
+	public String upload(String url, File file) {
+		return null;
+	}
+
+	@Override
+	public String uploads(String url, File... files) {
+		return null;
 	}
 }

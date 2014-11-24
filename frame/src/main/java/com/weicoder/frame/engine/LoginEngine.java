@@ -44,11 +44,18 @@ public final class LoginEngine {
 	 * @param login 登录实体
 	 * @param maxAge 保存时间
 	 */
-	public static LoginToken addLogin(HttpServletRequest request, HttpServletResponse response, EntityUser login, int maxAge) {
-		// 获得登录token实体
-		LoginToken token = new LoginToken(login, IpUtil.getIp(request), IpUtil.getIp());
-		// 返回token
-		return setToken(request, response, login.getClass().getSimpleName(), token, maxAge);
+	public static AuthToken addLogin(HttpServletRequest request, HttpServletResponse response, EntityUser login, int maxAge) {
+		return setToken(request, response, login.getClass().getSimpleName(), getLogin(login.getId(), IpUtil.getIp(request)), maxAge);
+	}
+
+	/**
+	 * 活动登录信息
+	 * @param id 用户ID
+	 * @param ip 用户IP
+	 * @return 获得登录状态
+	 */
+	public static AuthToken getLogin(int id, String ip) {
+		return new LoginToken(id, ip, IpUtil.getIp());
 	}
 
 	/**
@@ -60,7 +67,7 @@ public final class LoginEngine {
 	 * @param maxAge
 	 * @return
 	 */
-	public static LoginToken setToken(HttpServletRequest request, HttpServletResponse response, String key, LoginToken token, int maxAge) {
+	public static AuthToken setToken(HttpServletRequest request, HttpServletResponse response, String key, AuthToken token, int maxAge) {
 		// 保存登录信息
 		AttributeUtil.set(request, response, key + INFO, encrypt(token), maxAge);
 		// 返回token
@@ -73,7 +80,7 @@ public final class LoginEngine {
 	 * @param key 登录标识
 	 * @return 用户信息
 	 */
-	public static LoginToken getLoginBean(HttpServletRequest request, String key) {
+	public static AuthToken getLoginBean(HttpServletRequest request, String key) {
 		// 读取用户信息
 		String info = Conversion.toString(AttributeUtil.get(request, key + INFO));
 		// 如果用户信息为空
@@ -99,6 +106,16 @@ public final class LoginEngine {
 
 	/**
 	 * 加密信息
+	 * @param id 用户ID
+	 * @param ip 用户IP
+	 * @return 加密信息
+	 */
+	public static String encrypt(int id, String ip) {
+		return TokenEngine.encrypt(getLogin(id, ip));
+	}
+
+	/**
+	 * 加密信息
 	 * @param token 登录凭证
 	 * @return 加密信息
 	 */
@@ -110,7 +127,7 @@ public final class LoginEngine {
 	 * 验证登录凭证
 	 * @return 登录实体
 	 */
-	public static LoginToken decrypt(String info) {
+	public static AuthToken decrypt(String info) {
 		return TokenEngine.decrypt(info, new LoginToken());
 	}
 
@@ -118,13 +135,13 @@ public final class LoginEngine {
 	 * 获得一样空登录信息
 	 * @return
 	 */
-	public static LoginToken guest(HttpServletRequest request, HttpServletResponse response, String key) {
+	public static AuthToken guest(HttpServletRequest request, HttpServletResponse response, String key) {
 		// 如果游客ID已经分配到最大值 把游客ID重置
 		if (GUEST_ID == Integer.MIN_VALUE) {
 			GUEST_ID = 0;
 		}
 		// 获得游客凭证
-		LoginToken token = new LoginToken(GUEST_ID--, IpUtil.getIp(request), IpUtil.getIp());
+		AuthToken token = new LoginToken(GUEST_ID--, IpUtil.getIp(request), IpUtil.getIp());
 		// 设置游客凭证
 		AttributeUtil.set(request, response, key + INFO, encrypt(token), -1);
 		// 返回游客凭证
@@ -135,7 +152,20 @@ public final class LoginEngine {
 	 * 获得一样空登录信息
 	 * @return
 	 */
-	public static LoginToken empty() {
+	public static AuthToken guest(String ip) {
+		// 如果游客ID已经分配到最大值 把游客ID重置
+		if (GUEST_ID == Integer.MIN_VALUE) {
+			GUEST_ID = 0;
+		}
+		// 返回游客凭证
+		return new LoginToken(GUEST_ID--, ip, IpUtil.getIp());
+	}
+
+	/**
+	 * 获得一样空登录信息
+	 * @return
+	 */
+	public static AuthToken empty() {
 		return EMPTY;
 	}
 

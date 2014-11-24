@@ -1,5 +1,6 @@
 package com.weicoder.web.http;
 
+import java.io.File;
 import java.util.Map;
 
 import com.weicoder.web.http.factory.HttpFactory;
@@ -68,6 +69,24 @@ public final class HttpEngine {
 	 */
 	public static String post(String url, Map<String, Object> data) {
 		return HTTP.post(url, data);
+	}
+
+	/**
+	 * 上传文件
+	 * @param url post提交地址
+	 * @param file 上传文件
+	 */
+	public static String upload(String url, File file) {
+		return HTTP.upload(url, file);
+	}
+
+	/**
+	 * 上传文件
+	 * @param url post提交地址
+	 * @param files 上传文件
+	 */
+	public static String uploads(String url, File... files) {
+		return HTTP.uploads(url, files);
 	}
 
 	/**
