@@ -21,9 +21,8 @@ import com.weicoder.web.util.VerifyCodeUtil;
 
 /**
  * 登录Action
- * @author WD
- * @since JDK7
- * @version 1.0 2009-07-14
+ * @author WD 
+ * @version 1.0 
  */
 public class SiteAction<U extends EntityUser> extends StrutsAction {
 	// 状态无效 0

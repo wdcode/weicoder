@@ -40,7 +40,7 @@ public final class LuceneEngine {
 	// 索引写入器
 	private static IndexWriter		writer;
 	// 版本
-	private static Version			version	= Version.LUCENE_4_10_2;
+	private static Version			version	= Version.LUCENE_4_10_3;
 	// 索引查询器
 	private static IndexSearcher	searcher;
 

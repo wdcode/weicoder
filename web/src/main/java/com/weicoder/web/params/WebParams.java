@@ -18,7 +18,7 @@ public final class WebParams {
 	/** 邮件服务器Host */
 	public final static String	EMAIL_HOST			= Params.getString("email.host", StringConstants.EMPTY);
 	/** 发送Email使用的默认包 */
-	public final static String	EMAIL_PARSE			= Params.getString("email.parse", "java");
+	public final static String	EMAIL_PARSE			= Params.getString("email.parse", "Apache");
 	/** 发送Email是否验证 */
 	public final static boolean	EMAIL_AUTH			= Params.getBoolean("email.auth", true);
 	/** 发送Email使用的编码格式 */

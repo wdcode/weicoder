@@ -22,8 +22,7 @@ import com.weicoder.common.util.RandomUtil;
 /**
  * 生成验证图片,并把验证码保存到sessin中
  * @author WD
- * @since JDK7
- * @version 1.0 2011-05-01
+ * @version 1.0
  */
 public final class VerifyCodeUtil {
 	/**
