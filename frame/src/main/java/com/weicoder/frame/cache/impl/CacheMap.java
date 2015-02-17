@@ -202,6 +202,6 @@ public final class CacheMap<E extends Entity> extends BaseCache<E> {
 	 * @return 缓存的Value
 	 */
 	public E set(E value) {
-		return set(value.getKey(), value);
+		return value == null ? value : set(value.getKey(), value);
 	}
 }

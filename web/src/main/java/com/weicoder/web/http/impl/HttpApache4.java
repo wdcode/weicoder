@@ -39,6 +39,7 @@ import com.weicoder.common.lang.Maps;
 import com.weicoder.common.util.CloseUtil;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
+import com.weicoder.core.log.Logs;
 import com.weicoder.web.http.Http;
 import com.weicoder.web.http.base.BaseHttp;
 import com.weicoder.web.params.HttpParams;
@@ -209,10 +210,13 @@ public final class HttpApache4 extends BaseHttp implements Http {
 				return b;
 			}
 		} catch (Exception e) {
+			Logs.error(e);
 			return ArrayConstants.BYTES_EMPTY;
 		} finally {
 			// 销毁get
-			get.abort();
+			if (get != null) {
+				get.abort();
+			}
 		}
 	}
 

@@ -113,7 +113,7 @@ public final class EmailApache extends BaseEmail {
 				email.addTo(to[i]);
 			}
 			// 邮件服务器
-			email.setFrom(getFrom(), getPassword());
+			email.setFrom(getFrom());
 			// 设置标题
 			email.setSubject(subject);
 			// 设置正文
