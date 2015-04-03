@@ -6,13 +6,16 @@ import java.util.Map;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.Cell;
 import org.apache.hadoop.hbase.CellUtil;
+import org.apache.hadoop.hbase.TableName;
+import org.apache.hadoop.hbase.client.ConnectionFactory;
 import org.apache.hadoop.hbase.client.Delete;
 import org.apache.hadoop.hbase.client.Get;
-import org.apache.hadoop.hbase.client.HTable;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.ResultScanner;
 import org.apache.hadoop.hbase.client.Scan;
+import org.apache.hadoop.hbase.client.Table;
+
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.lang.Lists;
@@ -29,12 +32,8 @@ import com.weicoder.core.nosql.hbase.HBaseDao;
  * @version 1.0 2010-12-12
  */
 final class HBaseDaoImpl implements HBaseDao {
-	// 配置
-	private Configuration	cfg;
-	// 表名
-	private String			tableName;
 	// 表对象
-	private HTable			table;
+	private Table	table;
 
 	/**
 	 * 构造方法
@@ -42,12 +41,10 @@ final class HBaseDaoImpl implements HBaseDao {
 	 * @param tableName 表名
 	 */
 	public HBaseDaoImpl(Configuration cfg, String tableName) {
-		this.cfg = cfg;
-		this.tableName = tableName;
 		try {
-			table = new HTable(this.cfg, this.tableName);
+			table = ConnectionFactory.createConnection(cfg).getTable(TableName.valueOf(tableName));
 		} catch (Exception e) {
-			Logs.warn(e);
+			Logs.error(e);
 		}
 	}
 
@@ -62,7 +59,7 @@ final class HBaseDaoImpl implements HBaseDao {
 			// 声明Put
 			Put put = new Put(StringUtil.toBytes(row));
 			// 添加键值
-			put.add(StringUtil.toBytes(row), StringUtil.toBytes(key), StringUtil.toBytes(value));
+			put.addColumn(StringUtil.toBytes(row), StringUtil.toBytes(key), StringUtil.toBytes(value));
 			// 添加到表里
 			table.put(put);
 		} catch (Exception e) {

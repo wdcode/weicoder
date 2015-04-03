@@ -43,7 +43,7 @@ public final class StringConstants {
 	public final static String	NEWLINE				= "\n";
 	/** 常量字符串 "&" */
 	public final static String	AMP					= "&";
-	/** 常量字符串 "<" */
+/** 常量字符串 "<" */
 	public final static String	LT					= "<";
 	/** 常量字符串 ">" */
 	public final static String	GT					= ">";
@@ -95,6 +95,14 @@ public final class StringConstants {
 	public final static String	JAVA				= "java";
 	/** 常量字符串 "bytes" */
 	public final static String	BYTES				= "bytes";
+	/** 常量字符串 "hour" */
+	public final static String	HOUR				= "hour";
+	/** 常量字符串 "day" */
+	public final static String	DAY					= "day";
+	/** 常量字符串 "date" */
+	public final static String	DATE				= "date";
+	/** 常量字符串 "month" */
+	public final static String	MONTH				= "month";
 	/** 常量字符串 "classpath:" */
 	public final static String	CLASS_PATH			= "classpath:";
 

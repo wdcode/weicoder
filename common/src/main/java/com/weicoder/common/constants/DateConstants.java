@@ -21,6 +21,12 @@ public final class DateConstants {
 	public final static String	FORMAT_YMD_H_M_S	= "yyyyMMdd HH:mm:ss";
 	/** 日期格式 HH:mm:ss */
 	public final static String	FORMAT_HH_MM_SS		= "HH:mm:ss";
+	/** 日期格式 HH */
+	public final static String	FORMAT_HH			= "HH";
+	/** 日期格式 dd */
+	public final static String	FORMAT_DD			= "dd";
+	/** 日期格式 MM */
+	public final static String	FORMAT_MM			= "MM";
 	/** 日期时间 一天开始 00:00:00 */
 	public final static String	DATE_DAY_STATR		= "00:00:00";
 	/** 日期时间 一天开始 23:59:59 */

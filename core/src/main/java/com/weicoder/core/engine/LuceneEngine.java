@@ -1,11 +1,11 @@
 package com.weicoder.core.engine;
 
 import java.io.IOException;
+import java.nio.file.FileSystems;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.TextField;
@@ -20,8 +20,6 @@ import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.store.RAMDirectory;
-import org.apache.lucene.util.Version;
-import com.weicoder.common.io.FileUtil;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.core.log.Logs;
@@ -39,8 +37,6 @@ public final class LuceneEngine {
 	private static Analyzer			analyzer;
 	// 索引写入器
 	private static IndexWriter		writer;
-	// 版本
-	private static Version			version	= Version.LUCENE_4_10_3;
 	// 索引查询器
 	private static IndexSearcher	searcher;
 
@@ -50,7 +46,7 @@ public final class LuceneEngine {
 	 */
 	public static void init(String path) {
 		try {
-			init("ram".equals(path) ? new RAMDirectory() : FSDirectory.open(FileUtil.getFile(path)), new StandardAnalyzer(), version);
+			init("ram".equals(path) ? new RAMDirectory() : FSDirectory.open(FileSystems.getDefault().getPath("lucene", path)), analyzer);
 		} catch (IOException e) {
 			Logs.debug(e);
 		}
@@ -62,12 +58,11 @@ public final class LuceneEngine {
 	 * @param analyzer 分词器
 	 * @param version 版本
 	 */
-	public static void init(Directory dir, Analyzer analyzer, Version version) {
+	public static void init(Directory dir, Analyzer analyzer) {
 		try {
 			LuceneEngine.dir = dir;
 			LuceneEngine.analyzer = analyzer;
-			LuceneEngine.version = version;
-			LuceneEngine.writer = new IndexWriter(dir, new IndexWriterConfig(version, analyzer));
+			LuceneEngine.writer = new IndexWriter(dir, new IndexWriterConfig(analyzer));
 			searcher();
 		} catch (IOException e) {
 			Logs.debug(e);

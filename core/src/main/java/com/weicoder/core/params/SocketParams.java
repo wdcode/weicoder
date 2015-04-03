@@ -14,13 +14,17 @@ import com.weicoder.common.params.Params;
 public final class SocketParams {
 	/** 前缀 */
 	private final static String		PREFIX		= "socket";
-	/** Mina服务器开关 */
+	/** Socket连接地址 */
+	public final static String		HOST		= Params.getString(PREFIX + ".host");
+	/** Socket服务器端口 */
+	public final static int			PORT		= Params.getInt(PREFIX + ".port");
+	/** Socket服务器开关 */
 	public final static boolean		POWER		= Params.getBoolean(PREFIX + ".power", false);
-	/** Mina服务器开关 */
+	/** Socket服务器开关 */
 	public final static boolean		SPRING		= Params.getBoolean(PREFIX + ".spring", false);
-	/** Mina服务器名称数组 */
+	/** Socket服务器名称数组 */
 	public final static String[]	NAMES		= Params.getStringArray(PREFIX + ".names", new String[] { StringConstants.EMPTY });
-	/** Mina服务器名称数组 */
+	/** Socket服务器名称数组 */
 	public final static String[]	REGISTERS	= Params.getStringArray(PREFIX + ".registers", new String[] { StringConstants.EMPTY });
 	/** 写缓存间隔时间 */
 	public final static long		WRITE		= Params.getLong(PREFIX + ".write", 0);

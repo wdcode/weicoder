@@ -14,19 +14,21 @@ import com.weicoder.common.params.Params;
  */
 public final class UploadParams {
 	/** 上传文件路径 */
-	public final static String			UPLOAD_PATH					= Params.getString("upload.path", "upload/");
+	public final static String			PATH					= Params.getString("upload.path", "upload/");
 	/** 是否上传的资源目录 */
-//	public final static boolean			UPLOAD_RESOURCE				= Params.getBoolean("upload.resource", false);
+	// public final static boolean RESOURCE = Params.getBoolean("upload.resource", false);
 	/** 是否使用服务器地址保存文件路径 */
-//	public final static boolean			UPLOAD_SERVER				= Params.getBoolean("upload.server", true);
+	// public final static boolean SERVER = Params.getBoolean("upload.server", true);
+	/** 是否使用目录分离 */
+	public final static String			DIR						= Params.getString("upload.dir");
 	/** 是否需要上传后缀名 */
-	public final static boolean			UPLOAD_SUFFIX				= Params.getBoolean("upload.suffix", true);
+	public final static boolean			SUFFIX					= Params.getBoolean("upload.suffix", true);
 	/** 是否需要上传后缀名 */
-	public final static List<String>	UPLOAD_POSTFIX				= Params.getList("upload.postfix", Lists.getList(StringConstants.EMPTY));
+	public final static List<String>	POSTFIX					= Params.getList("upload.postfix", Lists.getList(StringConstants.EMPTY));
 	/** 是否需要上传后压缩图片 */
-	public final static boolean			UPLOAD_IMAGE_COMPRESS_POWER	= Params.getBoolean("upload.image.compress.power", false);
+	public final static boolean			IMAGE_COMPRESS_POWER	= Params.getBoolean("upload.image.compress.power", false);
 	/** 是否需要上传后压缩图片 */
-	public final static List<String>	UPLOAD_IMAGE_COMPRESS_NAMES	= Params.getList("upload.image.compress.names", Lists.getList(StringConstants.EMPTY));
+	public final static List<String>	IMAGE_COMPRESS_NAMES	= Params.getList("upload.image.compress.names", Lists.getList(StringConstants.EMPTY));
 
 	/**
 	 * 获得压缩图片宽度<br/>

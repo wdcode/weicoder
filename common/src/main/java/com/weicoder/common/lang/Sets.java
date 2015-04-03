@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 import com.weicoder.common.util.EmptyUtil;
@@ -93,8 +92,8 @@ public final class Sets {
 	 * 获得并发的List实例 实现类是CopyOnWriteArrayList
 	 * @return 同步的List
 	 */
-	public static <E> CopyOnWriteArrayList<E> getConcurrenrSet() {
-		return new CopyOnWriteArrayList<E>();
+	public static <E> CopyOnWriteArraySet<E> getConcurrenrSet() {
+		return new CopyOnWriteArraySet<E>();
 	}
 
 	/**

@@ -6,7 +6,9 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.HColumnDescriptor;
 import org.apache.hadoop.hbase.HTableDescriptor;
-import org.apache.hadoop.hbase.client.HBaseAdmin;
+import org.apache.hadoop.hbase.TableName;
+import org.apache.hadoop.hbase.client.Admin;
+import org.apache.hadoop.hbase.client.ConnectionFactory;
 import org.apache.hadoop.hbase.protobuf.generated.HBaseProtos.TableSchema;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Conversion;
@@ -25,7 +27,7 @@ final class HBaseImpl extends FactoryKey<String, HBaseDao> implements HBase {
 	// 配置
 	private Configuration	cfg;
 	// HBase管理
-	private HBaseAdmin		admin;
+	private Admin			admin;
 
 	/**
 	 * 构造方法
@@ -43,7 +45,7 @@ final class HBaseImpl extends FactoryKey<String, HBaseDao> implements HBase {
 			cfg.set("hbase.zookeeper.property.clientPort", Conversion.toString(port));
 			cfg.set("hbase.master.port", Conversion.toString(port));
 			// 实例化管理
-			admin = new HBaseAdmin(cfg);
+			admin = ConnectionFactory.createConnection(cfg).getAdmin();
 		} catch (Exception e) {
 			Logs.error(e);
 			// hbase.rootdir=hdfs://hostname:9000/hbase
@@ -70,7 +72,7 @@ final class HBaseImpl extends FactoryKey<String, HBaseDao> implements HBase {
 	public HBaseDao createTable(String tableName, String... cols) {
 		try {
 			// 表不存在
-			if (!admin.tableExists(tableName)) {
+			if (!admin.tableExists(TableName.valueOf(tableName))) {
 				// 声明表对象
 				HTableDescriptor tableDesc = HTableDescriptor.convert(TableSchema.getDefaultInstance());
 				// 添加列
@@ -93,12 +95,14 @@ final class HBaseImpl extends FactoryKey<String, HBaseDao> implements HBase {
 	 */
 	public void deleteTable(String tableName) {
 		try {
+			// 生成表对象
+			TableName name = TableName.valueOf(tableName);
 			// 表存在
-			if (admin.tableExists(tableName)) {
+			if (admin.tableExists(name)) {
 				// 使表失效
-				admin.disableTable(tableName);
+				admin.disableTable(name);
 				// 删除表
-				admin.deleteTable(tableName);
+				admin.deleteTable(name);
 			}
 		} catch (Exception e) {
 			Logs.warn(e);
