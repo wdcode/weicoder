@@ -52,10 +52,6 @@ public final class CoreParams {
 	 * Lucene索引保存位置
 	 */
 	public final static String	LUCENE_INDEX_PATH			= Params.getString("lucene.index.path");
-	/**
-	 * 同步或则异步打印日志
-	 */
-	public final static boolean	LOGS_SYNC					= Params.getBoolean("logs.sync", false);
 
 	/**
 	 * 私有构造

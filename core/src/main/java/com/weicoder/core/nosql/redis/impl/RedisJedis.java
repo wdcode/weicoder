@@ -1,6 +1,8 @@
 package com.weicoder.core.nosql.redis.impl;
 
+import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.lang.Bytes;
+import com.weicoder.core.log.Logs;
 import com.weicoder.core.nosql.base.BaseNoSQL;
 import com.weicoder.core.nosql.redis.Redis;
 import com.weicoder.core.params.RedisParams;
@@ -37,13 +39,16 @@ public final class RedisJedis extends BaseNoSQL implements Redis {
 	 */
 	public boolean set(String key, Object value) {
 		// 获得Jedis对象
-		Jedis jedis = pool.getResource();
-		// 设置值
-		jedis.set(Bytes.toBytes(key), Bytes.toBytes(value));
-		// 回收Jedis
-		pool.returnResource(jedis);
-		// 返回成功
-		return true;
+		try (Jedis jedis = pool.getResource()) {
+			// 设置值
+			jedis.set(Bytes.toBytes(key), Bytes.toBytes(value));
+			// 返回成功
+			return true;
+		} catch (Exception e) {
+			// 返回失败
+			Logs.error(e);
+			return false;
+		}
 	}
 
 	/**
@@ -53,13 +58,13 @@ public final class RedisJedis extends BaseNoSQL implements Redis {
 	 */
 	public byte[] get(String key) {
 		// 获得Jedis对象
-		Jedis jedis = pool.getResource();
-		// 设置值
-		byte[] b = jedis.get(Bytes.toBytes(key));
-		// 回收Jedis
-		pool.returnResource(jedis);
-		// 返回值
-		return b;
+		try (Jedis jedis = pool.getResource()) {
+			return jedis.get(Bytes.toBytes(key));
+		} catch (Exception e) {
+			// 返回失败
+			Logs.error(e);
+			return ArrayConstants.BYTES_EMPTY;
+		}
 	}
 
 	/**
@@ -68,11 +73,12 @@ public final class RedisJedis extends BaseNoSQL implements Redis {
 	 */
 	public void remove(String... key) {
 		// 获得Jedis对象
-		Jedis jedis = pool.getResource();
-		// 设置值
-		jedis.del(key);
-		// 回收Jedis
-		pool.returnResource(jedis);
+		try (Jedis jedis = pool.getResource()) {
+			// 删除
+			jedis.del(key);
+		} catch (Exception e) { // 返回失败
+			Logs.error(e);
+		}
 	}
 
 	/**
@@ -82,25 +88,26 @@ public final class RedisJedis extends BaseNoSQL implements Redis {
 	 */
 	public boolean exists(String key) {
 		// 获得Jedis对象
-		Jedis jedis = pool.getResource();
-		// 是否存在
-		boolean b = jedis.exists(Bytes.toBytes(key));
-		// 回收Jedis
-		pool.returnResource(jedis);
-		// 返回值
-		return b;
+		try (Jedis jedis = pool.getResource()) {
+			return jedis.exists(Bytes.toBytes(key));
+		} catch (Exception e) { // 返回失败
+			Logs.error(e);
+			return false;
+		}
 	}
 
 	@Override
 	public boolean append(String key, Object value) {
 		// 获得Jedis对象
-		Jedis jedis = pool.getResource();
-		// 设置值
-		jedis.append(Bytes.toBytes(key), Bytes.toBytes(value));
-		// 回收Jedis
-		pool.returnResource(jedis);
-		// 返回成功
-		return true;
+		try (Jedis jedis = pool.getResource()) {
+			// 设置值
+			jedis.append(Bytes.toBytes(key), Bytes.toBytes(value));
+			// 返回成功
+			return true;
+		} catch (Exception e) { // 返回失败
+			Logs.error(e);
+			return false;
+		}
 	}
 
 	@Override
@@ -111,10 +118,11 @@ public final class RedisJedis extends BaseNoSQL implements Redis {
 	@Override
 	public void clear() {
 		// 获得Jedis对象
-		Jedis jedis = pool.getResource();
-		// 清除
-		jedis.flushAll();
-		// 回收Jedis
-		pool.returnResource(jedis);
+		try (Jedis jedis = pool.getResource()) {
+			// 清除
+			jedis.flushAll();
+		} catch (Exception e) { // 返回失败
+			Logs.error(e);
+		}
 	}
 }

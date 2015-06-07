@@ -1,15 +1,11 @@
 package com.weicoder.web.listener;
 
-import java.net.URL;
-
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
-import org.apache.log4j.xml.DOMConfigurator;
 import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.util.ResourceUtil;
 import com.weicoder.core.engine.QuartzEngine;
 import com.weicoder.web.engine.StaticsEngine;
 import com.weicoder.web.params.WebParams;
@@ -36,7 +32,7 @@ public class InitListener implements ServletContextListener {
 		// 设置配置文件
 		// setConfig(context.getInitParameter("config"));
 		// 设置log4j配置
-		setLog4j(context);
+		// setLog4j(context);
 		// 配置数据源配置文件路径
 		// System.setProperty("dataSourceConfig", WebParams.DATA_SOURCE_CONFIG);
 
@@ -72,17 +68,17 @@ public class InitListener implements ServletContextListener {
 		}
 	}
 
-	/**
-	 * 设置log4j配置
-	 */
-	private void setLog4j(ServletContext context) {
-		// 获得log4j配置文件url
-		URL url = ResourceUtil.getResource("config/log4j.xml");
-		// 如果url不为空
-		if (url != null) {
-			DOMConfigurator.configure(url);
-		}
-	}
+	// /**
+	// * 设置log4j配置
+	// */
+	// private void setLog4j(ServletContext context) {
+	// // 获得log4j配置文件url
+	// URL url = ResourceUtil.getResource("config/log4j.xml");
+	// // 如果url不为空
+	// if (url != null) {
+	// DOMConfigurator.configure(url);
+	// }
+	// }
 
 	/**
 	 * 设置路径

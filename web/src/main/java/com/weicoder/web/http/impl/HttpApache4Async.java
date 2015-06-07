@@ -69,7 +69,7 @@ public final class HttpApache4Async extends BaseHttp implements Http {
 			config.setSocketTimeout(HttpParams.TIMEOUT);
 			config.setConnectTimeout(HttpParams.TIMEOUT);
 			config.setCircularRedirectsAllowed(false);
-			config.setCookieSpec(CookieSpecs.BROWSER_COMPATIBILITY);
+			config.setCookieSpec(CookieSpecs.DEFAULT);
 			// client.getParams().setParameter(COOKIE_HEADER, true);
 			// HttpClientBuilder
 			builder = HttpAsyncClientBuilder.create();
