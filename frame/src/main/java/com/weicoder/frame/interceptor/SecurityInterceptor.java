@@ -5,8 +5,9 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.weicoder.frame.action.StrutsAction;
 import com.weicoder.frame.params.SecurityParams;
-import com.weicoder.web.action.BasicAction;
+import com.weicoder.web.util.IpUtil;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.util.EmptyUtil;
 
@@ -16,7 +17,7 @@ import com.weicoder.common.util.EmptyUtil;
  * @since JDK7
  * @version 1.0 2013-12-25
  */
-public final class SecurityInterceptor extends BasicInterceptor<BasicAction> {
+public final class SecurityInterceptor extends BasicInterceptor<StrutsAction> {
 	private static final long			serialVersionUID	= -7879736892830147087L;
 	// 方法对应实体Map
 	private Map<String, List<String>>	methods;
@@ -32,11 +33,11 @@ public final class SecurityInterceptor extends BasicInterceptor<BasicAction> {
 	}
 
 	@Override
-	protected boolean before(BasicAction action, HttpServletRequest request) {
+	protected boolean before(StrutsAction action, HttpServletRequest request) {
 		// 过滤IP
 		if (SecurityParams.SECURITY_POWER_IP) {
 			// 获得IP
-			String ip = action.getIp(request);
+			String ip = IpUtil.getIp(request);
 			// 如果不存在允许列表中
 			if (!SecurityParams.SECURITY_IPS.contains(ip)) {
 				return false;

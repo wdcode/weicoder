@@ -110,7 +110,7 @@ public final class LuceneEngine {
 				// 实例化查询器
 				Query query = new QueryParser(field, analyzer).parse(value);
 				// 获得文档索引
-				ScoreDoc[] hits = searcher.search(query, null, n).scoreDocs;
+				ScoreDoc[] hits = searcher.search(query, n).scoreDocs;
 				// 循环读取数据
 				for (int i = 0; i < hits.length; i++) {
 					// 声明返回Map数据

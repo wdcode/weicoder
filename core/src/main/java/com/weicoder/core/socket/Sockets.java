@@ -7,6 +7,7 @@ import com.weicoder.common.lang.Maps;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.core.log.Logs;
 import com.weicoder.core.params.SocketParams;
 import com.weicoder.core.socket.impl.mina.MinaClient;
 import com.weicoder.core.socket.impl.mina.MinaServer;
@@ -68,13 +69,21 @@ public final class Sockets {
 		MANAGERS.put(name, new Manager());
 		// 设置Handler
 		for (String c : SocketParams.getHandler(name)) {
-			socket.addHandler((Handler<?>) BeanUtil.newInstance(c));
+			try {
+				socket.addHandler((Handler<?>) BeanUtil.newInstance(c));
+			} catch (Exception ex) {
+				Logs.warn(ex);
+			}
 		}
 		// 按包处理
 		for (String p : SocketParams.getPackages(name)) {
 			// Handler
 			for (Class<?> c : ClassUtil.getAssignedClass(p, Handler.class)) {
-				socket.addHandler((Handler<?>) BeanUtil.newInstance(c));
+				try {
+					socket.addHandler((Handler<?>) BeanUtil.newInstance(c));
+				} catch (Exception ex) {
+					Logs.warn(ex);
+				}
 			}
 		}
 		// 设置连接处理器

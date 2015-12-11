@@ -3,6 +3,7 @@ package com.weicoder.common.util;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.List;
@@ -163,6 +164,26 @@ public final class ClassUtil {
 			// 是本类实现 并且不是本类
 			if (cls.isAssignableFrom(c) && !cls.equals(c)) {
 				classes.add(c);
+			}
+		}
+		// 返回列表
+		return classes;
+	}
+
+	/**
+	 * 指定包下 指定类的实现
+	 * @param packageName 包名
+	 * @param cls 指定类
+	 * @return 类列表
+	 */
+	public static List<Class<? extends Annotation>> getAnnotationClass(String packageName, Class<? extends Annotation> cls) {
+		// 声明类列表
+		List<Class<? extends Annotation>> classes = Lists.getList();
+		// 循环包下所有类
+		for (Class<?> c : getPackageClasses(packageName)) {
+			// 是本类实现 并且不是本类
+			if (cls.isAnnotationPresent(cls) && !cls.equals(c)) {
+				classes.add((Class<? extends Annotation>) c);
 			}
 		}
 		// 返回列表

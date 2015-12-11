@@ -489,6 +489,20 @@ public class SuperService {
 	 * @param property 字段名
 	 * @param lo 开始条件
 	 * @param hi 结束条件
+	 * @param firstResult 重第几条开始查询
+	 * @param maxResults 一共查回多少条
+	 * @return 返回结果列表
+	 */
+	public <E extends Entity> List<E> between(Class<E> entity, String property, Object lo, Object hi, int firstResult, int maxResults) {
+		return dao.between(entity, property, lo, hi, firstResult, maxResults);
+	}
+
+	/**
+	 * 查询字段在lo到hi之间的实体
+	 * @param entity 查询实体
+	 * @param property 字段名
+	 * @param lo 开始条件
+	 * @param hi 结束条件
 	 * @param page 分页实体
 	 * @return 返回结果列表
 	 */

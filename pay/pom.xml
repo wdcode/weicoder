@@ -38,7 +38,7 @@
 		<dependency>
 		   <groupId>javax</groupId>
 		   <artifactId>javaee-api</artifactId>
-		   <version>6.0</version>
+		   <version>7.0</version>
 		   <scope>provided</scope>
 		</dependency> 
 		<dependency>
@@ -68,7 +68,7 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
-			<version>4.1.6.RELEASE</version>
+			<version>4.2.0.RELEASE</version>
 			<scope>provided</scope>
 		</dependency> 
 	</dependencies>
@@ -88,7 +88,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
-				<version>2.3.1</version>
+				<version>2.4</version>
 				<configuration>
 					<source>1.7</source>
 					<target>1.7</target>
@@ -117,7 +117,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-source-plugin</artifactId>
-						<version>2.3.1</version> 
+						<version>2.4</version> 
 						<executions>
 							<execution>
 								<phase>package</phase>
@@ -131,7 +131,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-javadoc-plugin</artifactId>
-						<version>2.9.1</version> 
+						<version>2.10.3</version> 
 						<executions>
 							<execution>
 								<phase>package</phase>
@@ -144,7 +144,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-gpg-plugin</artifactId>
-						<version>1.5</version> 
+						<version>1.6</version> 
 						<executions>
 							<execution>
 								<id>sign-artifacts</id>

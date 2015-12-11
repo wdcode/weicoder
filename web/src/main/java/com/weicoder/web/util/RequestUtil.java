@@ -20,6 +20,49 @@ import com.weicoder.web.constants.HttpConstants;
  */
 public final class RequestUtil {
 	/**
+	 * 获得域名路径
+	 * @param request
+	 * @return 域名路径
+	 */
+	public static String getServer(HttpServletRequest request) {
+		// 获得path
+		String path = request.getServerName();
+		// 返回域名路径
+		return IpUtil.LOCAL_IP.equals(path) ? IpUtil.getIp() : path;
+	}
+
+	/**
+	 * 获得域名路径
+	 * @param request
+	 * @return 域名路径
+	 */
+	public static String getDomain(HttpServletRequest request) {
+		// 获得域名
+		String domain = HttpConstants.HTTP + getServer(request) + getBase(request);
+		// 返回域名
+		return domain.endsWith(StringConstants.BACKSLASH) ? domain : domain + StringConstants.BACKSLASH;
+	}
+
+	/**
+	 * 获得项目路径
+	 * @param request
+	 * @return 项目路径
+	 */
+	public static String getBase(HttpServletRequest request) {
+		return request.getContextPath();
+	}
+
+	/**
+	 * 获得程序路径
+	 * @param request
+	 * @param name 文件名
+	 * @return 程序路径
+	 */
+	public String getRealPath(HttpServletRequest request, String name) {
+		return request.getServletContext().getRealPath(StringConstants.BACKSLASH) + name;
+	}
+
+	/**
 	 * 获得request的提交参数 如果没有返回空Map
 	 * @param request ServletRequest
 	 */

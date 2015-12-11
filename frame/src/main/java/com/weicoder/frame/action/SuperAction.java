@@ -30,7 +30,6 @@ import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.core.json.JsonEngine;
 import com.weicoder.core.log.Logs;
-import com.weicoder.web.action.BasicAction;
 import com.weicoder.web.constants.HttpConstants;
 import com.weicoder.web.util.IpUtil;
 
@@ -91,13 +90,21 @@ public abstract class SuperAction extends BasicAction {
 	// HttpServletResponse
 	protected HttpServletResponse	response;
 
+	// 错误信息
+	protected List<String>			error		= Lists.getList();
+	// 错误信息
+	protected List<String>			message		= Lists.getList();
+
 	/**
 	 * 初始化Action
 	 * @param request HttpServletRequest
 	 * @param response HttpServletResponse
 	 * @param actionName action名称
+	 * @param module
+	 * @param method
+	 * @param mode
 	 */
-	protected void init(HttpServletRequest request, HttpServletResponse response, String actionName) {
+	protected void init(HttpServletRequest request, HttpServletResponse response, String actionName, String module, String method, String mode) {
 		// 父类初始化
 		try {
 			// 获得request与response
@@ -298,7 +305,9 @@ public abstract class SuperAction extends BasicAction {
 	 */
 	public String dels() throws Exception {
 		Logs.info("dels entity=" + entitys);
-		return callback(EmptyUtil.isEmpty(entitys = service.delete(entityClass, keys)) ? ERROR : mode);
+		return callback(EmptyUtil.isEmpty(entitys = service.delete(entityClass, keys)) ? ERROR : SUCCESS);
+		// return callback(EmptyUtil.isEmpty(entitys = service.delete(entityClass, keys)) ? ERROR :
+		// mode);
 	}
 
 	/**
@@ -694,6 +703,24 @@ public abstract class SuperAction extends BasicAction {
 		} else {
 			return addMessage(SUCCESS);
 		}
+	}
+
+	/**
+	 * 添加错误信息 错误Field=key value=国际化value
+	 * @param key 国际化文件的Key
+	 */
+	public String addError(String key) {
+		error.add(key);
+		return key;
+	}
+
+	/**
+	 * 添加信息 调用addActionMessage做国际化处理
+	 * @param key 国际化文件的Key
+	 */
+	public String addMessage(String key) {
+		message.add(key);
+		return key;
 	}
 
 	/**

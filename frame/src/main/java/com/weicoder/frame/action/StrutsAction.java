@@ -1,6 +1,10 @@
 package com.weicoder.frame.action;
 
+import java.util.Collection;
+import java.util.List;
+
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletResponse;
 
 import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionContext;
@@ -12,6 +16,9 @@ import org.apache.struts2.dispatcher.mapper.ActionMapping;
 import org.apache.struts2.util.TextProviderHelper;
 
 import com.weicoder.common.constants.StringConstants;
+import com.weicoder.common.util.BeanUtil;
+import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.util.MathUtil;
 import com.weicoder.common.util.StringUtil;
 
 /**
@@ -20,13 +27,26 @@ import com.weicoder.common.util.StringUtil;
  * @version 1.0
  */
 public abstract class StrutsAction extends SuperAction {
+	// 提交的url
+	protected String	url;
+	// 跨域方法
+	protected String	callback;
+
+	// 模板名
+	protected String	module;
+	// 方法名
+	protected String	method;
+	// 返回模式名
+	protected String	mode;
+	// 要回执消息的字段
+	protected String	field;
 
 	/**
 	 * 初始化Action
 	 */
 	@PostConstruct
 	protected void init() {
-		init(ServletActionContext.getRequest(), ServletActionContext.getResponse(), getActionName());
+		init(ServletActionContext.getRequest(), ServletActionContext.getResponse(), getActionName(), module, method, mode);
 	}
 
 	/**
@@ -71,6 +91,15 @@ public abstract class StrutsAction extends SuperAction {
 	}
 
 	/**
+	 * 以ajax模式输出数据到客户端方法
+	 * @param response
+	 * @param json 对象
+	 */
+	public String ajax(HttpServletResponse response, Object obj) {
+		return super.ajax(response, obj == null ? StringConstants.EMPTY : !EmptyUtil.isEmpty(field) ? BeanUtil.getFieldValue(obj, field) : obj);
+	}
+
+	/**
 	 * 获得Action方法名 只保留x_x
 	 * @return Action方法名
 	 */
@@ -84,10 +113,148 @@ public abstract class StrutsAction extends SuperAction {
 	}
 
 	/**
+	 * 截取字符串
+	 * @param str 要截取的字符串
+	 * @param len 截取长度
+	 * @return 截取后字符串
+	 */
+	public String substring(String str, int len) {
+		// 判断字符串为空
+		if (EmptyUtil.isEmpty(str)) {
+			return str;
+		}
+		// 判断长度大于指定截取长度
+		if (str.length() > len) {
+			return StringUtil.subString(str, 0, len) + "...";
+		}
+		// 返回原字符串
+		return str;
+	}
+
+	/**
+	 * 获得Action方法
+	 * @return Action方法
+	 */
+	public List<Object> getFields(Collection<Object> list, String fieldName) {
+		return BeanUtil.getFieldValues(list, fieldName);
+	}
+
+	/**
+	 * 获得国际化值
+	 */
+	public String add(List<Object> values) {
+		return MathUtil.add(values.toArray()).toPlainString();
+	}
+
+	/**
 	 * 获得Action方法名
 	 * @return Action方法名
 	 */
 	public String getActionName() {
 		return ((ActionMapping) request.getAttribute(ServletActionContext.ACTION_MAPPING)).getName();
+	}
+
+	/**
+	 * 获得url
+	 * @return 提交的URL
+	 */
+	public String getUrl() {
+		return url;
+	}
+
+	/**
+	 * 设置url
+	 * @param url 提交的URL
+	 */
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	/**
+	 * 获得跨域方法
+	 * @return 跨域方法
+	 */
+	public String getCallback() {
+		return callback;
+	}
+
+	/**
+	 * 设置跨域方法
+	 * @param callback 跨域方法
+	 */
+	public void setCallback(String callback) {
+		this.callback = callback;
+	}
+
+	/**
+	 * 设置模式名
+	 * @param mode 模式名
+	 */
+	public void setMode(String mode) {
+		this.mode = mode;
+	}
+
+	/**
+	 * 获得模式名
+	 * @return
+	 */
+	public String getMode() {
+		return mode;
+	}
+
+	/**
+	 * 获得错误信息列表
+	 * @return
+	 */
+	public List<String> getError() {
+		return error;
+	}
+
+	/**
+	 * 获得信息列表
+	 * @return
+	 */
+	public List<String> getMessage() {
+		return message;
+	}
+
+	/**
+	 * 获得要显示的字段
+	 * @return 要显示的字段
+	 */
+	public String getField() {
+		return field;
+	}
+
+	/**
+	 * 设置要显示的字段
+	 * @param field 要显示的字段
+	 */
+	public void setField(String field) {
+		this.field = field;
+	}
+
+	/**
+	 * 设置模板名
+	 * @param module 模板名
+	 */
+	public void setModule(String module) {
+		this.module = module;
+	}
+
+	/**
+	 * 获得模板名
+	 * @return
+	 */
+	public String getModule() {
+		return module;
+	}
+
+	/**
+	 * 获得方法名
+	 * @return
+	 */
+	public String getMethod() {
+		return method;
 	}
 }

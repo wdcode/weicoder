@@ -1,7 +1,8 @@
 package com.weicoder.frame.interceptor;
 
-import com.weicoder.web.action.BasicAction;
 import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.frame.action.StrutsAction;
+import com.weicoder.frame.action.SuperAction;
 
 import com.opensymphony.xwork2.ActionInvocation;
 
@@ -9,7 +10,7 @@ import com.opensymphony.xwork2.ActionInvocation;
  * 拦截指定Action
  * @author WD 2013-9-22
  */
-public class ActionInterceptor<E extends BasicAction> extends MethodsInterceptor<E> {
+public class ActionInterceptor<E extends SuperAction> extends MethodsInterceptor<E> {
 	private static final long	serialVersionUID	= 7559495784335918181L;
 	// 实体module
 	protected String			module;
@@ -29,7 +30,7 @@ public class ActionInterceptor<E extends BasicAction> extends MethodsInterceptor
 			return false;
 		}
 		// 获得Action
-		BasicAction action = (BasicAction) invocation.getAction();
+		StrutsAction action = (StrutsAction) invocation.getAction();
 		// 判断是否相同module
 		if (module.equals(action.getModule())) {
 			// 判断是否方法

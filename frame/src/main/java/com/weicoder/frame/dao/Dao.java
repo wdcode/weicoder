@@ -205,6 +205,18 @@ public interface Dao extends Close {
 	<E> List<E> between(E entity, String property, Object lo, Object hi, int firstResult, int maxResults);
 
 	/**
+	 * 查询字段在lo到hi之间的实体
+	 * @param entity 查询实体
+	 * @param property 字段名
+	 * @param lo 开始条件
+	 * @param hi 结束条件
+	 * @param firstResult 重第几条开始查询
+	 * @param maxResults 一共查回多少条
+	 * @return 返回结果列表
+	 */
+	<E> List<E> between(Class<E> entity, String property, Object lo, Object hi, int firstResult, int maxResults);
+
+	/**
 	 * 查询属性名等值的实体列表
 	 * @param entity 实体类
 	 * @param orders 排序参数

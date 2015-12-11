@@ -1,9 +1,19 @@
 package com.weicoder.web.util;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
 
+import com.weicoder.common.constants.StringConstants;
+import com.weicoder.common.io.IOUtil;
+import com.weicoder.common.lang.Conversion;
+import com.weicoder.common.params.CommonParams;
+import com.weicoder.common.util.CloseUtil;
 import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.core.json.JsonEngine;
+import com.weicoder.core.log.Logs;
 import com.weicoder.web.constants.HttpConstants;
 
 /**
@@ -13,6 +23,94 @@ import com.weicoder.web.constants.HttpConstants;
  * @version 1.0 2010-01-10
  */
 public final class ResponseUtil {
+	/**
+	 * 写数据到前端
+	 * @param response
+	 * @param str 要写的字符串
+	 */
+	public static void write(HttpServletResponse response, String str) {
+		write(response, str, CommonParams.ENCODING);
+	}
+
+	/**
+	 * 写数据到前端
+	 * @param response
+	 * @param str 要写的字符串
+	 * @param charsetName 编码
+	 */
+	public static void write(HttpServletResponse response, String str, String charsetName) {
+		// 清除缓存
+		ResponseUtil.noCache(response);
+		// 设置编码
+		response.setCharacterEncoding(charsetName);
+		// 声明PrintWriter
+		PrintWriter pw = null;
+		// 写入到前端
+		try {
+			pw = response.getWriter();
+			pw.write(str);
+		} catch (Exception e) {
+			Logs.error(e);
+		} finally {
+			CloseUtil.close(pw);
+		}
+	}
+
+	/**
+	 * 写数据到前端
+	 * @param str 要写的字符串
+	 */
+	public static void out(HttpServletResponse response, String str) {
+		out(response, str, CommonParams.ENCODING);
+	}
+
+	/**
+	 * 写数据到前端
+	 * @param response
+	 * @param str 要写的字符串
+	 * @param charsetName 编码
+	 */
+	public static void out(HttpServletResponse response, String str, String charsetName) {
+		// 清除缓存
+		ResponseUtil.noCache(response);
+		// 写入到前端
+		try {
+			IOUtil.write(response.getOutputStream(), str, charsetName, false);
+		} catch (IOException e) {}
+	}
+
+	/**
+	 * 输出数据到客户端方法
+	 * @param response
+	 * @param data 数据对象
+	 */
+	public static void json(HttpServletResponse response, Object data) {
+		json(response, StringConstants.EMPTY, data);
+	}
+
+	/**
+	 * 把对象转换成json
+	 * @param callback 跨域用
+	 * @param data 对象
+	 * @param charsetName 编码
+	 */
+	public static void json(HttpServletResponse response, String callback, Object data) {
+		// 声明返回字符串
+		StringBuilder s = new StringBuilder();
+		// 如果callback不为空 填补左括号
+		if (!EmptyUtil.isEmpty(callback)) {
+			s.append(callback).append(StringConstants.LEFT_PARENTHESIS);
+		}
+		// 添加json数据
+		s.append(data instanceof String || data instanceof Number ? Conversion.toString(data) : JsonEngine.toJson(data));
+		// 如果callback不为空 填补右括号
+		if (!EmptyUtil.isEmpty(callback)) {
+			s.append(StringConstants.RIGHT_PARENTHESIS);
+		}
+		// 写入前端
+		write(response, s.toString());
+	}
+
 	/**
 	 * 设置页面不缓存
 	 * @param response Response

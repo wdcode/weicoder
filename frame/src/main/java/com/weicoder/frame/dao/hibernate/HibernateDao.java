@@ -80,7 +80,7 @@ public final class HibernateDao implements Dao {
 	 * 持久化对象，添加操作，此方法会向对应的数据库表中插入一条数据
 	 * @param entity 对象实体
 	 * @return 返回插入数据的唯一标识(主键) 出现异常返回0
-	 */ 
+	 */
 	public <E> E insert(final E entity) {
 		return insert(Lists.getList(entity)).get(0);
 	}
@@ -425,6 +425,11 @@ public final class HibernateDao implements Dao {
 		return queryCriteria(entity.getClass(), getBetween(entity, property, lo, hi), firstResult, maxResults);
 	}
 
+	@Override
+	public <E> List<E> between(Class<E> entity, String property, Object lo, Object hi, int firstResult, int maxResults) {
+		return queryCriteria(entity, getBetween(entity, property, lo, hi), firstResult, maxResults);
+	}
+
 	/**
 	 * 获得查询的对象实体总数
 	 * @param entityClass 实体类
@@ -647,6 +652,23 @@ public final class HibernateDao implements Dao {
 		DetachedCriteria criteria = DetachedCriteria.forClass(entity.getClass());
 		// 添加实体条件
 		criteria.add(Example.create(entity));
+		// 添加条件
+		criteria.add(Restrictions.between(property, lo, hi));
+		// 返回DetachedCriteria
+		return criteria;
+	}
+
+	/**
+	 * queryByBetween使用 返回DetachedCriteria
+	 * @param entity 查询实体
+	 * @param property 字段名
+	 * @param lo 开始条件
+	 * @param hi 结束条件
+	 * @return DetachedCriteria
+	 */
+	private <E> DetachedCriteria getBetween(Class<E> entity, String property, Object lo, Object hi) {
+		// 获得criteria
+		DetachedCriteria criteria = DetachedCriteria.forClass(entity);
 		// 添加条件
 		criteria.add(Restrictions.between(property, lo, hi));
 		// 返回DetachedCriteria
