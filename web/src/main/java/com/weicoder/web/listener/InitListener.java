@@ -1,14 +1,25 @@
 package com.weicoder.web.listener;
 
+import java.lang.reflect.Method;
+import java.util.Map;
+
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
 import com.weicoder.common.constants.StringConstants;
+import com.weicoder.common.lang.Maps;
+import com.weicoder.common.util.BeanUtil;
+import com.weicoder.common.util.ClassUtil;
+import com.weicoder.common.util.StringUtil;
 import com.weicoder.core.engine.QuartzEngine;
+import com.weicoder.web.annotation.Action;
+import com.weicoder.web.context.Contexts;
 import com.weicoder.web.engine.StaticsEngine;
+import com.weicoder.web.params.ServletParams;
 import com.weicoder.web.params.WebParams;
+import com.weicoder.core.log.Logs;
 import com.weicoder.core.params.QuartzParams;
 import com.weicoder.core.params.SocketParams;
 import com.weicoder.core.socket.Sockets;
@@ -47,6 +58,33 @@ public class InitListener implements ServletContextListener {
 		// 是否开启socket
 		if (SocketParams.POWER) {
 			Sockets.init();
+		}
+		// 判断是否开启Servlet
+		if (ServletParams.POWER) {
+			// 按包处理
+			for (Class<?> c : ClassUtil.getAnnotationClass(StringConstants.EMPTY, Action.class)) {
+				try {
+					// 获得action名结尾为action去掉
+					String cname = StringUtil.convert(StringUtil.subStringLastEnd(c.getSimpleName(), "Action"));
+					// 实例化Action并放在context中
+					Object action = BeanUtil.newInstance(c);
+					Contexts.ACTIONS.put(cname, action);
+					if (action != null) {
+						// 循环判断方法
+						for (Method m : c.getDeclaredMethods()) {
+							if (m.isAnnotationPresent(com.weicoder.web.annotation.Method.class)) {
+								Map<String, Method> map = Contexts.METHODS.get(cname);
+								if (map == null) {
+									Contexts.METHODS.put(cname, map = Maps.getMap());
+								}
+								map.put(m.getName(), m);
+							}
+						}
+					}
+				} catch (Exception ex) {
+					Logs.error(ex);
+				}
+			}
 		}
 	}
 

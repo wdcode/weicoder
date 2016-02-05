@@ -15,7 +15,8 @@ import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Example;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.Restrictions; 
+import org.hibernate.resource.transaction.spi.TransactionStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import com.weicoder.frame.context.Context;
@@ -712,7 +713,8 @@ public final class HibernateDao implements Dao {
 		// 声明事务
 		Transaction tx = null;
 		// 是否自己控制事务
-		boolean isSession = !session.getTransaction().isActive();
+		boolean isSession = !session.getTransaction().getStatus().isOneOf(TransactionStatus.ACTIVE);
+//		boolean isSession = !session.getTransaction().isActive();
 		// 返回结果
 		T t = null;
 		try {

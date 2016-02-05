@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.net.URL;
 import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
@@ -182,7 +183,7 @@ public final class ClassUtil {
 		// 循环包下所有类
 		for (Class<?> c : getPackageClasses(packageName)) {
 			// 是本类实现 并且不是本类
-			if (cls.isAnnotationPresent(cls) && !cls.equals(c)) {
+			if (c.isAnnotationPresent(cls) && !cls.equals(c)) {
 				classes.add((Class<? extends Annotation>) c);
 			}
 		}
@@ -200,17 +201,33 @@ public final class ClassUtil {
 		List<Class<?>> classes = Lists.getList();
 		// 转换报名为路径格式
 		String path = packageName.replace(StringConstants.POINT, StringConstants.BACKSLASH);
+		// 获得目录资源
+		URL url = ResourceUtil.getResource(path);
+		if (url == null) {
+			return classes;
+		}
 		// 循环目录下的所有文件与目录
-		for (String name : getClasses(ResourceUtil.getResource(path).getPath(), path)) {
+		for (String name : getClasses(url.getPath(), path)) {
 			// 如果是class文件
 			if (name.endsWith(".class")) {
 				try {
 					// 反射出类对象 并添加到列表中
-					classes.add(Class.forName(packageName + StringConstants.POINT + StringUtil.subString(name, 0, name.length() - 6)));
-				} catch (ClassNotFoundException e) {}
+					// classes.add(Class.forName(packageName + StringConstants.POINT +
+					// StringUtil.subString(name, 0, name.length() - 6)));
+					// classes.add(Class.forName(packageName + StringConstants.BACKSLASH +name));
+					name = packageName + StringConstants.POINT + StringUtil.subString(name, 0, name.length() - 6);
+					name = StringUtil.replace(name, StringConstants.BACKSLASH, StringConstants.POINT);
+					// 如果开始是.去掉
+					if (name.startsWith(StringConstants.POINT)) {
+						name = StringUtil.subString(name, 1);
+					}
+					classes.add(Class.forName(name));
+				} catch (ClassNotFoundException e) {
+					System.out.println(e);
+				}
 			} else {
 				// 迭代调用本方法 获得类列表
-				classes.addAll(getPackageClasses(packageName + StringConstants.POINT + name));
+				classes.addAll(getPackageClasses(packageName + StringConstants.BACKSLASH + name));
 			}
 		}
 		// 返回类列表

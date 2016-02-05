@@ -2,6 +2,7 @@ package com.weicoder.web.params;
 
 import java.util.List;
 
+import com.weicoder.common.constants.DateConstants;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.params.Params;
@@ -20,7 +21,7 @@ public final class UploadParams {
 	/** 是否使用服务器地址保存文件路径 */
 	// public final static boolean SERVER = Params.getBoolean("upload.server", true);
 	/** 是否使用目录分离 */
-	public final static String			DIR						= Params.getString("upload.dir");
+	public final static String			DIR						= Params.getString("upload.dir", DateConstants.FORMAT_YYYYMMDD);
 	/** 是否需要上传后缀名 */
 	public final static boolean			SUFFIX					= Params.getBoolean("upload.suffix", true);
 	/** 是否需要上传后缀名 */

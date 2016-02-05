@@ -23,6 +23,19 @@ import com.weicoder.common.params.CommonParams;
  */
 public final class StringUtil {
 	/**
+	 * 字符串累加
+	 * @param s 累加字符串
+	 * @return 返回累加后字符串
+	 */
+	public static String add(Object... os) {
+		StringBuilder sb = new StringBuilder();
+		for (Object o : os) {
+			sb.append(Conversion.toString(o));
+		}
+		return sb.toString();
+	}
+
+	/**
 	 * 把HTML中的保留字符专成对应的取代字符,如果为空返回原串 <br/>
 	 * <h2>注: 替换"&"-->"&amp;" "<"-->"&lt;" ">"-->"&gt;" "\""-->"&quot;</h2>
 	 * @param context 需要转换的字符串
@@ -277,7 +290,6 @@ public final class StringUtil {
 	 * 截取字符串
 	 * @param str 字符串
 	 * @param start 开始字符
-	 * @param end 结束字符
 	 * @return 截取后的字符串
 	 */
 	public static String subString(String str, int start) {

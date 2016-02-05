@@ -8,9 +8,10 @@ import javax.annotation.Resource;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.cfg.ImprovedNamingStrategy;
+import org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyHbmImpl; 
+import org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
-import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
+import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.stereotype.Component;
 import com.weicoder.frame.context.Context;
 import com.weicoder.frame.dao.hibernate.search.HibernateSearch;
@@ -112,7 +113,9 @@ public final class SessionFactorys implements Close {
 			// 设置数据源
 			builder.addPropertyValue("dataSource", ds);
 			// 设置namingStrategy
-			builder.addPropertyValue("namingStrategy", ImprovedNamingStrategy.INSTANCE);
+			builder.addPropertyValue("implicitNamingStrategy", ImplicitNamingStrategyLegacyHbmImpl.INSTANCE);
+			builder.addPropertyValue("physicalNamingStrategy", PhysicalNamingStrategyStandardImpl.INSTANCE);
+//			builder.addPropertyValue("namingStrategy", ImprovedNamingStrategy.INSTANCE);			
 			// 设置扫描包
 			builder.addPropertyValue("packagesToScan", DaoParams.getPackages(name));
 			// 设置Hibernate属性

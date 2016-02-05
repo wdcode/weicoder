@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.weicoder.common.codec.Hex;
 import com.weicoder.common.constants.ArrayConstants;
-import com.weicoder.common.constants.DateConstants;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.crypto.Digest;
 import com.weicoder.common.io.FileUtil;
@@ -80,23 +79,9 @@ public final class UploadEngine {
 			path += StringConstants.BACKSLASH;
 		}
 		// 是否使用文件目录分隔
-		switch (UploadParams.DIR) {
-			case StringConstants.DATE:
-				// 日期分割
-				path += DateUtil.getDate(DateConstants.FORMAT_YYYYMMDD);
-				break;
-			case StringConstants.HOUR:
-				// 小时分割
-				path += DateUtil.getDate(DateConstants.FORMAT_HH);
-				break;
-			case StringConstants.DAY:
-				// 天分割
-				path += DateUtil.getDate(DateConstants.FORMAT_DD);
-				break;
-			case StringConstants.MONTH:
-				// 月分割
-				path += DateUtil.getDate(DateConstants.FORMAT_MM);
-				break;
+		String date = DateUtil.getDate(UploadParams.DIR);
+		if (!EmptyUtil.isEmpty(date)) {
+			path += date;
 		}
 		// 获得上次路径
 		String name = getFileName(fileName, path);

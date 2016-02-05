@@ -99,6 +99,8 @@ public final class StringConstants {
 	public final static String	HOUR				= "hour";
 	/** 常量字符串 "day" */
 	public final static String	DAY					= "day";
+	/** 常量字符串 "year" */
+	public final static String	YEAR				= "year";
 	/** 常量字符串 "date" */
 	public final static String	DATE				= "date";
 	/** 常量字符串 "month" */
