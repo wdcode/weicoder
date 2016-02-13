@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.List;
 
 import com.weicoder.common.lang.Lists;
-import com.weicoder.core.log.Logs;
+import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.CloseUtil;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.core.nosql.base.BaseNoSQL;

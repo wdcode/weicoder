@@ -8,6 +8,7 @@ import java.security.SecureRandom;
 import java.util.Map;
 
 import com.weicoder.common.lang.Maps;
+import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
 
 /**
@@ -77,6 +78,7 @@ public final class KeyUtil {
 			// 返回密钥对
 			return keyPairGenerator.genKeyPair();
 		} catch (Exception e) {
+			Logs.warn(e);
 			return null;
 		}
 	}

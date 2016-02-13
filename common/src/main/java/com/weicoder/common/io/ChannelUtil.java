@@ -10,6 +10,7 @@ import java.nio.channels.ReadableByteChannel;
 import java.nio.channels.WritableByteChannel;
 
 import com.weicoder.common.constants.ArrayConstants;
+import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.util.CloseUtil;
 
@@ -51,7 +52,9 @@ public final class ChannelUtil {
 				// 清除缓存
 				buffer.clear();
 			}
-		} catch (IOException e) {} finally {
+		} catch (IOException e) {
+			Logs.warn(e);
+		} finally {
 			// 关闭资源
 			if (isClose) {
 				CloseUtil.close(ch);
@@ -124,7 +127,9 @@ public final class ChannelUtil {
 			}
 			// 返回成功
 			return true;
-		} catch (IOException e) {} finally {
+		} catch (IOException e) {
+			Logs.warn(e);
+		} finally {
 			// 关闭资源
 			if (isClose) {
 				CloseUtil.close(wbc, rbc, in);

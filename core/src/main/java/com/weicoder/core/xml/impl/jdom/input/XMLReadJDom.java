@@ -10,7 +10,7 @@ import com.weicoder.core.xml.Document;
 import com.weicoder.core.xml.impl.jdom.DocumentJDom;
 import com.weicoder.core.xml.input.XMLRead;
 
-import com.weicoder.core.log.Logs;
+import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.CloseUtil;
 
 /**

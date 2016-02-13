@@ -18,6 +18,7 @@ import javax.imageio.ImageIO;
 import com.weicoder.common.constants.ImageConstants;
 
 import com.weicoder.common.io.FileUtil;
+import com.weicoder.common.log.Logs;
 
 /**
  * 对普通图片处理。
@@ -51,6 +52,7 @@ public final class ImageUtil {
 		try {
 			return isImage(ImageIO.read(img));
 		} catch (IOException e) {
+			Logs.warn(e);
 			return false;
 		}
 	}
@@ -104,7 +106,9 @@ public final class ImageUtil {
 				// JPEGImageEncoder可适用于其他图片类型的转换
 				// JPEGCodec.createJPEGEncoder(out).encode(tag);
 			}
-		} catch (Exception e) {} finally {
+		} catch (Exception e) {
+			Logs.warn(e);
+		} finally {
 			// 是否关闭流
 			if (isClose) {
 				CloseUtil.close(out);
@@ -121,7 +125,9 @@ public final class ImageUtil {
 	public static void captureScreen(String formatName, OutputStream out, boolean isClose) {
 		try {
 			ImageIO.write(new Robot().createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize())), formatName, out);
-		} catch (Exception e) {} finally {
+		} catch (Exception e) {
+			Logs.warn(e);
+		} finally {
 			// 是否关闭流
 			if (isClose) {
 				CloseUtil.close(out);
@@ -150,7 +156,9 @@ public final class ImageUtil {
 		try {
 			// 添加文字
 			writeString(text, ImageIO.read(file), FileUtil.getOutputStream(file), x, y, true);
-		} catch (Exception e) {}
+		} catch (Exception e) {
+			Logs.warn(e);
+		}
 	}
 
 	/**
@@ -209,7 +217,9 @@ public final class ImageUtil {
 		try {
 			// 写图片
 			ImageIO.write(image, formatName, out);
-		} catch (Exception e) {} finally {
+		} catch (Exception e) {
+			Logs.warn(e);
+		} finally {
 			// 关闭输出流
 			if (isClose) {
 				CloseUtil.close(out);
@@ -238,7 +248,9 @@ public final class ImageUtil {
 	public static void writeImage(File draw, File image, int x, int y) {
 		try {
 			writeImage(ImageIO.read(draw), ImageIO.read(image), FileUtil.getOutputStream(image), x, y, true);
-		} catch (Exception e) {}
+		} catch (Exception e) {
+			Logs.warn(e);
+		}
 	}
 
 	/**

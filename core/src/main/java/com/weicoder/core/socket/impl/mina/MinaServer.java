@@ -6,7 +6,7 @@ import java.net.InetSocketAddress;
 import org.apache.mina.transport.socket.SocketAcceptor;
 import org.apache.mina.transport.socket.SocketSessionConfig;
 import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
-import com.weicoder.core.log.Logs;
+import com.weicoder.common.log.Logs;
 import com.weicoder.core.params.SocketParams;
 import com.weicoder.core.socket.base.BaseServer;
 

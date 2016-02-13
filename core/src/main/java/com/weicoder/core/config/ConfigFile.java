@@ -7,10 +7,11 @@ import java.util.Map;
 import org.apache.commons.configuration.FileConfiguration;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.configuration.XMLConfiguration;
+
+import com.weicoder.common.config.Config;
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.FileConstants;
 import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.interfaces.Config;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;

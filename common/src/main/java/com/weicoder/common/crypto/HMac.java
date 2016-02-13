@@ -9,6 +9,7 @@ import com.weicoder.common.codec.Hex;
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.EncryptConstants;
 import com.weicoder.common.lang.Maps;
+import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.util.StringUtil;
 
@@ -97,6 +98,7 @@ public final class HMac {
 		try {
 			return getMac(algorithm, keys).doFinal(b);
 		} catch (Exception e) {
+			Logs.error(e);
 			return ArrayConstants.BYTES_EMPTY;
 		}
 	}
@@ -117,7 +119,9 @@ public final class HMac {
 				MACS.put(algorithm + keys, mac = Mac.getInstance(algorithm));
 				// 初始化算法
 				mac.init(new SecretKeySpec(StringUtil.toBytes(keys), algorithm));
-			} catch (Exception e) {}
+			} catch (Exception e) {
+				Logs.error(e);
+			}
 		}
 		// 返回Mac
 		return mac;

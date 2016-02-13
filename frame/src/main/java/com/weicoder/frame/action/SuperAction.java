@@ -29,7 +29,7 @@ import com.weicoder.common.util.DateUtil;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.core.json.JsonEngine;
-import com.weicoder.core.log.Logs;
+import com.weicoder.common.log.Logs;
 import com.weicoder.web.constants.HttpConstants;
 import com.weicoder.web.util.IpUtil;
 

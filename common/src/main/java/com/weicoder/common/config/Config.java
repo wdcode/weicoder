@@ -1,6 +1,9 @@
-package com.weicoder.common.interfaces;
+package com.weicoder.common.config;
 
 import java.util.List;
+
+import com.weicoder.common.interfaces.Clear;
+import com.weicoder.common.interfaces.Empty;
 
 /**
  * 读取配置接口

@@ -5,7 +5,7 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.webapp.WebAppContext;
 
-import com.weicoder.core.log.Logs;
+import com.weicoder.common.log.Logs;
 import com.weicoder.web.params.JettyParams;
 
 /**

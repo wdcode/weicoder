@@ -8,6 +8,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.lang.Maps;
+import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.StringUtil;
 
 /**
@@ -54,6 +55,7 @@ public abstract class BaseCrypt {
 			return cipher.doFinal(b);
 		} catch (Exception e) {
 			// 返回空字节数组
+			Logs.warn(e);
 			return ArrayConstants.BYTES_EMPTY;
 		}
 	}

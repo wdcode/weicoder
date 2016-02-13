@@ -5,7 +5,7 @@ import java.io.OutputStream;
 
 import org.dom4j.io.XMLWriter;
 
-import com.weicoder.core.log.Logs;
+import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
 import com.weicoder.core.xml.Document;
 import com.weicoder.core.xml.impl.dom4j.DocumentDom4J;

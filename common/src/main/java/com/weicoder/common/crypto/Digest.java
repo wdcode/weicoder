@@ -8,6 +8,7 @@ import com.weicoder.common.constants.EncryptConstants;
 import com.weicoder.common.constants.StringConstants;
 
 import com.weicoder.common.lang.Maps;
+import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
@@ -205,6 +206,7 @@ public final class Digest {
 			// 摘要算法
 			return digest.digest(b);
 		} catch (Exception e) {
+			Logs.warn(e);
 			return b;
 		}
 	}

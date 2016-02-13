@@ -12,6 +12,7 @@ import com.weicoder.common.constants.StringConstants;
 
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.lang.Validate;
+import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
 
 /**
@@ -250,6 +251,7 @@ public final class DateUtil {
 			// 返回转换后的日期
 			return df.parse(dateString);
 		} catch (Exception e) {
+			Logs.warn(e);
 			return null;
 		}
 	}

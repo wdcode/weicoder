@@ -17,7 +17,7 @@ import com.weicoder.frame.quartz.Job;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.util.EmptyUtil;
-import com.weicoder.core.log.Logs;
+import com.weicoder.common.log.Logs;
 import com.weicoder.core.params.QuartzParams;
 
 /**

@@ -13,6 +13,7 @@ import java.util.jar.JarInputStream;
 
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Lists;
+import com.weicoder.common.log.Logs;
 
 /**
  * 关于Class的一些操作
@@ -80,6 +81,7 @@ public final class ClassUtil {
 		try {
 			return (Class<T>) ((ParameterizedType) type).getActualTypeArguments()[index];
 		} catch (Exception e) {
+			Logs.warn(e);
 			return null;
 		}
 	}
@@ -121,6 +123,7 @@ public final class ClassUtil {
 		try {
 			return Class.forName(className);
 		} catch (Exception e) {
+			Logs.warn(e);
 			return null;
 		}
 	}
@@ -134,6 +137,7 @@ public final class ClassUtil {
 		try {
 			return forName(className).newInstance();
 		} catch (Exception e) {
+			Logs.warn(e);
 			return null;
 		}
 	}
@@ -147,8 +151,28 @@ public final class ClassUtil {
 		try {
 			return clazz.newInstance();
 		} catch (Exception e) {
+			Logs.warn(e);
 			return null;
 		}
+	}
+
+	/**
+	 * 指定包下 指定类的实现
+	 * @param cls 指定类
+	 * @param i 指定索引
+	 * @return 类列表
+	 */
+	public static <E> Class<E> getAssignedClass(Class<E> cls, int i) {
+		return Lists.get(getAssignedClass(StringConstants.EMPTY, cls), i);
+	}
+
+	/**
+	 * 指定包下 指定类的实现
+	 * @param cls 指定类
+	 * @return 类列表
+	 */
+	public static <E> List<Class<E>> getAssignedClass(Class<E> cls) {
+		return getAssignedClass(StringConstants.EMPTY, cls);
 	}
 
 	/**
@@ -157,11 +181,11 @@ public final class ClassUtil {
 	 * @param cls 指定类
 	 * @return 类列表
 	 */
-	public static List<Class<?>> getAssignedClass(String packageName, Class<?> cls) {
+	public static <E> List<Class<E>> getAssignedClass(String packageName, Class<E> cls) {
 		// 声明类列表
-		List<Class<?>> classes = Lists.getList();
+		List<Class<E>> classes = Lists.getList();
 		// 循环包下所有类
-		for (Class<?> c : getPackageClasses(packageName)) {
+		for (Class<E> c : getPackageClasses(packageName, cls)) {
 			// 是本类实现 并且不是本类
 			if (cls.isAssignableFrom(c) && !cls.equals(c)) {
 				classes.add(c);
@@ -169,6 +193,25 @@ public final class ClassUtil {
 		}
 		// 返回列表
 		return classes;
+	}
+
+	/**
+	 * 指定包下 指定类的实现
+	 * @param cls 指定类
+	 * @param i 指定索引
+	 * @return 类列表
+	 */
+	public static Class<? extends Annotation> getAnnotationClass(Class<? extends Annotation> cls, int i) {
+		return Lists.get(getAnnotationClass(cls), i);
+	}
+
+	/**
+	 * 指定包下 指定类的实现
+	 * @param cls 指定类
+	 * @return 类列表
+	 */
+	public static List<Class<? extends Annotation>> getAnnotationClass(Class<? extends Annotation> cls) {
+		return getAnnotationClass(StringConstants.EMPTY, cls);
 	}
 
 	/**
@@ -181,7 +224,7 @@ public final class ClassUtil {
 		// 声明类列表
 		List<Class<? extends Annotation>> classes = Lists.getList();
 		// 循环包下所有类
-		for (Class<?> c : getPackageClasses(packageName)) {
+		for (Class<?> c : getPackageClasses(packageName, cls)) {
 			// 是本类实现 并且不是本类
 			if (c.isAnnotationPresent(cls) && !cls.equals(c)) {
 				classes.add((Class<? extends Annotation>) c);
@@ -196,9 +239,9 @@ public final class ClassUtil {
 	 * @param packageName 报名
 	 * @return 类列表
 	 */
-	public static List<Class<?>> getPackageClasses(String packageName) {
+	public static <E> List<Class<E>> getPackageClasses(String packageName, Class<E> cls) {
 		// 声明返回类列表
-		List<Class<?>> classes = Lists.getList();
+		List<Class<E>> classes = Lists.getList();
 		// 转换报名为路径格式
 		String path = packageName.replace(StringConstants.POINT, StringConstants.BACKSLASH);
 		// 获得目录资源
@@ -221,13 +264,13 @@ public final class ClassUtil {
 					if (name.startsWith(StringConstants.POINT)) {
 						name = StringUtil.subString(name, 1);
 					}
-					classes.add(Class.forName(name));
+					classes.add((Class<E>) Class.forName(name));
 				} catch (ClassNotFoundException e) {
-					System.out.println(e);
+					Logs.warn(e);
 				}
 			} else {
 				// 迭代调用本方法 获得类列表
-				classes.addAll(getPackageClasses(packageName + StringConstants.BACKSLASH + name));
+				classes.addAll(getPackageClasses(EmptyUtil.isEmpty(packageName) ? name : packageName + StringConstants.BACKSLASH + name, cls));
 			}
 		}
 		// 返回类列表
@@ -267,7 +310,9 @@ public final class ClassUtil {
 					list.add(StringUtil.subString(className, name));
 				}
 			}
-		} catch (IOException e) {}
+		} catch (IOException e) {
+			Logs.warn(e);
+		}
 		// 返回列表
 		return list;
 	}

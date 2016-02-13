@@ -22,7 +22,7 @@ import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.store.RAMDirectory;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
-import com.weicoder.core.log.Logs;
+import com.weicoder.common.log.Logs;
 
 /**
  * Lucene 相关操作

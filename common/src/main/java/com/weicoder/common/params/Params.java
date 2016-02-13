@@ -2,8 +2,8 @@ package com.weicoder.common.params;
 
 import java.util.List;
 
+import com.weicoder.common.config.Config;
 import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.interfaces.Config;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.EmptyUtil;
 

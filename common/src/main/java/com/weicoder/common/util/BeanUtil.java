@@ -12,6 +12,7 @@ import com.weicoder.common.constants.StringConstants;
 
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.lang.Lists;
+import com.weicoder.common.log.Logs;
 
 /**
  * Bean工具类
@@ -53,7 +54,9 @@ public final class BeanUtil {
 					// 设置字段值
 					setFieldValue(target, getField(target, field.getName()), getFieldValue(source, field));
 				}
-			} catch (Exception e) {}
+			} catch (Exception e) {
+				Logs.warn(e);
+			}
 		}
 		// 返回对象
 		return target;
@@ -113,6 +116,7 @@ public final class BeanUtil {
 		try {
 			return entity.newInstance();
 		} catch (Exception e) {
+			Logs.warn(e);
 			return null;
 		}
 	}
@@ -193,6 +197,7 @@ public final class BeanUtil {
 			// 获得字段值
 			return makeAccessible(field).get(object);
 		} catch (IllegalAccessException e) {
+			Logs.warn(e);
 			return null;
 		}
 	}
@@ -212,6 +217,7 @@ public final class BeanUtil {
 			// 获得字段值
 			return makeAccessible(field).get(object);
 		} catch (IllegalAccessException e) {
+			Logs.warn(e);
 			return null;
 		}
 	}
@@ -234,7 +240,9 @@ public final class BeanUtil {
 		// 设置字段值
 		try {
 			makeAccessible(field).set(object, Conversion.to(value, field.getType()));
-		} catch (IllegalAccessException e) {}
+		} catch (IllegalAccessException e) {
+			Logs.warn(e);
+		}
 	}
 
 	/**
@@ -249,6 +257,7 @@ public final class BeanUtil {
 		try {
 			return makeAccessible(method).invoke(obj, args);
 		} catch (Exception e) {
+			Logs.warn(e);
 			return null;
 		}
 	}
@@ -280,7 +289,9 @@ public final class BeanUtil {
 		if (object instanceof String) {
 			try {
 				c = Class.forName(Conversion.toString(object));
-			} catch (ClassNotFoundException e) {}
+			} catch (ClassNotFoundException e) {
+				Logs.warn(e);
+			}
 		} else if (object instanceof Class<?>) {
 			c = (Class<?>) object;
 		} else {
@@ -293,6 +304,7 @@ public final class BeanUtil {
 			try {
 				return getMethod(c, name, parameterTypes).invoke(object, parameters);
 			} catch (Exception e) {
+				Logs.warn(e);
 				return null;
 			}
 		}
@@ -330,7 +342,9 @@ public final class BeanUtil {
 			try {
 				// 获得字段
 				f = clazz.getDeclaredField(name);
-			} catch (Exception e) {}
+			} catch (Exception e) {
+				Logs.warn(e);
+			}
 		}
 		// 返回null
 		return f;
@@ -351,7 +365,9 @@ public final class BeanUtil {
 			try {
 				// 添加字段列表
 				fields.addAll(Lists.getList(clazz.getDeclaredFields()));
-			} catch (Exception e) {}
+			} catch (Exception e) {
+				Logs.warn(e);
+			}
 		}
 		// 没有找到返回null
 		return fields;
@@ -405,7 +421,9 @@ public final class BeanUtil {
 			try {
 				// 返回方法
 				method = superClass.getDeclaredMethod(name, parameterTypes);
-			} catch (Exception e) {}
+			} catch (Exception e) {
+				Logs.warn(e);
+			}
 		}
 		// 返回方法
 		return method;

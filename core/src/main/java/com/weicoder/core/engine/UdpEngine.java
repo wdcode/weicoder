@@ -8,7 +8,7 @@ import java.nio.channels.DatagramChannel;
 
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.io.ChannelUtil;
-import com.weicoder.core.log.Logs;
+import com.weicoder.common.log.Logs;
 import com.weicoder.core.params.SocketParams;
 
 /**

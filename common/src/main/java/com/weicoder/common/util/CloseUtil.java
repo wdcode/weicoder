@@ -3,6 +3,7 @@ package com.weicoder.common.util;
 import java.io.OutputStream;
 
 import com.weicoder.common.interfaces.Close;
+import com.weicoder.common.log.Logs;
 
 /**
  * 关闭各种资源方法
@@ -47,7 +48,9 @@ public final class CloseUtil {
 						// 关闭
 						c.close();
 					}
-				} catch (Exception e) {}
+				} catch (Exception e) {
+					Logs.warn(e);
+				}
 			}
 		}
 	}

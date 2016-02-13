@@ -5,7 +5,7 @@ import java.io.OutputStream;
 
 import org.jdom.output.XMLOutputter;
 
-import com.weicoder.core.log.Logs;
+import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.CloseUtil;
 import com.weicoder.core.xml.Document;
 import com.weicoder.core.xml.impl.jdom.DocumentJDom;

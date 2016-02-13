@@ -10,7 +10,7 @@ import java.nio.channels.SocketChannel;
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.io.ChannelUtil;
 import com.weicoder.common.io.IOUtil;
-import com.weicoder.core.log.Logs;
+import com.weicoder.common.log.Logs;
 import com.weicoder.core.params.SocketParams;
 
 /**

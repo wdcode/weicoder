@@ -20,7 +20,7 @@ import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
-import com.weicoder.core.log.Logs;
+import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.core.nosql.hbase.HBaseDao;

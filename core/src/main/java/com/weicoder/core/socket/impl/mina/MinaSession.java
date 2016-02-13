@@ -4,7 +4,7 @@ import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.session.IoSession;
 
 import com.weicoder.common.lang.Conversion;
-import com.weicoder.core.log.Logs;
+import com.weicoder.common.log.Logs;
 import com.weicoder.core.socket.Session;
 import com.weicoder.core.socket.base.BaseSession;
 
@@ -48,7 +48,9 @@ public final class MinaSession extends BaseSession implements Session {
 
 	@Override
 	protected void close0() {
-		session.close(false);
+//		session.close(false);
+//		session.closeNow();
+		session.closeOnFlush();
 		session = null;
 	}
 

@@ -12,7 +12,8 @@ import java.nio.channels.FileChannel;
 import java.nio.file.Paths;
 
 import com.weicoder.common.constants.ArrayConstants;
-import com.weicoder.common.lang.Conversion;
+import com.weicoder.common.lang.Conversion; 
+import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
 
 import com.weicoder.common.util.StringUtil;
@@ -123,7 +124,9 @@ public final class FileUtil {
 				file.read(b);
 				// 返回字节数组
 				return b;
-			} catch (IOException e) {}
+			} catch (IOException e) {
+				Logs.warn(e);
+			}
 		} else if (AIO) {
 			// 获得文件通道
 			try (AsynchronousFileChannel channel = AsynchronousFileChannel.open(Paths.get(fileName));) {
@@ -133,7 +136,9 @@ public final class FileUtil {
 				channel.read(buf, pos);
 				// 返回字节数组
 				return buf.array();
-			} catch (Exception e) {}
+			} catch (Exception e) {
+				Logs.warn(e);
+			}
 		} else {
 			// 获得文件通道
 			try (FileChannel channel = FileChannel.open(Paths.get(fileName));) {
@@ -143,7 +148,9 @@ public final class FileUtil {
 				channel.read(buf, pos);
 				// 返回字节数组
 				return buf.array();
-			} catch (Exception e) {}
+			} catch (Exception e) {
+				Logs.warn(e);
+			}
 		}
 		// 返回空字节数组
 		return ArrayConstants.BYTES_EMPTY;
@@ -221,19 +228,25 @@ public final class FileUtil {
 			try (RandomAccessFile file = getRandomAccessFile(fileName, "rw", pos);) {
 				// 写字节数组
 				file.write(b);
-			} catch (IOException e) {}
+			} catch (IOException e) {
+				Logs.warn(e);
+			}
 		} else if (AIO) {
 			// 获得文件通道
 			try (AsynchronousFileChannel channel = AsynchronousFileChannel.open(Paths.get(fileName));) {
 				// 写字节数组
 				channel.write(ByteBuffer.wrap(b), pos);
-			} catch (Exception e) {}
+			} catch (Exception e) {
+				Logs.warn(e);
+			}
 		} else {
 			// 获得文件通道
 			try (FileChannel channel = FileChannel.open(Paths.get(fileName));) {
 				// 写字节数组
 				channel.write(ByteBuffer.wrap(b), pos);
-			} catch (Exception e) {}
+			} catch (Exception e) {
+				Logs.warn(e);
+			}
 		}
 	}
 
@@ -311,7 +324,9 @@ public final class FileUtil {
 			file = new RandomAccessFile(f, mode);
 			// 设置偏移量
 			file.seek(pos);
-		} catch (Exception e) {}
+		} catch (Exception e) {
+			Logs.warn(e);
+		}
 		// 返回RandomAccessFile
 		return file;
 	}
@@ -353,6 +368,7 @@ public final class FileUtil {
 		try {
 			return file == null ? null : file.exists() ? new FileInputStream(file) : null;
 		} catch (Exception e) {
+			Logs.warn(e);
 			return null;
 		}
 	}
@@ -381,6 +397,7 @@ public final class FileUtil {
 			}
 			return new FileOutputStream(file, append);
 		} catch (Exception e) {
+			Logs.warn(e);
 			return null;
 		}
 	}

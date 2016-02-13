@@ -23,7 +23,7 @@ import com.weicoder.common.interfaces.Close;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
-import com.weicoder.core.log.Logs;
+import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.CloseUtil;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.BeanUtil;

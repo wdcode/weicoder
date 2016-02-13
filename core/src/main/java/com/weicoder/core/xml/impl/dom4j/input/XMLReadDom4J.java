@@ -7,7 +7,7 @@ import java.io.StringReader;
 import org.dom4j.DocumentException;
 import org.dom4j.io.SAXReader;
 
-import com.weicoder.core.log.Logs;
+import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.CloseUtil;
 import com.weicoder.core.xml.Document;
 import com.weicoder.core.xml.impl.dom4j.DocumentDom4J;

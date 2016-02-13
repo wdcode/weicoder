@@ -14,7 +14,7 @@ import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.util.EmptyUtil;
-import com.weicoder.core.log.Logs;
+import com.weicoder.common.log.Logs;
 import com.weicoder.core.nosql.memcache.base.BaseMemcache;
 
 /**

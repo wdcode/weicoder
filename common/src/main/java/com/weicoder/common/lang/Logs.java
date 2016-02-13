@@ -1,5 +1,6 @@
-package com.weicoder.common.log;
+package com.weicoder.common.lang;
 
+import com.weicoder.common.log.Logger;
 import com.weicoder.common.util.ClassUtil;
 
 /**

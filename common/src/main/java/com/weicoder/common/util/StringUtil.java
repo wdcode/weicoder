@@ -13,6 +13,7 @@ import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Validate;
+import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
 
 /**
@@ -457,6 +458,7 @@ public final class StringUtil {
 		try {
 			return EmptyUtil.isEmpty(source) ? source : new String(source.getBytes(sChar), tChar);
 		} catch (Exception e) {
+			Logs.warn(e);
 			return StringConstants.EMPTY;
 		}
 	}
@@ -511,6 +513,7 @@ public final class StringUtil {
 		try {
 			return EmptyUtil.isEmpty(b) ? StringConstants.EMPTY : new String(b, charsetName);
 		} catch (Exception e) {
+			Logs.warn(e);
 			return StringConstants.EMPTY;
 		}
 	}
@@ -534,6 +537,7 @@ public final class StringUtil {
 		try {
 			return EmptyUtil.isEmpty(s) ? ArrayConstants.BYTES_EMPTY : s.getBytes(charsetName);
 		} catch (Exception e) {
+			Logs.warn(e);
 			return ArrayConstants.BYTES_EMPTY;
 		}
 	}

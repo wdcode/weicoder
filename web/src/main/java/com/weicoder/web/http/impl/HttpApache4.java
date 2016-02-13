@@ -39,7 +39,7 @@ import com.weicoder.common.lang.Maps;
 import com.weicoder.common.util.CloseUtil;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
-import com.weicoder.core.log.Logs;
+import com.weicoder.common.log.Logs;
 import com.weicoder.web.http.Http;
 import com.weicoder.web.http.base.BaseHttp;
 import com.weicoder.web.params.HttpParams;

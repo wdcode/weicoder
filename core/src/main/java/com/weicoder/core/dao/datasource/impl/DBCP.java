@@ -3,7 +3,7 @@ package com.weicoder.core.dao.datasource.impl;
 import java.sql.SQLException;
 
 import org.apache.commons.dbcp.BasicDataSource;
-import com.weicoder.core.log.Logs;
+import com.weicoder.common.log.Logs;
 import com.weicoder.core.dao.datasource.base.BaseDataSource;
 
 /**

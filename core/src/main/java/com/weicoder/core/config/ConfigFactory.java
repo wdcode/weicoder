@@ -1,7 +1,7 @@
 package com.weicoder.core.config;
 
 import com.weicoder.core.factory.FactoryKey;
-import com.weicoder.common.interfaces.Config;
+import com.weicoder.common.config.Config;
 
 /**
  * 获得配置管理类ConfigManage的工厂<br/>

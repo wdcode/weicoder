@@ -16,7 +16,7 @@ import com.weicoder.common.constants.StringConstants;
 
 import com.weicoder.common.io.FileUtil;
 import com.weicoder.common.lang.Lists;
-import com.weicoder.core.log.Logs;
+import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.web.constants.HttpConstants;

@@ -19,7 +19,7 @@ import com.weicoder.web.context.Contexts;
 import com.weicoder.web.engine.StaticsEngine;
 import com.weicoder.web.params.ServletParams;
 import com.weicoder.web.params.WebParams;
-import com.weicoder.core.log.Logs;
+import com.weicoder.common.log.Logs;
 import com.weicoder.core.params.QuartzParams;
 import com.weicoder.core.params.SocketParams;
 import com.weicoder.core.socket.Sockets;
@@ -62,7 +62,7 @@ public class InitListener implements ServletContextListener {
 		// 判断是否开启Servlet
 		if (ServletParams.POWER) {
 			// 按包处理
-			for (Class<?> c : ClassUtil.getAnnotationClass(StringConstants.EMPTY, Action.class)) {
+			for (Class<?> c : ClassUtil.getAnnotationClass(Action.class)) {
 				try {
 					// 获得action名结尾为action去掉
 					String cname = StringUtil.convert(StringUtil.subStringLastEnd(c.getSimpleName(), "Action"));

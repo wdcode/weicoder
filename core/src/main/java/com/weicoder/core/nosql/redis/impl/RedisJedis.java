@@ -2,7 +2,7 @@ package com.weicoder.core.nosql.redis.impl;
 
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.lang.Bytes;
-import com.weicoder.core.log.Logs;
+import com.weicoder.common.log.Logs;
 import com.weicoder.core.nosql.base.BaseNoSQL;
 import com.weicoder.core.nosql.redis.Redis;
 import com.weicoder.core.params.RedisParams;

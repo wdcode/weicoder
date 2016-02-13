@@ -22,6 +22,7 @@ import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.io.ChannelUtil;
 import com.weicoder.common.io.FileUtil;
 import com.weicoder.common.io.IOUtil;
+import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.CloseUtil;
@@ -791,8 +792,9 @@ public final class Bytes {
 			in = new ObjectInputStream(bais);
 			// 返回对象
 			return in.readObject();
-		} catch (Exception ex) {
+		} catch (Exception e) {
 			// 返回null
+			Logs.warn(e);
 			return null;
 		} finally {
 			CloseUtil.close(bais, in);

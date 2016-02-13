@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 
 import com.weicoder.common.constants.StringConstants;
+import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.EmptyUtil;
 
 /**
@@ -96,7 +97,8 @@ public final class Conversion {
 			} else {
 				return toInt(Math.round(toDouble(obj, defaultValue)));
 			}
-		} catch (RuntimeException re) {
+		} catch (RuntimeException e) {
+			Logs.debug(e);
 			return defaultValue;
 		}
 	}
@@ -132,7 +134,8 @@ public final class Conversion {
 			} else {
 				return Math.round(toDouble(obj, defaultValue));
 			}
-		} catch (RuntimeException re) {
+		} catch (RuntimeException e) {
+			Logs.debug(e);
 			return defaultValue;
 		}
 	}
@@ -172,7 +175,8 @@ public final class Conversion {
 				// 普通对象 转换成String 在返回
 				return Float.parseFloat(toString(obj));
 			}
-		} catch (RuntimeException re) {
+		} catch (RuntimeException e) {
+			Logs.debug(e);
 			return defaultValue;
 		}
 	}
@@ -212,7 +216,8 @@ public final class Conversion {
 				// 普通对象 转换成String 在返回
 				return Double.parseDouble(toString(obj));
 			}
-		} catch (RuntimeException re) {
+		} catch (RuntimeException e) {
+			Logs.debug(e);
 			return defaultValue;
 		}
 	}
@@ -252,7 +257,8 @@ public final class Conversion {
 				// 普通对象 转换成String 在返回
 				return Short.parseShort(toString(obj));
 			}
-		} catch (RuntimeException re) {
+		} catch (RuntimeException e) {
+			Logs.debug(e);
 			return defaultValue;
 		}
 	}
@@ -292,7 +298,8 @@ public final class Conversion {
 				// 普通对象 转换成String 在返回
 				return Byte.parseByte(toString(obj));
 			}
-		} catch (RuntimeException re) {
+		} catch (RuntimeException e) {
+			Logs.debug(e);
 			return defaultValue;
 		}
 	}
@@ -338,7 +345,8 @@ public final class Conversion {
 				// 普通对象 转换成String 在返回
 				return new BigDecimal(toString(obj));
 			}
-		} catch (RuntimeException re) {
+		} catch (RuntimeException e) {
+			Logs.debug(e);
 			return defaultValue;
 		}
 	}
@@ -376,7 +384,8 @@ public final class Conversion {
 				// 其它类型先转换成String 在转成Boolean
 				return Boolean.parseBoolean(toString(obj));
 			}
-		} catch (RuntimeException re) {
+		} catch (RuntimeException e) {
+			Logs.debug(e);
 			return defaultValue;
 		}
 	}

@@ -9,7 +9,7 @@ import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.io.IOUtil; 
-import com.weicoder.core.log.Logs;
+import com.weicoder.common.log.Logs;
 
 /**
  * Hadoop相关操作类

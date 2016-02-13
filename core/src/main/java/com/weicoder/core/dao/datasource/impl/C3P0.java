@@ -1,7 +1,7 @@
 package com.weicoder.core.dao.datasource.impl;
 
 import com.weicoder.common.lang.Conversion;
-import com.weicoder.core.log.Logs;
+import com.weicoder.common.log.Logs;
 import com.weicoder.core.dao.datasource.base.BaseDataSource;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;

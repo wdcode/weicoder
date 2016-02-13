@@ -1,5 +1,7 @@
 package com.weicoder.common.util;
 
+import com.weicoder.common.log.Logs;
+
 /**
  * 线程工具类
  * @author WD
@@ -23,7 +25,9 @@ public final class ThreadUtil {
 	public static void sleep(long millis) {
 		try {
 			Thread.sleep(millis);
-		} catch (InterruptedException e) {}
+		} catch (InterruptedException e) {
+			Logs.warn(e);
+		}
 	}
 
 	private ThreadUtil() {}

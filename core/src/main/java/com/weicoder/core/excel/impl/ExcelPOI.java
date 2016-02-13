@@ -12,7 +12,7 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import com.weicoder.common.io.FileUtil;
 import com.weicoder.common.lang.Conversion;
-import com.weicoder.core.log.Logs;
+import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.core.excel.base.BaseExcel;
 

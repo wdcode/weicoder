@@ -6,7 +6,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.channels.Channels;
-
+ 
+import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.util.CloseUtil;
 import com.weicoder.common.util.EmptyUtil;
@@ -402,7 +403,9 @@ public final class IOUtil {
 					// 把字节数组添加到缓存里
 					out.write(buffer, 0, length);
 				}
-			} catch (IOException e) {} finally {
+			} catch (IOException e) {
+				Logs.warn(e);
+			} finally {
 				// 关闭资源
 				if (isClose) {
 					CloseUtil.close(in);
@@ -438,7 +441,9 @@ public final class IOUtil {
 				out.flush();
 				// 返回成功
 				return true;
-			} catch (IOException e) {} finally {
+			} catch (IOException e) {
+				Logs.warn(e);
+			} finally {
 				// 关闭资源
 				if (isClose) {
 					CloseUtil.close(out, in);

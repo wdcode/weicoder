@@ -17,6 +17,17 @@ import com.weicoder.common.util.EmptyUtil;
  * @version 1.0 2009-09-08
  */
 public final class Lists {
+
+	/**
+	 * 获得指定索引的list元素 list为空返回null 返回指定索引的类 如果索引小于0为0 大于列表长度返回最后一个类
+	 * @param list 元素列表
+	 * @param i 索引
+	 * @return 处理后的元素
+	 */
+	public static <E> E get(List<E> list, int i) {
+		return EmptyUtil.isEmpty(list) ? null : i < 0 ? list.get(0) : i > list.size() ? list.get(list.size()) : list.get(i);
+	}
+
 	/**
 	 * 判断是否列表
 	 * @param obj 对象

@@ -3,6 +3,7 @@ package com.weicoder.common.codec;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 
+import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
 
 /**
@@ -31,6 +32,7 @@ public final class URLCode {
 		try {
 			return URLEncoder.encode(url, encoding);
 		} catch (Exception e) {
+			Logs.warn(e);
 			return url;
 		}
 	}
@@ -54,6 +56,7 @@ public final class URLCode {
 		try {
 			return URLDecoder.decode(url, encoding);
 		} catch (Exception e) {
+			Logs.warn(e);
 			return url;
 		}
 	}

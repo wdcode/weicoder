@@ -7,7 +7,7 @@ import java.io.OutputStream;
 
 import org.apache.commons.net.ftp.FTPClient;
 import com.weicoder.common.io.FileUtil;
-import com.weicoder.core.log.Logs;
+import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.CloseUtil;
 import com.weicoder.web.ftp.Ftp;
 import com.weicoder.web.params.WebParams;

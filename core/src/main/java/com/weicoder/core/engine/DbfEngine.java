@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
-import com.weicoder.core.log.Logs;
+import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.CloseUtil;
 

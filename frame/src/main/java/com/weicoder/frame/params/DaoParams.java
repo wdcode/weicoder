@@ -1,7 +1,7 @@
 package com.weicoder.frame.params;
 
+import com.weicoder.common.config.Config;
 import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.interfaces.Config;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.core.config.ConfigFactory; 
 import com.weicoder.web.params.WebParams;

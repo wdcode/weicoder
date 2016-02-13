@@ -4,8 +4,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import com.weicoder.common.config.Config;
 import com.weicoder.common.constants.DateConstants;
-import com.weicoder.common.interfaces.Config;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.core.config.ConfigFactory;
 import com.weicoder.web.params.WebParams;
