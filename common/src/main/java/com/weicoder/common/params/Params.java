@@ -4,52 +4,17 @@ import java.util.List;
 
 import com.weicoder.common.config.Config;
 import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.EmptyUtil;
 
 /**
- * 系统配置信息 内部使用 在config.xml或config.properties 中配置,本包实现可配置功能<br/>
- * <h2>注: 使用本类需依赖 Apache Commons-Configuration包,如果没有此包配置将不生效 而直接使用默认值</h2> 参数操作类
+ * 系统配置信息 内部使用 config.properties 中配置,本包实现可配置功能<br/>
  * @author WD
  * @since JDK7
- * @version 1.0 2010-01-05
+ * @version 1.0
  */
 public final class Params {
-	// 读写配置文件接口
-	private static Config	config;
-
-	static {
-		config = (Config) BeanUtil.invoke("com.weicoder.core.config.ConfigFactory", "getConfig", null, null);
-	}
-
-	/**
-	 * 设置配置文件
-	 * @param config 配置文件
-	 */
-	public static void setConfig(Config config) {
-		Params.config = config;
-	}
-
-	/**
-	 * 设置属性 如果这个key存在 会替换掉这个属性
-	 * @param key 属性key
-	 * @param value 属性value
-	 */
-	public static void setProperty(String key, Object value) {
-		// 配置不为空
-		if (!EmptyUtil.isEmpty(config)) {
-			config.setProperty(key, value);
-		}
-	}
-
-	/**
-	 * 设置属性 如果这个key存在 会替换掉这个属性
-	 * @param key 属性key
-	 * @param value 属性value
-	 */
-	public static Object getProperty(String key, Object defaultValue) {
-		return config.getProperty(key, defaultValue);
-	}
+	// Properties配置
+	private static Config	config	= new Config("config/config.properties", "config.properties");
 
 	/**
 	 * 获得属性value
@@ -138,29 +103,6 @@ public final class Params {
 	 */
 	public static short getShort(String key, short defaultValue) {
 		return config.getShort(key, defaultValue);
-	}
-
-	/**
-	 * 清楚Map中的键值
-	 */
-	public static void clear() {
-		config.clear();
-	}
-
-	/**
-	 * 保存配置
-	 */
-	public static void write() {
-		config.write();
-	}
-
-	/**
-	 * 获得指定标识下第一级.和.之间的Key列表
-	 * @param prefix 标识
-	 * @return key列表
-	 */
-	public static String[] getKeys(String prefix) {
-		return config.getKeys(prefix);
 	}
 
 	/**

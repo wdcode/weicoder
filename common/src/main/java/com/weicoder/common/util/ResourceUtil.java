@@ -12,6 +12,7 @@ import com.weicoder.common.constants.StringConstants;
  * @version 1.0 2012-04-6
  */
 public final class ResourceUtil {
+
 	/**
 	 * 尝试加载资源
 	 * @param resourceName 资源文件名

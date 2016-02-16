@@ -1,56 +1,55 @@
 package com.weicoder.common.config;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
+import java.util.Properties;
 
-import com.weicoder.common.interfaces.Clear;
-import com.weicoder.common.interfaces.Empty;
+import com.weicoder.common.constants.ArrayConstants;
+import com.weicoder.common.constants.StringConstants;
+import com.weicoder.common.lang.Conversion;
+import com.weicoder.common.lang.Lists;
+import com.weicoder.common.log.Logs;
+import com.weicoder.common.util.CloseUtil;
+import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.util.ResourceUtil;
 
 /**
- * 读取配置接口
+ * 读取配置类
  * @author WD
  * @since JDK7
- * @version 1.0 2012-02-26
+ * @version 1.0 2016-2-15
  */
-public interface Config extends Empty, Clear {
-	/**
-	 * 写配置文件
-	 */
-	void write();
+public class Config {
+	// Properties配置
+	private Properties	ps;
 
 	/**
-	 * 设置属性 如果这个key存在 会替换掉这个属性
-	 * @param key 属性key
-	 * @param value 属性value
+	 * 构造参数
+	 * @param fileName
+	 * @return
 	 */
-	void setProperty(String key, Object value);
-
-	/**
-	 * 根据key获得一个属性值 返回一个对象
-	 * @param key 属性key
-	 * @return 对象值
-	 */
-	Object getProperty(String key);
-
-	/**
-	 * 获得属性value数组
-	 * @param key 属性key
-	 * @return value数组
-	 */
-	String[] getStringArray(String key);
-
-	/**
-	 * 获得指定标识下第一级.和.之间的Key列表
-	 * @param prefix 标识
-	 * @return key列表
-	 */
-	String[] getKeys(String prefix);
-
-	/**
-	 * 设置属性 如果这个key存在 会替换掉这个属性
-	 * @param key 属性key
-	 * @param value 属性value
-	 */
-	Object getProperty(String key, Object defaultValue);
+	public Config(String... fileName) {
+		// 声明Properties
+		ps = new Properties();
+		// 获取配置文件流
+		InputStream in = null;
+		// 循环加载文件
+		for (String name : fileName) {
+			in = ResourceUtil.loadResource(name);
+			// 有配置文件加载
+			if (in != null) {
+				try {
+					ps.load(in);
+					break;
+				} catch (IOException e) {
+					Logs.error(e);
+				} finally {
+					CloseUtil.close(in);
+				}
+			}
+		}
+	}
 
 	/**
 	 * 获得属性value
@@ -58,7 +57,9 @@ public interface Config extends Empty, Clear {
 	 * @param defaultValue 默认值
 	 * @return value
 	 */
-	List<String> getList(String key, List<String> defaultValue);
+	public List<String> getList(String key, List<String> defaultValue) {
+		return Lists.getList(getStringArray(key, EmptyUtil.isEmpty(defaultValue) ? ArrayConstants.STRING_EMPTY : Lists.toArray(defaultValue)));
+	}
 
 	/**
 	 * 获得属性value
@@ -66,14 +67,9 @@ public interface Config extends Empty, Clear {
 	 * @param defaultValue 默认值
 	 * @return value
 	 */
-	String[] getStringArray(String key, String[] defaultValue);
-
-	/**
-	 * 获得属性value
-	 * @param key 属性key
-	 * @return value
-	 */
-	String getString(String key);
+	public String[] getStringArray(String key) {
+		return getStringArray(key, ArrayConstants.STRING_EMPTY);
+	}
 
 	/**
 	 * 获得属性value
@@ -81,7 +77,25 @@ public interface Config extends Empty, Clear {
 	 * @param defaultValue 默认值
 	 * @return value
 	 */
-	String getString(String key, String defaultValue);
+	public String[] getStringArray(String key, String[] defaultValue) {
+		// 获得字符串
+		String s = getString(key);
+		// 如果为空返回默认值 不为空以,拆分
+		if (EmptyUtil.isEmpty(s)) {
+			return defaultValue;
+		} else {
+			return s.split(StringConstants.COMMA);
+		}
+	}
+
+	/**
+	 * 获得属性value
+	 * @param key 属性key
+	 * @return value
+	 */
+	public String getString(String key) {
+		return getString(key, StringConstants.EMPTY);
+	}
 
 	/**
 	 * 获得属性value
@@ -89,7 +103,9 @@ public interface Config extends Empty, Clear {
 	 * @param defaultValue 默认值
 	 * @return value
 	 */
-	boolean getBoolean(String key, boolean defaultValue);
+	public String getString(String key, String defaultValue) {
+		return ps.getProperty(key, defaultValue);
+	}
 
 	/**
 	 * 获得属性value
@@ -97,7 +113,9 @@ public interface Config extends Empty, Clear {
 	 * @param defaultValue 默认值
 	 * @return value
 	 */
-	int getInt(String key);
+	public boolean getBoolean(String key, boolean defaultValue) {
+		return Conversion.toBoolean(getString(key), defaultValue);
+	}
 
 	/**
 	 * 获得属性value
@@ -105,7 +123,9 @@ public interface Config extends Empty, Clear {
 	 * @param defaultValue 默认值
 	 * @return value
 	 */
-	int getInt(String key, int defaultValue);
+	public int getInt(String key) {
+		return getInt(key, 0);
+	}
 
 	/**
 	 * 获得属性value
@@ -113,7 +133,9 @@ public interface Config extends Empty, Clear {
 	 * @param defaultValue 默认值
 	 * @return value
 	 */
-	long getLong(String key, long defaultValue);
+	public int getInt(String key, int defaultValue) {
+		return Conversion.toInt(getString(key), defaultValue);
+	}
 
 	/**
 	 * 获得属性value
@@ -121,5 +143,17 @@ public interface Config extends Empty, Clear {
 	 * @param defaultValue 默认值
 	 * @return value
 	 */
-	short getShort(String key, short defaultValue);
+	public long getLong(String key, long defaultValue) {
+		return Conversion.toLong(getString(key), defaultValue);
+	}
+
+	/**
+	 * 获得属性value
+	 * @param key 属性key
+	 * @param defaultValue 默认值
+	 * @return value
+	 */
+	public short getShort(String key, short defaultValue) {
+		return Conversion.toShort(getString(key), defaultValue);
+	}
 }

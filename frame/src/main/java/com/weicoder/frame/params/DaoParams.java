@@ -3,7 +3,6 @@ package com.weicoder.frame.params;
 import com.weicoder.common.config.Config;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.util.EmptyUtil;
-import com.weicoder.core.config.ConfigFactory; 
 import com.weicoder.web.params.WebParams;
 
 /**
@@ -13,10 +12,10 @@ import com.weicoder.web.params.WebParams;
  * @version 1.0 2013-12-31
  */
 public final class DaoParams {
-	// 读取配置
-	private final static Config		CONFIG	= ConfigFactory.getConfig(WebParams.DATA_SOURCE_CONFIG);
+	// Properties配置
+	private static Config			config	= new Config(WebParams.DATA_SOURCE_CONFIG);
 	/** 多库名称 */
-	public final static String[]	NAMES	= CONFIG.getStringArray("names", new String[] { StringConstants.EMPTY });
+	public final static String[]	NAMES	= config.getStringArray("names", new String[] { StringConstants.EMPTY });
 
 	/**
 	 * 使用哪种数据库连接池 现在支持 proxool dbcp c3p0 bonecp druid
@@ -24,7 +23,7 @@ public final class DaoParams {
 	 * @return
 	 */
 	public static String getParse(String name) {
-		return CONFIG.getString(getKey(name, "parse"), "dbcp");
+		return config.getString(getKey(name, "parse"), "dbcp");
 	}
 
 	/**
@@ -33,7 +32,7 @@ public final class DaoParams {
 	 * @return
 	 */
 	public static String getDialect(String name) {
-		return CONFIG.getString(getKey(name, "dialect"), "org.hibernate.dialect.MySQL5Dialect");
+		return config.getString(getKey(name, "dialect"), "org.hibernate.dialect.MySQL5Dialect");
 	}
 
 	/**
@@ -42,7 +41,7 @@ public final class DaoParams {
 	 * @return
 	 */
 	public static String getDriver(String name) {
-		return CONFIG.getString(getKey(name, "driver"), "com.mysql.jdbc.Driver");
+		return config.getString(getKey(name, "driver"), "com.mysql.jdbc.Driver");
 	}
 
 	/**
@@ -51,7 +50,7 @@ public final class DaoParams {
 	 * @return
 	 */
 	public static String getUrl(String name) {
-		return CONFIG.getString(getKey(name, "url"));
+		return config.getString(getKey(name, "url"));
 	}
 
 	/**
@@ -60,7 +59,7 @@ public final class DaoParams {
 	 * @return
 	 */
 	public static String getUser(String name) {
-		return CONFIG.getString(getKey(name, "user"));
+		return config.getString(getKey(name, "user"));
 	}
 
 	/**
@@ -69,7 +68,7 @@ public final class DaoParams {
 	 * @return
 	 */
 	public static String getPassword(String name) {
-		return CONFIG.getString(getKey(name, "password"));
+		return config.getString(getKey(name, "password"));
 	}
 
 	/**
@@ -78,7 +77,7 @@ public final class DaoParams {
 	 * @return
 	 */
 	public static int getInitialPoolSize(String name) {
-		return CONFIG.getInt(getKey(name, "initialPoolSize"), 30);
+		return config.getInt(getKey(name, "initialPoolSize"), 30);
 	}
 
 	/**
@@ -87,7 +86,7 @@ public final class DaoParams {
 	 * @return
 	 */
 	public static int getMinPoolSize(String name) {
-		return CONFIG.getInt(getKey(name, "minPoolSize"), 30);
+		return config.getInt(getKey(name, "minPoolSize"), 30);
 	}
 
 	/**
@@ -96,7 +95,7 @@ public final class DaoParams {
 	 * @return
 	 */
 	public static int getMaxPoolSize(String name) {
-		return CONFIG.getInt(getKey(name, "maxPoolSize"), 100);
+		return config.getInt(getKey(name, "maxPoolSize"), 100);
 	}
 
 	/**
@@ -105,7 +104,7 @@ public final class DaoParams {
 	 * @return
 	 */
 	public static int getMaxSize(String name) {
-		return CONFIG.getInt(getKey(name, "maxSize"), 200);
+		return config.getInt(getKey(name, "maxSize"), 200);
 	}
 
 	/**
@@ -114,7 +113,7 @@ public final class DaoParams {
 	 * @return
 	 */
 	public static int getTimeout(String name) {
-		return CONFIG.getInt(getKey(name, "timeout"), 10000);
+		return config.getInt(getKey(name, "timeout"), 10000);
 	}
 
 	/**
@@ -123,7 +122,7 @@ public final class DaoParams {
 	 * @return
 	 */
 	public static int getMaxIdleTime(String name) {
-		return CONFIG.getInt(getKey(name, "maxIdleTime"), 3600000);
+		return config.getInt(getKey(name, "maxIdleTime"), 3600000);
 	}
 
 	/**
@@ -132,7 +131,7 @@ public final class DaoParams {
 	 * @return
 	 */
 	public static int getIdleTime(String name) {
-		return CONFIG.getInt(getKey(name, "idleTimeout"), 1800000);
+		return config.getInt(getKey(name, "idleTimeout"), 1800000);
 	}
 
 	/**
@@ -141,7 +140,7 @@ public final class DaoParams {
 	 * @return
 	 */
 	public static String[] getPackages(String name) {
-		return CONFIG.getStringArray(getKey(name, "packages"), new String[] { "com.weicoder.*.po" });
+		return config.getStringArray(getKey(name, "packages"), new String[] { "com.weicoder.*.po" });
 	}
 
 	/**
@@ -150,7 +149,7 @@ public final class DaoParams {
 	 * @return
 	 */
 	public static boolean getSql(String name) {
-		return CONFIG.getBoolean(getKey(name, "sql"), false);
+		return config.getBoolean(getKey(name, "sql"), false);
 	}
 
 	/**
@@ -159,7 +158,7 @@ public final class DaoParams {
 	 * @return
 	 */
 	public static int getBatch(String name) {
-		return CONFIG.getInt(getKey(name, "batch"), 50);
+		return config.getInt(getKey(name, "batch"), 50);
 	}
 
 	/**
@@ -168,7 +167,7 @@ public final class DaoParams {
 	 * @return
 	 */
 	public static int getFetch(String name) {
-		return CONFIG.getInt(getKey(name, "fetch"), 50);
+		return config.getInt(getKey(name, "fetch"), 50);
 	}
 
 	/**
@@ -177,7 +176,7 @@ public final class DaoParams {
 	 * @return
 	 */
 	public static boolean isSearchPower(String name) {
-		return CONFIG.getBoolean(getKey(name, "search.power"), false);
+		return config.getBoolean(getKey(name, "search.power"), false);
 	}
 
 	/**
@@ -186,7 +185,7 @@ public final class DaoParams {
 	 * @return
 	 */
 	public static String getSearchBase(String name) {
-		return CONFIG.getString(getKey(name, "search.base"), "${path}/WEB-INF/indexed");
+		return config.getString(getKey(name, "search.base"), "${path}/WEB-INF/indexed");
 	}
 
 	/**
@@ -195,7 +194,7 @@ public final class DaoParams {
 	 * @return
 	 */
 	public static String getSearchDirectory(String name) {
-		return CONFIG.getString(getKey(name, "search.directory"), "filesystem");
+		return config.getString(getKey(name, "search.directory"), "filesystem");
 	}
 
 	/**
@@ -204,7 +203,7 @@ public final class DaoParams {
 	 * @return
 	 */
 	public static String getSearchVersion(String name) {
-		return CONFIG.getString(getKey(name, "search.version"), "LUCENE_36");
+		return config.getString(getKey(name, "search.version"), "LUCENE_36");
 	}
 
 	/**

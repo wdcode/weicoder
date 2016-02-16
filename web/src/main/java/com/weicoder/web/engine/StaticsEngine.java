@@ -7,7 +7,6 @@ import java.util.concurrent.TimeUnit;
 import com.weicoder.common.config.Config;
 import com.weicoder.common.constants.DateConstants;
 import com.weicoder.common.lang.Conversion;
-import com.weicoder.core.config.ConfigFactory;
 import com.weicoder.web.params.WebParams;
 import com.weicoder.web.util.HttpUtil;
 
@@ -28,7 +27,7 @@ public final class StaticsEngine {
 		// 定时任务
 		service = Executors.newSingleThreadScheduledExecutor();
 		// 获得配置
-		Config config = ConfigFactory.getConfig(WebParams.STAICS_CONFIG);
+		Config config = new Config(WebParams.STAICS_CONFIG);
 		// 获得静态化开关
 		String[] powers = config.getStringArray("statics.static.power");
 		// 获得静态化URL

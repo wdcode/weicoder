@@ -40,12 +40,6 @@ public class InitListener implements ServletContextListener {
 		ServletContext context = event.getServletContext();
 		// 设置路径
 		setPath(context);
-		// 设置配置文件
-		// setConfig(context.getInitParameter("config"));
-		// 设置log4j配置
-		// setLog4j(context);
-		// 配置数据源配置文件路径
-		// System.setProperty("dataSourceConfig", WebParams.DATA_SOURCE_CONFIG);
 
 		// 是否静态化
 		if (WebParams.STAICS_POWER) {
@@ -106,18 +100,6 @@ public class InitListener implements ServletContextListener {
 		}
 	}
 
-	// /**
-	// * 设置log4j配置
-	// */
-	// private void setLog4j(ServletContext context) {
-	// // 获得log4j配置文件url
-	// URL url = ResourceUtil.getResource("config/log4j.xml");
-	// // 如果url不为空
-	// if (url != null) {
-	// DOMConfigurator.configure(url);
-	// }
-	// }
-
 	/**
 	 * 设置路径
 	 */
@@ -129,13 +111,4 @@ public class InitListener implements ServletContextListener {
 		// 配置系统路径
 		System.setProperty(path, context.getRealPath(StringConstants.EMPTY));
 	}
-
-	// /**
-	// * 设置配置文件
-	// * @param config 配置文件
-	// */
-	// private void setConfig(String fileName) {
-	// Params.setConfig(EmptyUtil.isEmpty(fileName) ? ConfigFactory.getConfig() :
-	// ConfigFactory.getConfig(fileName));
-	// }
 }
