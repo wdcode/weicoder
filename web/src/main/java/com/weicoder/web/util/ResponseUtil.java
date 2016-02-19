@@ -28,8 +28,8 @@ public final class ResponseUtil {
 	 * @param response
 	 * @param str 要写的字符串
 	 */
-	public static void write(HttpServletResponse response, String str) {
-		write(response, str, CommonParams.ENCODING);
+	public static String write(HttpServletResponse response, String str) {
+		return write(response, str, CommonParams.ENCODING);
 	}
 
 	/**
@@ -38,7 +38,7 @@ public final class ResponseUtil {
 	 * @param str 要写的字符串
 	 * @param charsetName 编码
 	 */
-	public static void write(HttpServletResponse response, String str, String charsetName) {
+	public static String write(HttpServletResponse response, String str, String charsetName) {
 		// 清除缓存
 		ResponseUtil.noCache(response);
 		// 设置编码
@@ -54,6 +54,7 @@ public final class ResponseUtil {
 		} finally {
 			CloseUtil.close(pw);
 		}
+		return str;
 	}
 
 	/**
@@ -84,8 +85,8 @@ public final class ResponseUtil {
 	 * @param response
 	 * @param data 数据对象
 	 */
-	public static void json(HttpServletResponse response, Object data) {
-		json(response, StringConstants.EMPTY, data);
+	public static String json(HttpServletResponse response, Object data) {
+		return json(response, StringConstants.EMPTY, data);
 	}
 
 	/**
@@ -94,7 +95,7 @@ public final class ResponseUtil {
 	 * @param data 对象
 	 * @param charsetName 编码
 	 */
-	public static void json(HttpServletResponse response, String callback, Object data) {
+	public static String json(HttpServletResponse response, String callback, Object data) {
 		// 声明返回字符串
 		StringBuilder s = new StringBuilder();
 		// 如果callback不为空 填补左括号
@@ -108,7 +109,7 @@ public final class ResponseUtil {
 			s.append(StringConstants.RIGHT_PARENTHESIS);
 		}
 		// 写入前端
-		write(response, s.toString());
+		return write(response, s.toString());
 	}
 
 	/**

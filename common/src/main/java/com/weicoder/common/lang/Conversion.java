@@ -376,7 +376,7 @@ public final class Conversion {
 				return ((Boolean) obj).booleanValue();
 			} else if (obj instanceof String) {
 				// String
-				return StringConstants.TRUE.equalsIgnoreCase(obj.toString()) || StringConstants.YES.equalsIgnoreCase(obj.toString()) || StringConstants.OK.equalsIgnoreCase(obj.toString());
+				return EmptyUtil.isEmpty(obj) ? defaultValue : StringConstants.TRUE.equalsIgnoreCase(obj.toString()) || StringConstants.YES.equalsIgnoreCase(obj.toString()) || StringConstants.OK.equalsIgnoreCase(obj.toString());
 			} else if (obj instanceof Number) {
 				// Number
 				return ((Number) obj).intValue() > 0 ? true : false;
