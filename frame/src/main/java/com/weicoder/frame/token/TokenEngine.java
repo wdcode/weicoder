@@ -6,6 +6,7 @@ import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.crypto.Decrypts;
 import com.weicoder.common.crypto.Digest;
 import com.weicoder.common.crypto.Encrypts;
+import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
 
@@ -17,7 +18,7 @@ import com.weicoder.common.util.StringUtil;
  */
 public final class TokenEngine {
 	// 验证长度
-	private final static int	LENGHT	= 5;
+	private final static int	LENGHT	= 8;
 
 	/**
 	 * 加密信息
@@ -28,7 +29,7 @@ public final class TokenEngine {
 		// 加密登录凭证字符串
 		String info = Hex.encode(Encrypts.rc4(token.array()));
 		// 返回加密字符串
-		return Digest.absolute(info, LENGHT) + StringConstants.MIDLINE + info;
+		return StringUtil.combine(Digest.absolute(info, LENGHT), info).toUpperCase();
 	}
 
 	/**
@@ -40,18 +41,25 @@ public final class TokenEngine {
 			// 验证去掉"""
 			info = StringUtil.replace(info, StringConstants.DOUBLE_QUOT, StringConstants.EMPTY);
 			// 判断验证串是否符合标准
-			if (!EmptyUtil.isEmpty(info) && info.length() > LENGHT && info.indexOf(StringConstants.MIDLINE) == LENGHT) {
-				// 分解信息
-				String[] temp = info.split(StringConstants.MIDLINE);
-				// 分解的信息不为空并且只有2组
+			if (!EmptyUtil.isEmpty(info) && info.length() > LENGHT) {
+				// 变为小写
+				info = info.toLowerCase();
+				// 拆分字符串
+				String[] temp = StringUtil.separate(info, info.length() / LENGHT);
 				if (!EmptyUtil.isEmpty(temp) && temp.length == 2) {
+					// 验证串
+					String ver = temp[0];// StringUtil.subString(info, 0, LENGHT);
+					// 信息串
+					String user = temp[1];// StringUtil.subString(info, LENGHT);
 					// 判断校验串是否合法
-					if (temp[0].equals(Digest.absolute(temp[1], LENGHT))) {
-						token.array(Decrypts.rc4(Hex.decode(temp[1])));
+					if (ver.equals(Digest.absolute(user, LENGHT))) {
+						token.array(Decrypts.rc4(Hex.decode(user)));
 					}
 				}
 			}
-		} catch (Exception ex) {}
+		} catch (Exception e) {
+			Logs.debug(e);
+		}
 		// 返回token
 		return token;
 	}

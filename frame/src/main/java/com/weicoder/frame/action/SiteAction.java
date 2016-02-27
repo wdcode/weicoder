@@ -13,7 +13,6 @@ import com.weicoder.common.crypto.Decrypts;
 import com.weicoder.common.crypto.Digest;
 import com.weicoder.common.crypto.Encrypts;
 import com.weicoder.common.lang.Conversion;
-import com.weicoder.common.lang.Validate;
 import com.weicoder.common.util.DateUtil;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.web.email.EmailEngine;
@@ -21,8 +20,8 @@ import com.weicoder.web.util.VerifyCodeUtil;
 
 /**
  * 登录Action
- * @author WD 
- * @version 1.0 
+ * @author WD
+ * @version 1.0
  */
 public class SiteAction<U extends EntityUser> extends StrutsAction {
 	// 状态无效 0
@@ -110,12 +109,10 @@ public class SiteAction<U extends EntityUser> extends StrutsAction {
 		if (EmptyUtil.isEmpty(user.getIp())) {
 			String ip = getIp();
 			user.setIp(ip);
-			user.setLoginIp(ip);
 		}
 		// 创建时间
 		int time = DateUtil.getTime();
 		user.setTime(time);
-		user.setLoginTime(time);
 		// 是否Email验证
 		if (SiteParams.USER_VERIFY_EMAIL) {
 			// 设置状态无效
@@ -203,11 +200,6 @@ public class SiteAction<U extends EntityUser> extends StrutsAction {
 			// 返回登陆页
 			return callback(LOGIN);
 		}
-		// 登录IP
-		String ip = user.getLoginIp();
-		if (!Validate.isIp(ip)) {
-			ip = getIp();
-		}
 		// 查询获得用户实体
 		U bean = service.get(user);
 		// 登录标识
@@ -234,9 +226,6 @@ public class SiteAction<U extends EntityUser> extends StrutsAction {
 		if (is) {
 			// 添加用户登录信息
 			token = LoginEngine.addLogin(request, response, bean, getLoginTime());
-			// 添加登录信息
-			bean.setLoginIp(ip);
-			bean.setLoginTime(DateUtil.getTime());
 			service.update(bean);
 			// 登录成功
 			return callback(user = bean);

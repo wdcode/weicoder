@@ -125,10 +125,11 @@ public final class LoginEngine {
 
 	/**
 	 * 验证登录凭证
+	 * @param token 登录密钥
 	 * @return 登录实体
 	 */
-	public static AuthToken decrypt(String info) {
-		return TokenEngine.decrypt(info, new LoginToken());
+	public static AuthToken decrypt(String token) {
+		return TokenEngine.decrypt(token, new LoginToken());
 	}
 
 	/**

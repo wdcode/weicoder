@@ -150,6 +150,25 @@ public final class Encrypts extends BaseCrypt {
 	public static byte[] rc4(byte[] b, String key) {
 		return encrypt(b, key, CommonParams.ENCRYPT_KEY_LENGTH_RC4, EncryptConstants.ALGO_RC4);
 	}
+	
+//	/**
+//	 * 可逆的加密算法 RC5算法
+//	 * @param b 需要加密的字节数组
+//	 * @return 返回加密后的字节数组
+//	 */
+//	public static byte[] rc5(byte[] b) {
+//		return rc5(b, CommonParams.ENCRYPT_KEY);
+//	}
+
+//	/**
+//	 * 可逆的加密算法 RC5算法
+//	 * @param b 需要加密的字节数组
+//	 * @param key 加密key
+//	 * @return 返回加密后的字节数组
+//	 */
+//	public static byte[] rc5(byte[] b, String key) {
+//		return encrypt(b, key, CommonParams.ENCRYPT_KEY_LENGTH_RC5, EncryptConstants.ALGO_RC5);
+//	}
 
 	/**
 	 * 可逆的非对称加密算法 RSA算法

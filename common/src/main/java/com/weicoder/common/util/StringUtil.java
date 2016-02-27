@@ -626,6 +626,73 @@ public final class StringUtil {
 	}
 
 	/**
+	 * 字符串结合
+	 * @param s1
+	 * @param s2
+	 * @return 返回聚合后字符串
+	 */
+	public static String combine(String s1, String s2) {
+		return EmptyUtil.isEmpty(s1) || EmptyUtil.isEmpty(s2) ? StringConstants.EMPTY : combine(s1, s2, (s1.length() + s2.length()) / s1.length());
+	}
+
+	/**
+	 * 字符串结合
+	 * @param s1
+	 * @param s2
+	 * @param len 合并长度
+	 * @return 返回聚合后字符串
+	 */
+	public static String combine(String s1, String s2, int len) {
+		// 获得字符数组
+		char[] c1 = s1.toCharArray();
+		char[] c2 = s2.toCharArray();
+		char[] c = new char[c1.length + c2.length];
+		// 字符下标
+		int i1 = 0;
+		int i2 = 0;
+		// 合并到字符里
+		for (int i = 0; i < c.length; i++) {
+			if (i % len == 0) {
+				c[i] = c1[i1++];
+			} else {
+				c[i] = c2[i2++];
+			}
+		}
+		// 返回字符数组
+		return new String(c);
+	}
+
+	/**
+	 * 字符串拆分 分解combine方法结合的字符串
+	 * @param s 要拆分的字符串
+	 * @param len 拆分长度
+	 * @return 返回分开后字符串数组
+	 */
+	public static String[] separate(String s, int len) {
+		// 如果字符为空返回空
+		if (EmptyUtil.isEmpty(s)) {
+			return ArrayConstants.STRING_EMPTY;
+		}
+		// 声明字符数组
+		char[] c = s.toCharArray();
+		char[] c1 = new char[c.length / len];
+		char[] c2 = new char[c.length - c1.length];
+		// 字符下标
+		int i1 = 0;
+		int i2 = 0;
+		// 拆分数组
+		for (int i = 0; i < c.length; i++) {
+			if (i % len == 0) {
+				c1[i1++] = c[i];
+			} else {
+				c2[i2++] = c[i];
+			}
+		}
+		// 返回字符串数组
+		return new String[] { new String(c1), new String(c2) };
+	}
+
+	/**
 	 * 私有构造
 	 */
 	private StringUtil() {}
