@@ -5,7 +5,7 @@ import com.weicoder.frame.params.SiteParams;
 import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.util.DateUtil;
 import com.weicoder.common.util.EmptyUtil;
-import com.weicoder.core.json.JsonEngine; 
+import com.weicoder.core.json.JsonEngine;
 import com.weicoder.web.util.IpUtil;
 
 /**
@@ -16,13 +16,11 @@ import com.weicoder.web.util.IpUtil;
  */
 public class LoginToken implements AuthToken {
 	// 用户ID
-	protected int		id;
+	protected long		id;
 	// 登录时间
 	protected int		time;
 	// 登录IP
 	protected String	loginIp;
-	// 服务器IP
-	protected String	serverIp;
 
 	/**
 	 * 构造方法
@@ -37,7 +35,7 @@ public class LoginToken implements AuthToken {
 	 * @param serverIp 服务器IP
 	 */
 	public LoginToken(EntityUser login, String loginIp, String serverIp) {
-		this(login.getId(), loginIp, serverIp);
+		this(login.getId(), loginIp);
 	}
 
 	/**
@@ -47,11 +45,10 @@ public class LoginToken implements AuthToken {
 	 * @param loginIp 登录IP
 	 * @param serverIp 服务器IP
 	 */
-	public LoginToken(int id, String loginIp, String serverIp) {
+	public LoginToken(long id, String loginIp) {
 		this.id = id;
 		this.time = DateUtil.getTime();
 		this.loginIp = loginIp;
-		this.serverIp = serverIp;
 	}
 
 	@Override
@@ -70,7 +67,7 @@ public class LoginToken implements AuthToken {
 	}
 
 	@Override
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
@@ -85,28 +82,22 @@ public class LoginToken implements AuthToken {
 	}
 
 	@Override
-	public String getServerIp() {
-		return serverIp;
-	}
-
-	@Override
 	public String toString() {
 		return JsonEngine.toJson(this);
 	}
 
 	@Override
 	public byte[] array() {
-		return Bytes.toBytes(id, time, IpUtil.encode(loginIp), IpUtil.encode(serverIp));
+		return Bytes.toBytes(id, time, IpUtil.encode(loginIp));
 	}
 
 	@Override
 	public LoginToken array(byte[] b) {
 		// 判断字节数组不为空
 		if (!EmptyUtil.isEmpty(b)) {
-			this.id = Bytes.toInt(b);
-			this.time = Bytes.toInt(b, 4);
-			this.loginIp = IpUtil.decode(Bytes.toInt(b, 8));
-			this.serverIp = IpUtil.decode(Bytes.toInt(b, 12));
+			this.id = Bytes.toLong(b);
+			this.time = Bytes.toInt(b, 8);
+			this.loginIp = IpUtil.decode(Bytes.toInt(b, 12));
 		}
 		// 返回自身
 		return this;

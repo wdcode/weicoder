@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.util.BeanUtil;
@@ -37,7 +38,7 @@ public class BasicServlet extends HttpServlet {
 		String[] actions = new String[] { StringConstants.EMPTY };
 		if (!EmptyUtil.isEmpty(path)) {
 			// 去处开头的/ 并且按_分解出数组
-			actions = StringUtil.split(StringUtil.subString(path, 1, path.length()), StringConstants.UNDERLINE);
+			actions = StringUtil.split(StringUtil.subString(path, 1, path.length()), StringConstants.BACKSLASH);
 			// 获得callback
 			String callback = RequestUtil.getParameter(request, "callback");
 			// 获得Action
@@ -45,8 +46,13 @@ public class BasicServlet extends HttpServlet {
 			Object action = Contexts.ACTIONS.get(name);
 			// action为空
 			if (action == null) {
-				ResponseUtil.json(response, callback, "no.action");
-				return;
+				if (Contexts.ACTION == null) {
+					ResponseUtil.json(response, callback, "no.action");
+					return;
+				}
+				// 默认Action
+				action = Contexts.ACTION;
+				name = StringUtil.convert(StringUtil.subStringLastEnd(action.getClass().getSimpleName(), "Action"));
 			}
 			// 获得方法
 			Map<String, Method> methods = Contexts.METHODS.get(name);
@@ -68,7 +74,13 @@ public class BasicServlet extends HttpServlet {
 				// 所有提交的参数
 				Map<String, String> ps = RequestUtil.getParameters(request);
 				// action注解下的参数名 只有声明的参数才能注入
-				String[] mps = method.getAnnotation(com.weicoder.web.annotation.Method.class).params();
+				String[] mps = null;
+				com.weicoder.web.annotation.Method m = method.getAnnotation(com.weicoder.web.annotation.Method.class);
+				if (m == null) {
+					mps = ArrayConstants.STRING_EMPTY;
+				} else {
+					mps = m.params();
+				}
 				// action全部参数下标
 				int i = 0;
 				// 基本类型参数下标

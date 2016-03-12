@@ -65,6 +65,10 @@ public final class StringConstants {
 	public final static String	RIGHT_PARENTHESIS	= ")";
 	/** 常量字符串"`" */
 	public final static String	SEPA				= "`";
+	/** 常量字符串 "success" */
+	public final static String	SUCCESS				= "success";
+	/** 常量字符串 "error" */
+	public final static String	ERROR				= "error";
 	/** 常量字符串 "true" */
 	public final static String	TRUE				= "true";
 	/** 常量字符串 "false" */

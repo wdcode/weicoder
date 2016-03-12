@@ -54,8 +54,8 @@ public final class LoginEngine {
 	 * @param ip 用户IP
 	 * @return 获得登录状态
 	 */
-	public static AuthToken getLogin(int id, String ip) {
-		return new LoginToken(id, ip, IpUtil.getIp());
+	public static AuthToken getLogin(long id, String ip) {
+		return new LoginToken(id, ip);
 	}
 
 	/**
@@ -110,7 +110,7 @@ public final class LoginEngine {
 	 * @param ip 用户IP
 	 * @return 加密信息
 	 */
-	public static String encrypt(int id, String ip) {
+	public static String encrypt(long id, String ip) {
 		return TokenEngine.encrypt(getLogin(id, ip));
 	}
 
@@ -142,7 +142,7 @@ public final class LoginEngine {
 			GUEST_ID = 0;
 		}
 		// 获得游客凭证
-		AuthToken token = new LoginToken(GUEST_ID--, IpUtil.getIp(request), IpUtil.getIp());
+		AuthToken token = new LoginToken(GUEST_ID--, IpUtil.getIp(request));
 		// 设置游客凭证
 		AttributeUtil.set(request, response, key + INFO, encrypt(token), -1);
 		// 返回游客凭证
@@ -159,7 +159,7 @@ public final class LoginEngine {
 			GUEST_ID = 0;
 		}
 		// 返回游客凭证
-		return new LoginToken(GUEST_ID--, ip, IpUtil.getIp());
+		return new LoginToken(GUEST_ID--, ip);
 	}
 
 	/**

@@ -63,16 +63,17 @@ public class InitListener implements ServletContextListener {
 					// 实例化Action并放在context中
 					Object action = BeanUtil.newInstance(c);
 					Contexts.ACTIONS.put(cname, action);
+					Contexts.ACTION = action;
 					if (action != null) {
 						// 循环判断方法
 						for (Method m : c.getDeclaredMethods()) {
-							if (m.isAnnotationPresent(com.weicoder.web.annotation.Method.class)) {
+//							if (m.isAnnotationPresent(com.weicoder.web.annotation.Method.class)) {
 								Map<String, Method> map = Contexts.METHODS.get(cname);
 								if (map == null) {
 									Contexts.METHODS.put(cname, map = Maps.getMap());
 								}
 								map.put(m.getName(), m);
-							}
+//							}
 						}
 					}
 				} catch (Exception ex) {

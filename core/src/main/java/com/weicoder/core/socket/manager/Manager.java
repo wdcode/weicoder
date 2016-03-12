@@ -23,11 +23,11 @@ import com.weicoder.core.socket.empty.SessionEmpty;
  */
 public final class Manager {
 	// 保存注册的Session
-	private Map<String, Map<Integer, Session>>	registers;
+	private Map<String, Map<Long, Session>>	registers;
 	// 保存Session对应所在列表
-	private Map<Integer, String>				keys;
+	private Map<Long, String>				keys;
 	// 保存Session对应注册ID
-	private Map<Integer, Integer>				ids;
+	private Map<Long, Long>					ids;
 
 	/**
 	 * 构造方法
@@ -39,7 +39,7 @@ public final class Manager {
 		ids = Maps.getConcurrentMap();
 		// 注册列表Map
 		for (String register : SocketParams.REGISTERS) {
-			registers.put(register, new ConcurrentHashMap<Integer, Session>());
+			registers.put(register, new ConcurrentHashMap<Long, Session>());
 		}
 	}
 
@@ -50,9 +50,9 @@ public final class Manager {
 	 * @param session Socket Session
 	 * @return true 注册成功 false 注册失败
 	 */
-	public boolean register(String key, int id, Session session) {
+	public boolean register(String key, long id, Session session) {
 		// 获得注册列表
-		Map<Integer, Session> register = registers.get(key);
+		Map<Long, Session> register = registers.get(key);
 		// 列表为null
 		if (register == null) {
 			return false;
@@ -60,7 +60,7 @@ public final class Manager {
 		// 添加到列表
 		register.put(id, session);
 		// session id
-		int sid = session.id();
+		long sid = session.id();
 		// 记录索引
 		keys.put(sid, key);
 		// 记录ID
@@ -75,9 +75,9 @@ public final class Manager {
 	 * @param id 注册ID
 	 * @return true 删除成功 false 删除成功
 	 */
-	public Session remove(String key, int id) {
+	public Session remove(String key, long id) {
 		// 获得注册列表
-		Map<Integer, Session> register = registers.get(key);
+		Map<Long, Session> register = registers.get(key);
 		// 列表为null
 		if (register == null) {
 			return SessionEmpty.EMPTY;
@@ -91,7 +91,7 @@ public final class Manager {
 	 * @param id 注册ID
 	 * @return true 删除成功 false 删除成功
 	 */
-	public Session remove(int id) {
+	public Session remove(long id) {
 		// 如果存在
 		if (keys.containsKey(id) && ids.containsKey(id)) {
 			// 删除Session
@@ -116,7 +116,7 @@ public final class Manager {
 	 * @param id 注册ID
 	 * @return true 删除成功 false 删除成功
 	 */
-	public Session get(String key, int id) {
+	public Session get(String key, long id) {
 		// 获得Session
 		Session session = registers.get(key).get(id);
 		// 如果Session为空 返回空实现
@@ -208,7 +208,7 @@ public final class Manager {
 		// 声明Sesson列表
 		List<Session> sessions = Lists.getList();
 		// 获得相应的Session
-		for (Map<Integer, Session> map : registers.values()) {
+		for (Map<Long, Session> map : registers.values()) {
 			sessions.addAll(map.values());
 		}
 		// 广播
@@ -232,16 +232,16 @@ public final class Manager {
 	 * @param id 指令
 	 * @param message 消息
 	 */
-	public void broad(String key, List<Integer> ids, short id, Object message) {
+	public void broad(String key, List<Long> ids, short id, Object message) {
 		// 声明Sesson列表
 		List<Session> sessions = Lists.getList();
 		// 日志
 		long curr = System.currentTimeMillis();
 		Logs.info("manager broad start key=" + key + ";ids=" + ids.size() + ";id=" + id + ";time=" + DateUtil.getTheDate());
 		// 获得Session Map
-		Map<Integer, Session> map = registers.get(key);
+		Map<Long, Session> map = registers.get(key);
 		// 获得相应的Session
-		for (Integer sid : ids) {
+		for (Long sid : ids) {
 			sessions.add(map.get(sid));
 		}
 		// for (Map.Entry<Integer, Session> e : registers.get(key).entrySet()) {

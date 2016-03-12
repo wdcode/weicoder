@@ -48,8 +48,8 @@ public final class MinaSession extends BaseSession implements Session {
 
 	@Override
 	protected void close0() {
-//		session.close(false);
-//		session.closeNow();
+		// session.close(false);
+		// session.closeNow();
 		session.closeOnFlush();
 		session = null;
 	}

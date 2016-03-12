@@ -9,12 +9,10 @@ import com.weicoder.common.params.Params;
  * @version 1.0 2011-07-07
  */
 public final class ServletParams {
-	/** 前缀 */
-	private final static String	PREFIX	= "servlet";
 	/** Servlet服务器开关 */
-	public final static boolean	POWER	= Params.getBoolean(PREFIX + ".power", false);
+	public final static boolean	POWER	= Params.getBoolean("servlet.power", false);
 	/** 是否支持get */
-	public final static boolean	GET		= Params.getBoolean(PREFIX + ".get", true);
+	public final static boolean	GET		= Params.getBoolean("servlet.get", true);
 
 	/** 私有构造 */
 	private ServletParams() {}

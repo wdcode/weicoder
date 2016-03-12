@@ -12,6 +12,8 @@ import com.weicoder.common.lang.Maps;
  * @version 1.0 2016-1-14
  */
 public final class Contexts {
+	// Action
+	public static Object									ACTION	= null;
 	// Action列表
 	public final static Map<String, Object>					ACTIONS	= Maps.getMap();
 	// 回调方法处理

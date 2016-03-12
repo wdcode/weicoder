@@ -31,7 +31,7 @@ public interface AuthToken extends BytesBean {
 	 * 获得用户ID
 	 * @return 用户ID
 	 */
-	int getId();
+	long getId();
 
 	/**
 	 * 获得登录时间
@@ -44,10 +44,4 @@ public interface AuthToken extends BytesBean {
 	 * @return IP
 	 */
 	String getLoginIp();
-
-	/**
-	 * 获得服务器IP
-	 * @return IP
-	 */
-	String getServerIp();
 }
