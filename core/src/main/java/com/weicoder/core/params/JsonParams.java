@@ -9,29 +9,15 @@ import com.weicoder.common.params.Params;
  * @version 1.0 2010-01-05
  */
 public final class JsonParams {
-	/**
-	 * JsonFast解析类
-	 */
+	/** JsonFast解析类 */
 	public final static String	PARSE_FAST	= "fast";
-	/**
-	 * JsonLib解析类
-	 */
-	public final static String	PARSE_LIB	= "lib";
-	/**
-	 * JsonSmart解析类
-	 */
+	/** JsonSmart解析类 */
 	public final static String	PARSE_SMART	= "smart";
-	/**
-	 * JsonGson解析类
-	 */
+	/** JsonGson解析类 */
 	public final static String	PARSE_GSON	= "gson";
-	/**
-	 * 解析JSON所需要的包
-	 */
+	/** 解析JSON所需要的包 */
 	public final static String	PARSE		= Params.getString("json.parse", PARSE_GSON);
 
-	/**
-	 * 私有构造
-	 */
+	/** 私有构造 */
 	private JsonParams() {}
 }

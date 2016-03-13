@@ -40,18 +40,11 @@
 			<artifactId>javaee-api</artifactId>
 			<version>7.0</version>
 			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.weicoder</groupId>
-			<artifactId>common</artifactId>
-			<version>1.0</version>
-			<scope>provided</scope>
-		</dependency>
+		</dependency> 
 		<dependency>
 			<groupId>com.weicoder</groupId>
 			<artifactId>core</artifactId>
-			<version>1.0</version>
-			<scope>provided</scope>
+			<version>1.0</version> 
 		</dependency> 
 		<dependency> 
 			<groupId>org.apache.httpcomponents</groupId>
@@ -142,7 +135,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
-				<version>2.6.2</version>
+				<version>3.0.0</version>
 				<configuration>
 					<source>1.7</source>
 					<target>1.7</target>
@@ -171,7 +164,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-source-plugin</artifactId>
-						<version>2.4</version>
+						<version>3.0.0</version>
 						<executions>
 							<execution>
 								<phase>package</phase>

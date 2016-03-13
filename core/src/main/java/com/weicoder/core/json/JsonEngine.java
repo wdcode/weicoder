@@ -11,7 +11,6 @@ import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.core.factory.FactoryKey;
 import com.weicoder.core.json.impl.JsonFast;
 import com.weicoder.core.json.impl.JsonGson;
-import com.weicoder.core.json.impl.JsonLib;
 import com.weicoder.core.json.impl.JsonSmart;
 import com.weicoder.core.params.JsonParams;
 
@@ -188,8 +187,6 @@ public final class JsonEngine extends FactoryKey<String, Json> {
 		switch (key) {
 			case JsonParams.PARSE_FAST:
 				return new JsonFast();
-			case JsonParams.PARSE_LIB:
-				return new JsonLib();
 			case JsonParams.PARSE_SMART:
 				return new JsonSmart();
 			default:

@@ -1,8 +1,7 @@
 package com.weicoder.core.nosql.factory;
 
 import com.weicoder.core.factory.FactoryKey;
-import com.weicoder.core.nosql.NoSQL;
-import com.weicoder.core.nosql.berkeley.factory.BerkeleyFactory;
+import com.weicoder.core.nosql.NoSQL; 
 import com.weicoder.core.nosql.hbase.factory.HBaseFactory;
 import com.weicoder.core.nosql.memcache.factory.MemcacheFactory;
 import com.weicoder.core.nosql.mongo.factory.MongoFactory;
@@ -41,9 +40,7 @@ public final class NoSQLFactory extends FactoryKey<String, NoSQL> {
 			case "hbase":
 				return HBaseFactory.getHBase(key);
 			case "mongodb":
-				return MongoFactory.getMongo(key);
-			case "berkeleydb":
-				return BerkeleyFactory.getBerkeley(key);
+				return MongoFactory.getMongo(key); 
 		}
 		return null;
 	}
