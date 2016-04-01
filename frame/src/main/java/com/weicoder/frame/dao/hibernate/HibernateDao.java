@@ -200,8 +200,7 @@ public final class HibernateDao implements Dao {
 			return null;
 		}
 		// 查找对象
-		return execute(entityClass, new Callback<E>() {
-			@SuppressWarnings("unchecked")
+		return execute(entityClass, new Callback<E>() { 
 			public E callback(Session session) {
 				return (E) session.get(entityClass, pk);
 			}
@@ -215,8 +214,7 @@ public final class HibernateDao implements Dao {
 			return Lists.emptyList();
 		}
 		// 查找对象
-		return execute(entityClass, new Callback<List<E>>() {
-			@SuppressWarnings("unchecked")
+		return execute(entityClass, new Callback<List<E>>() { 
 			public List<E> callback(Session session) {
 				// 声明返回对象
 				List<E> list = Lists.getList(pks.length);

@@ -220,6 +220,7 @@ public final class ClassUtil {
 	 * @param cls 指定类
 	 * @return 类列表
 	 */
+	@SuppressWarnings("unchecked")
 	public static List<Class<? extends Annotation>> getAnnotationClass(String packageName, Class<? extends Annotation> cls) {
 		// 声明类列表
 		List<Class<? extends Annotation>> classes = Lists.getList();
@@ -239,6 +240,7 @@ public final class ClassUtil {
 	 * @param packageName 报名
 	 * @return 类列表
 	 */
+	@SuppressWarnings("unchecked")
 	public static <E> List<Class<E>> getPackageClasses(String packageName, Class<E> cls) {
 		// 声明返回类列表
 		List<Class<E>> classes = Lists.getList();

@@ -12,6 +12,7 @@ public final class Logs {
 	// loggin日志对象
 	private final static Logger	LOG;
 	static {
+		@SuppressWarnings("unchecked")
 		Class<Logger> cls = (Class<Logger>) ClassUtil.forName("com.weicoder.core.log.LoggerSlf4j"); // ClassUtil.getAssignedClass(Logger.class, 0);
 		// 如果没有实现 赋值空实现
 		if (cls == null) {
