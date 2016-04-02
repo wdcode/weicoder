@@ -23,22 +23,21 @@ import com.weicoder.web.util.ResponseUtil;
 
 /**
  * 基础Servlet 3
+ * 
  * @author WD
  * @since JDK7
  * @version 1.0 2015-10-21
  */
 public class BasicServlet extends HttpServlet {
-	private static final long	serialVersionUID	= 3117468121294921856L;
+	private static final long serialVersionUID = 3117468121294921856L;
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 获得path
 		String path = request.getPathInfo();
-		// 分解提交action
-		String[] actions = new String[] { StringConstants.EMPTY };
 		if (!EmptyUtil.isEmpty(path)) {
-			// 去处开头的/ 并且按_分解出数组
-			actions = StringUtil.split(StringUtil.subString(path, 1, path.length()), StringConstants.BACKSLASH);
+			// 分解提交action 去处开头的/ 并且按_分解出数组
+			String[] actions = StringUtil.split(StringUtil.subString(path, 1, path.length()), StringConstants.BACKSLASH);
 			// 获得callback
 			String callback = RequestUtil.getParameter(request, "callback");
 			// 获得Action
@@ -46,19 +45,18 @@ public class BasicServlet extends HttpServlet {
 			Object action = Contexts.ACTIONS.get(name);
 			// action为空
 			if (action == null) {
-				if (Contexts.ACTION == null) {
+				// 如果使用action_method模式 直接返回
+				if (actions.length == 2) {
 					ResponseUtil.json(response, callback, "no.action");
 					return;
 				}
-				// 默认Action
-				action = Contexts.ACTION;
-				name = StringUtil.convert(StringUtil.subStringLastEnd(action.getClass().getSimpleName(), "Action"));
+				// 查找方法对应action
+				action = Contexts.METHODS_ACTIONS.get(name);
 			}
 			// 获得方法
-			Map<String, Method> methods = Contexts.METHODS.get(name);
+			Map<String, Method> methods = Contexts.ACTIONS_METHODS.get(name);
 			if (EmptyUtil.isEmpty(methods)) {
-				ResponseUtil.json(response, callback, "no.methods");
-				return;
+				methods = Contexts.METHODS;
 			}
 			Method method = methods.get(actions.length > 1 ? actions[1] : actions[0]);
 			if (method == null) {

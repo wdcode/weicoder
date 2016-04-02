@@ -1,6 +1,7 @@
 package com.weicoder.web.listener;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
@@ -26,6 +27,7 @@ import com.weicoder.core.socket.Sockets;
 
 /**
  * 初始化监听器
+ * 
  * @author WD
  * @since JDK7
  * @version 1.0
@@ -63,17 +65,27 @@ public class InitListener implements ServletContextListener {
 					// 实例化Action并放在context中
 					Object action = BeanUtil.newInstance(c);
 					Contexts.ACTIONS.put(cname, action);
-					Contexts.ACTION = action;
 					if (action != null) {
 						// 循环判断方法
 						for (Method m : c.getDeclaredMethods()) {
-//							if (m.isAnnotationPresent(com.weicoder.web.annotation.Method.class)) {
-								Map<String, Method> map = Contexts.METHODS.get(cname);
+							// 判断是公有方法
+							if (Modifier.isPublic(m.getModifiers())) {
+								// 获得方法名
+								String mname = m.getName();
+								// 放入action里方法
+								Map<String, Method> map = Contexts.ACTIONS_METHODS.get(cname);
 								if (map == null) {
-									Contexts.METHODS.put(cname, map = Maps.getMap());
+									Contexts.ACTIONS_METHODS.put(cname, map = Maps.getMap());
 								}
-								map.put(m.getName(), m);
-//							}
+								map.put(mname, m);
+								// 放入总方法池
+								if (Contexts.METHODS.containsKey(mname)) {
+									Logs.warn("method name exist! name=" + mname + " action=" + cname);
+								}
+								Contexts.METHODS.put(mname, m);
+								//方法对应action
+								Contexts.METHODS_ACTIONS.put(mname, action);
+							}
 						}
 					}
 				} catch (Exception ex) {
