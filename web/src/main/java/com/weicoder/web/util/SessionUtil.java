@@ -10,9 +10,8 @@ import com.weicoder.common.util.EmptyUtil;
 
 /**
  * Session一些相关操作类
- * @author WD
- * @since JDK7
- * @version 1.0 2010-01-24
+ * @author WD 
+ * @version 1.0 
  */
 public final class SessionUtil {
 	/**
@@ -95,9 +94,6 @@ public final class SessionUtil {
 	public static ServletContext getServletContext(HttpSession session) {
 		return EmptyUtil.isEmpty(session) ? null : session.getServletContext();
 	}
-
-	/**
-	 * 私有构造
-	 */
+ 
 	private SessionUtil() {}
 }

@@ -13,9 +13,8 @@ import com.weicoder.common.util.StringUtil;
 
 /**
  * 解密类
- * @author WD
- * @since JDK7
- * @version 1.0 2010-06-22
+ * @author WD 
+ * @version 1.0 
  */
 public final class Decrypts extends BaseCrypt {
 
@@ -55,21 +54,21 @@ public final class Decrypts extends BaseCrypt {
 	public static byte[] decrypt(byte[] b, String keys) {
 		// 判断解密方式
 		switch (CommonParams.ENCRYPT_ALGO) {
-			case EncryptConstants.ALGO_AES:
-				// AES解密
-				return aes(b, keys);
-			case EncryptConstants.ALGO_DES:
-				// DES解密
-				return des(b, keys);
-			case EncryptConstants.ALGO_RC2:
-				// RC2解密
-				return rc2(b, keys);
-			case EncryptConstants.ALGO_RC4:
-				// RC4解密
-				return rc4(b, keys);
-			default:
-				// 默认返回AES
-				return aes(b, keys);
+		case EncryptConstants.ALGO_AES:
+			// AES解密
+			return aes(b, keys);
+		case EncryptConstants.ALGO_DES:
+			// DES解密
+			return des(b, keys);
+		case EncryptConstants.ALGO_RC2:
+			// RC2解密
+			return rc2(b, keys);
+		case EncryptConstants.ALGO_RC4:
+			// RC4解密
+			return rc4(b, keys);
+		default:
+			// 默认返回AES
+			return aes(b, keys);
 		}
 	}
 
@@ -180,8 +179,5 @@ public final class Decrypts extends BaseCrypt {
 		return doFinal(b, keys, len, algorithm, Cipher.DECRYPT_MODE);
 	}
 
-	/**
-	 * 私有构造
-	 */
 	private Decrypts() {}
 }

@@ -12,13 +12,12 @@ import com.weicoder.common.util.StringUtil;
 
 /**
  * Token令牌处理器
- * @author WD
- * @since JDK7
- * @version 1.0 2014-2-12
+ * @author WD 
+ * @version 1.0 
  */
 public final class TokenEngine {
 	// 验证长度
-	private final static int	LENGHT	= 8;
+	private final static int LENGHT = 8;
 
 	/**
 	 * 加密信息
@@ -64,8 +63,5 @@ public final class TokenEngine {
 		return token;
 	}
 
-	/**
-	 * 私有构造
-	 */
 	private TokenEngine() {}
 }

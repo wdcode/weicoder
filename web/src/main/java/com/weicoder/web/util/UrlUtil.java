@@ -9,9 +9,8 @@ import com.weicoder.common.util.EmptyUtil;
 
 /**
  * URL相关操作
- * @author WD
- * @since JDK7
- * @version 1.0 2010-01-22
+ * @author WD 
+ * @version 1.0 
  */
 public final class UrlUtil {
 	/**
@@ -30,8 +29,5 @@ public final class UrlUtil {
 		}
 	}
 
-	/**
-	 * 私有构造
-	 */
 	private UrlUtil() {}
 }

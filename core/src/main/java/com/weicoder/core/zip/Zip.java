@@ -2,9 +2,8 @@ package com.weicoder.core.zip;
 
 /**
  * 压缩与解压接口
- * @author WD
- * @since JDK7
- * @version 1.0 2012-09-15
+ * @author WD 
+ * @version 1.0 
  */
 public interface Zip {
 	/**

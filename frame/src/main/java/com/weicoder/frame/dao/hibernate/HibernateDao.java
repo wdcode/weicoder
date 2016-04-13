@@ -15,11 +15,11 @@ import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Example;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Restrictions; 
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.resource.transaction.spi.TransactionStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import com.weicoder.frame.context.Context;
+//import com.weicoder.frame.context.Context;
 import com.weicoder.frame.dao.Dao;
 import com.weicoder.frame.dao.hibernate.search.HibernateSearch;
 import com.weicoder.frame.dao.hibernate.session.SessionFactorys;
@@ -29,15 +29,11 @@ import com.weicoder.common.util.EmptyUtil;
 
 /**
  * Hibernate接口
- * @author WD
- * @since JDK7
- * @version 1.0 2012-03-05
+ * @author WD 
+ * @version 1.0 
  */
 @Repository
 public final class HibernateDao implements Dao {
-	// Context
-	@Resource
-	private Context			context;
 	// Session工厂
 	@Resource
 	private SessionFactorys	factorys;
@@ -196,11 +192,9 @@ public final class HibernateDao implements Dao {
 	 */
 	public <E> E get(final Class<E> entityClass, final Serializable pk) {
 		// 验证pk是否为空
-		if (EmptyUtil.isEmpty(pk)) {
-			return null;
-		}
+		if (EmptyUtil.isEmpty(pk)) { return null; }
 		// 查找对象
-		return execute(entityClass, new Callback<E>() { 
+		return execute(entityClass, new Callback<E>() {
 			public E callback(Session session) {
 				return (E) session.get(entityClass, pk);
 			}
@@ -210,11 +204,9 @@ public final class HibernateDao implements Dao {
 	@Override
 	public <E> List<E> gets(final Class<E> entityClass, final Serializable... pks) {
 		// 验证pk是否为空
-		if (EmptyUtil.isEmpty(pks)) {
-			return Lists.emptyList();
-		}
+		if (EmptyUtil.isEmpty(pks)) { return Lists.emptyList(); }
 		// 查找对象
-		return execute(entityClass, new Callback<List<E>>() { 
+		return execute(entityClass, new Callback<List<E>>() {
 			public List<E> callback(Session session) {
 				// 声明返回对象
 				List<E> list = Lists.getList(pks.length);
@@ -712,7 +704,7 @@ public final class HibernateDao implements Dao {
 		Transaction tx = null;
 		// 是否自己控制事务
 		boolean isSession = !session.getTransaction().getStatus().isOneOf(TransactionStatus.ACTIVE);
-//		boolean isSession = !session.getTransaction().isActive();
+		//		boolean isSession = !session.getTransaction().isActive();
 		// 返回结果
 		T t = null;
 		try {

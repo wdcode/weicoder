@@ -15,13 +15,12 @@ import com.weicoder.common.util.StringUtil;
 
 /**
  * hmac算法
- * @author WD
- * @since JDK7
- * @version 1.0 2014-1-25
+ * @author WD 
+ * @version 1.0 
  */
 public final class HMac {
 	// hmac算法使用
-	private final static Map<String, Mac>	MACS	= Maps.getConcurrentMap();
+	private final static Map<String, Mac> MACS = Maps.getConcurrentMap();
 
 	/**
 	 * 使用HMAC-SHA1进行消息签名, 返回字节数组,长度为20字节.

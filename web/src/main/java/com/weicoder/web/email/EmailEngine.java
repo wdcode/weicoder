@@ -4,20 +4,12 @@ import com.weicoder.web.email.factory.EmailFactory;
 
 /**
  * Email 处理引擎
- * @author WD
- * @since JDK7
- * @version 1.0 2012-08-28
+ * @author WD 
+ * @version 1.0 
  */
 public final class EmailEngine {
 	// Email发送器
-	private final static Email	EMAIL;
-
-	/**
-	 * 静态初始化
-	 */
-	static {
-		EMAIL = EmailFactory.getEmail();
-	}
+	private final static Email EMAIL = EmailFactory.getEmail();
 
 	/**
 	 * 发送简单文本邮件
@@ -84,8 +76,5 @@ public final class EmailEngine {
 		EMAIL.send(to, subject, msg, attach);
 	}
 
-	/**
-	 * 私有构造
-	 */
 	private EmailEngine() {}
 }

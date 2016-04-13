@@ -5,13 +5,12 @@ import com.weicoder.core.socket.Session;
 
 /**
  * 空Session实现
- * @author WD
- * @since JDK7
- * @version 1.0 2014-3-17
+ * @author WD 
+ * @version 1.0 
  */
 public final class SessionEmpty implements Session {
 	/** 空Session */
-	public final static Session	EMPTY	= new SessionEmpty();
+	public final static Session EMPTY = new SessionEmpty();
 
 	@Override
 	public void close() {}

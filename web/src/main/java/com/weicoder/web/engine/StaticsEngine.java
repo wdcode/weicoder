@@ -12,13 +12,12 @@ import com.weicoder.web.util.HttpUtil;
 
 /**
  * 静态化操作
- * @author WD
- * @since JDK7
- * @version 1.0 2010-12-22
+ * @author WD 
+ * @version 1.0 
  */
 public final class StaticsEngine {
 	// 定时器
-	private static ScheduledExecutorService	service;
+	private static ScheduledExecutorService service;
 
 	/**
 	 * 开始执行
@@ -62,4 +61,6 @@ public final class StaticsEngine {
 			service.shutdown();
 		}
 	}
+
+	private StaticsEngine() {}
 }

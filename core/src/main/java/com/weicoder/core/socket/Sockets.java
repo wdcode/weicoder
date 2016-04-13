@@ -19,23 +19,16 @@ import com.weicoder.core.socket.manager.Manager;
 
 /**
  * Socket 相关类
- * @author WD
- * @since JDK7
- * @version 1.0 2013-12-7
+ * @author WD 
+ * @version 1.0  
  */
 public final class Sockets {
 	// 保存SocketServer
-	private final static Map<String, Server>	SERVERS;
+	private final static Map<String, Server>	SERVERS		= Maps.getConcurrentMap();
 	// 保存SocketClient
-	private final static Map<String, Client>	CLIENTS;
+	private final static Map<String, Client>	CLIENTS		= Maps.getConcurrentMap();
 	// 保存Manager Session管理器 一般给Server使用
-	private final static Map<String, Manager>	MANAGERS;
-
-	static {
-		SERVERS = Maps.getConcurrentMap();
-		CLIENTS = Maps.getConcurrentMap();
-		MANAGERS = Maps.getConcurrentMap();
-	}
+	private final static Map<String, Manager>	MANAGERS	= Maps.getConcurrentMap();
 
 	/**
 	 * 初始化Mina
@@ -283,13 +276,13 @@ public final class Sockets {
 	 */
 	private static Server getServer(String name) {
 		switch (SocketParams.getParse(name)) {
-			case "netty":
-				return new NettyServer(name);
-			case "netty3":
-				return new Netty3Server(name);
-			default:
-				// 默认mina
-				return new MinaServer(name);
+		case "netty":
+			return new NettyServer(name);
+		case "netty3":
+			return new Netty3Server(name);
+		default:
+			// 默认mina
+			return new MinaServer(name);
 		}
 	}
 
@@ -300,13 +293,13 @@ public final class Sockets {
 	 */
 	private static Client getClient(String name) {
 		switch (SocketParams.getParse(name)) {
-			case "netty":
-				return new NettyClient(name);
-			case "netty3":
-				return new Netty3Client(name);
-			default:
-				// 默认mina
-				return new MinaClient(name);
+		case "netty":
+			return new NettyClient(name);
+		case "netty3":
+			return new Netty3Client(name);
+		default:
+			// 默认mina
+			return new MinaClient(name);
 		}
 	}
 

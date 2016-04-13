@@ -7,9 +7,8 @@ import com.weicoder.common.params.Params;
 
 /**
  * Socket读取配置
- * @author WD
- * @since JDK7
- * @version 1.0 2011-07-07
+ * @author WD 
+ * @version 1.0 
  */
 public final class SocketParams {
 	/** 前缀 */
@@ -223,6 +222,5 @@ public final class SocketParams {
 		return Params.getString(Params.getKey(PREFIX, name, "closed"));
 	}
 
-	/** 私有构造 */
 	private SocketParams() {}
 }

@@ -4,13 +4,12 @@ import com.weicoder.core.xml.Attribute;
 
 /**
  * Attribute接口 JDom实现
- * @author WD
- * @since JDK7
- * @version 1.0 2009-03-23
+ * @author WD 
+ * @version 1.0 
  */
 public final class AttributeJDom2 implements Attribute {
 	// JDom Attribute对象
-	private org.jdom2.Attribute	attribute;
+	private org.jdom2.Attribute attribute;
 
 	/**
 	 * 构造方法

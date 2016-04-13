@@ -2,9 +2,8 @@ package com.weicoder.frame.entity;
 
 /**
  * 有上传文件的实体接口
- * @author WD
- * @since JDK7
- * @version 1.0 2012-6-25
+ * @author WD 
+ * @version 1.0  
  */
 public interface EntityFile {
 	/**

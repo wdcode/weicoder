@@ -10,13 +10,12 @@ import com.weicoder.core.socket.base.BaseSession;
 
 /**
  * Mina实现
- * @author WD
- * @since JDK7
- * @version 1.0 2013-11-28
+ * @author WD 
+ * @version 1.0 
  */
 public final class MinaSession extends BaseSession implements Session {
 	// Mina Session
-	private IoSession	session;
+	private IoSession session;
 
 	/**
 	 * 构造方法
@@ -33,9 +32,7 @@ public final class MinaSession extends BaseSession implements Session {
 	@Override
 	public void write(byte[] data) {
 		// Session为null
-		if (session == null) {
-			return;
-		}
+		if (session == null) { return; }
 		// 发送数据过多
 		if (session.getScheduledWriteBytes() > Short.MAX_VALUE || session.getScheduledWriteMessages() > Byte.MAX_VALUE) {
 			Logs.info("message num many close=" + id);

@@ -15,13 +15,12 @@ import com.weicoder.common.util.CloseUtil;
 
 /**
  * SAXBuilder接口 JDom实现
- * @author WD
- * @since JDK7
- * @version 1.0 2009-03-23
+ * @author WD 
+ * @version 1.0 
  */
 public final class XMLReadJDom implements XMLRead {
 	// JDom SAXReader 读取XML文件
-	private SAXBuilder	builder;
+	private SAXBuilder builder;
 
 	/**
 	 * 构造方法

@@ -21,9 +21,8 @@ import com.weicoder.web.util.RequestUtil;
 
 /**
  * 短信支付
- * @author WD
- * @since JDK7
- * @version 1.0 2014-1-13
+ * @author WD 
+ * @version 1.0 
  */
 @Component
 public final class Sms implements Pay {

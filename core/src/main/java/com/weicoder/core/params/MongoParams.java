@@ -4,41 +4,20 @@ import com.weicoder.common.params.Params;
 
 /**
  * MongoDB配置读取
- * @author WD
- * @since JDK7
- * @version 1.0 2011-06-23
+ * @author WD 
+ * @version 1.0  
  */
 public final class MongoParams {
 	/* Redis使用 */
-	private final static String	PREFIX;	// 前缀
-	private final static String	HOST;		// 服务器地址
-	private final static String	PORT;		// 服务器端口
-	private final static String	DB;		// 数据库名
-	private final static String	COLLECTION; // 集合
-
-	/**
-	 * 静态初始化
-	 */
-	static {
-		/* Redis使用 */
-		PREFIX = "mongo"; // 键
-		HOST = "host"; // 服务器地址
-		PORT = "port"; // 服务器端口
-		DB = "db";// 数据库名
-		COLLECTION = "collection";// 集合
-	}
+	private final static String	PREFIX		= "mongo";		// 前缀
+	private final static String	HOST		= "host";		// 服务器地址
+	private final static String	PORT		= "port";		// 服务器端口
+	private final static String	DB			= "db";			// 数据库名
+	private final static String	COLLECTION	= "collection";	// 集合
 
 	/* Redis使用 */
-	private static String		host;		// 服务器地址
-	private static int			port;		// 服务器端口
-
-	/**
-	 * 静态初始化
-	 */
-	static {
-		host = "127.0.0.1"; // 服务器地址
-		port = 27017; // 服务器端口
-	}
+	private static String		host		= "127.0.0.1";	// 服务器地址
+	private static int			port		= 27017;		// 服务器端口
 
 	/**
 	 * Mongo服务器地址<br/>
@@ -122,8 +101,5 @@ public final class MongoParams {
 		return Params.getKey(PREFIX, name, key);
 	}
 
-	/**
-	 * 私有构造
-	 */
 	private MongoParams() {}
 }

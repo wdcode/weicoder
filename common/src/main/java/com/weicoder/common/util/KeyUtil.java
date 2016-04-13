@@ -13,20 +13,12 @@ import com.weicoder.common.params.CommonParams;
 
 /**
  * 生成密钥对用
- * @author WD
- * @since JDK7
- * @version 1.0 2011-06-18
+ * @author WD 
+ * @version 1.0  
  */
 public final class KeyUtil {
 	// 密钥对
-	private final static Map<String, KeyPair>	KEYPAIRS;
-
-	/**
-	 * 静态初始化
-	 */
-	static {
-		KEYPAIRS = Maps.getConcurrentMap();
-	}
+	private final static Map<String, KeyPair> KEYPAIRS = Maps.getConcurrentMap();
 
 	/**
 	 * 获得密钥对 里面包含 公钥 密钥
@@ -83,8 +75,5 @@ public final class KeyUtil {
 		}
 	}
 
-	/**
-	 * 私有构造
-	 */
 	private KeyUtil() {}
 }

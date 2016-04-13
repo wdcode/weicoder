@@ -24,9 +24,8 @@ import com.weicoder.web.http.HttpEngine;
 
 /**
  * HTTP一些相关操作类
- * @author WD
- * @since JDK7
- * @version 1.0 2010-01-21
+ * @author WD 
+ * @version 1.0 
  */
 public final class HttpUtil {
 
@@ -300,9 +299,6 @@ public final class HttpUtil {
 	public static void saveToFile(String url, String fileName) {
 		FileUtil.write(fileName, HttpEngine.download(url), false);
 	}
-
-	/**
-	 * 私有构造
-	 */
+ 
 	private HttpUtil() {}
 }

@@ -11,9 +11,8 @@ import com.whalin.MemCached.SockIOPool;
 
 /**
  * MemCached com.danga包的客户端调用实现
- * @author WD
- * @since JDK7
- * @version 1.0 2010-08-29
+ * @author WD 
+ * @version 1.0 
  */
 public final class MemcacheWhalin extends BaseMemcache {
 	// MemCache客户端

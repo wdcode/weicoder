@@ -23,7 +23,7 @@ import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.frame.bean.Pagination;
-import com.weicoder.frame.context.Context;
+import com.weicoder.frame.context.Contexts;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.DateUtil;
 import com.weicoder.common.util.EmptyUtil;
@@ -35,9 +35,8 @@ import com.weicoder.web.util.IpUtil;
 
 /**
  * 超级通用Action
- * @author WD
- * @since JDK7
- * @version 1.0 2012-07-4
+ * @author WD 
+ * @version 1.0  
  */
 public abstract class SuperAction extends BasicAction {
 	// 成功
@@ -50,9 +49,6 @@ public abstract class SuperAction extends BasicAction {
 	protected final static String	LIST		= "list";
 	// 时间字段
 	protected final static String	TIME_FIELD	= "time";
-	// 全局Context
-	@Resource
-	protected Context				context;
 	// 通用业务接口
 	@Resource
 	protected SuperService			service;
@@ -125,28 +121,28 @@ public abstract class SuperAction extends BasicAction {
 			// 初始化空排序
 			orders = Maps.getMap();
 			// 获得实体类
-			entityClass = context.getClass(module);
+			entityClass = Contexts.getClass(module);
 			// 获得ContentType
 			String contentType = request.getContentType();
 			// 判断为上传文件表单
 			if (!EmptyUtil.isEmpty(contentType) && contentType.indexOf(HttpConstants.CONTENT_TYPE_FILE) > -1) {
 				isEntity = true;
 				// 获得实体
-				entity = entityClass == null ? null : context.getBean(module, entityClass);
+				entity = entityClass == null ? null : Contexts.getBean(module, entityClass);
 			} else {
 				// 是否初始化实体
 				for (Map.Entry<String, String[]> e : request.getParameterMap().entrySet()) {
 					if (e.getKey().indexOf("entity") > -1) {
 						isEntity = true;
 						// 获得实体
-						entity = entityClass == null ? null : context.getBean(module, entityClass);
+						entity = entityClass == null ? null : Contexts.getBean(module, entityClass);
 						break;
 					}
 				}
 			}
 			// 如果查询自己的数据 添加登录用户名
 			if (entity == null && entityClass != null && EntityUserId.class.isAssignableFrom(entityClass)) {
-				entity = context.getBean(module, entityClass);
+				entity = Contexts.getBean(module, entityClass);
 			}
 			if (entity instanceof EntityUserId) {
 				((EntityUserId) entity).setUserId(token.getId());
@@ -730,9 +726,7 @@ public abstract class SuperAction extends BasicAction {
 	 */
 	protected Entity theme(Entity e) {
 		// 判断e==null 直接返回
-		if (e == null) {
-			return e;
-		}
+		if (e == null) { return e; }
 		// 判断是否EntityStartEndTime
 		if (e instanceof EntityStartEndTime) {
 			// 开始时间

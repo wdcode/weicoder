@@ -13,9 +13,8 @@ import com.weicoder.core.xml.Element;
 
 /**
  * XML节点接口 Dom4J实现
- * @author WD
- * @since JDK7
- * @version 1.0 2009-03-19
+ * @author WD 
+ * @version 1.0 
  */
 public final class ElementDom4J implements Element {
 	// Document对象
@@ -269,9 +268,7 @@ public final class ElementDom4J implements Element {
 	 */
 	private List<Element> getElementList(List<?> list) {
 		// 判断列表不为空
-		if (EmptyUtil.isEmpty(list)) {
-			return Lists.emptyList();
-		}
+		if (EmptyUtil.isEmpty(list)) { return Lists.emptyList(); }
 		// 获得列表大小
 		int size = list.size();
 		// 声明节点集合

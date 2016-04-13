@@ -7,11 +7,9 @@ import java.util.Map;
 import com.weicoder.common.interfaces.Close;
 
 /**
- * 实现HTTP模拟浏览器提交的接口 使用HttpFactory获得实例
- * @see com.weicoder.web.http.factory.HttpFactory
- * @author WD
- * @since JDK7
- * @version 1.0 2009-06-03
+ * 实现HTTP模拟浏览器提交的接口 使用HttpFactory获得实例 
+ * @author WD 
+ * @version 1.0 
  */
 public interface Http extends Close {
 	/**

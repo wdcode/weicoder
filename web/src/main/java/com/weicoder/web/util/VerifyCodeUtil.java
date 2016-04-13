@@ -193,8 +193,5 @@ public final class VerifyCodeUtil {
 		return new Color(r, g, b);
 	}
 
-	/**
-	 * 私有构造
-	 */
 	private VerifyCodeUtil() {}
 }

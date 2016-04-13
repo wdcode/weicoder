@@ -8,9 +8,8 @@ import com.weicoder.core.socket.process.Process;
 
 /**
  * 基础Socket
- * @author WD
- * @since JDK7
- * @version 1.0 2013-12-30
+ * @author WD 
+ * @version 1.0  
  */
 public abstract class BaseSocket implements Socket {
 	// 名称
@@ -20,6 +19,7 @@ public abstract class BaseSocket implements Socket {
 
 	/**
 	 * 构造
+	 * @param name 名称
 	 */
 	public BaseSocket(String name) {
 		this.name = name;

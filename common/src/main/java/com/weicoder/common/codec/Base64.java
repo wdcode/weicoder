@@ -6,9 +6,8 @@ import com.weicoder.common.util.EmptyUtil;
 
 /**
  * Base64 编码解码
- * @author WD
- * @since JDK7
- * @version 1.0 2013-11-26
+ * @author WD 
+ * @version 1.0 
  */
 public final class Base64 {
 	// 编码用
@@ -84,9 +83,7 @@ public final class Base64 {
 	 */
 	public static byte[] decode(String str) {
 		// 要解码的字符串为空
-		if (EmptyUtil.isEmpty(str)) {
-			return ArrayConstants.BYTES_EMPTY;
-		}
+		if (EmptyUtil.isEmpty(str)) { return ArrayConstants.BYTES_EMPTY; }
 		// 变为char数组
 		char[] data = str.toCharArray();
 		// 获得长度
@@ -123,7 +120,7 @@ public final class Base64 {
 				if (shift >= 8) { // whenever there are 8 or more shifted in,
 					shift -= 8; // write them out (from the top, leaving any
 					out[index++] = // excess at the bottom for next iteration.
-					(byte) ((accum >> shift) & 0xff);
+							(byte) ((accum >> shift) & 0xff);
 				}
 			}
 		}

@@ -20,9 +20,8 @@ import java.io.IOException;
 
 /**
  * 检测用户是否登陆
- * @author WD
- * @since JDK7
- * @version 1.0 2010-03-07
+ * @author WD 
+ * @version 1.0 
  */
 public final class LoginFilter<L extends EntityUser> implements Filter {
 	// 常量
@@ -99,8 +98,6 @@ public final class LoginFilter<L extends EntityUser> implements Filter {
 		}
 	}
 
-	/**
-	 * 销毁实例调用
-	 */
+	@Override
 	public void destroy() {}
 }

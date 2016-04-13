@@ -8,24 +8,20 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 import com.weicoder.frame.bean.Pagination;
-import com.weicoder.frame.context.Context;
+import com.weicoder.frame.context.Contexts;
 import com.weicoder.frame.entity.Entity;
 import com.weicoder.common.lang.Maps;
 
 /**
  * 基于Hibernate的查询器
- * @author WD
- * @since JDK7
- * @version 1.0 2012-06-24
+ * @author WD 
+ * @version 1.0 
  */
 @Service
 public final class QueryService {
 	// 超级业务接口
 	@Resource
-	private SuperService	service;
-	// context工具类
-	@Resource
-	private Context			context;
+	private SuperService service;
 
 	/**
 	 * 根据ID 获得实体
@@ -34,7 +30,7 @@ public final class QueryService {
 	 * @return 实体
 	 */
 	public Entity get(String entity, Serializable pk) {
-		return service.get(context.getClass(entity), pk);
+		return service.get(Contexts.getClass(entity), pk);
 	}
 
 	/**
@@ -45,7 +41,7 @@ public final class QueryService {
 	 * @return 要获得的持久化对象，如果不存在返回null
 	 */
 	public Entity get(String entity, String property, Object value) {
-		return service.get(context.getClass(entity), property, value);
+		return service.get(Contexts.getClass(entity), property, value);
 	}
 
 	/**
@@ -55,7 +51,7 @@ public final class QueryService {
 	 * @return 要获得的持久化对象，如果不存在返回null
 	 */
 	public Entity get(String entity, Map<String, Object> data) {
-		return service.get(context.getClass(entity), data);
+		return service.get(Contexts.getClass(entity), data);
 	}
 
 	/**
@@ -93,7 +89,7 @@ public final class QueryService {
 	 * @return 数据列表
 	 */
 	public List<? extends Entity> search(String entity, String property, Object value, int firstResult, int maxResults) {
-		return service.search(context.getClass(entity), property, value, firstResult, maxResults);
+		return service.search(Contexts.getClass(entity), property, value, firstResult, maxResults);
 	}
 
 	/**
@@ -123,7 +119,7 @@ public final class QueryService {
 	 * @return 全部实体
 	 */
 	public List<? extends Entity> list(String entity, int firstResult, int maxResults) {
-		return service.list(context.getClass(entity), firstResult, maxResults);
+		return service.list(Contexts.getClass(entity), firstResult, maxResults);
 	}
 
 	/**
@@ -159,7 +155,7 @@ public final class QueryService {
 	 * @return 数据列表
 	 */
 	public List<? extends Entity> list(String entity, String property, List<Object> values, int firstResult, int maxResults) {
-		return service.in(context.getClass(entity), property, values, -1, maxResults);
+		return service.in(Contexts.getClass(entity), property, values, -1, maxResults);
 	}
 
 	/**
@@ -215,7 +211,7 @@ public final class QueryService {
 	 * @return 数据列表
 	 */
 	public List<? extends Entity> list(String entity, Map<String, List<Object>> parames, int firstResult, int maxResults) {
-		return service.in(context.getClass(entity), parames, firstResult, maxResults);
+		return service.in(Contexts.getClass(entity), parames, firstResult, maxResults);
 	}
 
 	/**
@@ -228,7 +224,7 @@ public final class QueryService {
 	 * @return 数据列表
 	 */
 	public List<? extends Entity> list(String entity, List<String> keys, List<Object> values, int firstResult, int maxResults) {
-		return service.eq(context.getClass(entity), Maps.getMap(keys, values), firstResult, maxResults);
+		return service.eq(Contexts.getClass(entity), Maps.getMap(keys, values), firstResult, maxResults);
 	}
 
 	/**
@@ -264,7 +260,7 @@ public final class QueryService {
 	 * @return 数据列表
 	 */
 	public List<? extends Entity> list(String entity, String property, Object value, int firstResult, int maxResults) {
-		return service.eq(context.getClass(entity), property, value, firstResult, maxResults);
+		return service.eq(Contexts.getClass(entity), property, value, firstResult, maxResults);
 	}
 
 	/**
@@ -276,7 +272,7 @@ public final class QueryService {
 	 * @return 数据列表
 	 */
 	public List<? extends Entity> list(String entity, String property, List<Object> values, Pagination pager) {
-		return service.in(context.getClass(entity), property, values, pager);
+		return service.in(Contexts.getClass(entity), property, values, pager);
 	}
 
 	/**
@@ -288,7 +284,7 @@ public final class QueryService {
 	 * @return 数据列表
 	 */
 	public List<? extends Entity> list(String entity, String property, List<Object> values, Map<String, Object> orders, Pagination pager) {
-		return service.in(context.getClass(entity), property, values, orders, pager);
+		return service.in(Contexts.getClass(entity), property, values, orders, pager);
 	}
 
 	/**
@@ -300,7 +296,7 @@ public final class QueryService {
 	 * @return 数据列表
 	 */
 	public List<? extends Entity> list(String entity, String property, Object value, Pagination pager) {
-		return service.eq(context.getClass(entity), property, value, pager);
+		return service.eq(Contexts.getClass(entity), property, value, pager);
 	}
 
 	/**
@@ -309,7 +305,7 @@ public final class QueryService {
 	 * @return 数量
 	 */
 	public int count(String entity) {
-		return service.count(context.getClass(entity));
+		return service.count(Contexts.getClass(entity));
 	}
 
 	/**
@@ -320,7 +316,7 @@ public final class QueryService {
 	 * @return 数量
 	 */
 	public int count(String entity, String property, Object value) {
-		return service.count(context.getClass(entity), property, value);
+		return service.count(Contexts.getClass(entity), property, value);
 	}
 
 	/**
@@ -331,7 +327,7 @@ public final class QueryService {
 	 * @return 下级所有分类列表
 	 */
 	public List<? extends Entity> next(String entity, String property, Object value) {
-		return service.next(context.getClass(entity), property, value);
+		return service.next(Contexts.getClass(entity), property, value);
 	}
 
 	/**
@@ -342,7 +338,7 @@ public final class QueryService {
 	 * @return 上级所有分类列表
 	 */
 	public List<? extends Entity> prev(String entity, String property, Serializable pk) {
-		return service.prev(context.getClass(entity), property, pk);
+		return service.prev(Contexts.getClass(entity), property, pk);
 	}
 
 	/**
@@ -353,6 +349,6 @@ public final class QueryService {
 	 * @return 数据列表
 	 */
 	public List<Entity> order(String entity, Map<String, Object> orders, int firstResult, int maxResults) {
-		return service.order(context.getClass(entity), orders, firstResult, maxResults);
+		return service.order(Contexts.getClass(entity), orders, firstResult, maxResults);
 	}
 }

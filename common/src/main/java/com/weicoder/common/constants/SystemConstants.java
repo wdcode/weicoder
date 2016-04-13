@@ -2,9 +2,8 @@ package com.weicoder.common.constants;
 
 /**
  * 系统常量
- * @author WD
- * @since JDK7
- * @version 1.0 2011-11-28
+ * @author WD 
+ * @version 1.0 
  */
 public final class SystemConstants {
 	/** JDK版本 */

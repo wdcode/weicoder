@@ -8,9 +8,8 @@ import com.weicoder.pay.bean.TradeBean;
 
 /**
  * 支付接口
- * @author WD
- * @since JDK6
- * @version 1.0 2012-11-30
+ * @author WD 
+ * @version 1.0 
  */
 public interface Pay {
 	/**

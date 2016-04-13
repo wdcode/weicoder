@@ -3,6 +3,7 @@ package com.weicoder.core.json.impl;
 import java.util.List;
 
 import com.weicoder.common.lang.Lists;
+import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.core.json.Json;
@@ -13,13 +14,12 @@ import com.google.gson.reflect.TypeToken;
 
 /**
  * Json格式读写器 gson 包实现
- * @author WD
- * @since JDK7
- * @version 1.0 2012-09-15
+ * @author WD 
+ * @version 1.0 
  */
 public final class JsonGson implements Json {
 	// Gson
-	private final static Gson	GSON	= new GsonBuilder().create();
+	private final static Gson GSON = new GsonBuilder().create();
 
 	@Override
 	public String toJson(Object obj) {
@@ -31,6 +31,7 @@ public final class JsonGson implements Json {
 		try {
 			return GSON.fromJson(json, clazz);
 		} catch (Exception e) {
+			Logs.info(e);
 			return null;
 		}
 	}

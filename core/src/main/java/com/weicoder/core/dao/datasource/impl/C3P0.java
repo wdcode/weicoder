@@ -8,13 +8,12 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 /**
  * C3P0连接池实现
- * @author WD
- * @since JDK7
- * @version 1.0 2010-01-23
+ * @author WD 
+ * @version 1.0  
  */
 public final class C3P0 extends BaseDataSource {
 	// C3P0数据源
-	private ComboPooledDataSource	ds	= new ComboPooledDataSource();
+	private ComboPooledDataSource ds = new ComboPooledDataSource();
 
 	/**
 	 * 获得驱动类

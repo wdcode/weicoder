@@ -11,9 +11,8 @@ import com.weicoder.core.json.JsonEngine;
 
 /**
  * Entity接口基础实现
- * @author WD
- * @since JDK7
- * @version 1.0 2010-12-28
+ * @author WD 
+ * @version 1.0 
  */
 @MappedSuperclass
 public abstract class BaseEntity implements Entity {
@@ -47,18 +46,13 @@ public abstract class BaseEntity implements Entity {
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
+		if (this == obj) return true;
+		if (obj == null) return false;
+		if (getClass() != obj.getClass()) return false;
 		Entity other = (Entity) obj;
 		if (getKey() == null) {
-			if (other.getKey() != null)
-				return false;
-		} else if (!getKey().equals(other.getKey()))
-			return false;
+			if (other.getKey() != null) return false;
+		} else if (!getKey().equals(other.getKey())) return false;
 		return true;
 	}
 

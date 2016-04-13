@@ -21,27 +21,19 @@ import com.weicoder.common.io.FileUtil;
 import com.weicoder.common.log.Logs;
 
 /**
- * 对普通图片处理。
- * @author WD
- * @since JDK7
- * @version 1.0 2011-05-01
+ * 对普通图片处理
+ * @author WD 
+ * @version 1.0  
  */
 public final class ImageUtil {
 	// 字体名
-	private final static String	FONT_NAME;
+	private final static String	FONT_NAME	= "宋体";
 	// 字体
-	private static Font			font;
+	private static Font			font		= new Font(FONT_NAME, Font.PLAIN, 15);
 	// 颜色
-	private static Color		color;
+	private static Color		color		= Color.WHITE;
 	// 图片格式名
-	private static String		formatName;
-
-	static {
-		FONT_NAME = "宋体";
-		font = new Font(FONT_NAME, Font.PLAIN, 15);
-		color = Color.WHITE;
-		formatName = ImageConstants.JPEG;
-	}
+	private static String		formatName	= ImageConstants.JPEG;
 
 	/**
 	 * 判断图片是否为空
@@ -103,8 +95,6 @@ public final class ImageUtil {
 				tag.getGraphics().drawImage(img.getScaledInstance(width, height, Image.SCALE_SMOOTH), 0, 0, null);
 				// 写入图片
 				write(tag, formatName, out, isClose);
-				// JPEGImageEncoder可适用于其他图片类型的转换
-				// JPEGCodec.createJPEGEncoder(out).encode(tag);
 			}
 		} catch (Exception e) {
 			Logs.warn(e);
@@ -386,8 +376,5 @@ public final class ImageUtil {
 		return intReturn;
 	}
 
-	/**
-	 * 私有构造
-	 */
 	private ImageUtil() {}
 }

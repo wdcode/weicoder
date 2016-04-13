@@ -18,9 +18,8 @@ import com.weicoder.common.params.CommonParams;
 
 /**
  * 对字符串进行一些处理。
- * @author WD
- * @since JDK7
- * @version 1.0 2009-03-01
+ * @author WD 
+ * @version 1.0 
  */
 public final class StringUtil {
 	/**
@@ -44,9 +43,7 @@ public final class StringUtil {
 	 */
 	public static String htmlConvertHigh(String context) {
 		// 判断字符串为空
-		if (EmptyUtil.isEmpty(context)) {
-			return context;
-		}
+		if (EmptyUtil.isEmpty(context)) { return context; }
 		// 替换&
 		if (context.indexOf(StringConstants.AMP) > -1) {
 			context = context.replaceAll(StringConstants.AMP, HtmlConstants.ESC_AMP);
@@ -96,9 +93,7 @@ public final class StringUtil {
 	 */
 	public static List<Map<String, String>> htmlConvertHigh(List<Map<String, String>> list) {
 		// 判断list是否为空
-		if (EmptyUtil.isEmpty(list)) {
-			return list;
-		}
+		if (EmptyUtil.isEmpty(list)) { return list; }
 		// 获得列表大小
 		int size = list.size();
 		// 声明列表保存新变量
@@ -120,9 +115,7 @@ public final class StringUtil {
 	 */
 	public static String highConvertHtml(String context) {
 		// 判断字符串为空
-		if (EmptyUtil.isEmpty(context)) {
-			return context;
-		}
+		if (EmptyUtil.isEmpty(context)) { return context; }
 		// 替换&amp;
 		if (context.indexOf(HtmlConstants.ESC_AMP) > -1) {
 			context = context.replaceAll(HtmlConstants.ESC_AMP, StringConstants.AMP);
@@ -172,9 +165,7 @@ public final class StringUtil {
 	 */
 	public static List<Map<String, String>> highConvertHtml(List<Map<String, String>> list) {
 		// 判断list是否为空
-		if (EmptyUtil.isEmpty(list)) {
-			return list;
-		}
+		if (EmptyUtil.isEmpty(list)) { return list; }
 		// 获得列表大小
 		int size = list.size();
 		// 声明列表保存新变量
@@ -195,9 +186,7 @@ public final class StringUtil {
 	 */
 	public static int getLength(String str) {
 		// 如果为空返回0
-		if (EmptyUtil.isEmpty(str)) {
-			return 0;
-		}
+		if (EmptyUtil.isEmpty(str)) { return 0; }
 		// 初始化长度
 		int length = 0;
 		// 获得字符串的字符数组
@@ -271,9 +260,7 @@ public final class StringUtil {
 	 */
 	public static String subString(String str, String start, String end) {
 		// 字符串为空返回原串
-		if (EmptyUtil.isEmpty(str)) {
-			return str;
-		}
+		if (EmptyUtil.isEmpty(str)) { return str; }
 		// 开始位置
 		int i = str.indexOf(start) == -1 ? 0 : str.indexOf(start) + start.length();
 		// 结束位置
@@ -306,9 +293,7 @@ public final class StringUtil {
 	 */
 	public static String subString(String str, int start, int end) {
 		// 字符串为空返回原串
-		if (EmptyUtil.isEmpty(str)) {
-			return str;
-		}
+		if (EmptyUtil.isEmpty(str)) { return str; }
 		// 字符串长度
 		int len = str.length();
 		// 开始位置
@@ -334,9 +319,7 @@ public final class StringUtil {
 	 */
 	public static String subStringLast(String str, String start, String end) {
 		// 字符串为空返回""
-		if (EmptyUtil.isEmpty(str)) {
-			return str;
-		}
+		if (EmptyUtil.isEmpty(str)) { return str; }
 		// 开始位置
 		int i = str.lastIndexOf(start) == -1 ? 0 : str.lastIndexOf(start) + start.length();
 		// 结束位置
@@ -354,15 +337,11 @@ public final class StringUtil {
 	 */
 	public static String subString(String str, String start) {
 		// 字符串为空返回""
-		if (EmptyUtil.isEmpty(str)) {
-			return str;
-		}
+		if (EmptyUtil.isEmpty(str)) { return str; }
 		// 开始位置
 		int i = str.indexOf(start) == -1 ? 0 : str.indexOf(start) + start.length();
 		// 如果开始长度为0 返回原串
-		if (i == 0) {
-			return str;
-		}
+		if (i == 0) { return str; }
 		// 返回截取的字符串
 		return str.substring(i, str.length());
 	}
@@ -376,15 +355,11 @@ public final class StringUtil {
 	 */
 	public static String subStringLast(String str, String start) {
 		// 字符串为空返回原串
-		if (EmptyUtil.isEmpty(str)) {
-			return str;
-		}
+		if (EmptyUtil.isEmpty(str)) { return str; }
 		// 开始位置
 		int i = str.lastIndexOf(start) == -1 ? 0 : str.lastIndexOf(start) + start.length();
 		// 如果开始长度为0 返回原串
-		if (i == 0) {
-			return str;
-		}
+		if (i == 0) { return str; }
 		// 返回截取的字符串
 		return str.substring(i, str.length());
 	}
@@ -398,15 +373,11 @@ public final class StringUtil {
 	 */
 	public static String subStringEnd(String str, String end) {
 		// 字符串为空返回""
-		if (EmptyUtil.isEmpty(str)) {
-			return str;
-		}
+		if (EmptyUtil.isEmpty(str)) { return str; }
 		// 开始位置
 		int i = str.indexOf(end) == -1 ? 0 : str.indexOf(end);
 		// 如果开始长度为0 返回原串
-		if (i == 0) {
-			return str;
-		}
+		if (i == 0) { return str; }
 		// 返回截取的字符串
 		return str.substring(0, i);
 	}
@@ -420,15 +391,11 @@ public final class StringUtil {
 	 */
 	public static String subStringLastEnd(String str, String end) {
 		// 字符串为空返回""
-		if (EmptyUtil.isEmpty(str)) {
-			return str;
-		}
+		if (EmptyUtil.isEmpty(str)) { return str; }
 		// 开始位置
 		int i = str.lastIndexOf(end) == -1 ? 0 : str.lastIndexOf(end);
 		// 如果开始长度为0 返回原串
-		if (i == 0) {
-			return str;
-		}
+		if (i == 0) { return str; }
 		// 返回截取的字符串
 		return str.substring(0, i);
 	}
@@ -470,9 +437,7 @@ public final class StringUtil {
 	 */
 	public static String convert(String name) {
 		// 如果为空返回原串
-		if (EmptyUtil.isEmpty(name)) {
-			return name;
-		}
+		if (EmptyUtil.isEmpty(name)) { return name; }
 		// 分解_个字段
 		String[] strs = name.toLowerCase().split(StringConstants.UNDERLINE);
 		// 实例一个字符串缓存
@@ -550,9 +515,7 @@ public final class StringUtil {
 	 */
 	public static boolean contains(String str, String searchStr) {
 		// 如果一个串为空 返回false
-		if (EmptyUtil.isEmpty(str) || EmptyUtil.isEmpty(searchStr)) {
-			return false;
-		}
+		if (EmptyUtil.isEmpty(str) || EmptyUtil.isEmpty(searchStr)) { return false; }
 		// 判断是否包含
 		return str.indexOf(searchStr) >= 0;
 	}
@@ -605,9 +568,7 @@ public final class StringUtil {
 	 */
 	public static String resolve(String text, int len) {
 		// 字符串为空
-		if (EmptyUtil.isEmpty(text)) {
-			return text;
-		}
+		if (EmptyUtil.isEmpty(text)) { return text; }
 		// 如果字符串长度大于要返回的长度
 		if (text.length() > len) {
 			// 声明字符串缓存
@@ -670,9 +631,7 @@ public final class StringUtil {
 	 */
 	public static String[] separate(String s, int len) {
 		// 如果字符为空返回空
-		if (EmptyUtil.isEmpty(s)) {
-			return ArrayConstants.STRING_EMPTY;
-		}
+		if (EmptyUtil.isEmpty(s)) { return ArrayConstants.STRING_EMPTY; }
 		// 声明字符数组
 		char[] c = s.toCharArray();
 		char[] c1 = new char[c.length / len];
@@ -692,8 +651,5 @@ public final class StringUtil {
 		return new String[] { new String(c1), new String(c2) };
 	}
 
-	/**
-	 * 私有构造
-	 */
 	private StringUtil() {}
 }

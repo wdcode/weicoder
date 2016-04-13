@@ -6,9 +6,8 @@ import com.weicoder.web.email.Email;
 
 /**
  * Email相关操作抽象类
- * @author WD
- * @since JDK7
- * @version 1.0 2009-03-27
+ * @author WD 
+ * @version 1.0  
  */
 public abstract class BaseEmail implements Email {
 	// smtp地址

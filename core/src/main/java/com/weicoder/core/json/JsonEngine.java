@@ -16,9 +16,8 @@ import com.weicoder.core.params.JsonParams;
 
 /**
  * JSON处理引擎
- * @author WD
- * @since JDK7
- * @version 1.0 2012-06-24
+ * @author WD 
+ * @version 1.0  
  */
 public final class JsonEngine extends FactoryKey<String, Json> {
 	// 工厂
@@ -33,17 +32,11 @@ public final class JsonEngine extends FactoryKey<String, Json> {
 	 */
 	public static boolean isJson(String json) {
 		// 字符串为空
-		if (EmptyUtil.isEmpty(json)) {
-			return false;
-		}
+		if (EmptyUtil.isEmpty(json)) { return false; }
 		// 是数组格式
-		if (isObject(json)) {
-			return true;
-		}
+		if (isObject(json)) { return true; }
 		// 是数组格式
-		if (isArray(json)) {
-			return true;
-		}
+		if (isArray(json)) { return true; }
 		// 返回false
 		return false;
 	}
@@ -55,17 +48,11 @@ public final class JsonEngine extends FactoryKey<String, Json> {
 	 */
 	public static boolean isObject(String json) {
 		// 字符串为空
-		if (EmptyUtil.isEmpty(json)) {
-			return false;
-		}
+		if (EmptyUtil.isEmpty(json)) { return false; }
 		// {开头 }结尾
-		if (json.startsWith("{") && json.endsWith("}")) {
-			return true;
-		}
+		if (json.startsWith("{") && json.endsWith("}")) { return true; }
 		// 空json
-		if (json.equals("{}")) {
-			return true;
-		}
+		if (json.equals("{}")) { return true; }
 		// 返回false
 		return false;
 	}
@@ -77,17 +64,11 @@ public final class JsonEngine extends FactoryKey<String, Json> {
 	 */
 	public static boolean isArray(String json) {
 		// 字符串为空
-		if (EmptyUtil.isEmpty(json)) {
-			return false;
-		}
+		if (EmptyUtil.isEmpty(json)) { return false; }
 		// [开头 ]结尾
-		if (json.startsWith("[{") && json.endsWith("}]")) {
-			return true;
-		}
+		if (json.startsWith("[{") && json.endsWith("}]")) { return true; }
 		// 空json
-		if (json.equals("[]")) {
-			return true;
-		}
+		if (json.equals("[]")) { return true; }
 		// 返回false
 		return false;
 	}
@@ -142,9 +123,7 @@ public final class JsonEngine extends FactoryKey<String, Json> {
 		// 获得Map
 		Map<String, Object> map = toBean(json, Map.class);
 		// 如果map为空
-		if (EmptyUtil.isEmpty(map)) {
-			return Maps.getMap();
-		}
+		if (EmptyUtil.isEmpty(map)) { return Maps.getMap(); }
 		// 声明返回map
 		Map<String, E> data = Maps.getMap(map.size());
 		// 循环生成类
@@ -185,17 +164,14 @@ public final class JsonEngine extends FactoryKey<String, Json> {
 	@Override
 	public Json newInstance(String key) {
 		switch (key) {
-			case JsonParams.PARSE_FAST:
-				return new JsonFast();
-			case JsonParams.PARSE_SMART:
-				return new JsonSmart();
-			default:
-				return new JsonGson();
+		case JsonParams.PARSE_FAST:
+			return new JsonFast();
+		case JsonParams.PARSE_SMART:
+			return new JsonSmart();
+		default:
+			return new JsonGson();
 		}
 	}
 
-	/**
-	 * 私有构造
-	 */
 	private JsonEngine() {}
 }

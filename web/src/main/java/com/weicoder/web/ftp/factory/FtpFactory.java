@@ -7,13 +7,12 @@ import com.weicoder.web.params.WebParams;
 
 /**
  * FTP工厂
- * @author WD
- * @since JDK7
- * @version 1.0 2010-04-20
+ * @author WD 
+ * @version 1.0 
  */
 public final class FtpFactory extends Factory<Ftp> {
 	// 工厂
-	private final static FtpFactory	FACTORY	= new FtpFactory();
+	private final static FtpFactory FACTORY = new FtpFactory();
 
 	/**
 	 * 返回FTP
@@ -55,8 +54,5 @@ public final class FtpFactory extends Factory<Ftp> {
 		return new FtpApache(host, port, user, password);
 	}
 
-	/**
-	 * 静态初始化
-	 */
 	private FtpFactory() {}
 }

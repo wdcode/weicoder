@@ -20,13 +20,12 @@ import com.weicoder.core.nosql.memcache.base.BaseMemcache;
 
 /**
  * MemCached com.google包的客户端调用实现
- * @author WD
- * @since JDK7
- * @version 1.0 2010-12-10
+ * @author WD 
+ * @version 1.0 
  */
 public final class MemcacheX extends BaseMemcache {
 	// 客户端
-	private MemcachedClient	client;
+	private MemcachedClient client;
 
 	/**
 	 * 构造方法

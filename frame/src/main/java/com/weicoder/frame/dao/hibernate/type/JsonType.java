@@ -19,9 +19,8 @@ import com.weicoder.core.json.JsonEngine;
 
 /**
  * Json保存数据类型
- * @author WD
- * @since JDK7
- * @version 1.0 2012-05-16
+ * @author WD 
+ * @version 1.0 
  */
 public final class JsonType implements UserType, Serializable {
 	// 序列化ID
@@ -41,12 +40,8 @@ public final class JsonType implements UserType, Serializable {
 
 	@Override
 	public boolean equals(Object o, Object o1) throws HibernateException {
-		if (o == o1) {
-			return true;
-		}
-		if (o == null || o == null) {
-			return false;
-		}
+		if (o == o1) { return true; }
+		if (o == null || o == null) { return false; }
 		return o.equals(o1);
 	}
 

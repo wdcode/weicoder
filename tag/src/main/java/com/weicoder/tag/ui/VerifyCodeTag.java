@@ -5,9 +5,8 @@ import com.weicoder.tag.base.BaseSimpleTag;
 
 /**
  * 验证码标签
- * @author WD
- * @since JDK7
- * @version 1.0 2009-09-25
+ * @author WD 
+ * @version 1.0  
  */
 public final class VerifyCodeTag extends BaseSimpleTag {
 	// 获得图片的url

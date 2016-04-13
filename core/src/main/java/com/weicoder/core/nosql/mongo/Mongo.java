@@ -7,9 +7,8 @@ import com.weicoder.core.nosql.NoSQL;
 
 /**
  * MongoDB Dao接口
- * @author WD
- * @since JDK7
- * @version 1.0 2010-11-21
+ * @author WD 
+ * @version 1.0 
  */
 public interface Mongo extends NoSQL {
 	/**

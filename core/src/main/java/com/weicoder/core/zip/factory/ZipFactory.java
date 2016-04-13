@@ -10,13 +10,14 @@ import com.weicoder.core.zip.impl.ZlibImpl;
 
 /**
  * 压缩器工厂
- * @author WD
- * @since JDK6
- * @version 1.0 2013-03-07
+ * @author WD 
+ * @version 1.0  
  */
 public final class ZipFactory extends FactoryKey<String, Zip> {
 	// 工厂
-	private final static ZipFactory	FACTORY	= new ZipFactory();
+	private final static ZipFactory FACTORY = new ZipFactory();
+
+	private ZipFactory() {}
 
 	/**
 	 * 获得压缩器
@@ -40,14 +41,14 @@ public final class ZipFactory extends FactoryKey<String, Zip> {
 	public Zip newInstance(String key) {
 		// 判断算法
 		switch (key) {
-			case "gzip":
-				return new GzipImpl();
-			case "zip":
-				return new ZipImpl();
-			case "bzip2":
-				return new BZip2Impl();
-			default:
-				return new ZlibImpl();
+		case "gzip":
+			return new GzipImpl();
+		case "zip":
+			return new ZipImpl();
+		case "bzip2":
+			return new BZip2Impl();
+		default:
+			return new ZlibImpl();
 		}
 	}
 }

@@ -11,13 +11,12 @@ import com.weicoder.core.excel.Excel;
 
 /**
  * Excel相关操作类,使用getExcelUtil或createExcelUtil获得实例
- * @author WD
- * @since JDK7
- * @version 1.0 2009-03-09
+ * @author WD 
+ * @version 1.0 
  */
 public abstract class BaseExcel implements Excel {
 	// 第几个工作薄
-	private int	index;
+	private int index;
 
 	/**
 	 * 获得第一张Sheet表内容
@@ -87,9 +86,7 @@ public abstract class BaseExcel implements Excel {
 		// 获得Sheet位置
 		int index = getSheetIndex(sheetName);
 		// 判断是否存在
-		if (index == -1) {
-			return Collections.emptyList();
-		}
+		if (index == -1) { return Collections.emptyList(); }
 		// 返回Sheet内容
 		return readSheet(index);
 	}
@@ -103,9 +100,7 @@ public abstract class BaseExcel implements Excel {
 		// 获得Sheet位置
 		int index = getSheetIndex(sheetName);
 		// 判断是否存在
-		if (index == -1) {
-			return Collections.emptyList();
-		}
+		if (index == -1) { return Collections.emptyList(); }
 		// 返回Sheet内容
 		return readSheetByCol(index);
 	}
@@ -147,9 +142,7 @@ public abstract class BaseExcel implements Excel {
 		// 获得Sheet所有内容
 		List<List<String>> lsList = readSheet(index);
 		// 列名和内容是否存在
-		if (EmptyUtil.isEmpty(colNames) || EmptyUtil.isEmpty(lsList)) {
-			return Collections.emptyList();
-		}
+		if (EmptyUtil.isEmpty(colNames) || EmptyUtil.isEmpty(lsList)) { return Collections.emptyList(); }
 		// 列表大小
 		int size = lsList.size();
 		// 声明列表 保存所有数据
@@ -317,9 +310,7 @@ public abstract class BaseExcel implements Excel {
 		// 获得Sheet位置
 		int index = getSheetIndex(name);
 		// 判断是否存在
-		if (index == -1) {
-			return null;
-		}
+		if (index == -1) { return null; }
 		// 返回Sheet内容
 		return getColumnNames(index);
 	}

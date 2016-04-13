@@ -4,16 +4,12 @@ import com.weicoder.core.nosql.mongo.factory.MongoFactory;
 
 /**
  * MongoDB引擎
- * @author WD
- * @since JDK7
- * @version 1.0 2013-11-23
+ * @author WD 
+ * @version 1.0  
  */
 public final class MongoEngine {
 	// Mongo接口
-	private final static Mongo	MONGO;
-	static {
-		MONGO = MongoFactory.getMongo();
-	}
+	private final static Mongo MONGO = MongoFactory.getMongo();
 
 	/**
 	 * 压缩值 当值能压缩时才压缩

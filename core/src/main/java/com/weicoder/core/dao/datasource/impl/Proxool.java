@@ -7,13 +7,12 @@ import com.weicoder.core.dao.datasource.base.BaseDataSource;
 
 /**
  * Proxool连接池实现
- * @author WD
- * @since JDK7
- * @version 1.0 2010-1-23
+ * @author WD 
+ * @version 1.0  
  */
 public final class Proxool extends BaseDataSource {
 	// ProxoolDataSource数据源
-	private ProxoolDataSource	ds	= new ProxoolDataSource();
+	private ProxoolDataSource ds = new ProxoolDataSource();
 
 	/**
 	 * 获得多长时间检查一次空闲连接

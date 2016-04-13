@@ -7,9 +7,8 @@ import com.weicoder.core.xml.Document;
 
 /**
  * XML 文件或流构建Document接口，用于读取XML数据
- * @author WD
- * @since JDK7
- * @version 1.0 2009-03-18
+ * @author WD 
+ * @version 1.0 
  */
 public interface XMLRead {
 	/**

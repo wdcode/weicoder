@@ -3,8 +3,7 @@ package com.weicoder.pay.constants;
 /**
  * 支付常量
  * @author WD
- * @since JDK7
- * @version 1.0 2013-12-23
+ * @version 1.0
  */
 public final class PayConstants {
 	/**

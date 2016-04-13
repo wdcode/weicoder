@@ -2,9 +2,8 @@ package com.weicoder.common.constants;
 
 /**
  * 字符串常量
- * @author WD
- * @since JDK7
- * @version 1.0 2009-11-20
+ * @author WD 
+ * @version 1.0  
  */
 public final class StringConstants {
 	/** 常量字符串 "" */
@@ -43,7 +42,7 @@ public final class StringConstants {
 	public final static String	NEWLINE				= "\n";
 	/** 常量字符串 "&" */
 	public final static String	AMP					= "&";
-/** 常量字符串 "<" */
+	/** 常量字符串 "<" */
 	public final static String	LT					= "<";
 	/** 常量字符串 ">" */
 	public final static String	GT					= ">";

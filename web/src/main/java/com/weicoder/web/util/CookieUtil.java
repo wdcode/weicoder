@@ -10,9 +10,8 @@ import com.weicoder.web.params.WebParams;
 
 /**
  * Cookie相关操作
- * @author WD
- * @since JDK7
- * @version 1.0 2010-02-07
+ * @author WD 
+ * @version 1.0 
  */
 public final class CookieUtil {
 	/**
@@ -66,9 +65,7 @@ public final class CookieUtil {
 		// 获得所有Cookie
 		Cookie[] cookies = request.getCookies();
 		// 判断有Cookie
-		if (EmptyUtil.isEmpty(cookies)) {
-			return null;
-		}
+		if (EmptyUtil.isEmpty(cookies)) { return null; }
 		// 声明一个Cookie,用户保存临时Cookie
 		Cookie cookie = null;
 		// 循环Cookie
@@ -98,8 +95,5 @@ public final class CookieUtil {
 		return EmptyUtil.isEmpty(cookie) ? StringConstants.EMPTY : cookie.getValue();
 	}
 
-	/**
-	 * 静态构造
-	 */
 	private CookieUtil() {}
 }

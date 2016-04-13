@@ -13,15 +13,12 @@ import com.weicoder.common.log.Logs;
 
 /**
  * 并发线程任务处理
- * @author WD
- * @since JDK7
- * @version 1.0 2012-09-10
+ * @author WD 
+ * @version 1.0 
  */
 public final class ExecutorUtil {
 	/** 并发线程池 */
 	public final static ExecutorService			POOL		= Executors.newCachedThreadPool();
-	// public final static ExecutorService POOL =
-	// Executors.newFixedThreadPool(CommonParams.POOL_THREAD);
 	// 保存线程
 	private final static List<Runnable>			RUNNABLES	= Lists.getList();
 	private final static List<Callable<Object>>	CALLABLES	= Lists.getList();
@@ -156,6 +153,5 @@ public final class ExecutorUtil {
 		return ls;
 	}
 
-	/** 私有构造 */
 	private ExecutorUtil() {}
 }

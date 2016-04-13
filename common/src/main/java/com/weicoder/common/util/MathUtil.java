@@ -7,13 +7,12 @@ import com.weicoder.common.lang.Conversion;
 
 /**
  * 各种数学相关操作类
- * @author WD
- * @since JDK7
- * @version 1.0 2009-04-04
+ * @author WD 
+ * @version 1.0 
  */
 public final class MathUtil {
 	// 取舍方式
-	public final static int	ROUND	= BigDecimal.ROUND_HALF_UP;
+	public final static int ROUND = BigDecimal.ROUND_HALF_UP;
 
 	/**
 	 * 提供精确的加法运算。
@@ -130,8 +129,5 @@ public final class MathUtil {
 		return Conversion.toBigDecimal(val).toPlainString();
 	}
 
-	/**
-	 * 私有构造 禁止外部实例化
-	 */
 	private MathUtil() {}
 }

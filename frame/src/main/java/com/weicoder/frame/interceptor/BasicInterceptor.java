@@ -4,8 +4,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts2.ServletActionContext;
 
-import com.weicoder.common.constants.StringConstants; 
-import com.weicoder.frame.action.SuperAction; 
+import com.weicoder.common.constants.StringConstants;
+import com.weicoder.frame.action.SuperAction;
 
 import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionInvocation;
@@ -13,10 +13,11 @@ import com.opensymphony.xwork2.interceptor.AbstractInterceptor;
 
 /**
  * 拦截指定Action
- * @author WD 2013-9-22
+ * @author WD
+ * @version 1.0
  */
 public class BasicInterceptor<E extends SuperAction> extends AbstractInterceptor {
-	private static final long	serialVersionUID	= 8518576935365577689L;
+	private static final long serialVersionUID = 8518576935365577689L;
 
 	@SuppressWarnings("unchecked")
 	@Override

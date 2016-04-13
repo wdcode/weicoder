@@ -4,9 +4,8 @@ import com.weicoder.common.params.Params;
 
 /**
  * HTTP参数
- * @author WD
- * @since JDK6
- * @version 1.0 2012-12-21
+ * @author WD 
+ * @version 1.0 
  */
 public final class HttpParams {
 	/** HTTP 超时时间 */

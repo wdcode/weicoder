@@ -11,9 +11,8 @@ import com.weicoder.common.util.EmptyUtil;
 
 /**
  * 获得提交参数方法
- * @author WD
- * @since JDK7
- * @version 1.0 2010-03-03
+ * @author WD 
+ * @version 1.0 
  */
 public final class ParameUtil {
 	/**
@@ -215,9 +214,6 @@ public final class ParameUtil {
 		// 如果e为null 返回Session中属性 否则返回e
 		return EmptyUtil.isEmpty(value) ? getAttributeScope(request, key, defaultValue) : (E) value;
 	}
-
-	/**
-	 * 私有构造
-	 */
+ 
 	private ParameUtil() {}
 }

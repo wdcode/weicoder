@@ -14,9 +14,8 @@ import com.weicoder.core.xml.output.XMLWrite;
 
 /**
  * XMLOutputter接口 Dom4J实现
- * @author WD
- * @since JDK7
- * @version 1.0 2009-03-23
+ * @author WD 
+ * @version 1.0 
  */
 public final class XMLWriteDom4J implements XMLWrite {
 	// Dom4J XMLWriter

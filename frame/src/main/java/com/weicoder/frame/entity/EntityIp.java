@@ -2,9 +2,8 @@ package com.weicoder.frame.entity;
 
 /**
  * 实体带IP属性
- * @author WD
- * @since JDK7
- * @version 1.0 2012-07-21
+ * @author WD 
+ * @version 1.0 
  */
 public interface EntityIp {
 	/**

@@ -6,9 +6,8 @@ import java.io.OutputStream;
 
 /**
  * FTP客户端接口
- * @author WD
- * @since JDK7
- * @version 1.0 2010-04-20
+ * @author WD 
+ * @version 1.0 
  */
 public interface Ftp {
 	/**

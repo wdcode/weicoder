@@ -12,9 +12,8 @@ import com.weicoder.common.util.EmptyUtil;
 
 /**
  * List的帮助类
- * @author WD
- * @since JDK7
- * @version 1.0 2009-09-08
+ * @author WD 
+ * @version 1.0 
  */
 public final class Lists {
 
@@ -192,19 +191,13 @@ public final class Lists {
 	 */
 	public static <E> List<E> subList(List<E> list, int begin, int end) {
 		// 如果列表为空返回一个空列表
-		if (EmptyUtil.isEmpty(list)) {
-			return list;
-		}
+		if (EmptyUtil.isEmpty(list)) { return list; }
 		// 获得元列表大小
 		int size = list.size();
 		// 如果开始为小于1 介绍大于列表长度
-		if (begin < 1 && end >= size) {
-			return list;
-		}
+		if (begin < 1 && end >= size) { return list; }
 		// 判断如果begin大于等于元素列表大小 返回原列表
-		if (begin > size) {
-			return emptyList();
-		}
+		if (begin > size) { return emptyList(); }
 		// 判断begin
 		begin = begin < 0 ? 0 : begin;
 		// 如果begin>end
@@ -213,17 +206,6 @@ public final class Lists {
 		end = end < 1 || end > size ? size : end;
 		// 返回列表
 		return list.subList(begin, end);
-		// // 获得循环长度
-		// int len = begin + end;
-		// // 声明一个保存结果的列表
-		// List<E> ls = getList(end);
-		// // 循环获得元素
-		// for (int i = begin; i < len; i++) {
-		// // 添加元素
-		// ls.add(list.get(i));
-		// }
-		// // 返回列表
-		// return ls;
 	}
 
 	/**
@@ -254,9 +236,7 @@ public final class Lists {
 	@SuppressWarnings("unchecked")
 	public static <E> E[] toArray(List<E> list) {
 		// 判断列表不为空
-		if (EmptyUtil.isEmpty(list)) {
-			return ArrayUtil.getArray();
-		}
+		if (EmptyUtil.isEmpty(list)) { return ArrayUtil.getArray(); }
 		// 返回数组
 		return (E[]) list.toArray(ArrayUtil.getArray(list.get(0).getClass(), list.size()));
 	}
@@ -267,9 +247,7 @@ public final class Lists {
 	 */
 	public static <E> E[] toArray(List<Object> list, Class<E> clazz) {
 		// 判断列表不为空
-		if (EmptyUtil.isEmpty(list)) {
-			return ArrayUtil.getArray(clazz, 0);
-		}
+		if (EmptyUtil.isEmpty(list)) { return ArrayUtil.getArray(clazz, 0); }
 		// 返回数组
 		return list.toArray(ArrayUtil.getArray(clazz, list.size()));
 	}
@@ -292,9 +270,7 @@ public final class Lists {
 		// 判断不为空
 		if (!EmptyUtil.isEmpty(list) && o != null) {
 			for (Object obj : list) {
-				if (o.getClass().equals(obj.getClass()) ? o.equals(obj) : Conversion.toString(o).equals(Conversion.toString(obj))) {
-					return true;
-				}
+				if (o.getClass().equals(obj.getClass()) ? o.equals(obj) : Conversion.toString(o).equals(Conversion.toString(obj))) { return true; }
 			}
 		}
 		// 返回false
@@ -310,8 +286,5 @@ public final class Lists {
 		return EmptyUtil.isEmpty(list) ? 0 : list.size();
 	}
 
-	/**
-	 * 私有构造 禁止外部实例化
-	 */
 	private Lists() {}
 }

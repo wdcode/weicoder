@@ -11,13 +11,12 @@ import com.weicoder.core.params.RedisParams;
 
 /**
  * Redis客户端Jedis实现
- * @author WD
- * @since JDK7
- * @version 1.0 2011-06-23
+ * @author WD 
+ * @version 1.0 
  */
 public final class RedisRedisson extends BaseNoSQL implements Redis {
 	// Jedis连接池
-	private RedissonClient	client;
+	private RedissonClient client;
 
 	public RedisRedisson(String name) {
 		// 实例化Jedis配置

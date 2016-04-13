@@ -43,9 +43,8 @@ import com.weicoder.web.params.HttpParams;
 
 /**
  * Apache HttpComponents 4 异步 实现HTTP模拟浏览器提交的实现类
- * @author WD
- * @since JDK6
- * @version 1.0 2012-12-21
+ * @author WD 
+ * @version 1.0 
  */
 public final class HttpApache4Async extends BaseHttp implements Http {
 	// HttpClientBuilder
@@ -111,9 +110,7 @@ public final class HttpApache4Async extends BaseHttp implements Http {
 	 */
 	public Map<String, String> getCookie(String name) {
 		// 判断Cookie Name
-		if (EmptyUtil.isEmpty(name)) {
-			return null;
-		}
+		if (EmptyUtil.isEmpty(name)) { return null; }
 		// 获得Cookie列表
 		List<Map<String, String>> lsCookie = getCookies();
 		// 声明Cookie

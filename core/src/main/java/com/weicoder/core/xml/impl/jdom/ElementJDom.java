@@ -7,13 +7,12 @@ import com.weicoder.common.lang.Lists;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.core.xml.Attribute;
 import com.weicoder.core.xml.Document;
-import com.weicoder.core.xml.Element; 
+import com.weicoder.core.xml.Element;
 
 /**
  * Element接口 JDom实现
- * @author WD
- * @since JDK7
- * @version 1.0 2009-03-23
+ * @author WD 
+ * @version 1.0  
  */
 public final class ElementJDom implements Element {
 	// Document对象

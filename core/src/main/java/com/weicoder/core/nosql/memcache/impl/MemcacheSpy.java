@@ -19,13 +19,12 @@ import com.weicoder.core.nosql.memcache.base.BaseMemcache;
 
 /**
  * spymemcached api
- * @author WD
- * @since JDK7
- * @version 1.0 2013-11-27
+ * @author WD 
+ * @version 1.0 
  */
 public final class MemcacheSpy extends BaseMemcache {
 	// spymemcached client
-	private MemcachedClient	client;
+	private MemcachedClient client;
 
 	/**
 	 * 构造方法

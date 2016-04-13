@@ -4,16 +4,12 @@ import com.weicoder.core.nosql.redis.factory.RedisFactory;
 
 /**
  * MongoDB引擎
- * @author WD
- * @since JDK7
- * @version 1.0 2013-11-23
+ * @author WD 
+ * @version 1.0 
  */
 public final class RedisEngine {
 	// Mongo接口
-	private final static Redis	REDIS;
-	static {
-		REDIS = RedisFactory.getRedis();
-	}
+	private final static Redis REDIS = RedisFactory.getRedis();
 
 	/**
 	 * 压缩值 当值能压缩时才压缩

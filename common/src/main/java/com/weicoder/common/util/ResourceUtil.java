@@ -7,12 +7,10 @@ import com.weicoder.common.constants.StringConstants;
 
 /**
  * 资源工具累类
- * @author WD
- * @since JDK7
- * @version 1.0 2012-04-6
+ * @author WD 
+ * @version 1.0  
  */
 public final class ResourceUtil {
-
 	/**
 	 * 尝试加载资源
 	 * @param resourceName 资源文件名
@@ -27,9 +25,7 @@ public final class ResourceUtil {
 			url = ClassUtil.class.getClassLoader().getResource(resourceName);
 		}
 		// 如果url还为空 做资源的名的判断重新调用方法
-		if (EmptyUtil.isEmpty(url) && !EmptyUtil.isEmpty(resourceName) && (!resourceName.startsWith(StringConstants.BACKSLASH))) {
-			return getResource(StringConstants.BACKSLASH + resourceName);
-		}
+		if (EmptyUtil.isEmpty(url) && !EmptyUtil.isEmpty(resourceName) && (!resourceName.startsWith(StringConstants.BACKSLASH))) { return getResource(StringConstants.BACKSLASH + resourceName); }
 		// 返回资源
 		return url;
 	}
@@ -56,8 +52,5 @@ public final class ResourceUtil {
 		return in;
 	}
 
-	/**
-	 * 私有构造
-	 */
 	private ResourceUtil() {}
 }

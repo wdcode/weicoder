@@ -5,9 +5,8 @@ import com.weicoder.common.interfaces.Empty;
 
 /**
  * Socket Session
- * @author WD
- * @since JDK7
- * @version 1.0 2013-11-28
+ * @author WD 
+ * @version 1.0 
  */
 public interface Session extends Close, Empty {
 	/**

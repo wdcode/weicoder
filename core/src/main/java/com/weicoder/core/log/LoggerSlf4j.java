@@ -8,13 +8,12 @@ import com.weicoder.common.log.Logger;
 
 /**
  * slf4j日志接口实现
- * @author WD
- * @since JDK7
+ * @author WD 
  * @version 1.0
  */
 public class LoggerSlf4j implements Logger {
 	// Logger日志对象
-	private org.slf4j.Logger	log	= LoggerFactory.getLogger(StringConstants.EMPTY);
+	private org.slf4j.Logger log = LoggerFactory.getLogger(StringConstants.EMPTY);
 
 	@Override
 	public void debug(Object info) {

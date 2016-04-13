@@ -14,9 +14,8 @@ import com.weicoder.web.constants.HttpConstants;
 
 /**
  * Request一些相关操作类
- * @author WD
- * @since JDK7
- * @version 1.0 2010-01-20
+ * @author WD 
+ * @version 1.0 
  */
 public final class RequestUtil {
 	/**
@@ -178,8 +177,5 @@ public final class RequestUtil {
 		return request.getHeader(HttpConstants.HEADER_ACCEPT_LANGUAGE);
 	}
 
-	/**
-	 * 私有构造
-	 */
 	private RequestUtil() {}
 }

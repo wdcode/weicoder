@@ -19,9 +19,8 @@ import com.weicoder.core.nosql.hbase.HBaseDao;
 
 /**
  * HBase实现
- * @author WD
- * @since JDK7
- * @version 1.0 2010-12-12
+ * @author WD 
+ * @version 1.0 
  */
 final class HBaseImpl extends FactoryKey<String, HBaseDao> implements HBase {
 	// 配置
@@ -48,10 +47,6 @@ final class HBaseImpl extends FactoryKey<String, HBaseDao> implements HBase {
 			admin = ConnectionFactory.createConnection(cfg).getAdmin();
 		} catch (Exception e) {
 			Logs.error(e);
-			// hbase.rootdir=hdfs://hostname:9000/hbase
-			// hbase.cluster.distributed=true
-			// hbase.zookeeper.quorum=*.*.*.*, *.*.*.*, *.*.*.*
-			// hbase.defaults.for.version=0.90.2
 		}
 	}
 

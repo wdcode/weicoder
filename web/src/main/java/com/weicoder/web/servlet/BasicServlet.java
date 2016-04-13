@@ -2,6 +2,7 @@ package com.weicoder.web.servlet;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -9,13 +10,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.util.BeanUtil;
+import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
-import com.weicoder.web.annotation.Entity;
 import com.weicoder.web.context.Contexts;
 import com.weicoder.web.params.ServletParams;
 import com.weicoder.web.util.RequestUtil;
@@ -23,10 +23,8 @@ import com.weicoder.web.util.ResponseUtil;
 
 /**
  * 基础Servlet 3
- * 
  * @author WD
- * @since JDK7
- * @version 1.0 2015-10-21
+ * @version 1.0 
  */
 public class BasicServlet extends HttpServlet {
 	private static final long serialVersionUID = 3117468121294921856L;
@@ -63,37 +61,29 @@ public class BasicServlet extends HttpServlet {
 				ResponseUtil.json(response, callback, "no.method");
 				return;
 			}
-			// 设置参数
-			Class<?>[] cs = method.getParameterTypes();
+			// 设置参数 
+			Parameter[] pars = method.getParameters();
 			Object[] params = null;
-			if (!EmptyUtil.isEmpty(cs)) {
+			if (!EmptyUtil.isEmpty(pars)) {
 				// 参数不为空 设置参数
-				params = new Object[cs.length];
+				params = new Object[pars.length];
 				// 所有提交的参数
 				Map<String, String> ps = RequestUtil.getParameters(request);
-				// action注解下的参数名 只有声明的参数才能注入
-				String[] mps = null;
-				com.weicoder.web.annotation.Method m = method.getAnnotation(com.weicoder.web.annotation.Method.class);
-				if (m == null) {
-					mps = ArrayConstants.STRING_EMPTY;
-				} else {
-					mps = m.params();
-				}
 				// action全部参数下标
 				int i = 0;
-				// 基本类型参数下标
-				int n = 0;
-				for (; i < cs.length; i++) {
+				for (; i < pars.length; i++) {
 					// 判断类型并设置
-					Class<?> c = cs[i];
-					if (HttpServletRequest.class.equals(c)) {
+					Parameter p = pars[i];
+					//参数的类型
+					Class<?> cs = p.getType();
+					if (HttpServletRequest.class.equals(cs)) {
 						params[i] = request;
-					} else if (HttpServletResponse.class.equals(c)) {
+					} else if (HttpServletResponse.class.equals(cs)) {
 						params[i] = response;
-					} else if (c.isAnnotationPresent(Entity.class)) {
-						params[i] = BeanUtil.copy(ps, c);
+					} else if (ClassUtil.isBaseType(cs)) {
+						params[i] = Conversion.to(ps.get(p.getName()), cs);
 					} else {
-						params[i] = Conversion.to(ps.get(mps[n++]), cs[i]);
+						params[i] = BeanUtil.copy(ps, cs);
 					}
 				}
 			}

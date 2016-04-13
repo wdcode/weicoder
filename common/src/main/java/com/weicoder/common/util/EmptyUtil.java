@@ -9,9 +9,8 @@ import com.weicoder.common.lang.Conversion;
 
 /**
  * 一些公用的方法类
- * @author WD
- * @since JDK7
- * @version 1.0 2009-03-01
+ * @author WD 
+ * @version 1.0  
  */
 public final class EmptyUtil {
 	/**
@@ -41,6 +40,8 @@ public final class EmptyUtil {
 			return isEmpty((CharSequence) obj);
 		} else if (obj instanceof Integer) {
 			return Conversion.toInt(obj) == 0;
+		} else if (obj instanceof Long) {
+			return Conversion.toLong(obj) == 0;
 		} else if (obj instanceof Boolean) {
 			return !Conversion.toBoolean(obj);
 		} else {
@@ -120,8 +121,5 @@ public final class EmptyUtil {
 		return cs == null || cs.length() == 0;
 	}
 
-	/**
-	 * 私有构造，禁止外部实例化
-	 */
 	private EmptyUtil() {}
 }

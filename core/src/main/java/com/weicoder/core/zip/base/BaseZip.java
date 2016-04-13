@@ -5,9 +5,8 @@ import com.weicoder.core.zip.Zip;
 
 /**
  * 基础压缩实现
- * @author WD
- * @since JDK7
- * @version 1.0 2014-4-27
+ * @author WD 
+ * @version 1.0 
  */
 public abstract class BaseZip implements Zip {
 

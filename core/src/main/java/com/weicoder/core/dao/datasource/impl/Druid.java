@@ -7,13 +7,12 @@ import com.alibaba.druid.pool.DruidDataSource;
 
 /**
  * 淘宝 druid连接池 实现
- * @author WD
- * @since JDK6
- * @version 1.0 2013-03-18
+ * @author WD 
+ * @version 1.0 
  */
 public final class Druid extends BaseDataSource {
 	// DruidDataSource数据源
-	private DruidDataSource	ds	= new DruidDataSource();
+	private DruidDataSource ds = new DruidDataSource();
 
 	@Override
 	public void close() {

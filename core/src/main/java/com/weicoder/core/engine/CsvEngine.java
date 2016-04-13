@@ -19,9 +19,8 @@ import com.weicoder.common.util.EmptyUtil;
 
 /**
  * CSV格式处理器
- * @author WD
- * @since JDK7
- * @version 1.0 2012-8-9
+ * @author WD 
+ * @version 1.0 
  */
 public final class CsvEngine {
 	/**
@@ -87,9 +86,7 @@ public final class CsvEngine {
 		// 获得所有数据
 		List<String[]> list = read(reader);
 		// 如果数据列表为空 返回空列表
-		if (EmptyUtil.isEmpty(list)) {
-			return Lists.emptyList();
-		}
+		if (EmptyUtil.isEmpty(list)) { return Lists.emptyList(); }
 		// 获得列表大小
 		int size = list.size();
 		// 获得列数组
@@ -126,8 +123,5 @@ public final class CsvEngine {
 		}
 	}
 
-	/**
-	 * 私有构造
-	 */
 	private CsvEngine() {}
 }

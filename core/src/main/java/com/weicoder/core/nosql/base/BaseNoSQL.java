@@ -8,9 +8,8 @@ import com.weicoder.core.zip.ZipEngine;
 
 /**
  * NoSQL基类
- * @author WD
- * @since JDK7
- * @version 1.0 2012-11-18
+ * @author WD 
+ * @version 1.0 
  */
 public abstract class BaseNoSQL implements NoSQL {
 	/**

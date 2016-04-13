@@ -6,25 +6,16 @@ import com.weicoder.common.lang.Conversion;
 
 /**
  * 扩展struts2 TextTag
- * @author WD
- * @since JDK7
- * @version 1.0 2010-03-17
+ * @author WD 
+ * @version 1.0 
  */
 public final class TextTag extends org.apache.struts2.views.jsp.TextTag {
 	// 序列化ID
 	private static final long	serialVersionUID	= 5930626629414166733L;
-	// 替换字符串
-	private static final String	NAME;
 	// 替换标识
-	private static final String	FLAG;
-
-	/**
-	 * 静态初始化
-	 */
-	static {
-		FLAG = "#name";
-		NAME = "#attr.template.get('" + FLAG + "')";
-	}
+	private static final String	FLAG				= "#name";
+	// 替换字符串
+	private static final String	NAME				= "#attr.template.get('" + FLAG + "')";
 
 	/**
 	 * 重写方法

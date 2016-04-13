@@ -8,15 +8,13 @@ import com.weicoder.web.params.WebParams;
 import com.weicoder.core.factory.Factory;
 
 /**
- * 获得Email接口实例的工厂类
- * @see com.weicoder.web.email.Email
- * @author WD
- * @since JDK7
- * @version 1.0 2009-07-17
+ * 获得Email接口实例的工厂类 
+ * @author WD 
+ * @version 1.0 
  */
 public final class EmailFactory extends Factory<Email> {
 	// 工厂
-	private final static EmailFactory	FACTORY	= new EmailFactory();
+	private final static EmailFactory FACTORY = new EmailFactory();
 
 	/**
 	 * 返回工厂
@@ -90,8 +88,5 @@ public final class EmailFactory extends Factory<Email> {
 		}
 	}
 
-	/**
-	 * 私有构造
-	 */
 	private EmailFactory() {}
 }

@@ -7,9 +7,8 @@ import com.weicoder.web.params.WebParams;
 
 /**
  * 读取Dao配置
- * @author WD
- * @since JDK7
- * @version 1.0 2013-12-31
+ * @author WD 
+ * @version 1.0  
  */
 public final class DaoParams {
 	// Properties配置

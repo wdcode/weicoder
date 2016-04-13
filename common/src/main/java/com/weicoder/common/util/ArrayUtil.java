@@ -10,9 +10,8 @@ import com.weicoder.common.lang.Conversion;
 
 /**
  * 数组帮助类
- * @author WD
- * @since JDK7
- * @version 1.0 2009-09-09
+ * @author WD 
+ * @version 1.0  
  */
 public final class ArrayUtil {
 	/**
@@ -240,8 +239,5 @@ public final class ArrayUtil {
 		return e;
 	}
 
-	/**
-	 * 私有构造 禁止外部实例化
-	 */
 	private ArrayUtil() {}
 }

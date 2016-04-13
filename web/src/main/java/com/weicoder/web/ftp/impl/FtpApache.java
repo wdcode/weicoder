@@ -14,9 +14,8 @@ import com.weicoder.web.params.WebParams;
 
 /**
  * 使用Apache的 commons-net 包实现
- * @author WD
- * @since JDK7
- * @version 1.0 2010-4-23
+ * @author WD 
+ * @version 1.0 
  */
 public final class FtpApache implements Ftp {
 	// commons-net 的FTP实现

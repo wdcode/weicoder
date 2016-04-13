@@ -10,9 +10,8 @@ import com.weicoder.common.util.EmptyUtil;
 
 /**
  * 基础标签实现
- * @author WD
- * @since JDK7
- * @version 1.0 2012-03-19
+ * @author WD 
+ * @version 1.0 
  */
 public abstract class BaseSimpleTag extends SimpleTagSupport {
 	// 工程路径

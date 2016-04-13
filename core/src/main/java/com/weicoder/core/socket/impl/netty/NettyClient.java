@@ -12,9 +12,8 @@ import com.weicoder.core.socket.base.BaseClient;
 
 /**
  * netty客户端
- * @author WD
- * @since JDK7
- * @version 1.0 2013-12-19
+ * @author WD 
+ * @version 1.0 
  */
 public final class NettyClient extends BaseClient {
 	// 保存Netty客户端 Bootstrap
@@ -39,7 +38,7 @@ public final class NettyClient extends BaseClient {
 		// 设置属性
 		bootstrap.option(ChannelOption.TCP_NODELAY, true);
 		bootstrap.option(ChannelOption.SO_KEEPALIVE, false);
-		bootstrap.option(ChannelOption.SO_LINGER, 0); 
+		bootstrap.option(ChannelOption.SO_LINGER, 0);
 		bootstrap.option(ChannelOption.SO_SNDBUF, 1024 * 32);
 		bootstrap.option(ChannelOption.SO_RCVBUF, 1024 * 8);
 		// 设置channel

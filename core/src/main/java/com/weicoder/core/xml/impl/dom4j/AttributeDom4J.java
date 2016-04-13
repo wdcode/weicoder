@@ -6,13 +6,12 @@ import com.weicoder.core.xml.Attribute;
 
 /**
  * Attribute接口 Dom4J实现
- * @author WD
- * @since JDK7
- * @version 1.0 2009-03-23
+ * @author WD 
+ * @version 1.0 
  */
 public final class AttributeDom4J implements Attribute {
 	// Dom4J Attribute对象
-	private org.dom4j.Attribute	attribute;
+	private org.dom4j.Attribute attribute;
 
 	/**
 	 * 构造方法

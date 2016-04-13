@@ -28,9 +28,8 @@ import com.opensymphony.xwork2.util.ValueStack;
 
 /**
  * 控制显示标签
- * @author WD
- * @since JDK7
- * @version 1.0 2010-03-24
+ * @author WD 
+ * @version 1.0 
  */
 public final class TypeTag extends AbstractUITag {
 	// 序列化ID

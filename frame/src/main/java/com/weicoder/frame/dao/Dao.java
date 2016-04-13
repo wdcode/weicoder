@@ -8,9 +8,8 @@ import com.weicoder.common.interfaces.Close;
 
 /**
  * 通用Dao接口
- * @author WD
- * @since JDK7
- * @version 1.0 2012-07-15
+ * @author WD 
+ * @version 1.0 
  */
 public interface Dao extends Close {
 	/**

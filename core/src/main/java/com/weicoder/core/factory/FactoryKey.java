@@ -7,13 +7,12 @@ import com.weicoder.common.util.EmptyUtil;
 
 /**
  * 拥有Key功能的工厂基础实现 根据Key生成单例
- * @author WD
- * @since JDK7
- * @version 1.0 2010-09-01
+ * @author WD 
+ * @version 1.0  
  */
 public abstract class FactoryKey<K, E> extends Factory<E> {
 	// 产品仓库
-	protected ConcurrentMap<K, E>	map	= Maps.getConcurrentMap();
+	protected ConcurrentMap<K, E> map = Maps.getConcurrentMap();
 
 	/**
 	 * 获得实例 单例模式

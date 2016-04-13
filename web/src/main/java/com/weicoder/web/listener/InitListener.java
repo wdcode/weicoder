@@ -26,10 +26,8 @@ import com.weicoder.core.params.SocketParams;
 import com.weicoder.core.socket.Sockets;
 
 /**
- * 初始化监听器
- * 
- * @author WD
- * @since JDK7
+ * 初始化监听器 
+ * @author WD 
  * @version 1.0
  */
 @WebListener

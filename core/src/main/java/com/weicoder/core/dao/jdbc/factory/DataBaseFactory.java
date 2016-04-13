@@ -7,15 +7,13 @@ import com.weicoder.core.dao.datasource.factory.DataSourceFactory;
 import com.weicoder.core.factory.FactoryKey;
 
 /**
- * 生成DataBase的工厂类
- * @see com.weicoder.common.dao.jdbc.DataBase
- * @author WD
- * @since JDK7
- * @version 1.0 2009-08-25
+ * 生成DataBase的工厂类 
+ * @author WD 
+ * @version 1.0 
  */
 public final class DataBaseFactory extends FactoryKey<DataSource, DataBase> {
 	// DataBase工厂
-	private final static DataBaseFactory	FACTORY	= new DataBaseFactory();
+	private final static DataBaseFactory FACTORY = new DataBaseFactory();
 
 	/**
 	 * 获得DataBase 
@@ -75,8 +73,5 @@ public final class DataBaseFactory extends FactoryKey<DataSource, DataBase> {
 		return getInstance(DataSourceFactory.getDataSource(name));
 	}
 
-	/**
-	 * 私有构造函数,禁止外部实例化
-	 */
 	private DataBaseFactory() {}
 }

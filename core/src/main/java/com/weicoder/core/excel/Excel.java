@@ -6,11 +6,9 @@ import java.util.Map;
 import com.weicoder.common.interfaces.Close;
 
 /**
- * Excel 相关操作接口 使用ExcelFactory获得实例
- * @see com.weicoder.core.excel.builder.ExcelBuilder
- * @author WD
- * @since JDK7
- * @version 1.0 2009-07-17
+ * Excel 相关操作接口 使用ExcelFactory获得实例 
+ * @author WD 
+ * @version 1.0  
  */
 public interface Excel extends Close {
 	/**

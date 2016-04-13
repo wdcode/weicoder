@@ -17,9 +17,8 @@ import com.weicoder.web.constants.HttpConstants;
 
 /**
  * IP工具集
- * @author WD
- * @since JDK6
- * @version 1.0 2013-09-27
+ * @author WD 
+ * @version 1.0  
  */
 public final class IpUtil {
 	// 本机IP 127.0.0.1

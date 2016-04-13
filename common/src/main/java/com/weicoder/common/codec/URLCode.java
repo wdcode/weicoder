@@ -8,9 +8,8 @@ import com.weicoder.common.params.CommonParams;
 
 /**
  * 基础编码类
- * @author WD
- * @since JDK7
- * @version 1.0 2012-2-17
+ * @author WD 
+ * @version 1.0 
  */
 public final class URLCode {
 	/**
@@ -61,8 +60,5 @@ public final class URLCode {
 		}
 	}
 
-	/**
-	 * 私有构造
-	 */
 	private URLCode() {}
 }

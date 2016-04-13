@@ -4,19 +4,23 @@ import com.weicoder.common.util.ClassUtil;
 
 /**
  * 打印日志工具类
- * @author WD
- * @since JDK7
+ * @author WD 
  * @version 1.0
  */
 public final class Logs {
 	// loggin日志对象
-	private final static Logger	LOG;
-	static {
+	private final static Logger LOG = getLogger();
+
+	/**
+	 * 获得Logger
+	 * @return Logger
+	 */
+	private static Logger getLogger() {
 		@SuppressWarnings("unchecked")
-		Class<Logger> cls = (Class<Logger>) ClassUtil.forName("com.weicoder.core.log.LoggerSlf4j"); // ClassUtil.getAssignedClass(Logger.class, 0);
+		Class<Logger> cls = (Class<Logger>) ClassUtil.forName("com.weicoder.core.log.LoggerSlf4j");
 		// 如果没有实现 赋值空实现
 		if (cls == null) {
-			LOG = new Logger() {
+			return new Logger() {
 				@Override
 				public void warn(Object info) {}
 
@@ -30,7 +34,7 @@ public final class Logs {
 				public void debug(Object info) {}
 			};
 		} else {
-			LOG = ClassUtil.newInstance(cls);
+			return ClassUtil.newInstance(cls);
 		}
 	}
 

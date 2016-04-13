@@ -28,7 +28,8 @@ import com.weicoder.web.util.RequestUtil;
 
 /**
  * 手机卡支付
- * @author WD 2014-1-6
+ * @author WD
+ * @version 1.0
  */
 @Component
 public final class Card implements Pay {
@@ -233,8 +234,8 @@ public final class Card implements Pay {
 	 * @param keyValue
 	 * @return
 	 */
-	private boolean verifyCallback(String hmac, String r0_Cmd, String r1_Code, String p1_MerId, String p2_Order, String p3_Amt, String p4_FrpId, String p5_CardNo, String p6_confirmAmount, String p7_realAmount, String p8_cardStatus, String p9_MP, String pb_BalanceAmt, String pc_BalanceAct,
-			String keyValue) {
+	private boolean verifyCallback(String hmac, String r0_Cmd, String r1_Code, String p1_MerId, String p2_Order, String p3_Amt, String p4_FrpId, String p5_CardNo, String p6_confirmAmount,
+			String p7_realAmount, String p8_cardStatus, String p9_MP, String pb_BalanceAmt, String pc_BalanceAct, String keyValue) {
 		StringBuffer sValue = new StringBuffer();
 		// 业务类型
 		sValue.append(r0_Cmd);
@@ -252,9 +253,7 @@ public final class Card implements Pay {
 		sValue.append(pc_BalanceAct);
 		String sNewString = null;
 		sNewString = hmacSign(sValue.toString(), keyValue);
-		if (hmac.equals(sNewString)) {
-			return true;
-		}
+		if (hmac.equals(sNewString)) { return true; }
 		return false;
 	}
 

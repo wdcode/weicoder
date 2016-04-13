@@ -19,18 +19,14 @@ import com.weicoder.core.nosql.factory.NoSQLFactory;
 
 /**
  * 基于memcached的缓存
- * @author WD
- * @since JDK6
- * @version 1.0 2013-09-06
+ * @author WD 
+ * @version 1.0 
  */
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public final class CacheNoSQL<E extends Entity> extends BaseCache<E> {
 	// memcached
-	private final static NoSQL	NOSQL;
-	static {
-		NOSQL = NoSQLFactory.getNoSQL("cache");
-	}
+	private final static NoSQL NOSQL = NoSQLFactory.getNoSQL("cache");
 
 	@Override
 	public E set(E entity) {
@@ -64,15 +60,11 @@ public final class CacheNoSQL<E extends Entity> extends BaseCache<E> {
 	@Override
 	public List<E> get(List<Serializable> keys) {
 		// 判断键为空
-		if (EmptyUtil.isEmpty(keys)) {
-			return Lists.emptyList();
-		}
+		if (EmptyUtil.isEmpty(keys)) { return Lists.emptyList(); }
 		// 获得所有对象
 		Object[] objs = NOSQL.get(getKey(keys));
 		// 判断值为空
-		if (EmptyUtil.isEmpty(objs)) {
-			return Lists.emptyList();
-		}
+		if (EmptyUtil.isEmpty(objs)) { return Lists.emptyList(); }
 		// 声明返回列表
 		List<E> list = Lists.getList(objs.length);
 		// 循环转换对象

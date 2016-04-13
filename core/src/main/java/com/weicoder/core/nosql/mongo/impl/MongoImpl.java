@@ -25,9 +25,8 @@ import com.mongodb.client.MongoDatabase;
 
 /**
  * MongoDB Dao 实现
- * @author WD
- * @since JDK7
- * @version 1.0 2010-11-21
+ * @author WD 
+ * @version 1.0 
  */
 public final class MongoImpl extends BaseNoSQL implements Mongo {
 	// MongoDB 主键常量

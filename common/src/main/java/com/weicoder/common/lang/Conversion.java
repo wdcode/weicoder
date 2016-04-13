@@ -5,13 +5,11 @@ import java.util.Arrays;
 
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.log.Logs;
-import com.weicoder.common.util.EmptyUtil;
 
 /**
  * 数据类型转换,对null和异常进行处理
- * @author WD
- * @since JDK7
- * @version 1.0 2009-08-25
+ * @author WD 
+ * @version 1.0 
  */
 public final class Conversion {
 	/**
@@ -40,9 +38,7 @@ public final class Conversion {
 			return toByte(obj);
 		} else if (BigDecimal.class == c) {
 			return toBigDecimal(obj);
-		} else if (Boolean.class == c || boolean.class == c) {
-			return toBoolean(obj);
-		}
+		} else if (Boolean.class == c || boolean.class == c) { return toBoolean(obj); }
 		// 返回原类型
 		return obj;
 	}
@@ -121,7 +117,7 @@ public final class Conversion {
 	public static long toLong(Object obj, long defaultValue) {
 		try {
 			// 判断对象类型
-			if (EmptyUtil.isEmpty(obj)) {
+			if (obj == null) {
 				return defaultValue;
 			} else if (obj instanceof Number) {
 				// Number
@@ -158,7 +154,7 @@ public final class Conversion {
 	public static float toFloat(Object obj, float defaultValue) {
 		try {
 			// 判断对象类型
-			if (EmptyUtil.isEmpty(obj)) {
+			if (obj == null) {
 				return defaultValue;
 			} else if (obj instanceof Number) {
 				// Number
@@ -199,7 +195,7 @@ public final class Conversion {
 	public static double toDouble(Object obj, double defaultValue) {
 		try {
 			// 判断对象类型
-			if (EmptyUtil.isEmpty(obj)) {
+			if (obj == null) {
 				return defaultValue;
 			} else if (obj instanceof Number) {
 				// Number
@@ -240,7 +236,7 @@ public final class Conversion {
 	public static short toShort(Object obj, short defaultValue) {
 		try {
 			// 判断对象类型
-			if (EmptyUtil.isEmpty(obj)) {
+			if (obj == null) {
 				return defaultValue;
 			} else if (obj instanceof Number) {
 				// Number
@@ -281,7 +277,7 @@ public final class Conversion {
 	public static byte toByte(Object obj, byte defaultValue) {
 		try {
 			// 判断对象类型
-			if (EmptyUtil.isEmpty(obj)) {
+			if (obj == null) {
 				return defaultValue;
 			} else if (obj instanceof Number) {
 				// Number
@@ -322,7 +318,7 @@ public final class Conversion {
 	public static BigDecimal toBigDecimal(Object obj, BigDecimal defaultValue) {
 		try {
 			// 判断对象类型
-			if (EmptyUtil.isEmpty(obj)) {
+			if (obj == null) {
 				return defaultValue;
 			} else if (obj instanceof BigDecimal) {
 				// String
@@ -376,7 +372,8 @@ public final class Conversion {
 				return ((Boolean) obj).booleanValue();
 			} else if (obj instanceof String) {
 				// String
-				return EmptyUtil.isEmpty(obj) ? defaultValue : StringConstants.TRUE.equalsIgnoreCase(obj.toString()) || StringConstants.YES.equalsIgnoreCase(obj.toString()) || StringConstants.OK.equalsIgnoreCase(obj.toString());
+				return obj == null ? defaultValue
+						: StringConstants.TRUE.equalsIgnoreCase(obj.toString()) || StringConstants.YES.equalsIgnoreCase(obj.toString()) || StringConstants.OK.equalsIgnoreCase(obj.toString());
 			} else if (obj instanceof Number) {
 				// Number
 				return ((Number) obj).intValue() > 0 ? true : false;
@@ -409,8 +406,5 @@ public final class Conversion {
 		return toString(eq).equals(str) ? null : str;
 	}
 
-	/**
-	 * 私有构造
-	 */
 	private Conversion() {}
 }

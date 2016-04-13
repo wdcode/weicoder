@@ -2,9 +2,8 @@ package com.weicoder.core.socket;
 
 /**
  * Session 连接器处理器
- * @author WD
- * @since JDK7
- * @version 1.0 2014-4-15
+ * @author WD 
+ * @version 1.0  
  */
 public interface Connected {
 	/**

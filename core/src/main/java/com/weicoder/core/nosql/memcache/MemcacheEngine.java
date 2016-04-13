@@ -7,16 +7,12 @@ import com.weicoder.core.nosql.memcache.factory.MemcacheFactory;
 
 /**
  * Memcache 处理器 使用工厂默认对象
- * @author WD
- * @since JDK7
- * @version 1.0 2012-08-29
+ * @author WD 
+ * @version 1.0  
  */
 public final class MemcacheEngine {
 	// memcache接口
-	private final static Memcache	MEMCACHE;
-	static {
-		MEMCACHE = MemcacheFactory.getMemcache();
-	}
+	private final static Memcache MEMCACHE = MemcacheFactory.getMemcache();
 
 	/**
 	 * 压缩值 当值能压缩时才压缩

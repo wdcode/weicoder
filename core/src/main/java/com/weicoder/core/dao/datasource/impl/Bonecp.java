@@ -7,13 +7,12 @@ import com.jolbox.bonecp.BoneCPDataSource;
 
 /**
  * bonecp连接池实现
- * @author WD
- * @since JDK7
- * @version 1.0 2010-01-30
+ * @author WD 
+ * @version 1.0 
  */
 public final class Bonecp extends BaseDataSource {
 	// BoneCPDataSource数据源
-	private BoneCPDataSource	ds	= new BoneCPDataSource();
+	private BoneCPDataSource ds = new BoneCPDataSource();
 
 	/**
 	 * 获得 驱动类

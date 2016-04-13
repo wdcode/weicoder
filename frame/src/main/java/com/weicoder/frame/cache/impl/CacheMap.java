@@ -16,9 +16,8 @@ import com.weicoder.common.util.EmptyUtil;
 
 /**
  * 标准的缓存Map实现
- * @author WD
- * @since JDK7
- * @version 1.0 2012-07-13
+ * @author WD 
+ * @version 1.0  
  */
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
@@ -95,9 +94,7 @@ public final class CacheMap<E extends Entity> extends BaseCache<E> {
 		// 判断是否生效
 		if (isValid()) {
 			// 如果Key或则value为空 直接返回value
-			if (EmptyUtil.isEmpty(key) || EmptyUtil.isEmpty(value)) {
-				return value;
-			}
+			if (EmptyUtil.isEmpty(key) || EmptyUtil.isEmpty(value)) { return value; }
 			// 设置缓存
 			value.toString();
 			mapCache.put(key, value);
@@ -115,9 +112,7 @@ public final class CacheMap<E extends Entity> extends BaseCache<E> {
 		// 判断是否生效
 		if (isValid()) {
 			// 如果添加的缓存为空直接返回
-			if (EmptyUtil.isEmpty(caches)) {
-				return emptyValueList;
-			}
+			if (EmptyUtil.isEmpty(caches)) { return emptyValueList; }
 			// 把数据添加到缓存Map中
 			mapCache.putAll(caches);
 		}

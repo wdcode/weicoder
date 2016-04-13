@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.math.BigDecimal;
 import java.net.URL;
 import java.util.List;
 import java.util.jar.JarEntry;
@@ -17,11 +18,40 @@ import com.weicoder.common.log.Logs;
 
 /**
  * 关于Class的一些操作
- * @author WD
- * @since JDK7
- * @version 1.0 2010-01-20
+ * @author WD 
+ * @version 1.0 
  */
 public final class ClassUtil {
+	/**
+	 * 判断是否是基础类型
+	 * @param clazz 要检查的类
+	 * @return 是否基础类型
+	 */
+	public static boolean isBaseType(Class<?> clazz) {
+		if (clazz == null) { return true; }
+		if (clazz.equals(Integer.class) || clazz.equals(int.class)) {
+			return true;
+		} else if (clazz.equals(Long.class) || clazz.equals(long.class)) {
+			return true;
+		} else if (clazz.equals(Double.class) || clazz.equals(double.class)) {
+			return true;
+		} else if (clazz.equals(Float.class) || clazz.equals(float.class)) {
+			return true;
+		} else if (clazz.equals(Short.class) || clazz.equals(short.class)) {
+			return true;
+		} else if (clazz.equals(Byte.class) || clazz.equals(byte.class)) {
+			return true;
+		} else if (clazz.equals(Boolean.class) || clazz.equals(boolean.class)) {
+			return true;
+		} else if (clazz.equals(Character.class) || clazz.equals(char.class)) {
+			return true;
+		} else if (clazz.equals(String.class) || clazz.equals(BigDecimal.class)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	/**
 	 * 获得指定类型的泛型
 	 * @param type 指定的类型
@@ -248,9 +278,7 @@ public final class ClassUtil {
 		String path = packageName.replace(StringConstants.POINT, StringConstants.BACKSLASH);
 		// 获得目录资源
 		URL url = ResourceUtil.getResource(path);
-		if (url == null) {
-			return classes;
-		}
+		if (url == null) { return classes; }
 		// 循环目录下的所有文件与目录
 		for (String name : getClasses(url.getPath(), path)) {
 			// 如果是class文件
@@ -319,8 +347,5 @@ public final class ClassUtil {
 		return list;
 	}
 
-	/**
-	 * 私有构造
-	 */
 	private ClassUtil() {}
 }

@@ -14,9 +14,8 @@ import com.weicoder.core.xml.output.XMLWrite;
 
 /**
  * XMLOutput接口 JDom实现
- * @author WD
- * @since JDK7
- * @version 1.0 2009-03-23
+ * @author WD 
+ * @version 1.0 
  */
 public final class XMLWriteJDom2 implements XMLWrite {
 	// JDom XMLWriter

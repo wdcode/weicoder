@@ -10,15 +10,13 @@ import com.weicoder.web.http.impl.HttpJava;
 import com.weicoder.web.params.HttpParams;
 
 /**
- * 获得HttpClient实例工厂
- * @see com.weicoder.web.http.Http
- * @author WD
- * @since JDK7
- * @version 1.0 2009-05-26
+ * 获得HttpClient实例工厂 
+ * @author WD 
+ * @version 1.0 
  */
 public final class HttpFactory extends Factory<Http> {
 	// 工厂
-	private final static HttpFactory	FACTORY	= new HttpFactory();
+	private final static HttpFactory FACTORY = new HttpFactory();
 
 	/**
 	 * 返回工厂
@@ -54,8 +52,5 @@ public final class HttpFactory extends Factory<Http> {
 		}
 	}
 
-	/**
-	 * 私有构造
-	 */
 	private HttpFactory() {}
 }

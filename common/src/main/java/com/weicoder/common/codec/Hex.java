@@ -7,13 +7,12 @@ import com.weicoder.common.util.EmptyUtil;
 
 /**
  * Hex 编码解码
- * @author WD
- * @since JDK6
- * @version 1.0 2013-08-14
+ * @author WD 
+ * @version 1.0 
  */
 public final class Hex {
 	// 编码用
-	private static final char[]	DIGITS	= "0123456789abcdef".toCharArray();
+	private static final char[] DIGITS = "0123456789abcdef".toCharArray();
 
 	/**
 	 * Hex 编码
@@ -31,9 +30,7 @@ public final class Hex {
 	 */
 	public static String encode(byte[] data) {
 		// 如果为空返回字符串
-		if (EmptyUtil.isEmpty(data)) {
-			return StringConstants.EMPTY;
-		}
+		if (EmptyUtil.isEmpty(data)) { return StringConstants.EMPTY; }
 		// 声明字符数组
 		int l = data.length;
 		char[] out = new char[l << 1];
@@ -53,9 +50,7 @@ public final class Hex {
 	 */
 	public static byte[] decode(String str) {
 		// 如果要解码的字符串为空 返回字节数组
-		if (EmptyUtil.isEmpty(str)) {
-			return ArrayConstants.BYTES_EMPTY;
-		}
+		if (EmptyUtil.isEmpty(str)) { return ArrayConstants.BYTES_EMPTY; }
 		// 声明字节数组
 		char[] data = str.toCharArray();
 		int len = data.length;

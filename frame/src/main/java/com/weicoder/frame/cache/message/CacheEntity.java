@@ -4,9 +4,8 @@ import com.weicoder.core.socket.message.Message;
 
 /**
  * 缓存更新消息实体
- * @author WD
- * @since JDK7
- * @version 1.0 2013-12-30
+ * @author WD 
+ * @version 1.0  
  */
 public final class CacheEntity extends Message {
 	// 实体
@@ -16,9 +15,6 @@ public final class CacheEntity extends Message {
 	// Json
 	private String	json;
 
-	/**
-	 * 构造
-	 */
 	public CacheEntity() {}
 
 	/**

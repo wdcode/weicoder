@@ -8,10 +8,11 @@ import java.util.concurrent.ConcurrentMap;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import com.weicoder.frame.cache.Cache;
 import com.weicoder.frame.cache.impl.CacheEmpty;
-import com.weicoder.frame.context.Context;
+import com.weicoder.frame.context.Contexts;
 import com.weicoder.frame.dao.Dao;
 import com.weicoder.frame.entity.Entity;
 import com.weicoder.frame.bean.Pagination;
@@ -24,15 +25,14 @@ import com.weicoder.common.util.ExecutorUtil;
 
 /**
  * 超级通用业务hibernate实现
- * @author WD
- * @since JDK7
- * @version 1.0 2012-07-02
+ * @author WD 
+ * @version 1.0 
  */
 @Service
 public class SuperService {
-	// Context
+	//ApplicationContext
 	@Resource
-	private Context															context;
+	private ApplicationContext												context;
 	// Hibernate Dao
 	@Resource
 	private Dao																dao;
@@ -62,7 +62,7 @@ public class SuperService {
 			// 声明Class
 			Class<? extends Entity> c = (Class<? extends Entity>) e.getValue().getClass();
 			// 声明cached
-			Cache<? extends Entity> cache = context.getCache();
+			Cache<? extends Entity> cache = Contexts.getCache();
 			cache.setClass(c);
 			// 设置有缓存的实体Map
 			caches.put(c, cache);
@@ -133,9 +133,7 @@ public class SuperService {
 		// 查询出符合删除实体列表
 		List<E> list = list(entity, -1, -1);
 		// 删除列表为空
-		if (EmptyUtil.isEmpty(list)) {
-			return Lists.emptyList();
-		}
+		if (EmptyUtil.isEmpty(list)) { return Lists.emptyList(); }
 		// 删除
 		list = dao.delete(list);
 		// 返回结果
@@ -171,7 +169,6 @@ public class SuperService {
 	 * @return 实体
 	 */
 	public <E extends Entity> E get(Class<E> entityClass, Serializable pk) {
-		pk = key(pk);
 		// 获得缓存
 		Cache<E> cache = getCache(entityClass);
 		// 声明返回对象
@@ -188,11 +185,9 @@ public class SuperService {
 	 */
 	public <E extends Entity> List<E> gets(Class<E> entityClass, Serializable... pks) {
 		// 如果主键为空
-		if (EmptyUtil.isEmpty(pks)) {
-			return Lists.emptyList();
-		}
+		if (EmptyUtil.isEmpty(pks)) { return Lists.emptyList(); }
 		// 转换主键
-		pks = keys(pks);
+		//		pks = keys(pks);
 		// 获得缓存
 		Cache<E> cache = getCache(entityClass);
 		// 声明列表
@@ -201,7 +196,7 @@ public class SuperService {
 		if (cache.isValid()) {
 			// 循环赋值
 			for (Serializable pk : pks) {
-				list.add(cache.get(key(pk)));
+				list.add(cache.get(pk));
 			}
 		}
 		// 无缓存查询数据库 返回查询结果
@@ -775,7 +770,7 @@ public class SuperService {
 	 */
 	public void load() {
 		// 循环加载所以缓存
-		for (Class<? extends Entity> c : context.getEntitys()) {
+		for (Class<? extends Entity> c : Contexts.getEntitys()) {
 			// 加载缓存
 			load(c);
 		}
@@ -786,19 +781,16 @@ public class SuperService {
 	 * @param entityClass 实体类
 	 */
 	public <E extends Entity> void load(final Class<E> entityClass) {
-		ExecutorUtil.execute(new Runnable() {
-			@Override
-			public void run() {
-				// 获得缓存
-				Cache<E> cache = getCache(entityClass);
-				// 获得所有数据列表
-				List<E> beans = dao.list(entityClass, -1, -1);
-				// 判断有缓存
-				if (cache.isValid()) {
-					cache.clear();
-					cache.set(beans);
-					loads.put(entityClass, true);
-				}
+		ExecutorUtil.execute(() -> {
+			// 获得缓存
+			Cache<E> cache = getCache(entityClass);
+			// 获得所有数据列表
+			List<E> beans = dao.list(entityClass, -1, -1);
+			// 判断有缓存
+			if (cache.isValid()) {
+				cache.clear();
+				cache.set(beans);
+				loads.put(entityClass, true);
 			}
 		});
 	}
@@ -872,41 +864,4 @@ public class SuperService {
 	private int getFirstResult(Pagination page) {
 		return EmptyUtil.isEmpty(page) ? -1 : (page.getCurrentPage() - 1) * page.getPageSize();
 	}
-
-	/**
-	 * 处理主键
-	 * @param keys 主键
-	 * @return
-	 */
-	private Serializable[] keys(Serializable... keys) {
-		// 返回的主键key
-		Serializable[] pks = new Serializable[keys.length];
-		for (int i = 0; i < keys.length; i++) {
-			pks[i] = key(keys[i]);
-		}
-		return pks;
-	}
-
-	/**
-	 * 处理主键
-	 * @param key 主键
-	 * @return
-	 */
-	private Serializable key(Serializable key) {
-		return Conversion.toInt(key) > 0 ? Conversion.toInt(key) : Conversion.toString(key);
-	}
-
-	// /**
-	// * 调用每个元素的toString()方法
-	// * @param list
-	// * @return
-	// */
-	// private static <E> List<E> toString(List<E> list) {
-	// // 循环调用
-	// for (E e : list) {
-	// e.toString();
-	// }
-	// // 返回list
-	// return list;
-	// }
 }

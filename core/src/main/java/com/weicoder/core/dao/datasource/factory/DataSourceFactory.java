@@ -7,13 +7,12 @@ import com.weicoder.core.params.DataSourceParams;
 
 /**
  * 获得数据源 DataSource 的工厂类
- * @author WD
- * @since JDK7
- * @version 1.0 2011-05-26
+ * @author WD 
+ * @version 1.0 
  */
 public final class DataSourceFactory extends FactoryKey<String, DataSource> {
 	// 工厂
-	private final static DataSourceFactory	FACTORY	= new DataSourceFactory();
+	private final static DataSourceFactory FACTORY = new DataSourceFactory();
 
 	/**
 	 * 返回DataSource
@@ -55,8 +54,5 @@ public final class DataSourceFactory extends FactoryKey<String, DataSource> {
 		return ds;
 	}
 
-	/**
-	 * 私有构造
-	 */
 	private DataSourceFactory() {}
 }

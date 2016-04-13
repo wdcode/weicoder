@@ -27,13 +27,12 @@ import com.weicoder.core.nosql.hbase.HBaseDao;
 
 /**
  * HBaseDao实现
- * @author WD
- * @since JDK7
- * @version 1.0 2010-12-12
+ * @author WD 
+ * @version 1.0  
  */
 final class HBaseDaoImpl implements HBaseDao {
 	// 表对象
-	private Table	table;
+	private Table table;
 
 	/**
 	 * 构造方法
@@ -102,9 +101,7 @@ final class HBaseDaoImpl implements HBaseDao {
 			// 获得键值
 			Cell cell = rs.rawCells()[0];
 			// 判断键值不为空
-			if (cell != null) {
-				return new String(CellUtil.cloneValue(cell));
-			}
+			if (cell != null) { return new String(CellUtil.cloneValue(cell)); }
 		} catch (Exception e) {
 			// 记录日志
 			Logs.warn(e);

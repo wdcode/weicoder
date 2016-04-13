@@ -17,13 +17,12 @@ import com.weicoder.common.params.CommonParams;
 
 /**
  * 获得日期,日期类型和字符串类型之间的转化
- * @author WD
- * @since JDK7
- * @version 1.0 2009-03-01
+ * @author WD 
+ * @version 1.0  
  */
 public final class DateUtil {
 	// Calendar实例
-	private final static Calendar	CALENDAR	= Calendar.getInstance();
+	private final static Calendar CALENDAR = Calendar.getInstance();
 
 	/**
 	 * 根据给定的日期字符串返回它的日期Format
@@ -44,9 +43,7 @@ public final class DateUtil {
 			return DateConstants.FORMAT_YMD_H_M_S;
 		} else if (Validate.is(RegexConstants.DATE_HH_MM_SS, date)) {
 			return DateConstants.FORMAT_HH_MM_SS;
-		} else if (Validate.is(RegexConstants.DATE_YYYYMM, date)) {
-			return DateConstants.FORMAT_YYYYMM;
-		}
+		} else if (Validate.is(RegexConstants.DATE_YYYYMM, date)) { return DateConstants.FORMAT_YYYYMM; }
 		return null;
 	}
 
@@ -1008,8 +1005,5 @@ public final class DateUtil {
 		return getCalendar().getActualMaximum(field);
 	}
 
-	/**
-	 * 私有构造
-	 */
 	private DateUtil() {}
 }

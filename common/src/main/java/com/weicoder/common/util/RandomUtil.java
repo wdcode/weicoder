@@ -4,20 +4,12 @@ import java.util.Random;
 
 /**
  * 随机数工具类
- * @author WD
- * @since JDK7
- * @version 1.0 2010-07-11
+ * @author WD 
+ * @version 1.0 
  */
 public final class RandomUtil {
 	// 声明随机数对象
-	private final static Random	RANDOM;
-
-	/**
-	 * 静态实例化
-	 */
-	static {
-		RANDOM = new Random();
-	}
+	private final static Random RANDOM = new Random();
 
 	/**
 	 * 返回Random
@@ -101,8 +93,5 @@ public final class RandomUtil {
 		return veryfy.toString();
 	}
 
-	/**
-	 * 私有构造
-	 */
 	private RandomUtil() {}
 }

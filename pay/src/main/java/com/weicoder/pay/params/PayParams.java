@@ -7,9 +7,8 @@ import com.weicoder.common.params.Params;
 
 /**
  * 支付配置读取
- * @author WD
- * @since JDK7
- * @version 1.0 2011-11-08
+ * @author WD 
+ * @version 1.0 
  */
 public final class PayParams {
 	/* 支付宝 */
@@ -127,8 +126,5 @@ public final class PayParams {
 	 */
 	public final static String	SMS_URL			= Params.getString("pay.sms.url", "http://ydzf.vnetone.com/Default_mo.aspx");
 
-	/**
-	 * 私有构造
-	 */
 	private PayParams() {}
 }

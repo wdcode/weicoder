@@ -10,9 +10,8 @@ import com.weicoder.web.util.IpUtil;
 
 /**
  * 登录信息封装
- * @author WD
- * @since JDK7
- * @version 1.0 2010-11-29
+ * @author WD 
+ * @version 1.0 
  */
 public class LoginToken implements AuthToken {
 	// 用户ID
@@ -22,9 +21,6 @@ public class LoginToken implements AuthToken {
 	// 登录IP
 	protected String	loginIp;
 
-	/**
-	 * 构造方法
-	 */
 	public LoginToken() {}
 
 	/**

@@ -6,24 +6,13 @@ import com.weicoder.core.params.CoreParams;
 
 /**
  * HBase工厂
- * @author WD
- * @since JDK7
- * @version 1.0 2010-12-12
+ * @author WD 
+ * @version 1.0 
  */
 public final class HBaseFactory extends FactoryKey<String, HBase> {
 	// 工厂
-	private final static HBaseFactory	FACTORY;
+	private final static HBaseFactory FACTORY = new HBaseFactory();
 
-	/**
-	 * 静态初始化
-	 */
-	static {
-		FACTORY = new HBaseFactory();
-	}
-
-	/**
-	 * 私有构造
-	 */
 	private HBaseFactory() {}
 
 	/**

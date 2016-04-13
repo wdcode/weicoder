@@ -18,9 +18,8 @@ import com.weicoder.web.constants.HttpConstants;
 
 /**
  * Response一些相关操作类
- * @author WD
- * @since JDK7
- * @version 1.0 2010-01-10
+ * @author WD 
+ * @version 1.0 
  */
 public final class ResponseUtil {
 	/**
@@ -134,9 +133,6 @@ public final class ResponseUtil {
 			response.setContentType(type);
 		}
 	}
-
-	/**
-	 * 私有构造
-	 */
+ 
 	private ResponseUtil() {}
 }

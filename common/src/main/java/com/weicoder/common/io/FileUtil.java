@@ -12,7 +12,7 @@ import java.nio.channels.FileChannel;
 import java.nio.file.Paths;
 
 import com.weicoder.common.constants.ArrayConstants;
-import com.weicoder.common.lang.Conversion; 
+import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
 
@@ -20,20 +20,14 @@ import com.weicoder.common.util.StringUtil;
 
 /**
  * 对文件进行一些处理。
- * @author WD
- * @since JDK7
- * @version 1.0 2009-03-01
+ * @author WD 
+ * @version 1.0 
  */
 public final class FileUtil {
 	// IO模式
-	private final static boolean	IO;
+	private final static boolean IO = "io".equalsIgnoreCase(CommonParams.IO_MODE);
 	// AIO模式
-	private final static boolean	AIO;
-
-	static {
-		IO = "io".equalsIgnoreCase(CommonParams.IO_MODE);
-		AIO = "aio".equalsIgnoreCase(CommonParams.IO_MODE);
-	}
+	private final static boolean AIO = "aio".equalsIgnoreCase(CommonParams.IO_MODE);
 
 	/**
 	 * 创建目录
@@ -402,8 +396,5 @@ public final class FileUtil {
 		}
 	}
 
-	/**
-	 * 私有构造禁止外部实例化
-	 */
 	private FileUtil() {}
 }

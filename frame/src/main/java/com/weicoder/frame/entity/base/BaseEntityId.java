@@ -11,16 +11,15 @@ import com.weicoder.common.lang.Conversion;
 
 /**
  * 实体PO实现,封装id
- * @author WD
- * @since JDK7
- * @version 1.0 2010-10-08
+ * @author WD 
+ * @version 1.0  
  */
 @MappedSuperclass
 public abstract class BaseEntityId extends BaseEntity {
 	// ID
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int	id;
+	private int id;
 
 	/**
 	 * 获得ID

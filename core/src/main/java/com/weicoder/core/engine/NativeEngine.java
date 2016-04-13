@@ -5,9 +5,8 @@ import com.sun.jna.Native;
 
 /**
  * 本地方法调用
- * @author WD
- * @since JDK7
- * @version 1.0 2012-08-10
+ * @author WD 
+ * @version 1.0  
  */
 public final class NativeEngine {
 	/**

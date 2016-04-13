@@ -8,18 +8,17 @@ import org.apache.hadoop.fs.FSDataOutputStream;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import com.weicoder.common.constants.ArrayConstants;
-import com.weicoder.common.io.IOUtil; 
+import com.weicoder.common.io.IOUtil;
 import com.weicoder.common.log.Logs;
 
 /**
  * Hadoop相关操作类
- * @author WD
- * @since JDK7
- * @version 1.0 2012-11-17
+ * @author WD 
+ * @version 1.0 
  */
 public final class HadoopEngine {
 	// Hadoop 文件系统
-	private static FileSystem	hdfs;
+	private static FileSystem hdfs;
 	static {
 		try {
 			hdfs = FileSystem.get(new Configuration());

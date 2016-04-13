@@ -9,9 +9,8 @@ import com.weicoder.common.params.Params;
 
 /**
  * 上传参数
- * @author WD
- * @since JDK7
- * @version 1.0 2013-11-18
+ * @author WD 
+ * @version 1.0  
  */
 public final class UploadParams {
 	/** 上传文件路径 */

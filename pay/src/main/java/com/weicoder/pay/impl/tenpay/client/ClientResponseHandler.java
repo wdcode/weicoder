@@ -23,7 +23,6 @@ import com.weicoder.pay.impl.tenpay.util.XMLUtil;
  * ========================================================================<br/>
  */
 public class ClientResponseHandler {
-
 	/** 应答原始内容 */
 	private String						content;
 

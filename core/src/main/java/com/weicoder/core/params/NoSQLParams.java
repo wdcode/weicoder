@@ -5,15 +5,14 @@ import com.weicoder.common.params.Params;
 
 /**
  * nosql配置
- * @author WD
- * @since JDK7
- * @version 1.0 2014-1-15
+ * @author WD 
+ * @version 1.0  
  */
 public final class NoSQLParams {
 	/**
 	 * 集群发送名称服务器
 	 */
-	public final static String[]	NAMES	= Params.getStringArray("nosql.names", ArrayConstants.STRING_EMPTY);
+	public final static String[] NAMES = Params.getStringArray("nosql.names", ArrayConstants.STRING_EMPTY);
 
 	/**
 	 * 获得NoSQL使用的包<br/>

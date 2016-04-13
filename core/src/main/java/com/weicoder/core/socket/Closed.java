@@ -2,9 +2,8 @@ package com.weicoder.core.socket;
 
 /**
  * Session 关闭处理接口
- * @author WD
- * @since JDK7
- * @version 1.0 2014-1-30
+ * @author WD 
+ * @version 1.0 
  */
 public interface Closed {
 	/**

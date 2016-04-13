@@ -10,9 +10,8 @@ import com.weicoder.core.dao.datasource.DataSource;
 
 /**
  * 基础数据源实现
- * @author WD
- * @since JDK6
- * @version 1.0 2013-03-18
+ * @author WD 
+ * @version 1.0  
  */
 public abstract class BaseDataSource implements DataSource {
 	@Override

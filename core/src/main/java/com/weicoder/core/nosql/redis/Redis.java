@@ -4,8 +4,7 @@ import com.weicoder.core.nosql.NoSQL;
 
 /**
  * Redis 操作接口
- * @author WD
- * @since JDK7
- * @version 1.0 2011-06-23
+ * @author WD 
+ * @version 1.0 
  */
 public interface Redis extends NoSQL {}

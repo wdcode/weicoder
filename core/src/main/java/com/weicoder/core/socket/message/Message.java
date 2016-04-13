@@ -7,9 +7,8 @@ import com.weicoder.core.json.JsonEngine;
 
 /**
  * Socket 传递消息实体
- * @author WD
- * @since JDK7
- * @version 1.0 2013-12-19
+ * @author WD 
+ * @version 1.0 
  */
 public abstract class Message implements ByteArray, Binary {
 	@Override

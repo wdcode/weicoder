@@ -17,9 +17,8 @@ import com.weicoder.core.socket.empty.SessionEmpty;
 
 /**
  * Session管理类
- * @author WD
- * @since JDK7
- * @version 1.0 2014-1-14
+ * @author WD 
+ * @version 1.0  
  */
 public final class Manager {
 	// 保存注册的Session
@@ -54,9 +53,7 @@ public final class Manager {
 		// 获得注册列表
 		Map<Long, Session> register = registers.get(key);
 		// 列表为null
-		if (register == null) {
-			return false;
-		}
+		if (register == null) { return false; }
 		// 添加到列表
 		register.put(id, session);
 		// session id
@@ -79,9 +76,7 @@ public final class Manager {
 		// 获得注册列表
 		Map<Long, Session> register = registers.get(key);
 		// 列表为null
-		if (register == null) {
-			return SessionEmpty.EMPTY;
-		}
+		if (register == null) { return SessionEmpty.EMPTY; }
 		// 删除列表
 		return register.remove(id);
 	}
@@ -264,9 +259,7 @@ public final class Manager {
 	 */
 	private void broad(List<Session> sessions, short id, Object message) {
 		// 列表为空
-		if (EmptyUtil.isEmpty(sessions)) {
-			return;
-		}
+		if (EmptyUtil.isEmpty(sessions)) { return; }
 		// 获得列表长度
 		int size = sessions.size();
 		// 如果线程池乘2倍
@@ -284,14 +277,10 @@ public final class Manager {
 				// 获得执行Session列表
 				final List<Session> list = Lists.subList(sessions, i, i += broad);
 				// 线程执行
-				ExecutorUtil.execute(new Runnable() {
-					@Override
-					public void run() {
-						broad(list, data);
-					}
-				});
+				ExecutorUtil.execute(() -> broad(list, data));
 			}
 		}
+
 	}
 
 	/**

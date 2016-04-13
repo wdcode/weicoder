@@ -6,9 +6,8 @@ import com.weicoder.web.util.IpUtil;
 
 /**
  * jetty参数
- * @author WD
- * @since JDK7
- * @version 1.0 2014-6-15
+ * @author WD 
+ * @version 1.0 
  */
 public final class JettyParams {
 	/** 主机 */

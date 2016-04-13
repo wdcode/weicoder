@@ -15,13 +15,12 @@ import com.weicoder.core.xml.input.XMLRead;
 
 /**
  * SAXBuilder接口 Dom4J实现
- * @author WD
- * @since JDK7
- * @version 1.0 2009-03-23
+ * @author WD 
+ * @version 1.0 
  */
 public final class XMLReadDom4J implements XMLRead {
 	// Dom4J SAXReader 读取XML文件
-	private SAXReader	reader;
+	private SAXReader reader;
 
 	/**
 	 * 构造方法

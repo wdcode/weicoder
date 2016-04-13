@@ -18,9 +18,8 @@ import com.weicoder.pay.params.PayParams;
 
 /**
  * 财付通（即时交易）
- * @author WD
- * @since JDK6
- * @version 1.0 2012-12-04
+ * @author WD 
+ * @version 1.0 
  */
 @Component
 public final class Tenpay implements Pay {

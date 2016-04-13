@@ -31,22 +31,14 @@ import com.weicoder.common.util.StringUtil;
 
 /**
  * 字节数组操作
- * @author WD
- * @since JDK7
- * @version 1.0 2010-12-17
+ * @author WD 
+ * @version 1.0  
  */
 public final class Bytes {
 	// 使用使用Java算法
-	private final static boolean	IS_HIGH;
-	/** 零长度 */
-	public final static byte[]		ZERO_SIZE	= new byte[] { 0, 0 };
-
-	/**
-	 * 静态初始化
-	 */
-	static {
-		IS_HIGH = "high".equals(CommonParams.BYTES);
-	}
+	private final static boolean IS_HIGH = "high".equals(CommonParams.BYTES);
+	// 零长度
+	public final static byte[] ZERO_SIZE = new byte[] { 0, 0 };
 
 	/**
 	 * 转换Object变成字节数组
@@ -173,9 +165,7 @@ public final class Bytes {
 	 */
 	public static byte[] toBytes(Binary binary) {
 		// 对象为空
-		if (EmptyUtil.isEmpty(binary)) {
-			return ArrayConstants.BYTES_EMPTY;
-		}
+		if (EmptyUtil.isEmpty(binary)) { return ArrayConstants.BYTES_EMPTY; }
 		// 字段值
 		List<Object> values = Lists.getList();
 		// 获得字段赋值
@@ -216,13 +206,9 @@ public final class Bytes {
 	 */
 	public static byte[] toBytes(ByteBuffer buff) {
 		// 如果为null
-		if (buff == null) {
-			return ArrayConstants.BYTES_EMPTY;
-		}
+		if (buff == null) { return ArrayConstants.BYTES_EMPTY; }
 		// 如果可以直接访问数组
-		if (buff.hasArray()) {
-			return buff.array();
-		}
+		if (buff.hasArray()) { return buff.array(); }
 		// 如果读取长度大于0
 		int len = buff.limit();
 		if (len > 0) {
@@ -256,7 +242,7 @@ public final class Bytes {
 			b[1] = (byte) ((i >> 8) & 0xFF);
 			b[2] = (byte) ((i >> 16) & 0xFF);
 			b[3] = (byte) ((i >> 24) & 0xFF);
-		}// 返回字节数组
+		} // 返回字节数组
 		return b;
 	}
 
@@ -646,23 +632,17 @@ public final class Bytes {
 	 */
 	public static BytesBean toBean(byte[] b, int offset, int len) {
 		// 如果字节流为空
-		if (EmptyUtil.isEmpty(b)) {
-			return null;
-		}
+		if (EmptyUtil.isEmpty(b)) { return null; }
 		// 获得字节数组
 		byte[] data = copy(b, offset, len);
 		// 获得Bean的Class
 		String name = toString(data);
 		// Class名为空
-		if (EmptyUtil.isEmpty(name)) {
-			return null;
-		}
+		if (EmptyUtil.isEmpty(name)) { return null; }
 		// 转行为BytesBean
 		BytesBean bean = (BytesBean) BeanUtil.newInstance(name);
 		// Bean为空
-		if (bean == null) {
-			return null;
-		}
+		if (bean == null) { return null; }
 		// 设置偏移 6=4(字节数组)+2(字符串)
 		int pos = 6 + name.length();
 		// 返回Bean
@@ -780,9 +760,7 @@ public final class Bytes {
 	 */
 	public static Object toObject(byte[] b) {
 		// 如果字节数组为空 返回null
-		if (EmptyUtil.isEmpty(b)) {
-			return null;
-		}
+		if (EmptyUtil.isEmpty(b)) { return null; }
 		// 声明字节数组输入流
 		ByteArrayInputStream bais = new ByteArrayInputStream(b);
 		// 声明对象输入流
@@ -835,8 +813,5 @@ public final class Bytes {
 		return ArrayConstants.BYTES_EMPTY;
 	}
 
-	/**
-	 * 私有构造
-	 */
 	private Bytes() {}
 }

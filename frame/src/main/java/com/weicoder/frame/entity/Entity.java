@@ -6,9 +6,8 @@ import com.weicoder.common.interfaces.Empty;
 
 /**
  * Entity接口
- * @author WD
- * @since JDK7
- * @version 1.0 2009-11-23
+ * @author WD 
+ * @version 1.0 
  */
 public interface Entity extends Empty, Comparable<Entity> {
 	/**

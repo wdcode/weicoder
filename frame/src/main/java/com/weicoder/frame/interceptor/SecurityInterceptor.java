@@ -13,9 +13,8 @@ import com.weicoder.common.util.EmptyUtil;
 
 /**
  * 基于动态映射方法的安全拦截器 出来掉不合法的一些请求
- * @author WD
- * @since JDK7
- * @version 1.0 2013-12-25
+ * @author WD 
+ * @version 1.0 
  */
 public final class SecurityInterceptor extends BasicInterceptor<StrutsAction> {
 	private static final long			serialVersionUID	= -7879736892830147087L;
@@ -39,9 +38,7 @@ public final class SecurityInterceptor extends BasicInterceptor<StrutsAction> {
 			// 获得IP
 			String ip = IpUtil.getIp(request);
 			// 如果不存在允许列表中
-			if (!SecurityParams.SECURITY_IPS.contains(ip)) {
-				return false;
-			}
+			if (!SecurityParams.SECURITY_IPS.contains(ip)) { return false; }
 		}
 		// 过滤方法
 		if (SecurityParams.SECURITY_POWER_METHOD) {
@@ -50,9 +47,7 @@ public final class SecurityInterceptor extends BasicInterceptor<StrutsAction> {
 			// 实体
 			String module = action.getModule();
 			// 实体玉方法相同 为自定义方法 直接通过
-			if (module.equals(method)) {
-				return true;
-			}
+			if (module.equals(method)) { return true; }
 			// 获得方法下的实体列表
 			List<String> modules = methods.get(method);
 			// 判断是可执行实体方法

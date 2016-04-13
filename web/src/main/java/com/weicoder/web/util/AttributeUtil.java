@@ -8,9 +8,8 @@ import com.weicoder.common.util.EmptyUtil;
 
 /**
  * 保存属性工具类
- * @author WD
- * @since JDK7
- * @version 1.0 2010-03-07
+ * @author WD 
+ * @version 1.0 
  */
 public final class AttributeUtil {
 	/**
@@ -65,9 +64,6 @@ public final class AttributeUtil {
 		// 使用Session保存
 		SessionUtil.removeAttribute(RequestUtil.getSession(request), key);
 	}
-
-	/**
-	 * 私有构造
-	 */
+ 
 	private AttributeUtil() {}
 }

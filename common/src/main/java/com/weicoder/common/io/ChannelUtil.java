@@ -16,9 +16,8 @@ import com.weicoder.common.util.CloseUtil;
 
 /**
  * 通道操作
- * @author WD
- * @since JDK7
- * @version 1.0 2012-02-17
+ * @author WD 
+ * @version 1.0 
  */
 public final class ChannelUtil {
 	/**
@@ -105,9 +104,7 @@ public final class ChannelUtil {
 	 */
 	public static boolean write(WritableByteChannel wbc, InputStream in, boolean isClose) {
 		// 如果输出或则输入流为空
-		if (wbc == null || in == null) {
-			return false;
-		}
+		if (wbc == null || in == null) { return false; }
 		// 声明ReadableByteChannel
 		ReadableByteChannel rbc = null;
 		try {
@@ -139,8 +136,5 @@ public final class ChannelUtil {
 		return false;
 	}
 
-	/**
-	 * 私有构造
-	 */
 	private ChannelUtil() {}
 }

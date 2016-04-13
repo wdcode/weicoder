@@ -6,13 +6,12 @@ import com.weicoder.core.zip.factory.ZipFactory;
 
 /**
  * 压缩引擎
- * @author WD
- * @since JDK7
- * @version 1.0 2012-01-18
+ * @author WD 
+ * @version 1.0  
  */
 public final class ZipEngine {
 	// 压缩器
-	private final static Zip	ZIP	= ZipFactory.getZip();
+	private final static Zip ZIP = ZipFactory.getZip();
 
 	/**
 	 * 压缩数据
@@ -32,8 +31,5 @@ public final class ZipEngine {
 		return obj == null ? ArrayConstants.BYTES_EMPTY : ZIP.extract(Bytes.toBytes(obj));
 	}
 
-	/**
-	 * 私有构造
-	 */
 	private ZipEngine() {}
 }

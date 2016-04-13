@@ -2,9 +2,8 @@ package com.weicoder.frame.entity;
 
 /**
  * 开始时间 结束时间设置接口
- * @author WD
- * @since JDK7
- * @version 1.0 2012-07-18
+ * @author WD 
+ * @version 1.0 
  */
 public interface EntityStartEndTime {
 	/**

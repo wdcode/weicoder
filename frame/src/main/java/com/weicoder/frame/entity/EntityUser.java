@@ -2,9 +2,8 @@ package com.weicoder.frame.entity;
 
 /**
  * 登录接口
- * @author WD
- * @since JDK7
- * @version 1.0 2012-08-13
+ * @author WD 
+ * @version 1.0 
  */
 public interface EntityUser extends Entity, EntityIp, EntityTime {
 	/**

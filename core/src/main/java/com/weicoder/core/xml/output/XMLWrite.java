@@ -7,9 +7,8 @@ import com.weicoder.core.xml.Document;
 
 /**
  * XML文档输出 接口
- * @author WD
- * @since JDK7
- * @version 1.0 2009-03-18
+ * @author WD 
+ * @version 1.0 
  */
 public interface XMLWrite extends Close {
 	/**

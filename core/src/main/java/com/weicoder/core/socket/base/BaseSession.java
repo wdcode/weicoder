@@ -20,9 +20,8 @@ import com.weicoder.core.socket.message.Null;
 
 /**
  * 基础Socket Session实现
- * @author WD
- * @since JDK7
- * @version 1.0 2013-12-22
+ * @author WD 
+ * @version 1.0 
  */
 public abstract class BaseSession implements Session {
 	// 名称
@@ -52,12 +51,7 @@ public abstract class BaseSession implements Session {
 		// 使用写缓存
 		if (SocketParams.WRITE > 0) {
 			// 定时监控写缓存
-			ScheduledUtile.rate(new Runnable() {
-				@Override
-				public void run() {
-					flush();
-				}
-			}, SocketParams.WRITE);
+			ScheduledUtile.rate(() -> flush(), SocketParams.WRITE);
 		}
 	}
 

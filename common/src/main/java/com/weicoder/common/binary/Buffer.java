@@ -12,9 +12,8 @@ import com.weicoder.common.util.StringUtil;
 
 /**
  * 类说明：数据包类 ,字节缓存类，字节操作高位在前，低位在后
- * @author WD
- * @since JDK7
- * @version 1.0 2014-2-13
+ * @author WD 
+ * @version 1.0 
  */
 public final class Buffer implements ByteArray {
 	// 字节数组
@@ -93,9 +92,7 @@ public final class Buffer implements ByteArray {
 	 */
 	public void capacity(int len) {
 		// 要扩展的容量小于原长度 放弃修改
-		if (len <= data.length) {
-			return;
-		}
+		if (len <= data.length) { return; }
 		// 如果同步 加锁
 		if (sync) {
 			lock.lock();
@@ -123,10 +120,8 @@ public final class Buffer implements ByteArray {
 	 * 设置写字节的偏移量
 	 */
 	public void top(int top) {
-		if (top < offset)
-			return;
-		if (top > length())
-			capacity(top);
+		if (top < offset) return;
+		if (top > length()) capacity(top);
 		this.top = top;
 	}
 
@@ -141,8 +136,7 @@ public final class Buffer implements ByteArray {
 	 * 设置读数据的偏移量
 	 */
 	public void offset(int offset) {
-		if (offset < 0 || offset > top)
-			return;
+		if (offset < 0 || offset > top) return;
 		this.offset = offset;
 	}
 
@@ -192,11 +186,6 @@ public final class Buffer implements ByteArray {
 	 * @param len 读入的长度
 	 */
 	public byte[] read(byte[] data, int pos, int len) {
-		// // 如果数组长度小于读取长度
-		// if (data.length < pos + len) {
-		// // 返回空数组
-		// return ArrayConstants.BYTES_EMPTY;
-		// }
 		// 如果同步 加锁
 		if (sync) {
 			lock.lock();
@@ -272,8 +261,7 @@ public final class Buffer implements ByteArray {
 	 * 读出一个指定长度的字符串
 	 */
 	public String readString(int len) {
-		if (len == 0)
-			return StringConstants.EMPTY;
+		if (len == 0) return StringConstants.EMPTY;
 		return new String(read(new byte[len], 0, len));
 	}
 
@@ -438,13 +426,6 @@ public final class Buffer implements ByteArray {
 			}
 		}
 	}
-
-	// /**
-	// * 重置读坐标为0
-	// */
-	// public void rewind() {
-	// this.offset = 0;
-	// }
 
 	/**
 	 * 获得有效数据

@@ -15,9 +15,8 @@ import com.weicoder.core.nosql.memcache.factory.MemcacheFactory;
 
 /**
  * 集群客户端
- * @author WD
- * @since JDK7
- * @version 1.0 2011-12-20
+ * @author WD 
+ * @version 1.0 
  */
 public final class MemcacheArray extends BaseMemcache {
 	// 集群

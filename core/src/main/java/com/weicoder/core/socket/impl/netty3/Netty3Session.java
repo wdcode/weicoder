@@ -8,13 +8,12 @@ import com.weicoder.core.socket.base.BaseSession;
 
 /**
  * netty Session实现
- * @author WD
- * @since JDK7
- * @version 1.0 2013-12-20
+ * @author WD 
+ * @version 1.0 
  */
 public final class Netty3Session extends BaseSession implements Session {
 	// 通道
-	private Channel	channel;
+	private Channel channel;
 
 	/**
 	 * 构造

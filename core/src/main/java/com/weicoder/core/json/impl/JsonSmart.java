@@ -9,9 +9,8 @@ import com.weicoder.core.json.Json;
 
 /**
  * json-smart包实现
- * @author WD
- * @since JDK6
- * @version 1.0 2013-03-11
+ * @author WD 
+ * @version 1.0 
  */
 public final class JsonSmart implements Json {
 	@Override

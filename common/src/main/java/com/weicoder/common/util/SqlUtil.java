@@ -4,9 +4,8 @@ import com.weicoder.common.constants.StringConstants;
 
 /**
  * 对SQL语句进行处理
- * @author WD
- * @since JDK7
- * @version 1.0 2009-12-27
+ * @author WD 
+ * @version 1.0 
  */
 public final class SqlUtil {
 	// 查询总行数语句头
@@ -43,8 +42,5 @@ public final class SqlUtil {
 		return EmptyUtil.isEmpty(sql) ? StringConstants.EMPTY : sql.replaceAll(StringConstants.SINGLE_QUOT, StringConstants.TWO_SINGLE_QUOT);
 	}
 
-	/**
-	 * 私有构造
-	 */
 	private SqlUtil() {}
 }

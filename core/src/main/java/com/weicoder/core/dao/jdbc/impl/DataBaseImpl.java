@@ -34,13 +34,12 @@ import com.weicoder.core.dao.datasource.DataSource;
 /**
  * JDBC实现 数据库操作实现<br/>
  * <h2>注: 内部使用</h2>
- * @author WD
- * @since JDK7
- * @version 1.0 2009-04-30
+ * @author WD 
+ * @version 1.0  
  */
 public final class DataBaseImpl implements DataBase {
 	// 声明DataSource
-	private DataSource	dataSource;
+	private DataSource dataSource;
 
 	/**
 	 * 构造函数

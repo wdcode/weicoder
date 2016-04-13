@@ -2,19 +2,18 @@ package com.weicoder.core.params;
 
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.params.Params;
-import com.weicoder.common.util.ArrayUtil; 
+import com.weicoder.common.util.ArrayUtil;
 
 /**
  * MemCache配置读取
- * @author WD
- * @since JDK7
- * @version 1.0 2011-05-26
+ * @author WD 
+ * @version 1.0  
  */
 public final class MemcacheParams {
 	/**
 	 * 集群发送名称服务器
 	 */
-	public final static String[]	NAMES	= Params.getStringArray("memcache.names", ArrayConstants.STRING_EMPTY);
+	public final static String[] NAMES = Params.getStringArray("memcache.names", ArrayConstants.STRING_EMPTY);
 
 	/**
 	 * 获得MemCache是否使用binary(二进制协议)<br/>
@@ -158,8 +157,5 @@ public final class MemcacheParams {
 		return Params.getKey("memcache", name, key);
 	}
 
-	/**
-	 * 私有构造
-	 */
 	private MemcacheParams() {}
 }

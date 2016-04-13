@@ -4,12 +4,10 @@ import com.weicoder.common.log.Logs;
 
 /**
  * 线程工具类
- * @author WD
- * @since JDK7
- * @version 1.0 2013-12-31
+ * @author WD 
+ * @version 1.0  
  */
 public final class ThreadUtil {
-
 	/**
 	 * 启动线程
 	 * @param target 线程类实现

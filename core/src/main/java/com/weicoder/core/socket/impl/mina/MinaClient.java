@@ -14,9 +14,8 @@ import com.weicoder.core.socket.base.BaseClient;
 
 /**
  * mina客户端
- * @author WD
- * @since JDK7
- * @version 1.0 2013-12-19
+ * @author WD 
+ * @version 1.0 
  */
 public final class MinaClient extends BaseClient {
 	// MinaHandler

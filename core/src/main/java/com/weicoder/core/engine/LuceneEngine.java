@@ -26,9 +26,8 @@ import com.weicoder.common.log.Logs;
 
 /**
  * Lucene 相关操作
- * @author WD
- * @since JDK7
- * @version 1.0 2012-11-18
+ * @author WD 
+ * @version 1.0  
  */
 public final class LuceneEngine {
 	// 索引目录

@@ -7,20 +7,12 @@ import com.weicoder.web.http.factory.HttpFactory;
 
 /**
  * HTTP处理器 使用默认工厂对象
- * @author WD
- * @since JDK7
- * @version 1.0 2012-08-28
+ * @author WD 
+ * @version 1.0 
  */
 public final class HttpEngine {
 	// HTTP接口
-	private final static Http	HTTP;
-
-	/**
-	 * 私有构造
-	 */
-	static {
-		HTTP = HttpFactory.getHttp();
-	}
+	private final static Http HTTP = HttpFactory.getHttp();
 
 	/**
 	 * 下载二进制文件
@@ -89,8 +81,5 @@ public final class HttpEngine {
 		return HTTP.uploads(url, files);
 	}
 
-	/**
-	 * 私有构造
-	 */
 	private HttpEngine() {}
 }

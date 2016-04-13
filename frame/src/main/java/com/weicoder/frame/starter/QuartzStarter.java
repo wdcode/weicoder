@@ -8,11 +8,12 @@ import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
 import org.quartz.Trigger;
+import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.quartz.CronTriggerFactoryBean;
 import org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.stereotype.Component;
-import com.weicoder.frame.context.Context;
+
 import com.weicoder.frame.quartz.Job;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Lists;
@@ -22,15 +23,14 @@ import com.weicoder.core.params.QuartzParams;
 
 /**
  * quartz启动器
- * @author WD
- * @since JDK7
- * @version 1.0 2013-12-27
+ * @author WD 
+ * @version 1.0  
  */
 @Component
 final class QuartzStarter {
-	// Context
+	//ApplicationContext
 	@Resource
-	private Context	context;
+	private ApplicationContext context;
 
 	/**
 	 * 初始化
@@ -42,7 +42,7 @@ final class QuartzStarter {
 			// 声明定时对象
 			List<Trigger> triggers = Lists.getList();
 			// 循环设置
-			for (Job job : context.getBeans(Job.class).values()) {
+			for (Job job : context.getBeansOfType(Job.class).values()) {
 				// 设置任务
 				for (Map.Entry<String, String> e : job.getTriggers().entrySet()) {
 					// 声明方法执行bean

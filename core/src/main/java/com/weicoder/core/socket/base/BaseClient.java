@@ -8,13 +8,12 @@ import com.weicoder.core.socket.message.Login;
 
 /**
  * 基础Client
- * @author WD
- * @since JDK7
- * @version 1.0 2013-12-30
+ * @author WD 
+ * @version 1.0  
  */
 public abstract class BaseClient extends BaseSocket implements Client {
 	// Session
-	protected Session	session;
+	protected Session session;
 
 	/**
 	 * 构造

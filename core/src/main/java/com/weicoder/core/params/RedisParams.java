@@ -4,49 +4,24 @@ import com.weicoder.common.params.Params;
 
 /**
  * Redis配置读取
- * @author WD
- * @since JDK7
- * @version 1.0 2011-06-23
+ * @author WD 
+ * @version 1.0 
  */
 public final class RedisParams {
 	/* Redis使用 */
-	private final static String	PREFIX;	// 前缀
-	private final static String	HOST;		// 服务器地址
-	private final static String	PORT;		// 服务器端口
-	private final static String	MAX_TOTAL;	// 最大活动数
-	private final static String	MAX_IDLE;	// 最大空闲数
-	private final static String	MAX_WAIT;	// 最大等待时间
-
-	/**
-	 * 静态初始化
-	 */
-	static {
-		/* Redis使用 */
-		PREFIX = "redis"; // 键
-		HOST = "host"; // 服务器地址
-		PORT = "port"; // 服务器端口
-		MAX_TOTAL = "maxTotal"; // 服务器
-		MAX_IDLE = "maxIdle"; // 服务器
-		MAX_WAIT = "maxWait"; // 服务器
-	}
+	private final static String	PREFIX		= "redis";		// 前缀
+	private final static String	HOST		= "host";		// 服务器地址
+	private final static String	PORT		= "port";		// 服务器端口
+	private final static String	MAX_TOTAL	= "maxTotal";	// 最大活动数
+	private final static String	MAX_IDLE	= "maxIdle";	// 最大空闲数
+	private final static String	MAX_WAIT	= "maxWait";	// 最大等待时间
 
 	/* Redis使用 */
-	private static String		host;		// 服务器地址
-	private static int			port;		// 服务器端口
-	private static int			maxTotal;	// 最大活动数
-	private static int			maxIdle;	// 最大空闲数
-	private static long			maxWait;	// 最大等待时间
-
-	/**
-	 * 静态初始化
-	 */
-	static {
-		host = "127.0.0.1"; // 服务器地址
-		port = 6379; // 服务器端口
-		maxTotal = 100; // 最大活动数
-		maxIdle = 30; // 最大空闲数
-		maxWait = 1000; // 最大等待时间
-	}
+	private static String		host		= "127.0.0.1";	// 服务器地址
+	private static int			port		= 6379;			// 服务器端口
+	private static int			maxTotal	= 100;			// 最大活动数
+	private static int			maxIdle		= 30;			// 最大空闲数
+	private static long			maxWait		= 1000;			// 最大等待时间
 
 	/**
 	 * Redis服务器地址<br/>
@@ -118,8 +93,5 @@ public final class RedisParams {
 		return Params.getKey(PREFIX, name, key);
 	}
 
-	/**
-	 * 私有构造
-	 */
 	private RedisParams() {}
 }

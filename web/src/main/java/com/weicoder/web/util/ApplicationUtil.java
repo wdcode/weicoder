@@ -6,9 +6,8 @@ import com.weicoder.common.util.EmptyUtil;
 
 /**
  * application 应用域 ServletContext 操作类
- * @author WD
- * @since JDK7
- * @version 1.0 2010-03-03
+ * @author WD 
+ * @version 1.0 
  */
 public final class ApplicationUtil {
 	/**
@@ -45,8 +44,5 @@ public final class ApplicationUtil {
 		}
 	}
 
-	/**
-	 * 私有构造
-	 */
 	private ApplicationUtil() {}
 }

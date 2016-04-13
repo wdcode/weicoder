@@ -26,9 +26,8 @@ import com.weicoder.core.socket.message.Null;
 
 /**
  * Socket 数据处理器实现
- * @author WD
- * @since JDK7
- * @version 1.0 2013-12-22
+ * @author WD 
+ * @version 1.0 
  */
 public final class Process {
 	// Handler列表
@@ -86,36 +85,33 @@ public final class Process {
 		final int over = SocketParams.getOver(name);
 		if (time > 0) {
 			// 定时检测
-			ScheduledUtile.rate(new Runnable() {
-				@Override
-				public void run() {
-					// 检测连接超时
-					try {
-						// 获得当前时间
-						int curr = DateUtil.getTime();
-						for (Map.Entry<Integer, Integer> e : times.entrySet()) {
-							// 超时
-							if (curr - e.getValue() >= time) {
-								// 获得Session
-								Session session = sessions.get(e.getKey());
-								// IP
-								String ip = session.ip();
-								// 获得本IP次数
-								int num = Conversion.toInt(overs.get(ip));
-								// 判断超时超过一定次数
-								if (num > over) {
-									// 添加到拒绝列表
-									limits.put(ip, true);
-								}
-								// 添加次数
-								overs.put(ip, ++num);
-								// 关闭
-								session.close();
-								Logs.info("name=" + name + ";overtime close id=" + e.getKey());
+			ScheduledUtile.rate(() -> {
+				// 检测连接超时
+				try {
+					// 获得当前时间
+					int curr = DateUtil.getTime();
+					for (Map.Entry<Integer, Integer> e : times.entrySet()) {
+						// 超时
+						if (curr - e.getValue() >= time) {
+							// 获得Session
+							Session session = sessions.get(e.getKey());
+							// IP
+							String ip = session.ip();
+							// 获得本IP次数
+							int num = Conversion.toInt(overs.get(ip));
+							// 判断超时超过一定次数
+							if (num > over) {
+								// 添加到拒绝列表
+								limits.put(ip, true);
 							}
+							// 添加次数
+							overs.put(ip, ++num);
+							// 关闭
+							session.close();
+							Logs.info("name=" + name + ";overtime close id=" + e.getKey());
 						}
-					} catch (Exception e) {}
-				}
+					}
+				} catch (Exception e) {}
 			}, 1);
 		}
 	}

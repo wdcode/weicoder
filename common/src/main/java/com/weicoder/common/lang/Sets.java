@@ -12,9 +12,8 @@ import com.weicoder.common.util.EmptyUtil;
 
 /**
  * Set的帮助类,获得Set的一些操作
- * @author WD
- * @since JDK7
- * @version 1.0 2009-09-08
+ * @author WD 
+ * @version 1.0  
  */
 public final class Sets {
 	/**
@@ -221,8 +220,5 @@ public final class Sets {
 		return EmptyUtil.isEmpty(set) ? 0 : set.size();
 	}
 
-	/**
-	 * 私有构造
-	 */
 	private Sets() {}
 }

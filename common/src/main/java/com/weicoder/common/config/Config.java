@@ -16,13 +16,12 @@ import com.weicoder.common.util.ResourceUtil;
 
 /**
  * 读取配置类
- * @author WD
- * @since JDK7
- * @version 1.0 2016-2-15
+ * @author WD 
+ * @version 1.0 
  */
 public class Config {
 	// Properties配置
-	private Properties	ps;
+	private Properties ps;
 
 	/**
 	 * 构造参数

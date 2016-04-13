@@ -18,9 +18,8 @@ import com.weicoder.web.email.base.BaseEmail;
 
 /**
  * EmailUtil Apache Common Email实现
- * @author WD
- * @since JDK7
- * @version 1.0 2009-03-27
+ * @author WD 
+ * @version 1.0 
  */
 public final class EmailApache extends BaseEmail {
 	/**
@@ -133,9 +132,7 @@ public final class EmailApache extends BaseEmail {
 	private void setAttachment(MultiPartEmail email, String attach) {
 		try {
 			// 判断附件是否为空
-			if (EmptyUtil.isEmpty(attach)) {
-				return;
-			}
+			if (EmptyUtil.isEmpty(attach)) { return; }
 			// 实例化邮件附件
 			EmailAttachment attachment = new EmailAttachment();
 			// 判断是本地文件还是远程

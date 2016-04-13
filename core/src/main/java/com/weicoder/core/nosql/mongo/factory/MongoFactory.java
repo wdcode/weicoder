@@ -6,16 +6,12 @@ import com.weicoder.core.nosql.mongo.impl.MongoImpl;
 
 /**
  * MongoDB工厂
- * @author WD
- * @since JDK7
- * @version 1.0 2013-11-23
+ * @author WD 
+ * @version 1.0  
  */
 public final class MongoFactory extends FactoryKey<String, Mongo> {
 	// MongoDB工厂
-	private final static MongoFactory	FACTORY;
-	static {
-		FACTORY = new MongoFactory();
-	}
+	private final static MongoFactory FACTORY = new MongoFactory();
 
 	/**
 	 * 获得Mongo

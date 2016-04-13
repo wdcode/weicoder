@@ -6,21 +6,24 @@ import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
+/**
+ * 财付通
+ * @author WD
+ * @version 1.0
+ */
 public class TenpayUtil {
-	
+
 	/**
 	 * 把对象转换成字符串
 	 * @param obj
 	 * @return String 转换成字符串,若对象为null,则返回空字符串.
 	 */
 	public static String toString(Object obj) {
-		if(obj == null)
-			return "";
-		
+		if (obj == null) return "";
+
 		return obj.toString();
 	}
-	
+
 	/**
 	 * 把对象转换为int数值.
 	 * 
@@ -31,25 +34,24 @@ public class TenpayUtil {
 	public static int toInt(Object obj) {
 		int a = 0;
 		try {
-			if (obj != null)
-				a = Integer.parseInt(obj.toString());
+			if (obj != null) a = Integer.parseInt(obj.toString());
 		} catch (Exception e) {
 
 		}
 		return a;
 	}
-	
+
 	/**
 	 * 获取当前时间 yyyyMMddHHmmss
 	 * @return String
-	 */ 
+	 */
 	public static String getCurrTime() {
 		Date now = new Date();
 		SimpleDateFormat outFormat = new SimpleDateFormat("yyyyMMddHHmmss");
 		String s = outFormat.format(now);
 		return s;
 	}
-	
+
 	/**
 	 * 获取当前日期 yyyyMMdd
 	 * @param date
@@ -60,7 +62,7 @@ public class TenpayUtil {
 		String strDate = formatter.format(date);
 		return strDate;
 	}
-	
+
 	/**
 	 * 取出一个指定长度大小的随机正整数.
 	 * 
@@ -79,45 +81,40 @@ public class TenpayUtil {
 		}
 		return (int) ((random * num));
 	}
-	
+
 	/**
 	 * 获取编码字符集
 	 * @param request
 	 * @param response
 	 * @return String
 	 */
-	public static String getCharacterEncoding(HttpServletRequest request,
-			HttpServletResponse response) {
-		
-		if(null == request || null == response) {
-			return "gbk";
-		}
-		
+	public static String getCharacterEncoding(HttpServletRequest request, HttpServletResponse response) {
+
+		if (null == request || null == response) { return "gbk"; }
+
 		String enc = request.getCharacterEncoding();
-		if(null == enc || "".equals(enc)) {
+		if (null == enc || "".equals(enc)) {
 			enc = response.getCharacterEncoding();
 		}
-		
-		if(null == enc || "".equals(enc)) {
+
+		if (null == enc || "".equals(enc)) {
 			enc = "gbk";
 		}
-		
+
 		return enc;
 	}
-	
+
 	/**
 	 * 获取unix时间，从1970-01-01 00:00:00开始的秒数
 	 * @param date
 	 * @return long
 	 */
 	public static long getUnixTime(Date date) {
-		if( null == date ) {
-			return 0;
-		}
-		
-		return date.getTime()/1000;
+		if (null == date) { return 0; }
+
+		return date.getTime() / 1000;
 	}
-		
+
 	/**
 	 * 时间转换成字符串
 	 * @param date 时间

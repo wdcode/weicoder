@@ -31,9 +31,8 @@ import com.weicoder.core.xml.output.XMLWrite;
 
 /**
  * XMLDocument工厂,创建XML解析用对象 <h2>注: 本包功能需要jdom或dom4j依赖包</h2>
- * @author WD
- * @since JDK7
- * @version 1.0 2009-03-18
+ * @author WD 
+ * @version 1.0 
  */
 public final class XmlBuilder {
 	/**
@@ -207,8 +206,5 @@ public final class XmlBuilder {
 		return createXMLRead().build(in);
 	}
 
-	/**
-	 * 私有构造
-	 */
 	private XmlBuilder() {}
 }

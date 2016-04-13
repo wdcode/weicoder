@@ -15,13 +15,12 @@ import com.weicoder.common.util.StringUtil;
 
 /**
  * 信息摘要类
- * @author WD
- * @since JDK7
- * @version 1.0 2010-06-22
+ * @author WD 
+ * @version 1.0 
  */
 public final class Digest {
 	// 保存摘要算法
-	private final static Map<String, MessageDigest>	DIGEST	= Maps.getConcurrentMap();
+	private final static Map<String, MessageDigest> DIGEST = Maps.getConcurrentMap();
 
 	/**
 	 * 加密密码 空密码不加密
@@ -211,8 +210,5 @@ public final class Digest {
 		}
 	}
 
-	/**
-	 * 私有构造
-	 */
 	private Digest() {}
 }

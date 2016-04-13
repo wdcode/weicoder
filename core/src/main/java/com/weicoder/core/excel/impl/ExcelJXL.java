@@ -24,9 +24,8 @@ import jxl.write.WritableWorkbook;
 /**
  * 使用JXL操作Excel<br/>
  * <h2>注: 内部使用</h2>
- * @author WD
- * @since JDK7
- * @version 1.0 2009-03-09
+ * @author WD 
+ * @version 1.0 
  */
 public final class ExcelJXL extends BaseExcel {
 	// 工作薄 读

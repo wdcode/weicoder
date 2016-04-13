@@ -2,9 +2,8 @@ package com.weicoder.common.constants;
 
 /**
  * 保存正则表达式常量类
- * @author WD
- * @since JDK7
- * @version 1.0 2009-09-15
+ * @author WD 
+ * @version 1.0  
  */
 public final class RegexConstants {
 	/** 全由数字组成 */

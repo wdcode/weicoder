@@ -17,23 +17,14 @@ import com.weicoder.common.util.StringUtil;
 import com.weicoder.web.constants.HttpConstants;
 import com.weicoder.web.http.base.BaseHttp;
 
-// import com.sonalb.net.http.cookie.Client;
-// import com.sonalb.net.http.cookie.Cookie;
-// import com.sonalb.net.http.cookie.CookieJar;
-// import com.sonalb.net.http.cookie.MalformedCookieException;
-
 /**
  * 使用JDK 实现HTTP模拟浏览器提交的实现类
- * @author WD
- * @since JDK7
- * @version 1.0 2011-03-14
+ * @author WD 
+ * @version 1.0 
  */
 public final class HttpJava extends BaseHttp {
 	// HttpURLConnection
-	private HttpURLConnection	connection;
-
-	// Cookie 客户端
-	// private Client cookieClient;
+	private HttpURLConnection connection;
 
 	/**
 	 * 构造方法

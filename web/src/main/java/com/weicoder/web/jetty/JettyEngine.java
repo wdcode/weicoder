@@ -10,9 +10,8 @@ import com.weicoder.web.params.JettyParams;
 
 /**
  * Jetty 启动器
- * @author WD
- * @since JDK7
- * @version 1.0 2014-6-15
+ * @author WD 
+ * @version 1.0 
  */
 public final class JettyEngine {
 

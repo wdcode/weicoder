@@ -8,13 +8,12 @@ import com.weicoder.common.util.EmptyUtil;
 
 /**
  * 系统配置信息 内部使用 config.properties 中配置,本包实现可配置功能<br/>
- * @author WD
- * @since JDK7
+ * @author WD 
  * @version 1.0
  */
 public final class Params {
 	// Properties配置
-	private static Config	config	= new Config("config/config.properties", "config.properties");
+	private static Config config = new Config("config/config.properties", "config.properties");
 
 	/**
 	 * 获得属性value
@@ -126,8 +125,5 @@ public final class Params {
 		return sb.toString();
 	}
 
-	/**
-	 * 私有构造
-	 */
 	private Params() {}
 }

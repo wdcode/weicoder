@@ -6,9 +6,8 @@ import com.weicoder.common.params.Params;
 
 /**
  * WdWeb包参数读取类
- * @author WD
- * @since JDK7
- * @version 1.0 2010-01-05
+ * @author WD 
+ * @version 1.0 
  */
 public final class WebParams {
 	/** 系统发送邮件所用地址 */
@@ -58,6 +57,5 @@ public final class WebParams {
 	/** 是否静态化 */
 	public final static boolean	STAICS_POWER		= Params.getBoolean("staics.power", false);
 
-	/** 私有构造 */
 	private WebParams() {}
 }

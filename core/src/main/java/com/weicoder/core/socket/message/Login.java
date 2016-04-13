@@ -2,9 +2,8 @@ package com.weicoder.core.socket.message;
 
 /**
  * 登录消息接口 用于Client登录验证
- * @author WD
- * @since JDK7
- * @version 1.0 2014-05-05
+ * @author WD 
+ * @version 1.0 
  */
 public interface Login {
 	/**

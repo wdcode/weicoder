@@ -12,16 +12,12 @@ import com.weicoder.core.params.MemcacheParams;
 
 /**
  * MemCached的客户端调用工厂
- * @author WD
- * @since JDK7
- * @version 1.0 2011-05-26
+ * @author WD 
+ * @version 1.0 
  */
 public final class MemcacheFactory extends FactoryKey<String, Memcache> {
 	// 工厂
-	private final static MemcacheFactory	FACTORY;
-	static {
-		FACTORY = new MemcacheFactory();
-	}
+	private final static MemcacheFactory FACTORY = new MemcacheFactory();
 
 	/**
 	 * 获得工厂
@@ -61,12 +57,12 @@ public final class MemcacheFactory extends FactoryKey<String, Memcache> {
 	 */
 	public Memcache newInstance(String name) {
 		switch (MemcacheParams.getParse(name)) {
-			case "x":
-				return new MemcacheX(name);
-			case "spy":
-				return new MemcacheSpy(name);
-			default:
-				return new MemcacheWhalin(name);
+		case "x":
+			return new MemcacheX(name);
+		case "spy":
+			return new MemcacheSpy(name);
+		default:
+			return new MemcacheWhalin(name);
 		}
 	}
 

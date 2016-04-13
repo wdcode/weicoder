@@ -4,9 +4,8 @@ import com.weicoder.tag.base.BaseSimpleTag;
 
 /**
  * JS头标签
- * @author WD
- * @since JDK7
- * @version 1.0 2011-03-21
+ * @author WD 
+ * @version 1.0 
  */
 public final class JsTag extends BaseSimpleTag {
 	@Override

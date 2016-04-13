@@ -15,9 +15,8 @@ import com.weicoder.web.util.IpUtil;
 
 /**
  * 登录信息Bean
- * @author WD
- * @since JDK7
- * @version 1.0 2012-07-20
+ * @author WD 
+ * @version 1.0 
  */
 public final class LoginEngine {
 	// 空登录信息
@@ -170,8 +169,5 @@ public final class LoginEngine {
 		return EMPTY;
 	}
 
-	/**
-	 * 私有构造
-	 */
 	private LoginEngine() {}
 }

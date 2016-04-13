@@ -13,13 +13,12 @@ import com.weicoder.common.util.StringUtil;
 
 /**
  * 加密解密基础类 内部使用
- * @author WD
- * @since JDK7
- * @version 1.0 2010-06-23
+ * @author WD 
+ * @version 1.0 
  */
 public abstract class BaseCrypt {
 	// 加密算法
-	private final static Map<String, Key>	KEYS	= Maps.getConcurrentMap();
+	private final static Map<String, Key> KEYS = Maps.getConcurrentMap();
 
 	/**
 	 * 计算密文

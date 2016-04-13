@@ -10,13 +10,12 @@ import com.weicoder.common.params.CommonParams;
 
 /**
  * 定时任务工具类
- * @author WD
- * @since JDK7
- * @version 1.0 2013-12-30
+ * @author WD 
+ * @version 1.0  
  */
 public final class ScheduledUtile {
 	/** 并发定时任务池 */
-	public final static ScheduledExecutorService	POOL	= Executors.newScheduledThreadPool(CommonParams.POOL_TIMER);
+	public final static ScheduledExecutorService POOL = Executors.newScheduledThreadPool(CommonParams.POOL_TIMER);
 
 	/**
 	 * 执行定时任务 按初始时间间隔

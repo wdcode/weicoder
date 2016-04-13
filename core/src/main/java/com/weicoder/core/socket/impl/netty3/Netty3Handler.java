@@ -11,11 +11,10 @@ import com.weicoder.core.socket.Session;
 import com.weicoder.core.socket.process.Process;
 
 /**
- * @author WD
- * @since JDK7
- * @version 1.0 2013-12-15
+ * Netty3 处理器
+ * @author WD 
+ * @version 1.0 
  */
-// @org.jboss.netty.channel.ChannelHandler.Sharable
 public final class Netty3Handler extends SimpleChannelHandler {
 	// 名称
 	private String	name;

@@ -14,13 +14,12 @@ import com.weicoder.web.util.ResponseUtil;
 
 /**
  * Struts2 Action 的抽象实现 其它Struts2 Action可继承此类
- * @author WD
- * @since JDK7
- * @version 1.0 2009-08-26
+ * @author WD 
+ * @version 1.0 
  */
 public abstract class BasicAction {
 	// 回调方法处理
-	protected final static Map<String, Method>	METHODS	= Maps.getMap();
+	protected final static Map<String, Method> METHODS = Maps.getMap();
 
 	/**
 	 * 以ajax模式输出数据到客户端方法

@@ -6,9 +6,8 @@ import com.weicoder.core.params.MemcacheParams;
 
 /**
  * MemCacheClient基础抽象
- * @author WD
- * @since JDK7
- * @version 1.0 2010-11-15
+ * @author WD 
+ * @version 1.0 
  */
 public abstract class BaseMemcache extends BaseNoSQL implements Memcache {
 	/**
@@ -21,9 +20,8 @@ public abstract class BaseMemcache extends BaseNoSQL implements Memcache {
 	 * @param name 名称key
 	 */
 	public BaseMemcache(String name) {
-		init(
-			name, MemcacheParams.getServers(name), MemcacheParams.getWeights(name), MemcacheParams.getInitConn(name), MemcacheParams.getMinConn(name), MemcacheParams.getMaxConn(name), MemcacheParams.getMaxIdle(name), MemcacheParams.getSleep(name), MemcacheParams.getTO(name),
-			MemcacheParams.getConnectTO(name), MemcacheParams.getBinary(name));
+		init(name, MemcacheParams.getServers(name), MemcacheParams.getWeights(name), MemcacheParams.getInitConn(name), MemcacheParams.getMinConn(name), MemcacheParams.getMaxConn(name),
+				MemcacheParams.getMaxIdle(name), MemcacheParams.getSleep(name), MemcacheParams.getTO(name), MemcacheParams.getConnectTO(name), MemcacheParams.getBinary(name));
 
 	}
 
@@ -41,5 +39,6 @@ public abstract class BaseMemcache extends BaseNoSQL implements Memcache {
 	 * @param socketConnectTO 连接超时
 	 * @param binary 是否使用binary(二进制协议)
 	 */
-	protected abstract void init(String name, String[] servers, Integer[] weights, int initConn, int minConn, int maxConn, long maxIdle, long maintSleep, int socketTO, int socketConnectTO, boolean binary);
+	protected abstract void init(String name, String[] servers, Integer[] weights, int initConn, int minConn, int maxConn, long maxIdle, long maintSleep, int socketTO, int socketConnectTO,
+			boolean binary);
 }

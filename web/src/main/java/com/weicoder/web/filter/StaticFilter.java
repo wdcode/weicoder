@@ -18,23 +18,14 @@ import com.weicoder.web.util.UrlUtil;
 
 /**
  * 过滤wdui使用的js和css请求,过滤已/wdui开头的js和css请求
- * @author WD
- * @since JDK7
- * @version 1.0 2011-05-02
+ * @author WD 
+ * @version 1.0 
  */
 public final class StaticFilter implements Filter {
 	// 提交路径名
-	private static String	urlPath;
+	private static String	urlPath		= "/wdstatic";
 	// 提交文件路径名
-	private static String	filePath;
-
-	/**
-	 * 静态初始化
-	 */
-	static {
-		urlPath = "/wdstatic";
-		filePath = "static";
-	}
+	private static String	filePath	= "static";
 
 	/**
 	 * 初始化过滤器

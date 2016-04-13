@@ -6,9 +6,8 @@ import com.weicoder.common.util.StringUtil;
 
 /**
  * 封装struts2 PropertyTag
- * @author WD
- * @since JDK7
- * @version 1.0 2010-03-17
+ * @author WD 
+ * @version 1.0 
  */
 public final class PropertyTag extends org.apache.struts2.views.jsp.PropertyTag {
 	// 序列化ID

@@ -6,19 +6,19 @@ import java.util.Map;
 import com.weicoder.common.lang.Maps;
 
 /**
- * 全局Context控制
- * 
- * @author WD
- * @since JDK7
- * @version 1.0 2016-1-14
+ * 全局Selvert控制 
+ * @author WD 
+ * @version 1.0 
  */
 public final class Contexts {
 	// Action列表
-	public final static Map<String, Object> ACTIONS = Maps.getMap();
+	public final static Map<String, Object>					ACTIONS			= Maps.getMap();
 	// 回调方法处理
-	public final static Map<String, Map<String, Method>> ACTIONS_METHODS = Maps.getMap();
+	public final static Map<String, Map<String, Method>>	ACTIONS_METHODS	= Maps.getMap();
 	// 回调方法处理
-	public final static Map<String, Object> METHODS_ACTIONS = Maps.getMap();
+	public final static Map<String, Object>					METHODS_ACTIONS	= Maps.getMap();
 	// 回调方法处理
-	public final static Map<String, Method> METHODS = Maps.getMap();
+	public final static Map<String, Method>					METHODS			= Maps.getMap();
+
+	private Contexts() {}
 }

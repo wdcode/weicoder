@@ -15,13 +15,12 @@ import com.weicoder.core.dao.datasource.impl.Proxool;
 
 /**
  * 封装 DataSource类 主要给Spring注入用
- * @author WD
- * @since JDK7
- * @version 1.0 2010-01-29
+ * @author WD 
+ * @version 1.0  
  */
 public final class BasicDataSource implements DataSource {
 	// 数据源
-	private DataSource	ds;
+	private DataSource ds;
 
 	/**
 	 * 设置数据源类型
@@ -30,24 +29,24 @@ public final class BasicDataSource implements DataSource {
 	public void setParse(String parse) {
 		// 判断数据源
 		switch (parse) {
-			case "dbcp":
-				ds = new DBCP();
-				break;
-			case "dbcp2":
-				ds = new DBCP2();
-				break;
-			case "c3p0":
-				ds = new C3P0();
-				break;
-			case "proxool":
-				ds = new Proxool();
-				break;
-			case "bonecp":
-				ds = new Bonecp();
-				break;
-			case "druid":
-				ds = new Druid();
-				break;
+		case "dbcp":
+			ds = new DBCP();
+			break;
+		case "dbcp2":
+			ds = new DBCP2();
+			break;
+		case "c3p0":
+			ds = new C3P0();
+			break;
+		case "proxool":
+			ds = new Proxool();
+			break;
+		case "bonecp":
+			ds = new Bonecp();
+			break;
+		case "druid":
+			ds = new Druid();
+			break;
 		}
 	}
 

@@ -9,11 +9,10 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
 /**
- * @author WD
- * @since JDK7
- * @version 1.0 2013-12-15
+ * Netty 处理器
+ * @author WD 
+ * @version 1.0  
  */
-//@io.netty.channel.ChannelHandler.Sharable
 public final class NettyHandler extends SimpleChannelInboundHandler<ByteBuf> {
 	// 名称
 	private String	name;

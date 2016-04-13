@@ -4,13 +4,12 @@ import com.weicoder.core.xml.output.Format;
 
 /**
  * Format接口 JDom实现
- * @author WD
- * @since JDK7
- * @version 1.0 2009-03-23
+ * @author WD 
+ * @version 1.0 
  */
 public final class FormatJDom2 implements Format {
 	// JDom Format
-	private org.jdom2.output.Format	format;
+	private org.jdom2.output.Format format;
 
 	/**
 	 * 构造方法

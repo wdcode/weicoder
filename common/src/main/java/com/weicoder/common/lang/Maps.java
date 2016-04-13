@@ -12,9 +12,8 @@ import com.weicoder.common.util.EmptyUtil;
 
 /**
  * Map的帮助类,获得Map的一些操作
- * @author WD
- * @since JDK7
- * @version 1.0 2009-09-08
+ * @author WD 
+ * @version 1.0  
  */
 public final class Maps {
 	/**
@@ -85,9 +84,7 @@ public final class Maps {
 	 */
 	public static <K, V> Map<K, V> getMap(List<K> keys, List<V> values) {
 		// 判断key和value为空或则键值数量不同 返回空Map
-		if (EmptyUtil.isEmpty(keys) || EmptyUtil.isEmpty(values) || keys.size() != values.size()) {
-			return emptyMap();
-		}
+		if (EmptyUtil.isEmpty(keys) || EmptyUtil.isEmpty(values) || keys.size() != values.size()) { return emptyMap(); }
 		// 获得Map
 		Map<K, V> map = getMap();
 		// 循环填充map
@@ -238,8 +235,5 @@ public final class Maps {
 		return EmptyUtil.isEmpty(map) ? 0 : map.size();
 	}
 
-	/**
-	 * 私有构造 禁止外部实例化
-	 */
 	private Maps() {}
 }

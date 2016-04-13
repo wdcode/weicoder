@@ -2,9 +2,8 @@ package com.weicoder.common.constants;
 
 /**
  * 编码常量
- * @author WD
- * @since JDK7
- * @version 1.0 2009-11-20
+ * @author WD 
+ * @version 1.0 
  */
 public final class EncodingConstants {
 	/** 编码格式 UTF-8 */

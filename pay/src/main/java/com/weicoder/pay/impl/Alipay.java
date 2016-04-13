@@ -24,8 +24,7 @@ import com.weicoder.web.util.RequestUtil;
 /**
  * 支付宝即时到帐
  * @author WD
- * @since JDK6
- * @version 1.0 2012-12-04
+ * @version 1.0
  */
 @Component
 public final class Alipay implements Pay {

@@ -8,13 +8,12 @@ import com.weicoder.tag.base.BaseSimpleTag;
 
 /**
  * 分页标签
- * @author WD
- * @since JDK7
- * @version 1.0 2009-05-16
+ * @author WD 
+ * @version 1.0 
  */
 public final class PaginationTag extends BaseSimpleTag {
 	// 分页Bean
-	private Pagination	pager;
+	private Pagination pager;
 
 	/**
 	 * 获得分页Bean

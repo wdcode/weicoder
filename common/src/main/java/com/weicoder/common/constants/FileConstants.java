@@ -2,9 +2,8 @@ package com.weicoder.common.constants;
 
 /**
  * 文件常量
- * @author WD
- * @since JDK7
- * @version 1.0 2009-11-21
+ * @author WD 
+ * @version 1.0 
  */
 public final class FileConstants {
 	/** 文件后缀 xml */

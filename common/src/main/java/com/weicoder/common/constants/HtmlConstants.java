@@ -2,9 +2,8 @@ package com.weicoder.common.constants;
 
 /**
  * HTML页面常量
- * @author WD
- * @since JDK7
- * @version 1.0 2009-11-21
+ * @author WD 
+ * @version 1.0 
  */
 public final class HtmlConstants {
 	/** HTML格式 text/html; */

@@ -8,13 +8,12 @@ import com.weicoder.core.dao.datasource.base.BaseDataSource;
 
 /**
  * DBCP连接池实现
- * @author WD
- * @since JDK7
- * @version 1.0 2010-01-23
+ * @author WD 
+ * @version 1.0  
  */
 public final class DBCP extends BaseDataSource {
 	// BasicDataSource数据源
-	private BasicDataSource	ds = new BasicDataSource();
+	private BasicDataSource ds = new BasicDataSource();
 
 	/**
 	 * 获得驱动类

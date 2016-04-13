@@ -5,8 +5,8 @@ import java.util.Collection;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
-import com.weicoder.frame.context.Context;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.core.params.SocketParams;
 import com.weicoder.core.socket.Closed;
@@ -16,15 +16,14 @@ import com.weicoder.core.socket.Sockets;
 
 /**
  * Socket 相关类
- * @author WD
- * @since JDK7
- * @version 1.0 2013-12-7
+ * @author WD 
+ * @version 1.0 
  */
 @Component
 public final class SocketStarter {
-	// Context
+	//ApplicationContext
 	@Resource
-	private Context	context;
+	private ApplicationContext context;
 
 	/**
 	 * 初始化Mina
@@ -33,9 +32,9 @@ public final class SocketStarter {
 	@PostConstruct
 	public void init() {
 		// 获得全部Handler
-		Collection<Handler> handlers = context.getBeans(Handler.class).values();
+		Collection<Handler> handlers = context.getBeansOfType(Handler.class).values();
 		// 获得全部Closed
-		Collection<Closed> closeds = context.getBeans(Closed.class).values();
+		Collection<Closed> closeds = context.getBeansOfType(Closed.class).values();
 		// 判断任务不为空
 		if (SocketParams.SPRING) {
 			// 循环数组

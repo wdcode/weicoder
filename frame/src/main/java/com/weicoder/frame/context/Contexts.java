@@ -5,43 +5,41 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
-
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.stereotype.Component;
+import org.springframework.context.ApplicationContext;
+
 import com.weicoder.frame.cache.Cache;
 import com.weicoder.frame.cache.impl.CacheMap;
 import com.weicoder.frame.cache.impl.CacheNoSQL;
 import com.weicoder.frame.entity.Entity;
 import com.weicoder.frame.params.BaseParams;
+import com.weicoder.frame.service.SuperService;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
 
 /**
  * 全局Context控制
- * @author WD
- * @since JDK7
- * @version 1.0 2012-09-01
+ * @author WD 
+ * @version 1.0 
  */
-@Component
-public final class Context {
-	// Spring ApplicationContext
-	@Resource
-	private ConfigurableApplicationContext					cac;
-	// DefaultListableBeanFactory
-	@Resource
-	private DefaultListableBeanFactory						factory;
+public final class Contexts {
+	//WebApplicationContext
+	private static ApplicationContext								context;
+	//SuperService
+	private static SuperService										service;
+	// DefaultListableBeanFactory 
+	private static DefaultListableBeanFactory						factory;
 	// 短类名对应的类对象Map
-	private ConcurrentMap<String, Class<? extends Entity>>	entitys;
+	private static ConcurrentMap<String, Class<? extends Entity>>	entitys;
 
 	/**
 	 * 初始化
+	 * @param context
 	 */
-	@PostConstruct
-	protected void init() {
+	public static void init(ApplicationContext context) {
+		Contexts.context = context;
+		service = getBean(SuperService.class);
 		// 获得所有实体
 		Map<String, Entity> map = getBeans(Entity.class);
 		// 实例化短类名对应的类对象Map
@@ -54,10 +52,26 @@ public final class Context {
 	}
 
 	/**
+	 * 获得ApplicationContext
+	 * @return ApplicationContext
+	 */
+	public static ApplicationContext getContext() {
+		return context;
+	}
+
+	/**
+	 * 获得SuperService
+	 * @return SuperService
+	 */
+	public static SuperService getService() {
+		return service;
+	}
+
+	/**
 	 * 获得所有实体类列表
 	 * @return 类列表
 	 */
-	public List<Class<? extends Entity>> getEntitys() {
+	public static List<Class<? extends Entity>> getEntitys() {
 		return Lists.getList(entitys.values());
 	}
 
@@ -67,7 +81,7 @@ public final class Context {
 	 * @return 类对象
 	 */
 	@SuppressWarnings("unchecked")
-	public <E extends Entity> Class<E> getClass(String entity) {
+	public static <E extends Entity> Class<E> getClass(String entity) {
 		return (Class<E>) entitys.get(entity);
 	}
 
@@ -77,8 +91,8 @@ public final class Context {
 	 * @param requiredType 类型
 	 * @return 实体
 	 */
-	public <E> E getBean(String name, Class<E> requiredType) {
-		return cac.getBean(name, requiredType);
+	public static <E> E getBean(String name, Class<E> requiredType) {
+		return context.getBean(name, requiredType);
 	}
 
 	/**
@@ -86,8 +100,8 @@ public final class Context {
 	 * @param requiredType 类型
 	 * @return 实体
 	 */
-	public <E> E getBean(Class<E> requiredType) {
-		return cac.getBean(requiredType);
+	public static <E> E getBean(Class<E> requiredType) {
+		return context.getBean(requiredType);
 	}
 
 	/**
@@ -97,8 +111,8 @@ public final class Context {
 	 * @return 实体
 	 */
 	@SuppressWarnings("unchecked")
-	public <E> E getBean(Class<E> requiredType, Object... args) {
-		return (E) cac.getBean(requiredType.getName(), args);
+	public static <E> E getBean(Class<E> requiredType, Object... args) {
+		return (E) context.getBean(requiredType.getName(), args);
 	}
 
 	/**
@@ -107,7 +121,7 @@ public final class Context {
 	 * @return 缓存
 	 */
 	@SuppressWarnings("unchecked")
-	public <E extends Entity> Cache<E> getCache() {
+	public static <E extends Entity> Cache<E> getCache() {
 		return "map".equals(BaseParams.CACHE_TYPE) ? getBean(CacheMap.class) : getBean(CacheNoSQL.class);
 	}
 
@@ -116,8 +130,8 @@ public final class Context {
 	 * @param annotationType 注解类
 	 * @return Map列表
 	 */
-	public Map<String, Object> getBeansWithAnnotation(Class<? extends Annotation> annotationType) {
-		return cac.getBeansWithAnnotation(annotationType);
+	public static Map<String, Object> getBeansWithAnnotation(Class<? extends Annotation> annotationType) {
+		return context.getBeansWithAnnotation(annotationType);
 	}
 
 	/**
@@ -125,8 +139,8 @@ public final class Context {
 	 * @param annotationType 注解类
 	 * @return Map列表
 	 */
-	public <E> Map<String, E> getBeans(Class<E> type) {
-		return cac.getBeansOfType(type);
+	public static <E> Map<String, E> getBeans(Class<E> type) {
+		return context.getBeansOfType(type);
 	}
 
 	/**
@@ -134,7 +148,9 @@ public final class Context {
 	 * @param beanName Bean名称
 	 * @param beanDefinition Bean
 	 */
-	public void registerBeanDefinition(String beanName, BeanDefinition beanDefinition) {
+	public static void registerBeanDefinition(String beanName, BeanDefinition beanDefinition) {
 		factory.registerBeanDefinition(beanName, beanDefinition);
 	}
+
+	private Contexts() {}
 }

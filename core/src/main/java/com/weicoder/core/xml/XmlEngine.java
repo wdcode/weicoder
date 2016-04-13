@@ -8,27 +8,12 @@ import com.thoughtworks.xstream.io.xml.JDomDriver;
 
 /**
  * XML处理引擎
- * @author WD
- * @since JDK7
- * @version 1.0 2012-06-24
+ * @author WD 
+ * @version 1.0 
  */
 public final class XmlEngine {
 	// XStream
-	private final static XStream	STREAM;
-
-	/**
-	 * 静态初始化
-	 */
-	static {
-		// 判断使用那种XML解析包
-		if ("jdom".equals(CoreParams.XML_PARSE)) {
-			// 使用jdom
-			STREAM = new XStream(new JDomDriver());
-		} else {
-			// 使用dom4j
-			STREAM = new XStream(new Dom4JDriver());
-		}
-	}
+	private final static XStream STREAM = "jdom".equals(CoreParams.XML_PARSE) ? new XStream(new JDomDriver()) : new XStream(new Dom4JDriver());
 
 	/**
 	 * 把实体对象转换成xml字符串
@@ -59,8 +44,5 @@ public final class XmlEngine {
 		return (T) toBean(xml);
 	}
 
-	/**
-	 * 私有构造
-	 */
 	private XmlEngine() {}
 }

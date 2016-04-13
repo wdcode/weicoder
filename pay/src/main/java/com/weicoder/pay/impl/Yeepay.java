@@ -30,9 +30,8 @@ import com.weicoder.web.util.RequestUtil;
 
 /**
  * 易宝网银支付
- * @author WD
- * @since JDK6
- * @version 1.0 2012-12-04
+ * @author WD 
+ * @version 1.0 
  */
 @Component
 public final class Yeepay implements Pay {
@@ -237,7 +236,8 @@ public final class Yeepay implements Pay {
 	 * @param keyValue
 	 * @return
 	 */
-	private boolean verifyCallback(String hmac, String p1_MerId, String r0_Cmd, String r1_Code, String r2_TrxId, String r3_Amt, String r4_Cur, String r5_Pid, String r6_Order, String r7_Uid, String r8_MP, String r9_BType, String keyValue) {
+	private boolean verifyCallback(String hmac, String p1_MerId, String r0_Cmd, String r1_Code, String r2_TrxId, String r3_Amt, String r4_Cur, String r5_Pid, String r6_Order, String r7_Uid,
+			String r8_MP, String r9_BType, String keyValue) {
 		StringBuffer sValue = new StringBuffer();
 		// 商户编号
 		sValue.append(p1_MerId);
@@ -263,9 +263,7 @@ public final class Yeepay implements Pay {
 		sValue.append(r9_BType);
 		String sNewString = null;
 		sNewString = hmacSign(sValue.toString(), keyValue);
-		if (hmac.equals(sNewString)) {
-			return true;
-		}
+		if (hmac.equals(sNewString)) { return true; }
 		return false;
 	}
 }

@@ -8,12 +8,13 @@ import javax.annotation.Resource;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyHbmImpl; 
-import org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
+import org.springframework.context.ApplicationContext;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.stereotype.Component;
-import com.weicoder.frame.context.Context;
+
+import com.weicoder.frame.dao.hibernate.naming.ImprovedNamingStrategy;
 import com.weicoder.frame.dao.hibernate.search.HibernateSearch;
 import com.weicoder.frame.entity.Entity;
 import com.weicoder.frame.params.DaoParams;
@@ -25,15 +26,16 @@ import com.weicoder.core.dao.datasource.DataSource;
 
 /**
  * SessionFactory包装类
- * @author WD
- * @since JDK7
- * @version 1.0 2013-11-19
+ * @author WD 
+ * @version 1.0 
  */
 @Component
 public final class SessionFactorys implements Close {
-	// Context
+	//ApplicationContext
 	@Resource
-	private Context							context;
+	private ApplicationContext				context;
+	@Resource
+	private DefaultListableBeanFactory		beanFactory;
 	// 类对应SessionFactory
 	private Map<Class<?>, SessionFactory>	factorys;
 	// 保存单session工厂 只有一个SessionFactory工厂时使用
@@ -49,20 +51,20 @@ public final class SessionFactorys implements Close {
 		// 初始化SessionFactory
 		initSessionFactory();
 		// 获得所有SessionFactory
-		Map<String, SessionFactory> map = context.getBeans(SessionFactory.class);
+		Map<String, SessionFactory> map = context.getBeansOfType(SessionFactory.class);
 		// 如果只有一个SessionFactory
 		if (map.size() == 1) {
 			factory = map.values().toArray(new SessionFactory[1])[0];
 		}
 		// 循环获得表名
-		for (Class<? extends Entity> c : context.getEntitys()) {
+		for (Entity e : context.getBeansOfType(Entity.class).values()) {
 			// 循环获得SessionFactory
 			for (SessionFactory sessionFactory : map.values()) {
 				try {
-					if (sessionFactory.getClassMetadata(c) != null) {
-						factorys.put(c, sessionFactory);
+					if (sessionFactory.getClassMetadata(e.getClass()) != null) {
+						factorys.put(e.getClass(), sessionFactory);
 					}
-				} catch (Exception e) {}
+				} catch (Exception ex) {}
 			}
 		}
 	}
@@ -113,9 +115,10 @@ public final class SessionFactorys implements Close {
 			// 设置数据源
 			builder.addPropertyValue("dataSource", ds);
 			// 设置namingStrategy
-			builder.addPropertyValue("implicitNamingStrategy", ImplicitNamingStrategyLegacyHbmImpl.INSTANCE);
-			builder.addPropertyValue("physicalNamingStrategy", PhysicalNamingStrategyStandardImpl.INSTANCE);
-//			builder.addPropertyValue("namingStrategy", ImprovedNamingStrategy.INSTANCE);			
+			//			builder.addPropertyValue("implicitNamingStrategy", ImplicitNamingStrategyJpaCompliantImpl.INSTANCE);
+			//			builder.addPropertyValue("physicalNamingStrategy", PhysicalNamingStrategyStandardImpl.INSTANCE);
+			builder.addPropertyValue("physicalNamingStrategy", new ImprovedNamingStrategy());
+			//			builder.addPropertyValue("namingStrategy", ImprovedNamingStrategy.INSTANCE);			
 			// 设置扫描包
 			builder.addPropertyValue("packagesToScan", DaoParams.getPackages(name));
 			// 设置Hibernate属性
@@ -129,7 +132,7 @@ public final class SessionFactorys implements Close {
 			hp.put("hibernate.jdbc.batch_size", DaoParams.getBatch(name));
 			hp.put("hibernate.jdbc.fetch_size", DaoParams.getFetch(name));
 			// search
-			if (!EmptyUtil.isEmpty(context.getBeans(HibernateSearch.class))) {
+			if (!EmptyUtil.isEmpty(context.getBeansOfType(HibernateSearch.class))) {
 				hp.put("hibernate.search.default.directory_provider", DaoParams.getSearchDirectory(name));
 				hp.put("hibernate.search.default.indexBase", DaoParams.getSearchBase(name));
 				hp.put("hibernate.search.lucene_version", DaoParams.getSearchVersion(name));
@@ -141,7 +144,7 @@ public final class SessionFactorys implements Close {
 			}
 			builder.addPropertyValue("hibernateProperties", hp);
 			// 注册
-			context.registerBeanDefinition(name + "SessionFactory", builder.getRawBeanDefinition());
+			beanFactory.registerBeanDefinition(name + "SessionFactory", builder.getRawBeanDefinition());
 		}
 	}
 

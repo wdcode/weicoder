@@ -13,28 +13,21 @@ import org.quartz.TriggerBuilder;
 import org.quartz.impl.StdSchedulerFactory;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.lang.Sets;
+import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.util.ClearUtil;
 import com.weicoder.core.params.QuartzParams;
 
 /**
  * Quartz 处理引擎
- * @author WD
- * @since JDK7
- * @version 1.0 2011-05-25
+ * @author WD 
+ * @version 1.0 
  */
 public final class QuartzEngine {
 	// 保存任务列表
-	private final static Map<JobDetail, Set<? extends Trigger>>	MAP_JOB;
+	private final static Map<JobDetail, Set<? extends Trigger>>	MAP_JOB	= Maps.getConcurrentMap();
 	// 任务执行器
 	private static Scheduler									scheduler;
-
-	static {
-		MAP_JOB = Maps.getConcurrentMap();
-		try {
-			scheduler = new StdSchedulerFactory().getScheduler();
-		} catch (Exception e) {}
-	}
 
 	/**
 	 * 初始化任务
@@ -43,6 +36,11 @@ public final class QuartzEngine {
 	public static void init() {
 		// 判断任务开启
 		if (QuartzParams.POWER) {
+			try {
+				scheduler = new StdSchedulerFactory().getScheduler();
+			} catch (Exception e) {
+				Logs.info(e);
+			}
 			// 循环数组
 			for (String name : QuartzParams.NAMES) {
 				try {

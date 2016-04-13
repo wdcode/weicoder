@@ -10,9 +10,8 @@ import com.weicoder.core.zip.base.BaseZip;
 
 /**
  * BZip2压缩
- * @author WD
- * @since JDK7
- * @version 1.0 2012-09-15
+ * @author WD 
+ * @version 1.0  
  */
 public final class BZip2Impl extends BaseZip {
 

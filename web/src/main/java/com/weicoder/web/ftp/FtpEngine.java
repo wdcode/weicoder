@@ -8,20 +8,12 @@ import com.weicoder.web.ftp.factory.FtpFactory;
 
 /**
  * FTP 处理引擎
- * @author WD
- * @since JDK7
- * @version 1.0 2012-08-28
+ * @author WD 
+ * @version 1.0 
  */
 public final class FtpEngine {
 	// FTP接口
-	private final static Ftp	FTP;
-
-	/**
-	 * 私有构造
-	 */
-	static {
-		FTP = FtpFactory.getFtp();
-	}
+	private final static Ftp FTP = FtpFactory.getFtp();
 
 	/**
 	 * 上传文件
@@ -89,8 +81,5 @@ public final class FtpEngine {
 		FTP.disconnect();
 	}
 
-	/**
-	 * 私有构造
-	 */
 	private FtpEngine() {}
 }

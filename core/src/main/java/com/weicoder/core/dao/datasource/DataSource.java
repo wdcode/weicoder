@@ -4,9 +4,8 @@ import com.weicoder.common.interfaces.Close;
 
 /**
  * 自定义数据源接口
- * @author WD
- * @since JDK7
- * @version 1.0 2010-01-22
+ * @author WD 
+ * @version 1.0  
  */
 public interface DataSource extends javax.sql.DataSource, Close {
 	/**

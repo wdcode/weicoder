@@ -5,8 +5,7 @@ import java.math.BigDecimal;
 /**
  * 支付实体
  * @author WD
- * @since JDK7
- * @version 1.0 2011-11-08
+ * @version 1.0
  */
 public final class PayBean {
 	// 订单号

@@ -13,24 +13,24 @@ import org.hibernate.search.FullTextSession;
 import org.hibernate.search.Search;
 import org.hibernate.search.annotations.Indexed;
 import org.hibernate.search.query.dsl.QueryBuilder;
-import com.weicoder.frame.context.Context;
+import org.springframework.context.ApplicationContext;
+
 import com.weicoder.frame.dao.hibernate.session.SessionFactorys;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.util.EmptyUtil;
 
 /**
  * Hibernate 使用lucene搜索数据
- * @author WD
- * @since JDK7
- * @version 1.0 2013-12-31
+ * @author WD 
+ * @version 1.0 
  */
 public final class HibernateSearch {
-	// Context
+	//ApplicationContext
 	@Resource
-	private Context			context;
+	private ApplicationContext	context;
 	// Session工厂
 	@Resource
-	private SessionFactorys	factorys;
+	private SessionFactorys		factorys;
 
 	/**
 	 * 初始化
