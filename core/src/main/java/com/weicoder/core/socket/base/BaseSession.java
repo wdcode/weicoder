@@ -15,7 +15,6 @@ import com.weicoder.common.log.Logs;
 import com.weicoder.core.zip.ZipEngine;
 import com.weicoder.core.params.SocketParams;
 import com.weicoder.core.socket.Session;
-import com.weicoder.core.socket.message.Message;
 import com.weicoder.core.socket.message.Null;
 
 /**
@@ -193,9 +192,6 @@ public abstract class BaseSession implements Session {
 		} else if (message instanceof String) {
 			// 字符串
 			data = StringUtil.toBytes(Conversion.toString(message));
-		} else if (message instanceof Message) {
-			// 消息体
-			data = ((Message) message).array();
 		} else {
 			// 不知道的类型 以字节数组发送
 			data = Bytes.toBytes(message);

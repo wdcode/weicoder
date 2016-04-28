@@ -1,13 +1,13 @@
 package com.weicoder.frame.cache.message;
 
-import com.weicoder.core.socket.message.Message;
+import com.weicoder.common.binary.Binary;
 
 /**
  * 缓存更新消息实体
  * @author WD 
  * @version 1.0  
  */
-public final class CacheEntity extends Message {
+public final class CacheEntity implements Binary {
 	// 实体
 	private String	entity;
 	// 命令 set remove

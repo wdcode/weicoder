@@ -3,7 +3,9 @@ package com.weicoder.core.socket.process;
 import java.util.Arrays;
 import java.util.Map;
 
+import com.weicoder.common.binary.Binary;
 import com.weicoder.common.binary.Buffer;
+import com.weicoder.common.binary.ByteArray;
 import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.lang.Maps;
@@ -20,8 +22,7 @@ import com.weicoder.core.socket.Handler;
 import com.weicoder.core.socket.Session;
 import com.weicoder.core.socket.Sockets;
 import com.weicoder.core.socket.heart.Heart;
-import com.weicoder.core.socket.manager.Manager;
-import com.weicoder.core.socket.message.Message;
+import com.weicoder.core.socket.manager.Manager; 
 import com.weicoder.core.socket.message.Null;
 
 /**
@@ -76,7 +77,7 @@ public final class Process {
 		// 配置了心跳
 		if (htime > 0 && !SocketParams.isClient(name)) {
 			// 设置心跳
-			heart = new Heart(heartId = SocketParams.getHeartId(name), htime);
+			heart = new Heart(heartId = SocketParams.getHeartId(name), htime, SocketParams.isHeartPack(name));
 			addHandler(heart);
 		}
 		// 检测时间
@@ -335,6 +336,12 @@ public final class Process {
 						if (type.equals(String.class)) {
 							// 字符串
 							mess = StringUtil.toString(data);
+						} else if (Binary.class.isAssignableFrom(type)) {
+							// 字节流
+							mess = Bytes.toBinary((Binary) ClassUtil.newInstance(type), data);
+						} else if (ByteArray.class.isAssignableFrom(type)) {
+							// 字节流
+							mess = ((ByteArray) ClassUtil.newInstance(type)).array(data);
 						} else if (type.equals(Null.class)) {
 							// 字节流
 							mess = Null.NULL;
@@ -363,8 +370,15 @@ public final class Process {
 							// 字节流
 							mess = data;
 						} else {
-							// 默认使用消息体
-							mess = ((Message) ClassUtil.newInstance(type)).array(data);
+							// 默认使用空消息体
+							log = "name=" + name + ";socket=" + sid + ";handler data not null data.length=" + data.length;
+							// 心跳包用debug 其它info
+							if (id == heartId) {
+								Logs.debug(log);
+							} else {
+								Logs.info(log);
+							}
+							mess = Null.NULL;//((Message) ClassUtil.newInstance(type)).array(data);
 						}
 						log = "name=" + name + ";socket=" + sid + ";handler message=" + mess + ";time=" + (System.currentTimeMillis() - curr);
 						// 心跳包用debug 其它info

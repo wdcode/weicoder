@@ -36,9 +36,9 @@ import com.weicoder.common.util.StringUtil;
  */
 public final class Bytes {
 	// 使用使用Java算法
-	private final static boolean IS_HIGH = "high".equals(CommonParams.BYTES);
+	private final static boolean	IS_HIGH		= "high".equals(CommonParams.BYTES);
 	// 零长度
-	public final static byte[] ZERO_SIZE = new byte[] { 0, 0 };
+	public final static byte[]		ZERO_SIZE	= new byte[] { 0, 0 };
 
 	/**
 	 * 转换Object变成字节数组
@@ -129,15 +129,15 @@ public final class Bytes {
 		} else if (obj instanceof ByteBuffer) {
 			// String
 			b = toBytes((ByteBuffer) obj);
+		} else if (obj instanceof ByteArray) {
+			// File
+			b = toBytes((ByteArray) obj);
 		} else if (obj instanceof Binary) {
 			// File
 			b = toBytes((Binary) obj);
 		} else if (obj instanceof BytesBean) {
 			// File
 			b = toBytes((BytesBean) obj);
-		} else if (obj instanceof ByteArray) {
-			// File
-			b = toBytes((ByteArray) obj);
 		} else if (obj instanceof File) {
 			// File
 			b = FileUtil.read((File) obj);

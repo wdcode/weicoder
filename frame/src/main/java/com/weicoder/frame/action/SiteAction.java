@@ -7,15 +7,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.weicoder.frame.engine.LoginEngine;
 import com.weicoder.frame.entity.EntityUser;
 import com.weicoder.frame.params.SiteParams;
-import com.weicoder.frame.token.AuthToken;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.crypto.Decrypts;
 import com.weicoder.common.crypto.Digest;
 import com.weicoder.common.crypto.Encrypts;
 import com.weicoder.common.lang.Conversion;
+import com.weicoder.common.token.AuthToken;
 import com.weicoder.common.util.DateUtil;
 import com.weicoder.common.util.EmptyUtil;
-import com.weicoder.web.email.EmailEngine;
+import com.weicoder.core.email.EmailEngine;
 import com.weicoder.web.util.VerifyCodeUtil;
 
 /**

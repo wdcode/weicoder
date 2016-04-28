@@ -17,7 +17,7 @@ import com.weicoder.pay.bean.PayBean;
 import com.weicoder.pay.bean.TradeBean;
 import com.weicoder.pay.constants.PayConstants;
 import com.weicoder.pay.params.PayParams;
-import com.weicoder.web.http.HttpEngine;
+import com.weicoder.core.http.HttpEngine;
 import com.weicoder.web.util.HttpUtil;
 import com.weicoder.web.util.RequestUtil;
 

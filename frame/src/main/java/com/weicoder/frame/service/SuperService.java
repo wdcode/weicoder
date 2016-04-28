@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import com.weicoder.frame.cache.Cache;
 import com.weicoder.frame.cache.impl.CacheEmpty;
 import com.weicoder.frame.context.Contexts;
-import com.weicoder.frame.dao.Dao;
 import com.weicoder.frame.entity.Entity;
 import com.weicoder.frame.bean.Pagination;
 import com.weicoder.common.lang.Conversion;
@@ -22,6 +21,7 @@ import com.weicoder.common.lang.Maps;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.ExecutorUtil;
+import com.weicoder.frame.dao.Dao;
 
 /**
  * 超级通用业务hibernate实现

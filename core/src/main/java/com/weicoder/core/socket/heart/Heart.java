@@ -25,13 +25,16 @@ public final class Heart implements Handler<Null> {
 	private int						heart;
 	// 心跳检查ID指令
 	private short					id;
+	//是否回包
+	private boolean					isPack;
 
 	/**
 	 * 构造
 	 */
-	public Heart(final short id, int time) {
+	public Heart(final short id, int time, boolean isPack) {
 		this.id = id;
 		this.heart = time;
+		this.isPack = isPack;
 		times = Maps.getConcurrentMap();
 		sessions = Maps.getConcurrentMap();
 		// 定时检测
@@ -53,19 +56,19 @@ public final class Heart implements Handler<Null> {
 				}
 			}
 		}, heart);
-		// 是否启动心跳
-		if (heart > 0) {
-			// 心跳指令
-			// 定时发送心跳信息
-			ScheduledUtile.delay(() -> {
-				// 循环发送心跳信息
-				for (Session session : sessions.values()) {
-					// 发送心跳消息
-					session.send(id, null);
-				}
-				Logs.debug("send heart session");
-			}, heart / 2);
-		}
+		//		// 是否启动心跳
+		//		if (heart > 0) {
+		//			// 心跳指令
+		//			// 定时发送心跳信息
+		//			ScheduledUtile.delay(() -> {
+		//				// 循环发送心跳信息
+		//				for (Session session : sessions.values()) {
+		//					// 发送心跳消息
+		//					session.send(id, null);
+		//				}
+		//				Logs.debug("send heart session");
+		//			}, heart / 2);
+		//		}
 	}
 
 	/**
@@ -94,5 +97,9 @@ public final class Heart implements Handler<Null> {
 	@Override
 	public void handler(Session session, Null data) {
 		times.put(session.id(), DateUtil.getTime());
+		//回包
+		if (isPack) {
+			session.send(id, data);
+		}
 	}
 }

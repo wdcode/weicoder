@@ -5,10 +5,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.weicoder.frame.entity.EntityUser;
 import com.weicoder.frame.params.SiteParams;
-import com.weicoder.frame.token.AuthToken;
 import com.weicoder.frame.token.LoginToken;
-import com.weicoder.frame.token.TokenEngine;
 import com.weicoder.common.lang.Conversion;
+import com.weicoder.common.token.AuthToken;
+import com.weicoder.common.token.TokenEngine;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.web.util.AttributeUtil;
 import com.weicoder.web.util.IpUtil;

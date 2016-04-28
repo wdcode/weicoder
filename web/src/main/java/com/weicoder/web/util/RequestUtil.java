@@ -7,10 +7,10 @@ import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.weicoder.common.constants.HttpConstants;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.util.EmptyUtil;
-import com.weicoder.web.constants.HttpConstants;
 
 /**
  * Request一些相关操作类

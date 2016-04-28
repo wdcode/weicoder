@@ -19,13 +19,13 @@ import org.hibernate.criterion.Restrictions;
 import org.hibernate.resource.transaction.spi.TransactionStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-//import com.weicoder.frame.context.Context;
-import com.weicoder.frame.dao.Dao;
+
 import com.weicoder.frame.dao.hibernate.search.HibernateSearch;
 import com.weicoder.frame.dao.hibernate.session.SessionFactorys;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.frame.dao.Dao;
 
 /**
  * Hibernate接口
@@ -51,11 +51,7 @@ public final class HibernateDao implements Dao {
 	 * @return 数据列表
 	 */
 	public <E> List<E> search(final Class<E> entityClass, final String property, final Object value, final int firstResult, final int maxResults) {
-		return execute(entityClass, new Callback<List<E>>() {
-			public List<E> callback(Session session) {
-				return search.search(session, entityClass, property, value, firstResult, maxResults);
-			}
-		});
+		return execute(entityClass, (Session session) -> search.search(session, entityClass, property, value, firstResult, maxResults));
 	}
 
 	/**
@@ -66,11 +62,7 @@ public final class HibernateDao implements Dao {
 	 * @return 数据列表
 	 */
 	public <E> List<E> search(final E entity, final int firstResult, final int maxResults) {
-		return execute(entity.getClass(), new Callback<List<E>>() {
-			public List<E> callback(Session session) {
-				return search.search(session, entity, firstResult, maxResults);
-			}
-		});
+		return execute(entity.getClass(), (Session session) -> search.search(session, entity, firstResult, maxResults));
 	}
 
 	/**
@@ -88,15 +80,13 @@ public final class HibernateDao implements Dao {
 	 * @return 返回插入数据的唯一标识(主键) 出现异常返回0
 	 */
 	public <E> List<E> insert(final List<E> entitys) {
-		return execute(entitys.get(0).getClass(), new Callback<List<E>>() {
-			public List<E> callback(Session session) {
-				// 循环添加
-				for (E e : entitys) {
-					session.save(e);
-				}
-				// 返回实体
-				return entitys;
+		return execute(entitys.get(0).getClass(), (Session session) -> {
+			// 循环添加
+			for (E e : entitys) {
+				session.save(e);
 			}
+			// 返回实体
+			return entitys;
 		});
 	}
 

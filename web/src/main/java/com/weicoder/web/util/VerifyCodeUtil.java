@@ -8,12 +8,12 @@ import java.awt.image.BufferedImage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.weicoder.common.constants.HttpConstants;
 import com.weicoder.common.constants.ImageConstants;
 import com.weicoder.common.crypto.Decrypts;
 import com.weicoder.common.crypto.Encrypts;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.log.Logs;
-import com.weicoder.web.constants.HttpConstants;
 import com.weicoder.web.params.WebParams;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.ImageUtil;

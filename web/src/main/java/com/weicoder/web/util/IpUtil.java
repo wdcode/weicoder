@@ -8,12 +8,12 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import com.weicoder.common.constants.ArrayConstants;
+import com.weicoder.common.constants.HttpConstants;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Validate;
 import com.weicoder.common.util.EmptyUtil;
-import com.weicoder.web.constants.HttpConstants;
 
 /**
  * IP工具集

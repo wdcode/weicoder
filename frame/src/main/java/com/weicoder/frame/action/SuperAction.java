@@ -16,8 +16,8 @@ import com.weicoder.frame.entity.EntityTime;
 import com.weicoder.frame.entity.EntityUserId;
 import com.weicoder.frame.service.QueryService;
 import com.weicoder.frame.service.SuperService;
-import com.weicoder.frame.token.AuthToken;
 import com.weicoder.common.constants.DateConstants;
+import com.weicoder.common.constants.HttpConstants;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.lang.Lists;
@@ -30,7 +30,7 @@ import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.core.json.JsonEngine;
 import com.weicoder.common.log.Logs;
-import com.weicoder.web.constants.HttpConstants;
+import com.weicoder.common.token.AuthToken;
 import com.weicoder.web.util.IpUtil;
 
 /**

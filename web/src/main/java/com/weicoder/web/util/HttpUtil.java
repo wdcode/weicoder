@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.weicoder.common.constants.DateConstants;
 import com.weicoder.common.constants.FileConstants;
+import com.weicoder.common.constants.HttpConstants;
 import com.weicoder.common.constants.StringConstants;
 
 import com.weicoder.common.io.FileUtil;
@@ -19,8 +20,7 @@ import com.weicoder.common.lang.Lists;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
-import com.weicoder.web.constants.HttpConstants;
-import com.weicoder.web.http.HttpEngine;
+import com.weicoder.core.http.HttpEngine;
 
 /**
  * HTTP一些相关操作类

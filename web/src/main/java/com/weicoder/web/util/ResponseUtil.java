@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
 
+import com.weicoder.common.constants.HttpConstants;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.io.IOUtil;
 import com.weicoder.common.lang.Conversion;
@@ -14,7 +15,6 @@ import com.weicoder.common.util.CloseUtil;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.core.json.JsonEngine;
 import com.weicoder.common.log.Logs;
-import com.weicoder.web.constants.HttpConstants;
 
 /**
  * Response一些相关操作类

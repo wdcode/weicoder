@@ -1,5 +1,9 @@
 package com.weicoder.frame.entity;
 
+import com.weicoder.common.constants.StringConstants;
+import com.weicoder.common.util.DateUtil;
+import com.weicoder.common.util.EmptyUtil;
+
 /**
  * 有时间的实体接口
  * @author WD 
@@ -19,5 +23,7 @@ public interface EntityTime {
 	/**
 	 * 获得日期
 	 */
-	String getDate();
+	default String getDate() {
+		return EmptyUtil.isEmpty(getTime()) ? StringConstants.EMPTY : DateUtil.toString(getTime());
+	}
 }

@@ -139,6 +139,15 @@ public final class SocketParams {
 	}
 
 	/**
+	 * 是否回心跳包
+	 * @param name
+	 * @return
+	 */
+	public static boolean isHeartPack(String name) {
+		return Params.getBoolean(Params.getKey(PREFIX, name, "heart.pack"), true);
+	}
+
+	/**
 	 * 获得Socket是否需要登录 大于0的指令为登录<br/>
 	 * 需在配置文件中配置<br/>
 	 * <h2>配置方式如下: <br/>

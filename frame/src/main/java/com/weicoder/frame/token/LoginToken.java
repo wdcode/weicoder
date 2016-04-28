@@ -3,6 +3,7 @@ package com.weicoder.frame.token;
 import com.weicoder.frame.entity.EntityUser;
 import com.weicoder.frame.params.SiteParams;
 import com.weicoder.common.lang.Bytes;
+import com.weicoder.common.token.AuthToken;
 import com.weicoder.common.util.DateUtil;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.core.json.JsonEngine;
