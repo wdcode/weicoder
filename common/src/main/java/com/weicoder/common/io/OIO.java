@@ -36,7 +36,7 @@ public final class OIO extends BaseIO {
 				out.write(buffer, 0, length);
 			}
 		} catch (IOException e) {
-			Logs.warn(e);
+			Logs.debug("OIO read=" + e.toString());
 		} finally {
 			// 关闭资源
 			if (isClose) {
@@ -72,7 +72,7 @@ public final class OIO extends BaseIO {
 			// 返回成功
 			return true;
 		} catch (IOException e) {
-			Logs.warn(e);
+			Logs.debug("OIO write=" + e.toString());
 		} finally {
 			// 关闭资源
 			if (isClose) {

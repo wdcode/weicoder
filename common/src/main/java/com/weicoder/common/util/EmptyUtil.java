@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.Map;
 
 import com.weicoder.common.interfaces.Empty;
-import com.weicoder.common.lang.Conversion;
 
 /**
  * 一些公用的方法类
@@ -24,6 +23,8 @@ public final class EmptyUtil {
 			return true;
 		} else if (obj instanceof Empty) {
 			return isEmpty((Empty) obj);
+		} else if (obj instanceof String) {
+			return isEmpty((String) obj);
 		} else if (obj instanceof byte[]) {
 			return isEmpty((byte[]) obj);
 		} else if (obj instanceof Collection<?>) {
@@ -34,18 +35,10 @@ public final class EmptyUtil {
 			return isEmpty((Object[]) obj);
 		} else if (obj instanceof int[]) {
 			return isEmpty((int[]) obj);
-		} else if (obj instanceof String) {
-			return isEmpty((String) obj);
 		} else if (obj instanceof CharSequence) {
 			return isEmpty((CharSequence) obj);
-		} else if (obj instanceof Integer) {
-			return Conversion.toInt(obj) == 0;
-		} else if (obj instanceof Long) {
-			return Conversion.toLong(obj) == 0;
-		} else if (obj instanceof Boolean) {
-			return !Conversion.toBoolean(obj);
 		} else {
-			return obj == null;
+			return false;
 		}
 	}
 

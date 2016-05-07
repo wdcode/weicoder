@@ -110,8 +110,8 @@ public final class SocketParams {
 	 * XML: {@literal <socket><zip>?</zip></socket>}</h2>
 	 * @return 获得Socket检测时间 单位秒
 	 */
-	public static boolean getZip(String name) {
-		return Params.getBoolean(Params.getKey(PREFIX, name, "zip"), true);
+	public static boolean isZip(String name) {
+		return Params.getBoolean(Params.getKey(PREFIX, name, "zip"), false);
 	}
 
 	/**

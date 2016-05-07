@@ -31,7 +31,7 @@ public final class JsonGson implements Json {
 		try {
 			return GSON.fromJson(json, clazz);
 		} catch (Exception e) {
-			Logs.info(e);
+			Logs.debug("JsonGson toBean=" + e.toString());
 			return null;
 		}
 	}
@@ -55,6 +55,7 @@ public final class JsonGson implements Json {
 			// 返回列表
 			return list;
 		} catch (Exception e) {
+			Logs.debug("JsonGson toList=" + e.toString());
 			return Lists.getList();
 		}
 	}

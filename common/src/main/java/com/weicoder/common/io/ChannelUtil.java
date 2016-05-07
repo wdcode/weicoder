@@ -52,7 +52,7 @@ public final class ChannelUtil {
 				buffer.clear();
 			}
 		} catch (IOException e) {
-			Logs.warn(e);
+			Logs.debug("ChannelUtil read=" + e.toString());
 		} finally {
 			// 关闭资源
 			if (isClose) {
@@ -125,7 +125,7 @@ public final class ChannelUtil {
 			// 返回成功
 			return true;
 		} catch (IOException e) {
-			Logs.warn(e);
+			Logs.debug("ChannelUtil write=" + e.toString());
 		} finally {
 			// 关闭资源
 			if (isClose) {

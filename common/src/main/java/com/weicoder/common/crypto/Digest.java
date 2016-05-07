@@ -205,7 +205,7 @@ public final class Digest {
 			// 摘要算法
 			return digest.digest(b);
 		} catch (Exception e) {
-			Logs.warn(e);
+			Logs.debug("Digest getMessageDigest=" + e.toString());
 			return b;
 		}
 	}

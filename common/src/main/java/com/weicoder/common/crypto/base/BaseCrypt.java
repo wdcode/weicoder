@@ -9,6 +9,7 @@ import javax.crypto.spec.SecretKeySpec;
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.log.Logs;
+import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
 
 /**
@@ -46,6 +47,8 @@ public abstract class BaseCrypt {
 	 */
 	protected final static byte[] doFinal(byte[] b, Key key, String algorithm, int mode) {
 		try {
+			//字节为空自动返回
+			if (EmptyUtil.isEmpty(b)) { return b; }
 			// 算法操作
 			Cipher cipher = Cipher.getInstance(algorithm);
 			// 初始化
@@ -53,8 +56,7 @@ public abstract class BaseCrypt {
 			// 返回计算结果
 			return cipher.doFinal(b);
 		} catch (Exception e) {
-			// 返回空字节数组
-			Logs.warn(e);
+			Logs.debug("BaseCrypt doFinal=" + e.toString());
 			return ArrayConstants.BYTES_EMPTY;
 		}
 	}

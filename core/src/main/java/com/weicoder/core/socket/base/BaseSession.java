@@ -44,7 +44,7 @@ public abstract class BaseSession implements Session {
 		// 获得名称
 		this.name = name;
 		// 获得是否压缩
-		this.zip = SocketParams.getZip(name);
+		this.zip = SocketParams.isZip(name);
 		// 声明缓存
 		buffer = new Buffer();
 		// 使用写缓存
@@ -157,7 +157,7 @@ public abstract class BaseSession implements Session {
 		// 声明字节数组
 		byte[] data = toBytes(message);
 		// 返回数据
-		return Bytes.toBytes(data.length + 2, id, data);
+		return Bytes.toBytes(Conversion.toShort(data.length + 2), id, data);
 	}
 
 	/**
@@ -169,7 +169,7 @@ public abstract class BaseSession implements Session {
 		// 声明字节数组
 		byte[] data = toBytes(message);
 		// 返回数据
-		return Bytes.toBytes(data.length, data);
+		return Bytes.toBytes(Conversion.toShort(data.length), data);
 	}
 
 	/**
@@ -183,10 +183,7 @@ public abstract class BaseSession implements Session {
 		// 声明字节数组
 		byte[] data = null;
 		// 判断类型
-		if (message == null) {
-			// 空
-			data = ArrayConstants.BYTES_EMPTY;
-		} else if (message instanceof Null) {
+		if (message == null || message instanceof Null) {
 			// 空
 			data = ArrayConstants.BYTES_EMPTY;
 		} else if (message instanceof String) {

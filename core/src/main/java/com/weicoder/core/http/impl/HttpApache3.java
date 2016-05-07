@@ -119,7 +119,7 @@ public final class HttpApache3 extends BaseHttp {
 				return IOUtil.read(get.getResponseBodyAsStream());
 			}
 		} catch (Exception e) {
-			Logs.warn(e);
+			Logs.error(e);
 		} finally {
 			// 关闭连接
 			if (get != null) {
@@ -246,7 +246,7 @@ public final class HttpApache3 extends BaseHttp {
 		try {
 			currentURL = method.getURI().toString();
 		} catch (URIException e) {
-			Logs.warn(e);
+			Logs.error(e);
 		}
 	}
 

@@ -146,7 +146,7 @@ public final class ExcelPOI extends BaseExcel {
 			// 写Excel
 			workbook.write(FileUtil.getOutputStream(file));
 		} catch (IOException e) {
-			Logs.warn(e);
+			Logs.error(e);
 		}
 	}
 

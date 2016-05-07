@@ -5,7 +5,6 @@ import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.crypto.Decrypts;
 import com.weicoder.common.crypto.Digest;
 import com.weicoder.common.crypto.Encrypts;
-import com.weicoder.common.log.Logs;
 import com.weicoder.common.token.AuthToken;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
@@ -36,28 +35,24 @@ public final class TokenEngine {
 	 * @return 登录实体
 	 */
 	public static <E extends AuthToken> E decrypt(String info, E token) {
-		try {
-			// 验证去掉"""
-			info = StringUtil.replace(info, StringConstants.DOUBLE_QUOT, StringConstants.EMPTY);
-			// 判断验证串是否符合标准
-			if (!EmptyUtil.isEmpty(info) && info.length() > LENGHT) {
-				// 变为小写
-				info = info.toLowerCase();
-				// 拆分字符串
-				String[] temp = StringUtil.separate(info, info.length() / LENGHT);
-				if (!EmptyUtil.isEmpty(temp) && temp.length == 2) {
-					// 验证串
-					String ver = temp[0];// StringUtil.subString(info, 0, LENGHT);
-					// 信息串
-					String user = temp[1];// StringUtil.subString(info, LENGHT);
-					// 判断校验串是否合法
-					if (ver.equals(Digest.absolute(user, LENGHT))) {
-						token.array(Decrypts.rc4(Hex.decode(user)));
-					}
+		// 验证去掉"""
+		info = StringUtil.replace(info, StringConstants.DOUBLE_QUOT, StringConstants.EMPTY);
+		// 判断验证串是否符合标准
+		if (!EmptyUtil.isEmpty(info) && info.length() > LENGHT) {
+			// 变为小写
+			info = info.toLowerCase();
+			// 拆分字符串
+			String[] temp = StringUtil.separate(info, info.length() / LENGHT);
+			if (!EmptyUtil.isEmpty(temp) && temp.length == 2) {
+				// 验证串
+				String ver = temp[0];// StringUtil.subString(info, 0, LENGHT);
+				// 信息串
+				String user = temp[1];// StringUtil.subString(info, LENGHT);
+				// 判断校验串是否合法
+				if (ver.equals(Digest.absolute(user, LENGHT))) {
+					token.array(Decrypts.rc4(Hex.decode(user)));
 				}
 			}
-		} catch (Exception e) {
-			Logs.error(e);
 		}
 		// 返回token
 		return token;

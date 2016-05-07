@@ -6,15 +6,17 @@ import org.jboss.netty.channel.ChannelHandlerContext;
 import org.jboss.netty.channel.ChannelStateEvent;
 import org.jboss.netty.channel.MessageEvent;
 import org.jboss.netty.channel.SimpleChannelHandler;
+import org.jboss.netty.channel.ChannelHandler.Sharable;
 
-import com.weicoder.core.socket.Session;
+import com.weicoder.core.socket.Session; 
 import com.weicoder.core.socket.process.Process;
 
 /**
  * Netty3 处理器
  * @author WD 
  * @version 1.0 
- */
+ */ 
+@Sharable
 public final class Netty3Handler extends SimpleChannelHandler {
 	// 名称
 	private String	name;

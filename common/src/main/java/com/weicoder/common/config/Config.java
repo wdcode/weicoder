@@ -42,7 +42,7 @@ public class Config {
 					ps.load(in);
 					break;
 				} catch (IOException e) {
-					Logs.error(e);
+					Logs.error(e);					
 				} finally {
 					CloseUtil.close(in);
 				}

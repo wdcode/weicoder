@@ -7,12 +7,14 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.channel.ChannelHandler.Sharable; 
 
 /**
  * Netty 处理器
  * @author WD 
  * @version 1.0  
- */
+ */ 
+@Sharable
 public final class NettyHandler extends SimpleChannelInboundHandler<ByteBuf> {
 	// 名称
 	private String	name;

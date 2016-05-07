@@ -44,6 +44,16 @@ public final class Manager {
 
 	/**
 	 * 注册到列表
+	 * @param key 注册键 
+	 * @param session Socket Session
+	 * @return true 注册成功 false 注册失败
+	 */
+	public boolean register(String key, Session session) {
+		return register(key, session.id(), session);
+	}
+
+	/**
+	 * 注册到列表
 	 * @param key 注册键
 	 * @param id 注册ID
 	 * @param session Socket Session

@@ -15,7 +15,7 @@ public final class JsonParams {
 	/** JsonGson解析类 */
 	public final static String	PARSE_GSON	= "gson";
 	/** 解析JSON所需要的包 */
-	public final static String	PARSE		= Params.getString("json.parse", PARSE_GSON);
+	public final static String	PARSE		= Params.getString("json.parse", PARSE_FAST);
 
 	private JsonParams() {}
 }

@@ -771,8 +771,7 @@ public final class Bytes {
 			// 返回对象
 			return in.readObject();
 		} catch (Exception e) {
-			// 返回null
-			Logs.warn(e);
+			Logs.debug("Bytes toObject=" + e.toString());
 			return null;
 		} finally {
 			CloseUtil.close(bais, in);

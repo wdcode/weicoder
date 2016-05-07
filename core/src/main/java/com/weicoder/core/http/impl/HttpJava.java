@@ -59,7 +59,7 @@ public final class HttpJava extends BaseHttp {
 			// 返回字节数组
 			return IOUtil.read(connection.getInputStream());
 		} catch (IOException e) {
-			Logs.warn(e);
+			Logs.error(e);
 		} finally {
 			close();
 		}

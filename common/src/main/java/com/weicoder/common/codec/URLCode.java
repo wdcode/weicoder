@@ -5,6 +5,7 @@ import java.net.URLEncoder;
 
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
+import com.weicoder.common.util.EmptyUtil;
 
 /**
  * 基础编码类
@@ -29,9 +30,9 @@ public final class URLCode {
 	 */
 	public static String encode(String url, String encoding) {
 		try {
-			return URLEncoder.encode(url, encoding);
+			return EmptyUtil.isEmpty(url) ? url : URLEncoder.encode(url, encoding);
 		} catch (Exception e) {
-			Logs.warn(e);
+			Logs.debug("URLCode encode=" + e.toString());
 			return url;
 		}
 	}
@@ -53,9 +54,9 @@ public final class URLCode {
 	 */
 	public static String decode(String url, String encoding) {
 		try {
-			return URLDecoder.decode(url, encoding);
+			return EmptyUtil.isEmpty(url) ? url : URLDecoder.decode(url, encoding);
 		} catch (Exception e) {
-			Logs.warn(e);
+			Logs.debug("URLCode decode=" + e.toString());
 			return url;
 		}
 	}

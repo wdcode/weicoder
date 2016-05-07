@@ -39,7 +39,7 @@ public final class QuartzEngine {
 			try {
 				scheduler = new StdSchedulerFactory().getScheduler();
 			} catch (Exception e) {
-				Logs.info(e);
+				Logs.error(e);
 			}
 			// 循环数组
 			for (String name : QuartzParams.NAMES) {
