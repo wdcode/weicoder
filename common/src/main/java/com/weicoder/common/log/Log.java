@@ -5,7 +5,7 @@ package com.weicoder.common.log;
  * @author WD 
  * @version 1.0
  */
-public interface Logger {
+public interface Log {
 	/**
 	 * 使用debug打印日志
 	 * @param info 日志信息

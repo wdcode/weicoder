@@ -1,7 +1,5 @@
 package com.weicoder.web.params;
 
-import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.params.Params;
 
 /**
@@ -20,28 +18,10 @@ public final class WebParams {
 	public final static String	VERIFY_KEY			= Params.getString("verify.key", "verifyCode");
 	/** 验证码字体 */
 	public final static String	VERIFY_FONT			= Params.getString("verify.font", "Times New Roman");
-	/** FTP主机 */
-	public final static String	FTP_HOST			= Params.getString("ftp.host", StringConstants.EMPTY);
-	/** FTP端口 */
-	public final static int		FTP_PORT			= Params.getInt("ftp.port", 21);
-	/** FTP用户名 */
-	public final static String	FTP_USER			= Params.getString("ftp.user", StringConstants.EMPTY);
-	/** FTP密码 */
-	public final static String	FTP_PASSWORD		= Params.getString("ftp.password", StringConstants.EMPTY);
-	/** FTP密码 */
-	public final static int		FTP_BUFFER_SIZE		= Params.getInt("ftp.buffersize", 1024);
-	/** FTP编码 */
-	public final static String	FTP_ENCODING		= Params.getString("ftp.encoding", CommonParams.ENCODING);
-	/** FTP超时时间 */
-	public final static int		FTP_TIMEOUT			= Params.getInt("ftp.timeout", 0);
 	/** 域名 */
 	public final static String	DOMAIN				= Params.getString("domain");
-	/** jmx服务器 */
-	public final static String	JMX_SERVICE			= Params.getString("jmx.service");
 	/** 静态化配置文件 */
 	public final static String	STAICS_CONFIG		= Params.getString("staics.config", "config/statics.xml");
-	/** 数据源配置 */
-	public final static String	DATA_SOURCE_CONFIG	= Params.getString("datasource.config", "db/db.properties");
 	/** 是否静态化 */
 	public final static boolean	STAICS_POWER		= Params.getBoolean("staics.power", false);
 

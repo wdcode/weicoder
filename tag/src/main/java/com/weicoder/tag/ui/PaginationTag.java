@@ -1,6 +1,6 @@
 package com.weicoder.tag.ui;
 
-import com.weicoder.frame.params.BaseParams;
+import com.weicoder.frame.params.FrameParams;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.frame.bean.Pagination;
 import com.weicoder.common.util.EmptyUtil;
@@ -65,7 +65,7 @@ public final class PaginationTag extends BaseSimpleTag {
 		// 结束页
 		int endPage = pager.getEndPage();
 		// 当前页的标识
-		String pageFlag = BaseParams.PAGE_FLAG;
+		String pageFlag = FrameParams.PAGE_FLAG;
 		// 可变字符串缓存 用于保存 分页条
 		StringBuilder info = new StringBuilder("<div id='pagination'>");
 

@@ -193,7 +193,7 @@ public final class Process {
 			}
 			// 删除管理器注册Session
 			if (manager != null) {
-				manager.remove(session);
+				manager.remove(name, session.id());
 			}
 		} catch (Exception e) {
 			Logs.error(e);

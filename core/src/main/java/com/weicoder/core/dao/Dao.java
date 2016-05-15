@@ -39,6 +39,30 @@ public interface Dao {
 	<E> List<E> update(List<E> entitys);
 
 	/**
+	 * 删除数据
+	 * @param c 表对应类
+	 * @param key 主键
+	 * @return 删除的实体对象
+	 */
+	<E> E delete(Class<E> c, Serializable key);
+
+	/**
+	 * 删除数据
+	 * @param c 表对应类
+	 * @param keys 主键
+	 * @return 删除的实体对象
+	 */
+	<E> List<E> delete(Class<E> c, Serializable... keys);
+
+	/**
+	 * 删除数据
+	 * @param c 表对应类
+	 * @param keys 主键
+	 * @return 删除的实体对象
+	 */
+	<E> List<E> delete(Class<E> c, List<Serializable> keys);
+
+	/**
 	 * 持久化数据，删除表中多行数据
 	 * @param entity 需要持久话对象的集合
 	 * @return 是否成功
@@ -66,7 +90,7 @@ public interface Dao {
 	 * @param pk 持久化对象的唯一标识(主键)
 	 * @return 要获得的持久化对象，异常返回null
 	 */
-	<E> List<E> gets(Class<E> entityClass, Serializable... pks);
+	<E> List<E> get(Class<E> entityClass, Serializable... pks);
 
 	/**
 	 * 获得持久化对象 如果没有查询到对象 返回null

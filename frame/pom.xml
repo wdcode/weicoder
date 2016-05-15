@@ -40,11 +40,11 @@
 			<artifactId>javaee-api</artifactId>
 			<version>7.0</version>
 			<scope>provided</scope>
-		</dependency> 
+		</dependency>  
 		<dependency>
 			<groupId>com.weicoder</groupId>
 			<artifactId>web</artifactId>
-			<version>1.0</version> 
+			<version>1.0</version>  
 		</dependency>
 		<dependency>
 			<groupId>org.apache.struts</groupId>
@@ -85,7 +85,7 @@
 		<dependency>
 			<groupId>org.quartz-scheduler</groupId>
 			<artifactId>quartz</artifactId>
-			<version>2.2.2</version>
+			<version>2.2.3</version>
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>

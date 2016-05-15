@@ -35,10 +35,8 @@ import com.weicoder.common.util.StringUtil;
  * @version 1.0  
  */
 public final class Bytes {
-	// 使用使用Java算法
-	private final static boolean	IS_HIGH		= "high".equals(CommonParams.BYTES);
-	// 零长度
-	public final static byte[]		ZERO_SIZE	= new byte[] { 0, 0 };
+	// 使用高地位算法
+	private final static boolean IS_HIGH = "high".equals(CommonParams.BYTES);
 
 	/**
 	 * 转换Object变成字节数组
@@ -89,7 +87,7 @@ public final class Bytes {
 		byte[] b = ArrayConstants.BYTES_EMPTY;
 		// 判断类型
 		if (obj == null) {
-			return ZERO_SIZE;
+			return b;
 		} else if (obj instanceof byte[]) {
 			// byte[]
 			b = (byte[]) obj;

@@ -13,7 +13,7 @@ import com.weicoder.frame.cache.Cache;
 import com.weicoder.frame.cache.impl.CacheMap;
 import com.weicoder.frame.cache.impl.CacheNoSQL;
 import com.weicoder.frame.entity.Entity;
-import com.weicoder.frame.params.BaseParams;
+import com.weicoder.frame.params.FrameParams;
 import com.weicoder.frame.service.SuperService;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
@@ -122,7 +122,7 @@ public final class Contexts {
 	 */
 	@SuppressWarnings("unchecked")
 	public static <E extends Entity> Cache<E> getCache() {
-		return "map".equals(BaseParams.CACHE_TYPE) ? getBean(CacheMap.class) : getBean(CacheNoSQL.class);
+		return "map".equals(FrameParams.CACHE_TYPE) ? getBean(CacheMap.class) : getBean(CacheNoSQL.class);
 	}
 
 	/**

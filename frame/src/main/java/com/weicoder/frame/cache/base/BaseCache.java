@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.weicoder.frame.cache.Cache;
 import com.weicoder.frame.entity.Entity;
-import com.weicoder.frame.params.BaseParams;
+import com.weicoder.frame.params.FrameParams;
 import com.weicoder.common.lang.Lists;
 
 /**
@@ -75,7 +75,7 @@ public abstract class BaseCache<E extends Entity> implements Cache<E> {
 	 * @return 是否有效
 	 */
 	public boolean isValid() {
-		return BaseParams.getCache(name);
+		return FrameParams.getCache(name);
 	}
 
 	/**

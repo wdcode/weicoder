@@ -9,34 +9,7 @@ import com.weicoder.common.util.ClassUtil;
  */
 public final class Logs {
 	// loggin日志对象
-	private final static Logger LOG = getLogger();
-
-	/**
-	 * 获得Logger
-	 * @return Logger
-	 */
-	private static Logger getLogger() {
-		@SuppressWarnings("unchecked")
-		Class<Logger> cls = (Class<Logger>) ClassUtil.forName("com.weicoder.core.log.LoggerSlf4j");
-		// 如果没有实现 赋值空实现
-		if (cls == null) {
-			return new Logger() {
-				@Override
-				public void warn(Object info) {}
-
-				@Override
-				public void info(Object info) {}
-
-				@Override
-				public void error(Object info) {}
-
-				@Override
-				public void debug(Object info) {}
-			};
-		} else {
-			return ClassUtil.newInstance(cls);
-		}
-	}
+	private final static Log LOG = (Log) ClassUtil.newInstance("com.weicoder.core.log.LoggerSlf4j");
 
 	/**
 	 * 使用debug打印日志
@@ -69,4 +42,6 @@ public final class Logs {
 	public static void error(Object info) {
 		LOG.error(info);
 	}
+
+	private Logs() {}
 }

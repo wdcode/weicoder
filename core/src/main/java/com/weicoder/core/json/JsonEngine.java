@@ -154,7 +154,7 @@ public final class JsonEngine extends FactoryKey<String, Json> {
 
 	/**
 	 * 根据key获得相应json解析类
-	 * @param key fast=fastjson lib=json-lib smart=json-smart gson=gson
+	 * @param key fast=fastjson  smart=json-smart gson=gson
 	 * @return Json
 	 */
 	public static Json getJson(String key) {
@@ -164,12 +164,14 @@ public final class JsonEngine extends FactoryKey<String, Json> {
 	@Override
 	public Json newInstance(String key) {
 		switch (key) {
-		case JsonParams.PARSE_FAST:
-			return new JsonFast();
-		case JsonParams.PARSE_SMART:
-			return new JsonSmart();
-		default:
-			return new JsonGson();
+			case JsonParams.PARSE_FAST:
+				return new JsonFast();
+			case JsonParams.PARSE_SMART:
+				return new JsonSmart();
+			case JsonParams.PARSE_GSON:
+				return new JsonGson();
+			default:
+				return new JsonFast();
 		}
 	}
 

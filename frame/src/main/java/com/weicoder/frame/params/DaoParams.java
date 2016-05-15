@@ -2,8 +2,7 @@ package com.weicoder.frame.params;
 
 import com.weicoder.common.config.Config;
 import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.util.EmptyUtil;
-import com.weicoder.web.params.WebParams;
+import com.weicoder.common.util.EmptyUtil; 
 
 /**
  * 读取Dao配置
@@ -12,7 +11,7 @@ import com.weicoder.web.params.WebParams;
  */
 public final class DaoParams {
 	// Properties配置
-	private static Config			config	= new Config(WebParams.DATA_SOURCE_CONFIG);
+	private static Config			config	= new Config(FrameParams.DATA_SOURCE_CONFIG);
 	/** 多库名称 */
 	public final static String[]	NAMES	= config.getStringArray("names", new String[] { StringConstants.EMPTY });
 

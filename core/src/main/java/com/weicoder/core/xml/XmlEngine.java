@@ -4,6 +4,7 @@ import com.weicoder.core.params.CoreParams;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.Dom4JDriver;
+import com.thoughtworks.xstream.io.xml.JDom2Driver;
 import com.thoughtworks.xstream.io.xml.JDomDriver;
 
 /**
@@ -13,7 +14,21 @@ import com.thoughtworks.xstream.io.xml.JDomDriver;
  */
 public final class XmlEngine {
 	// XStream
-	private final static XStream STREAM = "jdom".equals(CoreParams.XML_PARSE) ? new XStream(new JDomDriver()) : new XStream(new Dom4JDriver());
+	private final static XStream STREAM;
+
+	static {
+		switch (CoreParams.XML_PARSE) {
+			case "jdom":
+				STREAM = new XStream(new JDomDriver());
+				break;
+			case "dom4j":
+				STREAM = new XStream(new Dom4JDriver());
+				break;
+			default:
+				STREAM = new XStream(new JDom2Driver());
+				break;
+		}
+	}
 
 	/**
 	 * 把实体对象转换成xml字符串

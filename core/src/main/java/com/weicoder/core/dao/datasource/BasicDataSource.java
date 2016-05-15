@@ -29,24 +29,24 @@ public final class BasicDataSource implements DataSource {
 	public void setParse(String parse) {
 		// 判断数据源
 		switch (parse) {
-		case "dbcp":
-			ds = new DBCP();
-			break;
-		case "dbcp2":
-			ds = new DBCP2();
-			break;
-		case "c3p0":
-			ds = new C3P0();
-			break;
-		case "proxool":
-			ds = new Proxool();
-			break;
-		case "bonecp":
-			ds = new Bonecp();
-			break;
-		case "druid":
-			ds = new Druid();
-			break;
+			case "dbcp":
+				ds = new DBCP();
+				break;
+			case "dbcp2":
+				ds = new DBCP2();
+				break;
+			case "c3p0":
+				ds = new C3P0();
+				break;
+			case "proxool":
+				ds = new Proxool();
+				break;
+			case "bonecp":
+				ds = new Bonecp();
+				break;
+			case "druid":
+				ds = new Druid();
+				break;
 		}
 	}
 

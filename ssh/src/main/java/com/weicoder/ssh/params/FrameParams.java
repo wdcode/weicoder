@@ -1,4 +1,4 @@
-package com.weicoder.frame.params;
+package com.weicoder.ssh.params;
 
 import com.weicoder.common.params.Params;
 
@@ -7,7 +7,7 @@ import com.weicoder.common.params.Params;
  * @author WD 
  * @version 1.0 
  */
-public final class BaseParams {
+public final class FrameParams {
 	/** 分页使用当前页的标识 */
 	public final static String	PAGE_FLAG			= Params.getString("page.flag", "pager.currentPage");
 	/** 分页大小 */
@@ -16,6 +16,8 @@ public final class BaseParams {
 	public final static boolean	CACHE_VALID_POWER	= Params.getBoolean("cache.valid.power", true);
 	/** 缓存类型 */
 	public final static String	CACHE_TYPE			= Params.getString("cache.type", "map");
+	/** 数据源配置 */
+	public final static String	DATA_SOURCE_CONFIG	= Params.getString("datasource.config", "db/db.properties");
 
 	/**
 	 * 获得是否使用缓存<br/>
@@ -29,5 +31,5 @@ public final class BaseParams {
 		return Params.getBoolean(Params.getKey("cache", "valid", name), CACHE_VALID_POWER);
 	}
 
-	private BaseParams() {}
+	private FrameParams() {}
 }

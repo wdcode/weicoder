@@ -3,7 +3,7 @@ package com.weicoder.frame.bean;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import com.weicoder.frame.params.BaseParams;
+import com.weicoder.frame.params.FrameParams;
 import com.weicoder.core.json.JsonEngine;
 
 /**
@@ -19,7 +19,7 @@ public final class Pagination {
 	// 当前页
 	private int	currentPage	= 1;
 	// 每页显示数量
-	private int	pageSize	= BaseParams.PAGE_SIZE;
+	private int	pageSize	= FrameParams.PAGE_SIZE;
 
 	/**
 	 * 获得总页数
