@@ -1,8 +1,8 @@
 package com.weicoder.core.dao.datasource.factory;
 
+import com.weicoder.common.factory.FactoryKey;
 import com.weicoder.core.dao.datasource.BasicDataSource;
 import com.weicoder.core.dao.datasource.DataSource;
-import com.weicoder.core.factory.FactoryKey;
 import com.weicoder.core.params.DataSourceParams;
 
 /**

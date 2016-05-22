@@ -1,4 +1,4 @@
-package com.weicoder.core.factory;
+package com.weicoder.common.factory;
 
 import java.util.concurrent.ConcurrentMap;
 

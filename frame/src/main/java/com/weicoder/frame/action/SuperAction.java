@@ -447,29 +447,6 @@ public abstract class SuperAction extends BasicAction {
 	}
 
 	/**
-	 * 跳转到列表页
-	 * @return 跳转
-	 * @throws Exception
-	 */
-	public String search() throws Exception {
-		Logs.info("theme search=" + entity + ";pager=" + pager);
-		return callback(entitys = service.search(entity, pager));
-	}
-
-	// /**
-	// * 获得Action方法名 只保留x_x
-	// * @return Action方法名
-	// */
-	// public String getLink() {
-	// // 获得提交Action地址
-	// String actionName = getActionName();
-	// // 分解名称
-	// String[] name = StringUtil.split(actionName, StringConstants.UNDERLINE);
-	// // 返回链接名
-	// return name.length > 2 ? name[0] + StringConstants.UNDERLINE + name[1] : actionName;
-	// }
-
-	/**
 	 * 直接跳转
 	 * @return
 	 * @throws Exception

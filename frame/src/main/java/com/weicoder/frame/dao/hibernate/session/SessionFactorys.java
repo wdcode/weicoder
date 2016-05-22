@@ -15,12 +15,10 @@ import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.stereotype.Component;
 
 import com.weicoder.frame.dao.hibernate.naming.ImprovedNamingStrategy;
-import com.weicoder.frame.dao.hibernate.search.HibernateSearch;
 import com.weicoder.frame.entity.Entity;
 import com.weicoder.frame.params.DaoParams;
 import com.weicoder.common.interfaces.Close;
-import com.weicoder.common.lang.Maps;
-import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.lang.Maps; 
 import com.weicoder.core.dao.datasource.BasicDataSource;
 import com.weicoder.core.dao.datasource.DataSource;
 
@@ -131,17 +129,7 @@ public final class SessionFactorys implements Close {
 			// 数据库参数
 			hp.put("hibernate.jdbc.batch_size", DaoParams.getBatch(name));
 			hp.put("hibernate.jdbc.fetch_size", DaoParams.getFetch(name));
-			// search
-			if (!EmptyUtil.isEmpty(context.getBeansOfType(HibernateSearch.class))) {
-				hp.put("hibernate.search.default.directory_provider", DaoParams.getSearchDirectory(name));
-				hp.put("hibernate.search.default.indexBase", DaoParams.getSearchBase(name));
-				hp.put("hibernate.search.lucene_version", DaoParams.getSearchVersion(name));
-				hp.put("hibernate.ejb.event.post-insert", "org.hibernate.search.event.FullTextIndexEventListener");
-				hp.put("hibernate.ejb.event.post-update", "org.hibernate.search.event.FullTextIndexEventListener");
-				hp.put("hibernate.ejb.event.post-delete", "org.hibernate.search.event.FullTextIndexEventListener");
-				hp.put("hibernate.search.autoregister_listeners", true);
-
-			}
+	 
 			builder.addPropertyValue("hibernateProperties", hp);
 			// 注册
 			beanFactory.registerBeanDefinition(name + "SessionFactory", builder.getRawBeanDefinition());

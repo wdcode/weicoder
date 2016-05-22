@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
+
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.core.params.SocketParams;
 import com.weicoder.core.socket.Closed;

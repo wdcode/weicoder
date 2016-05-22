@@ -1,6 +1,6 @@
 package com.weicoder.core.nosql.redis.factory;
 
-import com.weicoder.core.factory.FactoryKey;
+import com.weicoder.common.factory.FactoryKey;
 import com.weicoder.core.nosql.redis.Redis;
 import com.weicoder.core.nosql.redis.impl.RedisJedis;
 

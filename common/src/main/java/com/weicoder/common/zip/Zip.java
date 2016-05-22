@@ -1,4 +1,4 @@
-package com.weicoder.core.zip;
+package com.weicoder.common.zip;
 
 /**
  * 压缩与解压接口

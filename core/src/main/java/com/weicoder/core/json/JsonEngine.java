@@ -4,11 +4,11 @@ import java.util.List;
 import java.util.Map;
 
 import com.weicoder.common.constants.StringConstants;
+import com.weicoder.common.factory.FactoryKey;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.EmptyUtil;
-import com.weicoder.core.factory.FactoryKey;
 import com.weicoder.core.json.impl.JsonFast;
 import com.weicoder.core.json.impl.JsonGson;
 import com.weicoder.core.json.impl.JsonSmart;
@@ -23,7 +23,7 @@ public final class JsonEngine extends FactoryKey<String, Json> {
 	// 工厂
 	private final static JsonEngine	FACTORY	= new JsonEngine();
 	// 默认Json解析
-	private final static Json		JSON	= getJson(JsonParams.PARSE);
+	private final static Json		JSON	= FACTORY.newInstance(JsonParams.PARSE);
 
 	/**
 	 * 是否是json串
@@ -150,15 +150,6 @@ public final class JsonEngine extends FactoryKey<String, Json> {
 	 */
 	public static List<Object> toList(String json) {
 		return toList(json, Object.class);
-	}
-
-	/**
-	 * 根据key获得相应json解析类
-	 * @param key fast=fastjson  smart=json-smart gson=gson
-	 * @return Json
-	 */
-	public static Json getJson(String key) {
-		return FACTORY.getInstance(key);
 	}
 
 	@Override

@@ -236,26 +236,6 @@ public interface Dao extends Close {
 	<E> List<E> order(Class<E> entityClass, Map<String, Object> orders, int firstResult, int maxResults);
 
 	/**
-	 * 使用索引查询
-	 * @param entityClass 实体类
-	 * @param property 属性名
-	 * @param value 属性值
-	 * @param firstResult 重第几条开始查询
-	 * @param maxResults 一共查回多少条
-	 * @return 数据列表
-	 */
-	<E> List<E> search(Class<E> entityClass, String property, Object value, int firstResult, int maxResults);
-
-	/**
-	 * 使用索引查询
-	 * @param entity 实体
-	 * @param firstResult 重第几条开始查询
-	 * @param maxResults 一共查回多少条
-	 * @return 数据列表
-	 */
-	<E> List<E> search(E entity, int firstResult, int maxResults);
-
-	/**
 	 * 获得查询的对象实体总数
 	 * @param entityClass 实体类
 	 * @return 对象实体总数 异常返回 0

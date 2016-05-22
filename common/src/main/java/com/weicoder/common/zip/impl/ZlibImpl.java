@@ -1,11 +1,11 @@
-package com.weicoder.core.zip.impl;
+package com.weicoder.common.zip.impl;
 
 import java.io.ByteArrayInputStream;
 import java.util.zip.DeflaterInputStream;
 import java.util.zip.InflaterInputStream;
 
 import com.weicoder.common.io.IOUtil;
-import com.weicoder.core.zip.base.BaseZip;
+import com.weicoder.common.zip.base.BaseZip;
 
 /**
  * ZLIB压缩

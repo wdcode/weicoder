@@ -1,7 +1,7 @@
-package com.weicoder.core.zip.base;
+package com.weicoder.common.zip.base;
 
 import com.weicoder.common.util.EmptyUtil;
-import com.weicoder.core.zip.Zip;
+import com.weicoder.common.zip.Zip;
 
 /**
  * 基础压缩实现

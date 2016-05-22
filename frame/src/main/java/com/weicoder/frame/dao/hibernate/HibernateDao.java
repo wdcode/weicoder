@@ -17,10 +17,8 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.resource.transaction.spi.TransactionStatus;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.weicoder.frame.dao.hibernate.search.HibernateSearch;
 import com.weicoder.frame.dao.hibernate.session.SessionFactorys;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.lang.Lists;
@@ -36,34 +34,7 @@ import com.weicoder.frame.dao.Dao;
 public final class HibernateDao implements Dao {
 	// Session工厂
 	@Resource
-	private SessionFactorys	factorys;
-	// HibernateSearch
-	@Autowired(required = false)
-	private HibernateSearch	search;
-
-	/**
-	 * 使用索引查询
-	 * @param entityClass 实体类
-	 * @param property 属性名
-	 * @param value 属性值
-	 * @param firstResult 重第几条开始查询
-	 * @param maxResults 一共查回多少条
-	 * @return 数据列表
-	 */
-	public <E> List<E> search(final Class<E> entityClass, final String property, final Object value, final int firstResult, final int maxResults) {
-		return execute(entityClass, (Session session) -> search.search(session, entityClass, property, value, firstResult, maxResults));
-	}
-
-	/**
-	 * 使用索引查询
-	 * @param entity 实体
-	 * @param firstResult 重第几条开始查询
-	 * @param maxResults 一共查回多少条
-	 * @return 数据列表
-	 */
-	public <E> List<E> search(final E entity, final int firstResult, final int maxResults) {
-		return execute(entity.getClass(), (Session session) -> search.search(session, entity, firstResult, maxResults));
-	}
+	private SessionFactorys factorys;
 
 	/**
 	 * 持久化对象，添加操作，此方法会向对应的数据库表中插入一条数据

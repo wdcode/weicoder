@@ -55,44 +55,6 @@ public final class QueryService {
 	}
 
 	/**
-	 * 使用索引查询
-	 * @param entity 实体类
-	 * @param property 属性名
-	 * @param value 属性值
-	 * @param firstResult 重第几条开始查询
-	 * @param maxResults 一共查回多少条
-	 * @return 数据列表
-	 */
-	public List<? extends Entity> search(String entity, String property, Object value) {
-		return search(entity, property, value, -1, -1);
-	}
-
-	/**
-	 * 使用索引查询
-	 * @param entity 实体类
-	 * @param property 属性名
-	 * @param value 属性值
-	 * @param maxResults 一共查回多少条
-	 * @return 数据列表
-	 */
-	public List<? extends Entity> search(String entity, String property, Object value, int maxResults) {
-		return search(entity, property, value, -1, maxResults);
-	}
-
-	/**
-	 * 使用索引查询
-	 * @param entity 实体类
-	 * @param property 属性名
-	 * @param value 属性值
-	 * @param firstResult 重第几条开始查询
-	 * @param maxResults 一共查回多少条
-	 * @return 数据列表
-	 */
-	public List<? extends Entity> search(String entity, String property, Object value, int firstResult, int maxResults) {
-		return service.search(Contexts.getClass(entity), property, value, firstResult, maxResults);
-	}
-
-	/**
 	 * 查询全部
 	 * @param entity 要查询的实体
 	 * @return 全部实体

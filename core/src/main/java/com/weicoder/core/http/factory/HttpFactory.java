@@ -1,7 +1,7 @@
 package com.weicoder.core.http.factory;
 
+import com.weicoder.common.factory.Factory;
 import com.weicoder.common.params.CommonParams;
-import com.weicoder.core.factory.Factory;
 import com.weicoder.core.http.Http;
 import com.weicoder.core.http.impl.HttpApache3;
 import com.weicoder.core.http.impl.HttpApache4;

@@ -11,9 +11,9 @@ import org.apache.hadoop.hbase.client.Admin;
 import org.apache.hadoop.hbase.client.ConnectionFactory;
 import org.apache.hadoop.hbase.protobuf.generated.HBaseProtos.TableSchema;
 import com.weicoder.common.constants.StringConstants;
+import com.weicoder.common.factory.FactoryKey;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.log.Logs;
-import com.weicoder.core.factory.FactoryKey;
 import com.weicoder.core.nosql.hbase.HBase;
 import com.weicoder.core.nosql.hbase.HBaseDao;
 

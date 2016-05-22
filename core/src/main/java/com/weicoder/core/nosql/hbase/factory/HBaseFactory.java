@@ -1,6 +1,6 @@
 package com.weicoder.core.nosql.hbase.factory;
 
-import com.weicoder.core.factory.FactoryKey;
+import com.weicoder.common.factory.FactoryKey;
 import com.weicoder.core.nosql.hbase.HBase;
 import com.weicoder.core.params.CoreParams;
 

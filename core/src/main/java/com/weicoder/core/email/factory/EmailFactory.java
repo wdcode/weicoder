@@ -1,10 +1,9 @@
 package com.weicoder.core.email.factory;
 
+import com.weicoder.common.factory.Factory;
 import com.weicoder.core.email.Email;
 import com.weicoder.core.email.impl.EmailApache;
 import com.weicoder.core.email.impl.EmailJava;
-
-import com.weicoder.core.factory.Factory;
 import com.weicoder.core.params.CoreParams;
 
 /**

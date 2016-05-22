@@ -3,8 +3,8 @@ package com.weicoder.core.nosql.base;
 import java.util.List;
 
 import com.weicoder.common.lang.Lists;
+import com.weicoder.common.zip.ZipEngine;
 import com.weicoder.core.nosql.NoSQL;
-import com.weicoder.core.zip.ZipEngine;
 
 /**
  * NoSQL基类

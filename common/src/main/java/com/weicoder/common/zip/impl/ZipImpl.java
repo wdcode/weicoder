@@ -1,4 +1,4 @@
-package com.weicoder.core.zip.impl;
+package com.weicoder.common.zip.impl;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -8,7 +8,7 @@ import java.util.zip.ZipOutputStream;
 
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.io.IOUtil;
-import com.weicoder.core.zip.base.BaseZip;
+import com.weicoder.common.zip.base.BaseZip;
 
 /**
  * ZIP压缩

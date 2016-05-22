@@ -2,9 +2,9 @@ package com.weicoder.core.dao.jdbc.factory;
 
 import com.weicoder.core.dao.jdbc.DataBase;
 import com.weicoder.core.dao.jdbc.impl.DataBaseImpl;
+import com.weicoder.common.factory.FactoryKey;
 import com.weicoder.core.dao.datasource.DataSource;
 import com.weicoder.core.dao.datasource.factory.DataSourceFactory;
-import com.weicoder.core.factory.FactoryKey;
 
 /**
  * 生成DataBase的工厂类 

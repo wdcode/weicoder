@@ -1,6 +1,6 @@
 package com.weicoder.core.nosql.mongo.factory;
 
-import com.weicoder.core.factory.FactoryKey;
+import com.weicoder.common.factory.FactoryKey;
 import com.weicoder.core.nosql.mongo.Mongo;
 import com.weicoder.core.nosql.mongo.impl.MongoImpl;
 

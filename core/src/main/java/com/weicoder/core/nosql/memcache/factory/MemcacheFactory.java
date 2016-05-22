@@ -1,8 +1,8 @@
 package com.weicoder.core.nosql.memcache.factory;
 
 import com.weicoder.common.constants.StringConstants;
+import com.weicoder.common.factory.FactoryKey;
 import com.weicoder.common.util.EmptyUtil;
-import com.weicoder.core.factory.FactoryKey;
 import com.weicoder.core.nosql.memcache.Memcache;
 import com.weicoder.core.nosql.memcache.impl.MemcacheArray;
 import com.weicoder.core.nosql.memcache.impl.MemcacheSpy;
