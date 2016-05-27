@@ -17,14 +17,5 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="D:/.m2/repository/io/netty/netty-all/4.0.35.Final/netty-all-4.0.35.Final.jar">
-		<attributes>
-			<attribute name="maven.pomderived" value="true"/>
-			<attribute name="maven.groupId" value="io.netty"/>
-			<attribute name="maven.artifactId" value="netty-all"/>
-			<attribute name="maven.version" value="4.0.35.Final"/>
-			<attribute name="maven.scope" value="provided"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
