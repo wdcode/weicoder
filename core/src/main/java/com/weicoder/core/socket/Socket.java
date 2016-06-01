@@ -5,7 +5,7 @@ import com.weicoder.common.interfaces.Close;
 /**
  * Socket接口
  * @author WD 
- * @version 1.0 
+ *  
  */
 public interface Socket extends Close {
 	/**

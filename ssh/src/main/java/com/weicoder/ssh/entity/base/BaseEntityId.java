@@ -12,7 +12,7 @@ import com.weicoder.common.lang.Conversion;
 /**
  * 实体PO实现,封装id
  * @author WD 
- * @version 1.0  
+ *   
  */
 @MappedSuperclass
 public abstract class BaseEntityId extends BaseEntity {

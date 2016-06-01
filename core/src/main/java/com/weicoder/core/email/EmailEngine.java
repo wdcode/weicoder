@@ -5,7 +5,7 @@ import com.weicoder.core.email.factory.EmailFactory;
 /**
  * Email 处理引擎
  * @author WD 
- * @version 1.0 
+ *  
  */
 public final class EmailEngine {
 	// Email发送器

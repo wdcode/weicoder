@@ -22,7 +22,7 @@ import com.weicoder.common.util.EmptyUtil;
 /**
  * Hibernate 使用lucene搜索数据
  * @author WD 
- * @version 1.0 
+ *  
  */
 public final class HibernateSearch {
 	//ApplicationContext

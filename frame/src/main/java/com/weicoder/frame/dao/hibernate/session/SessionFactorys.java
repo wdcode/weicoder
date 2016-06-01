@@ -1,68 +1,59 @@
 package com.weicoder.frame.dao.hibernate.session;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.support.BeanDefinitionBuilder;
-import org.springframework.beans.factory.support.DefaultListableBeanFactory;
-import org.springframework.context.ApplicationContext;
-import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
-import org.springframework.stereotype.Component;
+import org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl;
+import org.hibernate.cfg.Configuration;
 
 import com.weicoder.frame.dao.hibernate.naming.ImprovedNamingStrategy;
 import com.weicoder.frame.entity.Entity;
 import com.weicoder.frame.params.DaoParams;
 import com.weicoder.common.interfaces.Close;
-import com.weicoder.common.lang.Maps; 
+import com.weicoder.common.lang.Lists;
+import com.weicoder.common.lang.Maps;
+import com.weicoder.common.util.ClassUtil;
 import com.weicoder.core.dao.datasource.BasicDataSource;
 import com.weicoder.core.dao.datasource.DataSource;
 
 /**
  * SessionFactory包装类
- * @author WD 
- * @version 1.0 
+ * @author WD
  */
-@Component
 public final class SessionFactorys implements Close {
-	//ApplicationContext
-	@Resource
-	private ApplicationContext				context;
-	@Resource
-	private DefaultListableBeanFactory		beanFactory;
+	// 所有SessionFactory
+	private List<SessionFactory>			factorys;
 	// 类对应SessionFactory
-	private Map<Class<?>, SessionFactory>	factorys;
+	private Map<Class<?>, SessionFactory>	entity_factorys;
 	// 保存单session工厂 只有一个SessionFactory工厂时使用
 	private SessionFactory					factory;
 
 	/**
 	 * 初始化
 	 */
-	@PostConstruct
-	protected void init() {
+	public SessionFactorys() {
 		// 实例化表列表
-		factorys = Maps.getConcurrentMap();
+		entity_factorys = Maps.getConcurrentMap();
+		factorys = Lists.getList();
 		// 初始化SessionFactory
 		initSessionFactory();
-		// 获得所有SessionFactory
-		Map<String, SessionFactory> map = context.getBeansOfType(SessionFactory.class);
 		// 如果只有一个SessionFactory
-		if (map.size() == 1) {
-			factory = map.values().toArray(new SessionFactory[1])[0];
+		if (factorys.size() == 1) {
+			factory = factorys.get(0);
 		}
 		// 循环获得表名
-		for (Entity e : context.getBeansOfType(Entity.class).values()) {
+		for (Class<Entity> e : ClassUtil.getAssignedClass(Entity.class)) {
 			// 循环获得SessionFactory
-			for (SessionFactory sessionFactory : map.values()) {
+			for (SessionFactory sessionFactory : factorys) {
 				try {
-					if (sessionFactory.getClassMetadata(e.getClass()) != null) {
-						factorys.put(e.getClass(), sessionFactory);
+					if (sessionFactory.getClassMetadata(e) != null) {
+						entity_factorys.put(e, sessionFactory);
 					}
-				} catch (Exception ex) {}
+				} catch (Exception ex) {
+				}
 			}
 		}
 	}
@@ -73,7 +64,7 @@ public final class SessionFactorys implements Close {
 	 * @return SessionFactory
 	 */
 	public SessionFactory getSessionFactory(Class<?> entity) {
-		return factory == null ? factorys.get(entity) : factory;
+		return factory == null ? entity_factorys.get(entity) : factory;
 	}
 
 	/**
@@ -95,7 +86,7 @@ public final class SessionFactorys implements Close {
 		if (factory != null) {
 			factory.close();
 		}
-		for (SessionFactory factory : factorys.values()) {
+		for (SessionFactory factory : entity_factorys.values()) {
 			factory.close();
 		}
 	}
@@ -106,21 +97,19 @@ public final class SessionFactorys implements Close {
 	private void initSessionFactory() {
 		// 循环生成
 		for (String name : DaoParams.NAMES) {
-			// 根据类获得BeanDefinitionBuilder
-			BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition(LocalSessionFactoryBean.class);
+			// 实例化hibernate配置类
+			Configuration config = new Configuration();
 			// 获得数据源
 			DataSource ds = getDataSource(name);
-			// 设置数据源
-			builder.addPropertyValue("dataSource", ds);
 			// 设置namingStrategy
-			//			builder.addPropertyValue("implicitNamingStrategy", ImplicitNamingStrategyJpaCompliantImpl.INSTANCE);
-			//			builder.addPropertyValue("physicalNamingStrategy", PhysicalNamingStrategyStandardImpl.INSTANCE);
-			builder.addPropertyValue("physicalNamingStrategy", new ImprovedNamingStrategy());
-			//			builder.addPropertyValue("namingStrategy", ImprovedNamingStrategy.INSTANCE);			
-			// 设置扫描包
-			builder.addPropertyValue("packagesToScan", DaoParams.getPackages(name));
+			config.setImplicitNamingStrategy(ImplicitNamingStrategyJpaCompliantImpl.INSTANCE);
+			config.setPhysicalNamingStrategy(ImprovedNamingStrategy.INSTANCE);
 			// 设置Hibernate属性
 			Properties hp = new Properties();
+			// 设置数据源
+			hp.put("dataSource", ds);
+			// 设置扫描包
+			hp.put("packagesToScan", DaoParams.getPackages(name));
 			// 方言
 			hp.put("hibernate.dialect", DaoParams.getDialect(name));
 			hp.put("hibernate.show_sql", DaoParams.getSql(name));
@@ -129,10 +118,10 @@ public final class SessionFactorys implements Close {
 			// 数据库参数
 			hp.put("hibernate.jdbc.batch_size", DaoParams.getBatch(name));
 			hp.put("hibernate.jdbc.fetch_size", DaoParams.getFetch(name));
-	 
-			builder.addPropertyValue("hibernateProperties", hp);
+			// 添加参数
+			config.addProperties(hp);
 			// 注册
-			beanFactory.registerBeanDefinition(name + "SessionFactory", builder.getRawBeanDefinition());
+			factorys.add(config.buildSessionFactory());
 		}
 	}
 

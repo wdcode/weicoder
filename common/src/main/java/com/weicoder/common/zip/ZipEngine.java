@@ -11,7 +11,7 @@ import com.weicoder.common.zip.impl.ZlibImpl;
 /**
  * 压缩引擎
  * @author WD 
- * @version 1.0  
+ *   
  */
 public final class ZipEngine extends FactoryKey<String, Zip> {
 	//工厂

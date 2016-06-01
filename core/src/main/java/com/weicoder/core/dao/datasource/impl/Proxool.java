@@ -8,7 +8,7 @@ import com.weicoder.core.dao.datasource.base.BaseDataSource;
 /**
  * Proxool连接池实现
  * @author WD 
- * @version 1.0  
+ *   
  */
 public final class Proxool extends BaseDataSource {
 	// ProxoolDataSource数据源

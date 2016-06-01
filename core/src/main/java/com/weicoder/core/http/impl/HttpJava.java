@@ -20,7 +20,7 @@ import com.weicoder.core.http.base.BaseHttp;
 /**
  * 使用JDK 实现HTTP模拟浏览器提交的实现类
  * @author WD 
- * @version 1.0 
+ *  
  */
 public final class HttpJava extends BaseHttp {
 	// HttpURLConnection

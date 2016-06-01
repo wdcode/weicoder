@@ -8,7 +8,7 @@ import com.weicoder.common.interfaces.Close;
 /**
  * nosql相关操作接口
  * @author WD 
- * @version 1.0  
+ *   
  */
 public interface NoSQL extends Clear, Close {
 	/**

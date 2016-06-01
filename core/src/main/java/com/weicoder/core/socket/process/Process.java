@@ -29,7 +29,7 @@ import com.weicoder.core.socket.message.Null;
 /**
  * Socket 数据处理器实现
  * @author WD 
- * @version 1.0 
+ *  
  */
 public final class Process {
 	// Handler列表

@@ -8,7 +8,7 @@ import com.jolbox.bonecp.BoneCPDataSource;
 /**
  * bonecp连接池实现
  * @author WD 
- * @version 1.0 
+ *  
  */
 public final class Bonecp extends BaseDataSource {
 	// BoneCPDataSource数据源

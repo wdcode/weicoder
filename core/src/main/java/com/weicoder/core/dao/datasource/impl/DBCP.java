@@ -9,7 +9,7 @@ import com.weicoder.core.dao.datasource.base.BaseDataSource;
 /**
  * DBCP连接池实现
  * @author WD 
- * @version 1.0  
+ *   
  */
 public final class DBCP extends BaseDataSource {
 	// BasicDataSource数据源

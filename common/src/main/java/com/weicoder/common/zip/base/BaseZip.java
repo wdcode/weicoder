@@ -6,7 +6,7 @@ import com.weicoder.common.zip.Zip;
 /**
  * 基础压缩实现
  * @author WD 
- * @version 1.0 
+ *  
  */
 public abstract class BaseZip implements Zip {
 

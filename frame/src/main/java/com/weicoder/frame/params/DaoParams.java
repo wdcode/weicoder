@@ -2,12 +2,11 @@ package com.weicoder.frame.params;
 
 import com.weicoder.common.config.Config;
 import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.util.EmptyUtil; 
+import com.weicoder.common.util.EmptyUtil;
 
 /**
  * 读取Dao配置
- * @author WD 
- * @version 1.0  
+ * @author WD
  */
 public final class DaoParams {
 	// Properties配置
@@ -214,5 +213,6 @@ public final class DaoParams {
 		return EmptyUtil.isEmpty(name) ? suffix : name + StringConstants.POINT + suffix;
 	}
 
-	private DaoParams() {}
+	private DaoParams() {
+	}
 }

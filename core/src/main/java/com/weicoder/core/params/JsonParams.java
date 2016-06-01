@@ -5,7 +5,7 @@ import com.weicoder.common.params.Params;
 /**
  * WdCore包所用参数读取类
  * @author WD 
- * @version 1.0 
+ *  
  */
 public final class JsonParams {
 	/** JsonFast解析类 */

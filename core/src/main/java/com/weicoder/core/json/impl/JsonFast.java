@@ -9,7 +9,7 @@ import com.alibaba.fastjson.JSON;
 /**
  * fastjson的JSON实现
  * @author WD 
- * @version 1.0  
+ *   
  */
 public final class JsonFast implements Json {
 	@Override

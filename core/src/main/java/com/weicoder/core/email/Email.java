@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Email相关操作接口
  * @author WD 
- * @version 1.0 
+ *  
  */
 public interface Email {
 	/**

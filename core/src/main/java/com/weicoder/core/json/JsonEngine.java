@@ -17,7 +17,7 @@ import com.weicoder.core.params.JsonParams;
 /**
  * JSON处理引擎
  * @author WD 
- * @version 1.0  
+ *   
  */
 public final class JsonEngine extends FactoryKey<String, Json> {
 	// 工厂

@@ -12,7 +12,7 @@ import io.netty.channel.ChannelHandler.Sharable;
 /**
  * Netty 处理器
  * @author WD 
- * @version 1.0  
+ *   
  */ 
 @Sharable
 public final class NettyHandler extends SimpleChannelInboundHandler<ByteBuf> {

@@ -15,7 +15,7 @@ import com.weicoder.common.lang.Maps;
 /**
  * 基于Hibernate的查询器
  * @author WD 
- * @version 1.0 
+ *  
  */
 @Service
 public final class QueryService {

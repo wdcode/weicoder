@@ -6,7 +6,7 @@ import com.weicoder.common.params.Params;
 /**
  * Quartz任务读取参数
  * @author WD 
- * @version 1.0 
+ *  
  */
 public final class QuartzParams {
 	// 前缀

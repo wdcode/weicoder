@@ -11,7 +11,7 @@ import com.weicoder.core.socket.base.BaseSession;
 /**
  * Mina实现
  * @author WD 
- * @version 1.0 
+ *  
  */
 public final class MinaSession extends BaseSession implements Session {
 	// Mina Session

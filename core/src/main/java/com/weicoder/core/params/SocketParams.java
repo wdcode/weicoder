@@ -8,7 +8,7 @@ import com.weicoder.common.params.Params;
 /**
  * Socket读取配置
  * @author WD 
- * @version 1.0 
+ *  
  */
 public final class SocketParams {
 	/** 前缀 */

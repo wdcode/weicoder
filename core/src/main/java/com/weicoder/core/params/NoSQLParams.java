@@ -6,7 +6,7 @@ import com.weicoder.common.params.Params;
 /**
  * nosql配置
  * @author WD 
- * @version 1.0  
+ *   
  */
 public final class NoSQLParams {
 	/**

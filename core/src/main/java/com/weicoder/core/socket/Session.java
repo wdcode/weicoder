@@ -6,7 +6,7 @@ import com.weicoder.common.interfaces.Empty;
 /**
  * Socket Session
  * @author WD 
- * @version 1.0 
+ *  
  */
 public interface Session extends Close, Empty {
 	/**

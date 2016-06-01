@@ -32,7 +32,7 @@ import com.weicoder.core.params.HttpParams;
 /**
  * Apache HttpComponents 3 实现HTTP模拟浏览器提交的实现类
  * @author WD 
- * @version 1.0 
+ *  
  */
 public final class HttpApache3 extends BaseHttp {
 	// 连接管理

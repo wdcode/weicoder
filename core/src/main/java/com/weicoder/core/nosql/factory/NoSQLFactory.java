@@ -11,7 +11,7 @@ import com.weicoder.core.params.NoSQLParams;
 /**
  * NoSQL工厂
  * @author WD 
- * @version 1.0 
+ *  
  */
 public final class NoSQLFactory extends FactoryKey<String, NoSQL> {
 	// 工厂

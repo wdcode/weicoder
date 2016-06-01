@@ -7,7 +7,7 @@ import com.weicoder.core.nosql.mongo.impl.MongoImpl;
 /**
  * MongoDB工厂
  * @author WD 
- * @version 1.0  
+ *   
  */
 public final class MongoFactory extends FactoryKey<String, Mongo> {
 	// MongoDB工厂

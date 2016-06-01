@@ -14,7 +14,7 @@ import com.weicoder.core.socket.message.Null;
 /**
  * 心跳检测
  * @author WD 
- * @version 1.0  
+ *   
  */
 public final class Heart implements Handler<Null> {
 	// 保存Session 时间

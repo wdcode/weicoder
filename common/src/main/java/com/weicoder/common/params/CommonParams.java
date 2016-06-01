@@ -9,8 +9,9 @@ import com.weicoder.common.constants.UnitConstants;
 
 /**
  * WdWeb包参数读取类
- * @author WD 
- * @version 1.0 
+ * 
+ * @author WD
+ * 
  */
 public final class CommonParams {
 	/** IO缓冲区大小 */
@@ -45,6 +46,15 @@ public final class CommonParams {
 	public final static int		POOL_TIMER				= Params.getInt("pool.timer", SystemConstants.CPU_NUM);
 	/** 压缩算法 */
 	public final static String	ZIP						= Params.getString("zip", "zlib");
+	/** tcp连接地址 */
+	public final static String	TCP_HOST				= Params.getString("tcp.host");
+	/** tcp服务器端口 */
+	public final static int		TCP_PORT				= Params.getInt("tcp.port");
+	/** udp连接地址 */
+	public final static String	UDP_HOST				= Params.getString("udp.host");
+	/** udp服务器端口 */
+	public final static int		UDP_PORT				= Params.getInt("udp.port");
 
-	private CommonParams() {}
+	private CommonParams() {
+	}
 }

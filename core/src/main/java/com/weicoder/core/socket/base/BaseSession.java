@@ -20,7 +20,7 @@ import com.weicoder.core.socket.message.Null;
 /**
  * 基础Socket Session实现
  * @author WD 
- * @version 1.0 
+ *  
  */
 public abstract class BaseSession implements Session {
 	// 名称

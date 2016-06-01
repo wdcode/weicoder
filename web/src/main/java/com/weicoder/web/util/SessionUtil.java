@@ -11,7 +11,7 @@ import com.weicoder.common.util.EmptyUtil;
 /**
  * Session一些相关操作类
  * @author WD 
- * @version 1.0 
+ *  
  */
 public final class SessionUtil {
 	/**

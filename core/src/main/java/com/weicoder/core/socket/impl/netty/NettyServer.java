@@ -11,7 +11,7 @@ import com.weicoder.core.socket.base.BaseServer;
 /**
  * netty实现
  * @author WD 
- * @version 1.0 
+ *  
  */
 public final class NettyServer extends BaseServer {
 	// Netty ServerBootstrap

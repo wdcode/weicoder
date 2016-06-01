@@ -21,7 +21,7 @@ import com.weicoder.web.util.VerifyCodeUtil;
 /**
  * 登录Action
  * @author WD
- * @version 1.0
+ * 
  */
 public class SiteAction<U extends EntityUser> extends StrutsAction {
 	// 状态无效 0

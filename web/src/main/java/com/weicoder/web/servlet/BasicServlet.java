@@ -28,7 +28,7 @@ import com.weicoder.web.util.ResponseUtil;
  * 基础Servlet 3
  * 
  * @author WD
- * @version 1.0
+ * 
  */
 public class BasicServlet extends HttpServlet {
 	private static final long serialVersionUID = 3117468121294921856L;

@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  * HBase数据操作接口
  * @author WD 
- * @version 1.0 
+ *  
  */
 public interface HBaseDao {
 	/**

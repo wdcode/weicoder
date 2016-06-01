@@ -28,7 +28,7 @@ import com.weicoder.core.socket.Sockets;
 /**
  * 初始化监听器 
  * @author WD 
- * @version 1.0
+ * 
  */
 @WebListener
 public class InitListener implements ServletContextListener {

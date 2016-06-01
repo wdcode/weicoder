@@ -7,7 +7,7 @@ import com.weicoder.core.email.Email;
 /**
  * Email相关操作抽象类
  * @author WD 
- * @version 1.0  
+ *   
  */
 public abstract class BaseEmail implements Email {
 	// smtp地址

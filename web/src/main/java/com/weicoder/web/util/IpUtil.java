@@ -18,7 +18,7 @@ import com.weicoder.common.util.EmptyUtil;
 /**
  * IP工具集
  * @author WD 
- * @version 1.0  
+ *   
  */
 public final class IpUtil {
 	// 本机IP 127.0.0.1

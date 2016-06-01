@@ -8,7 +8,7 @@ import com.weicoder.core.nosql.memcache.factory.MemcacheFactory;
 /**
  * Memcache 处理器 使用工厂默认对象
  * @author WD 
- * @version 1.0  
+ *   
  */
 public final class MemcacheEngine {
 	// memcache接口

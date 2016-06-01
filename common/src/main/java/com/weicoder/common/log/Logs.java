@@ -5,7 +5,7 @@ import com.weicoder.common.util.ClassUtil;
 /**
  * 打印日志工具类
  * @author WD 
- * @version 1.0
+ * 
  */
 public final class Logs {
 	// loggin日志对象

@@ -10,7 +10,7 @@ import com.weicoder.common.util.EmptyUtil;
 /**
  * 数据类型转换,对null和异常进行处理
  * @author WD 
- * @version 1.0 
+ *  
  */
 public final class Conversion {
 	/**

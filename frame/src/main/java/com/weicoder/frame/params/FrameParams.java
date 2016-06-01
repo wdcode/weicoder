@@ -1,11 +1,12 @@
 package com.weicoder.frame.params;
 
+import com.weicoder.common.constants.DateConstants;
 import com.weicoder.common.params.Params;
 
 /**
  * WdBase包所用参数读取类
- * @author WD 
- * @version 1.0 
+ * @author WD
+ * 
  */
 public final class FrameParams {
 	/** 分页使用当前页的标识 */
@@ -18,6 +19,10 @@ public final class FrameParams {
 	public final static String	CACHE_TYPE			= Params.getString("cache.type", "map");
 	/** 数据源配置 */
 	public final static String	DATA_SOURCE_CONFIG	= Params.getString("datasource.config", "db/db.properties");
+	/** 登录信息最大保存时间 */
+	public final static int		LOGIN_MAX_AGE		= Params.getInt("login.maxAge", DateConstants.WEEK);
+	/** 登录信息最小保存时间 */
+	public final static int		LOGIN_MIN_AGE		= Params.getInt("login.minAge", DateConstants.HOUR * 2);
 
 	/**
 	 * 获得是否使用缓存<br/>
@@ -31,5 +36,6 @@ public final class FrameParams {
 		return Params.getBoolean(Params.getKey("cache", "valid", name), CACHE_VALID_POWER);
 	}
 
-	private FrameParams() {}
+	private FrameParams() {
+	}
 }

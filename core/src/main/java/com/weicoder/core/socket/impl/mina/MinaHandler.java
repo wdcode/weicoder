@@ -11,7 +11,7 @@ import com.weicoder.core.socket.process.Process;
 /**
  * mina实现
  * @author WD 
- * @version 1.0 
+ *  
  */
 public final class MinaHandler extends IoHandlerAdapter {
 	// 名称

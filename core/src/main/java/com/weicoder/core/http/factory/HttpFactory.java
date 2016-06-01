@@ -12,7 +12,7 @@ import com.weicoder.core.params.HttpParams;
 /**
  * 获得HttpClient实例工厂 
  * @author WD 
- * @version 1.0 
+ *  
  */
 public final class HttpFactory extends Factory<Http> {
 	// 工厂

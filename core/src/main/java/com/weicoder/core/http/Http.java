@@ -9,7 +9,7 @@ import com.weicoder.common.interfaces.Close;
 /**
  * 实现HTTP模拟浏览器提交的接口 使用HttpFactory获得实例 
  * @author WD 
- * @version 1.0 
+ *  
  */
 public interface Http extends Close {
 	/**

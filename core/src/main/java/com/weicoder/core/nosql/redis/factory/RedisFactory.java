@@ -7,7 +7,7 @@ import com.weicoder.core.nosql.redis.impl.RedisJedis;
 /**
  * RedisPool工厂
  * @author WD 
- * @version 1.0 
+ *  
  */
 public final class RedisFactory extends FactoryKey<String, Redis> {
 	// 工厂

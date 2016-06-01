@@ -7,7 +7,7 @@ import com.weicoder.core.params.CoreParams;
 /**
  * HBase工厂
  * @author WD 
- * @version 1.0 
+ *  
  */
 public final class HBaseFactory extends FactoryKey<String, HBase> {
 	// 工厂

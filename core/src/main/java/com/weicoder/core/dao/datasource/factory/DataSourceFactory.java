@@ -8,7 +8,7 @@ import com.weicoder.core.params.DataSourceParams;
 /**
  * 获得数据源 DataSource 的工厂类
  * @author WD 
- * @version 1.0 
+ *  
  */
 public final class DataSourceFactory extends FactoryKey<String, DataSource> {
 	// 工厂

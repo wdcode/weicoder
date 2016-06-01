@@ -10,7 +10,7 @@ import com.weicoder.common.params.Params;
 /**
  * 上传参数
  * @author WD 
- * @version 1.0  
+ *   
  */
 public final class UploadParams {
 	/** 上传文件路径 */

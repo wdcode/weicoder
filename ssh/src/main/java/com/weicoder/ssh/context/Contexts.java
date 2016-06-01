@@ -21,7 +21,7 @@ import com.weicoder.common.lang.Maps;
 /**
  * 全局Context控制
  * @author WD 
- * @version 1.0 
+ *  
  */
 public final class Contexts {
 	//WebApplicationContext

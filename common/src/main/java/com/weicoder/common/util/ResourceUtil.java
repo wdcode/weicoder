@@ -8,7 +8,7 @@ import com.weicoder.common.constants.StringConstants;
 /**
  * 资源工具累类
  * @author WD 
- * @version 1.0  
+ *   
  */
 public final class ResourceUtil {
 	/**

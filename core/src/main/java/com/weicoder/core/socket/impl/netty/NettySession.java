@@ -10,7 +10,7 @@ import com.weicoder.core.socket.base.BaseSession;
  * netty Session实现
  * @author WD
  * @since JDK7
- * @version 1.0 
+ *  
  */
 public final class NettySession extends BaseSession implements Session {
 	// 通道

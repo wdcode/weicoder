@@ -17,7 +17,7 @@ import com.weicoder.common.util.ResourceUtil;
 /**
  * 读取配置类
  * @author WD 
- * @version 1.0 
+ *  
  */
 public class Config {
 	// Properties配置

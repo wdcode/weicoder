@@ -20,7 +20,7 @@ import com.weicoder.core.socket.manager.Manager;
 /**
  * Socket 相关类
  * @author WD 
- * @version 1.0  
+ *   
  */
 public final class Sockets {
 	// 保存SocketServer

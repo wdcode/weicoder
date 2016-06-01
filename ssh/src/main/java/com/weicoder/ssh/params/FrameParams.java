@@ -5,7 +5,7 @@ import com.weicoder.common.params.Params;
 /**
  * WdBase包所用参数读取类
  * @author WD 
- * @version 1.0 
+ *  
  */
 public final class FrameParams {
 	/** 分页使用当前页的标识 */

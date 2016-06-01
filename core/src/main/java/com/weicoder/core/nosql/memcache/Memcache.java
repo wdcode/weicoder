@@ -9,7 +9,7 @@ import com.weicoder.core.nosql.NoSQL;
 /**
  * MemCached的客户端调用接口
  * @author WD 
- * @version 1.0 
+ *  
  */
 public interface Memcache extends NoSQL, Close, Clear {
 	/**

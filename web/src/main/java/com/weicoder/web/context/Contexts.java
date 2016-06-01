@@ -8,7 +8,7 @@ import com.weicoder.common.lang.Maps;
 /**
  * 全局Selvert控制 
  * @author WD 
- * @version 1.0 
+ *  
  */
 public final class Contexts {
 	// Action列表

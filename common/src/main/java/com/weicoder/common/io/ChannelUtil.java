@@ -17,7 +17,7 @@ import com.weicoder.common.util.CloseUtil;
 /**
  * 通道操作
  * @author WD 
- * @version 1.0 
+ *  
  */
 public final class ChannelUtil {
 	/**
@@ -52,7 +52,8 @@ public final class ChannelUtil {
 				buffer.clear();
 			}
 		} catch (IOException e) {
-			Logs.debug("ChannelUtil read=" + e.toString());
+			Logs.error(e);
+//			Logs.debug("ChannelUtil read=" + e.toString());
 		} finally {
 			// 关闭资源
 			if (isClose) {
@@ -125,7 +126,8 @@ public final class ChannelUtil {
 			// 返回成功
 			return true;
 		} catch (IOException e) {
-			Logs.debug("ChannelUtil write=" + e.toString());
+			Logs.error(e);
+//			Logs.debug("ChannelUtil write=" + e.toString());
 		} finally {
 			// 关闭资源
 			if (isClose) {

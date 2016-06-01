@@ -21,7 +21,7 @@ import com.weicoder.core.params.QuartzParams;
 /**
  * Quartz 处理引擎
  * @author WD 
- * @version 1.0 
+ *  
  */
 public final class QuartzEngine {
 	// 保存任务列表
@@ -46,7 +46,7 @@ public final class QuartzEngine {
 				try {
 					add((Class<? extends Job>) ClassUtil.forName(QuartzParams.getClass(name)), QuartzParams.getTrigger(name));
 				} catch (Exception e) {
-					throw e;
+					Logs.error(e);
 				}
 			}
 			// 执行
@@ -82,7 +82,7 @@ public final class QuartzEngine {
 			// 执行任务
 			scheduler.start();
 		} catch (Exception e) {
-			throw new RuntimeException(e);
+			Logs.error(e);
 		}
 	}
 
@@ -95,7 +95,7 @@ public final class QuartzEngine {
 			scheduler.clear();
 			scheduler.shutdown();
 		} catch (Exception e) {
-			throw new RuntimeException(e);
+			Logs.error(e);
 		} finally {
 			scheduler = null;
 		}

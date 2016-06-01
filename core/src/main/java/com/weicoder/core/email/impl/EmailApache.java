@@ -19,7 +19,7 @@ import com.weicoder.core.email.base.BaseEmail;
 /**
  * EmailUtil Apache Common Email实现
  * @author WD 
- * @version 1.0 
+ *  
  */
 public final class EmailApache extends BaseEmail {
 	/**

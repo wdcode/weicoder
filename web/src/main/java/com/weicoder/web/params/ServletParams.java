@@ -5,7 +5,7 @@ import com.weicoder.common.params.Params;
 /**
  * Servlet读取配置
  * @author WD 
- * @version 1.0  
+ *   
  */
 public final class ServletParams {
 	/** Servlet服务器开关 */

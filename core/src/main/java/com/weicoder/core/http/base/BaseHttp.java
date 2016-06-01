@@ -12,7 +12,7 @@ import com.weicoder.core.http.Http;
 /**
  * 实现HTTP模拟浏览器提交的抽象实现类
  * @author WD 
- * @version 1.0 
+ *  
  */
 public abstract class BaseHttp implements Http {
 	// 头 User-Agent 信息

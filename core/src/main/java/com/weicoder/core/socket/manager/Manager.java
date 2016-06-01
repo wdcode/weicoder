@@ -18,7 +18,7 @@ import com.weicoder.core.socket.empty.SessionEmpty;
 /**
  * Session管理类
  * @author WD 
- * @version 1.0  
+ *   
  */
 public final class Manager {
 	// 保存注册的Session

@@ -7,7 +7,7 @@ import com.weicoder.core.params.MemcacheParams;
 /**
  * MemCacheClient基础抽象
  * @author WD 
- * @version 1.0 
+ *  
  */
 public abstract class BaseMemcache extends BaseNoSQL implements Memcache {
 	/**

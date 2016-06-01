@@ -1,7 +1,7 @@
 package com.weicoder.frame.token;
 
 import com.weicoder.frame.entity.EntityUser;
-import com.weicoder.frame.params.SiteParams;
+import com.weicoder.frame.params.FrameParams;
 import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.token.AuthToken;
 import com.weicoder.common.util.DateUtil;
@@ -11,8 +11,8 @@ import com.weicoder.web.util.IpUtil;
 
 /**
  * 登录信息封装
- * @author WD 
- * @version 1.0 
+ * @author WD
+ * 
  */
 public class LoginToken implements AuthToken {
 	// 用户ID
@@ -22,7 +22,8 @@ public class LoginToken implements AuthToken {
 	// 登录IP
 	protected String	loginIp;
 
-	public LoginToken() {}
+	public LoginToken() {
+	}
 
 	/**
 	 * 构造方法
@@ -50,7 +51,7 @@ public class LoginToken implements AuthToken {
 
 	@Override
 	public boolean isLogin() {
-		return id != 0 && (SiteParams.LOGIN_MAX_AGE > 0 ? DateUtil.getTime() - time < SiteParams.LOGIN_MAX_AGE : time > 0);
+		return id != 0 && (FrameParams.LOGIN_MAX_AGE > 0 ? DateUtil.getTime() - time < FrameParams.LOGIN_MAX_AGE : time > 0);
 	}
 
 	@Override

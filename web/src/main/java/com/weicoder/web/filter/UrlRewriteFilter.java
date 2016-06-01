@@ -13,7 +13,7 @@ import com.weicoder.common.io.FileUtil;
 /**
  * UrlRewriteFilter扩展 如果页面存在 直接访问不存在执行伪静态
  * @author WD 
- * @version 1.0 
+ *  
  */
 public class UrlRewriteFilter extends org.tuckey.web.filters.urlrewrite.UrlRewriteFilter {
 	@Override

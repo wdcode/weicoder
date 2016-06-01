@@ -13,7 +13,7 @@ import com.weicoder.core.socket.base.BaseServer;
 /**
  * mina实现
  * @author WD 
- * @version 1.0  
+ *   
  */
 public final class MinaServer extends BaseServer {
 	// SocketAcceptor

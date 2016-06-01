@@ -3,7 +3,7 @@ package com.weicoder.common.constants;
 /**
  * 日期常量
  * @author WD 
- * @version 1.0  
+ *   
  */
 public final class DateConstants {
 	/** 日期格式 yyyyMMdd */

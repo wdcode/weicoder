@@ -5,7 +5,7 @@ import com.weicoder.core.nosql.NoSQL;
 /**
  * HBase接口
  * @author WD 
- * @version 1.0 
+ *  
  */
 public interface HBase extends NoSQL {
 	/**

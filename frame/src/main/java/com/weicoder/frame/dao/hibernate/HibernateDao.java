@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Resource;
-
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -17,7 +15,6 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.resource.transaction.spi.TransactionStatus;
-import org.springframework.stereotype.Repository;
 
 import com.weicoder.frame.dao.hibernate.session.SessionFactorys;
 import com.weicoder.common.lang.Conversion;
@@ -27,14 +24,11 @@ import com.weicoder.frame.dao.Dao;
 
 /**
  * Hibernate接口
- * @author WD 
- * @version 1.0 
+ * @author WD
  */
-@Repository
 public final class HibernateDao implements Dao {
 	// Session工厂
-	@Resource
-	private SessionFactorys factorys;
+	private SessionFactorys factorys = new SessionFactorys();
 
 	/**
 	 * 持久化对象，添加操作，此方法会向对应的数据库表中插入一条数据
@@ -78,15 +72,13 @@ public final class HibernateDao implements Dao {
 	 * @see org.hibernate.LockMode
 	 */
 	public <E> List<E> update(final List<E> entitys) {
-		return execute(entitys.get(0).getClass(), new Callback<List<E>>() {
-			public List<E> callback(Session session) {
-				// 循环更新
-				for (E e : entitys) {
-					session.update(e);
-				}
-				// 返回实体
-				return entitys;
+		return execute(entitys.get(0).getClass(), (Session session) -> {
+			// 循环更新
+			for (E e : entitys) {
+				session.update(e);
 			}
+			// 返回实体
+			return entitys;
 		});
 	}
 
@@ -105,15 +97,13 @@ public final class HibernateDao implements Dao {
 	 * @return 列表对象
 	 */
 	public <E> List<E> insertOrUpdate(final List<E> entitys) {
-		return execute(entitys.get(0).getClass(), new Callback<List<E>>() {
-			public List<E> callback(Session session) {
-				// 循环更新
-				for (E e : entitys) {
-					session.saveOrUpdate(e);
-				}
-				// 返回实体
-				return entitys;
+		return execute(entitys.get(0).getClass(), (Session session) -> {
+			// 循环更新
+			for (E e : entitys) {
+				session.saveOrUpdate(e);
 			}
+			// 返回实体
+			return entitys;
 		});
 	}
 
@@ -132,15 +122,13 @@ public final class HibernateDao implements Dao {
 	 * @return 是否成功
 	 */
 	public <E> List<E> delete(final List<E> entitys) {
-		return execute(entitys.get(0).getClass(), new Callback<List<E>>() {
-			public List<E> callback(Session session) {
-				// 循环更新
-				for (E e : entitys) {
-					session.delete(e);
-				}
-				// 返回实体
-				return entitys;
+		return execute(entitys.get(0).getClass(), (Session session) -> {
+			// 循环更新
+			for (E e : entitys) {
+				session.delete(e);
 			}
+			// 返回实体
+			return entitys;
 		});
 	}
 
@@ -153,31 +141,31 @@ public final class HibernateDao implements Dao {
 	 */
 	public <E> E get(final Class<E> entityClass, final Serializable pk) {
 		// 验证pk是否为空
-		if (EmptyUtil.isEmpty(pk)) { return null; }
+		if (EmptyUtil.isEmpty(pk)) {
+			return null;
+		}
 		// 查找对象
-		return execute(entityClass, new Callback<E>() {
-			public E callback(Session session) {
-				return (E) session.get(entityClass, pk);
-			}
+		return execute(entityClass, (Session session) -> {
+			return session.get(entityClass, pk);
 		});
 	}
 
 	@Override
 	public <E> List<E> gets(final Class<E> entityClass, final Serializable... pks) {
 		// 验证pk是否为空
-		if (EmptyUtil.isEmpty(pks)) { return Lists.emptyList(); }
+		if (EmptyUtil.isEmpty(pks)) {
+			return Lists.emptyList();
+		}
 		// 查找对象
-		return execute(entityClass, new Callback<List<E>>() {
-			public List<E> callback(Session session) {
-				// 声明返回对象
-				List<E> list = Lists.getList(pks.length);
-				// 循环获得实体列表
-				for (Serializable pk : pks) {
-					list.add((E) session.get(entityClass, pk));
-				}
-				// 返回对象列表
-				return list;
+		return execute(entityClass, (Session session) -> {
+			// 声明返回对象
+			List<E> list = Lists.getList(pks.length);
+			// 循环获得实体列表
+			for (Serializable pk : pks) {
+				list.add(session.get(entityClass, pk));
 			}
+			// 返回对象列表
+			return list;
 		});
 	}
 
@@ -222,25 +210,23 @@ public final class HibernateDao implements Dao {
 	 * @return 数据列表 异常返回 Collections.emptyList()
 	 */
 
+	@SuppressWarnings("unchecked")
 	public <E> List<E> list(final E entity, final int firstResult, final int maxResults) {
-		return execute(entity.getClass(), new Callback<List<E>>() {
-			@SuppressWarnings("unchecked")
-			public List<E> callback(Session session) {
-				// 获得Criteria
-				Criteria criteria = session.createCriteria(entity.getClass());
-				// 添加实体参数
-				criteria.add(Example.create(entity));
-				// 开始结果大于等于0
-				if (firstResult >= 0) {
-					criteria.setFirstResult(firstResult);
-				}
-				// 最大结果大于零
-				if (maxResults > 0) {
-					criteria.setMaxResults(maxResults);
-				}
-				// 返回查询结果
-				return criteria.list();
+		return execute(entity.getClass(), (Session session) -> {
+			// 获得Criteria
+			Criteria criteria = session.createCriteria(entity.getClass());
+			// 添加实体参数
+			criteria.add(Example.create(entity));
+			// 开始结果大于等于0
+			if (firstResult >= 0) {
+				criteria.setFirstResult(firstResult);
 			}
+			// 最大结果大于零
+			if (maxResults > 0) {
+				criteria.setMaxResults(maxResults);
+			}
+			// 返回查询结果
+			return criteria.list();
 		});
 	}
 
@@ -399,19 +385,17 @@ public final class HibernateDao implements Dao {
 	 * @return 数量
 	 */
 	public int count(final Class<?> entityClass, final String property, final Object value) {
-		return execute(entityClass, new Callback<Integer>() {
-			public Integer callback(Session session) {
-				// 创建查询条件
-				Criteria criteria = session.createCriteria(entityClass);
-				// 设置参数
-				if (!EmptyUtil.isEmpty(property) && !EmptyUtil.isEmpty(value)) {
-					criteria.add(Restrictions.eq(property, value));
-				}
-				// 设置获得总行数
-				criteria.setProjection(Projections.rowCount());
-				// 返回结果
-				return Conversion.toInt(criteria.uniqueResult());
+		return execute(entityClass, (Session session) -> {
+			// 创建查询条件
+			Criteria criteria = session.createCriteria(entityClass);
+			// 设置参数
+			if (!EmptyUtil.isEmpty(property) && !EmptyUtil.isEmpty(value)) {
+				criteria.add(Restrictions.eq(property, value));
 			}
+			// 设置获得总行数
+			criteria.setProjection(Projections.rowCount());
+			// 返回结果
+			return Conversion.toInt(criteria.uniqueResult());
 		});
 	}
 
@@ -423,19 +407,17 @@ public final class HibernateDao implements Dao {
 	 * @return 对象实体总数 异常返回 0
 	 */
 	public int count(final Class<?> entityClass, final Map<String, Object> map) {
-		return execute(entityClass, new Callback<Integer>() {
-			public Integer callback(Session session) {
-				// 创建查询条件
-				Criteria criteria = session.createCriteria(entityClass);
-				// 判断属性名不为空
-				if (!EmptyUtil.isEmpty(map)) {
-					criteria.add(Restrictions.allEq(map));
-				}
-				// 设置获得总行数
-				criteria.setProjection(Projections.rowCount());
-				// 返回结果
-				return Conversion.toInt(criteria.uniqueResult());
+		return execute(entityClass, (Session session) -> {
+			// 创建查询条件
+			Criteria criteria = session.createCriteria(entityClass);
+			// 判断属性名不为空
+			if (!EmptyUtil.isEmpty(map)) {
+				criteria.add(Restrictions.allEq(map));
 			}
+			// 设置获得总行数
+			criteria.setProjection(Projections.rowCount());
+			// 返回结果
+			return Conversion.toInt(criteria.uniqueResult());
 		});
 	}
 
@@ -445,17 +427,15 @@ public final class HibernateDao implements Dao {
 	 * @return 对象实体总数 异常返回 0
 	 */
 	public int count(final Object entity) {
-		return execute(entity.getClass(), new Callback<Integer>() {
-			public Integer callback(Session session) {
-				// 创建查询条件
-				Criteria criteria = session.createCriteria(entity.getClass());
-				// 添加实体对象
-				criteria.add(Example.create(entity));
-				// 设置获得总行数
-				criteria.setProjection(Projections.rowCount());
-				// 返回结果
-				return Conversion.toInt(criteria.uniqueResult());
-			}
+		return execute(entity.getClass(), (Session session) -> {
+			// 创建查询条件
+			Criteria criteria = session.createCriteria(entity.getClass());
+			// 添加实体对象
+			criteria.add(Example.create(entity));
+			// 设置获得总行数
+			criteria.setProjection(Projections.rowCount());
+			// 返回结果
+			return Conversion.toInt(criteria.uniqueResult());
 		});
 	}
 
@@ -478,11 +458,7 @@ public final class HibernateDao implements Dao {
 	 * @return 返回影响的行数 异常返回-1
 	 */
 	public int execute(Class<?> entityClass, final String sql, final Object... values) {
-		return execute(entityClass, new Callback<Integer>() {
-			public Integer callback(Session session) {
-				return setParameter(session.createSQLQuery(sql), Lists.getList(values), -1, -1).executeUpdate();
-			}
-		});
+		return execute(entityClass, (Session session) -> setParameter(session.createSQLQuery(sql), Lists.getList(values), -1, -1).executeUpdate());
 	}
 
 	/**
@@ -493,13 +469,9 @@ public final class HibernateDao implements Dao {
 	 * @param maxResults 一共查回多少条
 	 * @return 返回结果列表
 	 */
+	@SuppressWarnings("unchecked")
 	public <E> List<E> query(Class<?> entityClass, final String sql, final List<Object> values, final int firstResult, final int maxResults) {
-		return execute(entityClass, new Callback<List<E>>() {
-			@SuppressWarnings("unchecked")
-			public List<E> callback(Session session) {
-				return setParameter(session.createSQLQuery(sql), values, firstResult, maxResults).list();
-			}
-		});
+		return execute(entityClass, (Session session) -> setParameter(session.createSQLQuery(sql), values, firstResult, maxResults).list());
 	}
 
 	/**
@@ -558,23 +530,21 @@ public final class HibernateDao implements Dao {
 	 * @param maxResults 最多查询多少条
 	 * @return 返回结果列表
 	 */
+	@SuppressWarnings("unchecked")
 	private <E> List<E> queryCriteria(Class<?> entityClass, final DetachedCriteria criteria, final int firstResult, final int maxResults) {
-		return execute(entityClass, new Callback<List<E>>() {
-			@SuppressWarnings("unchecked")
-			public List<E> callback(Session session) {
-				// 获得Criteria
-				Criteria executableCriteria = criteria.getExecutableCriteria(session);
-				// 判断开始结果
-				if (firstResult >= 0) {
-					executableCriteria.setFirstResult(firstResult);
-				}
-				// 判断最大结果
-				if (maxResults > 0) {
-					executableCriteria.setMaxResults(maxResults);
-				}
-				// 返回查询结果
-				return executableCriteria.list();
+		return execute(entityClass, (Session session) -> {
+			// 获得Criteria
+			Criteria executableCriteria = criteria.getExecutableCriteria(session);
+			// 判断开始结果
+			if (firstResult >= 0) {
+				executableCriteria.setFirstResult(firstResult);
 			}
+			// 判断最大结果
+			if (maxResults > 0) {
+				executableCriteria.setMaxResults(maxResults);
+			}
+			// 返回查询结果
+			return executableCriteria.list();
 		});
 	}
 
@@ -584,11 +554,7 @@ public final class HibernateDao implements Dao {
 	 * @return 返回结果列表 异常返回0
 	 */
 	private int count(Class<?> entityClass, final DetachedCriteria criteria) {
-		return execute(entityClass, new Callback<Integer>() {
-			public Integer callback(Session session) {
-				return Conversion.toInt(criteria.getExecutableCriteria(session).setProjection(Projections.rowCount()).uniqueResult());
-			}
-		});
+		return execute(entityClass, (Session session) -> Conversion.toInt(criteria.getExecutableCriteria(session).setProjection(Projections.rowCount()).uniqueResult()));
 	}
 
 	/**
@@ -665,7 +631,7 @@ public final class HibernateDao implements Dao {
 		Transaction tx = null;
 		// 是否自己控制事务
 		boolean isSession = !session.getTransaction().getStatus().isOneOf(TransactionStatus.ACTIVE);
-		//		boolean isSession = !session.getTransaction().isActive();
+		// boolean isSession = !session.getTransaction().isActive();
 		// 返回结果
 		T t = null;
 		try {
@@ -704,8 +670,7 @@ public final class HibernateDao implements Dao {
 	/**
 	 * Hibernate回调方法
 	 * @author WD
-	 * @since JDK7
-	 * @version 1.0 2012-03-05
+	 * @since JDK7 2012-03-05
 	 */
 	interface Callback<T> {
 		/**

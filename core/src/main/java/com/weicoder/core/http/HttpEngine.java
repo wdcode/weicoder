@@ -8,7 +8,7 @@ import com.weicoder.core.http.factory.HttpFactory;
 /**
  * HTTP处理器 使用默认工厂对象
  * @author WD 
- * @version 1.0 
+ *  
  */
 public final class HttpEngine {
 	// HTTP接口

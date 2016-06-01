@@ -16,7 +16,7 @@ import com.weicoder.core.socket.base.BaseClient;
 /**
  * netty客户端
  * @author WD 
- * @version 1.0 
+ *  
  */
 public final class Netty3Client extends BaseClient {
 	// 保存Netty客户端 Bootstrap

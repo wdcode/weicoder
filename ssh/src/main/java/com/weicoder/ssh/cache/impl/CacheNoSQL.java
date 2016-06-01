@@ -20,7 +20,7 @@ import com.weicoder.core.nosql.factory.NoSQLFactory;
 /**
  * 基于memcached的缓存
  * @author WD 
- * @version 1.0 
+ *  
  */
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)

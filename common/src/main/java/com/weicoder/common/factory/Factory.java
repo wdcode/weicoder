@@ -8,7 +8,7 @@ import com.weicoder.common.util.EmptyUtil;
 /**
  * 抽象工厂抽象实现
  * @author WD 
- * @version 1.0  
+ *   
  */
 public abstract class Factory<E> {
 	// 对象锁

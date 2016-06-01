@@ -10,7 +10,7 @@ import com.weicoder.common.params.Params;
  * WdWeb包参数读取类
  * 
  * @author WD
- * @version 1.0
+ * 
  */
 public final class WebParams {
 	/** 验证码出现的字符集 */

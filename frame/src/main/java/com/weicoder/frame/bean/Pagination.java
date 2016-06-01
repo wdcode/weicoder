@@ -1,18 +1,13 @@
 package com.weicoder.frame.bean;
 
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import com.weicoder.frame.params.FrameParams;
 import com.weicoder.core.json.JsonEngine;
 
 /**
  * 分页信息保存的实体Bean 在分页Dao和Tag之间传递值用
- * @author WD 
- * @version 1.0 
+ * @author WD
+ * 
  */
-@Component
-@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public final class Pagination {
 	// 总数量
 	private int	totalSize;

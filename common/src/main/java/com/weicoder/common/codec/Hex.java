@@ -8,7 +8,7 @@ import com.weicoder.common.util.EmptyUtil;
 /**
  * Hex 编码解码
  * @author WD 
- * @version 1.0 
+ *  
  */
 public final class Hex {
 	// 编码用

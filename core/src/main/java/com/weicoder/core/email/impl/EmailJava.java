@@ -26,7 +26,7 @@ import com.weicoder.core.email.base.BaseEmail;
 /**
  * EmailUtil JavaMail实现
  * @author WD 
- * @version 1.0 
+ *  
  */
 public final class EmailJava extends BaseEmail {
 	/**

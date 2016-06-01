@@ -9,7 +9,7 @@ import com.weicoder.core.socket.message.Login;
 /**
  * 基础Client
  * @author WD 
- * @version 1.0  
+ *   
  */
 public abstract class BaseClient extends BaseSocket implements Client {
 	// Session

@@ -3,7 +3,7 @@ package com.weicoder.ssh.entity;
 /**
  * 登录接口
  * @author WD 
- * @version 1.0 
+ *  
  */
 public interface EntityUser extends Entity, EntityIp, EntityTime {
 	/**

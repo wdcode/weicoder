@@ -19,7 +19,7 @@ import com.weicoder.web.util.UrlUtil;
 /**
  * 过滤wdui使用的js和css请求,过滤已/wdui开头的js和css请求
  * @author WD 
- * @version 1.0 
+ *  
  */
 public final class StaticFilter implements Filter {
 	// 提交路径名

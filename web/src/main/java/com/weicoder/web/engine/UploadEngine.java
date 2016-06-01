@@ -19,7 +19,7 @@ import com.weicoder.web.params.UploadParams;
 /**
  * 上传Action
  * @author WD
- * @version 1.0
+ * 
  */
 public final class UploadEngine {
 	/**
@@ -84,17 +84,17 @@ public final class UploadEngine {
 			path += date;
 		}
 		// 获得上次路径
-		String name = getFileName(fileName, path);
+		String name = UploadParams.PATH + getFileName(fileName, path);
 		// 上传文件
-		String fn = UploadParams.PATH + name;
+		// String fn = UploadParams.PATH + name;
 		// 文件是否存在
-		if (FileUtil.exists(fn)) {
+		if (FileUtil.exists(name)) {
 			// 获得上传文件MD5
 			String md5 = Hex.encode(Digest.md5(file));
 			// 文件存在始终循环
-			while (FileUtil.exists(fn)) {
+			while (FileUtil.exists(name)) {
 				// 验证MD5
-				if (Hex.encode(Digest.md5(FileUtil.read(fn))).equals(md5)) {
+				if (Hex.encode(Digest.md5(FileUtil.read(name))).equals(md5)) {
 					// 相同文件不处理跳出循环
 					break;
 				} else {
@@ -104,18 +104,19 @@ public final class UploadEngine {
 			}
 		}
 		// 文件不存在写文件
-		if (!FileUtil.exists(fn)) {
-			FileUtil.write(fn, file);
+		if (!FileUtil.exists(name)) {
+			FileUtil.write(name, file);
 			// 是否开启图片压缩 并且是图片
 			if (UploadParams.IMAGE_COMPRESS_POWER) {
 				// 获得文件
-				File img = FileUtil.getFile(fn);
+				File img = FileUtil.getFile(name);
 				// 是图片
 				if (ImageUtil.isImage(img)) {
 					// 循环压缩图片
 					for (String compress : UploadParams.IMAGE_COMPRESS_NAMES) {
 						// 获取压缩文件保存文件名
-						String f = StringUtil.subStringLastEnd(fn, StringConstants.BACKSLASH) + StringConstants.BACKSLASH + compress + StringConstants.BACKSLASH + StringUtil.subStringLast(fn, StringConstants.BACKSLASH);
+						String f = StringUtil.subStringLastEnd(name, StringConstants.BACKSLASH) + StringConstants.BACKSLASH + compress + StringConstants.BACKSLASH
+								+ StringUtil.subStringLast(name, StringConstants.BACKSLASH);
 						// 写入压缩图片
 						ImageUtil.compress(img, FileUtil.getOutputStream(f), UploadParams.getWidth(compress), UploadParams.getHeight(compress), true);
 					}

@@ -21,7 +21,7 @@ import com.weicoder.core.nosql.memcache.base.BaseMemcache;
 /**
  * MemCached com.google包的客户端调用实现
  * @author WD 
- * @version 1.0 
+ *  
  */
 public final class MemcacheX extends BaseMemcache {
 	// 客户端

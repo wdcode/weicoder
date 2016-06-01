@@ -3,7 +3,7 @@ package com.weicoder.common.constants;
 /**
  * HTTP常量
  * @author WD 
- * @version 1.0 
+ *  
  */
 public final class HttpConstants {
 	/** HTTP http:// */

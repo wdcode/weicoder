@@ -21,7 +21,7 @@ import com.weicoder.common.util.StringUtil;
 /**
  * 对文件进行一些处理。
  * @author WD 
- * @version 1.0 
+ *  
  */
 public final class FileUtil {
 	// IO模式
@@ -119,7 +119,8 @@ public final class FileUtil {
 				// 返回字节数组
 				return b;
 			} catch (IOException e) {
-				Logs.debug("FileUtil read io=" + e.toString());
+				Logs.error(e);
+//				Logs.debug("FileUtil read io=" + e.toString());
 			}
 		} else if (AIO) {
 			// 获得文件通道
@@ -131,7 +132,8 @@ public final class FileUtil {
 				// 返回字节数组
 				return buf.array();
 			} catch (Exception e) {
-				Logs.debug("FileUtil read aio=" + e.toString());
+				Logs.error(e);
+//				Logs.debug("FileUtil read aio=" + e.toString());
 			}
 		} else {
 			// 获得文件通道
@@ -143,7 +145,8 @@ public final class FileUtil {
 				// 返回字节数组
 				return buf.array();
 			} catch (Exception e) {
-				Logs.debug("FileUtil read bio=" + e.toString());
+				Logs.error(e);
+//				Logs.debug("FileUtil read bio=" + e.toString());
 			}
 		}
 		// 返回空字节数组
@@ -223,7 +226,8 @@ public final class FileUtil {
 				// 写字节数组
 				file.write(b);
 			} catch (IOException e) {
-				Logs.debug("FileUtil write io=" + e.toString());
+				Logs.error(e);
+//				Logs.debug("FileUtil write io=" + e.toString());
 			}
 		} else if (AIO) {
 			// 获得文件通道
@@ -231,7 +235,8 @@ public final class FileUtil {
 				// 写字节数组
 				channel.write(ByteBuffer.wrap(b), pos);
 			} catch (Exception e) {
-				Logs.debug("FileUtil write aio=" + e.toString());
+				Logs.error(e);
+//				Logs.debug("FileUtil write aio=" + e.toString());
 			}
 		} else {
 			// 获得文件通道
@@ -239,7 +244,8 @@ public final class FileUtil {
 				// 写字节数组
 				channel.write(ByteBuffer.wrap(b), pos);
 			} catch (Exception e) {
-				Logs.debug("FileUtil write nio=" + e.toString());
+				Logs.error(e);
+//				Logs.debug("FileUtil write nio=" + e.toString());
 			}
 		}
 	}
@@ -319,7 +325,8 @@ public final class FileUtil {
 			// 设置偏移量
 			file.seek(pos);
 		} catch (Exception e) {
-			Logs.debug("FileUtil getRandomAccessFile=" + e.toString());
+			Logs.error(e);
+//			Logs.debug("FileUtil getRandomAccessFile=" + e.toString());
 		}
 		// 返回RandomAccessFile
 		return file;
@@ -362,7 +369,8 @@ public final class FileUtil {
 		try {
 			return file == null ? null : file.exists() ? new FileInputStream(file) : null;
 		} catch (Exception e) {
-			Logs.debug("FileUtil getInputStream=" + e.toString());
+			Logs.error(e);
+//			Logs.debug("FileUtil getInputStream=" + e.toString());
 			return null;
 		}
 	}
@@ -391,7 +399,8 @@ public final class FileUtil {
 			}
 			return new FileOutputStream(file, append);
 		} catch (Exception e) {
-			Logs.debug("FileUtil getOutputStream=" + e.toString());
+			Logs.error(e);
+//			Logs.debug("FileUtil getOutputStream=" + e.toString());
 			return null;
 		}
 	}

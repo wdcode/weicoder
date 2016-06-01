@@ -3,72 +3,23 @@ package com.weicoder.frame.service;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentMap;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
-
-import org.springframework.context.ApplicationContext;
-import org.springframework.stereotype.Service;
-import com.weicoder.frame.cache.Cache;
-import com.weicoder.frame.cache.impl.CacheEmpty;
-import com.weicoder.frame.context.Contexts;
 import com.weicoder.frame.entity.Entity;
 import com.weicoder.frame.bean.Pagination;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.lang.Lists;
-import com.weicoder.common.lang.Maps;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.EmptyUtil;
-import com.weicoder.common.util.ExecutorUtil;
 import com.weicoder.frame.dao.Dao;
+import com.weicoder.frame.dao.hibernate.HibernateDao;
 
 /**
  * 超级通用业务hibernate实现
- * @author WD 
- * @version 1.0 
+ * @author WD
+ * 
  */
-@Service
 public class SuperService {
-	//ApplicationContext
-	@Resource
-	private ApplicationContext												context;
-	// Hibernate Dao
-	@Resource
-	private Dao																dao;
-	// 缓存
-	private ConcurrentMap<Class<? extends Entity>, Cache<? extends Entity>>	caches;
-	// 缓存加载
-	private ConcurrentMap<Class<? extends Entity>, Boolean>					loads;
-	// 空缓存
-	private Cache<? extends Entity>											empty;
-
-	/**
-	 * 初始化
-	 */
-	@SuppressWarnings("unchecked")
-	@PostConstruct
-	protected void init() {
-		// 获得所有带缓存实体
-		Map<String, Object> map = context.getBeansWithAnnotation(com.weicoder.frame.annotation.Cache.class);
-		// 实例化缓存
-		caches = Maps.getConcurrentMap();
-		// 实例化缓存加载
-		loads = Maps.getConcurrentMap();
-		// 实例化空缓存
-		empty = new CacheEmpty();
-		// 循环赋值
-		for (Map.Entry<String, Object> e : map.entrySet()) {
-			// 声明Class
-			Class<? extends Entity> c = (Class<? extends Entity>) e.getValue().getClass();
-			// 声明cached
-			Cache<? extends Entity> cache = Contexts.getCache();
-			cache.setClass(c);
-			// 设置有缓存的实体Map
-			caches.put(c, cache);
-			loads.put(c, false);
-		}
-	}
+	private Dao dao = new HibernateDao();
 
 	/**
 	 * 添加
@@ -76,7 +27,7 @@ public class SuperService {
 	 * @return ID
 	 */
 	public <E extends Entity> E insert(E entity) {
-		return getCache(entity).set(dao.insert(entity));
+		return dao.insert(entity);
 	}
 
 	/**
@@ -85,7 +36,7 @@ public class SuperService {
 	 * @return ID
 	 */
 	public <E extends Entity> List<E> insert(List<E> entitys) {
-		return getCache(entitys).set(dao.insert(entitys));
+		return dao.insert(entitys);
 	}
 
 	/**
@@ -94,7 +45,7 @@ public class SuperService {
 	 * @return 是否成功
 	 */
 	public <E extends Entity> E update(E entity) {
-		return getCache(entity).set(dao.update(entity));
+		return dao.update(entity);
 	}
 
 	/**
@@ -103,7 +54,7 @@ public class SuperService {
 	 * @return 是否成功
 	 */
 	public <E extends Entity> List<E> update(List<E> entitys) {
-		return getCache(entitys).set(dao.update(entitys));
+		return dao.update(entitys);
 	}
 
 	/**
@@ -112,7 +63,7 @@ public class SuperService {
 	 * @return 影响行数
 	 */
 	public <E extends Entity> E insertOrUpdate(E entity) {
-		return getCache(entity).set(dao.insertOrUpdate(entity));
+		return dao.insertOrUpdate(entity);
 	}
 
 	/**
@@ -121,7 +72,7 @@ public class SuperService {
 	 * @return 影响行数
 	 */
 	public <E extends Entity> List<E> insertOrUpdate(List<E> entitys) {
-		return getCache(entitys).set(dao.insertOrUpdate(entitys));
+		return dao.insertOrUpdate(entitys);
 	}
 
 	/**
@@ -133,11 +84,11 @@ public class SuperService {
 		// 查询出符合删除实体列表
 		List<E> list = list(entity, -1, -1);
 		// 删除列表为空
-		if (EmptyUtil.isEmpty(list)) { return Lists.emptyList(); }
+		if (EmptyUtil.isEmpty(list)) {
+			return Lists.emptyList();
+		}
 		// 删除
-		list = dao.delete(list);
-		// 返回结果
-		return isCache(entity.getClass()) ? getCache(entity).remove(list) : list;
+		return dao.delete(list);
 	}
 
 	/**
@@ -146,10 +97,7 @@ public class SuperService {
 	 * @return 是否成功
 	 */
 	public <E extends Entity> List<E> delete(List<E> entitys) {
-		// 删除
-		List<E> list = dao.delete(entitys);
-		// 返回结果
-		return isCache(entitys.get(0).getClass()) ? getCache(entitys).remove(list) : list;
+		return dao.delete(entitys);
 	}
 
 	/**
@@ -169,12 +117,7 @@ public class SuperService {
 	 * @return 实体
 	 */
 	public <E extends Entity> E get(Class<E> entityClass, Serializable pk) {
-		// 获得缓存
-		Cache<E> cache = getCache(entityClass);
-		// 声明返回对象
-		E e = cache.get(pk);
-		// 如果对象为null 使用数据库查询
-		return e == null ? cache.set(dao.get(entityClass, pk)) : e;
+		return dao.get(entityClass, pk);
 	}
 
 	/**
@@ -184,23 +127,7 @@ public class SuperService {
 	 * @return 实体
 	 */
 	public <E extends Entity> List<E> gets(Class<E> entityClass, Serializable... pks) {
-		// 如果主键为空
-		if (EmptyUtil.isEmpty(pks)) { return Lists.emptyList(); }
-		// 转换主键
-		//		pks = keys(pks);
-		// 获得缓存
-		Cache<E> cache = getCache(entityClass);
-		// 声明列表
-		List<E> list = Lists.getList();
-		// 缓存存在
-		if (cache.isValid()) {
-			// 循环赋值
-			for (Serializable pk : pks) {
-				list.add(cache.get(pk));
-			}
-		}
-		// 无缓存查询数据库 返回查询结果
-		return EmptyUtil.isEmpty(list) ? cache.set(dao.gets(entityClass, pks)) : list;
+		return dao.gets(entityClass, pks);
 	}
 
 	/**
@@ -250,17 +177,7 @@ public class SuperService {
 	 * @return 全部实体
 	 */
 	public <E extends Entity> List<E> list(Class<E> entityClass, int firstResult, int maxResults) {
-		// 获得缓存
-		Cache<E> cache = getCache(entityClass);
-		// 声明返回值列表
-		List<E> list = null;
-		// 判断有缓存
-		if (cache.isValid()) {
-			// 返回新列表
-			list = Lists.subList(cache.list(), firstResult, firstResult + maxResults);
-		}
-		// 查询数据库
-		return EmptyUtil.isEmpty(list) ? cache.set(dao.list(entityClass, firstResult, maxResults)) : list;
+		return dao.list(entityClass, firstResult, maxResults);
 
 	}
 
@@ -590,7 +507,7 @@ public class SuperService {
 	 * @return 数量
 	 */
 	public <E extends Entity> int count(E entity) {
-		return isCache(entity.getClass()) ? list(entity, -1, -1).size() : dao.count(entity);
+		return dao.count(entity);
 	}
 
 	/**
@@ -599,7 +516,7 @@ public class SuperService {
 	 * @return 数量
 	 */
 	public <E extends Entity> int count(Class<E> entityClass) {
-		return isCache(entityClass) ? list(entityClass, -1, -1).size() : dao.count(entityClass);
+		return dao.count(entityClass);
 	}
 
 	/**
@@ -682,99 +599,6 @@ public class SuperService {
 		}
 		// 返回列表
 		return list;
-	}
-
-	/**
-	 * 加载所有缓存
-	 */
-	public void cache() {
-		// 循环加载所以缓存
-		for (Class<? extends Entity> c : caches.keySet()) {
-			// 加载缓存
-			load(c);
-		}
-	}
-
-	/**
-	 * 加载所有数据
-	 */
-	public void load() {
-		// 循环加载所以缓存
-		for (Class<? extends Entity> c : Contexts.getEntitys()) {
-			// 加载缓存
-			load(c);
-		}
-	}
-
-	/**
-	 * 加载指定类的所有数据
-	 * @param entityClass 实体类
-	 */
-	public <E extends Entity> void load(final Class<E> entityClass) {
-		ExecutorUtil.execute(() -> {
-			// 获得缓存
-			Cache<E> cache = getCache(entityClass);
-			// 获得所有数据列表
-			List<E> beans = dao.list(entityClass, -1, -1);
-			// 判断有缓存
-			if (cache.isValid()) {
-				cache.clear();
-				cache.set(beans);
-				loads.put(entityClass, true);
-			}
-		});
-	}
-
-	/**
-	 * 根据实体类获得缓存
-	 * @param entityClass 实体类
-	 * @return 缓存
-	 */
-	@SuppressWarnings("unchecked")
-	public <E extends Entity> Cache<E> getCache(Class<E> entityClass) {
-		// 获得缓存
-		Cache<E> cache = (Cache<E>) caches.get(entityClass);
-		// 判断缓存为空
-		if (cache == null) {
-			// 返回空缓存
-			return (Cache<E>) empty;
-		} else {
-			// 如果缓存为空
-			if (cache.isValid() && cache.isEmpty() && !loads.get(entityClass)) {
-				cache.set(dao.list(entityClass, -1, -1));
-				loads.put(entityClass, true);
-			}
-			// 返回缓存
-			return cache;
-		}
-	}
-
-	/**
-	 * 根据实体类获得缓存
-	 * @param entity 实体类
-	 * @return 缓存
-	 */
-	@SuppressWarnings("unchecked")
-	private <E extends Entity> Cache<E> getCache(E entity) {
-		return getCache((Class<E>) entity.getClass());
-	}
-
-	/**
-	 * 根据实体类获得缓存
-	 * @param entitys 实体类
-	 * @return 缓存
-	 */
-	private <E extends Entity> Cache<E> getCache(List<E> entitys) {
-		return getCache(entitys.get(0));
-	}
-
-	/**
-	 * 是否使用缓存
-	 * @param entityClass 实体类
-	 * @return 是否使用缓存
-	 */
-	private <E extends Entity> boolean isCache(Class<E> entityClass) {
-		return getCache(entityClass).isValid();
 	}
 
 	/**

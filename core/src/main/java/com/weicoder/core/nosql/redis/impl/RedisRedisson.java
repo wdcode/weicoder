@@ -12,7 +12,7 @@ import com.weicoder.core.params.RedisParams;
 /**
  * Redis客户端Jedis实现
  * @author WD 
- * @version 1.0 
+ *  
  */
 public final class RedisRedisson extends BaseNoSQL implements Redis {
 	// Jedis连接池

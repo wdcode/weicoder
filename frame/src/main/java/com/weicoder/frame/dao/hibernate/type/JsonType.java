@@ -19,8 +19,7 @@ import com.weicoder.core.json.JsonEngine;
 
 /**
  * Json保存数据类型
- * @author WD 
- * @version 1.0 
+ * @author WD
  */
 public final class JsonType implements UserType, Serializable {
 	// 序列化ID
@@ -40,8 +39,12 @@ public final class JsonType implements UserType, Serializable {
 
 	@Override
 	public boolean equals(Object o, Object o1) throws HibernateException {
-		if (o == o1) { return true; }
-		if (o == null || o == null) { return false; }
+		if (o == o1) {
+			return true;
+		}
+		if (o == null || o == null) {
+			return false;
+		}
 		return o.equals(o1);
 	}
 
@@ -51,11 +54,8 @@ public final class JsonType implements UserType, Serializable {
 	}
 
 	/**
-	 * 提供自定义类型的完全复制方法 本方法将用构造返回对象 当nullSafeGet方法调用之后，我们获得了自定义数据对象，在向用户返回自定义数据之前，
-	 * deepCopy方法将被调用，它将根据自定义数据对象构造一个完全拷贝，并将此拷贝返回给用户 此时我们就得到了自定义数据对象的两个版本，第一个是从数据库读出的原始版本，其二是我们通过
-	 * deepCopy方法构造的复制版本，原始的版本将有Hibernate维护，复制版由用户使用。原始版本用作
-	 * 稍后的脏数据检查依据；Hibernate将在脏数据检查过程中将两个版本的数据进行对比（通过调用
-	 * equals方法），如果数据发生了变化（equals方法返回false），则执行对应的持久化操作
+	 * 提供自定义类型的完全复制方法 本方法将用构造返回对象 当nullSafeGet方法调用之后，我们获得了自定义数据对象，在向用户返回自定义数据之前， deepCopy方法将被调用，它将根据自定义数据对象构造一个完全拷贝，并将此拷贝返回给用户 此时我们就得到了自定义数据对象的两个版本，第一个是从数据库读出的原始版本，其二是我们通过
+	 * deepCopy方法构造的复制版本，原始的版本将有Hibernate维护，复制版由用户使用。原始版本用作 稍后的脏数据检查依据；Hibernate将在脏数据检查过程中将两个版本的数据进行对比（通过调用 equals方法），如果数据发生了变化（equals方法返回false），则执行对应的持久化操作
 	 * @param o
 	 * @return
 	 * @throws HibernateException

@@ -4,6 +4,7 @@ import java.security.MessageDigest;
 import java.util.Map;
 
 import com.weicoder.common.codec.Hex;
+import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.EncryptConstants;
 import com.weicoder.common.constants.StringConstants;
 
@@ -15,8 +16,8 @@ import com.weicoder.common.util.StringUtil;
 
 /**
  * 信息摘要类
- * @author WD 
- * @version 1.0 
+ * @author WD
+ * 
  */
 public final class Digest {
 	// 保存摘要算法
@@ -192,6 +193,10 @@ public final class Digest {
 	 * @return 加密后的字节数组
 	 */
 	public static byte[] getMessageDigest(byte[] b, String algorithm) {
+		// 参数为空 返回 空数组
+		if (EmptyUtil.isEmptys(b, algorithm)) {
+			return ArrayConstants.BYTES_EMPTY;
+		}
 		try {
 			// 根据算法获得摘要
 			MessageDigest digest = DIGEST.get(algorithm);
@@ -205,10 +210,12 @@ public final class Digest {
 			// 摘要算法
 			return digest.digest(b);
 		} catch (Exception e) {
-			Logs.debug("Digest getMessageDigest=" + e.toString());
+			Logs.error(e);
+			// Logs.debug("Digest getMessageDigest=" + e.toString());
 			return b;
 		}
 	}
 
-	private Digest() {}
+	private Digest() {
+	}
 }

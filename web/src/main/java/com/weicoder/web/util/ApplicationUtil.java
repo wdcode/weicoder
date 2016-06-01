@@ -7,7 +7,7 @@ import com.weicoder.common.util.EmptyUtil;
 /**
  * application 应用域 ServletContext 操作类
  * @author WD 
- * @version 1.0 
+ *  
  */
 public final class ApplicationUtil {
 	/**

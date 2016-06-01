@@ -5,7 +5,7 @@ import com.weicoder.common.log.Logs;
 /**
  * 线程工具类
  * @author WD 
- * @version 1.0  
+ *   
  */
 public final class ThreadUtil {
 	/**

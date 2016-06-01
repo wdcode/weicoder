@@ -4,9 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Resource;
-
-import org.springframework.stereotype.Service;
 import com.weicoder.frame.bean.Pagination;
 import com.weicoder.frame.context.Contexts;
 import com.weicoder.frame.entity.Entity;
@@ -14,14 +11,11 @@ import com.weicoder.common.lang.Maps;
 
 /**
  * 基于Hibernate的查询器
- * @author WD 
- * @version 1.0 
+ * @author WD
+ * 
  */
-@Service
 public final class QueryService {
-	// 超级业务接口
-	@Resource
-	private SuperService service;
+	private SuperService service = new SuperService();
 
 	/**
 	 * 根据ID 获得实体

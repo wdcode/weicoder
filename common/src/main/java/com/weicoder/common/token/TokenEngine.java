@@ -12,7 +12,7 @@ import com.weicoder.common.util.StringUtil;
 /**
  * Token令牌处理器
  * @author WD 
- * @version 1.0 
+ *  
  */
 public final class TokenEngine {
 	// 验证长度

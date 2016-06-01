@@ -9,7 +9,7 @@ import com.weicoder.common.log.Log;
 /**
  * slf4j日志接口实现
  * @author WD 
- * @version 1.0
+ * 
  */
 public class LoggerSlf4j implements Log {
 	// Logger日志对象
@@ -19,7 +19,7 @@ public class LoggerSlf4j implements Log {
 	public void debug(Object info) {
 		if (log.isDebugEnabled()) {
 			if (info instanceof Throwable) {
-				log.debug(StringConstants.EMPTY, info);
+				log.debug(StringConstants.EMPTY, (Throwable)info);
 			} else {
 				log.debug(Conversion.toString(info));
 			}
@@ -30,7 +30,7 @@ public class LoggerSlf4j implements Log {
 	public void info(Object info) {
 		if (log.isInfoEnabled()) {
 			if (info instanceof Throwable) {
-				log.info(StringConstants.EMPTY, info);
+				log.info(StringConstants.EMPTY, (Throwable)info);
 			} else {
 				log.info(Conversion.toString(info));
 			}
@@ -41,7 +41,7 @@ public class LoggerSlf4j implements Log {
 	public void warn(Object info) {
 		if (log.isWarnEnabled()) {
 			if (info instanceof Throwable) {
-				log.warn(StringConstants.EMPTY, info);
+				log.warn(StringConstants.EMPTY, (Throwable)info);
 			} else {
 				log.warn(Conversion.toString(info));
 			}
@@ -52,7 +52,7 @@ public class LoggerSlf4j implements Log {
 	public void error(Object info) {
 		if (log.isErrorEnabled()) {
 			if (info instanceof Throwable) {
-				log.error(StringConstants.EMPTY, info);
+				log.error(StringConstants.EMPTY, (Throwable)info);
 			} else {
 				log.error(Conversion.toString(info));
 			}

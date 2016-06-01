@@ -5,7 +5,7 @@ import com.weicoder.common.constants.StringConstants;
 /**
  * 对SQL语句进行处理
  * @author WD 
- * @version 1.0 
+ *  
  */
 public final class SqlUtil {
 	// 查询总行数语句头

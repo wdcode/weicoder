@@ -11,7 +11,7 @@ import com.weicoder.core.dao.datasource.DataSource;
  * JDBC实现 数据库操作接口<br/>
  * 使用DataBaseFactory获得实例,调用方法执行数据库操作<br/> 
  * @author WD 
- * @version 1.0 
+ *  
  */
 public interface DataBase extends Close {
 	/**

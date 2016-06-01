@@ -3,7 +3,7 @@ package com.weicoder.ssh.entity;
 /**
  * 实体带IP属性
  * @author WD 
- * @version 1.0 
+ *  
  */
 public interface EntityIp {
 	/**

@@ -7,7 +7,7 @@ import com.weicoder.common.util.EmptyUtil;
 /**
  * 读取Dao配置
  * @author WD 
- * @version 1.0  
+ *   
  */
 public final class DaoParams {
 	// Properties配置

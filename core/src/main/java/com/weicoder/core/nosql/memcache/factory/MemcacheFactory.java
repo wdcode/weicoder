@@ -13,7 +13,7 @@ import com.weicoder.core.params.MemcacheParams;
 /**
  * MemCached的客户端调用工厂
  * @author WD 
- * @version 1.0 
+ *  
  */
 public final class MemcacheFactory extends FactoryKey<String, Memcache> {
 	// 工厂

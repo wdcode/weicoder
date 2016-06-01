@@ -19,7 +19,7 @@ import com.weicoder.common.log.Logs;
 /**
  * 关于Class的一些操作
  * @author WD 
- * @version 1.0 
+ *  
  */
 public final class ClassUtil {
 	/**
@@ -111,7 +111,8 @@ public final class ClassUtil {
 		try {
 			return type instanceof ParameterizedType ? (Class<T>) ((ParameterizedType) type).getActualTypeArguments()[index] : null;
 		} catch (Exception e) {
-			Logs.debug("ClassUtil getGenericClass=" + e.toString());
+			Logs.error(e);
+//			Logs.debug("ClassUtil getGenericClass=" + e.toString());
 			return null;
 		}
 	}
@@ -153,7 +154,8 @@ public final class ClassUtil {
 		try {
 			return EmptyUtil.isEmpty(className) ? null : Class.forName(className);
 		} catch (Exception e) {
-			Logs.debug("ClassUtil forName=" + e.toString());
+			Logs.error(e);
+//			Logs.debug("ClassUtil forName=" + e.toString());
 			return null;
 		}
 	}
@@ -167,7 +169,8 @@ public final class ClassUtil {
 		try {
 			return forName(className).newInstance();
 		} catch (Exception e) {
-			Logs.debug("ClassUtil newInstance=" + e.toString());
+			Logs.error(e);
+//			Logs.debug("ClassUtil newInstance=" + e.toString());
 			return null;
 		}
 	}
@@ -181,7 +184,8 @@ public final class ClassUtil {
 		try {
 			return clazz.newInstance();
 		} catch (Exception e) {
-			Logs.debug("ClassUtil newInstance=" + e.toString());
+			Logs.error(e);
+//			Logs.debug("ClassUtil newInstance=" + e.toString());
 			return null;
 		}
 	}
@@ -296,7 +300,8 @@ public final class ClassUtil {
 					}
 					classes.add((Class<E>) Class.forName(name));
 				} catch (ClassNotFoundException e) {
-					Logs.debug("ClassUtil getPackageClasses=" + e.toString());
+					Logs.error(e);
+//					Logs.debug("ClassUtil getPackageClasses=" + e.toString());
 				}
 			} else {
 				// 迭代调用本方法 获得类列表
@@ -341,7 +346,8 @@ public final class ClassUtil {
 				}
 			}
 		} catch (IOException e) {
-			Logs.debug("ClassUtil getClassesFromJARFile=" + e.toString());
+			Logs.error(e);
+//			Logs.debug("ClassUtil getClassesFromJARFile=" + e.toString());
 		}
 		// 返回列表
 		return list;

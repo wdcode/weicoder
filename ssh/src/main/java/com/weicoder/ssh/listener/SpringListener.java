@@ -10,7 +10,7 @@ import com.weicoder.ssh.context.Contexts;
 /**
  * Spring监听器
  * @author WD
- * @version 1.0
+ * 
  */
 @WebListener
 public class SpringListener extends ContextLoaderListener {

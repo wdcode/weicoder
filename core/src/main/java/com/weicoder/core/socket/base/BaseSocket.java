@@ -9,7 +9,7 @@ import com.weicoder.core.socket.process.Process;
 /**
  * 基础Socket
  * @author WD 
- * @version 1.0  
+ *   
  */
 public abstract class BaseSocket implements Socket {
 	// 名称

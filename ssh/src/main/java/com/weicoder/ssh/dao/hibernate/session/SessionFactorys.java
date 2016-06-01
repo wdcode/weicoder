@@ -27,7 +27,7 @@ import com.weicoder.core.dao.datasource.DataSource;
 /**
  * SessionFactory包装类
  * @author WD 
- * @version 1.0 
+ *  
  */
 @Component
 public final class SessionFactorys implements Close {

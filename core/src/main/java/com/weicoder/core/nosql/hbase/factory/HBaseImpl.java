@@ -20,7 +20,7 @@ import com.weicoder.core.nosql.hbase.HBaseDao;
 /**
  * HBase实现
  * @author WD 
- * @version 1.0 
+ *  
  */
 final class HBaseImpl extends FactoryKey<String, HBaseDao> implements HBase {
 	// 配置

@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Json格式读写器 接口
  * @author WD 
- * @version 1.0 
+ *  
  */
 public interface Json {
 	/**

@@ -13,7 +13,7 @@ import com.weicoder.web.util.HttpUtil;
 /**
  * 静态化操作
  * @author WD 
- * @version 1.0 
+ *  
  */
 public final class StaticsEngine {
 	// 定时器

@@ -3,7 +3,7 @@ package com.weicoder.common.binary;
 /**
  * 序列化字节数组
  * @author WD 
- * @version 1.0 
+ *  
  */
 public interface ByteArray {
 	/**

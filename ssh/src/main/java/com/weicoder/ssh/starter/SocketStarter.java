@@ -18,7 +18,7 @@ import com.weicoder.core.socket.Sockets;
 /**
  * Socket 相关类
  * @author WD 
- * @version 1.0 
+ *  
  */
 @Component
 public final class SocketStarter {

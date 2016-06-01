@@ -4,7 +4,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.weicoder.frame.entity.EntityUser;
-import com.weicoder.frame.params.SiteParams;
 import com.weicoder.frame.token.LoginToken;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.token.AuthToken;
@@ -15,16 +14,14 @@ import com.weicoder.web.util.IpUtil;
 
 /**
  * 登录信息Bean
- * @author WD 
- * @version 1.0 
+ * @author WD
+ * 
  */
 public final class LoginEngine {
 	// 空登录信息
-	private final static LoginToken	EMPTY		= new LoginToken();
+	private final static LoginToken	EMPTY	= new LoginToken();
 	// 登录信息标识
-	private final static String		INFO		= "_info";
-	// 游客IP
-	private static int				GUEST_ID	= SiteParams.LOGIN_GUEST_ID;
+	private final static String		INFO	= "_info";
 
 	/**
 	 * 是否登录
@@ -135,39 +132,10 @@ public final class LoginEngine {
 	 * 获得一样空登录信息
 	 * @return
 	 */
-	public static AuthToken guest(HttpServletRequest request, HttpServletResponse response, String key) {
-		// 如果游客ID已经分配到最大值 把游客ID重置
-		if (GUEST_ID == Integer.MIN_VALUE) {
-			GUEST_ID = 0;
-		}
-		// 获得游客凭证
-		AuthToken token = new LoginToken(GUEST_ID--, IpUtil.getIp(request));
-		// 设置游客凭证
-		AttributeUtil.set(request, response, key + INFO, encrypt(token), -1);
-		// 返回游客凭证
-		return token;
-	}
-
-	/**
-	 * 获得一样空登录信息
-	 * @return
-	 */
-	public static AuthToken guest(String ip) {
-		// 如果游客ID已经分配到最大值 把游客ID重置
-		if (GUEST_ID == Integer.MIN_VALUE) {
-			GUEST_ID = 0;
-		}
-		// 返回游客凭证
-		return new LoginToken(GUEST_ID--, ip);
-	}
-
-	/**
-	 * 获得一样空登录信息
-	 * @return
-	 */
 	public static AuthToken empty() {
 		return EMPTY;
 	}
 
-	private LoginEngine() {}
+	private LoginEngine() {
+	}
 }

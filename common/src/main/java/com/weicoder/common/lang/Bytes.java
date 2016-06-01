@@ -32,7 +32,7 @@ import com.weicoder.common.util.StringUtil;
 /**
  * 字节数组操作
  * @author WD 
- * @version 1.0  
+ *   
  */
 public final class Bytes {
 	// 使用高地位算法

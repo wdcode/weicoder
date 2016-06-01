@@ -25,6 +25,7 @@ import com.weicoder.common.lang.Maps;
 import com.weicoder.frame.bean.Pagination;
 import com.weicoder.frame.context.Contexts;
 import com.weicoder.common.util.BeanUtil;
+import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.util.DateUtil;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
@@ -35,8 +36,8 @@ import com.weicoder.web.util.IpUtil;
 
 /**
  * 超级通用Action
- * @author WD 
- * @version 1.0  
+ * @author WD
+ * 
  */
 public abstract class SuperAction extends BasicAction {
 	// 成功
@@ -128,21 +129,21 @@ public abstract class SuperAction extends BasicAction {
 			if (!EmptyUtil.isEmpty(contentType) && contentType.indexOf(HttpConstants.CONTENT_TYPE_FILE) > -1) {
 				isEntity = true;
 				// 获得实体
-				entity = entityClass == null ? null : Contexts.getBean(module, entityClass);
+				entity = entityClass == null ? null : ClassUtil.newInstance(entityClass);
 			} else {
 				// 是否初始化实体
 				for (Map.Entry<String, String[]> e : request.getParameterMap().entrySet()) {
 					if (e.getKey().indexOf("entity") > -1) {
 						isEntity = true;
 						// 获得实体
-						entity = entityClass == null ? null : Contexts.getBean(module, entityClass);
+						entity = entityClass == null ? null : ClassUtil.newInstance(entityClass);
 						break;
 					}
 				}
 			}
 			// 如果查询自己的数据 添加登录用户名
 			if (entity == null && entityClass != null && EntityUserId.class.isAssignableFrom(entityClass)) {
-				entity = Contexts.getBean(module, entityClass);
+				entity = ClassUtil.newInstance(entityClass);
 			}
 			if (entity instanceof EntityUserId) {
 				((EntityUserId) entity).setUserId(token.getId());
@@ -150,38 +151,6 @@ public abstract class SuperAction extends BasicAction {
 		} catch (Exception e) {
 			Logs.error(e);
 		}
-	}
-
-	/**
-	 * 重置缓存
-	 * @return 跳转
-	 * @throws Exception
-	 */
-	public String load() throws Exception {
-		// 重载数据
-		if (entityClass == null) {
-			service.load();
-		} else {
-			service.load(entityClass);
-		}
-		// 返回到成功页
-		return callback(SUCCESS);
-	}
-
-	/**
-	 * 重置缓存
-	 * @return 跳转
-	 * @throws Exception
-	 */
-	public String cache() throws Exception {
-		// 重载缓存
-		if (entityClass == null) {
-			service.cache();
-		} else {
-			service.load(entityClass);
-		}
-		// 返回到成功页
-		return callback(SUCCESS);
 	}
 
 	/**
@@ -703,7 +672,9 @@ public abstract class SuperAction extends BasicAction {
 	 */
 	protected Entity theme(Entity e) {
 		// 判断e==null 直接返回
-		if (e == null) { return e; }
+		if (e == null) {
+			return e;
+		}
 		// 判断是否EntityStartEndTime
 		if (e instanceof EntityStartEndTime) {
 			// 开始时间

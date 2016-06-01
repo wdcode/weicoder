@@ -10,7 +10,7 @@ import com.weicoder.common.interfaces.Empty;
 /**
  * 所有缓存的基础接口
  * @author WD 
- * @version 1.0 
+ *  
  */
 public interface Cache<E extends Entity> extends Clear, Empty {
 	/**

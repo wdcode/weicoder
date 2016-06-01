@@ -47,7 +47,7 @@ import com.weicoder.core.params.HttpParams;
 /**
  * Apache HttpComponents 4 实现HTTP模拟浏览器提交的实现类
  * @author WD 
- * @version 1.0 
+ *  
  */
 public final class HttpApache4 extends BaseHttp implements Http {
 	// HttpClientBuilder

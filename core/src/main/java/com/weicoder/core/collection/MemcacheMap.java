@@ -17,7 +17,7 @@ import com.weicoder.core.nosql.memcache.Memcache;
 /**
  * Memcached实现Map
  * @author WD 
- * @version 1.0  
+ *   
  */
 public final class MemcacheMap<K, V> implements Map<K, V> {
 	// Memcached前缀名

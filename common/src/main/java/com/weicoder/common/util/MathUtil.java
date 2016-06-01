@@ -8,7 +8,7 @@ import com.weicoder.common.lang.Conversion;
 /**
  * 各种数学相关操作类
  * @author WD 
- * @version 1.0 
+ *  
  */
 public final class MathUtil {
 	// 取舍方式

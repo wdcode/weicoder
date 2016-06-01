@@ -14,7 +14,7 @@ import com.weicoder.core.socket.process.Process;
 /**
  * Netty3 处理器
  * @author WD 
- * @version 1.0 
+ *  
  */ 
 @Sharable
 public final class Netty3Handler extends SimpleChannelHandler {

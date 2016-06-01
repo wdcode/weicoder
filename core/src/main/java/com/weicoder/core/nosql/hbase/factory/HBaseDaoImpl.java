@@ -28,7 +28,7 @@ import com.weicoder.core.nosql.hbase.HBaseDao;
 /**
  * HBaseDao实现
  * @author WD 
- * @version 1.0  
+ *   
  */
 final class HBaseDaoImpl implements HBaseDao {
 	// 表对象

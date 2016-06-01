@@ -14,7 +14,7 @@ import com.weicoder.common.log.Logs;
 /**
  * 并发线程任务处理
  * @author WD 
- * @version 1.0 
+ *  
  */
 public final class ExecutorUtil {
 	/** 并发线程池 */

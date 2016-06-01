@@ -30,7 +30,7 @@ import com.weicoder.ssh.dao.Dao;
 /**
  * Hibernate接口
  * @author WD 
- * @version 1.0 
+ *  
  */
 @Repository
 public final class HibernateDao implements Dao {
@@ -734,7 +734,7 @@ public final class HibernateDao implements Dao {
 	 * Hibernate回调方法
 	 * @author WD
 	 * @since JDK7
-	 * @version 1.0 2012-03-05
+	 *  2012-03-05
 	 */
 	interface Callback<T> {
 		/**

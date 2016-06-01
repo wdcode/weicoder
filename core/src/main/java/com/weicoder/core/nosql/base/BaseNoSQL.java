@@ -9,7 +9,7 @@ import com.weicoder.core.nosql.NoSQL;
 /**
  * NoSQL基类
  * @author WD 
- * @version 1.0 
+ *  
  */
 public abstract class BaseNoSQL implements NoSQL {
 	/**

@@ -25,7 +25,7 @@ import com.weicoder.core.http.HttpEngine;
 /**
  * HTTP一些相关操作类
  * @author WD 
- * @version 1.0 
+ *  
  */
 public final class HttpUtil {
 
