@@ -3,7 +3,6 @@ package com.weicoder.frame.engine;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.weicoder.frame.entity.EntityUser;
 import com.weicoder.frame.token.LoginToken;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.token.AuthToken;
@@ -40,8 +39,8 @@ public final class LoginEngine {
 	 * @param login 登录实体
 	 * @param maxAge 保存时间
 	 */
-	public static AuthToken addLogin(HttpServletRequest request, HttpServletResponse response, EntityUser login, int maxAge) {
-		return setToken(request, response, login.getClass().getSimpleName(), getLogin(login.getId(), IpUtil.getIp(request)), maxAge);
+	public static AuthToken addLogin(HttpServletRequest request, HttpServletResponse response, long id, int maxAge) {
+		return setToken(request, response, "user", getLogin(id, IpUtil.getIp(request)), maxAge);
 	}
 
 	/**
@@ -136,6 +135,5 @@ public final class LoginEngine {
 		return EMPTY;
 	}
 
-	private LoginEngine() {
-	}
+	private LoginEngine() {}
 }

@@ -19,13 +19,13 @@ public abstract class BaseEntityId extends BaseEntity {
 	// ID
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private long id;
 
 	/**
 	 * 获得ID
 	 * @return ID
 	 */
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
@@ -33,7 +33,7 @@ public abstract class BaseEntityId extends BaseEntity {
 	 * 设置ID
 	 * @param id ID
 	 */
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 

@@ -16,10 +16,14 @@ import com.weicoder.frame.dao.hibernate.HibernateDao;
 /**
  * 超级通用业务hibernate实现
  * @author WD
- * 
  */
-public class SuperService {
-	private Dao dao = new HibernateDao();
+public final class SuperService {
+	/** 本类的单例对象 */
+	public final static SuperService	SERVICE	= new SuperService();
+	//hibernate dao
+	private Dao							dao		= new HibernateDao();
+
+	private SuperService() {}
 
 	/**
 	 * 添加
@@ -84,9 +88,7 @@ public class SuperService {
 		// 查询出符合删除实体列表
 		List<E> list = list(entity, -1, -1);
 		// 删除列表为空
-		if (EmptyUtil.isEmpty(list)) {
-			return Lists.emptyList();
-		}
+		if (EmptyUtil.isEmpty(list)) { return Lists.emptyList(); }
 		// 删除
 		return dao.delete(list);
 	}

@@ -1,6 +1,5 @@
 package com.weicoder.frame.token;
 
-import com.weicoder.frame.entity.EntityUser;
 import com.weicoder.frame.params.FrameParams;
 import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.token.AuthToken;
@@ -22,24 +21,11 @@ public class LoginToken implements AuthToken {
 	// 登录IP
 	protected String	loginIp;
 
-	public LoginToken() {
-	}
+	public LoginToken() {}
 
 	/**
 	 * 构造方法
-	 * @param id 登录用户ID
-	 * @param name 用户名
-	 * @param loginIp 登录IP
-	 * @param serverIp 服务器IP
-	 */
-	public LoginToken(EntityUser login, String loginIp, String serverIp) {
-		this(login.getId(), loginIp);
-	}
-
-	/**
-	 * 构造方法
-	 * @param id 登录用户ID
-	 * @param name 用户名
+	 * @param id 登录用户ID 
 	 * @param loginIp 登录IP
 	 * @param serverIp 服务器IP
 	 */
