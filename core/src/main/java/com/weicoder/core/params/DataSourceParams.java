@@ -190,7 +190,7 @@ public final class DataSourceParams {
 	 * @return 默认使用的连接池
 	 */
 	public static String getParse(String name) {
-		return Params.getString(getKey(name, PARSE), "dbcp2");
+		return Params.getString(getKey(name, PARSE), "druid");
 	}
 
 	/**

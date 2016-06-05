@@ -13,6 +13,7 @@ import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.CloseUtil;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.ResourceUtil;
+import com.weicoder.common.util.StringUtil;
 
 /**
  * 读取配置类
@@ -42,7 +43,7 @@ public class Config {
 					ps.load(in);
 					break;
 				} catch (IOException e) {
-					Logs.error(e);					
+					Logs.error(e);
 				} finally {
 					CloseUtil.close(in);
 				}
@@ -103,7 +104,7 @@ public class Config {
 	 * @return value
 	 */
 	public String getString(String key, String defaultValue) {
-		return ps.getProperty(key, defaultValue);
+		return StringUtil.trim(ps.getProperty(key, defaultValue));
 	}
 
 	/**

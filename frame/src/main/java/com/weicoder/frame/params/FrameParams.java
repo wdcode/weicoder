@@ -19,6 +19,8 @@ public final class FrameParams {
 	public final static String	CACHE_TYPE			= Params.getString("cache.type", "map");
 	/** 数据源配置 */
 	public final static String	DATA_SOURCE_CONFIG	= Params.getString("datasource.config", "db/db.properties");
+	/** 数据源配置 */
+	public final static String	DB_CONFIG			= Params.getString("db.config", "db/hibernate/");
 	/** 登录信息最大保存时间 */
 	public final static int		LOGIN_MAX_AGE		= Params.getInt("login.maxAge", DateConstants.WEEK);
 	/** 登录信息最小保存时间 */
@@ -36,6 +38,5 @@ public final class FrameParams {
 		return Params.getBoolean(Params.getKey("cache", "valid", name), CACHE_VALID_POWER);
 	}
 
-	private FrameParams() {
-	}
+	private FrameParams() {}
 }

@@ -16,6 +16,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import javax.sql.DataSource;
+
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.StringConstants;
 
@@ -28,8 +30,7 @@ import com.weicoder.common.util.CloseUtil;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.StringUtil;
-import com.weicoder.core.dao.jdbc.DataBase;
-import com.weicoder.core.dao.datasource.DataSource;
+import com.weicoder.core.dao.jdbc.DataBase; 
 
 /**
  * JDBC实现 数据库操作实现<br/>

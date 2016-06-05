@@ -1,8 +1,16 @@
 package com.weicoder.core.dao.datasource.factory;
 
+import javax.sql.DataSource;
+
 import com.weicoder.common.factory.FactoryKey;
-import com.weicoder.core.dao.datasource.BasicDataSource;
-import com.weicoder.core.dao.datasource.DataSource;
+import com.weicoder.core.dao.datasource.impl.Bonecp;
+import com.weicoder.core.dao.datasource.impl.C3P0;
+import com.weicoder.core.dao.datasource.impl.DBCP;
+import com.weicoder.core.dao.datasource.impl.DBCP2;
+import com.weicoder.core.dao.datasource.impl.Druid;
+import com.weicoder.core.dao.datasource.impl.Hikari;
+import com.weicoder.core.dao.datasource.impl.Proxool;
+import com.weicoder.core.dao.datasource.impl.Tomcat;
 import com.weicoder.core.params.DataSourceParams;
 
 /**
@@ -35,23 +43,27 @@ public final class DataSourceFactory extends FactoryKey<String, DataSource> {
 	 * 实例化一个新对象
 	 */
 	public DataSource newInstance(String key) {
-		// 声明数据源
-		BasicDataSource ds = new BasicDataSource();
-		// 设置属性
-		ds.setParse(DataSourceParams.getParse(key));
-		ds.setDriver(DataSourceParams.getDriver(key));
-		ds.setUrl(DataSourceParams.getUrl(key));
-		ds.setUser(DataSourceParams.getUser(key));
-		ds.setPassword(DataSourceParams.getPassword(key));
-		ds.setMaxPoolSize(DataSourceParams.getMaxPoolSize(key));
-		ds.setMinPoolSize(DataSourceParams.getMinPoolSize(key));
-		ds.setMaxSize(DataSourceParams.getMaxSize(key));
-		ds.setTimeout(DataSourceParams.getTimeout(key));
-		ds.setIdleTimeout(DataSourceParams.getIdleTimeout(key));
-		ds.setInitialPoolSize(DataSourceParams.getInitialPoolSize(key));
-		ds.setMaxIdleTime(DataSourceParams.getMaxIdleTime(key));
-		// 返回数据源
-		return ds;
+		// 判断数据源
+		switch (DataSourceParams.getParse(key)) {
+			case "druid":
+				return new Druid(key).getDataSource();
+			case "tomcat":
+				return new Tomcat(key).getDataSource();
+			case "hikari":
+				return new Hikari(key).getDataSource();
+			case "dbcp":
+				return new DBCP(key).getDataSource();
+			case "dbcp2":
+				return new DBCP2(key).getDataSource();
+			case "c3p0":
+				return new C3P0(key).getDataSource();
+			case "proxool":
+				return new Proxool(key).getDataSource();
+			case "bonecp":
+				return new Bonecp(key).getDataSource();
+			default:
+				return new Druid(key).getDataSource();
+		}
 	}
 
 	private DataSourceFactory() {}

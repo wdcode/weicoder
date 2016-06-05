@@ -2,8 +2,10 @@ package com.weicoder.core.dao.jdbc.factory;
 
 import com.weicoder.core.dao.jdbc.DataBase;
 import com.weicoder.core.dao.jdbc.impl.DataBaseImpl;
+
+import javax.sql.DataSource;
+
 import com.weicoder.common.factory.FactoryKey;
-import com.weicoder.core.dao.datasource.DataSource;
 import com.weicoder.core.dao.datasource.factory.DataSourceFactory;
 
 /**

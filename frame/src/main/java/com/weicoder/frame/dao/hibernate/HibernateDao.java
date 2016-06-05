@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.hibernate.Criteria;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Conjunction;
@@ -14,6 +13,7 @@ import org.hibernate.criterion.Example;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.query.Query;
 import org.hibernate.resource.transaction.spi.TransactionStatus;
 
 import com.weicoder.frame.dao.hibernate.session.SessionFactorys;
@@ -141,9 +141,7 @@ public final class HibernateDao implements Dao {
 	 */
 	public <E> E get(final Class<E> entityClass, final Serializable pk) {
 		// 验证pk是否为空
-		if (EmptyUtil.isEmpty(pk)) {
-			return null;
-		}
+		if (EmptyUtil.isEmpty(pk)) { return null; }
 		// 查找对象
 		return execute(entityClass, (Session session) -> {
 			return session.get(entityClass, pk);
@@ -153,9 +151,7 @@ public final class HibernateDao implements Dao {
 	@Override
 	public <E> List<E> gets(final Class<E> entityClass, final Serializable... pks) {
 		// 验证pk是否为空
-		if (EmptyUtil.isEmpty(pks)) {
-			return Lists.emptyList();
-		}
+		if (EmptyUtil.isEmpty(pks)) { return Lists.emptyList(); }
 		// 查找对象
 		return execute(entityClass, (Session session) -> {
 			// 声明返回对象
@@ -214,7 +210,7 @@ public final class HibernateDao implements Dao {
 	public <E> List<E> list(final E entity, final int firstResult, final int maxResults) {
 		return execute(entity.getClass(), (Session session) -> {
 			// 获得Criteria
-			Criteria criteria = session.createCriteria(entity.getClass());
+			Criteria criteria = DetachedCriteria.forClass(entity.getClass()).getExecutableCriteria(session);
 			// 添加实体参数
 			criteria.add(Example.create(entity));
 			// 开始结果大于等于0
@@ -387,7 +383,7 @@ public final class HibernateDao implements Dao {
 	public int count(final Class<?> entityClass, final String property, final Object value) {
 		return execute(entityClass, (Session session) -> {
 			// 创建查询条件
-			Criteria criteria = session.createCriteria(entityClass);
+			Criteria criteria = DetachedCriteria.forClass(entityClass).getExecutableCriteria(session);
 			// 设置参数
 			if (!EmptyUtil.isEmpty(property) && !EmptyUtil.isEmpty(value)) {
 				criteria.add(Restrictions.eq(property, value));
@@ -409,7 +405,7 @@ public final class HibernateDao implements Dao {
 	public int count(final Class<?> entityClass, final Map<String, Object> map) {
 		return execute(entityClass, (Session session) -> {
 			// 创建查询条件
-			Criteria criteria = session.createCriteria(entityClass);
+			Criteria criteria = DetachedCriteria.forClass(entityClass).getExecutableCriteria(session);
 			// 判断属性名不为空
 			if (!EmptyUtil.isEmpty(map)) {
 				criteria.add(Restrictions.allEq(map));
@@ -429,7 +425,7 @@ public final class HibernateDao implements Dao {
 	public int count(final Object entity) {
 		return execute(entity.getClass(), (Session session) -> {
 			// 创建查询条件
-			Criteria criteria = session.createCriteria(entity.getClass());
+			Criteria criteria = DetachedCriteria.forClass(entity.getClass()).getExecutableCriteria(session);
 			// 添加实体对象
 			criteria.add(Example.create(entity));
 			// 设置获得总行数
@@ -458,7 +454,7 @@ public final class HibernateDao implements Dao {
 	 * @return 返回影响的行数 异常返回-1
 	 */
 	public int execute(Class<?> entityClass, final String sql, final Object... values) {
-		return execute(entityClass, (Session session) -> setParameter(session.createSQLQuery(sql), Lists.getList(values), -1, -1).executeUpdate());
+		return execute(entityClass, (Session session) -> setParameter(session.createNativeQuery(sql, entityClass), Lists.getList(values), -1, -1).executeUpdate());
 	}
 
 	/**
@@ -471,7 +467,7 @@ public final class HibernateDao implements Dao {
 	 */
 	@SuppressWarnings("unchecked")
 	public <E> List<E> query(Class<?> entityClass, final String sql, final List<Object> values, final int firstResult, final int maxResults) {
-		return execute(entityClass, (Session session) -> setParameter(session.createSQLQuery(sql), values, firstResult, maxResults).list());
+		return execute(entityClass, (Session session) -> setParameter(session.createNativeQuery(sql), values, firstResult, maxResults).getResultList());
 	}
 
 	/**
@@ -490,7 +486,7 @@ public final class HibernateDao implements Dao {
 	 * @param maxResults 最大结果
 	 * @return Query
 	 */
-	private Query setParameter(Query query, List<Object> values, int firstResult, int maxResults) {
+	private <R> Query<R> setParameter(Query<R> query, List<Object> values, int firstResult, int maxResults) {
 		// 是否有参数
 		if (!EmptyUtil.isEmpty(values)) {
 			// 循环参数

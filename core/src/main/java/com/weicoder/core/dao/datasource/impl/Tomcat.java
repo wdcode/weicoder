@@ -1,39 +1,36 @@
 package com.weicoder.core.dao.datasource.impl;
 
-import javax.sql.DataSource;
-
-import org.apache.commons.dbcp2.BasicDataSource;
+import org.apache.tomcat.jdbc.pool.DataSource;
 
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.core.dao.datasource.base.BaseDataSource;
 import com.weicoder.core.params.DataSourceParams;
 
 /**
- * DBCP连接池实现
- * @author WD 
- *  
+ * tomcat jdbc 连接池
+ * @author WD
  */
-public final class DBCP2 extends BaseDataSource {
-	// BasicDataSource数据源
-	private BasicDataSource ds;
+public class Tomcat extends BaseDataSource {
+	//数据源
+	private DataSource ds;
 
-	public DBCP2(String name) {
+	public Tomcat(String name) {
 		super(name);
-		ds = new BasicDataSource();
+		ds = new DataSource();
 		ds.setDriverClassName((DataSourceParams.getDriver(name)));
 		ds.setUrl(DataSourceParams.getUrl(name));
 		ds.setUsername(DataSourceParams.getUser(name));
 		ds.setPassword(DataSourceParams.getPassword(name));
-		ds.setMaxTotal(DataSourceParams.getMaxPoolSize(name));
+		ds.setMaxActive(DataSourceParams.getMaxPoolSize(name));
 		ds.setMinIdle(DataSourceParams.getMinPoolSize(name));
 		ds.setValidationQueryTimeout(Conversion.toInt(DataSourceParams.getTimeout(name)));
-		ds.setTimeBetweenEvictionRunsMillis(DataSourceParams.getIdleTimeout(name));
+		ds.setTimeBetweenEvictionRunsMillis(Conversion.toInt(DataSourceParams.getIdleTimeout(name)));
 		ds.setInitialSize(DataSourceParams.getInitialPoolSize(name));
-		ds.setMaxIdle(Conversion.toInt(DataSourceParams.getMaxIdleTime(name)));
+		ds.setMaxIdle(Conversion.toInt(DataSourceParams.getMinPoolSize(name)));
 	}
 
 	@Override
-	public DataSource getDataSource() {
+	public javax.sql.DataSource getDataSource() {
 		return ds;
 	}
 }

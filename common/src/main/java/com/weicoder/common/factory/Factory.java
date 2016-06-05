@@ -3,8 +3,6 @@ package com.weicoder.common.factory;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import com.weicoder.common.util.EmptyUtil;
-
 /**
  * 抽象工厂抽象实现
  * @author WD 
@@ -22,11 +20,11 @@ public abstract class Factory<E> {
 	 */
 	public E getInstance() {
 		// 判断是否为空
-		if (EmptyUtil.isEmpty(e)) {
+		if (e == null) {
 			// 同步琐
 			lock.lock();
 			// 判断是否为空
-			if (EmptyUtil.isEmpty(e)) {
+			if (e == null) {
 				// 生成新的实例
 				e = newInstance();
 			}

@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.weicoder.common.interfaces.Close;
-import com.weicoder.core.dao.datasource.DataSource;
 
 /**
  * JDBC实现 数据库操作接口<br/>
@@ -120,16 +119,4 @@ public interface DataBase extends Close {
 	 * @return Connection
 	 */
 	Connection getConnection();
-
-	/**
-	 * 获得数据源
-	 * @return DataSource 数据源
-	 */
-	DataSource getDataSource();
-
-	/**
-	 * 设置数据源
-	 * @param dataSource 数据源
-	 */
-	void setDataSource(DataSource dataSource);
 }
