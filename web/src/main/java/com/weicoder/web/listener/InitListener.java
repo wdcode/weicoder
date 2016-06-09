@@ -16,10 +16,8 @@ import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.core.engine.QuartzEngine;
 import com.weicoder.web.annotation.Action;
-import com.weicoder.web.context.Contexts;
-import com.weicoder.web.engine.StaticsEngine;
-import com.weicoder.web.params.ServletParams;
-import com.weicoder.web.params.WebParams;
+import com.weicoder.web.context.Contexts; 
+import com.weicoder.web.params.ServletParams; 
 import com.weicoder.common.log.Logs;
 import com.weicoder.core.params.QuartzParams;
 import com.weicoder.core.params.SocketParams;
@@ -41,10 +39,10 @@ public class InitListener implements ServletContextListener {
 		// 设置路径
 		setPath(context);
 
-		// 是否静态化
-		if (WebParams.STAICS_POWER) {
-			StaticsEngine.start();
-		}
+//		// 是否静态化
+//		if (WebParams.STAICS_POWER) {
+//			StaticsEngine.start();
+//		}
 		// 是否开启任务
 		if (QuartzParams.POWER) {
 			QuartzEngine.init();
@@ -97,10 +95,10 @@ public class InitListener implements ServletContextListener {
 	 * 销毁资源
 	 */
 	public void contextDestroyed(ServletContextEvent event) {
-		// 是否静态化
-		if (WebParams.STAICS_POWER) {
-			StaticsEngine.close();
-		}
+//		// 是否静态化
+//		if (WebParams.STAICS_POWER) {
+//			StaticsEngine.close();
+//		}
 		// 是否开启任务
 		if (QuartzParams.POWER) {
 			QuartzEngine.close();

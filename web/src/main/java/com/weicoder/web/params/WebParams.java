@@ -24,11 +24,7 @@ public final class WebParams {
 	/** 验证码字体 */
 	public final static String VERIFY_FONT = Params.getString("verify.font", "Times New Roman");
 	/** 域名 */
-	public final static String DOMAIN = Params.getString("domain");
-	/** 静态化配置文件 */
-	public final static String STAICS_CONFIG = Params.getString("staics.config", "config/statics.xml");
-	/** 是否静态化 */
-	public final static boolean STAICS_POWER = Params.getBoolean("staics.power", false);
+	public final static String DOMAIN = Params.getString("domain"); 
 	/** IP鉴权 允许的IP访问 */
 	public final static Set<String> SERVLET_IPS = Sets.getSet(Params.getStringArray("servlet.ips", ArrayConstants.STRING_EMPTY));
 

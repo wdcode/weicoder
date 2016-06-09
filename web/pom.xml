@@ -51,12 +51,6 @@
 			<artifactId>slf4j-api</artifactId>
 			<version>1.7.18</version>
 			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.tuckey</groupId>
-			<artifactId>urlrewritefilter</artifactId>
-			<version>4.0.4</version>
-			<scope>provided</scope>
 		</dependency> 
 	</dependencies>
 
