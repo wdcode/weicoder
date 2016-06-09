@@ -10,8 +10,7 @@ import com.weicoder.common.lang.Conversion;
 
 /**
  * 数组帮助类
- * @author WD 
- *   
+ * @author WD  
  */
 public final class ArrayUtil {
 	/**

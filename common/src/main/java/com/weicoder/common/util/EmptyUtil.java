@@ -8,8 +8,7 @@ import com.weicoder.common.interfaces.Empty;
 
 /**
  * 一些公用的方法类
- * @author WD
- * 
+ * @author WD 
  */
 public final class EmptyUtil {
 	/**

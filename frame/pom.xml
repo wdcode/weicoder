@@ -51,12 +51,6 @@
 			<artifactId>hibernate-core</artifactId>
 			<version>5.2.0.Final</version> 
 			<scope>provided</scope>
-		</dependency>  
-		<dependency>
-			<groupId>org.quartz-scheduler</groupId>
-			<artifactId>quartz</artifactId>
-			<version>2.2.3</version>
-			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 

@@ -13,8 +13,7 @@ import com.weicoder.common.log.Logs;
 
 /**
  * 并发线程任务处理
- * @author WD 
- *  
+ * @author WD  
  */
 public final class ExecutorUtil {
 	/** 并发线程池 */

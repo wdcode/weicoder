@@ -239,7 +239,7 @@ public final class HttpApache4 extends BaseHttp implements Http {
 			builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
 			// 添加上传文件
 			for (File file : files) {
-				builder.addPart("files", new FileBody(file));
+				builder.addPart(file.getName(), new FileBody(file));
 			}
 			// 设置提交文件参数
 			post.setEntity(builder.build());
@@ -283,7 +283,7 @@ public final class HttpApache4 extends BaseHttp implements Http {
 			// 设置浏览器上传
 			builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
 			// 添加上传文件
-			builder.addPart("file", new FileBody(file));
+			builder.addPart(file.getName(), new FileBody(file));
 			// 设置提交文件参数
 			post.setEntity(builder.build());
 			// 获得HttpResponse参数

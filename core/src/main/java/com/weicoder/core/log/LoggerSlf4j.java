@@ -7,10 +7,9 @@ import com.weicoder.common.log.Log;
 
 /**
  * slf4j日志接口实现
- * @author WD 
- * 
+ * @author WD  
  */
-public class LoggerSlf4j implements Log {
+public final class LoggerSlf4j implements Log {
 	// Logger日志对象
 	private org.slf4j.Logger log = LoggerFactory.getLogger(StringConstants.EMPTY);
 

@@ -13,8 +13,7 @@ import com.weicoder.common.util.StringUtil;
 
 /**
  * 解密类
- * @author WD 
- *  
+ * @author WD  
  */
 public final class Decrypts extends BaseCrypt {
 

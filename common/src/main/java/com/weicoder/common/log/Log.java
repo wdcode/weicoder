@@ -2,8 +2,7 @@ package com.weicoder.common.log;
 
 /**
  * 日志接口
- * @author WD 
- * 
+ * @author WD  
  */
 public interface Log {
 	/**

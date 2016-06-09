@@ -9,7 +9,6 @@ import com.weicoder.common.util.EmptyUtil;
 /**
  * 系统配置信息 内部使用 config.properties 中配置,本包实现可配置功能<br/>
  * @author WD 
- * 
  */
 public final class Params {
 	// Properties配置

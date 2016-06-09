@@ -12,8 +12,7 @@ import com.weicoder.common.zip.base.BaseZip;
 
 /**
  * ZIP压缩
- * @author WD 
- *  
+ * @author WD  
  */
 public final class ZipImpl extends BaseZip {
 

@@ -9,8 +9,7 @@ import com.weicoder.common.log.Logs;
 
 /**
  * 资源工具累类
- * @author WD 
- *   
+ * @author WD  
  */
 public final class ResourceUtil {
 	/**

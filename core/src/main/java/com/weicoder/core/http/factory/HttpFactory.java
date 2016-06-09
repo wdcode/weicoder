@@ -6,7 +6,6 @@ import com.weicoder.core.http.Http;
 import com.weicoder.core.http.impl.HttpApache3;
 import com.weicoder.core.http.impl.HttpApache4;
 import com.weicoder.core.http.impl.HttpApache4Async;
-import com.weicoder.core.http.impl.HttpJava;
 import com.weicoder.core.params.HttpParams;
 
 /**
@@ -45,8 +44,6 @@ public final class HttpFactory extends Factory<Http> {
 				return new HttpApache4Async(encoding);
 			case "apache3":
 				return new HttpApache3(encoding);
-			case "java":
-				return new HttpJava(encoding);
 			default:
 				return new HttpApache4(encoding);
 		}

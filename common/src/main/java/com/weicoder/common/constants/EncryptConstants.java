@@ -3,7 +3,6 @@ package com.weicoder.common.constants;
 /**
  * 加密常量
  * @author WD 
- *  
  */
 public final class EncryptConstants {
 	/** 加密算法 MD2 */

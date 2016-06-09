@@ -4,8 +4,7 @@ import java.util.Random;
 
 /**
  * 随机数工具类
- * @author WD 
- *  
+ * @author WD  
  */
 public final class RandomUtil {
 	// 声明随机数对象

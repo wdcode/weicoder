@@ -2,8 +2,7 @@ package com.weicoder.common.binary;
 
 /**
  * 序列化字节数组
- * @author WD 
- *  
+ * @author WD  
  */
 public interface ByteArray {
 	/**

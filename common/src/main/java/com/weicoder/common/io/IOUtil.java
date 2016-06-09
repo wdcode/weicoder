@@ -7,8 +7,7 @@ import com.weicoder.common.params.CommonParams;
 
 /**
  * IO流操作
- * @author WD 
- *  
+ * @author WD  
  */
 public final class IOUtil {
 	// IO接口

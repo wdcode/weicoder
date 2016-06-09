@@ -13,8 +13,7 @@ import com.weicoder.common.params.CommonParams;
 
 /**
  * 生成密钥对用
- * @author WD 
- *   
+ * @author WD  
  */
 public final class KeyUtil {
 	// 密钥对

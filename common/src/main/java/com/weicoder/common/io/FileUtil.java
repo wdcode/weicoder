@@ -20,8 +20,7 @@ import com.weicoder.common.util.StringUtil;
 
 /**
  * 对文件进行一些处理。
- * @author WD 
- *  
+ * @author WD  
  */
 public final class FileUtil {
 	// IO模式
@@ -119,8 +118,7 @@ public final class FileUtil {
 				// 返回字节数组
 				return b;
 			} catch (IOException e) {
-				Logs.error(e);
-//				Logs.debug("FileUtil read io=" + e.toString());
+				Logs.error(e); 
 			}
 		} else if (AIO) {
 			// 获得文件通道
@@ -132,8 +130,7 @@ public final class FileUtil {
 				// 返回字节数组
 				return buf.array();
 			} catch (Exception e) {
-				Logs.error(e);
-//				Logs.debug("FileUtil read aio=" + e.toString());
+				Logs.error(e); 
 			}
 		} else {
 			// 获得文件通道
@@ -145,8 +142,7 @@ public final class FileUtil {
 				// 返回字节数组
 				return buf.array();
 			} catch (Exception e) {
-				Logs.error(e);
-//				Logs.debug("FileUtil read bio=" + e.toString());
+				Logs.error(e); 
 			}
 		}
 		// 返回空字节数组
@@ -226,8 +222,7 @@ public final class FileUtil {
 				// 写字节数组
 				file.write(b);
 			} catch (IOException e) {
-				Logs.error(e);
-//				Logs.debug("FileUtil write io=" + e.toString());
+				Logs.error(e); 
 			}
 		} else if (AIO) {
 			// 获得文件通道
@@ -235,8 +230,7 @@ public final class FileUtil {
 				// 写字节数组
 				channel.write(ByteBuffer.wrap(b), pos);
 			} catch (Exception e) {
-				Logs.error(e);
-//				Logs.debug("FileUtil write aio=" + e.toString());
+				Logs.error(e); 
 			}
 		} else {
 			// 获得文件通道
@@ -244,8 +238,7 @@ public final class FileUtil {
 				// 写字节数组
 				channel.write(ByteBuffer.wrap(b), pos);
 			} catch (Exception e) {
-				Logs.error(e);
-//				Logs.debug("FileUtil write nio=" + e.toString());
+				Logs.error(e); 
 			}
 		}
 	}
@@ -399,8 +392,7 @@ public final class FileUtil {
 			}
 			return new FileOutputStream(file, append);
 		} catch (Exception e) {
-			Logs.error(e);
-//			Logs.debug("FileUtil getOutputStream=" + e.toString());
+			Logs.error(e); 
 			return null;
 		}
 	}

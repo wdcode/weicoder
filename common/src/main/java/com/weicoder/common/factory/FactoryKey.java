@@ -8,7 +8,6 @@ import com.weicoder.common.util.EmptyUtil;
 /**
  * 拥有Key功能的工厂基础实现 根据Key生成单例
  * @author WD 
- *   
  */
 public abstract class FactoryKey<K, E> extends Factory<E> {
 	// 产品仓库

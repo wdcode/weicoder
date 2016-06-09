@@ -9,10 +9,12 @@ import com.weicoder.common.params.Params;
  *   
  */
 public final class NoSQLParams {
-	/**
-	 * 集群发送名称服务器
-	 */
-	public final static String[] NAMES = Params.getStringArray("nosql.names", ArrayConstants.STRING_EMPTY);
+	/** hbase主机 */
+	public final static String		NOSQL_HBASE_HOST	= Params.getString("nosql.hbase.host", "127.0.0.1");
+	/** hbase端口 */
+	public final static int			NOSQL_HBASE_PORT	= Params.getInt("nosql.hbase.port", 2181);
+	/** 集群发送名称服务器 */
+	public final static String[]	NAMES				= Params.getStringArray("nosql.names", ArrayConstants.STRING_EMPTY);
 
 	/**
 	 * 获得NoSQL使用的包<br/>

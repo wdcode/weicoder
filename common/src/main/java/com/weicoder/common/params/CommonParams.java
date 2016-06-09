@@ -8,10 +8,8 @@ import com.weicoder.common.constants.SystemConstants;
 import com.weicoder.common.constants.UnitConstants;
 
 /**
- * WdWeb包参数读取类
- * 
- * @author WD
- * 
+ * Common包参数读取类 
+ * @author WD 
  */
 public final class CommonParams {
 	/** IO缓冲区大小 */
@@ -55,6 +53,5 @@ public final class CommonParams {
 	/** udp服务器端口 */
 	public final static int		UDP_PORT				= Params.getInt("udp.port");
 
-	private CommonParams() {
-	}
+	private CommonParams() {}
 }

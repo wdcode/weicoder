@@ -2,8 +2,7 @@ package com.weicoder.common.zip;
 
 /**
  * 压缩与解压接口
- * @author WD 
- *  
+ * @author WD  
  */
 public interface Zip {
 	/**

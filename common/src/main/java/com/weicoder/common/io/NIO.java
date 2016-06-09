@@ -6,8 +6,7 @@ import java.nio.channels.Channels;
 
 /**
  * 非堵塞IO操作
- * @author WD 
- *   
+ * @author WD  
  */
 public final class NIO extends BaseIO {
 	/**

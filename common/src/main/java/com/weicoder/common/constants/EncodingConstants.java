@@ -3,7 +3,6 @@ package com.weicoder.common.constants;
 /**
  * 编码常量
  * @author WD 
- *  
  */
 public final class EncodingConstants {
 	/** 编码格式 UTF-8 */

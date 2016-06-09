@@ -12,8 +12,7 @@ import com.weicoder.common.util.EmptyUtil;
 
 /**
  * List的帮助类
- * @author WD 
- *  
+ * @author WD  
  */
 public final class Lists {
 

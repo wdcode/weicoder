@@ -10,8 +10,7 @@ import com.weicoder.common.zip.base.BaseZip;
 
 /**
  * GZIP压缩
- * @author WD 
- *  
+ * @author WD  
  */
 public final class GzipImpl extends BaseZip {
 

@@ -10,7 +10,6 @@ import com.weicoder.common.util.EmptyUtil;
 /**
  * 基础编码类
  * @author WD
- * 
  */
 public final class URLCode {
 	/**
@@ -33,7 +32,6 @@ public final class URLCode {
 			return EmptyUtil.isEmpty(url) ? url : URLEncoder.encode(url, encoding);
 		} catch (Exception e) {
 			Logs.error(e);
-			// Logs.debug("URLCode encode=" + e.toString());
 			return url;
 		}
 	}
@@ -58,11 +56,9 @@ public final class URLCode {
 			return EmptyUtil.isEmpty(url) ? url : URLDecoder.decode(url, EmptyUtil.isEmpty(encoding) ? CommonParams.ENCODING : encoding);
 		} catch (Exception e) {
 			Logs.error(e);
-			// Logs.debug("URLCode decode=" + e.toString());
 			return url;
 		}
 	}
 
-	private URLCode() {
-	}
+	private URLCode() {}
 }

@@ -3,7 +3,6 @@ package com.weicoder.common.interfaces;
 /**
  * 包含是否为空的接口
  * @author WD 
- *  
  */
 public interface Empty {
 	/**

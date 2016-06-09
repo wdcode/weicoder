@@ -4,7 +4,7 @@ import com.weicoder.common.factory.Factory;
 import com.weicoder.core.email.Email;
 import com.weicoder.core.email.impl.EmailApache;
 import com.weicoder.core.email.impl.EmailJava;
-import com.weicoder.core.params.CoreParams;
+import com.weicoder.core.params.EmailParams;
 
 /**
  * 获得Email接口实例的工厂类 
@@ -31,7 +31,7 @@ public final class EmailFactory extends Factory<Email> {
 	 * @return EmailUtil
 	 */
 	public static Email newEmail(String host, String from, String password) {
-		return FACTORY.newInstance(host, from, password, CoreParams.EMAIL_AUTH, CoreParams.EMAIL_ENCODING);
+		return FACTORY.newInstance(host, from, password, EmailParams.EMAIL_AUTH, EmailParams.EMAIL_ENCODING);
 	}
 
 	/**
@@ -53,7 +53,7 @@ public final class EmailFactory extends Factory<Email> {
 	 * @return EmailUtil
 	 */
 	public Email newInstance() {
-		return newInstance(CoreParams.EMAIL_HOST, CoreParams.EMAIL_FROM, CoreParams.EMAIL_PASSWORD);
+		return newInstance(EmailParams.EMAIL_HOST, EmailParams.EMAIL_FROM, EmailParams.EMAIL_PASSWORD);
 	}
 
 	/**
@@ -64,7 +64,7 @@ public final class EmailFactory extends Factory<Email> {
 	 * @return EmailUtil
 	 */
 	public Email newInstance(String host, String from, String password) {
-		return newInstance(host, from, password, CoreParams.EMAIL_AUTH, CoreParams.EMAIL_ENCODING);
+		return newInstance(host, from, password, EmailParams.EMAIL_AUTH, EmailParams.EMAIL_ENCODING);
 	}
 
 	/**
@@ -79,7 +79,7 @@ public final class EmailFactory extends Factory<Email> {
 	 */
 	public Email newInstance(String host, String from, String password, boolean auth, String charset) {
 		// 判断使用哪个包
-		switch (CoreParams.EMAIL_PARSE) {
+		switch (EmailParams.EMAIL_PARSE) {
 			case "Apache":
 				return new EmailApache(host, from, password, auth, charset);
 			default:

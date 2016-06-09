@@ -3,7 +3,6 @@ package com.weicoder.common.constants;
 /**
  * HTML页面常量
  * @author WD 
- *  
  */
 public final class HtmlConstants {
 	/** HTML格式 text/html; */

@@ -15,8 +15,7 @@ import com.weicoder.common.params.CommonParams;
 
 /**
  * TCP 客户端发包处理器
- * @author WD
- * 
+ * @author WD 
  */
 public final class TcpUtil {
 	/**

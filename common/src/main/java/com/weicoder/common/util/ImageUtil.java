@@ -22,8 +22,7 @@ import com.weicoder.common.log.Logs;
 
 /**
  * 对普通图片处理
- * @author WD 
- *   
+ * @author WD  
  */
 public final class ImageUtil {
 	// 字体名

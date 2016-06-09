@@ -4,8 +4,7 @@ import com.weicoder.common.log.Logs;
 
 /**
  * 线程工具类
- * @author WD 
- *   
+ * @author WD  
  */
 public final class ThreadUtil {
 	/**

@@ -17,8 +17,7 @@ import com.weicoder.common.params.CommonParams;
 
 /**
  * 获得日期,日期类型和字符串类型之间的转化
- * @author WD 
- *   
+ * @author WD  
  */
 public final class DateUtil {
 	// Calendar实例

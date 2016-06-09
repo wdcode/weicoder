@@ -12,8 +12,7 @@ import com.weicoder.common.util.StringUtil;
 
 /**
  * 类说明：数据包类 ,字节缓存类，字节操作高位在前，低位在后
- * @author WD 
- *  
+ * @author WD  
  */
 public final class Buffer implements ByteArray {
 	// 字节数组

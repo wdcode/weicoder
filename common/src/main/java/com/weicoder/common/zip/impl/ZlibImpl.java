@@ -9,8 +9,7 @@ import com.weicoder.common.zip.base.BaseZip;
 
 /**
  * ZLIB压缩
- * @author WD 
- *  
+ * @author WD  
  */
 public final class ZlibImpl extends BaseZip {
 

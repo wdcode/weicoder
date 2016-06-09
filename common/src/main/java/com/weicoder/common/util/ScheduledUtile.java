@@ -10,8 +10,7 @@ import com.weicoder.common.params.CommonParams;
 
 /**
  * 定时任务工具类
- * @author WD 
- *   
+ * @author WD  
  */
 public final class ScheduledUtile {
 	/** 并发定时任务池 */

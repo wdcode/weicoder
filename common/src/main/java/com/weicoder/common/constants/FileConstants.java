@@ -3,7 +3,6 @@ package com.weicoder.common.constants;
 /**
  * 文件常量
  * @author WD 
- *  
  */
 public final class FileConstants {
 	/** 文件后缀 xml */

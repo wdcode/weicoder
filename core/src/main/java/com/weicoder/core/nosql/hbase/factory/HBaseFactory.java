@@ -2,7 +2,7 @@ package com.weicoder.core.nosql.hbase.factory;
 
 import com.weicoder.common.factory.FactoryKey;
 import com.weicoder.core.nosql.hbase.HBase;
-import com.weicoder.core.params.CoreParams;
+import com.weicoder.core.params.NoSQLParams;
 
 /**
  * HBase工厂
@@ -35,7 +35,7 @@ public final class HBaseFactory extends FactoryKey<String, HBase> {
 	 * 实例化一个新对象
 	 */
 	public HBase newInstance() {
-		return newInstance(CoreParams.NOSQL_HBASE_HOST, CoreParams.NOSQL_HBASE_PORT);
+		return newInstance(NoSQLParams.NOSQL_HBASE_HOST, NoSQLParams.NOSQL_HBASE_PORT);
 	}
 
 	/**

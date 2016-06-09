@@ -3,7 +3,6 @@ package com.weicoder.common.interfaces;
 /**
  * 包含关闭方法接口
  * @author WD 
- *   
  */
 public interface Close {
 	/**

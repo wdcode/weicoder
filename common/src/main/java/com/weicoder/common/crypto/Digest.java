@@ -16,8 +16,7 @@ import com.weicoder.common.util.StringUtil;
 
 /**
  * 信息摘要类
- * @author WD
- * 
+ * @author WD 
  */
 public final class Digest {
 	// 保存摘要算法
@@ -211,7 +210,6 @@ public final class Digest {
 			return digest.digest(b);
 		} catch (Exception e) {
 			Logs.error(e);
-			// Logs.debug("Digest getMessageDigest=" + e.toString());
 			return b;
 		}
 	}

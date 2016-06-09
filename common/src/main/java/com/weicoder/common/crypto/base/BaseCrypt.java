@@ -14,8 +14,7 @@ import com.weicoder.common.util.StringUtil;
 
 /**
  * 加密解密基础类 内部使用
- * @author WD
- * 
+ * @author WD 
  */
 public abstract class BaseCrypt {
 	// 加密算法
@@ -57,7 +56,6 @@ public abstract class BaseCrypt {
 			return cipher.doFinal(b);
 		} catch (Exception e) {
 			Logs.error(e);
-			// Logs.debug("BaseCrypt doFinal=" + e.toString());
 			return ArrayConstants.BYTES_EMPTY;
 		}
 	}

@@ -7,8 +7,7 @@ import com.weicoder.common.interfaces.Clear;
 
 /**
  * 关闭各种资源方法
- * @author WD 
- *  
+ * @author WD  
  */
 public final class ClearUtil {
 	/**

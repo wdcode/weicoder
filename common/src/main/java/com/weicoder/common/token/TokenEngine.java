@@ -11,8 +11,7 @@ import com.weicoder.common.util.StringUtil;
 
 /**
  * Token令牌处理器
- * @author WD 
- *  
+ * @author WD  
  */
 public final class TokenEngine {
 	// 验证长度

@@ -14,7 +14,6 @@ import com.weicoder.common.params.CommonParams;
 /**
  * UDP 客户端发包处理器
  * @author WD
- * 
  */
 public final class UdpUtil {
 	/**

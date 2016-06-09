@@ -3,7 +3,6 @@ package com.weicoder.common.constants;
 /**
  * 图像常量
  * @author WD 
- *  
  */
 public final class ImageConstants {
 	/** 图片格式 JPEG */

@@ -7,8 +7,7 @@ import com.weicoder.common.log.Logs;
 
 /**
  * 关闭各种资源方法
- * @author WD 
- *  
+ * @author WD  
  */
 public final class CloseUtil {
 	/**

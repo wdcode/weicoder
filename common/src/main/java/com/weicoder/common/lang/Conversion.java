@@ -9,8 +9,7 @@ import com.weicoder.common.util.EmptyUtil;
 
 /**
  * 数据类型转换,对null和异常进行处理
- * @author WD 
- *  
+ * @author WD  
  */
 public final class Conversion {
 	/**
@@ -95,7 +94,7 @@ public final class Conversion {
 				return toInt(Math.round(toDouble(obj, defaultValue)));
 			}
 		} catch (RuntimeException e) {
-			Logs.debug("Conversion toInt=" + e.toString());
+			Logs.debug("Conversion toInt=%s", e.toString());
 			return defaultValue;
 		}
 	}
@@ -132,7 +131,7 @@ public final class Conversion {
 				return Math.round(toDouble(obj, defaultValue));
 			}
 		} catch (RuntimeException e) {
-			Logs.debug("Conversion toLong=" + e.toString());
+			Logs.debug("Conversion toLong=%s",e.toString());
 			return defaultValue;
 		}
 	}
@@ -173,7 +172,7 @@ public final class Conversion {
 				return Float.parseFloat(toString(obj));
 			}
 		} catch (RuntimeException e) {
-			Logs.debug("Conversion toFloat=" + e.toString());
+			Logs.debug("Conversion toFloat=%s", e.toString());
 			return defaultValue;
 		}
 	}
@@ -214,7 +213,7 @@ public final class Conversion {
 				return Double.parseDouble(toString(obj));
 			}
 		} catch (RuntimeException e) {
-			Logs.debug("Conversion toDouble=" + e.toString());
+			Logs.debug("Conversion toDouble=%s", e.toString());
 			return defaultValue;
 		}
 	}
@@ -255,7 +254,7 @@ public final class Conversion {
 				return Short.parseShort(toString(obj));
 			}
 		} catch (RuntimeException e) {
-			Logs.debug("Conversion toShort=" + e.toString());
+			Logs.debug("Conversion toShort=%s", e.toString());
 			return defaultValue;
 		}
 	}
@@ -296,7 +295,7 @@ public final class Conversion {
 				return Byte.parseByte(toString(obj));
 			}
 		} catch (RuntimeException e) {
-			Logs.debug("Conversion toByte=" + e.toString());
+			Logs.debug("Conversion toByte=%s", e.toString());
 			return defaultValue;
 		}
 	}
@@ -343,7 +342,7 @@ public final class Conversion {
 				return new BigDecimal(toString(obj));
 			}
 		} catch (RuntimeException e) {
-			Logs.debug("Conversion toBigDecimal=" + e.toString());
+			Logs.debug("Conversion toBigDecimal=%s", e.toString());
 			return defaultValue;
 		}
 	}
@@ -383,7 +382,7 @@ public final class Conversion {
 				return Boolean.parseBoolean(toString(obj));
 			}
 		} catch (RuntimeException e) {
-			Logs.debug("Conversion toBoolean=" + e.toString());
+			Logs.debug("Conversion toBoolean=%s", e.toString());
 			return defaultValue;
 		}
 	}

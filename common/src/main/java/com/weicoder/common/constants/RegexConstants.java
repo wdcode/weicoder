@@ -3,7 +3,6 @@ package com.weicoder.common.constants;
 /**
  * 保存正则表达式常量类
  * @author WD 
- *   
  */
 public final class RegexConstants {
 	/** 全由数字组成 */
