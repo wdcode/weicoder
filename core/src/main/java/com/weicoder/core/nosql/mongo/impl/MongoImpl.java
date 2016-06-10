@@ -8,8 +8,9 @@ import org.bson.Document;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
+import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.EmptyUtil;
-import com.weicoder.core.nosql.base.BaseNoSQL;
+import com.weicoder.common.zip.ZipEngine;
 import com.weicoder.core.nosql.mongo.Mongo;
 import com.weicoder.core.params.MongoParams;
 
@@ -28,7 +29,7 @@ import com.mongodb.client.MongoDatabase;
  * @author WD 
  *  
  */
-public final class MongoImpl extends BaseNoSQL implements Mongo {
+public final class MongoImpl implements Mongo {
 	// MongoDB 主键常量
 	private final static String						ID	= "_id";
 	// Mongo 客户端
@@ -57,7 +58,8 @@ public final class MongoImpl extends BaseNoSQL implements Mongo {
 			dbc = db.getCollection(MongoParams.getCollection(key));
 			dbcs = Maps.getConcurrentMap();
 		} catch (Exception e) {
-			throw new RuntimeException(e);
+			Logs.error(e);
+//			throw new RuntimeException(e);
 		}
 	}
 
@@ -301,6 +303,56 @@ public final class MongoImpl extends BaseNoSQL implements Mongo {
 		dbc = null;
 		db = null;
 		client.close();
+	}
+
+	/**
+	 * 压缩值 当值能压缩时才压缩
+	 * @param key 键
+	 * @param value 值
+	 */
+	public final boolean compress(String key, Object value) {
+		return set(key, ZipEngine.compress(value));
+	}
+
+	/**
+	 * 根据键获得压缩值 如果是压缩的返回解压缩的byte[] 否是返回Object
+	 * @param key 键
+	 * @return 值
+	 */
+	public final byte[] extract(String key) {
+		return ZipEngine.extract(get(key));
+	}
+
+	/**
+	 * 获得多个键的数组
+	 * @param key 键
+	 * @return 值
+	 */
+	public Object[] get(String... keys) {
+		// 声明列表
+		Object[] objs = new Object[keys.length];
+		// 循环解压数据
+		for (int i = 0; i < keys.length; i++) {
+			objs[i] = get(keys[i]);
+		}
+		// 返回列表
+		return objs;
+	}
+
+	/**
+	 * 获得多个键的数组
+	 * @param keys 键
+	 * @return 值
+	 */
+	public List<byte[]> extract(String... keys) {
+		// 声明列表
+		List<byte[]> list = Lists.getList(keys.length);
+		// 循环解压数据
+		for (Object o : get(keys)) {
+			list.add(ZipEngine.extract(o));
+		}
+		// 返回列表
+		return list;
 	}
 
 	/**

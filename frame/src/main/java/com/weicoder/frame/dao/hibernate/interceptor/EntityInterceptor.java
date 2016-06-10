@@ -1,6 +1,8 @@
 package com.weicoder.frame.dao.hibernate.interceptor;
 
 import org.hibernate.EmptyInterceptor;
+import org.hibernate.Interceptor;
+
 import com.weicoder.frame.entity.EntityShards;
 import com.weicoder.frame.entity.EntityTime;
 import com.weicoder.common.constants.DateConstants;
@@ -14,7 +16,10 @@ import com.weicoder.common.util.DateUtil;
  *   
  */
 public class EntityInterceptor extends EmptyInterceptor {
-	private static final long serialVersionUID = 2314652107885146870L;
+	public static final Interceptor	INSTANCE			= new EntityInterceptor();
+	private static final long		serialVersionUID	= 2314652107885146870L;
+
+	private EntityInterceptor() {}
 
 	@Override
 	public String onPrepareStatement(String sql) {

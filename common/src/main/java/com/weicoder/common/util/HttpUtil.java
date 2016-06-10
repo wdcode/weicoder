@@ -5,6 +5,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Map;
 
+import com.weicoder.common.constants.EncodingConstants;
 import com.weicoder.common.constants.HttpConstants;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.io.IOUtil;
@@ -31,7 +32,7 @@ public final class HttpUtil {
 			// 连接
 			conn.connect();
 			// 返回字节数组
-			return StringUtil.toString(IOUtil.read(conn.getInputStream()));
+			return IOUtil.readString(conn.getInputStream(), EncodingConstants.UTF_8);
 		} catch (IOException e) {
 			Logs.error(e);
 		} finally {
@@ -75,7 +76,7 @@ public final class HttpUtil {
 			// 连接
 			conn.connect();
 			// 返回字节数组
-			return StringUtil.toString(IOUtil.read(conn.getInputStream()));
+			return IOUtil.readString(conn.getInputStream());
 		} catch (IOException e) {
 			Logs.error(e);
 			return StringConstants.EMPTY;
@@ -104,6 +105,8 @@ public final class HttpUtil {
 			conn.addRequestProperty(HttpConstants.ACCEPT_CHARSET_KEY, HttpConstants.ACCEPT_CHARSET_VAL);
 			conn.addRequestProperty(HttpConstants.CONTENT_TYPE_KEY, HttpConstants.CONTENT_TYPE_VAL);
 			conn.addRequestProperty(HttpConstants.CONNECTION_KEY, HttpConstants.CONNECTION_VAL);
+			conn.addRequestProperty(HttpConstants.CONTENT_CHARSET, EncodingConstants.UTF_8);
+			//			conn.addRequestProperty(REFERER_KEY, referer);
 		} catch (Exception e) {
 			Logs.error(e);
 		}

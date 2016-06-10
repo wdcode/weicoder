@@ -19,6 +19,7 @@ import org.hibernate.resource.transaction.spi.TransactionStatus;
 import com.weicoder.frame.dao.hibernate.session.SessionFactorys;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.lang.Lists;
+import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.frame.dao.Dao;
 
@@ -652,7 +653,8 @@ public final class HibernateDao implements Dao {
 			if (!EmptyUtil.isEmpty(tx)) {
 				tx.rollback();
 			}
-			throw e;
+			Logs.error(e);
+//			throw e;
 		} finally {
 			// 自己关闭session
 			if (isSession && session.isOpen() && session.isConnected()) {

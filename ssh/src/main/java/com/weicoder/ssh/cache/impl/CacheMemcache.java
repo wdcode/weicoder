@@ -14,8 +14,8 @@ import com.weicoder.common.lang.Lists;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.core.json.JsonEngine;
-import com.weicoder.core.nosql.NoSQL;
-import com.weicoder.core.nosql.factory.NoSQLFactory;
+import com.weicoder.core.nosql.memcache.Memcache;
+import com.weicoder.core.nosql.memcache.factory.MemcacheFactory;
 
 /**
  * 基于memcached的缓存
@@ -24,28 +24,28 @@ import com.weicoder.core.nosql.factory.NoSQLFactory;
  */
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public final class CacheNoSQL<E extends Entity> extends BaseCache<E> {
+public final class CacheMemcache<E extends Entity> extends BaseCache<E> {
 	// memcached
-	private final static NoSQL NOSQL = NoSQLFactory.getNoSQL("cache");
+	private final static Memcache MEM = MemcacheFactory.getMemcache("cache");
 
 	@Override
 	public E set(E entity) {
 		// 获得键
 		String key = getKey(entity.getKey());
 		// 判断键是否存在 不存在更新键 并且添加到memcached成功
-		if (!NOSQL.exists(key)) {
+		if (!MEM.exists(key)) {
 			// 获得保存键值
 			String k = getKey();
 			// 追加到memcace
-			if (!NOSQL.append(k, StringConstants.COMMA + key)) {
+			if (!MEM.append(k, StringConstants.COMMA + key)) {
 				// 没追加到 第一个直接set
-				NOSQL.set(k, key);
+				MEM.set(k, key);
 			}
 			// 加数量
-			NOSQL.set(getKeySize(), size() + 1);
+			MEM.set(getKeySize(), size() + 1);
 		}
 		// 更新缓存
-		NOSQL.set(key, entity.toString());
+		MEM.set(key, entity.toString());
 		// 返回实体
 		return entity;
 	}
@@ -53,7 +53,7 @@ public final class CacheNoSQL<E extends Entity> extends BaseCache<E> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public E get(Serializable key) {
-		return (E) JsonEngine.toBean(Conversion.toString(NOSQL.get(getKey(key))), clazz);
+		return (E) JsonEngine.toBean(Conversion.toString(MEM.get(getKey(key))), clazz);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -62,7 +62,7 @@ public final class CacheNoSQL<E extends Entity> extends BaseCache<E> {
 		// 判断键为空
 		if (EmptyUtil.isEmpty(keys)) { return Lists.emptyList(); }
 		// 获得所有对象
-		Object[] objs = NOSQL.get(getKey(keys));
+		Object[] objs = MEM.get(getKey(keys));
 		// 判断值为空
 		if (EmptyUtil.isEmpty(objs)) { return Lists.emptyList(); }
 		// 声明返回列表
@@ -82,15 +82,15 @@ public final class CacheNoSQL<E extends Entity> extends BaseCache<E> {
 		// 获得实体
 		E e = get(key);
 		// 删除键
-		NOSQL.remove(getKey(key));
+		MEM.remove(getKey(key));
 		// 减数量
-		NOSQL.set(getKeySize(), size() - 1);
+		MEM.set(getKeySize(), size() - 1);
 		// 减key
 		List<String> keys = Lists.getList(getKeys());
 		// 删除key
 		keys.remove(key);
 		// 重新写入key
-		NOSQL.set(getKey(), Lists.toString(keys));
+		MEM.set(getKey(), Lists.toString(keys));
 		// 返回实体
 		return e;
 	}
@@ -123,24 +123,24 @@ public final class CacheNoSQL<E extends Entity> extends BaseCache<E> {
 
 	@Override
 	public int size() {
-		return Conversion.toInt(NOSQL.get(getKeySize()));
+		return Conversion.toInt(MEM.get(getKeySize()));
 	}
 
 	@Override
 	public void clear() {
 		// 循环删除key
 		for (String key : getKeys()) {
-			NOSQL.remove(key);
+			MEM.remove(key);
 		}
 		// 删除数量
-		NOSQL.remove(getKeySize());
+		MEM.remove(getKeySize());
 		// 删除key集合
-		NOSQL.remove(getKey());
+		MEM.remove(getKey());
 	}
 
 	@Override
 	public boolean isEmpty() {
-		return NOSQL.get(getKey()) == null;
+		return MEM.get(getKey()) == null;
 	}
 
 	/**
@@ -189,6 +189,6 @@ public final class CacheNoSQL<E extends Entity> extends BaseCache<E> {
 	 * @return keys
 	 */
 	private String[] getKeys() {
-		return StringUtil.split(Conversion.toString(NOSQL.get(getKey())), StringConstants.COMMA);
+		return StringUtil.split(Conversion.toString(MEM.get(getKey())), StringConstants.COMMA);
 	}
 }

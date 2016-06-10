@@ -5,8 +5,7 @@ import org.redisson.Redisson;
 import org.redisson.RedissonClient;
 
 import com.weicoder.common.constants.StringConstants;
-import com.weicoder.core.nosql.base.BaseNoSQL;
-import com.weicoder.core.nosql.redis.Redis;
+import com.weicoder.core.nosql.redis.base.BaseRedis;
 import com.weicoder.core.params.RedisParams;
 
 /**
@@ -14,7 +13,7 @@ import com.weicoder.core.params.RedisParams;
  * @author WD 
  *  
  */
-public final class RedisRedisson extends BaseNoSQL implements Redis {
+public final class RedisRedisson extends BaseRedis {
 	// Jedis连接池
 	private RedissonClient client;
 

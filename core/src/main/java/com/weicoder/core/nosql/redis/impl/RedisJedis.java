@@ -3,8 +3,7 @@ package com.weicoder.core.nosql.redis.impl;
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.log.Logs;
-import com.weicoder.core.nosql.base.BaseNoSQL;
-import com.weicoder.core.nosql.redis.Redis;
+import com.weicoder.core.nosql.redis.base.BaseRedis;
 import com.weicoder.core.params.RedisParams;
 
 import redis.clients.jedis.Jedis;
@@ -16,7 +15,7 @@ import redis.clients.jedis.JedisPoolConfig;
  * @author WD 
  *  
  */
-public final class RedisJedis extends BaseNoSQL implements Redis {
+public final class RedisJedis extends BaseRedis {
 	// Jedis连接池
 	private JedisPool pool;
 

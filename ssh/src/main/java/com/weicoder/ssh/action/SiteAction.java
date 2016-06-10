@@ -10,12 +10,10 @@ import com.weicoder.ssh.params.SiteParams;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.crypto.Decrypts;
 import com.weicoder.common.crypto.Digest;
-import com.weicoder.common.crypto.Encrypts;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.token.AuthToken;
 import com.weicoder.common.util.DateUtil;
 import com.weicoder.common.util.EmptyUtil;
-import com.weicoder.core.email.EmailEngine;
 import com.weicoder.web.util.VerifyCodeUtil;
 
 /**
@@ -113,36 +111,36 @@ public class SiteAction<U extends EntityUser> extends StrutsAction {
 		// 创建时间
 		int time = DateUtil.getTime();
 		user.setTime(time);
-		// 是否Email验证
-		if (SiteParams.USER_VERIFY_EMAIL) {
-			// 设置状态无效
-			user.setState(STATE_INAVAIL);
-		} else {
+//		// 是否Email验证
+//		if (SiteParams.USER_VERIFY_EMAIL) {
+//			// 设置状态无效
+//			user.setState(STATE_INAVAIL);
+//		} else {
 			// 设置状态有效
 			user.setState(STATE_AVAIL);
-		}
+//		}
 		// 添加
 		service.insert(user);
 		// 获得用户ID
 		int id = user.getId();
 		// 注册成功
 		if (id > 0) {
-			// 是否Email验证
-			if (SiteParams.USER_VERIFY_EMAIL) {
-				// 获得激活码
-				String activeCoding = Encrypts.encrypt(user.getId() + StringConstants.AMP + user.getEmail());
-				// 邮件标题
-				String subject = SiteParams.USER_VERIFY_EMAIL_SUBJECT.replaceAll(SiteParams.USER_VERIFY_EMAIL_NAME, user.getName());
-				// 获得Url
-				String url = SiteParams.USER_VERIFY_EMAIL_ACTION + activeCoding;
-				// 邮件正文
-				String content = SiteParams.USER_VERIFY_EMAIL_CONTENT.replaceAll(SiteParams.USER_VERIFY_EMAIL_URL, url);
-				// 发生激活信
-				EmailEngine.send(user.getEmail(), subject, content);
-			} else {
+//			// 是否Email验证
+//			if (SiteParams.USER_VERIFY_EMAIL) {
+//				// 获得激活码
+//				String activeCoding = Encrypts.encrypt(user.getId() + StringConstants.AMP + user.getEmail());
+//				// 邮件标题
+//				String subject = SiteParams.USER_VERIFY_EMAIL_SUBJECT.replaceAll(SiteParams.USER_VERIFY_EMAIL_NAME, user.getName());
+//				// 获得Url
+//				String url = SiteParams.USER_VERIFY_EMAIL_ACTION + activeCoding;
+//				// 邮件正文
+//				String content = SiteParams.USER_VERIFY_EMAIL_CONTENT.replaceAll(SiteParams.USER_VERIFY_EMAIL_URL, url);
+//				// 发生激活信
+//				EmailEngine.send(user.getEmail(), subject, content);
+//			} else {
 				// 添加用户登录信息
 				token = LoginEngine.addLogin(request, response, user, getLoginTime());
-			}
+//			}
 		}
 		// 返回
 		return callback(user);

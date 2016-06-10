@@ -10,6 +10,7 @@ import org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.engine.spi.SessionFactoryImplementor;
 
+import com.weicoder.frame.dao.hibernate.interceptor.EntityInterceptor;
 import com.weicoder.frame.dao.hibernate.naming.ImprovedNamingStrategy;
 import com.weicoder.frame.entity.Entity;
 import com.weicoder.frame.params.FrameParams;
@@ -105,6 +106,8 @@ public final class SessionFactorys implements Close {
 				// 设置namingStrategy
 				config.setImplicitNamingStrategy(ImplicitNamingStrategyJpaCompliantImpl.INSTANCE);
 				config.setPhysicalNamingStrategy(ImprovedNamingStrategy.INSTANCE);
+				//设置分表过滤器
+				config.setInterceptor(EntityInterceptor.INSTANCE);
 				// 注册
 				factorys.add(config.buildSessionFactory());
 			}

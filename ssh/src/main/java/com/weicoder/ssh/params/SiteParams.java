@@ -13,18 +13,18 @@ public final class SiteParams {
 	public final static int		USER_STATE					= Params.getInt("user.state", 1);
 	/** email验证是否开启 */
 	public final static boolean	USER_VERIFY_STATE			= Params.getBoolean("user.verify.state", true);
-	/** email验证是否开启 */
-	public final static boolean	USER_VERIFY_EMAIL			= Params.getBoolean("user.verify.email", false);
-	/** email验证Action */
-	public final static String	USER_VERIFY_EMAIL_ACTION	= Params.getString("user.verify.email.action");
-	/** email验证标题 */
-	public final static String	USER_VERIFY_EMAIL_SUBJECT	= Params.getString("user.verify.email.subject");
-	/** email验证内容 */
-	public final static String	USER_VERIFY_EMAIL_CONTENT	= Params.getString("user.verify.email.content");
-	/** email验证替换url */
-	public final static String	USER_VERIFY_EMAIL_URL		= Params.getString("user.verify.email.url");
-	/** email验证替换用户名 */
-	public final static String	USER_VERIFY_EMAIL_NAME		= Params.getString("user.verify.email.name");
+//	/** email验证是否开启 */
+//	public final static boolean	USER_VERIFY_EMAIL			= Params.getBoolean("user.verify.email", false);
+//	/** email验证Action */
+//	public final static String	USER_VERIFY_EMAIL_ACTION	= Params.getString("user.verify.email.action");
+//	/** email验证标题 */
+//	public final static String	USER_VERIFY_EMAIL_SUBJECT	= Params.getString("user.verify.email.subject");
+//	/** email验证内容 */
+//	public final static String	USER_VERIFY_EMAIL_CONTENT	= Params.getString("user.verify.email.content");
+//	/** email验证替换url */
+//	public final static String	USER_VERIFY_EMAIL_URL		= Params.getString("user.verify.email.url");
+//	/** email验证替换用户名 */
+//	public final static String	USER_VERIFY_EMAIL_NAME		= Params.getString("user.verify.email.name");
 	/** 登录信息最大保存时间 */
 	public final static int		LOGIN_MAX_AGE				= Params.getInt("login.maxAge", DateConstants.WEEK);
 	/** 登录信息最小保存时间 */

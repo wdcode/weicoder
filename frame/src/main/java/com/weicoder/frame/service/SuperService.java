@@ -575,7 +575,7 @@ public final class SuperService {
 		ls.add(get(entity, (Serializable) value));
 		// 循环添加
 		for (E obj : Lists.getList(list)) {
-			ls.addAll(next(entity, property, obj.getKey()));
+			ls.addAll(next(entity, property,BeanUtil.getFieldValue(obj, property)));
 		}
 		// 返回列表
 		return ls;

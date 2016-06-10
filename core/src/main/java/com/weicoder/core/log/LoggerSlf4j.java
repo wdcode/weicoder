@@ -1,5 +1,6 @@
 package com.weicoder.core.log;
 
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.weicoder.common.constants.StringConstants;
@@ -11,7 +12,7 @@ import com.weicoder.common.log.Log;
  */
 public final class LoggerSlf4j implements Log {
 	// Logger日志对象
-	private org.slf4j.Logger log = LoggerFactory.getLogger(StringConstants.EMPTY);
+	private Logger log = LoggerFactory.getLogger(StringConstants.EMPTY);
 
 	@Override
 	public void trace(String msg, Object... params) {

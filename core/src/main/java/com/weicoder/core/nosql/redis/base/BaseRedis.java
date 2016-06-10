@@ -1,17 +1,17 @@
-package com.weicoder.core.nosql.base;
+package com.weicoder.core.nosql.redis.base;
 
 import java.util.List;
 
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.zip.ZipEngine;
-import com.weicoder.core.nosql.NoSQL;
+import com.weicoder.core.nosql.redis.Redis;
 
 /**
  * NoSQL基类
  * @author WD 
  *  
  */
-public abstract class BaseNoSQL implements NoSQL {
+public abstract class BaseRedis implements Redis {
 	/**
 	 * 压缩值 当值能压缩时才压缩
 	 * @param key 键
