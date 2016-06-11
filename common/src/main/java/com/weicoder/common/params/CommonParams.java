@@ -4,7 +4,6 @@ import com.weicoder.common.constants.DateConstants;
 import com.weicoder.common.constants.EncodingConstants;
 import com.weicoder.common.constants.EncryptConstants;
 import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.constants.SystemConstants;
 import com.weicoder.common.constants.UnitConstants;
 
 /**
@@ -41,7 +40,7 @@ public final class CommonParams {
 	/** 加密使用摘要算法 */
 	public final static String	ENCRYPT_DIGEST			= Params.getString("encrypt.digest", EncryptConstants.ALGO_SHA_1);
 	/** 线程池数 */
-	public final static int		POOL_TIMER				= Params.getInt("pool.timer", SystemConstants.CPU_NUM);
+//	public final static int		POOL_TIMER				= Params.getInt("pool.timer", SystemConstants.CPU_NUM);
 	/** 压缩算法 */
 	public final static String	ZIP						= Params.getString("zip", "zlib");
 	/** tcp连接地址 */
@@ -52,6 +51,8 @@ public final class CommonParams {
 	public final static String	UDP_HOST				= Params.getString("udp.host");
 	/** udp服务器端口 */
 	public final static int		UDP_PORT				= Params.getInt("udp.port");
+	/** log实现 */
+	public final static String	LOG_CLASS				= Params.getString("log.class", "com.weicoder.core.log.LoggerSlf4j");
 
 	private CommonParams() {}
 }

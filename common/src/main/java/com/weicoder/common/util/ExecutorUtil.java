@@ -6,6 +6,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
 import com.weicoder.common.lang.Lists;
@@ -16,25 +17,31 @@ import com.weicoder.common.log.Logs;
  * @author WD  
  */
 public final class ExecutorUtil {
+	//默认线程工厂
+	private final static ThreadFactory			FACTORY		= Executors.defaultThreadFactory();
 	/** 并发线程池 */
-	public final static ExecutorService			POOL		= Executors.newCachedThreadPool();
+	public final static ExecutorService			POOL		= Executors.newCachedThreadPool((Runnable r) -> {
+																Thread thread = FACTORY.newThread(r);
+																thread.setDaemon(true);
+																return thread;
+															});
 	// 保存线程
 	private final static List<Runnable>			RUNNABLES	= Lists.getList();
 	private final static List<Callable<Object>>	CALLABLES	= Lists.getList();
 
 	/**
-	 * 添加线程
+	 * 添加线程Runnable
 	 * @param task
 	 */
-	public static void add(Runnable task) {
+	public static void addR(Runnable task) {
 		RUNNABLES.add(task);
 	}
 
 	/**
-	 * 添加线程
+	 * 添加线程Callable
 	 * @param task
 	 */
-	public static void add(Callable<Object> task) {
+	public static void addC(Callable<Object> task) {
 		CALLABLES.add(task);
 	}
 
@@ -90,7 +97,7 @@ public final class ExecutorUtil {
 			list.add(POOL.submit(task));
 		}
 		// 循环等待
-		while (true) {
+		while (POOL.isTerminated()) {
 			// 是否全部完成
 			for (Iterator<Future<?>> it = list.iterator(); it.hasNext();) {
 				if (it.next().isDone()) {
@@ -101,12 +108,12 @@ public final class ExecutorUtil {
 			if (EmptyUtil.isEmpty(list)) {
 				break;
 			}
-			// 等待
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				Logs.warn(e);
-			}
+			//			// 等待
+			//			try {
+			//				Thread.sleep(100);
+			//			} catch (InterruptedException e) {
+			//				Logs.warn(e);
+			//			}
 		}
 	}
 

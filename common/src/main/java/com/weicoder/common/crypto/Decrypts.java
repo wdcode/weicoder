@@ -1,14 +1,11 @@
 package com.weicoder.common.crypto;
 
-import java.security.Key;
-
 import javax.crypto.Cipher;
 
 import com.weicoder.common.codec.Hex;
 import com.weicoder.common.constants.EncryptConstants;
 import com.weicoder.common.crypto.base.BaseCrypt;
 import com.weicoder.common.params.CommonParams;
-import com.weicoder.common.util.KeyUtil;
 import com.weicoder.common.util.StringUtil;
 
 /**
@@ -53,21 +50,21 @@ public final class Decrypts extends BaseCrypt {
 	public static byte[] decrypt(byte[] b, String keys) {
 		// 判断解密方式
 		switch (CommonParams.ENCRYPT_ALGO) {
-		case EncryptConstants.ALGO_AES:
-			// AES解密
-			return aes(b, keys);
-		case EncryptConstants.ALGO_DES:
-			// DES解密
-			return des(b, keys);
-		case EncryptConstants.ALGO_RC2:
-			// RC2解密
-			return rc2(b, keys);
-		case EncryptConstants.ALGO_RC4:
-			// RC4解密
-			return rc4(b, keys);
-		default:
-			// 默认返回AES
-			return aes(b, keys);
+			case EncryptConstants.ALGO_AES:
+				// AES解密
+				return aes(b, keys);
+			case EncryptConstants.ALGO_DES:
+				// DES解密
+				return des(b, keys);
+			case EncryptConstants.ALGO_RC2:
+				// RC2解密
+				return rc2(b, keys);
+			case EncryptConstants.ALGO_RC4:
+				// RC4解密
+				return rc4(b, keys);
+			default:
+				// 默认返回AES
+				return aes(b, keys);
 		}
 	}
 
@@ -145,25 +142,6 @@ public final class Decrypts extends BaseCrypt {
 	 */
 	public static byte[] rc4(byte[] b, String keys) {
 		return decrypt(b, keys, CommonParams.ENCRYPT_KEY_LENGTH_RC4, EncryptConstants.ALGO_RC4);
-	}
-
-	/**
-	 * 可逆的非对称解密算法 RSA算法
-	 * @param b 需要解密的字节数组
-	 * @return 返回解密后的字节数组
-	 */
-	public static byte[] rsa(byte[] b) {
-		return rsa(b, KeyUtil.getPrivateKey(EncryptConstants.ALGO_RSA));
-	}
-
-	/**
-	 * 可逆的非对称解密算法 RSA算法
-	 * @param b 需要解密的字节数组
-	 * @param key 解密密钥
-	 * @return 返回解密后的字节数组
-	 */
-	public static byte[] rsa(byte[] b, Key key) {
-		return doFinal(b, key, EncryptConstants.ALGO_RSA, Cipher.DECRYPT_MODE);
 	}
 
 	/**

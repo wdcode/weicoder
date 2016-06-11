@@ -3,7 +3,6 @@ package com.weicoder.core.http.factory;
 import com.weicoder.common.factory.Factory;
 import com.weicoder.common.params.CommonParams;
 import com.weicoder.core.http.Http;
-import com.weicoder.core.http.impl.HttpApache3;
 import com.weicoder.core.http.impl.HttpApache4;
 import com.weicoder.core.http.impl.HttpApache4Async;
 import com.weicoder.core.params.HttpParams;
@@ -42,8 +41,6 @@ public final class HttpFactory extends Factory<Http> {
 		switch (HttpParams.PARSE) {
 			case "async":
 				return new HttpApache4Async(encoding);
-			case "apache3":
-				return new HttpApache3(encoding);
 			default:
 				return new HttpApache4(encoding);
 		}

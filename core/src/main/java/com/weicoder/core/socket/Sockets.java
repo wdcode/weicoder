@@ -9,12 +9,8 @@ import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.log.Logs;
 import com.weicoder.core.params.SocketParams;
-import com.weicoder.core.socket.impl.mina.MinaClient;
-import com.weicoder.core.socket.impl.mina.MinaServer;
 import com.weicoder.core.socket.impl.netty.NettyClient;
 import com.weicoder.core.socket.impl.netty.NettyServer;
-import com.weicoder.core.socket.impl.netty3.Netty3Client;
-import com.weicoder.core.socket.impl.netty3.Netty3Server;
 import com.weicoder.core.socket.manager.Manager;
 
 /**
@@ -275,15 +271,7 @@ public final class Sockets {
 	 * @return Server
 	 */
 	private static Server getServer(String name) {
-		switch (SocketParams.getParse(name)) {
-		case "netty":
-			return new NettyServer(name);
-		case "netty3":
-			return new Netty3Server(name);
-		default:
-			// 默认mina
-			return new MinaServer(name);
-		}
+		return new NettyServer(name);
 	}
 
 	/**
@@ -292,15 +280,7 @@ public final class Sockets {
 	 * @return Client
 	 */
 	private static Client getClient(String name) {
-		switch (SocketParams.getParse(name)) {
-		case "netty":
-			return new NettyClient(name);
-		case "netty3":
-			return new Netty3Client(name);
-		default:
-			// 默认mina
-			return new MinaClient(name);
-		}
+		return new NettyClient(name);
 	}
 
 	private Sockets() {}

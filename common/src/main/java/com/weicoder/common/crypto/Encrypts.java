@@ -1,7 +1,5 @@
 package com.weicoder.common.crypto;
 
-import java.security.Key;
-
 import javax.crypto.Cipher;
 
 import com.weicoder.common.codec.Hex;
@@ -10,7 +8,6 @@ import com.weicoder.common.crypto.base.BaseCrypt;
 import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.params.CommonParams;
-import com.weicoder.common.util.KeyUtil;
 import com.weicoder.common.util.StringUtil;
 
 /**
@@ -147,25 +144,6 @@ public final class Encrypts extends BaseCrypt {
 	 */
 	public static byte[] rc4(byte[] b, String key) {
 		return encrypt(b, key, CommonParams.ENCRYPT_KEY_LENGTH_RC4, EncryptConstants.ALGO_RC4);
-	}
-
-	/**
-	 * 可逆的非对称加密算法 RSA算法
-	 * @param b 需要加密的字节数组
-	 * @return 返回加密后的字节数组
-	 */
-	public static byte[] rsa(byte[] b) {
-		return rsa(b, KeyUtil.getPublicKey(EncryptConstants.ALGO_RSA));
-	}
-
-	/**
-	 * 可逆的非对称加密算法 RSA算法
-	 * @param b 需要加密的字节数组
-	 * @param key 加密密钥
-	 * @return 返回加密后的字节数组
-	 */
-	public static byte[] rsa(byte[] b, Key key) {
-		return doFinal(b, key, EncryptConstants.ALGO_RSA, Cipher.ENCRYPT_MODE);
 	}
 
 	/**

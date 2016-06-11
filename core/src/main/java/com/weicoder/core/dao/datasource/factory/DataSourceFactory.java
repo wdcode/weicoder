@@ -3,13 +3,8 @@ package com.weicoder.core.dao.datasource.factory;
 import javax.sql.DataSource;
 
 import com.weicoder.common.factory.FactoryKey;
-import com.weicoder.core.dao.datasource.impl.Bonecp;
-import com.weicoder.core.dao.datasource.impl.C3P0;
-import com.weicoder.core.dao.datasource.impl.DBCP;
-import com.weicoder.core.dao.datasource.impl.DBCP2;
 import com.weicoder.core.dao.datasource.impl.Druid;
 import com.weicoder.core.dao.datasource.impl.Hikari;
-import com.weicoder.core.dao.datasource.impl.Proxool;
 import com.weicoder.core.dao.datasource.impl.Tomcat;
 import com.weicoder.core.params.DataSourceParams;
 
@@ -51,16 +46,6 @@ public final class DataSourceFactory extends FactoryKey<String, DataSource> {
 				return new Tomcat(key).getDataSource();
 			case "hikari":
 				return new Hikari(key).getDataSource();
-			case "dbcp":
-				return new DBCP(key).getDataSource();
-			case "dbcp2":
-				return new DBCP2(key).getDataSource();
-			case "c3p0":
-				return new C3P0(key).getDataSource();
-			case "proxool":
-				return new Proxool(key).getDataSource();
-			case "bonecp":
-				return new Bonecp(key).getDataSource();
 			default:
 				return new Druid(key).getDataSource();
 		}

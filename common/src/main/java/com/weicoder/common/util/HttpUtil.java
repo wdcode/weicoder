@@ -5,11 +5,11 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Map;
 
-import com.weicoder.common.constants.EncodingConstants;
 import com.weicoder.common.constants.HttpConstants;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.io.IOUtil;
 import com.weicoder.common.log.Logs;
+import com.weicoder.common.zip.ZipEngine;
 
 /**
  * http客户端通讯
@@ -29,10 +29,13 @@ public final class HttpUtil {
 			conn = getConnection(url);
 			// 设置为post方式
 			conn.setRequestMethod(HttpConstants.METHOD_GET);
+			//设置超时
+			conn.setConnectTimeout(3000);
+			conn.setReadTimeout(3000);
 			// 连接
 			conn.connect();
-			// 返回字节数组
-			return IOUtil.readString(conn.getInputStream(), EncodingConstants.UTF_8);
+			// 使用GZIP一般服务器支持解压获得的流 然后转成字符串 一般为UTF-8
+			return StringUtil.toString(ZipEngine.GZIP.extract(IOUtil.read(conn.getInputStream())));
 		} catch (IOException e) {
 			Logs.error(e);
 		} finally {
@@ -40,7 +43,6 @@ public final class HttpUtil {
 				conn.disconnect();
 			}
 		}
-		// 返回空字节数组
 		return StringConstants.EMPTY;
 	}
 
@@ -55,36 +57,41 @@ public final class HttpUtil {
 		try {
 			// 获得连接
 			conn = getConnection(url);
-			// 设置允许output
-			conn.setDoOutput(true);
 			// 设置为post方式
 			conn.setRequestMethod(HttpConstants.METHOD_POST);
+			//设置允许Input
+			conn.setDoInput(true);
 			// 判断有参数提交
 			if (!EmptyUtil.isEmpty(data)) {
+				// 设置允许output
+				conn.setDoOutput(true);
 				// 声明字符串缓存
 				StringBuilder sb = new StringBuilder();
 				// 循环参数
 				for (Map.Entry<String, Object> e : data.entrySet()) {
 					// 添加条件
-					sb.append(e.getKey()).append("=").append(e.getValue());
+					sb.append(e.getKey()).append(StringConstants.EQ).append(e.getValue());
 					// 添加间隔符
 					sb.append(StringConstants.AMP);
 				}
 				// 写数据流
 				IOUtil.write(conn.getOutputStream(), sb.substring(0, sb.length() - 1));
 			}
+			//设置超时
+			conn.setConnectTimeout(3000);
+			conn.setReadTimeout(3000);
 			// 连接
 			conn.connect();
-			// 返回字节数组
-			return IOUtil.readString(conn.getInputStream());
+			// 使用GZIP一般服务器支持解压获得的流 然后转成字符串 一般为UTF-8
+			return StringUtil.toString(ZipEngine.GZIP.extract(IOUtil.read(conn.getInputStream())));
 		} catch (IOException e) {
 			Logs.error(e);
-			return StringConstants.EMPTY;
 		} finally {
 			if (conn != null) {
 				conn.disconnect();
 			}
 		}
+		return StringConstants.EMPTY;
 	}
 
 	/**
@@ -105,7 +112,7 @@ public final class HttpUtil {
 			conn.addRequestProperty(HttpConstants.ACCEPT_CHARSET_KEY, HttpConstants.ACCEPT_CHARSET_VAL);
 			conn.addRequestProperty(HttpConstants.CONTENT_TYPE_KEY, HttpConstants.CONTENT_TYPE_VAL);
 			conn.addRequestProperty(HttpConstants.CONNECTION_KEY, HttpConstants.CONNECTION_VAL);
-			conn.addRequestProperty(HttpConstants.CONTENT_CHARSET, EncodingConstants.UTF_8);
+			//			conn.addRequestProperty(HttpConstants.CONTENT_CHARSET, EncodingConstants.UTF_8);
 			//			conn.addRequestProperty(REFERER_KEY, referer);
 		} catch (Exception e) {
 			Logs.error(e);

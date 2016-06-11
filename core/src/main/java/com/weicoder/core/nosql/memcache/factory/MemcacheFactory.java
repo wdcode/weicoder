@@ -5,9 +5,7 @@ import com.weicoder.common.factory.FactoryKey;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.core.nosql.memcache.Memcache;
 import com.weicoder.core.nosql.memcache.impl.MemcacheArray;
-import com.weicoder.core.nosql.memcache.impl.MemcacheSpy;
 import com.weicoder.core.nosql.memcache.impl.MemcacheWhalin;
-import com.weicoder.core.nosql.memcache.impl.MemcacheX;
 import com.weicoder.core.params.MemcacheParams;
 
 /**
@@ -56,14 +54,7 @@ public final class MemcacheFactory extends FactoryKey<String, Memcache> {
 	 * @return MemCache
 	 */
 	public Memcache newInstance(String name) {
-		switch (MemcacheParams.getParse(name)) {
-		case "x":
-			return new MemcacheX(name);
-		case "spy":
-			return new MemcacheSpy(name);
-		default:
-			return new MemcacheWhalin(name);
-		}
+		return new MemcacheWhalin(name);
 	}
 
 	private MemcacheFactory() {}

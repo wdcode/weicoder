@@ -35,8 +35,6 @@ public final class EncryptConstants {
 	public final static String	ALGO_RC4			= "RC4";
 	/** 加密算法 RC4 */
 	public final static String	ALGO_RC5			= "RC5";
-	/** 加密算法 RSA */
-	public final static String	ALGO_RSA			= "RSA";
 
 	private EncryptConstants() {}
 }

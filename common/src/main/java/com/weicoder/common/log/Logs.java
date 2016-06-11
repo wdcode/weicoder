@@ -1,5 +1,6 @@
 package com.weicoder.common.log;
 
+import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.util.ClassUtil;
 
 /**
@@ -8,7 +9,7 @@ import com.weicoder.common.util.ClassUtil;
  */
 public final class Logs {
 	// loggin日志对象
-	private final static Log LOG = (Log) ClassUtil.newInstance("com.weicoder.core.log.LoggerSlf4j");
+	private final static Log LOG = (Log) ClassUtil.newInstance(CommonParams.LOG_CLASS);
 
 	/**
 	 * 使用trace打印日志

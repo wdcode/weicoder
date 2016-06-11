@@ -6,7 +6,6 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import com.weicoder.common.constants.DateConstants;
-import com.weicoder.common.params.CommonParams;
 
 /**
  * 定时任务工具类
@@ -14,7 +13,7 @@ import com.weicoder.common.params.CommonParams;
  */
 public final class ScheduledUtile {
 	/** 并发定时任务池 */
-	public final static ScheduledExecutorService POOL = Executors.newScheduledThreadPool(CommonParams.POOL_TIMER);
+	public final static ScheduledExecutorService POOL = Executors.newSingleThreadScheduledExecutor();//Executors.newScheduledThreadPool(CommonParams.POOL_TIMER);
 
 	/**
 	 * 执行定时任务 按初始时间间隔
