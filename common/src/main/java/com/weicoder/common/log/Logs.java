@@ -13,7 +13,7 @@ public final class Logs {
 
 	/**
 	 * 使用trace打印日志
-	 * @param msg 信息 可以是字符串xxx%sxxx
+	 * @param msg 信息 可以是字符串xxx{}xxx
 	 * @param params 字符串格式化参数
 	 */
 	public static void trace(String msg, Object... params) {
@@ -30,7 +30,7 @@ public final class Logs {
 
 	/**
 	 * 使用debug打印日志
-	 * @param msg 信息 可以是字符串xxx%sxxx
+	 * @param msg 信息 可以是字符串xxx{}xxx
 	 * @param params 字符串格式化参数
 	 */
 	public static void debug(String msg, Object... params) {
@@ -47,7 +47,7 @@ public final class Logs {
 
 	/**
 	 * 使用info打印日志
-	 * @param msg 信息 可以是字符串xxx%sxxx
+	 * @param msg 信息 可以是字符串xxx{}xxx
 	 * @param params 字符串格式化参数
 	 */
 	public static void info(String msg, Object... params) {
@@ -64,7 +64,7 @@ public final class Logs {
 
 	/**
 	 * 使用debug打印日志
-	 * @param msg 信息 可以是字符串xxx%sxxx
+	 * @param msg 信息 可以是字符串xxx{}xxx
 	 * @param params 字符串格式化参数
 	 */
 	public static void warn(String msg, Object... params) {
@@ -81,7 +81,7 @@ public final class Logs {
 
 	/**
 	 * 使用error打印日志
-	 * @param msg 信息 可以是字符串xxx%sxxx
+	 * @param msg 信息 可以是字符串xxx{}xxx
 	 * @param params 字符串格式化参数
 	 */
 	public static void error(String msg, Object... params) {

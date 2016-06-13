@@ -298,6 +298,7 @@ public final class HttpApache4 extends BaseHttp implements Http {
 				return Conversion.toString(status);
 			}
 		} catch (Exception e) {
+			Logs.error(e);
 			return e.getMessage();
 		} finally {
 			// 销毁post
@@ -352,6 +353,7 @@ public final class HttpApache4 extends BaseHttp implements Http {
 				return Conversion.toString(status);
 			}
 		} catch (Exception e) {
+			Logs.error(e);
 			return e.getMessage();
 		} finally {
 			// 销毁post
