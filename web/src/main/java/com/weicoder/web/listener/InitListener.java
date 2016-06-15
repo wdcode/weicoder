@@ -14,13 +14,13 @@ import com.weicoder.common.lang.Maps;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.util.StringUtil;
-import com.weicoder.core.engine.QuartzEngine;
 import com.weicoder.web.annotation.Action;
 import com.weicoder.web.context.Contexts; 
 import com.weicoder.web.params.ServletParams; 
 import com.weicoder.common.log.Logs;
 import com.weicoder.core.params.QuartzParams;
 import com.weicoder.core.params.SocketParams;
+import com.weicoder.core.quartz.Quartzs;
 import com.weicoder.core.socket.Sockets;
 
 /**
@@ -45,7 +45,7 @@ public class InitListener implements ServletContextListener {
 //		}
 		// 是否开启任务
 		if (QuartzParams.POWER) {
-			QuartzEngine.init();
+			Quartzs.init();
 		}
 		// 是否开启socket
 		if (SocketParams.POWER) {
@@ -101,7 +101,7 @@ public class InitListener implements ServletContextListener {
 //		}
 		// 是否开启任务
 		if (QuartzParams.POWER) {
-			QuartzEngine.close();
+			Quartzs.close();
 		}
 		// 是否开启socket
 		if (SocketParams.POWER) {

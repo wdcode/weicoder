@@ -2,7 +2,7 @@ package com.weicoder.common.constants;
 
 /**
  * HTTP常量
- * @author WD 
+ * @author WD
  */
 public final class HttpConstants {
 	/** HTTP http:// */
@@ -86,32 +86,33 @@ public final class HttpConstants {
 	public final static String	CONTENT_CHARSET					= "http.protocol.content-charset";
 	/** 参数KEY */
 	public final static String	COOKIE_HEADER					= "http.protocol.single-cookie-header";
-	/** 头 Accept 信息 KEY*/
+	/** 头 Accept 信息 KEY */
 	public final static String	ACCEPT_KEY						= "Accept";
-	/** 头 Accept 信息 VALUE*/
+	/** 头 Accept 信息 VALUE */
 	public final static String	ACCEPT_VAL						= "text/xml,text/javascript,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5";
-	/** 头Accept-Language信息  KEY*/
+	/** 头Accept-Language信息 KEY */
 	public final static String	ACCEPT_LANGUAGE_KEY				= "Accept-Language";
-	/** 头Accept-Language信息  VALUE*/
+	/** 头Accept-Language信息 VALUE */
 	public final static String	ACCEPT_LANGUAGE_VAL				= "zh-cn,zh;q=0.5";
-	/** 头Accept-Encoding信息 KEY*/
+	/** 头Accept-Encoding信息 KEY */
 	public final static String	ACCEPT_ENCODING_KEY				= "Accept-Encoding";
-	/** 头Accept-Encoding信息 VALUE*/
+	/** 头Accept-Encoding信息 VALUE */
 	public final static String	ACCEPT_ENCODING_VAL				= "gzip,deflate";
-	/** 头Accept-Charset信息 KEY*/
+	/** 头Accept-Charset信息 KEY */
 	public final static String	ACCEPT_CHARSET_KEY				= "Accept-Charset";
-	/** 头Accept-Charset信息 VALUE*/
+	/** 头Accept-Charset信息 VALUE */
 	public final static String	ACCEPT_CHARSET_VAL				= "ISO-8859-1,utf-8;q=0.7,*;q=0.7";
-	/** 头Content-Type信息 KEY*/
+	/** 头Content-Type信息 KEY */
 	public final static String	CONTENT_TYPE_KEY				= "Content-Type";
-	/** 头Content-Type信息 VALUE*/
+	/** 头Content-Type信息 VALUE */
 	public final static String	CONTENT_TYPE_VAL				= "application/x-www-form-urlencoded";
 	/** 头Referer */
 	public final static String	REFERER_KEY						= "Referer";
-	/** 头Connection KEY*/
+	/** 头Connection KEY */
 	public final static String	CONNECTION_KEY					= "Connection";
-	/** 头Connection VALUE*/
+	/** 头Connection VALUE */
 	public final static String	CONNECTION_VAL					= "Keep-Alive";
 
-	private HttpConstants() {}
+	private HttpConstants() {
+	}
 }

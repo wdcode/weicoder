@@ -1,4 +1,4 @@
-package com.weicoder.core.engine;
+package com.weicoder.core.quartz;
 
 import java.util.Map;
 import java.util.Set;
@@ -23,7 +23,7 @@ import com.weicoder.core.params.QuartzParams;
  * @author WD 
  *  
  */
-public final class QuartzEngine {
+public final class Quartzs {
 	// 保存任务列表
 	private final static Map<JobDetail, Set<? extends Trigger>>	MAP_JOB	= Maps.getConcurrentMap();
 	// 任务执行器
@@ -103,5 +103,5 @@ public final class QuartzEngine {
 		ClearUtil.clear(MAP_JOB);
 	}
 
-	private QuartzEngine() {}
+	private Quartzs() {}
 }

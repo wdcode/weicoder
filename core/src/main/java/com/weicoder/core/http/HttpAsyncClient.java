@@ -14,11 +14,13 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.config.ConnectionConfig;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
+import org.apache.http.impl.nio.client.CloseableHttpAsyncClient;
+import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
+import org.apache.http.impl.nio.conn.PoolingNHttpClientConnectionManager;
+import org.apache.http.impl.nio.reactor.DefaultConnectingIOReactor;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.nio.reactor.IOReactorException;
 
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.EncodingConstants;
@@ -32,44 +34,51 @@ import com.weicoder.common.util.StringUtil;
 import com.weicoder.core.params.HttpParams;
 
 /**
- * HTTP客户端工具类
+ * HTTP异步客户端
  * @author WD
  */
-public final class HttpClient {
+public final class HttpAsyncClient {
 	/** 单例 */
-	public final static HttpClient	INSTANCE	= new HttpClient();
+	public final static HttpAsyncClient	INSTANCE	= new HttpAsyncClient();
 	// Http客户端
-	private CloseableHttpClient		client;
+	private CloseableHttpAsyncClient	client;
 
 	/**
 	 * 构造方法
 	 * @param encoding 编码
 	 */
-	private HttpClient() {
+	private HttpAsyncClient() {
 		// Http连接池
-		PoolingHttpClientConnectionManager pool = new PoolingHttpClientConnectionManager();
-		pool.setDefaultMaxPerRoute(HttpParams.POOL);
-		pool.setMaxTotal(HttpParams.POOL);
-		// 设置请求参数
-		RequestConfig.Builder config = RequestConfig.custom();
-		config.setSocketTimeout(HttpParams.TIMEOUT);
-		config.setConnectTimeout(HttpParams.TIMEOUT);
-		config.setCircularRedirectsAllowed(false);
-		// HttpClientBuilder
-		HttpClientBuilder builder = HttpClientBuilder.create();
-		builder.setDefaultRequestConfig(config.build());
-		builder.setConnectionManager(pool);
-		// 设置 头
-		List<BasicHeader> headers = Lists.getList();
-		headers.add(new BasicHeader(HttpConstants.USER_AGENT_KEY, HttpConstants.USER_AGENT_VAL));
-		headers.add(new BasicHeader(HttpConstants.ACCEPT_KEY, HttpConstants.ACCEPT_VAL));
-		headers.add(new BasicHeader(HttpConstants.ACCEPT_LANGUAGE_KEY, HttpConstants.ACCEPT_LANGUAGE_VAL));
-		headers.add(new BasicHeader(HttpConstants.ACCEPT_CHARSET_KEY, HttpConstants.ACCEPT_CHARSET_VAL));
-		builder.setDefaultHeaders(headers);
-		// 设置连接配置
-		builder.setDefaultConnectionConfig(ConnectionConfig.custom().setCharset(Charset.forName(EncodingConstants.UTF_8)).build());
-		// 实例化客户端
-		client = builder.build();
+		PoolingNHttpClientConnectionManager pool;
+		try {
+			pool = new PoolingNHttpClientConnectionManager(new DefaultConnectingIOReactor());
+			pool.setDefaultMaxPerRoute(HttpParams.POOL);
+			pool.setMaxTotal(HttpParams.POOL);
+			// 设置请求参数
+			RequestConfig.Builder config = RequestConfig.custom();
+			config.setSocketTimeout(HttpParams.TIMEOUT);
+			config.setConnectTimeout(HttpParams.TIMEOUT);
+			config.setCircularRedirectsAllowed(false);
+			// HttpClientBuilder
+			HttpAsyncClientBuilder builder = HttpAsyncClientBuilder.create();
+			builder.setDefaultRequestConfig(config.build());
+			builder.setConnectionManager(pool);
+			// 设置 头
+			List<BasicHeader> headers = Lists.getList();
+			headers.add(new BasicHeader(HttpConstants.USER_AGENT_KEY, HttpConstants.USER_AGENT_VAL));
+			headers.add(new BasicHeader(HttpConstants.ACCEPT_KEY, HttpConstants.ACCEPT_VAL));
+			headers.add(new BasicHeader(HttpConstants.ACCEPT_LANGUAGE_KEY, HttpConstants.ACCEPT_LANGUAGE_VAL));
+			headers.add(new BasicHeader(HttpConstants.ACCEPT_CHARSET_KEY, HttpConstants.ACCEPT_CHARSET_VAL));
+			builder.setDefaultHeaders(headers);
+			// 设置连接配置
+			builder.setDefaultConnectionConfig(ConnectionConfig.custom().setCharset(Charset.forName(EncodingConstants.UTF_8)).build());
+			// 实例化客户端
+			client = builder.build();
+			// 启动
+			client.start();
+		} catch (IOReactorException e) {
+			Logs.error(e);
+		}
 	}
 
 	/**
@@ -94,7 +103,7 @@ public final class HttpClient {
 			get = new HttpGet(url);
 			get.addHeader(new BasicHeader(HttpConstants.CONTENT_TYPE_KEY, HttpConstants.CONTENT_TYPE_VAL));
 			// 获得HttpResponse
-			HttpResponse response = client.execute(get);
+			HttpResponse response = client.execute(get, null).get();
 			// 返回字节流
 			return IOUtil.read(response.getEntity().getContent());
 		} catch (Exception e) {
@@ -138,7 +147,7 @@ public final class HttpClient {
 			// 设置提交文件参数
 			post.setEntity(builder.build());
 			// 获得HttpResponse参数
-			HttpResponse response = client.execute(post);
+			HttpResponse response = client.execute(post, null).get();
 			// 返回结果
 			return IOUtil.readString(response.getEntity().getContent());
 		} catch (Exception e) {
@@ -178,7 +187,7 @@ public final class HttpClient {
 				post.setEntity(new UrlEncodedFormEntity(list, EncodingConstants.UTF_8));
 			}
 			// 获得HttpResponse参数
-			HttpResponse response = client.execute(post);
+			HttpResponse response = client.execute(post, null).get();
 			// 返回结果
 			return IOUtil.readString(response.getEntity().getContent());
 		} catch (Exception e) {
