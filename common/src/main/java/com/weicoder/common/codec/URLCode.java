@@ -60,5 +60,6 @@ public final class URLCode {
 		}
 	}
 
-	private URLCode() {}
+	private URLCode() {
+	}
 }

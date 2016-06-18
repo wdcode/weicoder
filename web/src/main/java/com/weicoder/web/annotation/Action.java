@@ -7,9 +7,9 @@ import java.lang.annotation.Target;
 
 /**
  * Action 注解
- * @author WD 
- *  
+ * @author WD
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Action {}
+public @interface Action {
+}

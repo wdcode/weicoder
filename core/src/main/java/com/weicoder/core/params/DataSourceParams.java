@@ -6,8 +6,7 @@ import com.weicoder.common.params.Params;
 
 /**
  * MemCache配置读取
- * @author WD 
- *  
+ * @author WD
  */
 public final class DataSourceParams {
 	/* MemCache使用 */
@@ -203,5 +202,6 @@ public final class DataSourceParams {
 		return Params.getKey(PREFIX, name, key);
 	}
 
-	private DataSourceParams() {}
+	private DataSourceParams() {
+	}
 }

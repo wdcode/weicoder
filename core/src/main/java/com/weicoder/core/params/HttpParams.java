@@ -5,8 +5,7 @@ import com.weicoder.common.params.Params;
 
 /**
  * HTTP参数
- * @author WD 
- *  
+ * @author WD  
  */
 public final class HttpParams {
 	/** HTTP 超时时间 */

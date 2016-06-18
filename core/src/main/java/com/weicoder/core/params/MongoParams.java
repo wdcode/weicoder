@@ -4,8 +4,7 @@ import com.weicoder.common.params.Params;
 
 /**
  * MongoDB配置读取
- * @author WD 
- *   
+ * @author WD  
  */
 public final class MongoParams {
 	/* Redis使用 */

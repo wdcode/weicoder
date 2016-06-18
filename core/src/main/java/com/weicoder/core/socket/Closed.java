@@ -2,8 +2,7 @@ package com.weicoder.core.socket;
 
 /**
  * Session 关闭处理接口
- * @author WD 
- *  
+ * @author WD
  */
 public interface Closed {
 	/**

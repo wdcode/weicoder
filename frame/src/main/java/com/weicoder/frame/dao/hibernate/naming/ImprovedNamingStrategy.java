@@ -1,6 +1,6 @@
 package com.weicoder.frame.dao.hibernate.naming;
 
-import org.hibernate.boot.model.naming.Identifier; 
+import org.hibernate.boot.model.naming.Identifier;
 import org.hibernate.boot.model.naming.PhysicalNamingStrategy;
 import org.hibernate.engine.jdbc.env.spi.JdbcEnvironment;
 
@@ -9,10 +9,11 @@ import com.weicoder.common.util.EmptyUtil;
 /**
  * 驼峰命名法
  * @author WD
- * 
  */
 public class ImprovedNamingStrategy implements PhysicalNamingStrategy {
-	public static final ImprovedNamingStrategy INSTANCE = new ImprovedNamingStrategy();
+	public static final ImprovedNamingStrategy	INSTANCE	= new ImprovedNamingStrategy();
+	private String								regex		= "([a-z])([A-Z])";
+	private String								replacement	= "$1_$2";
 
 	@Override
 	public Identifier toPhysicalCatalogName(Identifier name, JdbcEnvironment jdbcEnvironment) {
@@ -43,9 +44,6 @@ public class ImprovedNamingStrategy implements PhysicalNamingStrategy {
 		if (name == null || EmptyUtil.isEmpty(name.getText())) {
 			return name;
 		}
-		String regex = "([a-z])([A-Z])";
-		String replacement = "$1_$2";
-		String newName = name.getText().replaceAll(regex, replacement).toLowerCase();
-		return Identifier.toIdentifier(newName);
+		return Identifier.toIdentifier(name.getText().replaceAll(regex, replacement).toLowerCase());
 	}
 }

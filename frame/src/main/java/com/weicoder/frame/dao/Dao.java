@@ -4,14 +4,11 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-import com.weicoder.common.interfaces.Close;
-
 /**
  * 通用Dao接口
- * @author WD 
- *  
+ * @author WD
  */
-public interface Dao extends Close {
+public interface Dao {
 	/**
 	 * 持久化对象，添加操作
 	 * @param entity 对象实体

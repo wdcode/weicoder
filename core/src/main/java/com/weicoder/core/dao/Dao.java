@@ -6,8 +6,7 @@ import java.util.Map;
 
 /**
  * 通用DAO接口
- * @author WD
- * 
+ * @author WD 
  */
 public interface Dao {
 	/**

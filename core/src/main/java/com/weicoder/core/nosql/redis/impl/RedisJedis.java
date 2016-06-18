@@ -13,7 +13,6 @@ import redis.clients.jedis.JedisPoolConfig;
 /**
  * Redis客户端Jedis实现
  * @author WD 
- *  
  */
 public final class RedisJedis extends BaseRedis {
 	// Jedis连接池
@@ -105,22 +104,6 @@ public final class RedisJedis extends BaseRedis {
 		} catch (Exception e) { // 返回失败
 			Logs.error(e);
 			return false;
-		}
-	}
-
-	@Override
-	public void close() {
-		pool.destroy();
-	}
-
-	@Override
-	public void clear() {
-		// 获得Jedis对象
-		try (Jedis jedis = pool.getResource()) {
-			// 清除
-			jedis.flushAll();
-		} catch (Exception e) { // 返回失败
-			Logs.error(e);
 		}
 	}
 }

@@ -4,15 +4,12 @@ import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
 
-import com.weicoder.common.interfaces.Close;
-
 /**
  * JDBC实现 数据库操作接口<br/>
- * 使用DataBaseFactory获得实例,调用方法执行数据库操作<br/> 
+ * 使用DataBaseFactory获得实例,调用方法执行数据库操作<br/>
  * @author WD 
- *  
  */
-public interface DataBase extends Close {
+public interface DataBase {
 	/**
 	 * 完成数据库的增删改操作，要求传入的sql语句必须为insert,update或delete <br/>
 	 * 以List包含数组表示的多条条件 可使用单条sql批量插入

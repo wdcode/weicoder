@@ -11,8 +11,8 @@ import com.zaxxer.hikari.HikariDataSource;
  * @author WD
  */
 public class Hikari extends BaseDataSource {
-	//数据源
-	HikariDataSource ds;
+	// 数据源
+	private HikariDataSource ds;
 
 	public Hikari(String name) {
 		super(name);

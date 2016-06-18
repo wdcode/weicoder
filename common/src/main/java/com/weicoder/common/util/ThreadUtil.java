@@ -4,7 +4,7 @@ import com.weicoder.common.log.Logs;
 
 /**
  * 线程工具类
- * @author WD  
+ * @author WD
  */
 public final class ThreadUtil {
 	/**
@@ -12,7 +12,12 @@ public final class ThreadUtil {
 	 * @param target 线程类实现
 	 */
 	public static void start(Runnable target) {
-		new Thread(target).start();
+		// 声明线程
+		Thread t = new Thread(target);
+		// 设置成守护线程
+		t.setDaemon(true);
+		// 启动线程
+		t.start();
 	}
 
 	/**
@@ -27,5 +32,6 @@ public final class ThreadUtil {
 		}
 	}
 
-	private ThreadUtil() {}
+	private ThreadUtil() {
+	}
 }

@@ -10,8 +10,7 @@ import com.weicoder.web.params.WebParams;
 
 /**
  * Cookie相关操作
- * @author WD 
- *  
+ * @author WD  
  */
 public final class CookieUtil {
 	/**

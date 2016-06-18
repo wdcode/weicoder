@@ -9,8 +9,7 @@ import com.weicoder.core.params.MemcacheParams;
 
 /**
  * MemCacheClient基础抽象
- * @author WD 
- *  
+ * @author WD  
  */
 public abstract class BaseMemcache implements Memcache {
 	/**

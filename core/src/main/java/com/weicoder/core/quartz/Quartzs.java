@@ -15,13 +15,11 @@ import com.weicoder.common.lang.Maps;
 import com.weicoder.common.lang.Sets;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.ClassUtil;
-import com.weicoder.common.util.ClearUtil;
 import com.weicoder.core.params.QuartzParams;
 
 /**
  * Quartz 处理引擎
- * @author WD 
- *  
+ * @author WD
  */
 public final class Quartzs {
 	// 保存任务列表
@@ -100,8 +98,9 @@ public final class Quartzs {
 			scheduler = null;
 		}
 		// 清除列表
-		ClearUtil.clear(MAP_JOB);
+		MAP_JOB.clear();
 	}
 
-	private Quartzs() {}
+	private Quartzs() {
+	}
 }

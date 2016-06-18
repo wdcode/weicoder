@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.Entity;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl;
@@ -12,9 +14,7 @@ import org.hibernate.engine.spi.SessionFactoryImplementor;
 
 import com.weicoder.frame.dao.hibernate.interceptor.EntityInterceptor;
 import com.weicoder.frame.dao.hibernate.naming.ImprovedNamingStrategy;
-import com.weicoder.frame.entity.Entity;
 import com.weicoder.frame.params.FrameParams;
-import com.weicoder.common.interfaces.Close;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.util.ClassUtil;
@@ -24,7 +24,7 @@ import com.weicoder.common.util.ResourceUtil;
  * SessionFactory包装类
  * @author WD
  */
-public final class SessionFactorys implements Close {
+public final class SessionFactorys {
 	// 所有SessionFactory
 	private List<SessionFactory>			factorys;
 	// 类对应SessionFactory
@@ -46,14 +46,15 @@ public final class SessionFactorys implements Close {
 			factory = factorys.get(0);
 		}
 		// 循环获得表名
-		for (Class<Entity> e : ClassUtil.getAssignedClass(Entity.class)) {
+		for (Class<?> e : ClassUtil.getAnnotationClass(Entity.class)) {
 			// 循环获得SessionFactory
 			for (SessionFactory sessionFactory : factorys) {
 				try {
 					if (((SessionFactoryImplementor) sessionFactory).getMetamodel().entity(e) != null) {
 						entity_factorys.put(e, sessionFactory);
 					}
-				} catch (Exception ex) {}
+				} catch (Exception ex) {
+				}
 			}
 		}
 	}
@@ -81,23 +82,23 @@ public final class SessionFactorys implements Close {
 		}
 	}
 
-	@Override
-	public void close() {
-		if (factory != null) {
-			factory.close();
-		}
-		for (SessionFactory factory : entity_factorys.values()) {
-			factory.close();
-		}
-	}
+//	@Override
+//	public void close() {
+//		if (factory != null) {
+//			factory.close();
+//		}
+//		for (SessionFactory factory : entity_factorys.values()) {
+//			factory.close();
+//		}
+//	}
 
 	/**
 	 * 初始化SessionFactory
 	 */
 	private void initSessionFactory() {
-		//获得数据库配置文件
+		// 获得数据库配置文件
 		File file = ResourceUtil.getFile(FrameParams.DB_CONFIG);
-		//不为空
+		// 不为空
 		if (file != null) {
 			// 循环生成
 			for (String name : file.list()) {
@@ -106,7 +107,7 @@ public final class SessionFactorys implements Close {
 				// 设置namingStrategy
 				config.setImplicitNamingStrategy(ImplicitNamingStrategyJpaCompliantImpl.INSTANCE);
 				config.setPhysicalNamingStrategy(ImprovedNamingStrategy.INSTANCE);
-				//设置分表过滤器
+				// 设置分表过滤器
 				config.setInterceptor(EntityInterceptor.INSTANCE);
 				// 注册
 				factorys.add(config.buildSessionFactory());

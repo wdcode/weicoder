@@ -1,6 +1,5 @@
 package com.weicoder.core.dao.jdbc.impl;
 
-import java.io.Closeable;
 import java.math.BigDecimal;
 import java.sql.Array;
 import java.sql.Blob;
@@ -21,7 +20,6 @@ import javax.sql.DataSource;
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.StringConstants;
 
-import com.weicoder.common.interfaces.Close;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
@@ -30,24 +28,22 @@ import com.weicoder.common.util.CloseUtil;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.StringUtil;
-import com.weicoder.core.dao.jdbc.DataBase; 
+import com.weicoder.core.dao.jdbc.DataBase;
 
 /**
  * JDBC实现 数据库操作实现<br/>
  * <h2>注: 内部使用</h2>
- * @author WD 
- *   
  */
 public final class DataBaseImpl implements DataBase {
 	// 声明DataSource
-	private DataSource dataSource;
+	private DataSource ds;
 
 	/**
 	 * 构造函数
-	 * @param dataSource DataSource对象
+	 * @param ds DataSource对象
 	 */
-	public DataBaseImpl(DataSource dataSource) {
-		this.dataSource = dataSource;
+	public DataBaseImpl(DataSource ds) {
+		this.ds = ds;
 	}
 
 	/**
@@ -441,7 +437,7 @@ public final class DataBaseImpl implements DataBase {
 	 */
 	public Connection getConnection() {
 		try {
-			return dataSource.getConnection();
+			return ds.getConnection();
 		} catch (Exception e) {
 			// 记录日志
 			Logs.error(e);
@@ -455,7 +451,7 @@ public final class DataBaseImpl implements DataBase {
 	 * @return DataSource 数据源
 	 */
 	public DataSource getDataSource() {
-		return dataSource;
+		return ds;
 	}
 
 	/**
@@ -463,19 +459,7 @@ public final class DataBaseImpl implements DataBase {
 	 * @param dataSource 数据源
 	 */
 	public void setDataSource(DataSource dataSource) {
-		this.dataSource = dataSource;
-	}
-
-	/**
-	 * 释放资源
-	 */
-	public void close() {
-		// 关闭连接
-		if (dataSource instanceof Close) {
-			CloseUtil.close((Close) dataSource);
-		} else if (dataSource instanceof Closeable) {
-			CloseUtil.close((Closeable) dataSource);
-		}
+		this.ds = dataSource;
 	}
 
 	/**

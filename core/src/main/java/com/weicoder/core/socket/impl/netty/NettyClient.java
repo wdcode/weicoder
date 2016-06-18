@@ -6,14 +6,12 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 
-import com.weicoder.common.log.Logs;
 import com.weicoder.core.params.SocketParams;
 import com.weicoder.core.socket.base.BaseClient;
 
 /**
  * netty客户端
  * @author WD 
- *  
  */
 public final class NettyClient extends BaseClient {
 	// 保存Netty客户端 Bootstrap
@@ -55,10 +53,10 @@ public final class NettyClient extends BaseClient {
 		session(new NettySession(name, future.channel()));
 	}
 
-	@Override
-	public void close() {
-		session.close();
-		bootstrap.group().shutdownGracefully();
-		Logs.info("client close name=" + name);
-	}
+	// @Override
+	// public void close() {
+	// session.close();
+	// bootstrap.group().shutdownGracefully();
+	// Logs.info("client close name=" + name);
+	// }
 }

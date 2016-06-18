@@ -4,8 +4,7 @@ import com.weicoder.core.nosql.redis.factory.RedisFactory;
 
 /**
  * MongoDB引擎
- * @author WD 
- *  
+ * @author WD
  */
 public final class RedisEngine {
 	// Mongo接口
@@ -55,5 +54,6 @@ public final class RedisEngine {
 		return REDIS.get(key);
 	}
 
-	private RedisEngine() {}
+	private RedisEngine() {
+	}
 }

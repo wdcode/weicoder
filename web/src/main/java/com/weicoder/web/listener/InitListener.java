@@ -15,8 +15,8 @@ import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.web.annotation.Action;
-import com.weicoder.web.context.Contexts; 
-import com.weicoder.web.params.ServletParams; 
+import com.weicoder.web.context.Contexts;
+import com.weicoder.web.params.ServletParams;
 import com.weicoder.common.log.Logs;
 import com.weicoder.core.params.QuartzParams;
 import com.weicoder.core.params.SocketParams;
@@ -24,9 +24,8 @@ import com.weicoder.core.quartz.Quartzs;
 import com.weicoder.core.socket.Sockets;
 
 /**
- * 初始化监听器 
- * @author WD 
- * 
+ * 初始化监听器
+ * @author WD
  */
 @WebListener
 public class InitListener implements ServletContextListener {
@@ -39,10 +38,6 @@ public class InitListener implements ServletContextListener {
 		// 设置路径
 		setPath(context);
 
-//		// 是否静态化
-//		if (WebParams.STAICS_POWER) {
-//			StaticsEngine.start();
-//		}
 		// 是否开启任务
 		if (QuartzParams.POWER) {
 			Quartzs.init();
@@ -79,7 +74,7 @@ public class InitListener implements ServletContextListener {
 									Logs.warn("method name exist! name=" + mname + " action=" + cname);
 								}
 								Contexts.METHODS.put(mname, m);
-								//方法对应action
+								// 方法对应action
 								Contexts.METHODS_ACTIONS.put(mname, action);
 							}
 						}
@@ -95,17 +90,13 @@ public class InitListener implements ServletContextListener {
 	 * 销毁资源
 	 */
 	public void contextDestroyed(ServletContextEvent event) {
-//		// 是否静态化
-//		if (WebParams.STAICS_POWER) {
-//			StaticsEngine.close();
-//		}
+		// // 是否静态化
+		// if (WebParams.STAICS_POWER) {
+		// StaticsEngine.close();
+		// }
 		// 是否开启任务
 		if (QuartzParams.POWER) {
 			Quartzs.close();
-		}
-		// 是否开启socket
-		if (SocketParams.POWER) {
-			Sockets.close();
 		}
 	}
 

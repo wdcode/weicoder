@@ -4,8 +4,7 @@ import com.weicoder.core.socket.Server;
 
 /**
  * 基础Server
- * @author WD 
- *   
+ * @author WD
  */
 public abstract class BaseServer extends BaseSocket implements Server {
 	/**

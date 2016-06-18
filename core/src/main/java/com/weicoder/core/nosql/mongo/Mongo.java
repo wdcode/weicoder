@@ -3,15 +3,11 @@ package com.weicoder.core.nosql.mongo;
 import java.util.List;
 import java.util.Map;
 
-import com.weicoder.common.interfaces.Clear;
-import com.weicoder.common.interfaces.Close;
-
 /**
  * MongoDB Dao接口
  * @author WD 
- *  
  */
-public interface Mongo extends Close, Clear {
+public interface Mongo {
 	/**
 	 * 压缩值 当值能压缩时才压缩
 	 * @param key 键

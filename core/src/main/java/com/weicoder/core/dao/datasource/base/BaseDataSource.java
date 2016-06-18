@@ -4,8 +4,7 @@ import javax.sql.DataSource;
 
 /**
  * 基础数据源实现
- * @author WD 
- *   
+ * @author WD  
  */
 public abstract class BaseDataSource {
 

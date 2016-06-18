@@ -6,8 +6,7 @@ import com.weicoder.common.util.ArrayUtil;
 
 /**
  * MemCache配置读取
- * @author WD 
- *   
+ * @author WD  
  */
 public final class MemcacheParams {
 	/**

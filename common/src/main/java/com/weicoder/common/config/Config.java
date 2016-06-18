@@ -19,7 +19,7 @@ import com.weicoder.common.util.StringUtil;
  * 读取配置类
  * @author WD 
  */
-public class Config {
+public final class Config {
 	// Properties配置
 	private Properties ps;
 

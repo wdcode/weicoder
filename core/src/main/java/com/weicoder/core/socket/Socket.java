@@ -1,13 +1,10 @@
 package com.weicoder.core.socket;
 
-import com.weicoder.common.interfaces.Close;
-
 /**
  * Socket接口
  * @author WD 
- *  
  */
-public interface Socket extends Close {
+public interface Socket {
 	/**
 	 * 添加要处理的Handler
 	 * @param handler

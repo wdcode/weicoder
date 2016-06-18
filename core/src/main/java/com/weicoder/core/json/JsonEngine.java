@@ -3,22 +3,18 @@ package com.weicoder.core.json;
 import java.util.List;
 import java.util.Map;
 
+import com.alibaba.fastjson.JSON;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.EmptyUtil;
-import com.weicoder.core.json.impl.JsonFast;
 
 /**
  * JSON处理引擎
- * @author WD 
- *   
+ * @author WD
  */
 public final class JsonEngine {
-	// 默认Json解析
-	private final static Json JSON = new JsonFast();
-
 	/**
 	 * 是否是json串
 	 * @param json json串
@@ -26,11 +22,17 @@ public final class JsonEngine {
 	 */
 	public static boolean isJson(String json) {
 		// 字符串为空
-		if (EmptyUtil.isEmpty(json)) { return false; }
+		if (EmptyUtil.isEmpty(json)) {
+			return false;
+		}
 		// 是数组格式
-		if (isObject(json)) { return true; }
+		if (isObject(json)) {
+			return true;
+		}
 		// 是数组格式
-		if (isArray(json)) { return true; }
+		if (isArray(json)) {
+			return true;
+		}
 		// 返回false
 		return false;
 	}
@@ -42,11 +44,17 @@ public final class JsonEngine {
 	 */
 	public static boolean isObject(String json) {
 		// 字符串为空
-		if (EmptyUtil.isEmpty(json)) { return false; }
+		if (EmptyUtil.isEmpty(json)) {
+			return false;
+		}
 		// {开头 }结尾
-		if (json.startsWith("{") && json.endsWith("}")) { return true; }
+		if (json.startsWith("{") && json.endsWith("}")) {
+			return true;
+		}
 		// 空json
-		if (json.equals("{}")) { return true; }
+		if (json.equals("{}")) {
+			return true;
+		}
 		// 返回false
 		return false;
 	}
@@ -58,11 +66,17 @@ public final class JsonEngine {
 	 */
 	public static boolean isArray(String json) {
 		// 字符串为空
-		if (EmptyUtil.isEmpty(json)) { return false; }
+		if (EmptyUtil.isEmpty(json)) {
+			return false;
+		}
 		// [开头 ]结尾
-		if (json.startsWith("[{") && json.endsWith("}]")) { return true; }
+		if (json.startsWith("[{") && json.endsWith("}]")) {
+			return true;
+		}
 		// 空json
-		if (json.equals("[]")) { return true; }
+		if (json.equals("[]")) {
+			return true;
+		}
 		// 返回false
 		return false;
 	}
@@ -73,7 +87,7 @@ public final class JsonEngine {
 	 * @return 转换后的字符串
 	 */
 	public static String toJson(Object obj) {
-		return obj == null ? StringConstants.EMPTY : JSON.toJson(obj);
+		return obj == null ? StringConstants.EMPTY : JSON.toJSONString(obj);
 	}
 
 	/**
@@ -83,7 +97,7 @@ public final class JsonEngine {
 	 * @return 对象
 	 */
 	public static <E> E toBean(String json, Class<E> clazz) {
-		return EmptyUtil.isEmpty(json) ? null : JSON.toBean(json, clazz);
+		return EmptyUtil.isEmpty(json) ? null : JSON.parseObject(json, clazz);
 	}
 
 	/**
@@ -91,9 +105,8 @@ public final class JsonEngine {
 	 * @param json JSON字符串
 	 * @return List
 	 */
-	@SuppressWarnings("unchecked")
 	public static <E> List<E> toList(String json, Class<E> clazz) {
-		return EmptyUtil.isEmpty(json) ? (List<E>) Lists.getList() : JSON.toList(json, clazz);
+		return isArray(json) ? JSON.parseArray(json, clazz) : Lists.emptyList();
 	}
 
 	/**
@@ -117,7 +130,9 @@ public final class JsonEngine {
 		// 获得Map
 		Map<String, Object> map = toBean(json, Map.class);
 		// 如果map为空
-		if (EmptyUtil.isEmpty(map)) { return Maps.getMap(); }
+		if (EmptyUtil.isEmpty(map)) {
+			return Maps.getMap();
+		}
 		// 声明返回map
 		Map<String, E> data = Maps.getMap(map.size());
 		// 循环生成类
@@ -146,5 +161,6 @@ public final class JsonEngine {
 		return toList(json, Object.class);
 	}
 
-	private JsonEngine() {}
+	private JsonEngine() {
+	}
 }

@@ -1,42 +1,19 @@
 package com.weicoder.frame.params;
 
-import com.weicoder.common.constants.DateConstants;
 import com.weicoder.common.params.Params;
 
 /**
- * WdBase包所用参数读取类
+ * frame包所用参数读取类
  * @author WD
- * 
  */
 public final class FrameParams {
 	/** 分页使用当前页的标识 */
-	public final static String	PAGE_FLAG			= Params.getString("page.flag", "pager.currentPage");
+	public final static String	PAGE_FLAG	= Params.getString("page.flag", "pager.currentPage");
 	/** 分页大小 */
-	public final static int		PAGE_SIZE			= Params.getInt("page.size", 20);
-	/** 缓存是否有效 */
-	public final static boolean	CACHE_VALID_POWER	= Params.getBoolean("cache.valid.power", true);
-	/** 缓存类型 */
-	public final static String	CACHE_TYPE			= Params.getString("cache.type", "map");
+	public final static int		PAGE_SIZE	= Params.getInt("page.size", 20);
 	/** 数据源配置 */
-	public final static String	DATA_SOURCE_CONFIG	= Params.getString("datasource.config", "db/db.properties");
-	/** 数据源配置 */
-	public final static String	DB_CONFIG			= Params.getString("db.config", "db/hibernate/");
-	/** 登录信息最大保存时间 */
-	public final static int		LOGIN_MAX_AGE		= Params.getInt("login.maxAge", DateConstants.WEEK);
-	/** 登录信息最小保存时间 */
-	public final static int		LOGIN_MIN_AGE		= Params.getInt("login.minAge", DateConstants.HOUR * 2);
+	public final static String	DB_CONFIG	= Params.getString("db.config", "db/");
 
-	/**
-	 * 获得是否使用缓存<br/>
-	 * 需在配置文件中配置,如果不配置或配置不对将优先使用CACHE_VALID<br/>
-	 * <h2>配置方式如下: <br/>
-	 * Properties: cache.valid.xxx = ? <br/>
-	 * XML: {@literal <cache><valid><xxx>?</xxx></valid></cache>}</h2>
-	 * @return 是否使用缓存
-	 */
-	public static boolean getCache(String name) {
-		return Params.getBoolean(Params.getKey("cache", "valid", name), CACHE_VALID_POWER);
+	private FrameParams() {
 	}
-
-	private FrameParams() {}
 }

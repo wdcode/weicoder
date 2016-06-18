@@ -18,8 +18,7 @@ import com.weicoder.common.log.Logs;
 
 /**
  * Response一些相关操作类
- * @author WD 
- *  
+ * @author WD  
  */
 public final class ResponseUtil {
 	/**

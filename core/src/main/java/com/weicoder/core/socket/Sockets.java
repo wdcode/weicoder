@@ -16,7 +16,6 @@ import com.weicoder.core.socket.manager.Manager;
 /**
  * Socket 相关类
  * @author WD 
- *   
  */
 public final class Sockets {
 	// 保存SocketServer
@@ -222,50 +221,6 @@ public final class Sockets {
 	}
 
 	/**
-	 * 关闭所有连接
-	 */
-	public static void close() {
-		for (String name : SERVERS.keySet()) {
-			closeServer(name);
-		}
-		for (String name : CLIENTS.keySet()) {
-			closeClient(name);
-		}
-	}
-
-	/**
-	 * 关闭客户端
-	 * @param name 要关闭的Client 名 关闭所有连接
-	 */
-	public static void closeClient(String name) {
-		// 获得Client
-		Client client = CLIENTS.get(name);
-		// 判断acceptor不为空
-		if (!EmptyUtil.isEmpty(client)) {
-			// 关闭Session
-			client.close();
-			// 删除Map中的引用
-			CLIENTS.remove(name);
-		}
-	}
-
-	/**
-	 * 关闭服务器
-	 * @param name 要关闭的Server 名 关闭所有连接
-	 */
-	public static void closeServer(String name) {
-		// 获得Server
-		Server server = SERVERS.get(name);
-		// 判断acceptor不为空
-		if (!EmptyUtil.isEmpty(server)) {
-			// 关闭server
-			server.close();
-			// 删除Map中的引用
-			SERVERS.remove(name);
-		}
-	}
-
-	/**
 	 * 获得服务器
 	 * @param name 服务器配置名
 	 * @return Server
@@ -283,5 +238,6 @@ public final class Sockets {
 		return new NettyClient(name);
 	}
 
-	private Sockets() {}
+	private Sockets() {
+	}
 }

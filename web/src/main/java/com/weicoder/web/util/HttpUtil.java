@@ -22,8 +22,7 @@ import com.weicoder.common.util.StringUtil;
 
 /**
  * HTTP一些相关操作类
- * @author WD 
- *  
+ * @author WD  
  */
 public final class HttpUtil {
 

@@ -10,8 +10,7 @@ import com.weicoder.core.dao.datasource.factory.DataSourceFactory;
 
 /**
  * 生成DataBase的工厂类 
- * @author WD 
- *  
+ * @author WD  
  */
 public final class DataBaseFactory extends FactoryKey<DataSource, DataBase> {
 	// DataBase工厂

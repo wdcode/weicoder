@@ -27,7 +27,6 @@ import com.mongodb.client.MongoDatabase;
 /**
  * MongoDB Dao 实现
  * @author WD 
- *  
  */
 public final class MongoImpl implements Mongo {
 	// MongoDB 主键常量
@@ -59,7 +58,7 @@ public final class MongoImpl implements Mongo {
 			dbcs = Maps.getConcurrentMap();
 		} catch (Exception e) {
 			Logs.error(e);
-//			throw new RuntimeException(e);
+			// throw new RuntimeException(e);
 		}
 	}
 
@@ -291,18 +290,6 @@ public final class MongoImpl implements Mongo {
 	@Override
 	public boolean append(String key, Object value) {
 		return false;
-	}
-
-	@Override
-	public void clear() {
-		getCollection(StringConstants.EMPTY).drop();
-	}
-
-	@Override
-	public void close() {
-		dbc = null;
-		db = null;
-		client.close();
 	}
 
 	/**

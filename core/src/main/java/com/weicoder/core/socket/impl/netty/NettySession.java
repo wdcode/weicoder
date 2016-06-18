@@ -9,12 +9,10 @@ import com.weicoder.core.socket.base.BaseSession;
 /**
  * netty Session实现
  * @author WD
- * @since JDK7
- *  
  */
 public final class NettySession extends BaseSession implements Session {
 	// 通道
-	private Channel	channel;
+	private Channel channel;
 
 	/**
 	 * 构造
@@ -38,10 +36,5 @@ public final class NettySession extends BaseSession implements Session {
 		channel.close();
 		channel.disconnect();
 		channel = null;
-	}
-
-	@Override
-	public boolean isEmpty() {
-		return channel == null;
 	}
 }

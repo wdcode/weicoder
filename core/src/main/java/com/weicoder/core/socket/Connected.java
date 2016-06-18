@@ -2,8 +2,7 @@ package com.weicoder.core.socket;
 
 /**
  * Session 连接器处理器
- * @author WD 
- *   
+ * @author WD  
  */
 public interface Connected {
 	/**

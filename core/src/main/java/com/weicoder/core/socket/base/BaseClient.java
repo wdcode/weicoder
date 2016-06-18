@@ -8,8 +8,7 @@ import com.weicoder.core.socket.message.Login;
 
 /**
  * 基础Client
- * @author WD 
- *   
+ * @author WD
  */
 public abstract class BaseClient extends BaseSocket implements Client {
 	// Session
@@ -26,7 +25,7 @@ public abstract class BaseClient extends BaseSocket implements Client {
 	@Override
 	public Session session() {
 		// 如果session为空 或 未连接
-		if (session == null || session.isEmpty()) {
+		if (session == null) {
 			// 连接
 			connect();
 		}

@@ -5,15 +5,15 @@ import com.weicoder.core.socket.Session;
 
 /**
  * 空Session实现
- * @author WD 
- *  
+ * @author WD
  */
 public final class SessionEmpty implements Session {
 	/** 空Session */
 	public final static Session EMPTY = new SessionEmpty();
 
 	@Override
-	public void close() {}
+	public void close() {
+	}
 
 	@Override
 	public int id() {
@@ -36,7 +36,8 @@ public final class SessionEmpty implements Session {
 	}
 
 	@Override
-	public void write(byte[] data) {}
+	public void write(byte[] data) {
+	}
 
 	@Override
 	public String ip() {
@@ -48,12 +49,8 @@ public final class SessionEmpty implements Session {
 		return 0;
 	}
 
-	@Override
-	public boolean isEmpty() {
-		return false;
+	private SessionEmpty() {
 	}
-
-	private SessionEmpty() {}
 
 	@Override
 	public byte[] buffer(short id, Object message) {
@@ -66,5 +63,6 @@ public final class SessionEmpty implements Session {
 	}
 
 	@Override
-	public void flush() {}
+	public void flush() {
+	}
 }

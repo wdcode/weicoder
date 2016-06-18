@@ -2,8 +2,7 @@ package com.weicoder.core.socket;
 
 /**
  * Socket 处理器
- * @author WD 
- *   
+ * @author WD  
  */
 public interface Handler<E> {
 	/**

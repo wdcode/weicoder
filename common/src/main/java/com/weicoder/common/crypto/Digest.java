@@ -16,7 +16,7 @@ import com.weicoder.common.util.StringUtil;
 
 /**
  * 信息摘要类
- * @author WD 
+ * @author WD
  */
 public final class Digest {
 	// 保存摘要算法
@@ -75,24 +75,6 @@ public final class Digest {
 	 */
 	public static byte[] digest(byte[] b) {
 		return getMessageDigest(b, CommonParams.ENCRYPT_DIGEST);
-	}
-
-	/**
-	 * 返回字符串的MD2(信息-摘要算法)码
-	 * @param text 要MD2的字符串
-	 * @return MD2后的字节数组的hex后字符串
-	 */
-	public static String md2(String text) {
-		return Hex.encode(md2(StringUtil.toBytes(text)));
-	}
-
-	/**
-	 * 返回字符串的MD2(信息-摘要算法)码
-	 * @param b 要MD2的z字节数组
-	 * @return MD2后的字节数组
-	 */
-	public static byte[] md2(byte[] b) {
-		return getMessageDigest(b, EncryptConstants.ALGO_MD2);
 	}
 
 	/**

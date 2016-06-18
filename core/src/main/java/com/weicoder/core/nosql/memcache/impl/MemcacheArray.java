@@ -7,8 +7,6 @@ import java.util.concurrent.Executors;
 
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.util.ArrayUtil;
-import com.weicoder.common.util.ClearUtil;
-import com.weicoder.common.util.CloseUtil;
 import com.weicoder.core.nosql.memcache.Memcache;
 import com.weicoder.core.nosql.memcache.base.BaseMemcache;
 import com.weicoder.core.nosql.memcache.factory.MemcacheFactory;
@@ -16,7 +14,6 @@ import com.weicoder.core.nosql.memcache.factory.MemcacheFactory;
 /**
  * 集群客户端
  * @author WD 
- *  
  */
 public final class MemcacheArray extends BaseMemcache {
 	// 集群
@@ -130,26 +127,12 @@ public final class MemcacheArray extends BaseMemcache {
 	}
 
 	/**
-	 * 关闭资源
-	 */
-	public void close() {
-		CloseUtil.close(clients);
-	}
-
-	/**
 	 * 判断键是否存在
 	 * @param key
 	 * @return
 	 */
 	public boolean exists(final String key) {
 		return clients[0].exists(key);
-	}
-
-	/**
-	 * 清除数据
-	 */
-	public void clear() {
-		ClearUtil.clear(clients);
 	}
 
 	/**
@@ -170,13 +153,13 @@ public final class MemcacheArray extends BaseMemcache {
 	/**
 	 * 初始化
 	 */
-	protected void init(String name, String[] servers, Integer[] weights, int initConn, int minConn, int maxConn, long maxIdle, long maintSleep, int socketTO, int socketConnectTO, boolean binary) {}
+	protected void init(String name, String[] servers, Integer[] weights, int initConn, int minConn, int maxConn, long maxIdle, long maintSleep, int socketTO, int socketConnectTO, boolean binary) {
+	}
 
 	/**
 	 * 客户端实体保存使用次数
 	 * @author WD
-	 * @since JDK7
-	 *  2011-12-20
+	 * @since JDK7 2011-12-20
 	 */
 	class ClientEntity implements Comparable<ClientEntity> {
 		// 下标

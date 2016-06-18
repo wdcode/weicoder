@@ -7,9 +7,8 @@ import com.weicoder.common.zip.ZipEngine;
 import com.weicoder.core.nosql.redis.Redis;
 
 /**
- * NoSQL基类
- * @author WD 
- *  
+ * Redis基类
+ * @author WD  
  */
 public abstract class BaseRedis implements Redis {
 	/**

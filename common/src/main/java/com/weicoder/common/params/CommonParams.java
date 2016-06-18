@@ -7,8 +7,8 @@ import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.constants.UnitConstants;
 
 /**
- * Common包参数读取类 
- * @author WD 
+ * Common包参数读取类
+ * @author WD
  */
 public final class CommonParams {
 	/** IO缓冲区大小 */
@@ -39,8 +39,6 @@ public final class CommonParams {
 	public final static String	ENCRYPT_ALGO			= Params.getString("encrypt.algo", EncryptConstants.ALGO_AES);
 	/** 加密使用摘要算法 */
 	public final static String	ENCRYPT_DIGEST			= Params.getString("encrypt.digest", EncryptConstants.ALGO_SHA_1);
-	/** 线程池数 */
-//	public final static int		POOL_TIMER				= Params.getInt("pool.timer", SystemConstants.CPU_NUM);
 	/** 压缩算法 */
 	public final static String	ZIP						= Params.getString("zip", "zlib");
 	/** tcp连接地址 */
@@ -53,6 +51,11 @@ public final class CommonParams {
 	public final static int		UDP_PORT				= Params.getInt("udp.port");
 	/** log实现 */
 	public final static String	LOG_CLASS				= Params.getString("log.class", "com.weicoder.core.log.LoggerSlf4j");
+	/** 登录信息最大保存时间 */
+	public final static int		LOGIN_MAX_AGE			= Params.getInt("login.maxAge", DateConstants.WEEK);
+	/** 登录信息最小保存时间 */
+	public final static int		LOGIN_MIN_AGE			= Params.getInt("login.minAge", DateConstants.HOUR * 2);
 
-	private CommonParams() {}
+	private CommonParams() {
+	}
 }

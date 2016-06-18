@@ -10,7 +10,7 @@ import com.weicoder.common.util.StringUtil;
 
 /**
  * 解密类
- * @author WD  
+ * @author WD
  */
 public final class Decrypts extends BaseCrypt {
 
@@ -56,9 +56,6 @@ public final class Decrypts extends BaseCrypt {
 			case EncryptConstants.ALGO_DES:
 				// DES解密
 				return des(b, keys);
-			case EncryptConstants.ALGO_RC2:
-				// RC2解密
-				return rc2(b, keys);
 			case EncryptConstants.ALGO_RC4:
 				// RC4解密
 				return rc4(b, keys);
@@ -107,25 +104,6 @@ public final class Decrypts extends BaseCrypt {
 	}
 
 	/**
-	 * 针对encrypt方法的解密 RC2算法
-	 * @param text 需要解密的字符串
-	 * @return 返回解密后的字符串 text为空或发生异常返回原串
-	 */
-	public static byte[] rc2(byte[] b) {
-		return rc2(b, CommonParams.ENCRYPT_KEY);
-	}
-
-	/**
-	 * 针对encrypt方法的解密 RC2算法
-	 * @param text 需要解密的字符串
-	 * @param keys 键
-	 * @return 返回解密后的字符串 text为空或发生异常返回原串
-	 */
-	public static byte[] rc2(byte[] b, String keys) {
-		return decrypt(b, keys, CommonParams.ENCRYPT_KEY_LENGTH_RC2, EncryptConstants.ALGO_RC2);
-	}
-
-	/**
 	 * 针对encrypt方法的解密 RC4算法
 	 * @param b 需要解密的字节数组
 	 * @return 返回解密后的字符串 text为空或发生异常返回原串
@@ -156,5 +134,6 @@ public final class Decrypts extends BaseCrypt {
 		return doFinal(b, keys, len, algorithm, Cipher.DECRYPT_MODE);
 	}
 
-	private Decrypts() {}
+	private Decrypts() {
+	}
 }

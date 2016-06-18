@@ -7,13 +7,12 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.channel.ChannelHandler.Sharable; 
+import io.netty.channel.ChannelHandler.Sharable;
 
 /**
  * Netty 处理器
- * @author WD 
- *   
- */ 
+ * @author WD
+ */
 @Sharable
 public final class NettyHandler extends SimpleChannelInboundHandler<ByteBuf> {
 	// 名称
@@ -43,7 +42,8 @@ public final class NettyHandler extends SimpleChannelInboundHandler<ByteBuf> {
 	}
 
 	@Override
-	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {}
+	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+	}
 
 	@Override
 	protected void channelRead0(ChannelHandlerContext ctx, ByteBuf msg) throws Exception {

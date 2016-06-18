@@ -4,11 +4,9 @@ import java.io.File;
 import java.util.Collection;
 import java.util.Map;
 
-import com.weicoder.common.interfaces.Empty;
-
 /**
  * 一些公用的方法类
- * @author WD 
+ * @author WD
  */
 public final class EmptyUtil {
 	/**
@@ -45,8 +43,6 @@ public final class EmptyUtil {
 		// 判断对象类型
 		if (obj == null) {
 			return true;
-		} else if (obj instanceof Empty) {
-			return isEmpty((Empty) obj);
 		} else if (obj instanceof String) {
 			return isEmpty((String) obj);
 		} else if (obj instanceof byte[]) {
@@ -73,15 +69,6 @@ public final class EmptyUtil {
 	 */
 	public static boolean isEmpty(File file) {
 		return file == null || !file.exists();
-	}
-
-	/**
-	 * 判断对象是否空 判断 object == null
-	 * @param object 对象
-	 * @return true为空,false非空
-	 */
-	public static boolean isEmpty(Empty e) {
-		return e == null || e.isEmpty();
 	}
 
 	/**

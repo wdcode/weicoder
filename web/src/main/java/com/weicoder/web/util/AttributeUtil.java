@@ -8,8 +8,7 @@ import com.weicoder.common.util.EmptyUtil;
 
 /**
  * 保存属性工具类
- * @author WD 
- *  
+ * @author WD  
  */
 public final class AttributeUtil {
 	/**

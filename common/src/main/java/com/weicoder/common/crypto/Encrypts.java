@@ -12,7 +12,7 @@ import com.weicoder.common.util.StringUtil;
 
 /**
  * 加密类
- * @author WD  
+ * @author WD
  */
 public final class Encrypts extends BaseCrypt {
 	/**
@@ -58,9 +58,6 @@ public final class Encrypts extends BaseCrypt {
 			case EncryptConstants.ALGO_DES:
 				// DES加密
 				return des(b, key);
-			case EncryptConstants.ALGO_RC2:
-				// RC2加密
-				return rc2(b, key);
 			case EncryptConstants.ALGO_RC4:
 				// RC4加密
 				return rc4(b, key);
@@ -109,25 +106,6 @@ public final class Encrypts extends BaseCrypt {
 	}
 
 	/**
-	 * 可逆的加密算法 RC2算法
-	 * @param b 需要加密的字节数组
-	 * @return 返回加密后的字节数组
-	 */
-	public static byte[] rc2(byte[] b) {
-		return rc2(b, CommonParams.ENCRYPT_KEY);
-	}
-
-	/**
-	 * 可逆的加密算法 RC2算法
-	 * @param b 需要加密的字节数组
-	 * @param key 加密key
-	 * @return 返回加密后的字节数组
-	 */
-	public static byte[] rc2(byte[] b, String key) {
-		return encrypt(b, key, CommonParams.ENCRYPT_KEY_LENGTH_RC2, EncryptConstants.ALGO_RC2);
-	}
-
-	/**
 	 * 可逆的加密算法 RC4算法
 	 * @param b 需要加密的字节数组
 	 * @return 返回加密后的字节数组
@@ -158,5 +136,6 @@ public final class Encrypts extends BaseCrypt {
 		return doFinal(b, keys, len, algorithm, Cipher.ENCRYPT_MODE);
 	}
 
-	private Encrypts() {}
+	private Encrypts() {
+	}
 }

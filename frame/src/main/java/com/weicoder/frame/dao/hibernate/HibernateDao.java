@@ -471,13 +471,13 @@ public final class HibernateDao implements Dao {
 		return execute(entityClass, (Session session) -> setParameter(session.createNativeQuery(sql), values, firstResult, maxResults).getResultList());
 	}
 
-	/**
-	 * 关闭Session
-	 * @param session
-	 */
-	public void close() {
-		factorys.close();
-	}
+//	/**
+//	 * 关闭Session
+//	 * @param session
+//	 */
+//	public void close() {
+//		factorys.close();
+//	}
 
 	/**
 	 * 设置Query 参数与结果集数量

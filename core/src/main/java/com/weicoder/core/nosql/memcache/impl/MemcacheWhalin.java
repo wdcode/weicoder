@@ -3,7 +3,6 @@ package com.weicoder.core.nosql.memcache.impl;
 import java.util.Map;
 
 import com.weicoder.common.lang.Conversion;
-import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.core.nosql.memcache.base.BaseMemcache;
 
 import com.whalin.MemCached.MemCachedClient;
@@ -12,7 +11,6 @@ import com.whalin.MemCached.SockIOPool;
 /**
  * MemCached com.danga包的客户端调用实现
  * @author WD 
- *  
  */
 public final class MemcacheWhalin extends BaseMemcache {
 	// MemCache客户端
@@ -53,13 +51,6 @@ public final class MemcacheWhalin extends BaseMemcache {
 	 */
 	public Object[] get(String... keys) {
 		return client.getMultiArray(keys);
-	}
-
-	/**
-	 * 清除所有键值
-	 */
-	public void clear() {
-		client.flushAll();
 	}
 
 	/**
@@ -126,18 +117,5 @@ public final class MemcacheWhalin extends BaseMemcache {
 		pool.initialize();
 		// 实例化client
 		client = new MemCachedClient(name, binary);
-	}
-
-	/**
-	 * 关闭方法
-	 */
-	public void close() {
-		// 判断连接池不为空
-		if (!EmptyUtil.isEmpty(pool)) {
-			pool.shutDown();
-		}
-		// 置为空
-		client = null;
-		pool = null;
 	}
 }

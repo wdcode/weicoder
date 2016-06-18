@@ -2,8 +2,7 @@ package com.weicoder.core.socket;
 
 /**
  * Socket 客户端
- * @author WD 
- *  
+ * @author WD  
  */
 public interface Client extends Socket {
 	/**

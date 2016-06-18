@@ -2,8 +2,7 @@ package com.weicoder.core.socket.message;
 
 /**
  * 登录消息接口 用于Client登录验证
- * @author WD 
- *  
+ * @author WD
  */
 public interface Login {
 	/**

@@ -8,8 +8,7 @@ import com.weicoder.core.socket.process.Process;
 
 /**
  * 基础Socket
- * @author WD 
- *   
+ * @author WD
  */
 public abstract class BaseSocket implements Socket {
 	// 名称

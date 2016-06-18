@@ -6,9 +6,8 @@ import java.util.Map;
 import com.weicoder.common.lang.Maps;
 
 /**
- * 全局Selvert控制 
- * @author WD 
- *  
+ * 全局Selvert控制
+ * @author WD
  */
 public final class Contexts {
 	// Action列表
@@ -20,5 +19,6 @@ public final class Contexts {
 	// 回调方法处理
 	public final static Map<String, Method>					METHODS			= Maps.getMap();
 
-	private Contexts() {}
+	private Contexts() {
+	}
 }

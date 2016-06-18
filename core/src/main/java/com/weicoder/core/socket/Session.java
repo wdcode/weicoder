@@ -1,14 +1,10 @@
 package com.weicoder.core.socket;
 
-import com.weicoder.common.interfaces.Close;
-import com.weicoder.common.interfaces.Empty;
-
 /**
  * Socket Session
- * @author WD 
- *  
+ * @author WD
  */
-public interface Session extends Close, Empty {
+public interface Session extends AutoCloseable {
 	/**
 	 * 获得SessionId
 	 * @return SessionId

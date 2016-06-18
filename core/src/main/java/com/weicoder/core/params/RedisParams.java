@@ -4,8 +4,7 @@ import com.weicoder.common.params.Params;
 
 /**
  * Redis配置读取
- * @author WD 
- *  
+ * @author WD  
  */
 public final class RedisParams {
 	/* Redis使用 */

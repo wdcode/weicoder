@@ -28,8 +28,7 @@ import com.weicoder.core.socket.message.Null;
 
 /**
  * Socket 数据处理器实现
- * @author WD 
- *  
+ * @author WD
  */
 public final class Process {
 	// Handler列表
@@ -113,7 +112,8 @@ public final class Process {
 							Logs.info(StringUtil.add("name=", name, ";overtime close id=", e.getKey()));
 						}
 					}
-				} catch (Exception e) {}
+				} catch (Exception e) {
+				}
 			}, 1);
 		}
 	}
@@ -150,13 +150,13 @@ public final class Process {
 	public void connected(Session session) {
 		// 是否拒绝连接
 		if (Conversion.toBoolean(limits.get(session.ip()))) {
-			session.close();
+			CloseUtil.close(session);
 			Logs.info(StringUtil.add("name=", name, ";limits ip=", session.ip(), " close id=", session.id()));
 			return;
 		}
 		// 是否连接
 		boolean is = true;
-		// 如果连接处理器不为空 
+		// 如果连接处理器不为空
 		if (connected != null) {
 			is = connected.connected(session);
 		}
@@ -251,11 +251,12 @@ public final class Process {
 			}
 			// 获得信息长度
 			// int length = Integer.reverseBytes(buff.getInt());
-			//			int length = buff.readInt();
+			// int length = buff.readInt();
 			short length = buff.readShort();
 			// 无长度 发送消息不符合 关掉连接
 			if (length < 2 || length > Short.MAX_VALUE) {
-				session.close();
+				CloseUtil.close(session);
+				;
 				Logs.info(StringUtil.add("name=", name, ";error len close id=", session.id(), ";len=" + length));
 				return;
 			}
@@ -370,7 +371,7 @@ public final class Process {
 							} else {
 								Logs.info(log);
 							}
-							mess = Null.NULL;//((Message) ClassUtil.newInstance(type)).array(data);
+							mess = Null.NULL;// ((Message) ClassUtil.newInstance(type)).array(data);
 						}
 						log = StringUtil.add("name=", name, ";socket=", sid, ";handler message=", mess, ";time=", System.currentTimeMillis() - curr);
 						// 心跳包用debug 其它info

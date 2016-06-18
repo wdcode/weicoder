@@ -4,8 +4,7 @@ import com.weicoder.core.nosql.mongo.factory.MongoFactory;
 
 /**
  * MongoDB引擎
- * @author WD 
- *   
+ * @author WD  
  */
 public final class MongoEngine {
 	// Mongo接口

@@ -3,15 +3,11 @@ package com.weicoder.core.nosql.memcache;
 import java.util.List;
 import java.util.Map;
 
-import com.weicoder.common.interfaces.Clear;
-import com.weicoder.common.interfaces.Close;
-
 /**
  * MemCached的客户端调用接口
  * @author WD 
- *  
  */
-public interface Memcache extends Close, Clear {
+public interface Memcache {
 	/**
 	 * 压缩值 当值能压缩时才压缩
 	 * @param key 键

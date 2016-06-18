@@ -19,8 +19,6 @@ import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.web.context.Contexts;
 import com.weicoder.web.params.ServletParams;
-import com.weicoder.web.params.WebParams;
-import com.weicoder.web.util.IpUtil;
 import com.weicoder.web.util.RequestUtil;
 import com.weicoder.web.util.ResponseUtil;
 
@@ -34,13 +32,13 @@ public class BasicServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 获得客户端IP
-		String ip = IpUtil.getIp(request);
+		String ip = RequestUtil.getIp(request);
 		// 获得callback
 		String callback = RequestUtil.getParameter(request, "callback");
 		// 过滤IP
-		if (!EmptyUtil.isEmpty(WebParams.SERVLET_IPS)) {
+		if (!EmptyUtil.isEmpty(ServletParams.IPS)) {
 			// 如果在允许列表继续 否则退出
-			if (!WebParams.SERVLET_IPS.contains(ip)) {
+			if (!ServletParams.IPS.contains(ip)) {
 				Logs.info("this ip=" + ip);
 				ResponseUtil.json(response, callback, "not exist ip");
 				return;
@@ -95,6 +93,11 @@ public class BasicServlet extends HttpServlet {
 						params[i] = response;
 					} else if (ClassUtil.isBaseType(cs)) {
 						params[i] = Conversion.to(ps.get(p.getName()), cs);
+						// 判断参数为空并且参数名为ip
+						if (EmptyUtil.isEmpty(params[i]) && "ip".equals(p.getName())) {
+							// 赋值为调用客户端IP
+							params[i] = ip;
+						}
 					} else {
 						params[i] = BeanUtil.copy(ps, cs);
 					}

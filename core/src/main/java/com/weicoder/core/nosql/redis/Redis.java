@@ -2,15 +2,11 @@ package com.weicoder.core.nosql.redis;
 
 import java.util.List;
 
-import com.weicoder.common.interfaces.Clear;
-import com.weicoder.common.interfaces.Close;
-
 /**
  * Redis 操作接口
  * @author WD 
- *  
  */
-public interface Redis extends Close, Clear {
+public interface Redis {
 	/**
 	 * 压缩值 当值能压缩时才压缩
 	 * @param key 键

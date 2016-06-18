@@ -1,21 +1,20 @@
 package com.weicoder.core.nosql.redis.impl;
 
 import org.redisson.Config;
-import org.redisson.Redisson;
-import org.redisson.RedissonClient;
+//import org.redisson.Redisson;
+//import org.redisson.RedissonClient;
 
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.core.nosql.redis.base.BaseRedis;
 import com.weicoder.core.params.RedisParams;
 
 /**
- * Redis客户端Jedis实现
- * @author WD 
- *  
+ * Redis客户端Redisson实现
+ * @author WD
  */
 public final class RedisRedisson extends BaseRedis {
 	// Jedis连接池
-	private RedissonClient client;
+//	private RedissonClient client;
 
 	public RedisRedisson(String name) {
 		// 实例化Jedis配置
@@ -24,7 +23,7 @@ public final class RedisRedisson extends BaseRedis {
 		config.useSingleServer().setConnectionPoolSize(RedisParams.getMaxTotal(name));
 		config.useSingleServer().setAddress(RedisParams.getHost(name) + StringConstants.COLON + RedisParams.getPort(name));
 		// 实例化连接池
-		client = Redisson.create(config);
+//		client = Redisson.create(config);
 	}
 
 	/**
@@ -51,7 +50,8 @@ public final class RedisRedisson extends BaseRedis {
 	 * 删除键值
 	 * @param key 键
 	 */
-	public void remove(String... key) {}
+	public void remove(String... key) {
+	}
 
 	/**
 	 * 验证键是否存在
@@ -68,12 +68,4 @@ public final class RedisRedisson extends BaseRedis {
 		// 返回成功
 		return true;
 	}
-
-	@Override
-	public void close() {
-		client.shutdown();
-	}
-
-	@Override
-	public void clear() {}
 }
