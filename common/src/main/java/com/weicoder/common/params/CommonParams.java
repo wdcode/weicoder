@@ -50,7 +50,9 @@ public final class CommonParams {
 	/** udp服务器端口 */
 	public final static int		UDP_PORT				= Params.getInt("udp.port");
 	/** log实现 */
-	public final static String	LOG_CLASS				= Params.getString("log.class", "com.weicoder.core.log.LoggerSlf4j");
+	public final static String	LOG_CLASS				= Params.getString("log.class", "com.weicoder.core.log.LogSlf4j");
+	/** json实现 */
+	public final static String	JSON_CLASS				= Params.getString("json.class", "com.weicoder.core.json.JsonFast");
 	/** 登录信息最大保存时间 */
 	public final static int		LOGIN_MAX_AGE			= Params.getInt("login.maxAge", DateConstants.WEEK);
 	/** 登录信息最小保存时间 */

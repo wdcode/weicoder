@@ -13,6 +13,7 @@ local.properties
 .loadpath
 target/
 META-INF/
+.DS_Store/
 #.settings/
 #.classpath
 #.project

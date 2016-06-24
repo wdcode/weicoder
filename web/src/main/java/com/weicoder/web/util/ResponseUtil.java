@@ -13,7 +13,7 @@ import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.util.CloseUtil;
 import com.weicoder.common.util.EmptyUtil;
-import com.weicoder.core.json.JsonEngine;
+import com.weicoder.common.json.JsonEngine;
 import com.weicoder.common.log.Logs;
 
 /**

@@ -18,10 +18,8 @@ import com.weicoder.web.annotation.Action;
 import com.weicoder.web.context.Contexts;
 import com.weicoder.web.params.ServletParams;
 import com.weicoder.common.log.Logs;
-import com.weicoder.core.params.QuartzParams;
-import com.weicoder.core.params.SocketParams;
-import com.weicoder.core.quartz.Quartzs;
-import com.weicoder.core.socket.Sockets;
+import com.weicoder.core.params.QuartzParams; 
+import com.weicoder.core.quartz.Quartzs; 
 
 /**
  * 初始化监听器
@@ -41,11 +39,7 @@ public class InitListener implements ServletContextListener {
 		// 是否开启任务
 		if (QuartzParams.POWER) {
 			Quartzs.init();
-		}
-		// 是否开启socket
-		if (SocketParams.POWER) {
-			Sockets.init();
-		}
+		} 
 		// 判断是否开启Servlet
 		if (ServletParams.POWER) {
 			// 按包处理

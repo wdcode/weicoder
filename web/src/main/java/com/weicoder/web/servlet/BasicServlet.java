@@ -6,6 +6,7 @@ import java.lang.reflect.Parameter;
 import java.util.Map;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,6 +27,7 @@ import com.weicoder.web.util.ResponseUtil;
  * 基础Servlet 3
  * @author WD
  */
+@WebServlet("/*")
 public class BasicServlet extends HttpServlet {
 	private static final long serialVersionUID = 3117468121294921856L;
 
