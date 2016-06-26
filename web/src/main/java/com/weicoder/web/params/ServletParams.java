@@ -12,7 +12,7 @@ import com.weicoder.common.params.Params;
  */
 public final class ServletParams {
 	/** Servlet服务器开关 */
-	public final static boolean		POWER	= Params.getBoolean("servlet.power", false);
+	public final static boolean		POWER	= Params.getBoolean("servlet.power", true);
 	/** 是否支持get */
 	public final static boolean		GET		= Params.getBoolean("servlet.get", true);
 	/** IP鉴权 允许的IP访问 */

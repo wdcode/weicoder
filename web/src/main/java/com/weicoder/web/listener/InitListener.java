@@ -4,12 +4,11 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Map;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
-import com.weicoder.common.constants.StringConstants;
+import com.weicoder.common.init.Inits;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.ClassUtil;
@@ -18,8 +17,6 @@ import com.weicoder.web.annotation.Action;
 import com.weicoder.web.context.Contexts;
 import com.weicoder.web.params.ServletParams;
 import com.weicoder.common.log.Logs;
-import com.weicoder.core.params.QuartzParams; 
-import com.weicoder.core.quartz.Quartzs; 
 
 /**
  * 初始化监听器
@@ -31,15 +28,8 @@ public class InitListener implements ServletContextListener {
 	 * 初始化资源
 	 */
 	public void contextInitialized(ServletContextEvent event) {
-		// 获得Servlet上下文
-		ServletContext context = event.getServletContext();
-		// 设置路径
-		setPath(context);
-
-		// 是否开启任务
-		if (QuartzParams.POWER) {
-			Quartzs.init();
-		} 
+		// 初始化任务
+		Inits.init();
 		// 判断是否开启Servlet
 		if (ServletParams.POWER) {
 			// 按包处理
@@ -80,29 +70,7 @@ public class InitListener implements ServletContextListener {
 		}
 	}
 
-	/**
-	 * 销毁资源
-	 */
-	public void contextDestroyed(ServletContextEvent event) {
-		// // 是否静态化
-		// if (WebParams.STAICS_POWER) {
-		// StaticsEngine.close();
-		// }
-		// 是否开启任务
-		if (QuartzParams.POWER) {
-			Quartzs.close();
-		}
-	}
-
-	/**
-	 * 设置路径
-	 */
-	private void setPath(ServletContext context) {
-		// 工程路径Key
-		String path = "path";
-		// 设置工程路径为path
-		context.setAttribute(path, context.getContextPath());
-		// 配置系统路径
-		System.setProperty(path, context.getRealPath(StringConstants.EMPTY));
+	@Override
+	public void contextDestroyed(ServletContextEvent arg0) {
 	}
 }
