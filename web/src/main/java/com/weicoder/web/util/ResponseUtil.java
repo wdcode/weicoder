@@ -18,7 +18,7 @@ import com.weicoder.common.log.Logs;
 
 /**
  * Response一些相关操作类
- * @author WD  
+ * @author WD
  */
 public final class ResponseUtil {
 	/**
@@ -94,6 +94,10 @@ public final class ResponseUtil {
 	 * @param charsetName 编码
 	 */
 	public static String json(HttpServletResponse response, String callback, Object data) {
+		// 返回数据为空
+		if (data == null) {
+			return StringConstants.EMPTY;
+		}
 		// 声明返回字符串
 		StringBuilder s = new StringBuilder();
 		// 如果callback不为空 填补左括号
@@ -132,6 +136,6 @@ public final class ResponseUtil {
 			response.setContentType(type);
 		}
 	}
- 
+
 	private ResponseUtil() {}
 }

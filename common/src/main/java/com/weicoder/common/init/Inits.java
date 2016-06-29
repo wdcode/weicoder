@@ -17,6 +17,5 @@ public final class Inits {
 		}
 	}
 
-	private Inits() {
-	}
+	private Inits() {}
 }

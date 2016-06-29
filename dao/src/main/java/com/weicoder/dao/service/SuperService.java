@@ -22,8 +22,7 @@ public final class SuperService {
 	// hibernate dao
 	private Dao							dao		= new HibernateDao();
 
-	private SuperService() {
-	}
+	private SuperService() {}
 
 	/**
 	 * 添加

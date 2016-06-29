@@ -1,4 +1,4 @@
-package com.weicoder.common.util;
+package com.weicoder.common.schedule;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -6,14 +6,15 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import com.weicoder.common.constants.DateConstants;
+import com.weicoder.common.constants.SystemConstants;
 
 /**
  * 定时任务工具类
- * @author WD  
+ * @author WD
  */
 public final class ScheduledUtile {
 	/** 并发定时任务池 */
-	public final static ScheduledExecutorService POOL = Executors.newSingleThreadScheduledExecutor();//Executors.newScheduledThreadPool(CommonParams.POOL_TIMER);
+	public final static ScheduledExecutorService POOL = Executors.newScheduledThreadPool(SystemConstants.CPU_NUM);
 
 	/**
 	 * 执行定时任务 按初始时间间隔
@@ -22,7 +23,19 @@ public final class ScheduledUtile {
 	 * @return
 	 */
 	public static ScheduledFuture<?> rate(Runnable command, long period) {
-		return POOL.scheduleAtFixedRate(command, period, period, TimeUnit.MILLISECONDS);
+		return rate(command, period, period, TimeUnit.MILLISECONDS);
+	}
+
+	/**
+	 * 执行定时任务 按初始时间间隔
+	 * @param command 线程任务
+	 * @param initialDelay 初始化时间
+	 * @param period 间隔时间
+	 * @param unit 时间戳
+	 * @return
+	 */
+	public static ScheduledFuture<?> rate(Runnable command, long initialDelay, long period, TimeUnit unit) {
+		return POOL.scheduleAtFixedRate(command, initialDelay, period, unit);
 	}
 
 	/**
@@ -43,6 +56,18 @@ public final class ScheduledUtile {
 	 */
 	public static ScheduledFuture<?> delay(Runnable command, long delay) {
 		return POOL.scheduleWithFixedDelay(command, delay, delay, TimeUnit.MILLISECONDS);
+	}
+
+	/**
+	 * 执行定时任务 按执行线程时间间隔
+	 * @param command 线程任务
+	 * @param initialDelay 初始化时间
+	 * @param delay 间隔时间
+	 * @param unit 时间戳
+	 * @return
+	 */
+	public static ScheduledFuture<?> delay(Runnable command, long initialDelay, long delay, TimeUnit unit) {
+		return POOL.scheduleWithFixedDelay(command, initialDelay, delay, unit);
 	}
 
 	/**

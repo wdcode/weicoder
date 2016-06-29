@@ -1,4 +1,4 @@
-package com.weicoder.web.annotation;
+package com.weicoder.common.schedule;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -6,9 +6,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Action 注解
+ * 标识任务执行类
  * @author WD
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Action {}
+public @interface Schedule {}
