@@ -10,18 +10,17 @@ import com.weicoder.common.util.StringUtil;
 
 /**
  * 登录信息封装
- * @author WD 
+ * @author WD
  */
-public final class Token implements ByteArray {
+public class Token implements ByteArray {
 	// 用户ID
-	private long	id;
+	protected long		id;
 	// 登录时间
-	private int		time;
+	protected int		time;
 	// 登录IP
-	private String	ip;
+	protected String	ip;
 
-	public Token() {
-	}
+	public Token() {}
 
 	/**
 	 * 构造方法

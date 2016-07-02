@@ -9,7 +9,6 @@ import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.util.StringUtil;
-import com.weicoder.common.util.ThreadUtil;
 import com.weicoder.common.zip.ZipEngine;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.schedule.ScheduledUtile;
@@ -122,7 +121,11 @@ public abstract class BaseSession implements Session {
 		// 使用写缓存
 		if (SocketParams.WRITE > 0) {
 			while (buffer.hasRemaining()) {
-				ThreadUtil.sleep(SocketParams.WRITE + 5);
+				try {
+					Thread.sleep(SocketParams.WRITE + 5);
+				} catch (InterruptedException e) {
+					Logs.debug(e);
+				}
 			}
 		}
 		// 调用关闭
