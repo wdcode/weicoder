@@ -11,7 +11,7 @@ import org.springframework.context.ApplicationContext;
 
 import com.weicoder.ssh.cache.Cache;
 import com.weicoder.ssh.cache.impl.CacheMap;
-import com.weicoder.ssh.cache.impl.CacheMemcache;
+import com.weicoder.ssh.cache.impl.CacheNoSQL;
 import com.weicoder.ssh.entity.Entity;
 import com.weicoder.ssh.params.FrameParams;
 import com.weicoder.ssh.service.SuperService;
@@ -21,7 +21,7 @@ import com.weicoder.common.lang.Maps;
 /**
  * 全局Context控制
  * @author WD 
- *  
+ * @version 1.0 
  */
 public final class Contexts {
 	//WebApplicationContext
@@ -122,7 +122,7 @@ public final class Contexts {
 	 */
 	@SuppressWarnings("unchecked")
 	public static <E extends Entity> Cache<E> getCache() {
-		return "map".equals(FrameParams.CACHE_TYPE) ? getBean(CacheMap.class) : getBean(CacheMemcache.class);
+		return "map".equals(FrameParams.CACHE_TYPE) ? getBean(CacheMap.class) : getBean(CacheNoSQL.class);
 	}
 
 	/**

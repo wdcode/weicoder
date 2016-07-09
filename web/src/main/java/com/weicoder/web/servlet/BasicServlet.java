@@ -6,14 +6,12 @@ import java.lang.reflect.Parameter;
 import java.util.Map;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Conversion;
-import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.util.EmptyUtil;
@@ -26,31 +24,20 @@ import com.weicoder.web.util.ResponseUtil;
 /**
  * 基础Servlet 3
  * @author WD
+ * @version 1.0 
  */
-@WebServlet("/*")
 public class BasicServlet extends HttpServlet {
 	private static final long serialVersionUID = 3117468121294921856L;
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// 获得客户端IP
-		String ip = RequestUtil.getIp(request);
-		// 获得callback
-		String callback = RequestUtil.getParameter(request, "callback");
-		// 过滤IP
-		if (!EmptyUtil.isEmpty(ServletParams.IPS)) {
-			// 如果在允许列表继续 否则退出
-			if (!ServletParams.IPS.contains(ip)) {
-				Logs.info("this ip=" + ip);
-				ResponseUtil.json(response, callback, "not exist ip");
-				return;
-			}
-		}
 		// 获得path
 		String path = request.getPathInfo();
 		if (!EmptyUtil.isEmpty(path)) {
 			// 分解提交action 去处开头的/ 并且按_分解出数组
 			String[] actions = StringUtil.split(StringUtil.subString(path, 1, path.length()), StringConstants.BACKSLASH);
+			// 获得callback
+			String callback = RequestUtil.getParameter(request, "callback");
 			// 获得Action
 			String name = actions[0];
 			Object action = Contexts.ACTIONS.get(name);
@@ -74,7 +61,7 @@ public class BasicServlet extends HttpServlet {
 				ResponseUtil.json(response, callback, "no.method");
 				return;
 			}
-			// 设置参数
+			// 设置参数 
 			Parameter[] pars = method.getParameters();
 			Object[] params = null;
 			if (!EmptyUtil.isEmpty(pars)) {
@@ -87,7 +74,7 @@ public class BasicServlet extends HttpServlet {
 				for (; i < pars.length; i++) {
 					// 判断类型并设置
 					Parameter p = pars[i];
-					// 参数的类型
+					//参数的类型
 					Class<?> cs = p.getType();
 					if (HttpServletRequest.class.equals(cs)) {
 						params[i] = request;
@@ -95,11 +82,6 @@ public class BasicServlet extends HttpServlet {
 						params[i] = response;
 					} else if (ClassUtil.isBaseType(cs)) {
 						params[i] = Conversion.to(ps.get(p.getName()), cs);
-						// 判断参数为空并且参数名为ip
-						if (EmptyUtil.isEmpty(params[i]) && "ip".equals(p.getName())) {
-							// 赋值为调用客户端IP
-							params[i] = ip;
-						}
 					} else {
 						params[i] = BeanUtil.copy(ps, cs);
 					}

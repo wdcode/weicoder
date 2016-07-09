@@ -1,5 +1,7 @@
 package com.weicoder.common.crypto;
 
+import java.security.Key;
+
 import javax.crypto.Cipher;
 
 import com.weicoder.common.codec.Hex;
@@ -8,11 +10,13 @@ import com.weicoder.common.crypto.base.BaseCrypt;
 import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.params.CommonParams;
+import com.weicoder.common.util.KeyUtil;
 import com.weicoder.common.util.StringUtil;
 
 /**
  * 加密类
- * @author WD
+ * @author WD 
+ * @version 1.0 
  */
 public final class Encrypts extends BaseCrypt {
 	/**
@@ -58,6 +62,9 @@ public final class Encrypts extends BaseCrypt {
 			case EncryptConstants.ALGO_DES:
 				// DES加密
 				return des(b, key);
+			case EncryptConstants.ALGO_RC2:
+				// RC2加密
+				return rc2(b, key);
 			case EncryptConstants.ALGO_RC4:
 				// RC4加密
 				return rc4(b, key);
@@ -106,6 +113,25 @@ public final class Encrypts extends BaseCrypt {
 	}
 
 	/**
+	 * 可逆的加密算法 RC2算法
+	 * @param b 需要加密的字节数组
+	 * @return 返回加密后的字节数组
+	 */
+	public static byte[] rc2(byte[] b) {
+		return rc2(b, CommonParams.ENCRYPT_KEY);
+	}
+
+	/**
+	 * 可逆的加密算法 RC2算法
+	 * @param b 需要加密的字节数组
+	 * @param key 加密key
+	 * @return 返回加密后的字节数组
+	 */
+	public static byte[] rc2(byte[] b, String key) {
+		return encrypt(b, key, CommonParams.ENCRYPT_KEY_LENGTH_RC2, EncryptConstants.ALGO_RC2);
+	}
+
+	/**
 	 * 可逆的加密算法 RC4算法
 	 * @param b 需要加密的字节数组
 	 * @return 返回加密后的字节数组
@@ -125,6 +151,25 @@ public final class Encrypts extends BaseCrypt {
 	}
 
 	/**
+	 * 可逆的非对称加密算法 RSA算法
+	 * @param b 需要加密的字节数组
+	 * @return 返回加密后的字节数组
+	 */
+	public static byte[] rsa(byte[] b) {
+		return rsa(b, KeyUtil.getPublicKey(EncryptConstants.ALGO_RSA));
+	}
+
+	/**
+	 * 可逆的非对称加密算法 RSA算法
+	 * @param b 需要加密的字节数组
+	 * @param key 加密密钥
+	 * @return 返回加密后的字节数组
+	 */
+	public static byte[] rsa(byte[] b, Key key) {
+		return doFinal(b, key, EncryptConstants.ALGO_RSA, Cipher.ENCRYPT_MODE);
+	}
+
+	/**
 	 * 加密字符串
 	 * @param text 要加密的字符串
 	 * @param key 加密密钥Key 长度有限制 DSE 为8位 ASE 为16位
@@ -136,6 +181,5 @@ public final class Encrypts extends BaseCrypt {
 		return doFinal(b, keys, len, algorithm, Cipher.ENCRYPT_MODE);
 	}
 
-	private Encrypts() {
-	}
+	private Encrypts() {}
 }

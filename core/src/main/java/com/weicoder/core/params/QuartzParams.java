@@ -6,12 +6,15 @@ import com.weicoder.common.params.Params;
 /**
  * Quartz任务读取参数
  * @author WD 
+ * @version 1.0 
  */
 public final class QuartzParams {
 	// 前缀
 	private final static String		PREFIX	= "quartz";
 	/** 任务开关 */
 	public final static boolean		POWER	= Params.getBoolean("quartz.power", false);
+	/** Spring任务开关 */
+	public final static boolean		SPRING	= Params.getBoolean("quartz.spring", false);
 	/** 执行任务名称数组 */
 	public final static String[]	NAMES	= Params.getStringArray("quartz.names", ArrayConstants.STRING_EMPTY);
 
@@ -39,6 +42,5 @@ public final class QuartzParams {
 		return Params.getStringArray(Params.getKey(PREFIX, name, "trigger"), ArrayConstants.STRING_EMPTY);
 	}
 
-	private QuartzParams() {
-	}
+	private QuartzParams() {}
 }

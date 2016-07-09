@@ -17,7 +17,7 @@ import com.weicoder.common.util.EmptyUtil;
 /**
  * 标准的缓存Map实现
  * @author WD 
- *   
+ * @version 1.0  
  */
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)

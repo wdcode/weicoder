@@ -1,16 +1,20 @@
 package com.weicoder.common.crypto;
 
+import java.security.Key;
+
 import javax.crypto.Cipher;
 
 import com.weicoder.common.codec.Hex;
 import com.weicoder.common.constants.EncryptConstants;
 import com.weicoder.common.crypto.base.BaseCrypt;
 import com.weicoder.common.params.CommonParams;
+import com.weicoder.common.util.KeyUtil;
 import com.weicoder.common.util.StringUtil;
 
 /**
  * 解密类
- * @author WD
+ * @author WD 
+ * @version 1.0 
  */
 public final class Decrypts extends BaseCrypt {
 
@@ -50,18 +54,21 @@ public final class Decrypts extends BaseCrypt {
 	public static byte[] decrypt(byte[] b, String keys) {
 		// 判断解密方式
 		switch (CommonParams.ENCRYPT_ALGO) {
-			case EncryptConstants.ALGO_AES:
-				// AES解密
-				return aes(b, keys);
-			case EncryptConstants.ALGO_DES:
-				// DES解密
-				return des(b, keys);
-			case EncryptConstants.ALGO_RC4:
-				// RC4解密
-				return rc4(b, keys);
-			default:
-				// 默认返回AES
-				return aes(b, keys);
+		case EncryptConstants.ALGO_AES:
+			// AES解密
+			return aes(b, keys);
+		case EncryptConstants.ALGO_DES:
+			// DES解密
+			return des(b, keys);
+		case EncryptConstants.ALGO_RC2:
+			// RC2解密
+			return rc2(b, keys);
+		case EncryptConstants.ALGO_RC4:
+			// RC4解密
+			return rc4(b, keys);
+		default:
+			// 默认返回AES
+			return aes(b, keys);
 		}
 	}
 
@@ -104,6 +111,25 @@ public final class Decrypts extends BaseCrypt {
 	}
 
 	/**
+	 * 针对encrypt方法的解密 RC2算法
+	 * @param text 需要解密的字符串
+	 * @return 返回解密后的字符串 text为空或发生异常返回原串
+	 */
+	public static byte[] rc2(byte[] b) {
+		return rc2(b, CommonParams.ENCRYPT_KEY);
+	}
+
+	/**
+	 * 针对encrypt方法的解密 RC2算法
+	 * @param text 需要解密的字符串
+	 * @param keys 键
+	 * @return 返回解密后的字符串 text为空或发生异常返回原串
+	 */
+	public static byte[] rc2(byte[] b, String keys) {
+		return decrypt(b, keys, CommonParams.ENCRYPT_KEY_LENGTH_RC2, EncryptConstants.ALGO_RC2);
+	}
+
+	/**
 	 * 针对encrypt方法的解密 RC4算法
 	 * @param b 需要解密的字节数组
 	 * @return 返回解密后的字符串 text为空或发生异常返回原串
@@ -123,6 +149,25 @@ public final class Decrypts extends BaseCrypt {
 	}
 
 	/**
+	 * 可逆的非对称解密算法 RSA算法
+	 * @param b 需要解密的字节数组
+	 * @return 返回解密后的字节数组
+	 */
+	public static byte[] rsa(byte[] b) {
+		return rsa(b, KeyUtil.getPrivateKey(EncryptConstants.ALGO_RSA));
+	}
+
+	/**
+	 * 可逆的非对称解密算法 RSA算法
+	 * @param b 需要解密的字节数组
+	 * @param key 解密密钥
+	 * @return 返回解密后的字节数组
+	 */
+	public static byte[] rsa(byte[] b, Key key) {
+		return doFinal(b, key, EncryptConstants.ALGO_RSA, Cipher.DECRYPT_MODE);
+	}
+
+	/**
 	 * 解密字符串
 	 * @param text 要解密的字符串
 	 * @param key 解密密钥Key 长度有限制 DSE 为8位 ASE 为16位
@@ -134,6 +179,5 @@ public final class Decrypts extends BaseCrypt {
 		return doFinal(b, keys, len, algorithm, Cipher.DECRYPT_MODE);
 	}
 
-	private Decrypts() {
-	}
+	private Decrypts() {}
 }

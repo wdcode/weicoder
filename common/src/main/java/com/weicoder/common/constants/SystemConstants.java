@@ -3,6 +3,7 @@ package com.weicoder.common.constants;
 /**
  * 系统常量
  * @author WD 
+ * @version 1.0 
  */
 public final class SystemConstants {
 	/** JDK版本 */
@@ -21,4 +22,5 @@ public final class SystemConstants {
 	public final static int		CPU_NUM			= Runtime.getRuntime().availableProcessors();
 
 	private SystemConstants() {}
+
 }

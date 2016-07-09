@@ -26,7 +26,7 @@ import com.weicoder.ssh.dao.Dao;
 /**
  * 超级通用业务hibernate实现
  * @author WD 
- *  
+ * @version 1.0 
  */
 @Service
 public class SuperService {

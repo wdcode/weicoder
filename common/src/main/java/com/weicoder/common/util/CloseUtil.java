@@ -2,13 +2,29 @@ package com.weicoder.common.util;
 
 import java.io.OutputStream;
 
+import com.weicoder.common.interfaces.Close;
 import com.weicoder.common.log.Logs;
 
 /**
  * 关闭各种资源方法
- * @author WD
+ * @author WD 
+ * @version 1.0 
  */
 public final class CloseUtil {
+	/**
+	 * 关闭Closeable流数据源接口
+	 * @param c 流数据源
+	 */
+	public static void close(Close... cs) {
+		// 循环关闭资源
+		for (Close c : cs) {
+			// 判断不为空
+			if (!EmptyUtil.isEmpty(c)) {
+				c.close();
+			}
+		}
+	}
+
 	/**
 	 * 关闭Close流数据源接口
 	 * @param cs 流数据源
@@ -32,6 +48,5 @@ public final class CloseUtil {
 		}
 	}
 
-	private CloseUtil() {
-	}
+	private CloseUtil() {}
 }

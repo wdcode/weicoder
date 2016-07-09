@@ -3,6 +3,7 @@ package com.weicoder.common.constants;
 /**
  * 字符串常量
  * @author WD 
+ * @version 1.0  
  */
 public final class StringConstants {
 	/** 常量字符串 "" */

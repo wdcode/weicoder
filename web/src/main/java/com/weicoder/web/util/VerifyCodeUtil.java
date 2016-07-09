@@ -22,6 +22,7 @@ import com.weicoder.common.util.RandomUtil;
 /**
  * 生成验证图片,并把验证码保存到sessin中
  * @author WD
+ * @version 1.0
  */
 public final class VerifyCodeUtil {
 	/**
@@ -192,6 +193,5 @@ public final class VerifyCodeUtil {
 		return new Color(r, g, b);
 	}
 
-	private VerifyCodeUtil() {
-	}
+	private VerifyCodeUtil() {}
 }

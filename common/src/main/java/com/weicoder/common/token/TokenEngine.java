@@ -5,12 +5,14 @@ import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.crypto.Decrypts;
 import com.weicoder.common.crypto.Digest;
 import com.weicoder.common.crypto.Encrypts;
+import com.weicoder.common.token.AuthToken;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
 
 /**
  * Token令牌处理器
- * @author WD
+ * @author WD 
+ * @version 1.0 
  */
 public final class TokenEngine {
 	// 验证长度
@@ -21,16 +23,7 @@ public final class TokenEngine {
 	 * @param token 登录凭证
 	 * @return 加密信息
 	 */
-	public static String encrypt(long id, String ip) {
-		return encrypt(new Token(id, ip));
-	}
-
-	/**
-	 * 加密信息
-	 * @param token 登录凭证
-	 * @return 加密信息
-	 */
-	public static String encrypt(Token token) {
+	public static String encrypt(AuthToken token) {
 		// 加密登录凭证字符串
 		String info = Hex.encode(Encrypts.rc4(token.array()));
 		// 返回加密字符串
@@ -41,9 +34,7 @@ public final class TokenEngine {
 	 * 验证登录凭证
 	 * @return 登录实体
 	 */
-	public static Token decrypt(String info) {
-		// 声明Token
-		Token token = new Token();
+	public static <E extends AuthToken> E decrypt(String info, E token) {
 		// 验证去掉"""
 		info = StringUtil.replace(info, StringConstants.DOUBLE_QUOT, StringConstants.EMPTY);
 		// 判断验证串是否符合标准
@@ -67,6 +58,5 @@ public final class TokenEngine {
 		return token;
 	}
 
-	private TokenEngine() {
-	}
+	private TokenEngine() {}
 }

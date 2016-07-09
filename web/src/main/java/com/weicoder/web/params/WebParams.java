@@ -3,8 +3,9 @@ package com.weicoder.web.params;
 import com.weicoder.common.params.Params;
 
 /**
- * web包参数读取类
- * @author WD
+ * WdWeb包参数读取类
+ * @author WD 
+ * @version 1.0 
  */
 public final class WebParams {
 	/** 验证码出现的字符集 */
@@ -19,7 +20,10 @@ public final class WebParams {
 	public final static String	VERIFY_FONT			= Params.getString("verify.font", "Times New Roman");
 	/** 域名 */
 	public final static String	DOMAIN				= Params.getString("domain");
+	/** 静态化配置文件 */
+	public final static String	STAICS_CONFIG		= Params.getString("staics.config", "config/statics.xml");
+	/** 是否静态化 */
+	public final static boolean	STAICS_POWER		= Params.getBoolean("staics.power", false);
 
-	private WebParams() {
-	}
+	private WebParams() {}
 }

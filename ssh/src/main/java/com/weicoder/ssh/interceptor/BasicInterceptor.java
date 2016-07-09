@@ -14,7 +14,7 @@ import com.opensymphony.xwork2.interceptor.AbstractInterceptor;
 /**
  * 拦截指定Action
  * @author WD
- * 
+ * @version 1.0
  */
 public class BasicInterceptor<E extends SuperAction> extends AbstractInterceptor {
 	private static final long serialVersionUID = 8518576935365577689L;

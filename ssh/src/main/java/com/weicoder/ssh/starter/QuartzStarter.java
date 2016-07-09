@@ -24,7 +24,7 @@ import com.weicoder.core.params.QuartzParams;
 /**
  * quartz启动器
  * @author WD 
- *   
+ * @version 1.0  
  */
 @Component
 final class QuartzStarter {

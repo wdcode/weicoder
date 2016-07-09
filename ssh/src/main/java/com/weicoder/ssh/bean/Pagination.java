@@ -9,7 +9,7 @@ import com.weicoder.core.json.JsonEngine;
 /**
  * 分页信息保存的实体Bean 在分页Dao和Tag之间传递值用
  * @author WD 
- *  
+ * @version 1.0 
  */
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)

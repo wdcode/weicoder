@@ -8,6 +8,7 @@ import com.weicoder.common.util.EmptyUtil;
 /**
  * 用于校验字符串是否符合正则表达式
  * @author WD 
+ * @version 1.0 
  */
 public final class Validate {
 	/**

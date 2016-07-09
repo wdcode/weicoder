@@ -6,14 +6,15 @@ import java.nio.channels.Channels;
 
 /**
  * 非堵塞IO操作
- * @author WD  
+ * @author WD 
+ * @version 1.0  
  */
 public final class NIO extends BaseIO {
 	/**
 	 * 读取出输入流的所有字节
 	 * @param in 输入流
 	 * @param isClose 是否关闭流
-	 * @return 字节数组 
+	 * @return 字节数组
 	 */
 	public byte[] read(InputStream in, boolean isClose) {
 		return ChannelUtil.read(Channels.newChannel(in), isClose);

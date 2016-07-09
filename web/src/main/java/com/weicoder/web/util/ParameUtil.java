@@ -11,7 +11,8 @@ import com.weicoder.common.util.EmptyUtil;
 
 /**
  * 获得提交参数方法
- * @author WD  
+ * @author WD 
+ * @version 1.0 
  */
 public final class ParameUtil {
 	/**

@@ -3,7 +3,7 @@ package com.weicoder.ssh.entity;
 /**
  * 有上传文件的实体接口
  * @author WD 
- *   
+ * @version 1.0  
  */
 public interface EntityFile {
 	/**

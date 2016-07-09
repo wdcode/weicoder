@@ -9,7 +9,8 @@ import com.weicoder.common.util.StringUtil;
 
 /**
  * 基础IO操作
- * @author WD  
+ * @author WD 
+ * @version 1.0  
  */
 public abstract class BaseIO implements IO {
 	/**

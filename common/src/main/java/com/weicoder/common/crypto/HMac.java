@@ -11,12 +11,12 @@ import com.weicoder.common.constants.EncryptConstants;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
-import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
 
 /**
  * hmac算法
- * @author WD
+ * @author WD 
+ * @version 1.0 
  */
 public final class HMac {
 	// hmac算法使用
@@ -95,13 +95,9 @@ public final class HMac {
 	 */
 	private static byte[] doFinal(byte[] b, String algorithm, String keys) {
 		try {
-			// 参数为空时
-			if (EmptyUtil.isEmptys(b, algorithm, keys)) {
-				return ArrayConstants.BYTES_EMPTY;
-			}
 			return getMac(algorithm, keys).doFinal(b);
 		} catch (Exception e) {
-			Logs.error(e);
+			Logs.debug("HMac doFinal=" + e.toString());
 			return ArrayConstants.BYTES_EMPTY;
 		}
 	}
@@ -123,13 +119,12 @@ public final class HMac {
 				// 初始化算法
 				mac.init(new SecretKeySpec(StringUtil.toBytes(keys), algorithm));
 			} catch (Exception e) {
-				Logs.error(e); 
+				Logs.debug("HMac getMac=" + e.toString());
 			}
 		}
 		// 返回Mac
 		return mac;
 	}
 
-	private HMac() {
-	}
+	private HMac() {}
 }

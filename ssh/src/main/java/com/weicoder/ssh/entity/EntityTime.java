@@ -7,7 +7,7 @@ import com.weicoder.common.util.EmptyUtil;
 /**
  * 有时间的实体接口
  * @author WD 
- *  
+ * @version 1.0 
  */
 public interface EntityTime {
 	/**

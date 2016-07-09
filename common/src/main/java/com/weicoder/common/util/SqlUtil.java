@@ -4,16 +4,24 @@ import com.weicoder.common.constants.StringConstants;
 
 /**
  * 对SQL语句进行处理
- * @author WD
+ * @author WD 
+ * @version 1.0 
  */
 public final class SqlUtil {
+	// 查询总行数语句头
+	private final static String	SQLCOUNT	= "SELECT COUNT(1) FROM ";
+	// from
+	private final static String	FROM		= "from";
+	// truncate表语句
+	private final static String	TRUNCATE	= "TRUNCATE TABLE ";
+
 	/**
 	 * 根据传入的sql获得查询总行数的SQL语句
 	 * @param sql SQL语句 必须有from的SQL查询语句
 	 * @return 转换后查询总行数的SQL语句
 	 */
 	public static String getCountSQL(String sql) {
-		return "SELECT COUNT(1) FROM " + StringUtil.subString(sql.toLowerCase(), "from");
+		return SQLCOUNT + StringUtil.subString(sql.toLowerCase(), FROM);
 	}
 
 	/**
@@ -22,7 +30,7 @@ public final class SqlUtil {
 	 * @return 清空表的SQL语句
 	 */
 	public static String getTruncateSQL(String tableName) {
-		return "TRUNCATE TABLE " + tableName;
+		return TRUNCATE + tableName;
 	}
 
 	/**
@@ -34,24 +42,5 @@ public final class SqlUtil {
 		return EmptyUtil.isEmpty(sql) ? StringConstants.EMPTY : sql.replaceAll(StringConstants.SINGLE_QUOT, StringConstants.TWO_SINGLE_QUOT);
 	}
 
-	/**
-	 * 根据SQL获得表名
-	 * @param sql 执行的SQL
-	 * @return 截取出表名
-	 */
-	public static String getTable(String sql) {
-		// 查找表名
-		String name = StringConstants.EMPTY;
-		if (sql.startsWith("insert")) {
-			name = StringUtil.subString(sql, "into ", StringConstants.BLANK);
-		} else if (sql.startsWith("update")) {
-			name = StringUtil.subString(sql, "update ", StringConstants.BLANK);
-		} else if (sql.startsWith("select")) {
-			name = StringUtil.subString(sql, "from ", StringConstants.BLANK);
-		}
-		return name;
-	}
-
-	private SqlUtil() {
-	}
+	private SqlUtil() {}
 }

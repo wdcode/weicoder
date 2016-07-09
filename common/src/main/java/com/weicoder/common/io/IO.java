@@ -5,7 +5,8 @@ import java.io.OutputStream;
 
 /**
  * IO方法接口 内部使用
- * @author WD  
+ * @author WD 
+ * @version 1.0 
  */
 interface IO {
 	/**

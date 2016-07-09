@@ -18,7 +18,8 @@ import com.weicoder.common.params.CommonParams;
 
 /**
  * 对字符串进行一些处理。
- * @author WD  
+ * @author WD 
+ * @version 1.0 
  */
 public final class StringUtil {
 	/**

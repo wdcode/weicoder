@@ -15,14 +15,17 @@ import com.weicoder.common.constants.FileConstants;
 import com.weicoder.common.constants.HttpConstants;
 import com.weicoder.common.constants.StringConstants;
 
+import com.weicoder.common.io.FileUtil;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
+import com.weicoder.core.http.HttpEngine;
 
 /**
  * HTTP一些相关操作类
- * @author WD  
+ * @author WD 
+ * @version 1.0 
  */
 public final class HttpUtil {
 
@@ -287,6 +290,15 @@ public final class HttpUtil {
 	public static void setDownloadableHeader(HttpServletResponse response, String fileName) {
 		response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
 	}
-	
+
+	/**
+	 * 把提交后的url保存成文件
+	 * @param url 要保存的url
+	 * @param fileName 文件名
+	 */
+	public static void saveToFile(String url, String fileName) {
+		FileUtil.write(fileName, HttpEngine.download(url), false);
+	}
+ 
 	private HttpUtil() {}
 }

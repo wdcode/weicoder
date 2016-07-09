@@ -13,12 +13,13 @@ import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.util.CloseUtil;
 import com.weicoder.common.util.EmptyUtil;
-import com.weicoder.common.json.JsonEngine;
+import com.weicoder.core.json.JsonEngine;
 import com.weicoder.common.log.Logs;
 
 /**
  * Response一些相关操作类
- * @author WD
+ * @author WD 
+ * @version 1.0 
  */
 public final class ResponseUtil {
 	/**
@@ -94,10 +95,6 @@ public final class ResponseUtil {
 	 * @param charsetName 编码
 	 */
 	public static String json(HttpServletResponse response, String callback, Object data) {
-		// 返回数据为空
-		if (data == null) {
-			return StringConstants.EMPTY;
-		}
 		// 声明返回字符串
 		StringBuilder s = new StringBuilder();
 		// 如果callback不为空 填补左括号
@@ -136,6 +133,6 @@ public final class ResponseUtil {
 			response.setContentType(type);
 		}
 	}
-
+ 
 	private ResponseUtil() {}
 }

@@ -4,36 +4,14 @@ import java.io.File;
 import java.util.Collection;
 import java.util.Map;
 
+import com.weicoder.common.interfaces.Empty;
+
 /**
  * 一些公用的方法类
- * @author WD
+ * @author WD 
+ * @version 1.0  
  */
 public final class EmptyUtil {
-	/**
-	 * 判断对象是否空 传入的对象有一个为空就返回 false
-	 * @param objs 对象
-	 * @return true为空,false非空
-	 */
-	public static boolean isEmptys(Object... objs) {
-		// 循环判断 如果有一个对象为空 返回 true
-		for (Object o : objs) {
-			if (isEmpty(o)) {
-				return true;
-			}
-		}
-		// 全部通过返回 false
-		return false;
-	}
-
-	/**
-	 * 判断对象数组是否空 判断 objects == null || objects.length == 0
-	 * @param objects 数组对象
-	 * @return true为空,false非空
-	 */
-	public static boolean isEmpty(Object[] objects) {
-		return objects == null || objects.length == 0;
-	}
-
 	/**
 	 * 判断对象是否空 判断 object == null
 	 * @param obj 对象
@@ -43,6 +21,8 @@ public final class EmptyUtil {
 		// 判断对象类型
 		if (obj == null) {
 			return true;
+		} else if (obj instanceof Empty) {
+			return isEmpty((Empty) obj);
 		} else if (obj instanceof String) {
 			return isEmpty((String) obj);
 		} else if (obj instanceof byte[]) {
@@ -76,6 +56,15 @@ public final class EmptyUtil {
 	 * @param object 对象
 	 * @return true为空,false非空
 	 */
+	public static boolean isEmpty(Empty e) {
+		return e == null || e.isEmpty();
+	}
+
+	/**
+	 * 判断对象是否空 判断 object == null
+	 * @param object 对象
+	 * @return true为空,false非空
+	 */
 	public static boolean isEmpty(byte[] b) {
 		return b == null || b.length == 0;
 	}
@@ -99,6 +88,15 @@ public final class EmptyUtil {
 	}
 
 	/**
+	 * 判断对象数组是否空 判断 objects == null || objects.length == 0
+	 * @param objects 数组对象
+	 * @return true为空,false非空
+	 */
+	public static boolean isEmpty(Object[] objects) {
+		return objects == null || objects.length == 0;
+	}
+
+	/**
 	 * 判断int数组是否空 判断 objects == null || objects.length == 0
 	 * @param objects 数组对象
 	 * @return true为空,false非空
@@ -116,6 +114,5 @@ public final class EmptyUtil {
 		return cs == null || cs.length() == 0;
 	}
 
-	private EmptyUtil() {
-	}
+	private EmptyUtil() {}
 }

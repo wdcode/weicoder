@@ -15,7 +15,8 @@ import com.weicoder.common.log.Logs;
 
 /**
  * Bean工具类
- * @author WD  
+ * @author WD 
+ * @version 1.0 
  */
 public final class BeanUtil {
 	/**
@@ -48,7 +49,7 @@ public final class BeanUtil {
 					setFieldValue(target, getField(target, field.getName()), getFieldValue(source, field));
 				}
 			} catch (Exception e) {
-				Logs.error(e); 
+				Logs.debug("BeanUtil copy=" + e.toString());
 			}
 		}
 		// 返回对象
@@ -109,7 +110,7 @@ public final class BeanUtil {
 		try {
 			return entity == null ? null : entity.newInstance();
 		} catch (Exception e) {
-			Logs.error(e); 
+			Logs.debug("BeanUtil newInstance=" + e.toString());
 			return null;
 		}
 	}
@@ -185,7 +186,7 @@ public final class BeanUtil {
 			// 获得字段值
 			return makeAccessible(field).get(object);
 		} catch (IllegalAccessException e) {
-			Logs.error(e); 
+			Logs.debug("BeanUtil getFieldValue=" + e.toString());
 			return null;
 		}
 	}
@@ -203,7 +204,7 @@ public final class BeanUtil {
 			// 获得字段值
 			return makeAccessible(field).get(object);
 		} catch (IllegalAccessException e) {
-			Logs.error(e); 
+			Logs.debug("BeanUtil getFieldValue=" + e.toString());
 			return null;
 		}
 	}
@@ -225,7 +226,7 @@ public final class BeanUtil {
 		try {
 			makeAccessible(field).set(object, Conversion.to(value, field.getType()));
 		} catch (IllegalAccessException e) {
-			Logs.error(e); 
+			Logs.debug("BeanUtil setFieldValue=" + e.toString());
 		}
 	}
 
@@ -241,7 +242,7 @@ public final class BeanUtil {
 		try {
 			return makeAccessible(method).invoke(obj, args);
 		} catch (Exception e) {
-			Logs.error(e); 
+			Logs.debug("BeanUtil invoke=" + e.toString());
 			return null;
 		}
 	}
@@ -274,7 +275,7 @@ public final class BeanUtil {
 			try {
 				c = Class.forName(Conversion.toString(object));
 			} catch (ClassNotFoundException e) {
-				Logs.error(e); 
+				Logs.debug("BeanUtil invoke=" + e.toString());
 			}
 		} else if (object instanceof Class<?>) {
 			c = (Class<?>) object;
@@ -288,7 +289,7 @@ public final class BeanUtil {
 			try {
 				return getMethod(c, name, parameterTypes).invoke(object, parameters);
 			} catch (Exception e) {
-				Logs.error(e); 
+				Logs.debug("BeanUtil invoke=" + e.toString());
 				return null;
 			}
 		}
@@ -323,7 +324,7 @@ public final class BeanUtil {
 				// 获得字段
 				f = clazz.getDeclaredField(name);
 			} catch (Exception e) {
-				Logs.error(e); 
+				Logs.debug("BeanUtil getField=" + e.toString());
 			}
 		}
 		// 返回null
@@ -344,7 +345,7 @@ public final class BeanUtil {
 				// 添加字段列表
 				fields.addAll(Lists.getList(clazz.getDeclaredFields()));
 			} catch (Exception e) {
-				Logs.error(e); 
+				Logs.debug("BeanUtil getFields=" + e.toString());
 			}
 		}
 		// 没有找到返回null
@@ -369,7 +370,7 @@ public final class BeanUtil {
 				// 返回方法
 				method = superClass.getDeclaredMethod(name, parameterTypes);
 			} catch (Exception e) {
-				Logs.error(e); 
+				Logs.debug("BeanUtil getMethod=" + e.toString());
 			}
 		}
 		// 返回方法

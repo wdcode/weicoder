@@ -1,99 +1,46 @@
 package com.weicoder.common.log;
 
-import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.util.ClassUtil;
 
 /**
  * 打印日志工具类
  * @author WD 
+ * @version 1.0
  */
 public final class Logs {
 	// loggin日志对象
-	private final static Log LOG = (Log) ClassUtil.newInstance(CommonParams.LOG_CLASS);
-
-	/**
-	 * 使用trace打印日志
-	 * @param msg 信息 可以是字符串xxx{}xxx
-	 * @param params 字符串格式化参数
-	 */
-	public static void trace(String msg, Object... params) {
-		LOG.trace(msg, params);
-	}
-
-	/**
-	 * 使用trace打印日志
-	 * @param t 异常
-	 */
-	public static void trace(Throwable t) {
-		LOG.trace(t);
-	}
+	private final static Log LOG = (Log) ClassUtil.newInstance("com.weicoder.core.log.LoggerSlf4j");
 
 	/**
 	 * 使用debug打印日志
-	 * @param msg 信息 可以是字符串xxx{}xxx
-	 * @param params 字符串格式化参数
+	 * @param info 日志信息
 	 */
-	public static void debug(String msg, Object... params) {
-		LOG.debug(msg, params);
-	}
-
-	/**
-	 * 使用debug打印日志
-	 * @param t 异常
-	 */
-	public static void debug(Throwable t) {
-		LOG.debug(t);
+	public static void debug(Object info) {
+		LOG.debug(info);
 	}
 
 	/**
 	 * 使用info打印日志
-	 * @param msg 信息 可以是字符串xxx{}xxx
-	 * @param params 字符串格式化参数
+	 * @param info 日志信息
 	 */
-	public static void info(String msg, Object... params) {
-		LOG.info(msg, params);
+	public static void info(Object info) {
+		LOG.info(info);
 	}
 
 	/**
-	 * 使用info打印日志
-	 * @param t 异常
+	 * 使用warn打印日志
+	 * @param info 日志信息
 	 */
-	public static void info(Throwable t) {
-		LOG.info(t);
-	}
-
-	/**
-	 * 使用debug打印日志
-	 * @param msg 信息 可以是字符串xxx{}xxx
-	 * @param params 字符串格式化参数
-	 */
-	public static void warn(String msg, Object... params) {
-		LOG.warn(msg, params);
-	}
-
-	/**
-	 * 使用debug打印日志
-	 * @param t 异常
-	 */
-	public static void warn(Throwable t) {
-		LOG.warn(t);
+	public static void warn(Object info) {
+		LOG.warn(info);
 	}
 
 	/**
 	 * 使用error打印日志
-	 * @param msg 信息 可以是字符串xxx{}xxx
-	 * @param params 字符串格式化参数
+	 * @param info 日志信息
 	 */
-	public static void error(String msg, Object... params) {
-		LOG.error(msg, params);
-	}
-
-	/**
-	 * 使用debug打印日志
-	 * @param t 异常
-	 */
-	public static void error(Throwable t) {
-		LOG.error(t);
+	public static void error(Object info) {
+		LOG.error(info);
 	}
 
 	private Logs() {}

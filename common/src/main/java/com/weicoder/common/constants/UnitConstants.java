@@ -3,6 +3,7 @@ package com.weicoder.common.constants;
 /**
  * 关于计算机的换算常量 比如位 字节 等
  * @author WD 
+ * @version 1.0 
  */
 public final class UnitConstants {
 	/** 一个字节占用的位 */

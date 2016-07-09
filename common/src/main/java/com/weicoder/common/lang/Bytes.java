@@ -31,7 +31,8 @@ import com.weicoder.common.util.StringUtil;
 
 /**
  * 字节数组操作
- * @author WD  
+ * @author WD 
+ * @version 1.0  
  */
 public final class Bytes {
 	// 使用高地位算法
@@ -768,7 +769,7 @@ public final class Bytes {
 			// 返回对象
 			return in.readObject();
 		} catch (Exception e) {
-			Logs.debug("Bytes toObject=%s", e.toString());
+			Logs.debug("Bytes toObject=" + e.toString());
 			return null;
 		} finally {
 			CloseUtil.close(bais, in);

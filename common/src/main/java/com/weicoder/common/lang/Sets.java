@@ -12,7 +12,8 @@ import com.weicoder.common.util.EmptyUtil;
 
 /**
  * Set的帮助类,获得Set的一些操作
- * @author WD  
+ * @author WD 
+ * @version 1.0  
  */
 public final class Sets {
 	/**

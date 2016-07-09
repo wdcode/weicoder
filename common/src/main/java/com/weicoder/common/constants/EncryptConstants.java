@@ -2,9 +2,12 @@ package com.weicoder.common.constants;
 
 /**
  * 加密常量
- * @author WD
+ * @author WD 
+ * @version 1.0 
  */
 public final class EncryptConstants {
+	/** 加密算法 MD2 */
+	public final static String	ALGO_MD2			= "MD2";
 	/** 加密算法 MD5 */
 	public final static String	ALGO_MD5			= "MD5";
 	/** 加密算法 SHA-1 */
@@ -27,9 +30,14 @@ public final class EncryptConstants {
 	public final static String	ALGO_DES			= "DES";
 	/** 加密算法 AES */
 	public final static String	ALGO_AES			= "AES";
+	/** 加密算法 RC2 */
+	public final static String	ALGO_RC2			= "RC2";
 	/** 加密算法 RC4 */
 	public final static String	ALGO_RC4			= "RC4";
+	/** 加密算法 RC4 */
+	public final static String	ALGO_RC5			= "RC5";
+	/** 加密算法 RSA */
+	public final static String	ALGO_RSA			= "RSA";
 
-	private EncryptConstants() {
-	}
+	private EncryptConstants() {}
 }

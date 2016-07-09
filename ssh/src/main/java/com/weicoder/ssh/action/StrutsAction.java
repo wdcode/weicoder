@@ -24,7 +24,7 @@ import com.weicoder.common.util.StringUtil;
 /**
  * Struts2 Action
  * @author WD
- * 
+ * @version 1.0
  */
 public abstract class StrutsAction extends SuperAction {
 	// 提交的url

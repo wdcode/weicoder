@@ -7,6 +7,7 @@ import com.weicoder.common.util.EmptyUtil;
 /**
  * Base64 编码解码
  * @author WD 
+ * @version 1.0 
  */
 public final class Base64 {
 	// 编码用

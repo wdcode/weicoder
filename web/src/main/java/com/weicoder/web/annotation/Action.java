@@ -7,7 +7,8 @@ import java.lang.annotation.Target;
 
 /**
  * Action 注解
- * @author WD
+ * @author WD 
+ * @version 1.0 
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)

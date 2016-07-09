@@ -5,7 +5,6 @@ import java.util.Properties;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
-import javax.sql.DataSource;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -22,12 +21,13 @@ import com.weicoder.ssh.params.DaoParams;
 import com.weicoder.common.interfaces.Close;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.util.EmptyUtil;
-import com.weicoder.core.dao.datasource.factory.DataSourceFactory;
+import com.weicoder.core.dao.datasource.BasicDataSource;
+import com.weicoder.core.dao.datasource.DataSource;
 
 /**
  * SessionFactory包装类
  * @author WD 
- *  
+ * @version 1.0 
  */
 @Component
 public final class SessionFactorys implements Close {
@@ -111,7 +111,7 @@ public final class SessionFactorys implements Close {
 			// 根据类获得BeanDefinitionBuilder
 			BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition(LocalSessionFactoryBean.class);
 			// 获得数据源
-			DataSource ds = DataSourceFactory.getDataSource(name);
+			DataSource ds = getDataSource(name);
 			// 设置数据源
 			builder.addPropertyValue("dataSource", ds);
 			// 设置namingStrategy
@@ -146,5 +146,30 @@ public final class SessionFactorys implements Close {
 			// 注册
 			beanFactory.registerBeanDefinition(name + "SessionFactory", builder.getRawBeanDefinition());
 		}
+	}
+
+	/**
+	 * 获得数据源
+	 * @param name 名称
+	 * @return 数据源
+	 */
+	private DataSource getDataSource(String name) {
+		// 声明数据源
+		BasicDataSource ds = new BasicDataSource();
+		// 设置属性
+		ds.setParse(DaoParams.getParse(name));
+		ds.setDriver(DaoParams.getDriver(name));
+		ds.setUrl(DaoParams.getUrl(name));
+		ds.setUser(DaoParams.getUser(name));
+		ds.setPassword(DaoParams.getPassword(name));
+		ds.setMaxPoolSize(DaoParams.getMaxPoolSize(name));
+		ds.setMinPoolSize(DaoParams.getMinPoolSize(name));
+		ds.setMaxSize(DaoParams.getMaxSize(name));
+		ds.setTimeout(DaoParams.getTimeout(name));
+		ds.setIdleTimeout(DaoParams.getIdleTime(name));
+		ds.setInitialPoolSize(DaoParams.getInitialPoolSize(name));
+		ds.setMaxIdleTime(DaoParams.getMaxIdleTime(name));
+		// 返回数据源
+		return ds;
 	}
 }

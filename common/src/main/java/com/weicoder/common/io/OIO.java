@@ -13,6 +13,7 @@ import com.weicoder.common.util.EmptyUtil;
 /**
  * 堵塞IO操作
  * @author WD 
+ * @version 1.0  
  */
 public final class OIO extends BaseIO {
 	/**
@@ -35,7 +36,7 @@ public final class OIO extends BaseIO {
 				out.write(buffer, 0, length);
 			}
 		} catch (IOException e) {
-			Logs.error(e); 
+			Logs.debug("OIO read=" + e.toString());
 		} finally {
 			// 关闭资源
 			if (isClose) {
@@ -71,7 +72,7 @@ public final class OIO extends BaseIO {
 			// 返回成功
 			return true;
 		} catch (IOException e) {
-			Logs.error(e); 
+			Logs.debug("OIO write=" + e.toString());
 		} finally {
 			// 关闭资源
 			if (isClose) {

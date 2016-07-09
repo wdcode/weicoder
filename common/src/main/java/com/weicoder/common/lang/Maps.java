@@ -12,7 +12,8 @@ import com.weicoder.common.util.EmptyUtil;
 
 /**
  * Map的帮助类,获得Map的一些操作
- * @author WD  
+ * @author WD 
+ * @version 1.0  
  */
 public final class Maps {
 	/**

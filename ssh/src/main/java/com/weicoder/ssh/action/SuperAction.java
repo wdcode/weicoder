@@ -36,7 +36,7 @@ import com.weicoder.web.util.IpUtil;
 /**
  * 超级通用Action
  * @author WD 
- *   
+ * @version 1.0  
  */
 public abstract class SuperAction extends BasicAction {
 	// 成功

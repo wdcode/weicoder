@@ -16,7 +16,7 @@ import com.weicoder.web.util.IpUtil;
 /**
  * 登录信息Bean
  * @author WD 
- *  
+ * @version 1.0 
  */
 public final class LoginEngine {
 	// 空登录信息

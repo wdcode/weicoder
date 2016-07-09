@@ -2,71 +2,31 @@ package com.weicoder.common.log;
 
 /**
  * 日志接口
- * @author WD  
+ * @author WD 
+ * @version 1.0
  */
 public interface Log {
 	/**
-	 * 使用trace打印日志
-	 * @param msg 信息 可以是字符串xxx%sxxx
-	 * @param params 字符串格式化参数
-	 */
-	void trace(String msg, Object... params);
-
-	/**
-	 * 使用trace打印日志
-	 * @param t 异常
-	 */
-	void trace(Throwable t);
-
-	/**
 	 * 使用debug打印日志
-	 * @param msg 信息 可以是字符串xxx%sxxx
-	 * @param params 字符串格式化参数
+	 * @param info 日志信息
 	 */
-	void debug(String msg, Object... params);
-
-	/**
-	 * 使用debug打印日志
-	 * @param t 异常
-	 */
-	void debug(Throwable t);
+	public void debug(Object info);
 
 	/**
 	 * 使用info打印日志
-	 * @param msg 信息 可以是字符串xxx%sxxx
-	 * @param params 字符串格式化参数
+	 * @param info 日志信息
 	 */
-	void info(String msg, Object... params);
+	public void info(Object info);
 
 	/**
-	 * 使用info打印日志
-	 * @param t 异常
+	 * 使用warn打印日志
+	 * @param info 日志信息
 	 */
-	void info(Throwable t);
-
-	/**
-	 * 使用debug打印日志
-	 * @param msg 信息 可以是字符串xxx%sxxx
-	 * @param params 字符串格式化参数
-	 */
-	void warn(String msg, Object... params);
-
-	/**
-	 * 使用debug打印日志
-	 * @param t 异常
-	 */
-	void warn(Throwable t);
+	public void warn(Object info);
 
 	/**
 	 * 使用error打印日志
-	 * @param msg 信息 可以是字符串xxx%sxxx
-	 * @param params 字符串格式化参数
+	 * @param info 日志信息
 	 */
-	void error(String msg, Object... params);
-
-	/**
-	 * 使用debug打印日志
-	 * @param t 异常
-	 */
-	void error(Throwable t);
+	public void error(Object info);
 }
