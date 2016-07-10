@@ -23,8 +23,7 @@ public abstract class BaseCrypt {
 	/**
 	 * 计算密文
 	 * @param b 要计算的字节数组
-	 * @param key 计算密钥Key 长度有限制 DSE 为8位 ASE 为16位
-	 * @param offset 偏移从第几位开始
+	 * @param keys 计算密钥Key 长度有限制 DSE 为8位 ASE 为16位 
 	 * @param len 长度一共几位
 	 * @param algorithm 算法
 	 * @param mode 计算模式 加密和解密

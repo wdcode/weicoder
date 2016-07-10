@@ -15,13 +15,12 @@ import com.weicoder.common.params.CommonParams;
 
 /**
  * TCP 客户端发包处理器
- * @author WD 
+ * @author WD
  */
 public final class TcpUtil {
 	/**
 	 * bio模式发送数据 不接收返回数据
 	 * @param data 发送数据
-	 * @return
 	 */
 	public static void send(byte[] data) {
 		send(CommonParams.TCP_HOST, CommonParams.TCP_PORT, data);
@@ -31,7 +30,7 @@ public final class TcpUtil {
 	 * bio模式发送数据 不接收返回数据
 	 * @param data 发送数据
 	 * @param len 接收返回数据长度
-	 * @return
+	 * @return 发送的数据
 	 */
 	public static byte[] send(byte[] data, int len) {
 		return send(CommonParams.TCP_HOST, CommonParams.TCP_PORT, data, len);
@@ -40,7 +39,6 @@ public final class TcpUtil {
 	/**
 	 * bio模式发送数据 不接收返回数据
 	 * @param data 发送数据
-	 * @return
 	 */
 	public static void write(byte[] data) {
 		write(CommonParams.TCP_HOST, CommonParams.TCP_PORT, data);
@@ -50,7 +48,7 @@ public final class TcpUtil {
 	 * bio模式发送数据 不接收返回数据
 	 * @param data 发送数据
 	 * @param len 接收返回数据长度
-	 * @return
+	 * @return 发送的数据
 	 */
 	public static byte[] write(byte[] data, int len) {
 		return write(CommonParams.TCP_HOST, CommonParams.TCP_PORT, data, len);
@@ -59,7 +57,6 @@ public final class TcpUtil {
 	/**
 	 * bio模式发送数据 不接收返回数据
 	 * @param data 发送数据
-	 * @return
 	 */
 	public static void asyn(byte[] data) {
 		asyn(CommonParams.TCP_HOST, CommonParams.TCP_PORT, data);
@@ -69,7 +66,7 @@ public final class TcpUtil {
 	 * bio模式发送数据 不接收返回数据
 	 * @param data 发送数据
 	 * @param len 接收返回数据长度
-	 * @return
+	 * @return 发送的数据
 	 */
 	public static byte[] asyn(byte[] data, int len) {
 		return asyn(CommonParams.TCP_HOST, CommonParams.TCP_PORT, data, len);
@@ -200,6 +197,5 @@ public final class TcpUtil {
 		}
 	}
 
-	private TcpUtil() {
-	}
+	private TcpUtil() {}
 }

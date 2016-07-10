@@ -25,6 +25,7 @@ public final class HMac {
 	/**
 	 * 使用HMAC-SHA1进行消息签名, 返回字节数组,长度为20字节.
 	 * @param text 原始输入字符串
+	 * @return 结果
 	 */
 	public static String sha1(String text) {
 		return Hex.encode(sha1(StringUtil.toBytes(text)));
@@ -32,7 +33,8 @@ public final class HMac {
 
 	/**
 	 * 使用HMAC-SHA1进行消息签名, 返回字节数组,长度为20字节.
-	 * @param text 原始输入字符串
+	 * @param b 原始输入字符串
+	 * @return 结果
 	 */
 	public static byte[] sha1(byte[] b) {
 		return doFinal(b, EncryptConstants.ALGO_HMAC_SHA_1, CommonParams.ENCRYPT_KEY);
@@ -41,6 +43,7 @@ public final class HMac {
 	/**
 	 * 使用HMAC-SHA1进行消息签名, 返回字节数组,长度为20字节.
 	 * @param text 原始输入字符串
+	 * @return 结果
 	 */
 	public static String sha256(String text) {
 		return Hex.encode(sha256(StringUtil.toBytes(text)));
@@ -48,7 +51,8 @@ public final class HMac {
 
 	/**
 	 * 使用HMAC-SHA1进行消息签名, 返回字节数组,长度为20字节.
-	 * @param text 原始输入字符串
+	 * @param b 原始输入字符串
+	 * @return 结果
 	 */
 	public static byte[] sha256(byte[] b) {
 		return doFinal(b, EncryptConstants.ALGO_HMAC_SHA_256, CommonParams.ENCRYPT_KEY);
@@ -57,6 +61,7 @@ public final class HMac {
 	/**
 	 * 使用HMAC-SHA1进行消息签名, 返回字节数组,长度为20字节.
 	 * @param text 原始输入字符串
+	 * @return 结果
 	 */
 	public static String sha384(String text) {
 		return Hex.encode(sha384(StringUtil.toBytes(text)));
@@ -64,7 +69,8 @@ public final class HMac {
 
 	/**
 	 * 使用HMAC-SHA1进行消息签名, 返回字节数组,长度为20字节.
-	 * @param text 原始输入字符串
+	 * @param b 原始输入字符串
+	 * @return 结果
 	 */
 	public static byte[] sha384(byte[] b) {
 		return doFinal(b, EncryptConstants.ALGO_HMAC_SHA_384, CommonParams.ENCRYPT_KEY);
@@ -73,6 +79,7 @@ public final class HMac {
 	/**
 	 * 使用HMAC-SHA1进行消息签名, 返回字节数组,长度为20字节.
 	 * @param text 原始输入字符串
+	 * @return 结果
 	 */
 	public static String sha512(String text) {
 		return Hex.encode(sha512(StringUtil.toBytes(text)));
@@ -80,7 +87,8 @@ public final class HMac {
 
 	/**
 	 * 使用HMAC-SHA1进行消息签名, 返回字节数组,长度为20字节.
-	 * @param text 原始输入字符串
+	 * @param b 字节数组
+	 * @return 结果
 	 */
 	public static byte[] sha512(byte[] b) {
 		return doFinal(b, EncryptConstants.ALGO_HMAC_SHA_512, CommonParams.ENCRYPT_KEY);
@@ -91,7 +99,7 @@ public final class HMac {
 	 * @param b 要加密的字节数组
 	 * @param algorithm 算法
 	 * @param keys 键
-	 * @return
+	 * @return 结果
 	 */
 	private static byte[] doFinal(byte[] b, String algorithm, String keys) {
 		try {
@@ -123,13 +131,12 @@ public final class HMac {
 				// 初始化算法
 				mac.init(new SecretKeySpec(StringUtil.toBytes(keys), algorithm));
 			} catch (Exception e) {
-				Logs.error(e); 
+				Logs.error(e);
 			}
 		}
 		// 返回Mac
 		return mac;
 	}
 
-	private HMac() {
-	}
+	private HMac() {}
 }

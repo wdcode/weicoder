@@ -36,9 +36,9 @@ public abstract class BaseSession implements Session {
 
 	/**
 	 * 构造
-	 * @param name
+	 * @param name 名称
 	 */
-	public BaseSession(final String name) {
+	public BaseSession(String name) {
 		// 获得名称
 		this.name = name;
 		// 获得是否压缩
@@ -134,6 +134,7 @@ public abstract class BaseSession implements Session {
 
 	/**
 	 * 设置IP与端口
+	 * @param address Socket地址
 	 */
 	protected void address(SocketAddress address) {
 		if (address instanceof InetSocketAddress) {
@@ -176,8 +177,8 @@ public abstract class BaseSession implements Session {
 
 	/**
 	 * 转换message为字节数组
-	 * @param message
-	 * @return
+	 * @param message 消息
+	 * @return 字节数组
 	 */
 	protected byte[] toBytes(Object message) {
 		// 日志

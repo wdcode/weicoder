@@ -14,6 +14,7 @@ public final class RedisEngine {
 	 * 压缩值 当值能压缩时才压缩
 	 * @param key 键
 	 * @param value 值
+	 * @return 是否成功
 	 */
 	public static boolean compress(String key, Object value) {
 		return REDIS.compress(key, value);
@@ -32,6 +33,7 @@ public final class RedisEngine {
 	 * 设置键值 无论存储空间是否存在相同键，都保存
 	 * @param key 键
 	 * @param value 值
+	 * @return 是否成功
 	 */
 	public static boolean set(String key, Object value) {
 		return REDIS.set(key, value);
@@ -54,6 +56,5 @@ public final class RedisEngine {
 		return REDIS.get(key);
 	}
 
-	private RedisEngine() {
-	}
+	private RedisEngine() {}
 }

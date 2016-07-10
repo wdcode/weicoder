@@ -4,7 +4,7 @@ import com.weicoder.nosql.mongo.factory.MongoFactory;
 
 /**
  * MongoDB引擎
- * @author WD  
+ * @author WD
  */
 public final class MongoEngine {
 	// Mongo接口
@@ -14,6 +14,7 @@ public final class MongoEngine {
 	 * 压缩值 当值能压缩时才压缩
 	 * @param key 键
 	 * @param value 值
+	 * @return 是否成功
 	 */
 	public static boolean compress(String key, Object value) {
 		return MONGO.compress(key, value);
@@ -32,6 +33,7 @@ public final class MongoEngine {
 	 * 设置键值 无论存储空间是否存在相同键，都保存
 	 * @param key 键
 	 * @param value 值
+	 * @return 是否成功
 	 */
 	public static boolean set(String key, Object value) {
 		return MONGO.set(key, value);

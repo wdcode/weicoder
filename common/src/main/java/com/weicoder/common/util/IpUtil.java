@@ -67,9 +67,8 @@ public final class IpUtil {
 	}
 
 	/**
-	 * 获得本机IP数组
-	 * @param request Request
-	 * @return 客户连接IP
+	 * 获得本机IP数组 
+	 * @return 客户端IP组
 	 */
 	public static String[] getIps() {
 		try {

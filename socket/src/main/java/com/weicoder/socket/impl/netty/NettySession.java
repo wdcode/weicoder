@@ -16,8 +16,8 @@ public final class NettySession extends BaseSession implements Session {
 
 	/**
 	 * 构造
-	 * @param id sessionId
-	 * @param channel
+	 * @param name 名称
+	 * @param channel 通道
 	 */
 	public NettySession(String name, Channel channel) {
 		super(name);

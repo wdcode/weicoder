@@ -10,7 +10,7 @@ import com.whalin.MemCached.SockIOPool;
 
 /**
  * MemCached com.danga包的客户端调用实现
- * @author WD 
+ * @author WD
  */
 public final class MemcacheWhalin extends BaseMemcache {
 	// MemCache客户端
@@ -20,6 +20,7 @@ public final class MemcacheWhalin extends BaseMemcache {
 
 	/**
 	 * 构造方法
+	 * @param name 名称
 	 */
 	public MemcacheWhalin(String name) {
 		super(name);
@@ -46,7 +47,7 @@ public final class MemcacheWhalin extends BaseMemcache {
 
 	/**
 	 * 获得多个键的数组
-	 * @param key 键
+	 * @param keys 键
 	 * @return 值
 	 */
 	public Object[] get(String... keys) {
@@ -64,8 +65,8 @@ public final class MemcacheWhalin extends BaseMemcache {
 
 	/**
 	 * 判断键是否存在
-	 * @param key
-	 * @return
+	 * @param key 键
+	 * @return 是否成功
 	 */
 	public boolean exists(String key) {
 		return client.keyExists(key);
@@ -75,6 +76,7 @@ public final class MemcacheWhalin extends BaseMemcache {
 	 * 追加键值
 	 * @param key 键
 	 * @param value 值
+	 * @return 是否成功
 	 */
 	public boolean append(String key, Object value) {
 		return client.append(key, value);

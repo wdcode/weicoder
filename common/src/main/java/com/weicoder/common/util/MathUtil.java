@@ -7,7 +7,7 @@ import com.weicoder.common.lang.Conversion;
 
 /**
  * 各种数学相关操作类
- * @author WD  
+ * @author WD
  */
 public final class MathUtil {
 	// 取舍方式
@@ -34,7 +34,7 @@ public final class MathUtil {
 	 * 提供精确的减法运算。
 	 * @param v1 被减数
 	 * @param v2 减数
-	 * @retur 结果
+	 * @return 结果
 	 */
 	public static BigDecimal subtract(Object v1, Object v2) {
 		return scale(v1).subtract(Conversion.toBigDecimal(v2));
@@ -46,7 +46,7 @@ public final class MathUtil {
 	 * @param v1 被减数
 	 * @param v2 减数
 	 * @param scale 保留精度
-	 * @retur 结果
+	 * @return 结果
 	 */
 	public static BigDecimal subtract(Object v1, Object v2, int scale) {
 		return subtract(v1, v2).setScale(scale, ROUND);
@@ -73,7 +73,6 @@ public final class MathUtil {
 	 * 提供（相对）精确的除法运算，当发生除不尽的情况时，精确到 小数点以后10位，以后的数字四舍五入。
 	 * @param v1 被除数
 	 * @param v2 除数
-	 * @param scale 小数点后保留几位
 	 * @return 两个参数的商
 	 */
 	public static BigDecimal divide(Object v1, Object v2) {

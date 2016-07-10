@@ -10,7 +10,7 @@ import com.weicoder.common.lang.Conversion;
 
 /**
  * 数组帮助类
- * @author WD  
+ * @author WD
  */
 public final class ArrayUtil {
 	/**
@@ -25,6 +25,7 @@ public final class ArrayUtil {
 	/**
 	 * 把数组转换成列表
 	 * @param e 元素数组
+	 * @param <E> 泛型
 	 * @return 元素列表
 	 */
 	@SafeVarargs
@@ -36,6 +37,7 @@ public final class ArrayUtil {
 	 * 拷贝数组 已dest长度为准
 	 * @param src 原数组
 	 * @param dest 目标数组
+	 * @param <E> 泛型
 	 */
 	public static <E> void copy(E[] src, E[] dest) {
 		copy(src, dest, 0);
@@ -46,6 +48,7 @@ public final class ArrayUtil {
 	 * @param src 原数组
 	 * @param dest 目标数组
 	 * @param pos 从第几位开始
+	 * @param <E> 泛型
 	 */
 	public static <E> void copy(E[] src, E[] dest, int pos) {
 		copy(src, pos, dest, pos, src.length);
@@ -58,6 +61,7 @@ public final class ArrayUtil {
 	 * @param dest 目标数组
 	 * @param destPos 从目标组第几位开始
 	 * @param length 拷贝长度
+	 * @param <E> 泛型
 	 */
 	public static <E> void copy(E[] src, int srcPos, E[] dest, int destPos, int length) {
 		System.arraycopy(src, srcPos, dest, destPos, length);
@@ -178,6 +182,7 @@ public final class ArrayUtil {
 	 * 数组相加
 	 * @param one 第一个数组因数
 	 * @param two 第二个数组因数
+	 * @param <E> 泛型
 	 * @return 相加后的数组
 	 */
 	public static <E> E[] add(E[] one, E[] two) {
@@ -189,6 +194,7 @@ public final class ArrayUtil {
 	 * @param one 第一个数组因数
 	 * @param two 第二个数组因数
 	 * @param twoLength 第二个数组长度 一共相加多少长度
+	 * @param <E> 泛型
 	 * @return 相加后的数组
 	 */
 	public static <E> E[] add(E[] one, E[] two, int twoLength) {
@@ -203,6 +209,7 @@ public final class ArrayUtil {
 	 * @param two 第二个数组因数
 	 * @param twoPos 第二个数组偏移 从第几个元素开始
 	 * @param twoLength 第二个数组长度 一共相加多少长度
+	 * @param <E> 泛型
 	 * @return 相加后的数组
 	 */
 	@SuppressWarnings("unchecked")
@@ -221,6 +228,7 @@ public final class ArrayUtil {
 	 * 获得数据
 	 * @param clazz 数组类型
 	 * @param length 数组长度
+	 * @param <E> 泛型
 	 * @return 数组
 	 */
 	@SuppressWarnings("unchecked")
@@ -231,6 +239,7 @@ public final class ArrayUtil {
 	/**
 	 * 获得数组
 	 * @param e 要组成数据的参数
+	 * @param <E> 泛型
 	 * @return e数组
 	 */
 	@SafeVarargs

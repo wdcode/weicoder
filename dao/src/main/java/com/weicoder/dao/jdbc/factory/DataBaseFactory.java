@@ -43,10 +43,10 @@ public final class DataBaseFactory extends FactoryKey<DataSource, DataBase> {
 	}
 
 	/**
-	 * 实例化一个新的DataBase,根据配置文件生成DataBase.<br/>
-	 * <h2>注: 这个方法将调用在配置文件内的配置生成对象,如果没配置或配置错误,<br/>
-	 * 那将返回一个没有dataSource的DataBase ,如果要使用需要自行setDataSource<br/>
-	 * 注: 这个方法每次都生成新的对象,并且只是当次运行的,<br/>
+	 * 实例化一个新的DataBase,根据配置文件生成DataBase.
+	 * <h2>注: 这个方法将调用在配置文件内的配置生成对象,如果没配置或配置错误,
+	 * 那将返回一个没有dataSource的DataBase ,如果要使用需要自行setDataSource
+	 * 注: 这个方法每次都生成新的对象,并且只是当次运行的,
 	 * 在方法调用后无法在得到这个DataBase的引用,包括调用getInstance(xxx)方法</h2>
 	 * @return DataBase 数据库操作对象
 	 */
@@ -55,8 +55,8 @@ public final class DataBaseFactory extends FactoryKey<DataSource, DataBase> {
 	}
 
 	/**
-	 * 使用DataSource实例一个新的DataBase <br/>
-	 * <h2>注: 这个方法每次都生成新的对象,并且只是当次运行的,<br/>
+	 * 使用DataSource实例一个新的DataBase 
+	 * <h2>注: 这个方法每次都生成新的对象,并且只是当次运行的,
 	 * 在方法调用后无法在得到这个DataBase的引用,包括调用getInstance(xxx)方法</h2>
 	 * @param dataSource 数据源
 	 * @return DataBase 数据库操作对象
@@ -66,7 +66,7 @@ public final class DataBaseFactory extends FactoryKey<DataSource, DataBase> {
 	}
 
 	/**
-	 * 使用DataSource实例一个新的DataBase <br/>
+	 * 使用DataSource实例一个新的DataBase 
 	 * @param name 数据源名称
 	 * @return DataBase 数据库操作对象
 	 */

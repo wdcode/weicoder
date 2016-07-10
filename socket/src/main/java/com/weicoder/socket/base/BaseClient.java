@@ -16,7 +16,7 @@ public abstract class BaseClient extends BaseSocket implements Client {
 
 	/**
 	 * 构造
-	 * @param name
+	 * @param name 名称
 	 */
 	public BaseClient(String name) {
 		super(name);

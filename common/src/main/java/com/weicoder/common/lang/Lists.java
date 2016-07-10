@@ -12,7 +12,7 @@ import com.weicoder.common.util.EmptyUtil;
 
 /**
  * List的帮助类
- * @author WD  
+ * @author WD
  */
 public final class Lists {
 
@@ -20,6 +20,7 @@ public final class Lists {
 	 * 获得指定索引的list元素 list为空返回null 返回指定索引的类 如果索引小于0为0 大于列表长度返回最后一个类
 	 * @param list 元素列表
 	 * @param i 索引
+	 * @param <E> 泛型
 	 * @return 处理后的元素
 	 */
 	public static <E> E get(List<E> list, int i) {
@@ -37,6 +38,7 @@ public final class Lists {
 
 	/**
 	 * 获得List实例 默认初始化大小为10
+	 * @param <E> 泛型
 	 * @return List
 	 */
 	public static <E> List<E> getList() {
@@ -46,6 +48,7 @@ public final class Lists {
 	/**
 	 * 获得List实例
 	 * @param size 初始化大小
+	 * @param <E> 泛型
 	 * @return List
 	 */
 	public static <E> List<E> getList(int size) {
@@ -55,16 +58,18 @@ public final class Lists {
 	/**
 	 * 获得List实例
 	 * @param es 初始化的数组
+	 * @param <E> 泛型
 	 * @return List
 	 */
 	@SafeVarargs
-	public static <E> List<E> getList(E... e) {
-		return getList(ArrayUtil.toList(e));
+	public static <E> List<E> getList(E... es) {
+		return getList(ArrayUtil.toList(es));
 	}
 
 	/**
 	 * 获得List实例
 	 * @param c 初始化的集合
+	 * @param <E> 泛型
 	 * @return List
 	 */
 	public static <E> List<E> getList(Collection<E> c) {
@@ -74,6 +79,7 @@ public final class Lists {
 	/**
 	 * 获得List实例
 	 * @param c 初始化的集合
+	 * @param <E> 泛型
 	 * @return List
 	 */
 	@SafeVarargs
@@ -93,6 +99,7 @@ public final class Lists {
 
 	/**
 	 * 获得List实例 默认初始化大小为10
+	 * @param <E> 泛型
 	 * @return List
 	 */
 	public static <E> ArrayList<E> getArrayList() {
@@ -102,6 +109,7 @@ public final class Lists {
 	/**
 	 * 获得List实例
 	 * @param size 初始化大小
+	 * @param <E> 泛型
 	 * @return List
 	 */
 	public static <E> ArrayList<E> getArrayList(int size) {
@@ -111,16 +119,18 @@ public final class Lists {
 	/**
 	 * 获得List实例
 	 * @param es 初始化的数组
+	 * @param <E> 泛型
 	 * @return List
 	 */
 	@SafeVarargs
-	public static <E> ArrayList<E> getArrayList(E... e) {
-		return getArrayList(ArrayUtil.toList(e));
+	public static <E> ArrayList<E> getArrayList(E... es) {
+		return getArrayList(ArrayUtil.toList(es));
 	}
 
 	/**
 	 * 获得List实例
 	 * @param c 初始化的集合
+	 * @param <E> 泛型
 	 * @return List
 	 */
 	public static <E> ArrayList<E> getArrayList(Collection<E> c) {
@@ -129,6 +139,7 @@ public final class Lists {
 
 	/**
 	 * 获得并发的List实例 实现类是CopyOnWriteArrayList
+	 * @param <E> 泛型
 	 * @return 同步的List
 	 */
 	public static <E> CopyOnWriteArrayList<E> getConcurrenrList() {
@@ -138,6 +149,7 @@ public final class Lists {
 	/**
 	 * 获得并发的List实例 实现类是CopyOnWriteArrayList
 	 * @param e 初始化数组
+	 * @param <E> 泛型
 	 * @return 同步的List
 	 */
 	@SafeVarargs
@@ -148,6 +160,7 @@ public final class Lists {
 	/**
 	 * 获得并发的List实例 实现类是CopyOnWriteArrayList
 	 * @param c 初始化的集合
+	 * @param <E> 泛型
 	 * @return 同步的List
 	 */
 	public static <E> CopyOnWriteArrayList<E> getConcurrenrList(Collection<E> c) {
@@ -156,6 +169,7 @@ public final class Lists {
 
 	/**
 	 * 获得同步的List实例 实现类是LinkedList
+	 * @param <E> 泛型
 	 * @return 同步的List
 	 */
 	public static <E> LinkedList<E> getLinkedList() {
@@ -165,6 +179,7 @@ public final class Lists {
 	/**
 	 * 获得同步的List实例 实现类是LinkedList
 	 * @param c 初始化的集合
+	 * @param <E> 泛型
 	 * @return 同步的List
 	 */
 	public static <E> LinkedList<E> getLinkedList(Collection<E> c) {
@@ -173,7 +188,8 @@ public final class Lists {
 
 	/**
 	 * 获得List实例 实现类是LinkedList
-	 * @param es 初始化的数组
+	 * @param e 初始化的数组
+	 * @param <E> 泛型
 	 * @return List
 	 */
 	@SafeVarargs
@@ -186,17 +202,24 @@ public final class Lists {
 	 * @param list 元素列表
 	 * @param begin 开始包含
 	 * @param end 结束不包含
+	 * @param <E> 泛型
 	 * @return 返回获得元素列表
 	 */
 	public static <E> List<E> subList(List<E> list, int begin, int end) {
 		// 如果列表为空返回一个空列表
-		if (EmptyUtil.isEmpty(list)) { return list; }
+		if (EmptyUtil.isEmpty(list)) {
+			return list;
+		}
 		// 获得元列表大小
 		int size = list.size();
 		// 如果开始为小于1 介绍大于列表长度
-		if (begin < 1 && end >= size) { return list; }
+		if (begin < 1 && end >= size) {
+			return list;
+		}
 		// 判断如果begin大于等于元素列表大小 返回原列表
-		if (begin > size) { return emptyList(); }
+		if (begin > size) {
+			return emptyList();
+		}
 		// 判断begin
 		begin = begin < 0 ? 0 : begin;
 		// 如果begin>end
@@ -210,6 +233,7 @@ public final class Lists {
 	/**
 	 * 给List排序
 	 * @param list 要排序的List
+	 * @param <E> 泛型
 	 * @return 排完序的List
 	 */
 	public static <E extends Comparable<? super E>> List<E> sort(List<E> list) {
@@ -221,8 +245,8 @@ public final class Lists {
 
 	/**
 	 * 调用每个元素的toString()方法
-	 * @param list
-	 * @return
+	 * @param list 列表
+	 * @return 字符串
 	 */
 	public static String toString(List<?> list) {
 		return ArrayUtil.toString(toArray(list));
@@ -230,29 +254,39 @@ public final class Lists {
 
 	/**
 	 * 把一个列表变成数组
+	 * @param list 列表
+	 * @param <E> 泛型
 	 * @return 一个不可变的空List
 	 */
 	@SuppressWarnings("unchecked")
 	public static <E> E[] toArray(List<E> list) {
 		// 判断列表不为空
-		if (EmptyUtil.isEmpty(list)) { return ArrayUtil.getArray(); }
+		if (EmptyUtil.isEmpty(list)) {
+			return ArrayUtil.getArray();
+		}
 		// 返回数组
 		return (E[]) list.toArray(ArrayUtil.getArray(list.get(0).getClass(), list.size()));
 	}
 
 	/**
 	 * 把一个列表变成数组
+	 * @param list 列表
+	 * @param clazz 类
+	 * @param <E> 泛型
 	 * @return 一个不可变的空List
 	 */
 	public static <E> E[] toArray(List<Object> list, Class<E> clazz) {
 		// 判断列表不为空
-		if (EmptyUtil.isEmpty(list)) { return ArrayUtil.getArray(clazz, 0); }
+		if (EmptyUtil.isEmpty(list)) {
+			return ArrayUtil.getArray(clazz, 0);
+		}
 		// 返回数组
 		return list.toArray(ArrayUtil.getArray(clazz, list.size()));
 	}
 
 	/**
 	 * 获得一个不可变的空List
+	 * @param <E> 泛型
 	 * @return 一个不可变的空List
 	 */
 	public static <E> List<E> emptyList() {
@@ -261,15 +295,17 @@ public final class Lists {
 
 	/**
 	 * 是否包含在list中 如果list为空或则o为null直接返回false 如果list中类型与o不同 那么转换为String 在对比
-	 * @param list
-	 * @param o
-	 * @return
+	 * @param list 列表
+	 * @param o 对象
+	 * @return 布尔
 	 */
 	public static boolean contains(List<Object> list, Object o) {
 		// 判断不为空
 		if (!EmptyUtil.isEmpty(list) && o != null) {
 			for (Object obj : list) {
-				if (o.getClass().equals(obj.getClass()) ? o.equals(obj) : Conversion.toString(o).equals(Conversion.toString(obj))) { return true; }
+				if (o.getClass().equals(obj.getClass()) ? o.equals(obj) : Conversion.toString(o).equals(Conversion.toString(obj))) {
+					return true;
+				}
 			}
 		}
 		// 返回false

@@ -17,7 +17,7 @@ import com.weicoder.socket.empty.SessionEmpty;
 
 /**
  * Session管理类
- * @author WD  
+ * @author WD
  */
 public final class Manager {
 	// 保存注册的Session
@@ -43,7 +43,7 @@ public final class Manager {
 
 	/**
 	 * 注册到列表
-	 * @param key 注册键 
+	 * @param key 注册键
 	 * @param session Socket Session
 	 * @return true 注册成功 false 注册失败
 	 */
@@ -62,7 +62,9 @@ public final class Manager {
 		// 获得注册列表
 		Map<Long, Session> register = registers.get(key);
 		// 列表为null
-		if (register == null) { return false; }
+		if (register == null) {
+			return false;
+		}
 		// 添加到列表
 		register.put(id, session);
 		// session id
@@ -85,7 +87,9 @@ public final class Manager {
 		// 获得注册列表
 		Map<Long, Session> register = registers.get(key);
 		// 列表为null
-		if (register == null) { return SessionEmpty.EMPTY; }
+		if (register == null) {
+			return SessionEmpty.EMPTY;
+		}
 		// 删除列表
 		return register.remove(id);
 	}
@@ -107,7 +111,7 @@ public final class Manager {
 
 	/**
 	 * 从列表删除Session 根据Session删除 循环所有服务器列表删除
-	 * @param Session session
+	 * @param session Session
 	 * @return true 删除成功 false 删除成功
 	 */
 	public Session remove(Session session) {
@@ -268,7 +272,9 @@ public final class Manager {
 	 */
 	private void broad(List<Session> sessions, short id, Object message) {
 		// 列表为空
-		if (EmptyUtil.isEmpty(sessions)) { return; }
+		if (EmptyUtil.isEmpty(sessions)) {
+			return;
+		}
 		// 获得列表长度
 		int size = sessions.size();
 		// 如果线程池乘2倍

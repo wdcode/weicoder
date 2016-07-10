@@ -17,7 +17,7 @@ import com.weicoder.common.util.StringUtil;
 
 /**
  * 读取配置类
- * @author WD 
+ * @author WD
  */
 public final class Config {
 	// Properties配置
@@ -25,8 +25,7 @@ public final class Config {
 
 	/**
 	 * 构造参数
-	 * @param fileName
-	 * @return
+	 * @param fileName 文件名
 	 */
 	public Config(String... fileName) {
 		// 声明Properties
@@ -63,7 +62,6 @@ public final class Config {
 	/**
 	 * 获得属性value
 	 * @param key 属性key
-	 * @param defaultValue 默认值
 	 * @return value
 	 */
 	public String[] getStringArray(String key) {
@@ -119,7 +117,6 @@ public final class Config {
 	/**
 	 * 获得属性value
 	 * @param key 属性key
-	 * @param defaultValue 默认值
 	 * @return value
 	 */
 	public int getInt(String key) {

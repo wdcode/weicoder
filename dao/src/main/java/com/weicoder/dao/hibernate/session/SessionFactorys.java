@@ -53,8 +53,7 @@ public final class SessionFactorys {
 					if (((SessionFactoryImplementor) sessionFactory).getMetamodel().entity(e) != null) {
 						entity_factorys.put(e, sessionFactory);
 					}
-				} catch (Exception ex) {
-				}
+				} catch (Exception ex) {}
 			}
 		}
 	}
@@ -70,6 +69,7 @@ public final class SessionFactorys {
 
 	/**
 	 * 获得当前Session
+	 * @param entity 类
 	 * @return Session
 	 */
 	public Session getSession(Class<?> entity) {
@@ -81,16 +81,6 @@ public final class SessionFactorys {
 			return sessionFactory.openSession();
 		}
 	}
-
-//	@Override
-//	public void close() {
-//		if (factory != null) {
-//			factory.close();
-//		}
-//		for (SessionFactory factory : entity_factorys.values()) {
-//			factory.close();
-//		}
-//	}
 
 	/**
 	 * 初始化SessionFactory

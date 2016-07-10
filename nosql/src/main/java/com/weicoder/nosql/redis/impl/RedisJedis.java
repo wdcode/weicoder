@@ -12,7 +12,7 @@ import redis.clients.jedis.JedisPoolConfig;
 
 /**
  * Redis客户端Jedis实现
- * @author WD 
+ * @author WD
  */
 public final class RedisJedis extends BaseRedis {
 	// Jedis连接池
@@ -80,7 +80,7 @@ public final class RedisJedis extends BaseRedis {
 
 	/**
 	 * 验证键是否存在
-	 * @param key
+	 * @param key 键
 	 * @return true 存在 false 不存在
 	 */
 	public boolean exists(String key) {

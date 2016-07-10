@@ -26,6 +26,7 @@ public final class Sets {
 
 	/**
 	 * 获得Set实例 实现类是HashSet 默认初始化大小为10
+	 * @param <E> 泛型 
 	 * @return Set
 	 */
 	public static <E> Set<E> getSet() {
@@ -35,6 +36,7 @@ public final class Sets {
 	/**
 	 * 获得Set实例 实现类是HashSet
 	 * @param size 初始化大小
+	 * @param <E> 泛型 
 	 * @return Set
 	 */
 	public static <E> Set<E> getSet(int size) {
@@ -44,6 +46,7 @@ public final class Sets {
 	/**
 	 * 获得Set实例 实现类是HashSet
 	 * @param c 初始化的集合
+	 * @param <E> 泛型 
 	 * @return Set
 	 */
 	public static <E> Set<E> getSet(Collection<E> c) {
@@ -53,6 +56,7 @@ public final class Sets {
 	/**
 	 * 获得Set实例 实现类是HashSet
 	 * @param es 初始化的数组
+	 * @param <E> 泛型 
 	 * @return Set
 	 */
 	@SafeVarargs
@@ -62,6 +66,7 @@ public final class Sets {
 
 	/**
 	 * 获得同步Set实例 实现类是HashSet 默认初始化大小为10
+	 * @param <E> 泛型 
 	 * @return Set
 	 */
 	public static <E> Set<E> getSynchronizedSet() {
@@ -71,6 +76,7 @@ public final class Sets {
 	/**
 	 * 获得Set实例 实现类是HashSet
 	 * @param size 初始化大小
+	 * @param <E> 泛型 
 	 * @return Set
 	 */
 	public static <E> Set<E> getSynchronizedSet(int size) {
@@ -80,6 +86,7 @@ public final class Sets {
 	/**
 	 * 获得Set实例 实现类是HashSet
 	 * @param c 初始化的集合
+	 * @param <E> 泛型 
 	 * @return Set
 	 */
 	public static <E> Set<E> getSynchronizedSet(Collection<E> c) {
@@ -88,6 +95,7 @@ public final class Sets {
 
 	/**
 	 * 获得并发的List实例 实现类是CopyOnWriteArrayList
+	 * @param <E> 泛型 
 	 * @return 同步的List
 	 */
 	public static <E> CopyOnWriteArraySet<E> getConcurrenrSet() {
@@ -97,6 +105,7 @@ public final class Sets {
 	/**
 	 * 获得并发的Set实例 实现类是CopyOnWriteArraySet
 	 * @param c 初始化的集合
+	 * @param <E> 泛型 
 	 * @return 同步的List
 	 */
 	public static <E> CopyOnWriteArraySet<E> getConcurrenrSet(Collection<E> c) {
@@ -105,6 +114,7 @@ public final class Sets {
 
 	/**
 	 * 获得Set实例 实现类是HashSet 默认初始化大小为10
+	 * @param <E> 泛型 
 	 * @return Set
 	 */
 	public static <E> LinkedHashSet<E> getLinkedHashSet() {
@@ -114,6 +124,7 @@ public final class Sets {
 	/**
 	 * 获得Set实例 实现类是HashSet
 	 * @param size 初始化大小
+	 * @param <E> 泛型 
 	 * @return Set
 	 */
 	public static <E> LinkedHashSet<E> getLinkedHashSet(int size) {
@@ -123,6 +134,7 @@ public final class Sets {
 	/**
 	 * 获得Set实例 实现类是HashSet
 	 * @param es 初始化的集合
+	 * @param <E> 泛型 
 	 * @return Set
 	 */
 	@SafeVarargs
@@ -133,6 +145,7 @@ public final class Sets {
 	/**
 	 * 获得Set实例 实现类是HashSet
 	 * @param c 初始化的集合
+	 * @param <E> 泛型 
 	 * @return Set
 	 */
 	public static <E> LinkedHashSet<E> getLinkedHashSet(Collection<E> c) {
@@ -141,6 +154,7 @@ public final class Sets {
 
 	/**
 	 * 获得Set实例 实现类是HashSet 默认初始化大小为10
+	 * @param <E> 泛型 
 	 * @return Set
 	 */
 	public static <E> HashSet<E> getHashSet() {
@@ -150,6 +164,7 @@ public final class Sets {
 	/**
 	 * 获得Set实例 实现类是HashSet
 	 * @param size 初始化大小
+	 * @param <E> 泛型 
 	 * @return Set
 	 */
 	public static <E> HashSet<E> getHashSet(int size) {
@@ -159,6 +174,7 @@ public final class Sets {
 	/**
 	 * 获得Set实例 实现类是HashSet
 	 * @param es 初始化的集合
+	 * @param <E> 泛型 
 	 * @return Set
 	 */
 	@SafeVarargs
@@ -169,6 +185,7 @@ public final class Sets {
 	/**
 	 * 获得Set实例 实现类是HashSet
 	 * @param c 初始化的集合
+	 * @param <E> 泛型 
 	 * @return Set
 	 */
 	public static <E> HashSet<E> getHashSet(Collection<E> c) {
@@ -177,6 +194,7 @@ public final class Sets {
 
 	/**
 	 * 获得Set实例 实现类是HashSet 默认初始化大小为10
+	 * @param <E> 泛型 
 	 * @return Set
 	 */
 	public static <E> TreeSet<E> getTreeSet() {
@@ -186,6 +204,7 @@ public final class Sets {
 	/**
 	 * 获得Set实例 实现类是HashSet
 	 * @param es 初始化的集合
+	 * @param <E> 泛型 
 	 * @return Set
 	 */
 	@SafeVarargs
@@ -196,6 +215,7 @@ public final class Sets {
 	/**
 	 * 获得Set实例 实现类是HashSet
 	 * @param c 初始化的集合
+	 * @param <E> 泛型 
 	 * @return Set
 	 */
 	public static <E> TreeSet<E> getTreeSet(Collection<E> c) {
@@ -204,6 +224,7 @@ public final class Sets {
 
 	/**
 	 * 获得一个不可变的空Set
+	 * @param <E> 泛型 
 	 * @return 一个不可变的空Set
 	 */
 	public static <E> Set<E> emptyList() {

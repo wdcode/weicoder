@@ -39,12 +39,8 @@ public final class StringConstants {
 	public final static String	ENTER				= "\r";
 	/** 常量字符串 "\\n" */
 	public final static String	NEWLINE				= "\n";
-	/** 常量字符串 "&" */
-	public final static String	AMP					= "&";
-	/** 常量字符串 "<" */
-	public final static String	LT					= "<";
-	/** 常量字符串 ">" */
-	public final static String	GT					= ">";
+	/** 常量字符串 */
+	public final static String	AMP					= "&"; 
 	/** 常量字符串 "\"" */
 	public final static String	QUOT				= "\"";
 	/** 常量字符串"'" */

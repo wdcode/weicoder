@@ -5,13 +5,13 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * JDBC实现 数据库操作接口<br/>
- * 使用DataBaseFactory获得实例,调用方法执行数据库操作<br/>
+ * JDBC实现 数据库操作接口
+ * 使用DataBaseFactory获得实例,调用方法执行数据库操作
  * @author WD 
  */
 public interface DataBase {
 	/**
-	 * 完成数据库的增删改操作，要求传入的sql语句必须为insert,update或delete <br/>
+	 * 完成数据库的增删改操作，要求传入的sql语句必须为insert,update或delete 
 	 * 以List包含数组表示的多条条件 可使用单条sql批量插入
 	 * @param sql 传入的sql语句
 	 * @param parame SQL语句的参数 List包含数组 按顺序赋值给sql中的?
@@ -28,7 +28,7 @@ public interface DataBase {
 	int execute(String sql, Object... parame);
 
 	/**
-	 * 完成数据库的增删改操作，要求传入的sql语句必须为insert,update或delete<br/>
+	 * 完成数据库的增删改操作，要求传入的sql语句必须为insert,update或delete
 	 * 以二维数组表示的多条条件 可使用单条sql批量插入
 	 * @param sql 传入的sql语句
 	 * @param parame SQL语句的参数 二维数组 按顺序赋值给sql中的?
@@ -37,7 +37,7 @@ public interface DataBase {
 	int execute(String sql, Object[][] parame);
 
 	/**
-	 * 传入一组sql语句，完成数据库的增删改操作 要求传入的sqlArr数组中的SQL语句必须为insert,update或delete <br/>
+	 * 传入一组sql语句，完成数据库的增删改操作 要求传入的sqlArr数组中的SQL语句必须为insert,update或delete 
 	 * 传入的parame为多个条件 每个一唯数组给一条sql附值
 	 * @param sql 传入的sql语句数组 可执行多条语句
 	 * @param parame SQL语句的参数 按顺序赋值给sql中的?
@@ -46,7 +46,7 @@ public interface DataBase {
 	int execute(String[] sql, Object[]... parame);
 
 	/**
-	 * 完成数据库的增删改操作，要求传入的sql语句必须为insert,update或delete <br/>
+	 * 完成数据库的增删改操作，要求传入的sql语句必须为insert,update或delete 
 	 * 以一个List包含二维数组 可使用多条sql批量插入
 	 * @param sql 传入的sql语句 可执行多条语句
 	 * @param parame SQL语句的参数 List包含二维数组 按顺序赋值给sql中的?
@@ -75,6 +75,7 @@ public interface DataBase {
 	 * @param sql 查询语句
 	 * @param parame SQL语句的参数
 	 * @param c 返回的实体类Class
+	 * @param <E> 泛型
 	 * @return List
 	 */
 	<E> List<E> query(String sql, Class<E> c, Object... parame);

@@ -4,7 +4,7 @@ import com.weicoder.common.params.Params;
 
 /**
  * MongoDB配置读取
- * @author WD  
+ * @author WD
  */
 public final class MongoParams {
 	/* Redis使用 */
@@ -19,72 +19,54 @@ public final class MongoParams {
 	private static int			port		= 27017;		// 服务器端口
 
 	/**
-	 * Mongo服务器地址<br/>
-	 * 需在配置文件中配置<br/>
-	 * <h2>配置方式如下: <br/>
-	 * Properties: mongo.host = ? <br/>
-	 * XML: {@literal <mongo><host>?</host></mongo>}</h2>
-	 * @return Mongo服务器地址
+	 * Mongo服务器地址
+	 * @param name 名称
+	 * @return 服务器地址
 	 */
 	public static String getHost(String name) {
 		return Params.getString(getKey(name, HOST), host);
 	}
 
 	/**
-	 * Mongo服务器库用户<br/>
-	 * 需在配置文件中配置<br/>
-	 * <h2>配置方式如下: <br/>
-	 * Properties: mongo.user = ? <br/>
-	 * XML: {@literal <mongo><user>?</user></mongo>}</h2>
-	 * @return Mongo服务器库用户
+	 * Mongo服务器库用户
+	 * @param name 名称
+	 * @return 用户
 	 */
 	public static String getUser(String name) {
 		return Params.getString(getKey(name, "user"), "wdcode");
 	}
 
 	/**
-	 * Mongo服务器库用户密码<br/>
-	 * 需在配置文件中配置<br/>
-	 * <h2>配置方式如下: <br/>
-	 * Properties: mongo.password = ? <br/>
-	 * XML: {@literal <mongo><password>?</password></mongo>}</h2>
-	 * @return Mongo服务器库用户密码
+	 * Mongo服务器库用户密码
+	 * @param name 名称
+	 * @return 密码
 	 */
 	public static String getPassword(String name) {
 		return Params.getString(getKey(name, "password"), "123456");
 	}
 
 	/**
-	 * Mongo数据库名<br/>
-	 * 需在配置文件中配置<br/>
-	 * <h2>配置方式如下: <br/>
-	 * Properties: mongo.db = ? <br/>
-	 * XML: {@literal <mongo><db>?</db></mongo>}</h2>
-	 * @return Mongo数据库名
+	 * Mongo数据库名
+	 * @param name 名称
+	 * @return 数据库名
 	 */
 	public static String getDB(String name) {
 		return Params.getString(getKey(name, DB), name);
 	}
 
 	/**
-	 * Mongo数据库中集合名<br/>
-	 * 需在配置文件中配置<br/>
-	 * <h2>配置方式如下: <br/>
-	 * Properties: mongo.collection = ? <br/>
-	 * XML: {@literal <mongo><collection>?</collection></mongo>}</h2>
-	 * @return Mongo数据库中集合名
+	 * Mongo数据库中集合名
+	 * @param name 名
+	 * @return 集合
 	 */
 	public static String getCollection(String name) {
 		return Params.getString(getKey(name, COLLECTION), name);
 	}
 
 	/**
-	 * Mongo服务器端口<br/>
-	 * 需在配置文件中配置<br/>
-	 * <h2>配置方式如下: <br/>
-	 * Properties: mongo.port = ? <br/>
-	 * XML: {@literal <mongo><port>?</port></mongo>}</h2>
-	 * @return Mongo服务器端口
+	 * Mongo服务器端口
+	 * @param name 名
+	 * @return 端口
 	 */
 	public static int getPort(String name) {
 		return Params.getInt(getKey(name, PORT), port);

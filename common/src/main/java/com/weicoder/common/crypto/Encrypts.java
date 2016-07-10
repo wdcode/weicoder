@@ -35,8 +35,7 @@ public final class Encrypts extends BaseCrypt {
 
 	/**
 	 * 加密字符串
-	 * @param b 要加密的字节数组
-	 * @param key 加密key
+	 * @param b 要加密的字节数组 
 	 * @return 加密后的字节数组
 	 */
 	public static byte[] encrypt(byte[] b) {

@@ -29,7 +29,7 @@ public final class ResourceUtil {
 	/**
 	 * 尝试加载资源
 	 * @param resourceName 资源文件名
-	 * @return
+	 * @return URL资源
 	 */
 	public static URL getResource(String resourceName) {
 		// 获得资源URL 使用当前线程
@@ -44,7 +44,9 @@ public final class ResourceUtil {
 			}
 		}
 		// 如果url还为空 做资源的名的判断重新调用方法
-		if (url == null && !EmptyUtil.isEmpty(resourceName) && (!resourceName.startsWith(StringConstants.BACKSLASH))) { return getResource(StringConstants.BACKSLASH + resourceName); }
+		if (url == null && !EmptyUtil.isEmpty(resourceName) && (!resourceName.startsWith(StringConstants.BACKSLASH))) {
+			return getResource(StringConstants.BACKSLASH + resourceName);
+		}
 		// 返回资源
 		return url;
 	}

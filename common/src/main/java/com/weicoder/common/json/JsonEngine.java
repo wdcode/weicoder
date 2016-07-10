@@ -99,6 +99,7 @@ public final class JsonEngine {
 	 * 转换JSON根据传入的Class反射生成回实体Bean
 	 * @param json JSON字符串
 	 * @param clazz 要转换对象的class
+	 * @param <E> 泛型
 	 * @return 对象
 	 */
 	public static <E> E toBean(String json, Class<E> clazz) {
@@ -108,6 +109,8 @@ public final class JsonEngine {
 	/**
 	 * 把json转换成List
 	 * @param json JSON字符串
+	 * @param clazz 类
+	 * @param <E> 泛型
 	 * @return List
 	 */
 	@SuppressWarnings("unchecked")
@@ -129,6 +132,7 @@ public final class JsonEngine {
 	 * 把json转换成Map
 	 * @param json JSON字符串
 	 * @param value Map值类
+	 * @param <E> 泛型
 	 * @return Map
 	 */
 	@SuppressWarnings("unchecked")
@@ -167,6 +171,5 @@ public final class JsonEngine {
 		return toList(json, Object.class);
 	}
 
-	private JsonEngine() {
-	}
+	private JsonEngine() {}
 }

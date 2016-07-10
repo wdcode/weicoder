@@ -23,8 +23,9 @@ import com.weicoder.common.log.Logs;
 public final class ResponseUtil {
 	/**
 	 * 写数据到前端
-	 * @param response
+	 * @param response HttpServletResponse
 	 * @param str 要写的字符串
+	 * @return String
 	 */
 	public static String write(HttpServletResponse response, String str) {
 		return write(response, str, CommonParams.ENCODING);
@@ -32,9 +33,10 @@ public final class ResponseUtil {
 
 	/**
 	 * 写数据到前端
-	 * @param response
+	 * @param response HttpServletResponse
 	 * @param str 要写的字符串
 	 * @param charsetName 编码
+	 * @return String
 	 */
 	public static String write(HttpServletResponse response, String str, String charsetName) {
 		// 清除缓存
@@ -57,6 +59,7 @@ public final class ResponseUtil {
 
 	/**
 	 * 写数据到前端
+	 * @param response HttpServletResponse
 	 * @param str 要写的字符串
 	 */
 	public static void out(HttpServletResponse response, String str) {
@@ -65,7 +68,7 @@ public final class ResponseUtil {
 
 	/**
 	 * 写数据到前端
-	 * @param response
+	 * @param response HttpServletResponse
 	 * @param str 要写的字符串
 	 * @param charsetName 编码
 	 */
@@ -80,8 +83,9 @@ public final class ResponseUtil {
 
 	/**
 	 * 输出数据到客户端方法
-	 * @param response
+	 * @param response HttpServletResponse
 	 * @param data 数据对象
+	 * @return String
 	 */
 	public static String json(HttpServletResponse response, Object data) {
 		return json(response, StringConstants.EMPTY, data);
@@ -89,9 +93,10 @@ public final class ResponseUtil {
 
 	/**
 	 * 把对象转换成json
+	 * @param response HttpServletResponse
 	 * @param callback 跨域用
 	 * @param data 对象
-	 * @param charsetName 编码
+	 * @return String
 	 */
 	public static String json(HttpServletResponse response, String callback, Object data) {
 		// 返回数据为空

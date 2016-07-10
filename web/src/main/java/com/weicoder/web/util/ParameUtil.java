@@ -11,7 +11,7 @@ import com.weicoder.common.util.EmptyUtil;
 
 /**
  * 获得提交参数方法
- * @author WD  
+ * @author WD
  */
 public final class ParameUtil {
 	/**
@@ -113,6 +113,7 @@ public final class ParameUtil {
 	 * @param request Request
 	 * @param key 属性值
 	 * @param defaultValue 默认值
+	 * @param <E> 泛型
 	 * @return value
 	 */
 	public static <E> E getAttribute(ServletRequest request, String key, E defaultValue) {
@@ -134,6 +135,7 @@ public final class ParameUtil {
 	 * @param session HttpSession
 	 * @param key 属性值
 	 * @param defaultValue 默认值
+	 * @param <E> 泛型
 	 * @return value
 	 */
 	public static <E> E getAttribute(HttpSession session, String key, E defaultValue) {
@@ -155,6 +157,7 @@ public final class ParameUtil {
 	 * @param context ServletContext
 	 * @param key 属性值
 	 * @param defaultValue 默认值
+	 * @param <E> 泛型
 	 * @return value
 	 */
 	public static <E> E getAttribute(ServletContext context, String key, E defaultValue) {
@@ -162,7 +165,7 @@ public final class ParameUtil {
 	}
 
 	/**
-	 * 从低到高的域属性读取 request -> session -> application 如果没有返回null
+	 * 从低到高的域属性读取 request - session - application 如果没有返回null
 	 * @param request Request
 	 * @param key 属性值
 	 * @return value
@@ -172,10 +175,11 @@ public final class ParameUtil {
 	}
 
 	/**
-	 * 从低到高的域属性读取 request -> session -> application 如果没有返回defaultValue
+	 * 从低到高的域属性读取 request - session - application 如果没有返回defaultValue
 	 * @param request Request
 	 * @param key 属性值
 	 * @param defaultValue 默认值
+	 * @param <E> 泛型
 	 * @return value
 	 */
 	public static <E> E getAttributeScope(HttpServletRequest request, String key, E defaultValue) {
@@ -190,7 +194,7 @@ public final class ParameUtil {
 	}
 
 	/**
-	 * 先获得getParameter如果值为空,依次获得 request -> session -> application的getAttribute
+	 * 先获得getParameter如果值为空,依次获得 request - session - application的getAttribute
 	 * @param request Request
 	 * @param key 属性值
 	 * @return value
@@ -200,10 +204,11 @@ public final class ParameUtil {
 	}
 
 	/**
-	 * 先获得getParameter如果值为空,依次获得 request -> session -> application的getAttribute
+	 * 先获得getParameter如果值为空,依次获得 request - session - application的getAttribute
 	 * @param request Request
 	 * @param key 属性值
 	 * @param defaultValue 默认值
+	 * @param <E> 泛型
 	 * @return value
 	 */
 	@SuppressWarnings("unchecked")
@@ -213,6 +218,6 @@ public final class ParameUtil {
 		// 如果e为null 返回Session中属性 否则返回e
 		return EmptyUtil.isEmpty(value) ? getAttributeScope(request, key, defaultValue) : (E) value;
 	}
- 
+
 	private ParameUtil() {}
 }

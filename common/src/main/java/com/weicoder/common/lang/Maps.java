@@ -12,7 +12,7 @@ import com.weicoder.common.util.EmptyUtil;
 
 /**
  * Map的帮助类,获得Map的一些操作
- * @author WD  
+ * @author WD
  */
 public final class Maps {
 	/**
@@ -26,6 +26,8 @@ public final class Maps {
 
 	/**
 	 * 获得Map实例 默认初始化大小为10
+	 * @param <K> 泛型
+	 * @param <V> 泛型
 	 * @return Map
 	 */
 	public static <K, V> Map<K, V> getMap() {
@@ -35,6 +37,8 @@ public final class Maps {
 	/**
 	 * 获得Map实例
 	 * @param size 初始化大小
+	 * @param <K> 泛型
+	 * @param <V> 泛型
 	 * @return Map
 	 */
 	public static <K, V> Map<K, V> getMap(int size) {
@@ -44,6 +48,8 @@ public final class Maps {
 	/**
 	 * 获得Map实例
 	 * @param map 初始化的Map
+	 * @param <K> 泛型
+	 * @param <V> 泛型
 	 * @return Map
 	 */
 	public static <K, V> Map<K, V> getMap(Map<K, V> map) {
@@ -54,6 +60,8 @@ public final class Maps {
 	 * 获得Map实例
 	 * @param key 键
 	 * @param value 值
+	 * @param <K> 泛型
+	 * @param <V> 泛型
 	 * @return Map
 	 */
 	public static <K, V> Map<K, V> getMap(K key, V value) {
@@ -69,6 +77,8 @@ public final class Maps {
 	 * 获得Map实例
 	 * @param keys 键数组
 	 * @param values 值数组
+	 * @param <K> 泛型
+	 * @param <V> 泛型
 	 * @return Map
 	 */
 	public static <K, V> Map<K, V> getMap(K[] keys, V[] values) {
@@ -79,11 +89,15 @@ public final class Maps {
 	 * 获得Map实例
 	 * @param keys 键数组
 	 * @param values 值数组
+	 * @param <K> 泛型
+	 * @param <V> 泛型
 	 * @return Map
 	 */
 	public static <K, V> Map<K, V> getMap(List<K> keys, List<V> values) {
 		// 判断key和value为空或则键值数量不同 返回空Map
-		if (EmptyUtil.isEmpty(keys) || EmptyUtil.isEmpty(values) || keys.size() != values.size()) { return emptyMap(); }
+		if (EmptyUtil.isEmpty(keys) || EmptyUtil.isEmpty(values) || keys.size() != values.size()) {
+			return emptyMap();
+		}
 		// 获得Map
 		Map<K, V> map = getMap();
 		// 循环填充map
@@ -97,7 +111,9 @@ public final class Maps {
 
 	/**
 	 * 获得Map实例
-	 * @param map 初始化的Map
+	 * @param maps 初始化的Map
+	 * @param <K> 泛型
+	 * @param <V> 泛型
 	 * @return Map
 	 */
 	@SafeVarargs
@@ -115,6 +131,8 @@ public final class Maps {
 
 	/**
 	 * 获得Map实例 实现类是HashMap
+	 * @param <K> 泛型
+	 * @param <V> 泛型
 	 * @return Map
 	 */
 	public static <K, V> HashMap<K, V> getHashMap() {
@@ -124,6 +142,8 @@ public final class Maps {
 	/**
 	 * 获得Map实例 实现类是HashMap
 	 * @param size 初始化大小
+	 * @param <K> 泛型
+	 * @param <V> 泛型
 	 * @return Map
 	 */
 	public static <K, V> HashMap<K, V> getHashMap(int size) {
@@ -133,6 +153,8 @@ public final class Maps {
 	/**
 	 * 获得Map实例 实现类是HashMap
 	 * @param map 初始化的Map
+	 * @param <K> 泛型
+	 * @param <V> 泛型
 	 * @return Map
 	 */
 	public static <K, V> HashMap<K, V> getHashMap(Map<K, V> map) {
@@ -141,6 +163,8 @@ public final class Maps {
 
 	/**
 	 * 获得Map实例 实现类是LinkedHashMap 默认初始化大小为10
+	 * @param <K> 泛型
+	 * @param <V> 泛型
 	 * @return Map
 	 */
 	public static <K, V> LinkedHashMap<K, V> getLinkedHashMap() {
@@ -150,6 +174,8 @@ public final class Maps {
 	/**
 	 * 获得Map实例 实现类是LinkedHashMap
 	 * @param size 初始化大小
+	 * @param <K> 泛型
+	 * @param <V> 泛型
 	 * @return Map
 	 */
 	public static <K, V> LinkedHashMap<K, V> getLinkedHashMap(int size) {
@@ -159,6 +185,8 @@ public final class Maps {
 	/**
 	 * 获得Map实例 实现类是LinkedHashMap
 	 * @param map 初始化的Map
+	 * @param <K> 泛型
+	 * @param <V> 泛型
 	 * @return Map
 	 */
 	public static <K, V> LinkedHashMap<K, V> getLinkedHashMap(Map<K, V> map) {
@@ -167,6 +195,8 @@ public final class Maps {
 
 	/**
 	 * 获得同步的Map实例 实现类是HashMap 默认初始化大小为10
+	 * @param <K> 泛型
+	 * @param <V> 泛型
 	 * @return Map
 	 */
 	public static <K, V> Map<K, V> getSynchronizedMap() {
@@ -175,6 +205,8 @@ public final class Maps {
 
 	/**
 	 * 获得同步的Map实例 实现类是HashMap
+	 * @param <K> 泛型
+	 * @param <V> 泛型
 	 * @param size 初始化大小
 	 * @return Map
 	 */
@@ -185,6 +217,8 @@ public final class Maps {
 	/**
 	 * 获得同步的Map实例 实现类是HashMap
 	 * @param map 初始化的Map
+	 * @param <K> 泛型
+	 * @param <V> 泛型
 	 * @return Map
 	 */
 	public static <K, V> Map<K, V> getSynchronizedMap(Map<K, V> map) {
@@ -193,6 +227,8 @@ public final class Maps {
 
 	/**
 	 * 获得同步的Map实例 实现类是ConcurrentHashMap 默认初始化大小为10
+	 * @param <K> 泛型
+	 * @param <V> 泛型
 	 * @return Map
 	 */
 	public static <K, V> ConcurrentMap<K, V> getConcurrentMap() {
@@ -202,6 +238,8 @@ public final class Maps {
 	/**
 	 * 获得同步的Map实例 实现类是ConcurrentHashMap
 	 * @param size 初始化大小
+	 * @param <K> 泛型
+	 * @param <V> 泛型
 	 * @return Map
 	 */
 	public static <K, V> ConcurrentMap<K, V> getConcurrentMap(int size) {
@@ -211,6 +249,8 @@ public final class Maps {
 	/**
 	 * 获得同步的Map实例 实现类是ConcurrentHashMap
 	 * @param map 初始化的Map
+	 * @param <K> 泛型
+	 * @param <V> 泛型
 	 * @return Map
 	 */
 	public static <K, V> ConcurrentMap<K, V> getConcurrentMap(Map<K, V> map) {
@@ -219,6 +259,8 @@ public final class Maps {
 
 	/**
 	 * 获得一个不可变的空Map
+	 * @param <K> 泛型
+	 * @param <V> 泛型
 	 * @return 一个不可变的空Map
 	 */
 	public static <K, V> Map<K, V> emptyMap() {

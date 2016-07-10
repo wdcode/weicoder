@@ -72,8 +72,8 @@ public final class EmptyUtil {
 	}
 
 	/**
-	 * 判断对象是否空 判断 object == null
-	 * @param object 对象
+	 * 判断字节数组是否空 判断  b == null || b.length == 0
+	 * @param b 字节数组
 	 * @return true为空,false非空
 	 */
 	public static boolean isEmpty(byte[] b) {
@@ -116,6 +116,5 @@ public final class EmptyUtil {
 		return cs == null || cs.length() == 0;
 	}
 
-	private EmptyUtil() {
-	}
+	private EmptyUtil() {}
 }

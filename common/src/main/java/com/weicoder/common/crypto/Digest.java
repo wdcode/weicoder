@@ -160,7 +160,7 @@ public final class Digest {
 
 	/**
 	 * 返回字符串的SHA-1(信息-摘要算法)码
-	 * @param text 要SHA-1的字符串
+	 * @param b 要SHA-1后的字节数组
 	 * @return SHA-1后的字节数组
 	 */
 	public static byte[] sha1(byte[] b) {
@@ -196,6 +196,5 @@ public final class Digest {
 		}
 	}
 
-	private Digest() {
-	}
+	private Digest() {}
 }

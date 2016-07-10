@@ -56,7 +56,7 @@ public final class Validate {
 	}
 
 	/**
-	 * 校验密码 正则表达式为 ^[a-zA-Z0-9.!#$%&^*-_=+~?><]+$
+	 * 校验密码
 	 * @param str 要验证的字符串
 	 * @return true false
 	 */
@@ -203,7 +203,7 @@ public final class Validate {
 
 	/**
 	 * 校验字符串
-	 * @param regex 正则表达式
+	 * @param regexs 正则表达式
 	 * @param str 要验证的字符串 校验的字符串
 	 * @return true false
 	 */

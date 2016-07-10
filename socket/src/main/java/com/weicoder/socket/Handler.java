@@ -2,12 +2,12 @@ package com.weicoder.socket;
 
 /**
  * Socket 处理器
- * @author WD  
+ * @author WD
  */
 public interface Handler<E> {
 	/**
 	 * 处理消息ID
-	 * @return
+	 * @return 消息ID
 	 */
 	short id();
 

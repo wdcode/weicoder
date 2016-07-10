@@ -7,7 +7,7 @@ import com.weicoder.nosql.memcache.factory.MemcacheFactory;
 
 /**
  * Memcache 处理器 使用工厂默认对象
- * @author WD  
+ * @author WD
  */
 public final class MemcacheEngine {
 	// memcache接口
@@ -17,6 +17,7 @@ public final class MemcacheEngine {
 	 * 压缩值 当值能压缩时才压缩
 	 * @param key 键
 	 * @param value 值
+	 * @return 是否成功
 	 */
 	public static boolean compress(String key, Object value) {
 		return MEMCACHE.compress(key, value);
@@ -35,6 +36,7 @@ public final class MemcacheEngine {
 	 * 设置键值 无论存储空间是否存在相同键，都保存
 	 * @param key 键
 	 * @param value 值
+	 * @return 是否成功
 	 */
 	public static boolean set(String key, Object value) {
 		return MEMCACHE.set(key, value);
@@ -44,6 +46,7 @@ public final class MemcacheEngine {
 	 * 追加键值
 	 * @param key 键
 	 * @param value 值
+	 * @return 是否成功
 	 */
 	public static boolean append(String key, Object value) {
 		return MEMCACHE.append(key, value);

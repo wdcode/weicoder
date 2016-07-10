@@ -14,7 +14,7 @@ public final class MongoFactory extends FactoryKey<String, Mongo> {
 
 	/**
 	 * 获得Mongo
-	 * @return
+	 * @return Mongo
 	 */
 	public static Mongo getMongo() {
 		return FACTORY.getInstance();
@@ -23,7 +23,7 @@ public final class MongoFactory extends FactoryKey<String, Mongo> {
 	/**
 	 * 获得Mongo
 	 * @param name Mongo名称
-	 * @return
+	 * @return Mongo
 	 */
 	public static Mongo getMongo(String name) {
 		return FACTORY.getInstance(name);

@@ -15,19 +15,19 @@ import java.util.concurrent.TimeUnit;
 public @interface Rate {
 	/**
 	 * 启动时间 默认0 立即开始
-	 * @return
+	 * @return 启动时间
 	 */
 	long start() default 0;
 
 	/**
 	 * 间隔时间 默认1000
-	 * @return
+	 * @return 间隔时间
 	 */
 	long value() default 1000;
 
 	/**
 	 * 时间戳 默认毫秒
-	 * @return
+	 * @return 时间戳
 	 */
 	TimeUnit unit() default TimeUnit.MILLISECONDS;
 }

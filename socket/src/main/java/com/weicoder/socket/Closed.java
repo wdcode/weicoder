@@ -7,7 +7,7 @@ package com.weicoder.socket;
 public interface Closed {
 	/**
 	 * 关闭Session处理
-	 * @param session
+	 * @param session Session
 	 */
 	void closed(Session session);
 }

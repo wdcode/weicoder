@@ -5,7 +5,7 @@ import com.weicoder.common.zip.Zip;
 
 /**
  * 基础压缩实现
- * @author WD  
+ * @author WD
  */
 public abstract class BaseZip implements Zip {
 
@@ -37,15 +37,17 @@ public abstract class BaseZip implements Zip {
 
 	/**
 	 * 实际压缩算法的实现
-	 * @param b
-	 * @return
+	 * @param b 字节数组
+	 * @return 压缩后数据
+	 * @throws Exception 抛出的异常
 	 */
 	protected abstract byte[] compress0(byte[] b) throws Exception;
 
 	/**
 	 * 实际的解压缩算法
-	 * @param b
-	 * @return
+	 * @param b 字节数组
+	 * @return 压缩后数据
+	 * @throws Exception 抛出的异常
 	 */
 	protected abstract byte[] extract0(byte[] b) throws Exception;
 }

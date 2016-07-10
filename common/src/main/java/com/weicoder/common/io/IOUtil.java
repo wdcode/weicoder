@@ -64,8 +64,9 @@ public final class IOUtil {
 
 	/**
 	 * 把text写入到os中 默认使用UTF-8编码
-	 * @param os 输出流
+	 * @param out 输出流
 	 * @param text 输入的字符串
+	 * @return boolean
 	 */
 	public static boolean write(OutputStream out, String text) {
 		return IO.write(out, text);

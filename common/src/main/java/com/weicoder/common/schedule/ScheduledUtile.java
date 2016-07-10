@@ -20,7 +20,7 @@ public final class ScheduledUtile {
 	 * 执行定时任务 按初始时间间隔
 	 * @param command 线程任务
 	 * @param period 间隔时间 毫秒
-	 * @return
+	 * @return ScheduledFuture
 	 */
 	public static ScheduledFuture<?> rate(Runnable command, long period) {
 		return rate(command, period, period, TimeUnit.MILLISECONDS);
@@ -32,7 +32,7 @@ public final class ScheduledUtile {
 	 * @param initialDelay 初始化时间
 	 * @param period 间隔时间
 	 * @param unit 时间戳
-	 * @return
+	 * @return ScheduledFuture
 	 */
 	public static ScheduledFuture<?> rate(Runnable command, long initialDelay, long period, TimeUnit unit) {
 		return POOL.scheduleAtFixedRate(command, initialDelay, period, unit);
@@ -42,7 +42,7 @@ public final class ScheduledUtile {
 	 * 执行定时任务 按初始时间间隔
 	 * @param command 线程任务
 	 * @param period 间隔时间 秒
-	 * @return
+	 * @return ScheduledFuture
 	 */
 	public static ScheduledFuture<?> rate(Runnable command, int period) {
 		return rate(command, period * DateConstants.TIME_SECOND);
@@ -52,7 +52,7 @@ public final class ScheduledUtile {
 	 * 执行定时任务 按执行线程时间间隔
 	 * @param command 线程任务
 	 * @param delay 间隔时间 毫秒
-	 * @return
+	 * @return ScheduledFuture
 	 */
 	public static ScheduledFuture<?> delay(Runnable command, long delay) {
 		return POOL.scheduleWithFixedDelay(command, delay, delay, TimeUnit.MILLISECONDS);
@@ -64,7 +64,7 @@ public final class ScheduledUtile {
 	 * @param initialDelay 初始化时间
 	 * @param delay 间隔时间
 	 * @param unit 时间戳
-	 * @return
+	 * @return ScheduledFuture
 	 */
 	public static ScheduledFuture<?> delay(Runnable command, long initialDelay, long delay, TimeUnit unit) {
 		return POOL.scheduleWithFixedDelay(command, initialDelay, delay, unit);
@@ -74,7 +74,7 @@ public final class ScheduledUtile {
 	 * 执行定时任务 按执行线程间隔
 	 * @param command 线程任务
 	 * @param delay 间隔时间 秒
-	 * @return
+	 * @return ScheduledFuture
 	 */
 	public static ScheduledFuture<?> delay(Runnable command, int delay) {
 		return delay(command, delay * DateConstants.TIME_SECOND);

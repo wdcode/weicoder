@@ -10,13 +10,12 @@ import com.weicoder.common.util.EmptyUtil;
 
 /**
  * Session一些相关操作类
- * @author WD  
+ * @author WD
  */
 public final class SessionUtil {
 	/**
 	 * 销毁session
 	 * @param session 用户session
-	 * @return 始终返回null
 	 */
 	public static void close(HttpSession session) {
 		// 判断不为空
@@ -53,6 +52,7 @@ public final class SessionUtil {
 	 * @param session ServletRequest
 	 * @param key 属性值
 	 * @param defaultValue 默认值
+	 * @param <E> 泛型
 	 * @return value
 	 */
 	@SuppressWarnings("unchecked")
@@ -93,6 +93,6 @@ public final class SessionUtil {
 	public static ServletContext getServletContext(HttpSession session) {
 		return EmptyUtil.isEmpty(session) ? null : session.getServletContext();
 	}
- 
+
 	private SessionUtil() {}
 }

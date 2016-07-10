@@ -4,7 +4,7 @@ import com.weicoder.common.params.Params;
 
 /**
  * Redis配置读取
- * @author WD  
+ * @author WD
  */
 public final class RedisParams {
 	/* Redis使用 */
@@ -23,60 +23,45 @@ public final class RedisParams {
 	private static long			maxWait		= 1000;			// 最大等待时间
 
 	/**
-	 * Redis服务器地址<br/>
-	 * 需在配置文件中配置<br/>
-	 * <h2>配置方式如下: <br/>
-	 * Properties: nosql.redis.host = ? <br/>
-	 * XML: {@literal <nosql><redis><host>?</host></redis></nosql>}</h2>
-	 * @return Redis服务器地址
+	 * Redis服务器地址
+	 * @param name 名
+	 * @return 服务器地址
 	 */
 	public static String getHost(String name) {
 		return Params.getString(getKey(name, HOST), host);
 	}
 
 	/**
-	 * Redis服务器端口<br/>
-	 * 需在配置文件中配置<br/>
-	 * <h2>配置方式如下: <br/>
-	 * Properties: nosql.redis.port = ? <br/>
-	 * XML: {@literal <nosql><redis><port>?</port></redis></nosql>}</h2>
-	 * @return Redis服务器端口
+	 * Redis服务器端口
+	 * @param name 名
+	 * @return 端口
 	 */
 	public static int getPort(String name) {
 		return Params.getInt(getKey(name, PORT), port);
 	}
 
 	/**
-	 * Redis最大活动数<br/>
-	 * 需在配置文件中配置<br/>
-	 * <h2>配置方式如下: <br/>
-	 * Properties: nosql.redis.maxTotal = ? <br/>
-	 * XML: {@literal <nosql><redis><maxTotal>?</maxTotal></redis></nosql>}</h2>
-	 * @return Redis最大活动数
+	 * Redis最大活动数
+	 * @param name 名
+	 * @return int
 	 */
 	public static int getMaxTotal(String name) {
 		return Params.getInt(getKey(name, MAX_TOTAL), maxTotal);
 	}
 
 	/**
-	 * Redis最大空闲数<br/>
-	 * 需在配置文件中配置<br/>
-	 * <h2>配置方式如下: <br/>
-	 * Properties: nosql.redis.maxIdle = ? <br/>
-	 * XML: {@literal <nosql><redis><maxIdle>?</maxIdle></redis></nosql>}</h2>
-	 * @return Redis最大空闲数
+	 * Redis最大空闲数
+	 * @param name 名
+	 * @return int
 	 */
 	public static int getMaxIdle(String name) {
 		return Params.getInt(getKey(name, MAX_IDLE), maxIdle);
 	}
 
 	/**
-	 * Redis最大等待时间<br/>
-	 * 需在配置文件中配置<br/>
-	 * <h2>配置方式如下: <br/>
-	 * Properties: nosql.redis.maxWait = ? <br/>
-	 * XML: {@literal <nosql><redis><maxWait>?</maxWait></redis></nosql>}</h2>
-	 * @return Redis最大等待时间
+	 * Redis最大等待时间
+	 * @param name 名
+	 * @return long
 	 */
 	public static long getMaxWait(String name) {
 		return Params.getLong(getKey(name, MAX_WAIT), maxWait);

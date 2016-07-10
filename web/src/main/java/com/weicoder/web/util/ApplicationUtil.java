@@ -24,6 +24,7 @@ public final class ApplicationUtil {
 	 * @param context ServletContext
 	 * @param key 属性值
 	 * @param defaultValue 默认值
+	 * @param <E> 泛型
 	 * @return value
 	 */
 	@SuppressWarnings("unchecked")

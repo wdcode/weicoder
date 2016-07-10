@@ -18,8 +18,9 @@ public final class TokenEngine {
 
 	/**
 	 * 加密信息
-	 * @param token 登录凭证
-	 * @return 加密信息
+	 * @param id 用户ID
+	 * @param ip 用户IP
+	 * @return 加密token字符串
 	 */
 	public static String encrypt(long id, String ip) {
 		return encrypt(new Token(id, ip));
@@ -39,6 +40,7 @@ public final class TokenEngine {
 
 	/**
 	 * 验证登录凭证
+	 * @param info 登陆信息
 	 * @return 登录实体
 	 */
 	public static Token decrypt(String info) {
@@ -67,6 +69,5 @@ public final class TokenEngine {
 		return token;
 	}
 
-	private TokenEngine() {
-	}
+	private TokenEngine() {}
 }

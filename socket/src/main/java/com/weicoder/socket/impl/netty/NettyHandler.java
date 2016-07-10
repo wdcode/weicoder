@@ -22,7 +22,8 @@ public final class NettyHandler extends SimpleChannelInboundHandler<ByteBuf> {
 
 	/**
 	 * 构造
-	 * @param process
+	 * @param name 名称
+	 * @param process 处理器
 	 */
 	public NettyHandler(String name, Process process) {
 		this.name = name;
@@ -32,18 +33,15 @@ public final class NettyHandler extends SimpleChannelInboundHandler<ByteBuf> {
 	@Override
 	public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
 		process.closed(getSesson(ctx.channel()));
-		// super.channelUnregistered(ctx);
 	}
 
 	@Override
 	public void channelActive(ChannelHandlerContext ctx) throws Exception {
 		process.connected(getSesson(ctx.channel()));
-		// super.channelActive(ctx);
 	}
 
 	@Override
-	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-	}
+	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {}
 
 	@Override
 	protected void channelRead0(ChannelHandlerContext ctx, ByteBuf msg) throws Exception {
@@ -57,8 +55,8 @@ public final class NettyHandler extends SimpleChannelInboundHandler<ByteBuf> {
 
 	/**
 	 * 获得包装Session
-	 * @param session Mina session
-	 * @return
+	 * @param channel netty channel
+	 * @return Session
 	 */
 	private Session getSesson(Channel channel) {
 		// 获得SessionId

@@ -31,20 +31,12 @@ public final class HibernateDao implements Dao {
 	// Session工厂
 	private SessionFactorys factorys = new SessionFactorys();
 
-	/**
-	 * 持久化对象，添加操作，此方法会向对应的数据库表中插入一条数据
-	 * @param entity 对象实体
-	 * @return 返回插入数据的唯一标识(主键) 出现异常返回0
-	 */
+	@Override
 	public <E> E insert(final E entity) {
 		return insert(Lists.getList(entity)).get(0);
 	}
 
-	/**
-	 * 持久化对象，添加操作，此方法会向对应的数据库表中插入一条数据
-	 * @param entitys 对象实体
-	 * @return 返回插入数据的唯一标识(主键) 出现异常返回0
-	 */
+	@Override
 	public <E> List<E> insert(final List<E> entitys) {
 		return execute(entitys.get(0).getClass(), (Session session) -> {
 			// 循环添加
@@ -56,22 +48,12 @@ public final class HibernateDao implements Dao {
 		});
 	}
 
-	/**
-	 * 持久化数据，锁表 更新表中一行数据
-	 * @param entity 对象实体
-	 * @return 是否成功
-	 */
+	@Override
 	public <E> E update(final E entity) {
 		return update(Lists.getList(entity)).get(0);
 	}
 
-	/**
-	 * 持久化数据，锁表 更新表中一行数据
-	 * @param entity 对象实体
-	 * @param lockMode 锁表的模式 具体参看 LockMode
-	 * @return 是否成功
-	 * @see org.hibernate.LockMode
-	 */
+	@Override
 	public <E> List<E> update(final List<E> entitys) {
 		return execute(entitys.get(0).getClass(), (Session session) -> {
 			// 循环更新
@@ -83,20 +65,12 @@ public final class HibernateDao implements Dao {
 		});
 	}
 
-	/**
-	 * 批量持久化对象 保存或更新，如果存在就更新，不存在就插入
-	 * @param entity 需要持久化的对象
-	 * @return 列表对象
-	 */
+	@Override
 	public <E> E insertOrUpdate(E entity) {
 		return insertOrUpdate(Lists.getList(entity)).get(0);
 	}
 
-	/**
-	 * 批量持久化对象 保存或更新，如果存在就更新，不存在就插入
-	 * @param entitys 需要持久化的对象
-	 * @return 列表对象
-	 */
+	@Override
 	public <E> List<E> insertOrUpdate(final List<E> entitys) {
 		return execute(entitys.get(0).getClass(), (Session session) -> {
 			// 循环更新
@@ -108,20 +82,12 @@ public final class HibernateDao implements Dao {
 		});
 	}
 
-	/**
-	 * 持久化数据，删除表中多行数据
-	 * @param entity 需要持久话对象的集合
-	 * @return 是否成功
-	 */
+	@Override
 	public <E> E delete(E entity) {
 		return delete(Lists.getList(entity)).get(0);
 	}
 
-	/**
-	 * 持久化数据，删除表中多行数据
-	 * @param entitys 需要持久话对象的集合
-	 * @return 是否成功
-	 */
+	@Override
 	public <E> List<E> delete(final List<E> entitys) {
 		return execute(entitys.get(0).getClass(), (Session session) -> {
 			// 循环更新
@@ -133,16 +99,12 @@ public final class HibernateDao implements Dao {
 		});
 	}
 
-	/**
-	 * 获得持久化对象
-	 * @param entityClass 实体类
-	 * @param id 持久化对象的唯一标识(主键)
-	 * @param lockMode 锁表的模式 具体参看 org.hibernate.LockMode
-	 * @return 要获得的持久化对象，异常返回null
-	 */
+	@Override
 	public <E> E get(final Class<E> entityClass, final Serializable pk) {
 		// 验证pk是否为空
-		if (EmptyUtil.isEmpty(pk)) { return null; }
+		if (EmptyUtil.isEmpty(pk)) {
+			return null;
+		}
 		// 查找对象
 		return execute(entityClass, (Session session) -> {
 			return session.get(entityClass, pk);
@@ -152,7 +114,9 @@ public final class HibernateDao implements Dao {
 	@Override
 	public <E> List<E> gets(final Class<E> entityClass, final Serializable... pks) {
 		// 验证pk是否为空
-		if (EmptyUtil.isEmpty(pks)) { return Lists.emptyList(); }
+		if (EmptyUtil.isEmpty(pks)) {
+			return Lists.emptyList();
+		}
 		// 查找对象
 		return execute(entityClass, (Session session) -> {
 			// 声明返回对象
@@ -166,11 +130,7 @@ public final class HibernateDao implements Dao {
 		});
 	}
 
-	/**
-	 * 获得持久化对象 如果没有查询到对象 返回null
-	 * @param entity 对象实体
-	 * @return 持久化对象
-	 */
+	@Override
 	public <E> E get(final E entity) {
 		// 获得结果
 		List<E> list = list(entity, 0, 1);
@@ -178,35 +138,17 @@ public final class HibernateDao implements Dao {
 		return EmptyUtil.isEmpty(list) ? null : list.get(0);
 	}
 
-	/**
-	 * 获得持久化对象
-	 * @param entity 实体类
-	 * @param property 属性名
-	 * @param value 属性值
-	 * @return 要获得的持久化对象，如果不存在返回null
-	 */
+	@Override
 	public <E> E get(Class<E> entity, String property, Object value) {
 		return getCriteria(entity, DetachedCriteria.forClass(entity).add(Restrictions.eq(property, value)));
 	}
 
-	/**
-	 * 获得持久化对象
-	 * @param entity 实体类
-	 * @param map 属性键值
-	 * @return 要获得的持久化对象，如果不存在返回null
-	 */
+	@Override
 	public <E> E get(Class<E> entity, Map<String, Object> map) {
 		return getCriteria(entity, DetachedCriteria.forClass(entity).add(Restrictions.allEq(map)));
 	}
 
-	/**
-	 * 获得查询的对象实体列表
-	 * @param entity 需要获得的对象，会查询出实体中封装的相等的条件
-	 * @param firstResult 重第几条开始查询
-	 * @param maxResults 一共查回多少条
-	 * @return 数据列表 异常返回 Collections.emptyList()
-	 */
-
+	@Override
 	@SuppressWarnings("unchecked")
 	public <E> List<E> list(final E entity, final int firstResult, final int maxResults) {
 		return execute(entity.getClass(), (Session session) -> {
@@ -227,114 +169,47 @@ public final class HibernateDao implements Dao {
 		});
 	}
 
-	/**
-	 * 查询所有数据
-	 * @param entityClass 实体类
-	 * @param firstResult 开始查询的条数
-	 * @param maxResults 最多查询多少条
-	 * @return 返回结果列表
-	 */
+	@Override
 	public <E> List<E> list(Class<E> entityClass, int firstResult, int maxResults) {
 		return queryCriteria(entityClass, DetachedCriteria.forClass(entityClass), firstResult, maxResults);
 	}
 
-	/**
-	 * 查询属性名等值的实体列表
-	 * @param entityClass 实体类
-	 * @param property 属性名
-	 * @param value 属性值
-	 * @param firstResult 重第几条开始查询
-	 * @param maxResults 一共查回多少条
-	 * @return 数据列表
-	 */
+	@Override
 	public <E> List<E> eq(Class<E> entityClass, String property, Object value, int firstResult, int maxResults) {
 		return queryCriteria(entityClass, DetachedCriteria.forClass(entityClass).add(Restrictions.eq(property, value)), firstResult, maxResults);
 	}
 
-	/**
-	 * 查询属性名等值的实体列表
-	 * @param entityClass 实体类
-	 * @param map 属性
-	 * @param firstResult 重第几条开始查询
-	 * @param maxResults 一共查回多少条
-	 * @return 数据列表
-	 */
+	@Override
 	public <E> List<E> eq(Class<E> entityClass, Map<String, Object> map, int firstResult, int maxResults) {
 		return queryCriteria(entityClass, DetachedCriteria.forClass(entityClass).add(Restrictions.allEq(map)), firstResult, maxResults);
 	}
 
-	/**
-	 * 查询属性名等值的实体列表
-	 * @param entityClass 实体类
-	 * @param property 属性名
-	 * @param value 属性值
-	 * @param firstResult 重第几条开始查询
-	 * @param maxResults 一共查回多少条
-	 * @return 数据列表
-	 */
+	@Override
 	public <E> List<E> like(Class<E> entityClass, String property, Object value, int firstResult, int maxResults) {
 		return queryCriteria(entityClass, DetachedCriteria.forClass(entityClass).add(Restrictions.like(property, value)), firstResult, maxResults);
 	}
 
-	/**
-	 * 查询属性名等值的实体列表
-	 * @param entity 实体类
-	 * @param orders 排序参数
-	 * @param firstResult 重第几条开始查询
-	 * @param maxResults 一共查回多少条
-	 * @return 数据列表
-	 */
+	@Override
 	public <E> List<E> order(E entity, Map<String, Object> orders, int firstResult, int maxResults) {
 		return queryCriteria(entity.getClass(), getOrder(entity.getClass(), orders).add(Example.create(entity)), firstResult, maxResults);
 	}
 
-	/**
-	 * 查询属性名等值的实体列表
-	 * @param entity 实体类
-	 * @param orders 排序参数
-	 * @param firstResult 重第几条开始查询
-	 * @param maxResults 一共查回多少条
-	 * @return 数据列表
-	 */
+	@Override
 	public <E> List<E> order(Class<E> entityClass, Map<String, Object> orders, int firstResult, int maxResults) {
 		return queryCriteria(entityClass, getOrder(entityClass, orders), firstResult, maxResults);
 	}
 
-	/**
-	 * 查询属性名含有列表的实体列表
-	 * @param entityClass 实体类
-	 * @param property 属性名
-	 * @param values 属性值
-	 * @param firstResult 重第几条开始查询
-	 * @param maxResults 一共查回多少条
-	 * @return 数据列表
-	 */
+	@Override
 	public <E> List<E> in(Class<E> entityClass, String property, List<?> values, int firstResult, int maxResults) {
 		return queryCriteria(entityClass, DetachedCriteria.forClass(entityClass).add(Restrictions.in(property, values)), firstResult, maxResults);
 	}
 
-	/**
-	 * 查询属性名含有列表的实体列表
-	 * @param entityClass 实体类
-	 * @param property 属性名
-	 * @param values 属性值
-	 * @param orders 排序
-	 * @param firstResult 重第几条开始查询
-	 * @param maxResults 一共查回多少条
-	 * @return 数据列表
-	 */
+	@Override
 	public <E> List<E> in(Class<E> entityClass, String property, List<Object> values, Map<String, Object> orders, int firstResult, int maxResults) {
 		return queryCriteria(entityClass, getOrder(entityClass, orders).add(Restrictions.in(property, values)), firstResult, maxResults);
 	}
 
-	/**
-	 * 查询属性名含有列表的实体列表
-	 * @param entityClass 实体类
-	 * @param parames 参数map
-	 * @param firstResult 重第几条开始查询
-	 * @param maxResults 一共查回多少条
-	 * @return 数据列表
-	 */
+	@Override
 	public <E> List<E> in(Class<E> entityClass, Map<String, List<Object>> parames, int firstResult, int maxResults) {
 		// 获得Conjunction AND 条件
 		Conjunction conj = Restrictions.conjunction();
@@ -346,16 +221,7 @@ public final class HibernateDao implements Dao {
 		return queryCriteria(entityClass, DetachedCriteria.forClass(entityClass).add(conj), firstResult, maxResults);
 	}
 
-	/**
-	 * 查询字段在lo到hi之间的实体
-	 * @param entity 查询实体
-	 * @param property 字段名
-	 * @param lo 开始条件
-	 * @param hi 结束条件
-	 * @param firstResult 重第几条开始查询
-	 * @param maxResults 一共查回多少条
-	 * @return 返回结果列表
-	 */
+	@Override
 	public <E> List<E> between(E entity, String property, Object lo, Object hi, int firstResult, int maxResults) {
 		return queryCriteria(entity.getClass(), getBetween(entity, property, lo, hi), firstResult, maxResults);
 	}
@@ -365,22 +231,12 @@ public final class HibernateDao implements Dao {
 		return queryCriteria(entity, getBetween(entity, property, lo, hi), firstResult, maxResults);
 	}
 
-	/**
-	 * 获得查询的对象实体总数
-	 * @param entityClass 实体类
-	 * @return 对象实体总数 异常返回 0
-	 */
+	@Override
 	public int count(Class<?> entityClass) {
 		return count(entityClass, null, null);
 	}
 
-	/**
-	 * 根据实体条件查询数量
-	 * @param entityClass 实体类
-	 * @param property 属性名
-	 * @param value 属性值
-	 * @return 数量
-	 */
+	@Override
 	public int count(final Class<?> entityClass, final String property, final Object value) {
 		return execute(entityClass, (Session session) -> {
 			// 创建查询条件
@@ -396,13 +252,7 @@ public final class HibernateDao implements Dao {
 		});
 	}
 
-	/**
-	 * 获得查询的对象实体总数
-	 * @param entityClass 实体类
-	 * @param op 操作符
-	 * @param map 属性键值
-	 * @return 对象实体总数 异常返回 0
-	 */
+	@Override
 	public int count(final Class<?> entityClass, final Map<String, Object> map) {
 		return execute(entityClass, (Session session) -> {
 			// 创建查询条件
@@ -418,11 +268,7 @@ public final class HibernateDao implements Dao {
 		});
 	}
 
-	/**
-	 * 获得查询的对象实体总数
-	 * @param entity 需要获得的对象，会查询出实体中封装的相等的条件
-	 * @return 对象实体总数 异常返回 0
-	 */
+	@Override
 	public int count(final Object entity) {
 		return execute(entity.getClass(), (Session session) -> {
 			// 创建查询条件
@@ -436,48 +282,21 @@ public final class HibernateDao implements Dao {
 		});
 	}
 
-	/**
-	 * 查询字段在lo到hi之间的实体总数
-	 * @param entity 查询实体
-	 * @param property 字段名
-	 * @param lo 开始条件
-	 * @param hi 结束条件
-	 * @return 返回结果列表
-	 */
+	@Override
 	public int count(Object entity, String property, Object lo, Object hi) {
 		return count(entity.getClass(), getBetween(entity, property, lo, hi));
 	}
 
-	/**
-	 * 执行非查询的SQL语言 使用 ? 做参数
-	 * @param sql sql语句 不能是查询的
-	 * @param values 参数值数组
-	 * @return 返回影响的行数 异常返回-1
-	 */
+	@Override
 	public int execute(Class<?> entityClass, final String sql, final Object... values) {
 		return execute(entityClass, (Session session) -> setParameter(session.createNativeQuery(sql, entityClass), Lists.getList(values), -1, -1).executeUpdate());
 	}
 
-	/**
-	 * 根据SQL查询语句查询
-	 * @param sql SQL查询语句 参数为?的语句
-	 * @param values 参数列表
-	 * @param firstResult 重第几条开始查询
-	 * @param maxResults 一共查回多少条
-	 * @return 返回结果列表
-	 */
+	@Override
 	@SuppressWarnings("unchecked")
 	public <E> List<E> query(Class<?> entityClass, final String sql, final List<Object> values, final int firstResult, final int maxResults) {
 		return execute(entityClass, (Session session) -> setParameter(session.createNativeQuery(sql), values, firstResult, maxResults).getResultList());
 	}
-
-//	/**
-//	 * 关闭Session
-//	 * @param session
-//	 */
-//	public void close() {
-//		factorys.close();
-//	}
 
 	/**
 	 * 设置Query 参数与结果集数量
@@ -485,6 +304,7 @@ public final class HibernateDao implements Dao {
 	 * @param values 参数列表
 	 * @param firstResult 第一条结果
 	 * @param maxResults 最大结果
+	 * @param <R> 泛型
 	 * @return Query
 	 */
 	private <R> Query<R> setParameter(Query<R> query, List<Object> values, int firstResult, int maxResults) {
@@ -510,7 +330,9 @@ public final class HibernateDao implements Dao {
 
 	/**
 	 * 根据DetachedCriteria 查询条件 查询一个结果
+	 * @param entityClass 类
 	 * @param criteria 查询条件
+	 * @param <E> 泛型
 	 * @return 返回结果列表
 	 */
 	private <E> E getCriteria(Class<?> entityClass, final DetachedCriteria criteria) {
@@ -522,9 +344,11 @@ public final class HibernateDao implements Dao {
 
 	/**
 	 * 根据DetachedCriteria 查询条件 查询 支持分页
+	 * @param entityClass 实体类
 	 * @param criteria 查询条件
 	 * @param firstResult 开始查询的条数
 	 * @param maxResults 最多查询多少条
+	 * @param <E> 泛型
 	 * @return 返回结果列表
 	 */
 	@SuppressWarnings("unchecked")
@@ -547,6 +371,7 @@ public final class HibernateDao implements Dao {
 
 	/**
 	 * 根据DetachedCriteria 查询条件 查询总行数
+	 * @param entityClass 实体类
 	 * @param criteria 查询条件
 	 * @return 返回结果列表 异常返回0
 	 */
@@ -579,6 +404,7 @@ public final class HibernateDao implements Dao {
 	 * @param property 字段名
 	 * @param lo 开始条件
 	 * @param hi 结束条件
+	 * @param <E> 泛型
 	 * @return DetachedCriteria
 	 */
 	private <E> DetachedCriteria getBetween(Class<E> entity, String property, Object lo, Object hi) {
@@ -592,7 +418,7 @@ public final class HibernateDao implements Dao {
 
 	/**
 	 * 获得排序DetachedCriteria
-	 * @param entity 实体类
+	 * @param entityClass 实体类
 	 * @param orders 排序参数
 	 * @return DetachedCriteria
 	 */
@@ -609,6 +435,7 @@ public final class HibernateDao implements Dao {
 
 	/**
 	 * 获得当前Session
+	 * @param entityClass 实体类
 	 * @return Session
 	 */
 	private Session getSession(Class<?> entity) {
@@ -617,8 +444,9 @@ public final class HibernateDao implements Dao {
 
 	/**
 	 * 执行Hibernate操作
+	 * @param entity 类
 	 * @param callback 回调方法
-	 * @param lockMode 锁模式
+	 * @param <T> 泛型
 	 * @return 泛型对象
 	 */
 	private <T> T execute(Class<?> entity, Callback<T> callback) {
@@ -654,7 +482,7 @@ public final class HibernateDao implements Dao {
 				tx.rollback();
 			}
 			Logs.error(e);
-//			throw e;
+			// throw e;
 		} finally {
 			// 自己关闭session
 			if (isSession && session.isOpen() && session.isConnected()) {
@@ -668,7 +496,6 @@ public final class HibernateDao implements Dao {
 	/**
 	 * Hibernate回调方法
 	 * @author WD
-	 * @since JDK7 2012-03-05
 	 */
 	interface Callback<T> {
 		/**

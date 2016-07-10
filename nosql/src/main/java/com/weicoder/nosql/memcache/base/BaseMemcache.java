@@ -9,7 +9,7 @@ import com.weicoder.nosql.params.MemcacheParams;
 
 /**
  * MemCacheClient基础抽象
- * @author WD  
+ * @author WD
  */
 public abstract class BaseMemcache implements Memcache {
 	/**
@@ -37,7 +37,7 @@ public abstract class BaseMemcache implements Memcache {
 
 	/**
 	 * 获得多个键的数组
-	 * @param key 键
+	 * @param keys 键
 	 * @return 值
 	 */
 	public Object[] get(String... keys) {

@@ -5,7 +5,7 @@ import com.weicoder.common.params.Params;
 
 /**
  * Quartz任务读取参数
- * @author WD 
+ * @author WD
  */
 public final class QuartzParams {
 	// 前缀
@@ -16,29 +16,22 @@ public final class QuartzParams {
 	public final static String[]	NAMES	= Params.getStringArray("quartz.names", ArrayConstants.STRING_EMPTY);
 
 	/**
-	 * 获得Quartz执行任务类<br/>
-	 * 需在配置文件中配置<br/>
-	 * <h2>配置方式如下: <br/>
-	 * Properties: quartz.*.class = ? <br/>
-	 * XML: {@literal <quartz><*><class>?</class></*></quartz>}</h2>
-	 * @return Quartz执行任务名称数组
+	 * 获得Quartz执行任务类
+	 * @param name 名称
+	 * @return 任务类
 	 */
 	public static String getClass(String name) {
 		return Params.getString(Params.getKey(PREFIX, name, "class"));
 	}
 
 	/**
-	 * 获得Quartz执行任务类执行时间<br/>
-	 * 需在配置文件中配置<br/>
-	 * <h2>配置方式如下: <br/>
-	 * Properties: quartz.*.trigger = ? <br/>
-	 * XML: {@literal <quartz><*><trigger>?</trigger></*></quartz>}</h2>
-	 * @return Quartz执行任务名称数组
+	 * 获得Quartz执行任务类执行时间
+	 * @param name 名称
+	 * @return 执行时间
 	 */
 	public static String[] getTrigger(String name) {
 		return Params.getStringArray(Params.getKey(PREFIX, name, "trigger"), ArrayConstants.STRING_EMPTY);
 	}
 
-	private QuartzParams() {
-	}
+	private QuartzParams() {}
 }

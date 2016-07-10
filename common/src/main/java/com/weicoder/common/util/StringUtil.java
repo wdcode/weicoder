@@ -1,29 +1,25 @@
 package com.weicoder.common.util;
 
-import java.util.List;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.weicoder.common.constants.ArrayConstants;
-import com.weicoder.common.constants.HtmlConstants;
 
 import com.weicoder.common.constants.StringConstants;
 
 import com.weicoder.common.lang.Conversion;
-import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Validate;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
 
 /**
  * 对字符串进行一些处理。
- * @author WD  
+ * @author WD
  */
 public final class StringUtil {
 	/**
 	 * 字符串累加
-	 * @param s 累加字符串
+	 * @param os 累加字符串
 	 * @return 返回累加后字符串
 	 */
 	public static String add(Object... os) {
@@ -35,157 +31,15 @@ public final class StringUtil {
 	}
 
 	/**
-	 * 把HTML中的保留字符专成对应的取代字符,如果为空返回原串 <br/>
-	 * <h2>注: 替换"&"-->"&amp;" "<"-->"&lt;" ">"-->"&gt;" "\""-->"&quot;</h2>
-	 * @param context 需要转换的字符串
-	 * @return 转换后的字符串
-	 */
-	public static String htmlConvertHigh(String context) {
-		// 判断字符串为空
-		if (EmptyUtil.isEmpty(context)) { return context; }
-		// 替换&
-		if (context.indexOf(StringConstants.AMP) > -1) {
-			context = context.replaceAll(StringConstants.AMP, HtmlConstants.ESC_AMP);
-		}
-		// 替换<
-		if (context.indexOf(StringConstants.LT) > -1) {
-			context = context.replaceAll(StringConstants.LT, HtmlConstants.ESC_LT);
-		}
-		// 替换>
-		if (context.indexOf(StringConstants.GT) > -1) {
-			context = context.replaceAll(StringConstants.GT, HtmlConstants.ESC_GT);
-		}
-		// 替换"
-		if (context.indexOf(StringConstants.QUOT) > -1) {
-			context = context.replaceAll(StringConstants.QUOT, HtmlConstants.ESC_QUOT);
-		}
-		// 返回转换好的字符串
-		return context;
-	}
-
-	/**
-	 * 把HTML中的保留字符专成对应的取代字符,如果为空返回原串 <br/>
-	 * <h2>注: 调用htmlConvertHigh(String context)方法</h2>
-	 * @param map 要转化的Map
-	 * @return 转换后的Map
-	 */
-	public static Map<String, String> htmlConvertHigh(Map<String, String> map) {
-		// 判断map是否为空
-		if (EmptyUtil.isEmpty(map)) {
-			// 为空直接返回
-			return map;
-		}
-		// 循环map
-		for (Map.Entry<String, String> entry : map.entrySet()) {
-			// 转换字符串
-			entry.setValue(htmlConvertHigh(entry.getValue()));
-		}
-		// 返回Map
-		return map;
-	}
-
-	/**
-	 * 把HTML中的保留字符专成对应的取代字符,如果为空返回原串 <br/>
-	 * <h2>注: 调用htmlConvertHigh(Map<String, String> map)方法</h2>
-	 * @param list 要转化的list
-	 * @return 转换后的list
-	 */
-	public static List<Map<String, String>> htmlConvertHigh(List<Map<String, String>> list) {
-		// 判断list是否为空
-		if (EmptyUtil.isEmpty(list)) { return list; }
-		// 获得列表大小
-		int size = list.size();
-		// 声明列表保存新变量
-		List<Map<String, String>> ls = Lists.getList(size);
-		// 循环list
-		for (int i = 0; i < size; i++) {
-			// 转换数据
-			ls.add(htmlConvertHigh(list.get(i)));
-		}
-		// 返回list
-		return ls;
-	}
-
-	/**
-	 * 把HTML中的保留字取代字符转成对应的保留字字符,如果为空返回原串<br/>
-	 * <h2>注: 替换"&lt;"-->"<" "&gt;"-->">" "&quot;"-->"\"" "&amp;"-->"&"</h2>
-	 * @param context 需要转换的字符串
-	 * @return 转换后的字符串
-	 */
-	public static String highConvertHtml(String context) {
-		// 判断字符串为空
-		if (EmptyUtil.isEmpty(context)) { return context; }
-		// 替换&amp;
-		if (context.indexOf(HtmlConstants.ESC_AMP) > -1) {
-			context = context.replaceAll(HtmlConstants.ESC_AMP, StringConstants.AMP);
-		}
-		// 替换&lt;
-		if (context.indexOf(HtmlConstants.ESC_LT) > -1) {
-			context = context.replaceAll(HtmlConstants.ESC_LT, StringConstants.LT);
-		}
-		// 替换&gt;
-		if (context.indexOf(HtmlConstants.ESC_GT) > -1) {
-			context = context.replaceAll(HtmlConstants.ESC_GT, StringConstants.GT);
-		}
-		// 替换&quot;
-		if (context.indexOf(HtmlConstants.ESC_QUOT) > -1) {
-			context = context.replaceAll(HtmlConstants.ESC_QUOT, StringConstants.QUOT);
-		}
-		// 返回转换好的字符串
-		return context;
-	}
-
-	/**
-	 * 把HTML中的保留字符专成对应的取代字符,如果为空返回原串 <br/>
-	 * <h2>注: 调用htmlConvertHigh(String context)方法</h2>
-	 * @param map 要转化的Map
-	 * @return 转换后的Map
-	 */
-	public static Map<String, String> highConvertHtml(Map<String, String> map) {
-		// 判断map是否为空
-		if (EmptyUtil.isEmpty(map)) {
-			// 为空直接返回
-			return map;
-		}
-		// 循环map
-		for (Map.Entry<String, String> entry : map.entrySet()) {
-			// 转换字符串
-			entry.setValue(highConvertHtml(entry.getValue()));
-		}
-		// 返回Map
-		return map;
-	}
-
-	/**
-	 * 把HTML中的保留字符专成对应的取代字符,如果为空返回原串 <br/>
-	 * <h2>注: 调用htmlConvertHigh(Map<String, String> map)方法</h2>
-	 * @param list 要转化的list
-	 * @return 转换后的list
-	 */
-	public static List<Map<String, String>> highConvertHtml(List<Map<String, String>> list) {
-		// 判断list是否为空
-		if (EmptyUtil.isEmpty(list)) { return list; }
-		// 获得列表大小
-		int size = list.size();
-		// 声明列表保存新变量
-		List<Map<String, String>> ls = Lists.getList(size);
-		// 循环list
-		for (int i = 0; i < size; i++) {
-			// 转换数据
-			ls.add(highConvertHtml(list.get(i)));
-		}
-		// 返回list
-		return ls;
-	}
-
-	/**
 	 * 返回字符串长度，汉字占两字节 主要是用于计算有汉字时的长度 一般情况下不使用,如果str为空返回0
 	 * @param str 要校验长度的字符串
 	 * @return 字符串长度
 	 */
 	public static int getLength(String str) {
 		// 如果为空返回0
-		if (EmptyUtil.isEmpty(str)) { return 0; }
+		if (EmptyUtil.isEmpty(str)) {
+			return 0;
+		}
 		// 初始化长度
 		int length = 0;
 		// 获得字符串的字符数组
@@ -251,7 +105,8 @@ public final class StringUtil {
 
 	/**
 	 * 从前截取字符串,如果str为空返回str<br>
-	 * <h2>注: 如果没有开始字符串 开始长度为0 如果没有结束字符串 结束长度为str长度</h2> <h2>注: 不包含开始与结束字符串</h2>
+	 * <h2>注: 如果没有开始字符串 开始长度为0 如果没有结束字符串 结束长度为str长度</h2>
+	 * <h2>注: 不包含开始与结束字符串</h2>
 	 * @param str 要截取的字符串
 	 * @param start 开始截取的字符串
 	 * @param end 结束字符串
@@ -259,7 +114,9 @@ public final class StringUtil {
 	 */
 	public static String subString(String str, String start, String end) {
 		// 字符串为空返回原串
-		if (EmptyUtil.isEmpty(str)) { return str; }
+		if (EmptyUtil.isEmpty(str)) {
+			return str;
+		}
 		// 开始位置
 		int i = str.indexOf(start) == -1 ? 0 : str.indexOf(start) + start.length();
 		// 结束位置
@@ -292,7 +149,9 @@ public final class StringUtil {
 	 */
 	public static String subString(String str, int start, int end) {
 		// 字符串为空返回原串
-		if (EmptyUtil.isEmpty(str)) { return str; }
+		if (EmptyUtil.isEmpty(str)) {
+			return str;
+		}
 		// 字符串长度
 		int len = str.length();
 		// 开始位置
@@ -318,7 +177,9 @@ public final class StringUtil {
 	 */
 	public static String subStringLast(String str, String start, String end) {
 		// 字符串为空返回""
-		if (EmptyUtil.isEmpty(str)) { return str; }
+		if (EmptyUtil.isEmpty(str)) {
+			return str;
+		}
 		// 开始位置
 		int i = str.lastIndexOf(start) == -1 ? 0 : str.lastIndexOf(start) + start.length();
 		// 结束位置
@@ -336,11 +197,15 @@ public final class StringUtil {
 	 */
 	public static String subString(String str, String start) {
 		// 字符串为空返回""
-		if (EmptyUtil.isEmpty(str)) { return str; }
+		if (EmptyUtil.isEmpty(str)) {
+			return str;
+		}
 		// 开始位置
 		int i = str.indexOf(start) == -1 ? 0 : str.indexOf(start) + start.length();
 		// 如果开始长度为0 返回原串
-		if (i == 0) { return str; }
+		if (i == 0) {
+			return str;
+		}
 		// 返回截取的字符串
 		return str.substring(i, str.length());
 	}
@@ -354,11 +219,15 @@ public final class StringUtil {
 	 */
 	public static String subStringLast(String str, String start) {
 		// 字符串为空返回原串
-		if (EmptyUtil.isEmpty(str)) { return str; }
+		if (EmptyUtil.isEmpty(str)) {
+			return str;
+		}
 		// 开始位置
 		int i = str.lastIndexOf(start) == -1 ? 0 : str.lastIndexOf(start) + start.length();
 		// 如果开始长度为0 返回原串
-		if (i == 0) { return str; }
+		if (i == 0) {
+			return str;
+		}
 		// 返回截取的字符串
 		return str.substring(i, str.length());
 	}
@@ -372,11 +241,15 @@ public final class StringUtil {
 	 */
 	public static String subStringEnd(String str, String end) {
 		// 字符串为空返回""
-		if (EmptyUtil.isEmpty(str)) { return str; }
+		if (EmptyUtil.isEmpty(str)) {
+			return str;
+		}
 		// 开始位置
 		int i = str.indexOf(end) == -1 ? 0 : str.indexOf(end);
 		// 如果开始长度为0 返回原串
-		if (i == 0) { return str; }
+		if (i == 0) {
+			return str;
+		}
 		// 返回截取的字符串
 		return str.substring(0, i);
 	}
@@ -390,11 +263,15 @@ public final class StringUtil {
 	 */
 	public static String subStringLastEnd(String str, String end) {
 		// 字符串为空返回""
-		if (EmptyUtil.isEmpty(str)) { return str; }
+		if (EmptyUtil.isEmpty(str)) {
+			return str;
+		}
 		// 开始位置
 		int i = str.lastIndexOf(end) == -1 ? 0 : str.lastIndexOf(end);
 		// 如果开始长度为0 返回原串
-		if (i == 0) { return str; }
+		if (i == 0) {
+			return str;
+		}
 		// 返回截取的字符串
 		return str.substring(0, i);
 	}
@@ -430,13 +307,15 @@ public final class StringUtil {
 	}
 
 	/**
-	 * 把输入的其它命名法变成驼峰命名法,如 User_Id --> userId User --> user
+	 * 把输入的其它命名法变成驼峰命名法,如 User_Id = userId User = user
 	 * @param name 属性名
 	 * @return 转换后的字符串
 	 */
 	public static String convert(String name) {
 		// 如果为空返回原串
-		if (EmptyUtil.isEmpty(name)) { return name; }
+		if (EmptyUtil.isEmpty(name)) {
+			return name;
+		}
 		// 分解_个字段
 		String[] strs = name.toLowerCase().split(StringConstants.UNDERLINE);
 		// 实例一个字符串缓存
@@ -514,7 +393,9 @@ public final class StringUtil {
 	 */
 	public static boolean contains(String str, String searchStr) {
 		// 如果一个串为空 返回false
-		if (EmptyUtil.isEmpty(str) || EmptyUtil.isEmpty(searchStr)) { return false; }
+		if (EmptyUtil.isEmpty(str) || EmptyUtil.isEmpty(searchStr)) {
+			return false;
+		}
 		// 判断是否包含
 		return str.indexOf(searchStr) >= 0;
 	}
@@ -567,7 +448,9 @@ public final class StringUtil {
 	 */
 	public static String resolve(String text, int len) {
 		// 字符串为空
-		if (EmptyUtil.isEmpty(text)) { return text; }
+		if (EmptyUtil.isEmpty(text)) {
+			return text;
+		}
 		// 如果字符串长度大于要返回的长度
 		if (text.length() > len) {
 			// 声明字符串缓存
@@ -587,8 +470,8 @@ public final class StringUtil {
 
 	/**
 	 * 字符串结合
-	 * @param s1
-	 * @param s2
+	 * @param s1 字符串
+	 * @param s2 字符串
 	 * @return 返回聚合后字符串
 	 */
 	public static String combine(String s1, String s2) {
@@ -597,8 +480,8 @@ public final class StringUtil {
 
 	/**
 	 * 字符串结合
-	 * @param s1
-	 * @param s2
+	 * @param s1 字符串
+	 * @param s2 字符串
 	 * @param len 合并长度
 	 * @return 返回聚合后字符串
 	 */
@@ -630,7 +513,9 @@ public final class StringUtil {
 	 */
 	public static String[] separate(String s, int len) {
 		// 如果字符为空返回空
-		if (EmptyUtil.isEmpty(s)) { return ArrayConstants.STRING_EMPTY; }
+		if (EmptyUtil.isEmpty(s)) {
+			return ArrayConstants.STRING_EMPTY;
+		}
 		// 声明字符数组
 		char[] c = s.toCharArray();
 		char[] c1 = new char[c.length / len];

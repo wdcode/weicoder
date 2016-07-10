@@ -13,7 +13,7 @@ import com.weicoder.nosql.memcache.factory.MemcacheFactory;
 
 /**
  * 集群客户端
- * @author WD 
+ * @author WD
  */
 public final class MemcacheArray extends BaseMemcache {
 	// 集群
@@ -128,10 +128,10 @@ public final class MemcacheArray extends BaseMemcache {
 
 	/**
 	 * 判断键是否存在
-	 * @param key
-	 * @return
+	 * @param key 键
+	 * @return 是否成功
 	 */
-	public boolean exists(final String key) {
+	public boolean exists(String key) {
 		return clients[0].exists(key);
 	}
 
@@ -153,8 +153,7 @@ public final class MemcacheArray extends BaseMemcache {
 	/**
 	 * 初始化
 	 */
-	protected void init(String name, String[] servers, Integer[] weights, int initConn, int minConn, int maxConn, long maxIdle, long maintSleep, int socketTO, int socketConnectTO, boolean binary) {
-	}
+	protected void init(String name, String[] servers, Integer[] weights, int initConn, int minConn, int maxConn, long maxIdle, long maintSleep, int socketTO, int socketConnectTO, boolean binary) {}
 
 	/**
 	 * 客户端实体保存使用次数

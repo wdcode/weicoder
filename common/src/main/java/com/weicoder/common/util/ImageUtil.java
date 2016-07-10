@@ -138,8 +138,7 @@ public final class ImageUtil {
 	 * @param text 要添加的文字
 	 * @param file 添加文字的图片文件
 	 * @param x 添加位置的X轴
-	 * @param y 添加位置的Y轴
-	 * @param isClose 是否关闭流
+	 * @param y 添加位置的Y轴 
 	 */
 	public static void writeString(String text, File file, int x, int y) {
 		try {
@@ -155,7 +154,7 @@ public final class ImageUtil {
 	 * @param text 要添加的文字
 	 * @param image 添加文字的图片对象
 	 * @param out 输出流
-	 * @param 是否关闭流
+	 * @param isClose 是否关闭流
 	 */
 	public static void writeString(String text, BufferedImage image, OutputStream out, boolean isClose) {
 		writeString(text, image, out, -1, -1, isClose);
@@ -219,8 +218,7 @@ public final class ImageUtil {
 	/**
 	 * 添加图片到图片上
 	 * @param draw 要添加的图片
-	 * @param image 写到的图片
-	 * @param isClose 是否关闭流
+	 * @param image 写到的图片 
 	 */
 	public static void writeImage(File draw, File image) {
 		writeImage(draw, image, -1, -1);
@@ -231,8 +229,7 @@ public final class ImageUtil {
 	 * @param draw 要添加的图片
 	 * @param image 写到的图片
 	 * @param x X坐标
-	 * @param y Y坐标
-	 * @param isClose 是否关闭流
+	 * @param y Y坐标 
 	 */
 	public static void writeImage(File draw, File image, int x, int y) {
 		try {
@@ -247,7 +244,7 @@ public final class ImageUtil {
 	 * @param draw 要添加的图片
 	 * @param image 写到的图片
 	 * @param out 输出流
-	 * @param 是否关闭流
+	 * @param isClose 是否关闭流
 	 */
 	public static void writeImage(Image draw, BufferedImage image, OutputStream out, boolean isClose) {
 		writeImage(draw, image, out, -1, -1, isClose);

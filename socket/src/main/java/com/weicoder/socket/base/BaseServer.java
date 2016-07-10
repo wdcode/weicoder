@@ -9,7 +9,7 @@ import com.weicoder.socket.Server;
 public abstract class BaseServer extends BaseSocket implements Server {
 	/**
 	 * 构造
-	 * @param name
+	 * @param name 名称
 	 */
 	public BaseServer(String name) {
 		super(name);

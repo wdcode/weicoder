@@ -14,10 +14,10 @@ import com.weicoder.common.log.Logs;
 
 /**
  * 并发线程任务处理
- * @author WD  
+ * @author WD
  */
 public final class ExecutorUtil {
-	//默认线程工厂
+	// 默认线程工厂
 	private final static ThreadFactory			FACTORY		= Executors.defaultThreadFactory();
 	/** 并发线程池 */
 	public final static ExecutorService			POOL		= Executors.newCachedThreadPool((Runnable r) -> {
@@ -31,7 +31,7 @@ public final class ExecutorUtil {
 
 	/**
 	 * 添加线程Runnable
-	 * @param task
+	 * @param task 任务
 	 */
 	public static void addR(Runnable task) {
 		RUNNABLES.add(task);
@@ -39,7 +39,7 @@ public final class ExecutorUtil {
 
 	/**
 	 * 添加线程Callable
-	 * @param task
+	 * @param task 任务
 	 */
 	public static void addC(Callable<Object> task) {
 		CALLABLES.add(task);
@@ -59,6 +59,7 @@ public final class ExecutorUtil {
 
 	/**
 	 * 执行列表中的任务
+	 * @return 列表
 	 */
 	public static List<Object> submit() {
 		// 声明列表
@@ -71,7 +72,7 @@ public final class ExecutorUtil {
 
 	/**
 	 * 执行任务 不需要等待
-	 * @param tasks 任务
+	 * @param task 任务
 	 */
 	public static void execute(Runnable task) {
 		POOL.execute(task);
@@ -79,7 +80,9 @@ public final class ExecutorUtil {
 
 	/**
 	 * 执行任务 不需要等待
-	 * @param tasks 任务
+	 * @param task 任务
+	 * @param <T> 泛型
+	 * @return Future
 	 */
 	public static <T> Future<T> submit(Callable<T> task) {
 		return POOL.submit(task);
@@ -108,18 +111,19 @@ public final class ExecutorUtil {
 			if (EmptyUtil.isEmpty(list)) {
 				break;
 			}
-			//			// 等待
-			//			try {
-			//				Thread.sleep(100);
-			//			} catch (InterruptedException e) {
-			//				Logs.warn(e);
-			//			}
+			// // 等待
+			// try {
+			// Thread.sleep(100);
+			// } catch (InterruptedException e) {
+			// Logs.warn(e);
+			// }
 		}
 	}
 
 	/**
 	 * 提交一个 Runnable 任务用于执行，并返回一个表示该任务的 Future
-	 * @param task Runnable 任务
+	 * @param tasks Runnable 任务
+	 * @param <T> 泛型
 	 * @return 表示该任务的 Future
 	 */
 	public static <T> List<T> submit(List<Callable<T>> tasks) {
@@ -128,8 +132,9 @@ public final class ExecutorUtil {
 
 	/**
 	 * 提交一个 Runnable 任务用于执行，并返回一个表示该任务的 Future
-	 * @param task Runnable 任务
+	 * @param tasks Runnable 任务
 	 * @param timeout 如果可以最多等待的时间
+	 * @param <T> 泛型
 	 * @return 表示该任务的 Future
 	 */
 	public static <T> List<T> submit(List<Callable<T>> tasks, long timeout) {

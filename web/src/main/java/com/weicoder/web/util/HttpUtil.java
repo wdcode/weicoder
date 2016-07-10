@@ -22,12 +22,11 @@ import com.weicoder.common.util.StringUtil;
 
 /**
  * HTTP一些相关操作类
- * @author WD  
+ * @author WD
  */
 public final class HttpUtil {
-
 	/**
-	 * 根据url和Map获得URL提交 &连接 如果值为空不连接 对Key进行排序
+	 * 根据url和Map获得URL提交 连接 如果值为空不连接 对Key进行排序
 	 * @param url 要提交的url
 	 * @param parameters 参数列表
 	 * @return 参数
@@ -37,7 +36,7 @@ public final class HttpUtil {
 	}
 
 	/**
-	 * 根据url和Map获得表单提交 &连接 如果值为空不连接 对Key进行排序
+	 * 根据url和Map获得表单提交 连接 如果值为空不连接 对Key进行排序
 	 * @param url 要提交的url
 	 * @param parameters 参数列表
 	 * @param charset 编码
@@ -71,15 +70,15 @@ public final class HttpUtil {
 
 	/**
 	 * 判断字符串是否是HTTP请求
-	 * @param str
-	 * @return
+	 * @param str 字符串
+	 * @return 是否
 	 */
 	public static boolean isHttp(String str) {
 		return EmptyUtil.isEmpty(str) ? false : str.startsWith(HttpConstants.HTTP) || str.startsWith(HttpConstants.HTTPS);
 	}
 
 	/**
-	 * 根据Map获得URL后的参数 &连接 如果值为空不连接 对Key进行排序
+	 * 根据Map获得URL后的参数 连接 如果值为空不连接 对Key进行排序
 	 * @param map 参数列表
 	 * @return 参数
 	 */
@@ -152,6 +151,7 @@ public final class HttpUtil {
 
 	/**
 	 * 设置客户端无缓存Header.
+	 * @param response HttpServletResponse
 	 */
 	public static void setNoCacheHeader(HttpServletResponse response) {
 		// Http 1.0 header
@@ -179,8 +179,7 @@ public final class HttpUtil {
 	}
 
 	/**
-	 * 根据浏览器If-Modified-Since Header, 计算文件是否已被修改. 如果无修改, checkIfModify返回false,设置304 not modify
-	 * status.
+	 * 根据浏览器If-Modified-Since Header, 计算文件是否已被修改. 如果无修改, checkIfModify返回false,设置304 not modify status.
 	 * @param request HttpServletRequest
 	 * @param response HttpServletResponse
 	 * @param lastModified 内容的最后修改时间.
@@ -201,8 +200,7 @@ public final class HttpUtil {
 	}
 
 	/**
-	 * 根据浏览器 If-None-Match Header, 计算Etag是否已无效. 如果Etag有效, checkIfNoneMatch返回false, 设置304 not modify
-	 * status.
+	 * 根据浏览器 If-None-Match Header, 计算Etag是否已无效. 如果Etag有效, checkIfNoneMatch返回false, 设置304 not modify status.
 	 * @param request HttpServletRequest
 	 * @param response HttpServletResponse
 	 * @param etag 内容的ETag
@@ -287,6 +285,6 @@ public final class HttpUtil {
 	public static void setDownloadableHeader(HttpServletResponse response, String fileName) {
 		response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
 	}
-	
+
 	private HttpUtil() {}
 }

@@ -18,7 +18,7 @@ import com.weicoder.common.log.Logs;
 
 /**
  * 关于Class的一些操作
- * @author WD  
+ * @author WD
  */
 public final class ClassUtil {
 	/**
@@ -27,7 +27,9 @@ public final class ClassUtil {
 	 * @return 是否基础类型
 	 */
 	public static boolean isBaseType(Class<?> clazz) {
-		if (clazz == null) { return true; }
+		if (clazz == null) {
+			return true;
+		}
 		if (clazz.equals(Integer.class) || clazz.equals(int.class)) {
 			return true;
 		} else if (clazz.equals(Long.class) || clazz.equals(long.class)) {
@@ -53,7 +55,8 @@ public final class ClassUtil {
 
 	/**
 	 * 获得指定类型的泛型
-	 * @param type 指定的类型
+	 * @param clazz 指定的类型
+	 * @param <T> 泛型
 	 * @return 这个类的泛型
 	 */
 	public static <T> Class<T> getGenericClass(Class<?> clazz) {
@@ -103,6 +106,7 @@ public final class ClassUtil {
 	 * 获得指定类型的泛型
 	 * @param type 指定的类型
 	 * @param index 索引
+	 * @param <T> 泛型
 	 * @return 这个类型的泛型
 	 */
 	@SuppressWarnings("unchecked")
@@ -110,7 +114,7 @@ public final class ClassUtil {
 		try {
 			return type instanceof ParameterizedType ? (Class<T>) ((ParameterizedType) type).getActualTypeArguments()[index] : null;
 		} catch (Exception e) {
-			Logs.error(e); 
+			Logs.error(e);
 			return null;
 		}
 	}
@@ -152,7 +156,7 @@ public final class ClassUtil {
 		try {
 			return EmptyUtil.isEmpty(className) ? null : Class.forName(className);
 		} catch (Exception e) {
-			Logs.error(e); 
+			Logs.error(e);
 			return null;
 		}
 	}
@@ -166,7 +170,7 @@ public final class ClassUtil {
 		try {
 			return forName(className).newInstance();
 		} catch (Exception e) {
-			Logs.error(e); 
+			Logs.error(e);
 			return null;
 		}
 	}
@@ -174,13 +178,14 @@ public final class ClassUtil {
 	/**
 	 * 实例化对象
 	 * @param clazz 类
+	 * @param <T> 泛型
 	 * @return 实例化对象
 	 */
 	public static <T> T newInstance(Class<T> clazz) {
 		try {
 			return clazz.newInstance();
 		} catch (Exception e) {
-			Logs.error(e); 
+			Logs.error(e);
 			return null;
 		}
 	}
@@ -189,6 +194,7 @@ public final class ClassUtil {
 	 * 指定包下 指定类的实现
 	 * @param cls 指定类
 	 * @param i 指定索引
+	 * @param <E> 泛型
 	 * @return 类列表
 	 */
 	public static <E> Class<E> getAssignedClass(Class<E> cls, int i) {
@@ -198,6 +204,7 @@ public final class ClassUtil {
 	/**
 	 * 指定包下 指定类的实现
 	 * @param cls 指定类
+	 * @param <E> 泛型
 	 * @return 类列表
 	 */
 	public static <E> List<Class<E>> getAssignedClass(Class<E> cls) {
@@ -208,6 +215,7 @@ public final class ClassUtil {
 	 * 指定包下 指定类的实现
 	 * @param packageName 包名
 	 * @param cls 指定类
+	 * @param <E> 泛型
 	 * @return 类列表
 	 */
 	public static <E> List<Class<E>> getAssignedClass(String packageName, Class<E> cls) {
@@ -267,6 +275,8 @@ public final class ClassUtil {
 	/**
 	 * 获得指定包下的所有Class
 	 * @param packageName 报名
+	 * @param cls 类
+	 * @param <E> 泛型
 	 * @return 类列表
 	 */
 	@SuppressWarnings("unchecked")
@@ -277,13 +287,15 @@ public final class ClassUtil {
 		String path = packageName.replace(StringConstants.POINT, StringConstants.BACKSLASH);
 		// 获得目录资源
 		URL url = ResourceUtil.getResource(path);
-		if (url == null) { return classes; }
+		if (url == null) {
+			return classes;
+		}
 		// 循环目录下的所有文件与目录
 		for (String name : getClasses(url.getPath(), path)) {
 			// 如果是class文件
 			if (name.endsWith(".class")) {
 				try {
-					// 反射出类对象 并添加到列表中 
+					// 反射出类对象 并添加到列表中
 					name = packageName + StringConstants.POINT + StringUtil.subString(name, 0, name.length() - 6);
 					name = StringUtil.replace(name, StringConstants.BACKSLASH, StringConstants.POINT);
 					// 如果开始是.去掉
@@ -292,7 +304,7 @@ public final class ClassUtil {
 					}
 					classes.add((Class<E>) Class.forName(name));
 				} catch (ClassNotFoundException e) {
-					Logs.error(e); 
+					Logs.error(e);
 				}
 			} else {
 				// 迭代调用本方法 获得类列表
@@ -337,7 +349,7 @@ public final class ClassUtil {
 				}
 			}
 		} catch (IOException e) {
-			Logs.error(e); 
+			Logs.error(e);
 		}
 		// 返回列表
 		return list;

@@ -21,8 +21,7 @@ import com.weicoder.common.util.CloseUtil;
 public final class ChannelUtil {
 	/**
 	 * 读取出通道的所有字节
-	 * @param ch 通道
-	 * @param isClose 是否关闭流
+	 * @param ch 通道 
 	 * @return 字节数组
 	 */
 	public static byte[] read(ReadableByteChannel ch) {
@@ -65,8 +64,7 @@ public final class ChannelUtil {
 	/**
 	 * 把text写入到os中
 	 * @param wbc 写入通道
-	 * @param b 字节数组
-	 * @param isClose 是否关闭流
+	 * @param b 字节数组 
 	 * @return true false
 	 */
 	public static boolean write(WritableByteChannel wbc, byte[] b) {

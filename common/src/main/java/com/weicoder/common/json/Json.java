@@ -4,8 +4,8 @@ import java.util.List;
 
 /**
  * Json格式读写器 接口
- * @author WD 
- *  
+ * @author WD
+ * 
  */
 public interface Json {
 	/**
@@ -19,6 +19,7 @@ public interface Json {
 	 * 转换JSON根据传入的Class反射生成回实体Bean
 	 * @param json JSON字符串
 	 * @param clazz 要转换对象的class
+	 * @param <E> 泛型
 	 * @return 对象
 	 */
 	<E> E toBean(String json, Class<E> clazz);
@@ -26,6 +27,8 @@ public interface Json {
 	/**
 	 * 把json转换成List
 	 * @param json JSON字符串
+	 * @param clazz 类
+	 * @param <E> 泛型
 	 * @return List
 	 */
 	<E> List<E> toList(String json, Class<E> clazz);

@@ -9,7 +9,7 @@ import java.nio.channels.DatagramChannel;
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.io.ChannelUtil;
 import com.weicoder.common.log.Logs;
-import com.weicoder.common.params.CommonParams; 
+import com.weicoder.common.params.CommonParams;
 
 /**
  * UDP 客户端发包处理器
@@ -19,7 +19,6 @@ public final class UdpUtil {
 	/**
 	 * bio模式发送数据 不接收返回数据
 	 * @param data 发送数据
-	 * @return
 	 */
 	public static void send(byte[] data) {
 		send(CommonParams.UDP_HOST, CommonParams.UDP_PORT, data);
@@ -29,7 +28,7 @@ public final class UdpUtil {
 	 * bio模式发送数据 不接收返回数据
 	 * @param data 发送数据
 	 * @param len 接收返回数据长度
-	 * @return
+	 * @return 发送的数据
 	 */
 	public static byte[] send(byte[] data, int len) {
 		return send(CommonParams.UDP_HOST, CommonParams.UDP_PORT, data, len);
@@ -38,7 +37,6 @@ public final class UdpUtil {
 	/**
 	 * bio模式发送数据 不接收返回数据
 	 * @param data 发送数据
-	 * @return
 	 */
 	public static void write(byte[] data) {
 		write(CommonParams.UDP_HOST, CommonParams.UDP_PORT, data);
@@ -48,7 +46,7 @@ public final class UdpUtil {
 	 * bio模式发送数据 不接收返回数据
 	 * @param data 发送数据
 	 * @param len 接收返回数据长度
-	 * @return
+	 * @return 发送的数据
 	 */
 	public static byte[] write(byte[] data, int len) {
 		return write(CommonParams.UDP_HOST, CommonParams.UDP_PORT, data, len);

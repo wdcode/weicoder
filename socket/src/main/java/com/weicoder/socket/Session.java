@@ -15,19 +15,21 @@ public interface Session extends AutoCloseable {
 	 * 写入数据
 	 * @param id 指令
 	 * @param message 消息
+	 * @return 字节数组
 	 */
 	byte[] send(short id, Object message);
 
 	/**
 	 * 写入数据
-	 * @param id 指令
 	 * @param message 消息
+	 * @return 字节数组
 	 */
 	byte[] send(Object message);
 
 	/**
 	 * 写入数据
 	 * @param data 原始数据
+	 * @return 字节数组
 	 */
 	byte[] send(byte[] data);
 
@@ -53,13 +55,14 @@ public interface Session extends AutoCloseable {
 	 * 写入缓存
 	 * @param id 指令
 	 * @param message 消息
+	 * @return 字节数组
 	 */
 	byte[] buffer(short id, Object message);
 
 	/**
 	 * 写入缓存
-	 * @param id 指令
 	 * @param message 消息
+	 * @return 字节数组
 	 */
 	byte[] buffer(Object message);
 

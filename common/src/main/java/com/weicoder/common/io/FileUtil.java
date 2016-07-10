@@ -68,6 +68,7 @@ public final class FileUtil {
 	 * 复制文件
 	 * @param src 原文件
 	 * @param target 目标文件
+	 * @return boolean
 	 */
 	public static boolean copy(String src, String target) {
 		return write(target, getInputStream(src));
@@ -77,6 +78,7 @@ public final class FileUtil {
 	 * 复制文件
 	 * @param src 原文件
 	 * @param target 目标文件
+	 * @return boolean
 	 */
 	public static boolean copy(File src, File target) {
 		return IOUtil.write(getOutputStream(target), getInputStream(src));
@@ -212,8 +214,7 @@ public final class FileUtil {
 	 * 把字节写到文件中 可指定写入位置
 	 * @param fileName 文件名
 	 * @param b 字节数组
-	 * @param pos 偏移
-	 * @return true 成功 false 失败
+	 * @param pos 偏移 
 	 */
 	public static void write(String fileName, byte[] b, long pos) {
 		if (IO) {

@@ -15,7 +15,7 @@ import com.weicoder.socket.manager.Manager;
 
 /**
  * Socket 相关类
- * @author WD 
+ * @author WD
  */
 public final class Sockets {
 	// 保存SocketServer
@@ -43,6 +43,7 @@ public final class Sockets {
 	/**
 	 * 根据名称设置
 	 * @param name 名
+	 * @return Socket
 	 */
 	public static Socket init(String name) {
 		// Socket
@@ -85,6 +86,7 @@ public final class Sockets {
 	/**
 	 * 添加服务器
 	 * @param name 名称
+	 * @return Server
 	 */
 	public static Server addServer(String name) {
 		return addServer(getServer(name));
@@ -92,7 +94,8 @@ public final class Sockets {
 
 	/**
 	 * 添加服务器
-	 * @param name 名称
+	 * @param server 服务器
+	 * @return 服务器
 	 */
 	public static Server addServer(Server server) {
 		SERVERS.put(server.name(), server);
@@ -102,6 +105,7 @@ public final class Sockets {
 	/**
 	 * 添加客户端
 	 * @param name 名称
+	 * @return Client
 	 */
 	public static Client addClient(String name) {
 		return addClient(getClient(name));
@@ -109,7 +113,8 @@ public final class Sockets {
 
 	/**
 	 * 添加客户端
-	 * @param name 名称
+	 * @param client 客户端
+	 * @return 客户端
 	 */
 	public static Client addClient(Client client) {
 		CLIENTS.put(client.name(), client);
@@ -118,7 +123,6 @@ public final class Sockets {
 
 	/**
 	 * 广播消息
-	 * @param key 注册键
 	 * @param id 发送指令
 	 * @param message 发送消息
 	 */
@@ -144,6 +148,7 @@ public final class Sockets {
 
 	/**
 	 * 广播消息
+	 * @param name 名称
 	 * @param key 注册键
 	 * @param id 发送指令
 	 * @param message 发送消息
@@ -157,8 +162,8 @@ public final class Sockets {
 
 	/**
 	 * 获得服务器
-	 * @param name
-	 * @return
+	 * @param name 名
+	 * @return 服务器
 	 */
 	public static Server server(String name) {
 		return SERVERS.get(name);
@@ -166,7 +171,7 @@ public final class Sockets {
 
 	/**
 	 * 获得服务器
-	 * @return
+	 * @return 服务器
 	 */
 	public static Server server() {
 		return server(StringConstants.EMPTY);
@@ -174,8 +179,8 @@ public final class Sockets {
 
 	/**
 	 * 获得服务器Session管理器
-	 * @param name
-	 * @return
+	 * @param name 名
+	 * @return Manager
 	 */
 	public static Manager manager(String name) {
 		return MANAGERS.get(name);
@@ -183,7 +188,7 @@ public final class Sockets {
 
 	/**
 	 * 获得服务器
-	 * @return
+	 * @return Manager
 	 */
 	public static Manager manager() {
 		return manager(StringConstants.EMPTY);
@@ -191,8 +196,8 @@ public final class Sockets {
 
 	/**
 	 * 获得客户端
-	 * @param name
-	 * @return
+	 * @param name 名
+	 * @return Client
 	 */
 	public static Client client(String name) {
 		return CLIENTS.get(name);
@@ -200,7 +205,7 @@ public final class Sockets {
 
 	/**
 	 * 获得客户端
-	 * @return
+	 * @return Client
 	 */
 	public static Client client() {
 		return client(StringConstants.EMPTY);
@@ -238,6 +243,5 @@ public final class Sockets {
 		return new NettyClient(name);
 	}
 
-	private Sockets() {
-	}
+	private Sockets() {}
 }

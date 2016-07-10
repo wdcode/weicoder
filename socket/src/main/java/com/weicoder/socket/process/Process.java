@@ -61,9 +61,8 @@ public final class Process {
 	/**
 	 * 构造
 	 * @param name 名称
-	 * @param manager Session管理
 	 */
-	public Process(final String name) {
+	public Process(String name) {
 		// 设置属性
 		this.name = name;
 		// 获得是否压缩
@@ -112,8 +111,7 @@ public final class Process {
 							Logs.info(StringUtil.add("name=", name, ";overtime close id=", e.getKey()));
 						}
 					}
-				} catch (Exception e) {
-				}
+				} catch (Exception e) {}
 			}, 1);
 		}
 	}
@@ -136,7 +134,7 @@ public final class Process {
 
 	/**
 	 * 添加要处理的Handler
-	 * @param handler
+	 * @param handler 处理逻辑
 	 */
 	@SuppressWarnings("unchecked")
 	public void addHandler(Handler<?> handler) {
@@ -145,7 +143,7 @@ public final class Process {
 
 	/**
 	 * Session连接时
-	 * @param session
+	 * @param session Session
 	 */
 	public void connected(Session session) {
 		// 是否拒绝连接
@@ -183,7 +181,7 @@ public final class Process {
 
 	/**
 	 * Session关闭时
-	 * @param session
+	 * @param session Session
 	 */
 	public void closed(Session session) {
 		try {
@@ -221,9 +219,9 @@ public final class Process {
 	/**
 	 * 处理数据
 	 * @param session Session
-	 * @param data 字节流
+	 * @param message 字节流
 	 */
-	public void process(final Session session, final byte[] message) {
+	public void process(Session session, byte[] message) {
 		// 获得session id
 		final int sid = session.id();
 		Logs.debug(StringUtil.add("name=", name, ";socket=", sid, ";receive=", sid, ";len=", message.length, ";message=", Arrays.toString(message)));

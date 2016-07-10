@@ -11,7 +11,7 @@ import com.weicoder.socket.base.BaseClient;
 
 /**
  * netty客户端
- * @author WD 
+ * @author WD
  */
 public final class NettyClient extends BaseClient {
 	// 保存Netty客户端 Bootstrap
@@ -23,7 +23,7 @@ public final class NettyClient extends BaseClient {
 
 	/**
 	 * 构造方法
-	 * @param name
+	 * @param name 名称
 	 */
 	public NettyClient(String name) {
 		super(name);
@@ -32,7 +32,7 @@ public final class NettyClient extends BaseClient {
 		// NettyHandler
 		handler = new NettyHandler(name, process);
 		// 设置group
-		bootstrap.group(new NioEventLoopGroup(SocketParams.getPool(name)));
+		bootstrap.group(new NioEventLoopGroup(1));
 		// 设置属性
 		bootstrap.option(ChannelOption.TCP_NODELAY, true);
 		bootstrap.option(ChannelOption.SO_KEEPALIVE, false);

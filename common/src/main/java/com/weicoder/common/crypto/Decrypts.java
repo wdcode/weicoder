@@ -67,7 +67,7 @@ public final class Decrypts extends BaseCrypt {
 
 	/**
 	 * 针对encode方法的解密 DES算法
-	 * @param text 需要解密的字节数组
+	 * @param b 需要解密的字节数组
 	 * @return 返回解密后的字符串
 	 */
 	public static byte[] des(byte[] b) {
@@ -76,7 +76,7 @@ public final class Decrypts extends BaseCrypt {
 
 	/**
 	 * 针对encode方法的解密 DES算法
-	 * @param text 需要解密的字节数组
+	 * @param b 需要解密的字节数组
 	 * @param keys 键
 	 * @return 返回解密后的字符串
 	 */

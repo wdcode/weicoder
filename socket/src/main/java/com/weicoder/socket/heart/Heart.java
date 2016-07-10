@@ -30,6 +30,9 @@ public final class Heart implements Handler<Null> {
 
 	/**
 	 * 构造
+	 * @param id 消息ID
+	 * @param time 时间
+	 * @param isPack 是否回包
 	 */
 	public Heart(final short id, int time, boolean isPack) {
 		this.id = id;
@@ -73,7 +76,7 @@ public final class Heart implements Handler<Null> {
 
 	/**
 	 * 添加Session
-	 * @param session
+	 * @param session Session
 	 */
 	public void add(Session session) {
 		sessions.put(session.id(), session);
@@ -82,7 +85,7 @@ public final class Heart implements Handler<Null> {
 
 	/**
 	 * 删除Session
-	 * @param session
+	 * @param session Session
 	 */
 	public void remove(Session session) {
 		sessions.remove(session.id());

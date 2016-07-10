@@ -7,7 +7,7 @@ import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.util.EmptyUtil;
 
 /**
- * 系统配置信息 内部使用 config.properties 中配置,本包实现可配置功能<br/>
+ * 系统配置信息 内部使用 config.properties 中配置,本包实现可配置功能
  * @author WD 
  */
 public final class Params {
@@ -65,8 +65,7 @@ public final class Params {
 
 	/**
 	 * 获得属性value
-	 * @param key 属性key
-	 * @param defaultValue 默认值
+	 * @param key 属性key 
 	 * @return value
 	 */
 	public static int getInt(String key) {

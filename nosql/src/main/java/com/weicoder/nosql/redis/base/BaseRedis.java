@@ -8,7 +8,7 @@ import com.weicoder.nosql.redis.Redis;
 
 /**
  * Redis基类
- * @author WD  
+ * @author WD
  */
 public abstract class BaseRedis implements Redis {
 	/**
@@ -31,7 +31,7 @@ public abstract class BaseRedis implements Redis {
 
 	/**
 	 * 获得多个键的数组
-	 * @param key 键
+	 * @param keys 键
 	 * @return 值
 	 */
 	public Object[] get(String... keys) {

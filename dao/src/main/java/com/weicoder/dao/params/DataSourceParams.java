@@ -38,12 +38,8 @@ public final class DataSourceParams {
 	private static long				idleTimeout			= DateConstants.TIME_HOUR * 2;												// 多长时间检查一次空闲连接
 
 	/**
-	 * 最大连接数 DataSourceFactory使用<br/>
-	 * 需在配置文件中配置,如果不配置或配置不对将优先使用100<br/>
-	 * <h2>配置方式如下: <br/>
-	 * Properties: datasource.maxSize = ? <br/>
-	 * XML: {@literal <dataSource><maxSize>?</maxSize></dataSource>}</h2>
-	 * @see org.com.weicoder.core.datasource.factory.DataSourceFactory
+	 * 最大连接数
+	 * @param name 名
 	 * @return 最大连接数
 	 */
 	public static int getMaxSize(String name) {
@@ -51,12 +47,8 @@ public final class DataSourceParams {
 	}
 
 	/**
-	 * 超时等待时间 DataSourceFactory使用<br/>
-	 * 需在配置文件中配置,如果不配置或配置不对将优先使用1000L * 60 * 3<br/>
-	 * <h2>配置方式如下: <br/>
-	 * Properties: datasource.timeout = ? <br/>
-	 * XML: {@literal <dataSource><timeout>?</timeout></dataSource>}</h2>
-	 * @see org.com.weicoder.core.datasource.factory.DataSourceFactory
+	 * 超时等待时间
+	 * @param name 名
 	 * @return 超时等待时间
 	 */
 	public static long getTimeout(String name) {
@@ -64,25 +56,17 @@ public final class DataSourceParams {
 	}
 
 	/**
-	 * 测试空闲连接时间超出时间回收 DataSourceFactory使用<br/>
-	 * 需在配置文件中配置,如果不配置或配置不对将优先使用1000L * 60 * 10<br/>
-	 * <h2>配置方式如下: <br/>
-	 * Properties: datasource.maxIdleTime = ? <br/>
-	 * XML: {@literal <dataSource><maxIdleTime>?</maxIdleTime></dataSource>}</h2>
-	 * @see org.com.weicoder.core.datasource.factory.DataSourceFactory
-	 * @return 测试空闲连接时间超出时间回收
+	 * 测试空闲连接时间超出时间回收
+	 * @param name 名
+	 * @return 测试空闲连接时间
 	 */
 	public static long getMaxIdleTime(String name) {
 		return Params.getLong(getKey(name, MAXIDLETIME), maxIdleTime);
 	}
 
 	/**
-	 * 多长时间检查一次空闲连接 DataSourceFactory使用<br/>
-	 * 需在配置文件中配置,如果不配置或配置不对将优先使用1000L * 60 * 60 * 2<br/>
-	 * <h2>配置方式如下: <br/>
-	 * Properties: datasource.idleTimeout = ? <br/>
-	 * XML: {@literal <dataSource><idleTimeout>?</idleTimeout></dataSource>}</h2>
-	 * @see org.com.weicoder.core.datasource.factory.DataSourceFactory
+	 * 多长时间检查一次空闲连接
+	 * @param name 名
 	 * @return 多长时间检查一次空闲连接
 	 */
 	public static long getIdleTimeout(String name) {
@@ -90,77 +74,53 @@ public final class DataSourceParams {
 	}
 
 	/**
-	 * 获得DataSource驱动类 DataSourceFactory使用<br/>
-	 * 需在配置文件中配置<br/>
-	 * <h2>配置方式如下: <br/>
-	 * Properties: datasource.driver = ? <br/>
-	 * XML: {@literal <dataSource><driver>?</driver></dataSource>}</h2>
-	 * @see org.com.weicoder.core.datasource.factory.DataSourceFactory
-	 * @return DataSource驱动类
+	 * 获得DataSource驱动类
+	 * @param name 名
+	 * @return 获得DataSource驱动类
 	 */
 	public static String getDriver(String name) {
 		return Params.getString(getKey(name, DRIVER));
 	}
 
 	/**
-	 * 获得DataSourceUrl DataSourceFactory使用<br/>
-	 * 需在配置文件中配置<br/>
-	 * <h2>配置方式如下: <br/>
-	 * Properties: datasource.url = ? <br/>
-	 * XML: {@literal <dataSource><url>?</url></dataSource>}</h2>
-	 * @see org.com.weicoder.core.datasource.factory.DataSourceFactory
-	 * @return DataSourceUrl
+	 * 获得DataSourceUrl
+	 * @param name 名
+	 * @return 获得DataSourceUrl
 	 */
 	public static String getUrl(String name) {
 		return Params.getString(getKey(name, URL));
 	}
 
 	/**
-	 * 获得DataSourceUser DataSourceFactory使用<br/>
-	 * 需在配置文件中配置<br/>
-	 * <h2>配置方式如下: <br/>
-	 * Properties: datasource.user = ? <br/>
-	 * XML: {@literal <dataSource><user>?</user></dataSource>}</h2>
-	 * @see org.com.weicoder.core.datasource.factory.DataSourceFactory
-	 * @return DataSourceUser
+	 * 获得DataSourceUser
+	 * @param name 名
+	 * @return 获得DataSourceUser
 	 */
 	public static String getUser(String name) {
 		return Params.getString(getKey(name, USER));
 	}
 
 	/**
-	 * 获得DataSourcePassword DataSourceFactory使用<br/>
-	 * 需在配置文件中配置<br/>
-	 * <h2>配置方式如下: <br/>
-	 * Properties: datasource.password = ? <br/>
-	 * XML: {@literal <dataSource><password>?</password></dataSource>}</h2>
-	 * @see org.com.weicoder.core.datasource.factory.DataSourceFactory
-	 * @return DataSourcePassword
+	 * 获得DataSourcePassword
+	 * @param name 名
+	 * @return 获得DataSourcePassword
 	 */
 	public static String getPassword(String name) {
 		return Params.getString(getKey(name, PASSWORD));
 	}
 
 	/**
-	 * 获得初始化连接数 DataSourceFactory使用<br/>
-	 * 需在配置文件中配置,如果不配置或配置不对将优先使用20<br/>
-	 * <h2>配置方式如下: <br/>
-	 * Properties: datasource.initialPoolSize = ? <br/>
-	 * XML: {@literal <dataSource><initialPoolSize>?</initialPoolSize></dataSource>}</h2>
-	 * @see org.com.weicoder.core.datasource.factory.DataSourceFactory
-	 * @return 初始化连接数
+	 * 获得初始化连接数
+	 * @param name 名
+	 * @return 获得初始化连接数
 	 */
 	public static int getInitialPoolSize(String name) {
 		return Params.getInt(getKey(name, INITIAL_POOL_SIZE), initialPoolSize);
 	}
 
 	/**
-	 * 连接池最大连接数 DataSourceFactory使用<br/>
-	 * 需在配置文件中配置,如果不配置或配置不对将优先使用50<br/>
-	 * <h2>配置方式如下: <br/>
-	 * Properties: datasource.maxPoolSize = ? <br/>
-	 * XML: {@literal <dataSource><maxPoolSize>?</maxPoolSize></dataSource>}</h2>
-	 * @see org.com.weicoder.core.datasource.factory.DataSourceFactory
+	 * 连接池最大连接数
+	 * @param name 名
 	 * @return 连接池最大连接数
 	 */
 	public static int getMaxPoolSize(String name) {
@@ -168,12 +128,8 @@ public final class DataSourceParams {
 	}
 
 	/**
-	 * 连接池最小连接数 DataSourceFactory使用<br/>
-	 * 需在配置文件中配置,如果不配置或配置不对将优先使用10<br/>
-	 * <h2>配置方式如下: <br/>
-	 * Properties: datasource.minPoolSize = ? <br/>
-	 * XML: {@literal <dataSource><minPoolSize>?</minPoolSize></dataSource>}</h2>
-	 * @see org.com.weicoder.core.datasource.factory.DataSourceFactory
+	 * 连接池最小连接数
+	 * @param name 名
 	 * @return 连接池最小连接数
 	 */
 	public static int getMinPoolSize(String name) {
@@ -181,11 +137,8 @@ public final class DataSourceParams {
 	}
 
 	/**
-	 * 默认使用的连接池 DataSource使用<br/>
-	 * 需在配置文件中配置,如果不配置或配置不对将优先使用DBCP<br/>
-	 * <h2>配置方式如下: <br/>
-	 * Properties: datasource.parse = ? <br/>
-	 * XML: {@literal <dataSource><parse>?</parse></dataSource>}</h2>
+	 * 默认使用的连接池
+	 * @param name 名
 	 * @return 默认使用的连接池
 	 */
 	public static String getParse(String name) {
@@ -202,6 +155,5 @@ public final class DataSourceParams {
 		return Params.getKey(PREFIX, name, key);
 	}
 
-	private DataSourceParams() {
-	}
+	private DataSourceParams() {}
 }

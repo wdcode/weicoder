@@ -17,7 +17,7 @@ import com.weicoder.common.params.CommonParams;
 
 /**
  * 获得日期,日期类型和字符串类型之间的转化
- * @author WD  
+ * @author WD
  */
 public final class DateUtil {
 	// Calendar实例
@@ -42,7 +42,9 @@ public final class DateUtil {
 			return DateConstants.FORMAT_YMD_H_M_S;
 		} else if (Validate.is(RegexConstants.DATE_HH_MM_SS, date)) {
 			return DateConstants.FORMAT_HH_MM_SS;
-		} else if (Validate.is(RegexConstants.DATE_YYYYMM, date)) { return DateConstants.FORMAT_YYYYMM; }
+		} else if (Validate.is(RegexConstants.DATE_YYYYMM, date)) {
+			return DateConstants.FORMAT_YYYYMM;
+		}
 		return null;
 	}
 
@@ -131,10 +133,10 @@ public final class DateUtil {
 	/**
 	 * 获得现在时间毫秒数
 	 * @param date 要取的时间
-	 * @return lointng
+	 * @return int
 	 */
-	public static int getTime(String dateString) {
-		return getTime(toDate(dateString));
+	public static int getTime(String date) {
+		return getTime(toDate(date));
 	}
 
 	/**
@@ -143,8 +145,8 @@ public final class DateUtil {
 	 * @param format 时间字符串样式
 	 * @return int
 	 */
-	public static int getTime(String dateString, String format) {
-		return getTime(toDate(dateString, format));
+	public static int getTime(String date, String format) {
+		return getTime(toDate(date, format));
 	}
 
 	/**

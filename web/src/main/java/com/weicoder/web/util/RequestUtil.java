@@ -16,7 +16,7 @@ import com.weicoder.common.util.IpUtil;
 
 /**
  * Request一些相关操作类
- * @author WD 
+ * @author WD
  */
 public final class RequestUtil {
 	/**
@@ -60,7 +60,7 @@ public final class RequestUtil {
 
 	/**
 	 * 获得域名路径
-	 * @param request
+	 * @param request HttpServletRequest
 	 * @return 域名路径
 	 */
 	public static String getServer(HttpServletRequest request) {
@@ -72,7 +72,7 @@ public final class RequestUtil {
 
 	/**
 	 * 获得域名路径
-	 * @param request
+	 * @param request HttpServletRequest
 	 * @return 域名路径
 	 */
 	public static String getDomain(HttpServletRequest request) {
@@ -84,7 +84,7 @@ public final class RequestUtil {
 
 	/**
 	 * 获得项目路径
-	 * @param request
+	 * @param request HttpServletRequest
 	 * @return 项目路径
 	 */
 	public static String getBase(HttpServletRequest request) {
@@ -93,7 +93,7 @@ public final class RequestUtil {
 
 	/**
 	 * 获得程序路径
-	 * @param request
+	 * @param request HttpServletRequest
 	 * @param name 文件名
 	 * @return 程序路径
 	 */
@@ -104,6 +104,7 @@ public final class RequestUtil {
 	/**
 	 * 获得request的提交参数 如果没有返回空Map
 	 * @param request ServletRequest
+	 * @return Map参数
 	 */
 	public static Map<String, String> getParameters(ServletRequest request) {
 		// 声明空Map
@@ -158,6 +159,7 @@ public final class RequestUtil {
 	 * @param request ServletRequest
 	 * @param key 属性值
 	 * @param defaultValue 默认值
+	 * @param <E> 泛型
 	 * @return value
 	 */
 	@SuppressWarnings("unchecked")
@@ -217,6 +219,5 @@ public final class RequestUtil {
 		return request.getHeader(HttpConstants.HEADER_ACCEPT_LANGUAGE);
 	}
 
-	private RequestUtil() {
-	}
+	private RequestUtil() {}
 }

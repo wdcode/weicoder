@@ -2,7 +2,6 @@ package com.weicoder.socket.params;
 
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.constants.SystemConstants;
 import com.weicoder.common.params.Params;
 
 /**
@@ -30,108 +29,63 @@ public final class SocketParams {
 	public final static int			BROAD		= Params.getInt(PREFIX + ".broad", 10000);
 
 	/**
-	 * 获得Socket线程池数 <br/>
-	 * 需在配置文件中配置<br/>
-	 * <h2>配置方式如下: <br/>
-	 * Properties: socket.pool = ? <br/>
-	 * XML: {@literal <socket><pool>?</pool></socket>}</h2>
-	 * @return 获得Socket线程池数
-	 */
-	public static int getPool(String name) {
-		return Params.getInt(Params.getKey(PREFIX, name, "pool"), SystemConstants.CPU_NUM);
-	}
-
-	/**
-	 * 获得Socket使用解析包<br/>
-	 * 需在配置文件中配置<br/>
-	 * <h2>配置方式如下: <br/>
-	 * Properties: socket.parse = ? <br/>
-	 * XML: {@literal <socket><parse>?</parse></socket>}</h2>
-	 * @return 获得Socket使用解析包
-	 */
-	public static String getParse(String name) {
-		return Params.getString(Params.getKey(PREFIX, name, "parse"));
-	}
-
-	/**
-	 * 获得Socket连接服务器<br/>
-	 * 需在配置文件中配置<br/>
-	 * <h2>配置方式如下: <br/>
-	 * Properties: socket.host = ? <br/>
-	 * XML: {@literal <socket><host>?</host></socket>}</h2>
-	 * @return 获得Socket连接服务器
+	 * 获得Socket连接服务器
+	 * @param name 名称
+	 * @return 服务器
 	 */
 	public static String getHost(String name) {
 		return Params.getString(Params.getKey(PREFIX, name, "host"));
 	}
 
 	/**
-	 * 获得Socket连接端口<br/>
-	 * 需在配置文件中配置<br/>
-	 * <h2>配置方式如下: <br/>
-	 * Properties: socket.port = ? <br/>
-	 * XML: {@literal <socket><port>?</port></socket>}</h2>
-	 * @return 获得Socket连接端口
+	 * 获得Socket连接端口
+	 * @param name 名称
+	 * @return 端口
 	 */
 	public static int getPort(String name) {
 		return Params.getInt(Params.getKey(PREFIX, name, "port"));
 	}
 
 	/**
-	 * 获得Socket检测拒绝次数<br/>
-	 * 需在配置文件中配置<br/>
-	 * <h2>配置方式如下: <br/>
-	 * Properties: socket.time = ? <br/>
-	 * XML: {@literal <socket><over>?</over></socket>}</h2>
-	 * @return 获得Socket检测拒绝次数
+	 * 获得Socket检测拒绝次数
+	 * @param name 名称
+	 * @return 次数
 	 */
 	public static int getOver(String name) {
 		return Params.getInt(Params.getKey(PREFIX, name, "over"), 10);
 	}
 
 	/**
-	 * 获得Socket检测时间 单位秒<br/>
-	 * 需在配置文件中配置<br/>
-	 * <h2>配置方式如下: <br/>
-	 * Properties: socket.time = ? <br/>
-	 * XML: {@literal <socket><time>?</time></socket>}</h2>
-	 * @return 获得Socket检测时间 单位秒
+	 * 获得Socket检测时间 单位秒
+	 * @param name 名称
+	 * @return 时间
 	 */
 	public static int getTime(String name) {
 		return Params.getInt(Params.getKey(PREFIX, name, "time"), isClient(name) ? 0 : 5);
 	}
 
 	/**
-	 * 获得Socket 数据是否压缩 默认true<br/>
-	 * 需在配置文件中配置<br/>
-	 * <h2>配置方式如下: <br/>
-	 * Properties: socket.zip = ? <br/>
-	 * XML: {@literal <socket><zip>?</zip></socket>}</h2>
-	 * @return 获得Socket检测时间 单位秒
+	 * 获得Socket 数据是否压缩 默认false
+	 * @param name 名称
+	 * @return 是否
 	 */
 	public static boolean isZip(String name) {
 		return Params.getBoolean(Params.getKey(PREFIX, name, "zip"), false);
 	}
 
 	/**
-	 * 获得Socket心跳检测ID指令<br/>
-	 * 需在配置文件中配置<br/>
-	 * <h2>配置方式如下: <br/>
-	 * Properties: socket.heart.id = ? <br/>
-	 * XML: {@literal <socket><heart><id>?</id></heart></socket>}</h2>
-	 * @return 获得Socket心跳检测ID指令
+	 * 获得Socket心跳检测ID指令
+	 * @param name 名称
+	 * @return 指令
 	 */
 	public static short getHeartId(String name) {
 		return Params.getShort(Params.getKey(PREFIX, name, "heart.id"), (short) 0);
 	}
 
 	/**
-	 * 获得Socket心跳检测时间 单位秒<br/>
-	 * 需在配置文件中配置<br/>
-	 * <h2>配置方式如下: <br/>
-	 * Properties: socket.heart.time = ? <br/>
-	 * XML: {@literal <socket><heart><time>?</time></heart></socket>}</h2>
-	 * @return 获得Socket心跳检测时间 单位秒
+	 * 获得Socket心跳检测时间 单位秒
+	 * @param name 名称
+	 * @return 心跳检测时间
 	 */
 	public static int getHeartTime(String name) {
 		return Params.getInt(Params.getKey(PREFIX, name, "heart.time"));
@@ -139,97 +93,75 @@ public final class SocketParams {
 
 	/**
 	 * 是否回心跳包
-	 * @param name
-	 * @return
+	 * @param name 名称
+	 * @return 是否
 	 */
 	public static boolean isHeartPack(String name) {
 		return Params.getBoolean(Params.getKey(PREFIX, name, "heart.pack"), true);
 	}
 
 	/**
-	 * 获得Socket是否需要登录 大于0的指令为登录<br/>
-	 * 需在配置文件中配置<br/>
-	 * <h2>配置方式如下: <br/>
-	 * Properties: socket.login.id = ? <br/>
-	 * XML: {@literal <socket><login><id>?</id></login></socket>}</h2>
-	 * @return 获得Socket是否需要登录 大于0的指令为登录
+	 * 获得Socket是否需要登录 大于0的指令为登录
+	 * @param name 名称
+	 * @return 登陆
 	 */
 	public static String getLogin(String name) {
 		return Params.getString(Params.getKey(PREFIX, name, "login"));
 	}
 
 	/**
-	 * 获得Socket是否客户端 <br/>
-	 * 需在配置文件中配置<br/>
-	 * <h2>配置方式如下: <br/>
-	 * Properties: socket.*.client = ? <br/>
-	 * XML: {@literal <socket><*><client>?</client></*></socket>}</h2>
-	 * @return socket是否客户端
+	 * 获得Socket是否客户端
+	 * @param name 名称
+	 * @return 是否
 	 */
 	public static boolean isClient(String name) {
 		return Params.getBoolean(Params.getKey(PREFIX, name, "client"), false);
 	}
 
 	/**
-	 * 获得socket处理handler<br/>
-	 * 需在配置文件中配置<br/>
-	 * <h2>配置方式如下: <br/>
-	 * Properties: socket.*.handler = ? <br/>
-	 * XML: {@literal <socket><*><handler>?</handler></*></socket>}</h2>
-	 * @return socket处理handler
+	 * 获得socket处理handler
+	 * @param name 名称
+	 * @return 字符数组
 	 */
 	public static String[] getHandler(String name) {
 		return Params.getStringArray(Params.getKey(PREFIX, name, "handler"), ArrayConstants.STRING_EMPTY);
 	}
 
 	/**
-	 * 获得socket处理handler包<br/>
-	 * 需在配置文件中配置<br/>
-	 * <h2>配置方式如下: <br/>
-	 * Properties: socket.*.package = ? <br/>
-	 * XML: {@literal <socket><*><package>?</package></*></socket>}</h2>
-	 * @return socket处理handler包
+	 * 获得socket处理handler包
+	 * @param name 名称
+	 * @return 包名
 	 */
 	public static String getPackage(String name) {
 		return Params.getString(Params.getKey(PREFIX, name, "package"));
 	}
 
 	/**
-	 * 获得socket处理handler包<br/>
-	 * 需在配置文件中配置<br/>
-	 * <h2>配置方式如下: <br/>
-	 * Properties: socket.*.packages = ? <br/>
-	 * XML: {@literal <socket><*><packages>?</packages></*></socket>}</h2>
-	 * @return socket处理handler包
+	 * 获得socket处理handler包
+	 * @param name 名称
+	 * @return 包
 	 */
 	public static String[] getPackages(String name) {
 		return Params.getStringArray(Params.getKey(PREFIX, name, "packages"), ArrayConstants.STRING_EMPTY);
 	}
 
 	/**
-	 * 获得socket Session连接处理器<br/>
-	 * 需在配置文件中配置<br/>
-	 * <h2>配置方式如下: <br/>
-	 * Properties: socket.*.connected = ? <br/>
-	 * XML: {@literal <socket><*><connected>?</connected></*></socket>}</h2>
-	 * @return socket Session连接处理器
+	 * 获得socket Session连接处理器
+	 * @param name 名称
+	 * @return 连接处理器
 	 */
 	public static String getConnected(String name) {
 		return Params.getString(Params.getKey(PREFIX, name, "connected"));
 	}
 
 	/**
-	 * 获得socket Session关闭处理器<br/>
-	 * 需在配置文件中配置<br/>
-	 * <h2>配置方式如下: <br/>
-	 * Properties: socket.*.closed = ? <br/>
-	 * XML: {@literal <socket><*><closed>?</closed></*></socket>}</h2>
-	 * @return socket Session关闭处理器
+	 * 获得socket Session关闭处理器
+	 * @param name 名称
+	 * @return 关闭处理器
 	 */
 	public static String getClosed(String name) {
 		return Params.getString(Params.getKey(PREFIX, name, "closed"));
 	}
 
-	private SocketParams() {
-	}
+	private SocketParams() {}
 }

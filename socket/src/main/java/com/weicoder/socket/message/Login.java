@@ -7,13 +7,13 @@ package com.weicoder.socket.message;
 public interface Login {
 	/**
 	 * 登录ID
-	 * @return
+	 * @return 登陆ID
 	 */
 	short id();
 
 	/**
 	 * 登录消息
-	 * @return
+	 * @return 对象
 	 */
 	Object message();
 }

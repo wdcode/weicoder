@@ -31,7 +31,7 @@ import com.weicoder.common.util.StringUtil;
 
 /**
  * 字节数组操作
- * @author WD  
+ * @author WD
  */
 public final class Bytes {
 	// 使用高地位算法
@@ -39,7 +39,7 @@ public final class Bytes {
 
 	/**
 	 * 转换Object变成字节数组
-	 * @param obj d
+	 * @param objs 对象
 	 * @return 字节数组
 	 */
 	public static byte[] toBytes(Object... objs) {
@@ -57,7 +57,7 @@ public final class Bytes {
 
 	/**
 	 * 转换Collection变成字节数组
-	 * @param obj d
+	 * @param b 布尔
 	 * @return 字节数组
 	 */
 	public static byte[] toBytes(boolean b) {
@@ -66,7 +66,7 @@ public final class Bytes {
 
 	/**
 	 * 转换Collection变成字节数组
-	 * @param obj d
+	 * @param c 集合
 	 * @return 字节数组
 	 */
 	public static byte[] toBytes(Collection<?> c) {
@@ -157,12 +157,14 @@ public final class Bytes {
 
 	/**
 	 * 转换Binary序列化
-	 * @param bean
+	 * @param binary Binary接口
 	 * @return 字节数组
 	 */
 	public static byte[] toBytes(Binary binary) {
 		// 对象为空
-		if (EmptyUtil.isEmpty(binary)) { return ArrayConstants.BYTES_EMPTY; }
+		if (EmptyUtil.isEmpty(binary)) {
+			return ArrayConstants.BYTES_EMPTY;
+		}
 		// 字段值
 		List<Object> values = Lists.getList();
 		// 获得字段赋值
@@ -177,7 +179,7 @@ public final class Bytes {
 
 	/**
 	 * 转换ByteArray变成字节数组
-	 * @param bean BytesBean类型
+	 * @param array ByteArray类型
 	 * @return 字节数组
 	 */
 	public static byte[] toBytes(ByteArray array) {
@@ -203,9 +205,13 @@ public final class Bytes {
 	 */
 	public static byte[] toBytes(ByteBuffer buff) {
 		// 如果为null
-		if (buff == null) { return ArrayConstants.BYTES_EMPTY; }
+		if (buff == null) {
+			return ArrayConstants.BYTES_EMPTY;
+		}
 		// 如果可以直接访问数组
-		if (buff.hasArray()) { return buff.array(); }
+		if (buff.hasArray()) {
+			return buff.array();
+		}
 		// 如果读取长度大于0
 		int len = buff.limit();
 		if (len > 0) {
@@ -264,6 +270,7 @@ public final class Bytes {
 	/**
 	 * 把字节数组转换成int
 	 * @param b 字节数组
+	 * @param offset 偏移
 	 * @return int
 	 */
 	public static byte toByte(byte[] b, int offset) {
@@ -282,6 +289,7 @@ public final class Bytes {
 	/**
 	 * 把字节数组转换成int
 	 * @param b 字节数组
+	 * @param offset 偏移
 	 * @return int
 	 */
 	public static boolean toBoolean(byte[] b, int offset) {
@@ -548,7 +556,6 @@ public final class Bytes {
 	/**
 	 * 把字节数组转换成long
 	 * @param b 字节数组
-	 * @param offset 偏移
 	 * @return long
 	 */
 	public static String toString(byte[] b) {
@@ -601,7 +608,6 @@ public final class Bytes {
 
 	/**
 	 * 把字节数组转换为BytesBean
-	 * @param obj BytesBean对象
 	 * @param b 字节数组
 	 * @return 转换后的对象
 	 */
@@ -611,8 +617,8 @@ public final class Bytes {
 
 	/**
 	 * 把字节数组转换为BytesBean
-	 * @param obj BytesBean对象
 	 * @param b 字节数组
+	 * @param offset 偏移
 	 * @return 转换后的对象
 	 */
 	public static BytesBean toBean(byte[] b, int offset) {
@@ -621,7 +627,6 @@ public final class Bytes {
 
 	/**
 	 * 把字节数组转换为BytesBean
-	 * @param obj BytesBean对象
 	 * @param b 字节数组
 	 * @param offset 偏移
 	 * @param len 长度
@@ -629,17 +634,23 @@ public final class Bytes {
 	 */
 	public static BytesBean toBean(byte[] b, int offset, int len) {
 		// 如果字节流为空
-		if (EmptyUtil.isEmpty(b)) { return null; }
+		if (EmptyUtil.isEmpty(b)) {
+			return null;
+		}
 		// 获得字节数组
 		byte[] data = copy(b, offset, len);
 		// 获得Bean的Class
 		String name = toString(data);
 		// Class名为空
-		if (EmptyUtil.isEmpty(name)) { return null; }
+		if (EmptyUtil.isEmpty(name)) {
+			return null;
+		}
 		// 转行为BytesBean
 		BytesBean bean = (BytesBean) BeanUtil.newInstance(name);
 		// Bean为空
-		if (bean == null) { return null; }
+		if (bean == null) {
+			return null;
+		}
 		// 设置偏移 6=4(字节数组)+2(字符串)
 		int pos = 6 + name.length();
 		// 返回Bean
@@ -681,7 +692,9 @@ public final class Bytes {
 
 	/**
 	 * 读取字节数组变成对象
+	 * @param binary 序列化接口
 	 * @param b 字节数组
+	 * @param <B> 泛型
 	 * @return 对象
 	 */
 	public static <B extends Binary> B toBinary(B binary, byte[] b) {
@@ -757,7 +770,9 @@ public final class Bytes {
 	 */
 	public static Object toObject(byte[] b) {
 		// 如果字节数组为空 返回null
-		if (EmptyUtil.isEmpty(b)) { return null; }
+		if (EmptyUtil.isEmpty(b)) {
+			return null;
+		}
 		// 声明字节数组输入流
 		ByteArrayInputStream bais = new ByteArrayInputStream(b);
 		// 声明对象输入流

@@ -2,17 +2,18 @@ package com.weicoder.socket;
 
 /**
  * Socket接口
- * @author WD 
+ * @author WD
  */
 public interface Socket {
 	/**
 	 * 添加要处理的Handler
-	 * @param handler
+	 * @param handler 处理逻辑
 	 */
 	void addHandler(Handler<?> handler);
 
 	/**
 	 * 服务器名
+	 * @return 服务器名
 	 */
 	String name();
 

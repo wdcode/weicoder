@@ -2,7 +2,7 @@ package com.weicoder.socket;
 
 /**
  * Socket 客户端
- * @author WD  
+ * @author WD
  */
 public interface Client extends Socket {
 	/**
@@ -12,7 +12,7 @@ public interface Client extends Socket {
 
 	/**
 	 * 获得客户端Session
-	 * @return
+	 * @return Session
 	 */
 	Session session();
 }

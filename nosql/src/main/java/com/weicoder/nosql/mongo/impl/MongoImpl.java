@@ -26,7 +26,7 @@ import com.mongodb.client.MongoDatabase;
 
 /**
  * MongoDB Dao 实现
- * @author WD 
+ * @author WD
  */
 public final class MongoImpl implements Mongo {
 	// MongoDB 主键常量
@@ -312,7 +312,7 @@ public final class MongoImpl implements Mongo {
 
 	/**
 	 * 获得多个键的数组
-	 * @param key 键
+	 * @param keys 键
 	 * @return 值
 	 */
 	public Object[] get(String... keys) {
