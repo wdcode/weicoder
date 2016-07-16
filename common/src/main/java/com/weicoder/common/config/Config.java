@@ -10,7 +10,6 @@ import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.log.Logs;
-import com.weicoder.common.util.CloseUtil;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.ResourceUtil;
 import com.weicoder.common.util.StringUtil;
@@ -30,21 +29,16 @@ public final class Config {
 	public Config(String... fileName) {
 		// 声明Properties
 		ps = new Properties();
-		// 获取配置文件流
-		InputStream in = null;
 		// 循环加载文件
 		for (String name : fileName) {
-			in = ResourceUtil.loadResource(name);
-			// 有配置文件加载
-			if (in != null) {
-				try {
+			try (InputStream in = ResourceUtil.loadResource(name)) {
+				// 有配置文件加载
+				if (in != null) {
 					ps.load(in);
 					break;
-				} catch (IOException e) {
-					Logs.error(e);
-				} finally {
-					CloseUtil.close(in);
 				}
+			} catch (IOException e) {
+				Logs.error(e);
 			}
 		}
 	}

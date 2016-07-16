@@ -1,13 +1,7 @@
 package com.weicoder.common.lang;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.nio.ByteBuffer;
 import java.nio.channels.ReadableByteChannel;
@@ -17,15 +11,12 @@ import java.util.List;
 
 import com.weicoder.common.binary.Binary;
 import com.weicoder.common.binary.ByteArray;
-import com.weicoder.common.binary.BytesBean;
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.io.ChannelUtil;
 import com.weicoder.common.io.FileUtil;
 import com.weicoder.common.io.IOUtil;
-import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.util.BeanUtil;
-import com.weicoder.common.util.CloseUtil;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
 
@@ -132,9 +123,6 @@ public final class Bytes {
 		} else if (obj instanceof Binary) {
 			// File
 			b = toBytes((Binary) obj);
-		} else if (obj instanceof BytesBean) {
-			// File
-			b = toBytes((BytesBean) obj);
 		} else if (obj instanceof File) {
 			// File
 			b = FileUtil.read((File) obj);
@@ -144,9 +132,6 @@ public final class Bytes {
 		} else if (obj instanceof ReadableByteChannel) {
 			// File
 			b = ChannelUtil.read((ReadableByteChannel) obj, false);
-		} else if (obj instanceof Serializable) {
-			// Serializable
-			b = toBytes((Serializable) obj);
 		} else {
 			// Object调用toString()然后转换成byte[]
 			b = StringUtil.toBytes(obj.toString());
@@ -184,18 +169,6 @@ public final class Bytes {
 	 */
 	public static byte[] toBytes(ByteArray array) {
 		return EmptyUtil.isEmpty(array) ? ArrayConstants.BYTES_EMPTY : array.array();
-	}
-
-	/**
-	 * 转换BytesBean变成字节数组
-	 * @param bean BytesBean类型
-	 * @return 字节数组
-	 */
-	public static byte[] toBytes(BytesBean bean) {
-		// 转换成字节数组
-		byte[] b = toBytes((ByteArray) bean);
-		// 加上长度返回
-		return EmptyUtil.isEmpty(b) ? b : toBytes(bean.getClass().getName(), b.length, b);
 	}
 
 	/**
@@ -584,80 +557,6 @@ public final class Bytes {
 	}
 
 	/**
-	 * 读取序列化后字节数组
-	 * @param s 序列化对象
-	 * @return 字节数组
-	 */
-	public static byte[] toBytes(Serializable s) {
-		// 声明512字节的数组对象流
-		ByteArrayOutputStream baos = new ByteArrayOutputStream(512);
-		// 声明对象流
-		ObjectOutputStream out = null;
-		try {
-			// 实例化一个对象流并写入对象
-			out = new ObjectOutputStream(baos);
-			out.writeObject(s);
-			// 返回对象的序列化字节数组
-			return baos.toByteArray();
-		} catch (IOException ex) {} finally {
-			CloseUtil.close(baos, out);
-		}
-		// 返回空字节数组
-		return ArrayConstants.BYTES_EMPTY;
-	}
-
-	/**
-	 * 把字节数组转换为BytesBean
-	 * @param b 字节数组
-	 * @return 转换后的对象
-	 */
-	public static BytesBean toBean(byte[] b) {
-		return toBean(b, 0, b.length);
-	}
-
-	/**
-	 * 把字节数组转换为BytesBean
-	 * @param b 字节数组
-	 * @param offset 偏移
-	 * @return 转换后的对象
-	 */
-	public static BytesBean toBean(byte[] b, int offset) {
-		return toBean(b, offset, b.length);
-	}
-
-	/**
-	 * 把字节数组转换为BytesBean
-	 * @param b 字节数组
-	 * @param offset 偏移
-	 * @param len 长度
-	 * @return 转换后的对象
-	 */
-	public static BytesBean toBean(byte[] b, int offset, int len) {
-		// 如果字节流为空
-		if (EmptyUtil.isEmpty(b)) {
-			return null;
-		}
-		// 获得字节数组
-		byte[] data = copy(b, offset, len);
-		// 获得Bean的Class
-		String name = toString(data);
-		// Class名为空
-		if (EmptyUtil.isEmpty(name)) {
-			return null;
-		}
-		// 转行为BytesBean
-		BytesBean bean = (BytesBean) BeanUtil.newInstance(name);
-		// Bean为空
-		if (bean == null) {
-			return null;
-		}
-		// 设置偏移 6=4(字节数组)+2(字符串)
-		int pos = 6 + name.length();
-		// 返回Bean
-		return (BytesBean) toBean(bean, data, pos);
-	}
-
-	/**
 	 * 把字节数组转换为ByteArray
 	 * @param array ByteArray 对象
 	 * @param b 字节数组
@@ -737,14 +636,6 @@ public final class Bytes {
 					String s = Bytes.toString(b, offset);
 					BeanUtil.setFieldValue(binary, field, s);
 					offset += Bytes.toShort(b, offset) + 2;
-				} else if (type.isAssignableFrom(BytesBean.class)) {
-					// 转换为BytesBean
-					BytesBean bean = Bytes.toBean(b, offset);
-					BeanUtil.setFieldValue(binary, field, bean);
-					// 类的字符串长度
-					offset += 2 + Bytes.toShort(b, offset);
-					// 字节数组长度
-					offset += 4 + Bytes.toInt(b, offset);
 				} else if (type.isAssignableFrom(ByteArray.class)) {
 					// 转换为BytesBean
 					ByteArray bean = Bytes.toBean((ByteArray) BeanUtil.newInstance(type), b, offset);
@@ -761,33 +652,6 @@ public final class Bytes {
 		}
 		// 返回对象
 		return binary;
-	}
-
-	/**
-	 * 读取字节数组变成对象
-	 * @param b 字节数组
-	 * @return 对象
-	 */
-	public static Object toObject(byte[] b) {
-		// 如果字节数组为空 返回null
-		if (EmptyUtil.isEmpty(b)) {
-			return null;
-		}
-		// 声明字节数组输入流
-		ByteArrayInputStream bais = new ByteArrayInputStream(b);
-		// 声明对象输入流
-		ObjectInputStream in = null;
-		try {
-			// 声明对象输入流
-			in = new ObjectInputStream(bais);
-			// 返回对象
-			return in.readObject();
-		} catch (Exception e) {
-			Logs.debug("Bytes toObject=%s", e.toString());
-			return null;
-		} finally {
-			CloseUtil.close(bais, in);
-		}
 	}
 
 	/**
