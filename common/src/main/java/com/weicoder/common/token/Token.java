@@ -25,7 +25,7 @@ public class Token implements ByteArray {
 	/**
 	 * 构造方法
 	 * @param id 登录用户ID
-	 * @param ip 登录IP 
+	 * @param ip 登录IP
 	 */
 	public Token(long id, String ip) {
 		this.id = id;
@@ -38,7 +38,7 @@ public class Token implements ByteArray {
 	 * @return true 登录 false 未登录
 	 */
 	public boolean isLogin() {
-		return id != 0 && (CommonParams.LOGIN_MAX_AGE > 0 ? DateUtil.getTime() - time < CommonParams.LOGIN_MAX_AGE : time > 0);
+		return id != 0 && (CommonParams.LOGIN_TIME > 0 ? DateUtil.getTime() - time < CommonParams.LOGIN_TIME : time > 0);
 	}
 
 	/**

@@ -35,13 +35,11 @@ public final class CommonParams {
 	/** 非对称加密使用的密钥的长度(位) */
 	public final static int			ENCRYPT_KEY_LENGTH		= Params.getInt("encrypt.key.length", 1024);
 	/** 加密使用的密钥 字符串 */
-	public final static String		ENCRYPT_KEY				= Params.getString("encrypt.key", "http://www.wdcode.org");
+	public final static String		ENCRYPT_KEY				= Params.getString("encrypt.key", "www.weicoder.com");
 	/** 加密使用的算法 */
 	public final static String		ENCRYPT_ALGO			= Params.getString("encrypt.algo", EncryptConstants.ALGO_AES);
 	/** 加密使用摘要算法 */
 	public final static String		ENCRYPT_DIGEST			= Params.getString("encrypt.digest", EncryptConstants.ALGO_SHA_1);
-	/** 压缩算法 */
-	public final static String		ZIP						= Params.getString("zip", "zlib");
 	/** tcp连接地址 */
 	public final static String		TCP_HOST				= Params.getString("tcp.host");
 	/** tcp服务器端口 */
@@ -56,10 +54,8 @@ public final class CommonParams {
 	public final static String		JSON_CLASS				= Params.getString("json.class", "com.weicoder.core.json.JsonFast");
 	/** 执行任务名称数组 */
 	public final static String[]	INIT_CLASSES			= Params.getStringArray("init.class", ArrayConstants.STRING_EMPTY);
-	/** 登录信息最大保存时间 */
-	public final static int			LOGIN_MAX_AGE			= Params.getInt("login.maxAge", DateConstants.WEEK);
-	/** 登录信息最小保存时间 */
-	public final static int			LOGIN_MIN_AGE			= Params.getInt("login.minAge", DateConstants.HOUR * 2);
+	/** 登录信息保存时间 */
+	public final static int			LOGIN_TIME				= Params.getInt("login.time", DateConstants.WEEK);
 
 	private CommonParams() {}
 }

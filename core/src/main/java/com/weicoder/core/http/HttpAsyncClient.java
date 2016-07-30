@@ -26,59 +26,53 @@ import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.EncodingConstants;
 import com.weicoder.common.constants.HttpConstants;
 import com.weicoder.common.constants.StringConstants;
+import com.weicoder.common.constants.SystemConstants;
 import com.weicoder.common.io.IOUtil;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
-import com.weicoder.core.params.HttpParams;
 
 /**
  * HTTP异步客户端
  * @author WD
  */
 public final class HttpAsyncClient {
-	/** 单例 */
-	public final static HttpAsyncClient	INSTANCE	= new HttpAsyncClient();
 	// Http客户端
-	private CloseableHttpAsyncClient	client;
+	private final static CloseableHttpAsyncClient CLIENT;
 
-	/**
-	 * 构造方法
-	 * @param encoding 编码
-	 */
-	private HttpAsyncClient() {
+	static {
 		// Http连接池
-		PoolingNHttpClientConnectionManager pool;
+		PoolingNHttpClientConnectionManager pool = null;
 		try {
 			pool = new PoolingNHttpClientConnectionManager(new DefaultConnectingIOReactor());
-			pool.setDefaultMaxPerRoute(HttpParams.POOL);
-			pool.setMaxTotal(HttpParams.POOL);
-			// 设置请求参数
-			RequestConfig.Builder config = RequestConfig.custom();
-			config.setSocketTimeout(HttpParams.TIMEOUT);
-			config.setConnectTimeout(HttpParams.TIMEOUT);
-			config.setCircularRedirectsAllowed(false);
-			// HttpClientBuilder
-			HttpAsyncClientBuilder builder = HttpAsyncClientBuilder.create();
-			builder.setDefaultRequestConfig(config.build());
-			builder.setConnectionManager(pool);
-			// 设置 头
-			List<BasicHeader> headers = Lists.getList();
-			headers.add(new BasicHeader(HttpConstants.USER_AGENT_KEY, HttpConstants.USER_AGENT_VAL));
-			headers.add(new BasicHeader(HttpConstants.ACCEPT_KEY, HttpConstants.ACCEPT_VAL));
-			headers.add(new BasicHeader(HttpConstants.ACCEPT_LANGUAGE_KEY, HttpConstants.ACCEPT_LANGUAGE_VAL));
-			headers.add(new BasicHeader(HttpConstants.ACCEPT_CHARSET_KEY, HttpConstants.ACCEPT_CHARSET_VAL));
-			builder.setDefaultHeaders(headers);
-			// 设置连接配置
-			builder.setDefaultConnectionConfig(ConnectionConfig.custom().setCharset(Charset.forName(EncodingConstants.UTF_8)).build());
-			// 实例化客户端
-			client = builder.build();
-			// 启动
-			client.start();
 		} catch (IOReactorException e) {
 			Logs.error(e);
 		}
+		pool.setDefaultMaxPerRoute(SystemConstants.CPU_NUM);
+		pool.setMaxTotal(SystemConstants.CPU_NUM * 2);
+		// 设置请求参数
+		RequestConfig.Builder config = RequestConfig.custom();
+		config.setSocketTimeout(2000);
+		config.setConnectTimeout(2000);
+		config.setCircularRedirectsAllowed(false);
+		// HttpClientBuilder
+		HttpAsyncClientBuilder builder = HttpAsyncClientBuilder.create();
+		builder.setDefaultRequestConfig(config.build());
+		builder.setConnectionManager(pool);
+		// 设置 头
+		List<BasicHeader> headers = Lists.getList();
+		headers.add(new BasicHeader(HttpConstants.USER_AGENT_KEY, HttpConstants.USER_AGENT_VAL));
+		headers.add(new BasicHeader(HttpConstants.ACCEPT_KEY, HttpConstants.ACCEPT_VAL));
+		headers.add(new BasicHeader(HttpConstants.ACCEPT_LANGUAGE_KEY, HttpConstants.ACCEPT_LANGUAGE_VAL));
+		headers.add(new BasicHeader(HttpConstants.ACCEPT_CHARSET_KEY, HttpConstants.ACCEPT_CHARSET_VAL));
+		builder.setDefaultHeaders(headers);
+		// 设置连接配置
+		builder.setDefaultConnectionConfig(ConnectionConfig.custom().setCharset(Charset.forName(EncodingConstants.UTF_8)).build());
+		// 实例化客户端
+		CLIENT = builder.build();
+		// 启动
+		CLIENT.start();
 	}
 
 	/**
@@ -86,7 +80,7 @@ public final class HttpAsyncClient {
 	 * @param url get提交地址
 	 * @return 返回结果
 	 */
-	public String get(String url) {
+	public static String get(String url) {
 		return StringUtil.toString(download(url), EncodingConstants.UTF_8);
 	}
 
@@ -95,7 +89,7 @@ public final class HttpAsyncClient {
 	 * @param url get提交地址
 	 * @return 返回流
 	 */
-	public byte[] download(String url) {
+	public static byte[] download(String url) {
 		// 声明HttpGet对象
 		HttpGet get = null;
 		try {
@@ -103,7 +97,7 @@ public final class HttpAsyncClient {
 			get = new HttpGet(url);
 			get.addHeader(new BasicHeader(HttpConstants.CONTENT_TYPE_KEY, HttpConstants.CONTENT_TYPE_VAL));
 			// 获得HttpResponse
-			HttpResponse response = client.execute(get, null).get();
+			HttpResponse response = CLIENT.execute(get, null).get();
 			// 返回字节流
 			return IOUtil.read(response.getEntity().getContent());
 		} catch (Exception e) {
@@ -123,7 +117,7 @@ public final class HttpAsyncClient {
 	 * @param files 上传文件
 	 * @return 返回结果
 	 */
-	public String upload(String url, File... files) {
+	public static String upload(String url, File... files) {
 		// 如果文件为空
 		if (EmptyUtil.isEmpty(url) || EmptyUtil.isEmpty(files)) {
 			return StringConstants.EMPTY;
@@ -147,7 +141,7 @@ public final class HttpAsyncClient {
 			// 设置提交文件参数
 			post.setEntity(builder.build());
 			// 获得HttpResponse参数
-			HttpResponse response = client.execute(post, null).get();
+			HttpResponse response = CLIENT.execute(post, null).get();
 			// 返回结果
 			return IOUtil.readString(response.getEntity().getContent());
 		} catch (Exception e) {
@@ -167,7 +161,7 @@ public final class HttpAsyncClient {
 	 * @param data 提交参数
 	 * @return 提交结果
 	 */
-	public String post(String url, Map<String, String> data) {
+	public static String post(String url, Map<String, String> data) {
 		// 声明HttpPost
 		HttpPost post = null;
 		try {
@@ -187,7 +181,7 @@ public final class HttpAsyncClient {
 				post.setEntity(new UrlEncodedFormEntity(list, EncodingConstants.UTF_8));
 			}
 			// 获得HttpResponse参数
-			HttpResponse response = client.execute(post, null).get();
+			HttpResponse response = CLIENT.execute(post, null).get();
 			// 返回结果
 			return IOUtil.readString(response.getEntity().getContent());
 		} catch (Exception e) {
@@ -200,4 +194,6 @@ public final class HttpAsyncClient {
 		}
 		return StringConstants.EMPTY;
 	}
+
+	private HttpAsyncClient() {}
 }

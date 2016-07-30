@@ -2,24 +2,23 @@ package com.weicoder.common.zip;
 
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.lang.Bytes;
-import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.zip.impl.GzipImpl;
 import com.weicoder.common.zip.impl.ZipImpl;
 import com.weicoder.common.zip.impl.ZlibImpl;
 
 /**
  * 压缩引擎
- * @author WD 
+ * @author WD
  */
 public final class ZipEngine {
-	/**Zlib压缩器*/
+	/** Zlib压缩器 */
 	public final static Zip		ZLIB	= new ZlibImpl();
-	/**gzip压缩器*/
+	/** gzip压缩器 */
 	public final static Zip		GZIP	= new GzipImpl();
-	/**zip压缩器*/
+	/** zip压缩器 */
 	public final static Zip		ZIP		= new ZipImpl();
 	// 压缩器
-	private final static Zip	Z		= "gzip".equals(CommonParams.ZIP) ? GZIP : "zip".equals(CommonParams.ZIP) ? ZIP : ZLIB;
+	private final static Zip	Z		= ZLIB;
 
 	/**
 	 * 压缩数据

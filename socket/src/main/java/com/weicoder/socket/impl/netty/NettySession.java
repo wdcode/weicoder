@@ -33,6 +33,7 @@ public final class NettySession extends BaseSession implements Session {
 
 	@Override
 	protected void close0() {
+		channel.flush();
 		channel.close();
 		channel.disconnect();
 		channel = null;

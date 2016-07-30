@@ -1,12 +1,7 @@
 package com.weicoder.socket;
 
-import java.util.Map;
-
-import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.lang.Maps;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.ClassUtil;
-import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.log.Logs;
 import com.weicoder.socket.params.SocketParams;
 import com.weicoder.socket.impl.netty.NettyClient;
@@ -18,52 +13,86 @@ import com.weicoder.socket.manager.Manager;
  * @author WD
  */
 public final class Sockets {
-	// 保存SocketServer
-	private final static Map<String, Server>	SERVERS		= Maps.getConcurrentMap();
-	// 保存SocketClient
-	private final static Map<String, Client>	CLIENTS		= Maps.getConcurrentMap();
-	// 保存Manager Session管理器 一般给Server使用
-	private final static Map<String, Manager>	MANAGERS	= Maps.getConcurrentMap();
+	// Socket Server 模式
+	private static Server	server;
+	// Socket Client 模式
+	private static Client	client;
+	// Manager Session管理器 一般给Server使用
+	private static Manager	manager;
 
 	/**
 	 * 初始化Mina
 	 */
 	public static void init() {
-		// 判断任务不为空
-		if (SocketParams.POWER) {
-			// 循环数组
-			for (String name : SocketParams.NAMES) {
-				init(name);
-			}
-			// 启动服务器
-			start();
+		// 初始化 客户端
+		client = new NettyClient("client");
+		set("client", client);
+		// 初始化 服务端
+		server = new NettyServer("server");
+		set("server", server);
+		// 设置管理器
+		manager = new Manager();
+		// 启动服务器
+		if (server != null) {
+			server.bind();
+		}
+		// 启动客户端
+		if (client != null) {
+			client.connect();
 		}
 	}
 
 	/**
-	 * 根据名称设置
-	 * @param name 名
-	 * @return Socket
+	 * 广播消息
+	 * @param id 发送指令
+	 * @param message 发送消息
 	 */
-	public static Socket init(String name) {
-		// Socket
-		Socket socket = null;
-		// 判断是否客户端
-		if (!EmptyUtil.isEmpty(SocketParams.getHost(name)) && SocketParams.isClient(name)) {
-			socket = addClient(name);
-		} else {
-			socket = addServer(name);
+	public static void send(short id, Object message) {
+		// 循环发送消息
+		for (String key : manager.keys()) {
+			send(key, id, message);
 		}
-		// 设置管理器
-		MANAGERS.put(name, new Manager());
-		// 设置Handler
-		for (String c : SocketParams.getHandler(name)) {
-			try {
-				socket.addHandler((Handler<?>) BeanUtil.newInstance(c));
-			} catch (Exception ex) {
-				Logs.warn(ex);
-			}
+	}
+
+	/**
+	 * 广播消息
+	 * @param key 注册键
+	 * @param id 发送指令
+	 * @param message 发送消息
+	 */
+	public static void send(String key, short id, Object message) {
+		// 循环发送消息
+		for (Session session : manager.sessions(key)) {
+			session.send(id, message);
 		}
+	}
+
+	/**
+	 * 获得服务器
+	 * @return 服务器
+	 */
+	public static Server server() {
+		return server;
+	}
+
+	/**
+	 * 获得服务器
+	 * @return Manager
+	 */
+	public static Manager manager() {
+		return manager;
+	}
+
+	/**
+	 * 获得客户端
+	 * @return Client
+	 */
+	public static Client client() {
+		return client;
+	}
+
+	// 设置属性
+	private static void set(String name, Socket socket) {
 		// 按包处理
 		for (String p : SocketParams.getPackages(name)) {
 			// Handler
@@ -79,168 +108,6 @@ public final class Sockets {
 		socket.connected((Connected) BeanUtil.newInstance(SocketParams.getConnected(name)));
 		// 设置关闭处理器
 		socket.closed((Closed) BeanUtil.newInstance(SocketParams.getClosed(name)));
-		// 返回Socket
-		return socket;
-	}
-
-	/**
-	 * 添加服务器
-	 * @param name 名称
-	 * @return Server
-	 */
-	public static Server addServer(String name) {
-		return addServer(getServer(name));
-	}
-
-	/**
-	 * 添加服务器
-	 * @param server 服务器
-	 * @return 服务器
-	 */
-	public static Server addServer(Server server) {
-		SERVERS.put(server.name(), server);
-		return server;
-	}
-
-	/**
-	 * 添加客户端
-	 * @param name 名称
-	 * @return Client
-	 */
-	public static Client addClient(String name) {
-		return addClient(getClient(name));
-	}
-
-	/**
-	 * 添加客户端
-	 * @param client 客户端
-	 * @return 客户端
-	 */
-	public static Client addClient(Client client) {
-		CLIENTS.put(client.name(), client);
-		return client;
-	}
-
-	/**
-	 * 广播消息
-	 * @param id 发送指令
-	 * @param message 发送消息
-	 */
-	public static void send(short id, Object message) {
-		// 循环发送
-		for (String name : SERVERS.keySet()) {
-			send(name, id, message);
-		}
-	}
-
-	/**
-	 * 广播消息
-	 * @param name 注册键
-	 * @param id 发送指令
-	 * @param message 发送消息
-	 */
-	public static void send(String name, short id, Object message) {
-		// 循环发送消息
-		for (String key : manager(name).keys()) {
-			send(name, key, id, message);
-		}
-	}
-
-	/**
-	 * 广播消息
-	 * @param name 名称
-	 * @param key 注册键
-	 * @param id 发送指令
-	 * @param message 发送消息
-	 */
-	public static void send(String name, String key, short id, Object message) {
-		// 循环发送消息
-		for (Session session : manager(name).sessions(key)) {
-			session.send(id, message);
-		}
-	}
-
-	/**
-	 * 获得服务器
-	 * @param name 名
-	 * @return 服务器
-	 */
-	public static Server server(String name) {
-		return SERVERS.get(name);
-	}
-
-	/**
-	 * 获得服务器
-	 * @return 服务器
-	 */
-	public static Server server() {
-		return server(StringConstants.EMPTY);
-	}
-
-	/**
-	 * 获得服务器Session管理器
-	 * @param name 名
-	 * @return Manager
-	 */
-	public static Manager manager(String name) {
-		return MANAGERS.get(name);
-	}
-
-	/**
-	 * 获得服务器
-	 * @return Manager
-	 */
-	public static Manager manager() {
-		return manager(StringConstants.EMPTY);
-	}
-
-	/**
-	 * 获得客户端
-	 * @param name 名
-	 * @return Client
-	 */
-	public static Client client(String name) {
-		return CLIENTS.get(name);
-	}
-
-	/**
-	 * 获得客户端
-	 * @return Client
-	 */
-	public static Client client() {
-		return client(StringConstants.EMPTY);
-	}
-
-	/**
-	 * 启动Socket
-	 */
-	public static void start() {
-		// 启动服务器
-		for (Server server : SERVERS.values()) {
-			server.bind();
-		}
-		// 启动客户端
-		for (Client client : CLIENTS.values()) {
-			client.connect();
-		}
-	}
-
-	/**
-	 * 获得服务器
-	 * @param name 服务器配置名
-	 * @return Server
-	 */
-	private static Server getServer(String name) {
-		return new NettyServer(name);
-	}
-
-	/**
-	 * 获得客户端
-	 * @param name 客户端配置名
-	 * @return Client
-	 */
-	private static Client getClient(String name) {
-		return new NettyClient(name);
 	}
 
 	private Sockets() {}

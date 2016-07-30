@@ -68,13 +68,11 @@ public final class Process {
 		// 获得是否压缩
 		this.zip = SocketParams.isZip(name);
 		// 获得管理器
-		if (!SocketParams.isClient(name)) {
-			this.manager = Sockets.manager(name);
-		}
+		this.manager = Sockets.manager();
 		// 获得心跳时间
 		int htime = SocketParams.getHeartTime(name);
 		// 配置了心跳
-		if (htime > 0 && !SocketParams.isClient(name)) {
+		if (htime > 0) {
 			// 设置心跳
 			heart = new Heart(heartId = SocketParams.getHeartId(name), htime, SocketParams.isHeartPack(name));
 			addHandler(heart);

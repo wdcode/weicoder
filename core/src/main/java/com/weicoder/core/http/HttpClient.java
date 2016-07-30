@@ -24,36 +24,30 @@ import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.EncodingConstants;
 import com.weicoder.common.constants.HttpConstants;
 import com.weicoder.common.constants.StringConstants;
+import com.weicoder.common.constants.SystemConstants;
 import com.weicoder.common.io.IOUtil;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
-import com.weicoder.core.params.HttpParams;
 
 /**
  * HTTP客户端工具类
  * @author WD
  */
 public final class HttpClient {
-	/** 单例 */
-	public final static HttpClient	INSTANCE	= new HttpClient();
 	// Http客户端
-	private CloseableHttpClient		client;
+	private final static CloseableHttpClient CLIENT;
 
-	/**
-	 * 构造方法
-	 * @param encoding 编码
-	 */
-	private HttpClient() {
+	static {
 		// Http连接池
 		PoolingHttpClientConnectionManager pool = new PoolingHttpClientConnectionManager();
-		pool.setDefaultMaxPerRoute(HttpParams.POOL);
-		pool.setMaxTotal(HttpParams.POOL);
+		pool.setDefaultMaxPerRoute(SystemConstants.CPU_NUM);
+		pool.setMaxTotal(SystemConstants.CPU_NUM * 2);
 		// 设置请求参数
 		RequestConfig.Builder config = RequestConfig.custom();
-		config.setSocketTimeout(HttpParams.TIMEOUT);
-		config.setConnectTimeout(HttpParams.TIMEOUT);
+		config.setSocketTimeout(2000);
+		config.setConnectTimeout(2000);
 		config.setCircularRedirectsAllowed(false);
 		// HttpClientBuilder
 		HttpClientBuilder builder = HttpClientBuilder.create();
@@ -69,7 +63,7 @@ public final class HttpClient {
 		// 设置连接配置
 		builder.setDefaultConnectionConfig(ConnectionConfig.custom().setCharset(Charset.forName(EncodingConstants.UTF_8)).build());
 		// 实例化客户端
-		client = builder.build();
+		CLIENT = builder.build();
 	}
 
 	/**
@@ -77,7 +71,7 @@ public final class HttpClient {
 	 * @param url get提交地址
 	 * @return 返回结果
 	 */
-	public String get(String url) {
+	public static String get(String url) {
 		return StringUtil.toString(download(url), EncodingConstants.UTF_8);
 	}
 
@@ -86,7 +80,7 @@ public final class HttpClient {
 	 * @param url get提交地址
 	 * @return 返回流
 	 */
-	public byte[] download(String url) {
+	public static byte[] download(String url) {
 		// 声明HttpGet对象
 		HttpGet get = null;
 		try {
@@ -94,7 +88,7 @@ public final class HttpClient {
 			get = new HttpGet(url);
 			get.addHeader(new BasicHeader(HttpConstants.CONTENT_TYPE_KEY, HttpConstants.CONTENT_TYPE_VAL));
 			// 获得HttpResponse
-			HttpResponse response = client.execute(get);
+			HttpResponse response = CLIENT.execute(get);
 			// 返回字节流
 			return IOUtil.read(response.getEntity().getContent());
 		} catch (Exception e) {
@@ -114,7 +108,7 @@ public final class HttpClient {
 	 * @param files 上传文件
 	 * @return 返回结果
 	 */
-	public String upload(String url, File... files) {
+	public static String upload(String url, File... files) {
 		// 如果文件为空
 		if (EmptyUtil.isEmpty(url) || EmptyUtil.isEmpty(files)) {
 			return StringConstants.EMPTY;
@@ -138,7 +132,7 @@ public final class HttpClient {
 			// 设置提交文件参数
 			post.setEntity(builder.build());
 			// 获得HttpResponse参数
-			HttpResponse response = client.execute(post);
+			HttpResponse response = CLIENT.execute(post);
 			// 返回结果
 			return IOUtil.readString(response.getEntity().getContent());
 		} catch (Exception e) {
@@ -158,7 +152,7 @@ public final class HttpClient {
 	 * @param data 提交参数
 	 * @return 提交结果
 	 */
-	public String post(String url, Map<String, String> data) {
+	public static String post(String url, Map<String, String> data) {
 		// 声明HttpPost
 		HttpPost post = null;
 		try {
@@ -178,7 +172,7 @@ public final class HttpClient {
 				post.setEntity(new UrlEncodedFormEntity(list, EncodingConstants.UTF_8));
 			}
 			// 获得HttpResponse参数
-			HttpResponse response = client.execute(post);
+			HttpResponse response = CLIENT.execute(post);
 			// 返回结果
 			return IOUtil.readString(response.getEntity().getContent());
 		} catch (Exception e) {
@@ -191,4 +185,6 @@ public final class HttpClient {
 		}
 		return StringConstants.EMPTY;
 	}
+
+	private HttpClient() {}
 }

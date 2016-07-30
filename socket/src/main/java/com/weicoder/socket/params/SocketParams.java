@@ -15,10 +15,6 @@ public final class SocketParams {
 	public final static String		HOST		= Params.getString(PREFIX + ".host");
 	/** Socket服务器端口 */
 	public final static int			PORT		= Params.getInt(PREFIX + ".port");
-	/** Socket服务器开关 */
-	public final static boolean		POWER		= Params.getBoolean(PREFIX + ".power", false);
-	/** Socket服务器开关 */
-	public final static boolean		SPRING		= Params.getBoolean(PREFIX + ".spring", false);
 	/** Socket服务器名称数组 */
 	public final static String[]	NAMES		= Params.getStringArray(PREFIX + ".names", new String[] { StringConstants.EMPTY });
 	/** Socket服务器名称数组 */
@@ -61,7 +57,7 @@ public final class SocketParams {
 	 * @return 时间
 	 */
 	public static int getTime(String name) {
-		return Params.getInt(Params.getKey(PREFIX, name, "time"), isClient(name) ? 0 : 5);
+		return Params.getInt(Params.getKey(PREFIX, name, "time"));
 	}
 
 	/**
@@ -107,24 +103,6 @@ public final class SocketParams {
 	 */
 	public static String getLogin(String name) {
 		return Params.getString(Params.getKey(PREFIX, name, "login"));
-	}
-
-	/**
-	 * 获得Socket是否客户端
-	 * @param name 名称
-	 * @return 是否
-	 */
-	public static boolean isClient(String name) {
-		return Params.getBoolean(Params.getKey(PREFIX, name, "client"), false);
-	}
-
-	/**
-	 * 获得socket处理handler
-	 * @param name 名称
-	 * @return 字符数组
-	 */
-	public static String[] getHandler(String name) {
-		return Params.getStringArray(Params.getKey(PREFIX, name, "handler"), ArrayConstants.STRING_EMPTY);
 	}
 
 	/**
