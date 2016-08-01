@@ -44,8 +44,8 @@ public final class HttpClient {
 	static {
 		// Http连接池
 		PoolingHttpClientConnectionManager pool = new PoolingHttpClientConnectionManager();
-		pool.setDefaultMaxPerRoute(SystemConstants.CPU_NUM * 2);
-		pool.setMaxTotal(SystemConstants.CPU_NUM * 5);
+		pool.setDefaultMaxPerRoute(SystemConstants.CPU_NUM * 10);
+		pool.setMaxTotal(SystemConstants.CPU_NUM * 10);
 		// 设置请求参数
 		RequestConfig.Builder config = RequestConfig.custom();
 		config.setSocketTimeout(2000);
@@ -55,6 +55,7 @@ public final class HttpClient {
 		HttpClientBuilder builder = HttpClientBuilder.create();
 		builder.setDefaultRequestConfig(config.build());
 		builder.setConnectionManager(pool);
+		builder.setMaxConnPerRoute(SystemConstants.CPU_NUM * 10);
 		// 设置 头
 		List<BasicHeader> headers = Lists.getList();
 		headers.add(new BasicHeader(HttpConstants.USER_AGENT_KEY, HttpConstants.USER_AGENT_VAL));
