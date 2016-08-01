@@ -1,4 +1,4 @@
-package com.weicoder.common.schedule;
+package com.weicoder.common.concurrent;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -14,7 +14,7 @@ import com.weicoder.common.constants.SystemConstants;
  */
 public final class ScheduledUtile {
 	/** 并发定时任务池 */
-	public final static ScheduledExecutorService POOL = Executors.newScheduledThreadPool(SystemConstants.CPU_NUM);
+	public final static ScheduledExecutorService POOL = Executors.newScheduledThreadPool(SystemConstants.CPU_NUM, DaemonThreadFactory.INSTANCE);
 
 	/**
 	 * 执行定时任务 按初始时间间隔

@@ -1,4 +1,4 @@
-package com.weicoder.common.util;
+package com.weicoder.common.concurrent;
 
 import java.util.Iterator;
 import java.util.List;
@@ -6,25 +6,19 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.log.Logs;
+import com.weicoder.common.util.EmptyUtil;
 
 /**
  * 并发线程任务处理
  * @author WD
  */
 public final class ExecutorUtil {
-	// 默认线程工厂
-	private final static ThreadFactory			FACTORY		= Executors.defaultThreadFactory();
 	/** 并发线程池 */
-	public final static ExecutorService			POOL		= Executors.newCachedThreadPool((Runnable r) -> {
-																Thread thread = FACTORY.newThread(r);
-																thread.setDaemon(true);
-																return thread;
-															});
+	public final static ExecutorService			POOL		= Executors.newCachedThreadPool(DaemonThreadFactory.INSTANCE);
 	// 保存线程
 	private final static List<Runnable>			RUNNABLES	= Lists.getList();
 	private final static List<Callable<Object>>	CALLABLES	= Lists.getList();

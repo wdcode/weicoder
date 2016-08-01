@@ -1,6 +1,7 @@
 package com.weicoder.core.http;
 
 import java.io.File;
+import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +27,7 @@ import com.weicoder.common.constants.HttpConstants;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.constants.SystemConstants;
 import com.weicoder.common.io.IOUtil;
+import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.EmptyUtil;
@@ -42,8 +44,8 @@ public final class HttpClient {
 	static {
 		// Http连接池
 		PoolingHttpClientConnectionManager pool = new PoolingHttpClientConnectionManager();
-		pool.setDefaultMaxPerRoute(SystemConstants.CPU_NUM);
-		pool.setMaxTotal(SystemConstants.CPU_NUM * 2);
+		pool.setDefaultMaxPerRoute(SystemConstants.CPU_NUM * 2);
+		pool.setMaxTotal(SystemConstants.CPU_NUM * 5);
 		// 设置请求参数
 		RequestConfig.Builder config = RequestConfig.custom();
 		config.setSocketTimeout(2000);
@@ -72,7 +74,17 @@ public final class HttpClient {
 	 * @return 返回结果
 	 */
 	public static String get(String url) {
-		return StringUtil.toString(download(url), EncodingConstants.UTF_8);
+		return get(url, EncodingConstants.UTF_8);
+	}
+
+	/**
+	 * 模拟get提交
+	 * @param url get提交地址
+	 * @param charset 编码
+	 * @return 返回结果
+	 */
+	public static String get(String url, String charset) {
+		return StringUtil.toString(download(url), charset);
 	}
 
 	/**
@@ -90,7 +102,11 @@ public final class HttpClient {
 			// 获得HttpResponse
 			HttpResponse response = CLIENT.execute(get);
 			// 返回字节流
-			return IOUtil.read(response.getEntity().getContent());
+			try (InputStream in = response.getEntity().getContent()) {
+				return IOUtil.read(in);
+			} catch (Exception e) {
+				Logs.error(e);
+			}
 		} catch (Exception e) {
 			Logs.error(e);
 		} finally {
@@ -134,7 +150,11 @@ public final class HttpClient {
 			// 获得HttpResponse参数
 			HttpResponse response = CLIENT.execute(post);
 			// 返回结果
-			return IOUtil.readString(response.getEntity().getContent());
+			try (InputStream in = response.getEntity().getContent()) {
+				return IOUtil.readString(in);
+			} catch (Exception e) {
+				Logs.error(e);
+			}
 		} catch (Exception e) {
 			Logs.error(e);
 		} finally {
@@ -152,7 +172,18 @@ public final class HttpClient {
 	 * @param data 提交参数
 	 * @return 提交结果
 	 */
-	public static String post(String url, Map<String, String> data) {
+	public static String post(String url, Map<String, Object> data) {
+		return post(url, data, EncodingConstants.UTF_8);
+	}
+
+	/**
+	 * 模拟post提交
+	 * @param url post提交地址
+	 * @param data 提交参数
+	 * @param charset 编码
+	 * @return 提交结果
+	 */
+	public static String post(String url, Map<String, Object> data, String charset) {
 		// 声明HttpPost
 		HttpPost post = null;
 		try {
@@ -164,17 +195,21 @@ public final class HttpClient {
 				// 声明参数列表
 				List<NameValuePair> list = Lists.getList(data.size());
 				// 设置参数
-				for (Map.Entry<String, String> entry : data.entrySet()) {
+				for (Map.Entry<String, Object> entry : data.entrySet()) {
 					// 添加参数
-					list.add(new BasicNameValuePair(entry.getKey(), entry.getValue()));
+					list.add(new BasicNameValuePair(entry.getKey(), Conversion.toString(entry.getValue())));
 				}
 				// 设置参数与 编码格式
-				post.setEntity(new UrlEncodedFormEntity(list, EncodingConstants.UTF_8));
+				post.setEntity(new UrlEncodedFormEntity(list, charset));
 			}
 			// 获得HttpResponse参数
 			HttpResponse response = CLIENT.execute(post);
 			// 返回结果
-			return IOUtil.readString(response.getEntity().getContent());
+			try (InputStream in = response.getEntity().getContent()) {
+				return IOUtil.readString(in);
+			} catch (Exception e) {
+				Logs.error(e);
+			}
 		} catch (Exception e) {
 			Logs.error(e);
 		} finally {

@@ -5,5 +5,8 @@ package com.weicoder.common.init;
  * @author WD
  */
 public interface Init {
+	/**
+	 * 执行初始化方法
+	 */
 	void init();
 }

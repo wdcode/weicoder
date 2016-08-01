@@ -30,20 +30,21 @@ public final class NettyServer extends BaseServer {
 		// NettyHandler
 		handler = new NettyHandler(name, process);
 		// 设置group
-		bootstrap.group(new NioEventLoopGroup(1), new NioEventLoopGroup(SystemConstants.CPU_NUM * 2));
+		bootstrap.group(new NioEventLoopGroup(1),
+				new NioEventLoopGroup(SystemConstants.CPU_NUM * 2));
 		// 设置属性
-		bootstrap.childOption(ChannelOption.SO_REUSEADDR, true);
-		bootstrap.childOption(ChannelOption.TCP_NODELAY, true);
-		bootstrap.childOption(ChannelOption.SO_KEEPALIVE, false);
-		bootstrap.childOption(ChannelOption.SO_LINGER, 0);
-		bootstrap.childOption(ChannelOption.SO_SNDBUF, 1024 * 32);
-		bootstrap.childOption(ChannelOption.SO_RCVBUF, 1024 * 8);
-		bootstrap.option(ChannelOption.SO_REUSEADDR, true);
-		bootstrap.option(ChannelOption.TCP_NODELAY, true);
-		bootstrap.option(ChannelOption.SO_KEEPALIVE, false);
-		bootstrap.option(ChannelOption.SO_LINGER, 0);
-		bootstrap.option(ChannelOption.SO_SNDBUF, 1024 * 32);
-		bootstrap.option(ChannelOption.SO_RCVBUF, 1024 * 8);
+		bootstrap.childOption(ChannelOption.SO_REUSEADDR, true)
+				.childOption(ChannelOption.TCP_NODELAY, true)
+				.childOption(ChannelOption.SO_KEEPALIVE, false)
+				.childOption(ChannelOption.SO_LINGER, 0)
+				.childOption(ChannelOption.SO_SNDBUF, 1024 * 32)
+				.childOption(ChannelOption.SO_RCVBUF, 1024 * 8);
+		bootstrap.option(ChannelOption.SO_REUSEADDR, true)
+				.option(ChannelOption.TCP_NODELAY, true)
+				.option(ChannelOption.SO_KEEPALIVE, false)
+				.option(ChannelOption.SO_LINGER, 0)
+				.option(ChannelOption.SO_SNDBUF, 1024 * 32)
+				.option(ChannelOption.SO_RCVBUF, 1024 * 8);
 		// 设置channel
 		bootstrap.channel(NioServerSocketChannel.class);
 		// 设置初始化 handler
@@ -51,12 +52,6 @@ public final class NettyServer extends BaseServer {
 		// 设置监听端口
 		bootstrap.localAddress(SocketParams.getPort(name));
 	}
-
-	// @Override
-	// public void close() {
-	// bootstrap.group().shutdownGracefully();
-	// bootstrap.childGroup().shutdownGracefully();
-	// }
 
 	@Override
 	public void bind() {
