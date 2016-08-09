@@ -29,7 +29,11 @@ import com.weicoder.dao.Dao;
  */
 public final class HibernateDao implements Dao {
 	// Session工厂
-	private SessionFactorys factorys = new SessionFactorys();
+	private SessionFactorys factorys;
+
+	public HibernateDao() {
+		factorys = new SessionFactorys();
+	}
 
 	@Override
 	public <E> E insert(final E entity) {
@@ -38,7 +42,7 @@ public final class HibernateDao implements Dao {
 
 	@Override
 	public <E> List<E> insert(final List<E> entitys) {
-		return execute(entitys.get(0).getClass(), (Session session) -> {
+		return EmptyUtil.isEmpty(entitys) ? entitys : execute(entitys.get(0).getClass(), (Session session) -> {
 			// 循环添加
 			for (E e : entitys) {
 				session.save(e);

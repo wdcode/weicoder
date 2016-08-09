@@ -8,25 +8,23 @@ import com.weicoder.common.lang.Maps;
 import com.weicoder.common.util.CloseUtil;
 import com.weicoder.common.util.DateUtil;
 import com.weicoder.common.log.Logs;
-import com.weicoder.socket.Handler;
 import com.weicoder.socket.Session;
-import com.weicoder.socket.message.Null;
 
 /**
  * 心跳检测
  * @author WD
  */
-public final class Heart implements Handler<Null> {
+public final class Heart {
 	// 保存Session 时间
-	private Map<Integer, Integer>	times;
+	private Map<Long, Integer>	times;
 	// 保存Session
-	private Map<Integer, Session>	sessions;
+	private Map<Long, Session>	sessions;
 	// 心跳检测时间
-	private int						heart;
+	private int					heart;
 	// 心跳检查ID指令
-	private short					id;
+	private short				id;
 	// 是否回包
-	private boolean					isPack;
+	private boolean				isPack;
 
 	/**
 	 * 构造
@@ -46,7 +44,7 @@ public final class Heart implements Handler<Null> {
 			int curr = DateUtil.getTime();
 			Logs.debug("heart check=" + DateUtil.getDate());
 			// 循环检测
-			for (Map.Entry<Integer, Integer> e : times.entrySet()) {
+			for (Map.Entry<Long, Integer> e : times.entrySet()) {
 				// 获得心跳时间
 				int t = Conversion.toInt(e.getValue());
 				// 如果心跳时间超过发送时间
@@ -92,17 +90,24 @@ public final class Heart implements Handler<Null> {
 		times.remove(session.id());
 	}
 
-	@Override
+	/**
+	 * 心跳ID
+	 * @return
+	 */
 	public short id() {
 		return id;
 	}
 
-	@Override
-	public void handler(Session session, Null data) {
+	/**
+	 * 处理心跳
+	 * @param session
+	 * @param data
+	 */
+	public void handler(Session session) {
 		times.put(session.id(), DateUtil.getTime());
 		// 回包
 		if (isPack) {
-			session.send(id, data);
+			session.send(id, DateUtil.getTime());
 		}
 	}
 }

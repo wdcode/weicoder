@@ -52,11 +52,4 @@ public final class NettyClient extends BaseClient {
 		future = bootstrap.connect().awaitUninterruptibly();
 		session(new NettySession(name, future.channel()));
 	}
-
-	// @Override
-	// public void close() {
-	// session.close();
-	// bootstrap.group().shutdownGracefully();
-	// Logs.info("client close name=" + name);
-	// }
 }

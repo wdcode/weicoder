@@ -238,7 +238,7 @@ public final class ClassUtil {
 	 * @param i 指定索引
 	 * @return 类列表
 	 */
-	public static Class<? extends Annotation> getAnnotationClass(Class<? extends Annotation> cls, int i) {
+	public static <E extends Annotation> Class<E> getAnnotationClass(Class<E> cls, int i) {
 		return Lists.get(getAnnotationClass(cls), i);
 	}
 
@@ -247,7 +247,7 @@ public final class ClassUtil {
 	 * @param cls 指定类
 	 * @return 类列表
 	 */
-	public static List<Class<? extends Annotation>> getAnnotationClass(Class<? extends Annotation> cls) {
+	public static <E extends Annotation> List<Class<E>> getAnnotationClass(Class<E> cls) {
 		return getAnnotationClass(StringConstants.EMPTY, cls);
 	}
 
@@ -258,14 +258,14 @@ public final class ClassUtil {
 	 * @return 类列表
 	 */
 	@SuppressWarnings("unchecked")
-	public static List<Class<? extends Annotation>> getAnnotationClass(String packageName, Class<? extends Annotation> cls) {
+	public static <E extends Annotation> List<Class<E>> getAnnotationClass(String packageName, Class<E> cls) {
 		// 声明类列表
-		List<Class<? extends Annotation>> classes = Lists.getList();
+		List<Class<E>> classes = Lists.getList();
 		// 循环包下所有类
 		for (Class<?> c : getPackageClasses(packageName, cls)) {
 			// 是本类实现 并且不是本类
 			if (c.isAnnotationPresent(cls) && !cls.equals(c)) {
-				classes.add((Class<? extends Annotation>) c);
+				classes.add((Class<E>) c);
 			}
 		}
 		// 返回列表

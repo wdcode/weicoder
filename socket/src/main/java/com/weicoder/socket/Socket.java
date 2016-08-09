@@ -6,26 +6,8 @@ package com.weicoder.socket;
  */
 public interface Socket {
 	/**
-	 * 添加要处理的Handler
-	 * @param handler 处理逻辑
-	 */
-	void addHandler(Handler<?> handler);
-
-	/**
 	 * 服务器名
 	 * @return 服务器名
 	 */
 	String name();
-
-	/**
-	 * 设置连接管理处理器
-	 * @param connected 连接处理器
-	 */
-	void connected(Connected connected);
-
-	/**
-	 * 添加关闭处理器
-	 * @param closed 关闭处理器
-	 */
-	void closed(Closed closed);
 }

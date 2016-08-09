@@ -9,7 +9,7 @@ public interface Session extends AutoCloseable {
 	 * 获得SessionId
 	 * @return SessionId
 	 */
-	int id();
+	long id();
 
 	/**
 	 * 写入数据

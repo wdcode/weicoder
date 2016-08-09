@@ -134,7 +134,7 @@ public final class Sets {
 	/**
 	 * 获得Set实例 实现类是HashSet
 	 * @param es 初始化的集合
-	 * @param <E> 泛型 
+	 * @param <E> 泛型
 	 * @return Set
 	 */
 	@SafeVarargs

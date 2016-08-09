@@ -1,8 +1,5 @@
 package com.weicoder.socket.base;
 
-import com.weicoder.socket.Closed;
-import com.weicoder.socket.Connected;
-import com.weicoder.socket.Handler;
 import com.weicoder.socket.Socket;
 import com.weicoder.socket.process.Process;
 
@@ -28,20 +25,5 @@ public abstract class BaseSocket implements Socket {
 	@Override
 	public String name() {
 		return name;
-	}
-
-	@Override
-	public void addHandler(Handler<?> handler) {
-		process.addHandler(handler);
-	}
-
-	@Override
-	public void connected(Connected connected) {
-		process.connected(connected);
-	}
-
-	@Override
-	public void closed(Closed closed) {
-		process.closed(closed);
 	}
 }

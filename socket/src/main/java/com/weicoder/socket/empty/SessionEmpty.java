@@ -15,7 +15,7 @@ public final class SessionEmpty implements Session {
 	public void close() {}
 
 	@Override
-	public int id() {
+	public long id() {
 		return -1;
 	}
 

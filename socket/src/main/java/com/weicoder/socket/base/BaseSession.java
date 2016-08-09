@@ -24,7 +24,7 @@ public abstract class BaseSession implements Session {
 	// 名称
 	protected String	name;
 	// SessionId
-	protected int		id;
+	protected long		id;
 	// 保存IP
 	protected String	ip;
 	// 保存端口
@@ -53,7 +53,7 @@ public abstract class BaseSession implements Session {
 	}
 
 	@Override
-	public int id() {
+	public long id() {
 		return id;
 	}
 

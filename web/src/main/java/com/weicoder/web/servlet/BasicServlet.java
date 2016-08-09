@@ -41,7 +41,7 @@ public class BasicServlet extends HttpServlet {
 		if (!EmptyUtil.isEmpty(ServletParams.IPS)) {
 			// 如果在允许列表继续 否则退出
 			if (!ServletParams.IPS.contains(ip)) {
-				Logs.info("this ip=" + ip);
+				Logs.info("this ip={}", ip);
 				ResponseUtil.json(response, callback, "not exist ip");
 				return;
 			}
@@ -51,6 +51,11 @@ public class BasicServlet extends HttpServlet {
 		if (!EmptyUtil.isEmpty(path)) {
 			// 分解提交action 去处开头的/ 并且按_分解出数组
 			String[] actions = StringUtil.split(StringUtil.subString(path, 1, path.length()), StringConstants.BACKSLASH);
+			if (EmptyUtil.isEmpty(actions)) {
+				Logs.info("this path={}", path);
+				ResponseUtil.json(response, callback, "action is null path");
+				return;
+			}
 			// 获得Action
 			String name = actions[0];
 			Object action = Contexts.ACTIONS.get(name);

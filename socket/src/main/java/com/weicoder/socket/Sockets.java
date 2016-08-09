@@ -1,9 +1,5 @@
 package com.weicoder.socket;
 
-import com.weicoder.common.util.BeanUtil;
-import com.weicoder.common.util.ClassUtil;
-import com.weicoder.common.log.Logs;
-import com.weicoder.socket.params.SocketParams;
 import com.weicoder.socket.impl.netty.NettyClient;
 import com.weicoder.socket.impl.netty.NettyServer;
 import com.weicoder.socket.manager.Manager;
@@ -26,10 +22,8 @@ public final class Sockets {
 	public static void init() {
 		// 初始化 客户端
 		client = new NettyClient("client");
-		set("client", client);
 		// 初始化 服务端
 		server = new NettyServer("server");
-		set("server", server);
 		// 设置管理器
 		manager = new Manager();
 		// 启动服务器
@@ -89,25 +83,6 @@ public final class Sockets {
 	 */
 	public static Client client() {
 		return client;
-	}
-
-	// 设置属性
-	private static void set(String name, Socket socket) {
-		// 按包处理
-		for (String p : SocketParams.getPackages(name)) {
-			// Handler
-			for (Class<?> c : ClassUtil.getAssignedClass(p, Handler.class)) {
-				try {
-					socket.addHandler((Handler<?>) BeanUtil.newInstance(c));
-				} catch (Exception ex) {
-					Logs.warn(ex);
-				}
-			}
-		}
-		// 设置连接处理器
-		socket.connected((Connected) BeanUtil.newInstance(SocketParams.getConnected(name)));
-		// 设置关闭处理器
-		socket.closed((Closed) BeanUtil.newInstance(SocketParams.getClosed(name)));
 	}
 
 	private Sockets() {}

@@ -3,6 +3,8 @@ package com.weicoder.socket.impl.netty;
 import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.channel.Channel;
 
+import com.weicoder.common.lang.Bytes;
+import com.weicoder.common.util.IpUtil;
 import com.weicoder.socket.Session;
 import com.weicoder.socket.base.BaseSession;
 
@@ -21,9 +23,9 @@ public final class NettySession extends BaseSession implements Session {
 	 */
 	public NettySession(String name, Channel channel) {
 		super(name);
-		this.id = channel.hashCode();
-		this.channel = channel;
 		address(channel.remoteAddress());
+		this.id = Bytes.toLong(Bytes.toBytes(IpUtil.encode(ip), port));
+		this.channel = channel;
 	}
 
 	@Override

@@ -291,14 +291,15 @@ public final class BeanUtil {
 	public static Object invoke(Object object, String name, Class<?>[] parameterTypes, Object[] parameters) {
 		// 声明Class
 		Class<?> c = null;
-		// 字符串
-		if (object instanceof String) {
-			try {
-				c = Class.forName(Conversion.toString(object));
-			} catch (ClassNotFoundException e) {
-				Logs.error(e);
-			}
-		} else if (object instanceof Class<?>) {
+		// // 字符串
+		// if (object instanceof String) {
+		// try {
+		// c = Class.forName(Conversion.toString(object));
+		// } catch (ClassNotFoundException e) {
+		// Logs.error(e);
+		// }
+		// } else
+		if (object instanceof Class<?>) {
 			c = (Class<?>) object;
 		} else {
 			c = object.getClass();

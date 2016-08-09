@@ -37,12 +37,14 @@ public final class NettyServer extends BaseServer {
 				.childOption(ChannelOption.TCP_NODELAY, true)
 				.childOption(ChannelOption.SO_KEEPALIVE, false)
 				.childOption(ChannelOption.SO_LINGER, 0)
+				.childOption(ChannelOption.SO_BACKLOG, Short.MAX_VALUE*1)
 				.childOption(ChannelOption.SO_SNDBUF, 1024 * 32)
 				.childOption(ChannelOption.SO_RCVBUF, 1024 * 8);
 		bootstrap.option(ChannelOption.SO_REUSEADDR, true)
 				.option(ChannelOption.TCP_NODELAY, true)
 				.option(ChannelOption.SO_KEEPALIVE, false)
 				.option(ChannelOption.SO_LINGER, 0)
+				.childOption(ChannelOption.SO_BACKLOG, Short.MAX_VALUE*1)
 				.option(ChannelOption.SO_SNDBUF, 1024 * 32)
 				.option(ChannelOption.SO_RCVBUF, 1024 * 8);
 		// 设置channel
