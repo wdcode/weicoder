@@ -9,7 +9,7 @@ import com.weicoder.common.util.EmptyUtil;
 
 /**
  * 数据类型转换,对null和异常进行处理
- * @author WD  
+ * @author WD
  */
 public final class Conversion {
 	/**
@@ -20,7 +20,7 @@ public final class Conversion {
 	 */
 	public static Object to(Object obj, Class<?> c) {
 		// 判断类型
-		if (obj == null || c == null || obj.getClass().equals(c)) {
+		if (c == null) {
 			return obj;
 		} else if (String.class == c) {
 			return toString(obj);
@@ -38,7 +38,9 @@ public final class Conversion {
 			return toByte(obj);
 		} else if (BigDecimal.class == c) {
 			return toBigDecimal(obj);
-		} else if (Boolean.class == c || boolean.class == c) { return toBoolean(obj); }
+		} else if (Boolean.class == c || boolean.class == c) {
+			return toBoolean(obj);
+		}
 		// 返回原类型
 		return obj;
 	}
@@ -131,7 +133,7 @@ public final class Conversion {
 				return Math.round(toDouble(obj, defaultValue));
 			}
 		} catch (RuntimeException e) {
-			Logs.debug("Conversion toLong=%s",e.toString());
+			Logs.debug("Conversion toLong=%s", e.toString());
 			return defaultValue;
 		}
 	}

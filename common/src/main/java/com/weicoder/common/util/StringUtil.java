@@ -4,7 +4,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.weicoder.common.constants.ArrayConstants;
-
 import com.weicoder.common.constants.StringConstants;
 
 import com.weicoder.common.lang.Conversion;
@@ -317,21 +316,58 @@ public final class StringUtil {
 			return name;
 		}
 		// 分解_个字段
-		String[] strs = name.toLowerCase().split(StringConstants.UNDERLINE);
+		String[] strs = name.split(StringConstants.UNDERLINE);
 		// 实例一个字符串缓存
 		StringBuilder buf = new StringBuilder();
-		// 保存字符
-		String s = null;
-		// 获得新字符串
-		s = strs[0];
-		// 添加字符串
-		buf.append(s.substring(0, 1).toLowerCase()).append(s.substring(1, s.length()));
 		// 循环数组
-		for (int i = 1; i < strs.length; i++) {
+		for (int i = 0; i < strs.length; i++) {
 			// 获得新字符串
-			s = strs[i];
+			String s = strs[i];
 			// 添加字符串
-			buf.append(s.substring(0, 1).toUpperCase()).append(s.substring(1, s.length()));
+			if (!EmptyUtil.isEmpty(s)) {
+				if (i == 0) {
+					buf.append(s.substring(0, 1).toLowerCase());
+				} else {
+					buf.append(s.substring(0, 1).toUpperCase());
+				}
+				buf.append(s.substring(1, s.length()));
+			}
+		}
+		// 返回新的字符串
+		return buf.toString();
+	}
+
+	/**
+	 * 把驼峰命名转换为数据库名,如 userInfo = user_info
+	 * @param name 属性名
+	 * @return 转换后的字符串
+	 */
+	public static String toDbName(String name) {
+		// 如果为空返回原串
+		if (EmptyUtil.isEmpty(name)) {
+			return name;
+		}
+		// 分解成字符
+		char[] cs = name.toCharArray();
+		// 实例一个字符串缓存
+		StringBuilder buf = new StringBuilder();
+		// 计算拼凑
+		for (int i = 0; i < cs.length; i++) {
+			// 获取字符
+			char c = cs[i];
+			// 第一个字符
+			if (i == 0) {
+				// 转换成小写
+				buf.append(Character.toLowerCase(c));
+			} else {
+				// 判断是否大写
+				if (Character.isUpperCase(c)) {
+					// 是大写加 _ 然后变成小写
+					buf.append(StringConstants.UNDERLINE).append(Character.toLowerCase(c));
+				} else {
+					buf.append(c);
+				}
+			}
 		}
 		// 返回新的字符串
 		return buf.toString();

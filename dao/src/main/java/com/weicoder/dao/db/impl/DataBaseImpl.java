@@ -1,4 +1,4 @@
-package com.weicoder.dao.jdbc.impl;
+package com.weicoder.dao.db.impl;
 
 import java.math.BigDecimal;
 import java.sql.Array;
@@ -28,7 +28,7 @@ import com.weicoder.common.util.CloseUtil;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.StringUtil;
-import com.weicoder.dao.jdbc.DataBase;
+import com.weicoder.dao.db.DataBase;
 
 /**
  * JDBC实现 数据库操作实现

@@ -2,11 +2,13 @@ package com.weicoder.common.constants;
 
 /**
  * 保存正则表达式常量类
- * @author WD 
+ * @author WD
  */
 public final class RegexConstants {
 	/** 全由数字组成 */
 	public final static String	DIGIT				= "^\\d+$";
+	/** 大写字母 */
+	public final static String	UPPER				= "[A-Z]";
 	/** 4-18个以字母开头、可带数字、"_"的字串 */
 	public final static String	USERNAME			= "^[a-zA-Z]{1}[\\w]{3,17}$";
 	/** 普通密码 6-20个字母、数字、下划线 */

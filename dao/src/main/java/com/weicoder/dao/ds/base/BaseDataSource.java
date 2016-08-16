@@ -1,4 +1,4 @@
-package com.weicoder.dao.datasource.base;
+package com.weicoder.dao.ds.base;
 
 import javax.sql.DataSource;
 

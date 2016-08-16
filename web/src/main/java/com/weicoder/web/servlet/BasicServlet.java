@@ -33,10 +33,13 @@ public class BasicServlet extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Logs.debug(request.getRequestURL().toString());
+		long curr = System.currentTimeMillis();
 		// 获得客户端IP
 		String ip = RequestUtil.getIp(request);
 		// 获得callback
 		String callback = RequestUtil.getParameter(request, "callback");
+		Logs.trace("check ip request ip={},ips={}", ip, ServletParams.IPS);
 		// 过滤IP
 		if (!EmptyUtil.isEmpty(ServletParams.IPS)) {
 			// 如果在允许列表继续 否则退出
@@ -48,6 +51,7 @@ public class BasicServlet extends HttpServlet {
 		}
 		// 获得path
 		String path = request.getPathInfo();
+		Logs.debug("request ip={},path={}", ip, path);
 		if (!EmptyUtil.isEmpty(path)) {
 			// 分解提交action 去处开头的/ 并且按_分解出数组
 			String[] actions = StringUtil.split(StringUtil.subString(path, 1, path.length()), StringConstants.BACKSLASH);
@@ -68,7 +72,7 @@ public class BasicServlet extends HttpServlet {
 				}
 				// 查找方法对应action
 				action = Contexts.METHODS_ACTIONS.get(name);
-			}
+			} 
 			// 获得方法
 			Map<String, Method> methods = Contexts.ACTIONS_METHODS.get(name);
 			if (EmptyUtil.isEmpty(methods)) {
@@ -79,9 +83,11 @@ public class BasicServlet extends HttpServlet {
 				ResponseUtil.json(response, callback, "no.method");
 				return;
 			}
+			Logs.debug("request ip={},name={}", ip, name);
 			// 设置参数
 			Parameter[] pars = method.getParameters();
 			Object[] params = null;
+			Logs.trace("request to set parameter");
 			if (!EmptyUtil.isEmpty(pars)) {
 				// 参数不为空 设置参数
 				params = new Object[pars.length];
@@ -105,13 +111,16 @@ public class BasicServlet extends HttpServlet {
 							// 赋值为调用客户端IP
 							params[i] = ip;
 						}
+						Logs.debug("request ip={},name={},params index={},name={},type={},value={}", ip, name, i, p.getName(), cs, params[i]);
 					} else {
 						params[i] = BeanUtil.copy(ps, cs);
+						Logs.debug("request ip={},name={},params={}", ip, name, params[i]);
 					}
 				}
 			}
 			// 调用方法
 			ResponseUtil.json(response, callback, BeanUtil.invoke(action, method, params));
+			Logs.info("request ip={},path={},time={} end", ip, path, System.currentTimeMillis() - curr);
 		}
 	}
 

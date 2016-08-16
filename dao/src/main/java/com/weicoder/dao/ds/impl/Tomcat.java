@@ -1,25 +1,22 @@
-package com.weicoder.dao.datasource.impl;
+package com.weicoder.dao.ds.impl;
+
+import org.apache.tomcat.jdbc.pool.DataSource;
 
 import com.weicoder.common.lang.Conversion;
-import com.weicoder.dao.datasource.base.BaseDataSource;
+import com.weicoder.dao.ds.base.BaseDataSource;
 import com.weicoder.dao.params.DataSourceParams;
 
-import javax.sql.DataSource;
-
-import com.alibaba.druid.pool.DruidDataSource;
-
 /**
- * 淘宝 druid连接池 实现
- * @author WD  
+ * tomcat jdbc 连接池
+ * @author WD
  */
-public final class Druid extends BaseDataSource {
-	// DruidDataSource数据源
-	private DruidDataSource ds;
+public class Tomcat extends BaseDataSource {
+	//数据源
+	private DataSource ds;
 
-	public Druid(String name) {
+	public Tomcat(String name) {
 		super(name);
-		System.setProperty("druid.logType", "slf4j");
-		ds = new DruidDataSource();
+		ds = new DataSource();
 		ds.setDriverClassName((DataSourceParams.getDriver(name)));
 		ds.setUrl(DataSourceParams.getUrl(name));
 		ds.setUsername(DataSourceParams.getUser(name));
@@ -27,13 +24,13 @@ public final class Druid extends BaseDataSource {
 		ds.setMaxActive(DataSourceParams.getMaxPoolSize(name));
 		ds.setMinIdle(DataSourceParams.getMinPoolSize(name));
 		ds.setValidationQueryTimeout(Conversion.toInt(DataSourceParams.getTimeout(name)));
-		ds.setTimeBetweenEvictionRunsMillis(DataSourceParams.getIdleTimeout(name));
+		ds.setTimeBetweenEvictionRunsMillis(Conversion.toInt(DataSourceParams.getIdleTimeout(name)));
 		ds.setInitialSize(DataSourceParams.getInitialPoolSize(name));
-		ds.setMaxWait(DataSourceParams.getMaxIdleTime(name));
+		ds.setMaxIdle(Conversion.toInt(DataSourceParams.getMinPoolSize(name)));
 	}
 
 	@Override
-	public DataSource getDataSource() {
+	public javax.sql.DataSource getDataSource() {
 		return ds;
 	}
 }

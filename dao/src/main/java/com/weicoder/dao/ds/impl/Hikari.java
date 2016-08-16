@@ -1,8 +1,8 @@
-package com.weicoder.dao.datasource.impl;
+package com.weicoder.dao.ds.impl;
 
 import javax.sql.DataSource;
 
-import com.weicoder.dao.datasource.base.BaseDataSource;
+import com.weicoder.dao.ds.base.BaseDataSource;
 import com.weicoder.dao.params.DataSourceParams;
 import com.zaxxer.hikari.HikariDataSource;
 

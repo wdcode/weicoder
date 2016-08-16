@@ -5,12 +5,12 @@ import java.util.List;
 import java.util.Map;
 
 import com.weicoder.dao.bean.Pagination;
+import com.weicoder.dao.factory.DaoFactory;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.dao.Dao;
-import com.weicoder.dao.hibernate.HibernateDao;
 
 /**
  * 超级通用业务hibernate实现
@@ -20,7 +20,7 @@ public final class SuperService {
 	/** 本类的单例对象 */
 	public final static SuperService	SERVICE	= new SuperService();
 	// hibernate dao
-	private Dao							dao		= new HibernateDao();
+	private Dao							dao		= DaoFactory.FACTORY.getInstance();
 
 	private SuperService() {}
 

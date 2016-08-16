@@ -250,7 +250,7 @@ public final class BeanUtil {
 		try {
 			makeAccessible(field).set(object, Conversion.to(value, field.getType()));
 		} catch (IllegalAccessException e) {
-			Logs.error(e);
+			Logs.debug(e);
 		}
 	}
 
@@ -350,7 +350,7 @@ public final class BeanUtil {
 				// 获得字段
 				f = clazz.getDeclaredField(name);
 			} catch (Exception e) {
-				Logs.error(e);
+				Logs.debug(e);
 			}
 		}
 		// 返回null
@@ -375,7 +375,7 @@ public final class BeanUtil {
 				// 添加字段列表
 				fields.addAll(Lists.getList(clazz.getDeclaredFields()));
 			} catch (Exception e) {
-				Logs.error(e);
+				Logs.debug(e);
 			}
 		}
 		// 没有找到返回null

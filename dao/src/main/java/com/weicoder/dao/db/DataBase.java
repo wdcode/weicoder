@@ -1,4 +1,4 @@
-package com.weicoder.dao.jdbc;
+package com.weicoder.dao.db;
 
 import java.sql.Connection;
 import java.util.List;

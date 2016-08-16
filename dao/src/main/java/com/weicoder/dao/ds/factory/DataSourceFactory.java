@@ -1,11 +1,11 @@
-package com.weicoder.dao.datasource.factory;
+package com.weicoder.dao.ds.factory;
 
 import javax.sql.DataSource;
 
 import com.weicoder.common.factory.FactoryKey;
-import com.weicoder.dao.datasource.impl.Druid;
-import com.weicoder.dao.datasource.impl.Hikari;
-import com.weicoder.dao.datasource.impl.Tomcat;
+import com.weicoder.dao.ds.impl.Druid;
+import com.weicoder.dao.ds.impl.Hikari;
+import com.weicoder.dao.ds.impl.Tomcat;
 import com.weicoder.dao.params.DataSourceParams;
 
 /**

@@ -50,6 +50,6 @@ public final class NettyClient extends BaseClient {
 	@Override
 	public void connect() {
 		future = bootstrap.connect().awaitUninterruptibly();
-		session(new NettySession(name, future.channel()));
+		session = new NettySession("client", future.channel());
 	}
 }
