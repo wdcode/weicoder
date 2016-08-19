@@ -5,14 +5,13 @@ import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 
-import javax.persistence.Entity;
-
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.dao.Dao;
+import com.weicoder.dao.annotation.Table;
 import com.weicoder.dao.db.DataBase;
 import com.weicoder.dao.db.factory.DataBaseFactory;
 
@@ -22,15 +21,15 @@ import com.weicoder.dao.db.factory.DataBaseFactory;
  */
 public final class JdbcDao implements Dao {
 	// DataBase 对象
-	private DataBase								db;
+	private DataBase							db;
 	// 保存INSERT INTN TO 语句
-	private Map<Class<? extends Entity>, String>	insert;
+	private Map<Class<? extends Table>, String>	insert;
 
 	public JdbcDao() {
 		db = DataBaseFactory.getDataBase();
 		insert = Maps.getMap();
 		// 加载所有类对应的SQL语句
-		for (Class<Entity> c : ClassUtil.getAnnotationClass("com.weicoder", Entity.class)) {
+		for (Class<Table> c : ClassUtil.getAnnotationClass(Table.class)) {
 			// 声明SQL INSERT INTO t(f1,f2,...) VALUES(?,?)
 			StringBuilder sql = new StringBuilder("insert into ");
 			// 反射类名为表名
@@ -250,7 +249,7 @@ public final class JdbcDao implements Dao {
 	 * @return 参数
 	 */
 	private <E> Object[] getParame(E e) {
-		Field[] f = e.getClass().getFields();
+		Field[] f = e.getClass().getDeclaredFields();
 		Object[] o = new Object[f.length];
 		for (int i = 0; i < f.length; i++) {
 			o[i] = BeanUtil.getFieldValue(e, f[i]);

@@ -33,7 +33,6 @@ public class BasicServlet extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Logs.debug(request.getRequestURL().toString());
 		long curr = System.currentTimeMillis();
 		// 获得客户端IP
 		String ip = RequestUtil.getIp(request);
@@ -44,19 +43,19 @@ public class BasicServlet extends HttpServlet {
 		if (!EmptyUtil.isEmpty(ServletParams.IPS)) {
 			// 如果在允许列表继续 否则退出
 			if (!ServletParams.IPS.contains(ip)) {
-				Logs.info("this ip={}", ip);
+				Logs.debug("this ip={}", ip);
 				ResponseUtil.json(response, callback, "not exist ip");
 				return;
 			}
 		}
 		// 获得path
 		String path = request.getPathInfo();
-		Logs.debug("request ip={},path={}", ip, path);
+		Logs.trace("request ip={},path={},{}", ip, path, request.getQueryString());
 		if (!EmptyUtil.isEmpty(path)) {
 			// 分解提交action 去处开头的/ 并且按_分解出数组
 			String[] actions = StringUtil.split(StringUtil.subString(path, 1, path.length()), StringConstants.BACKSLASH);
 			if (EmptyUtil.isEmpty(actions)) {
-				Logs.info("this path={}", path);
+				Logs.debug("this path={}", path);
 				ResponseUtil.json(response, callback, "action is null path");
 				return;
 			}
@@ -67,12 +66,13 @@ public class BasicServlet extends HttpServlet {
 			if (action == null) {
 				// 如果使用action_method模式 直接返回
 				if (actions.length == 2) {
+					Logs.trace("request ip={},path={},no action", ip, path);
 					ResponseUtil.json(response, callback, "no.action");
 					return;
 				}
 				// 查找方法对应action
 				action = Contexts.METHODS_ACTIONS.get(name);
-			} 
+			}
 			// 获得方法
 			Map<String, Method> methods = Contexts.ACTIONS_METHODS.get(name);
 			if (EmptyUtil.isEmpty(methods)) {
@@ -80,6 +80,7 @@ public class BasicServlet extends HttpServlet {
 			}
 			Method method = methods.get(actions.length > 1 ? actions[1] : actions[0]);
 			if (method == null) {
+				Logs.trace("request ip={},path={},no method", ip, path);
 				ResponseUtil.json(response, callback, "no.method");
 				return;
 			}
@@ -104,6 +105,8 @@ public class BasicServlet extends HttpServlet {
 						params[i] = request;
 					} else if (HttpServletResponse.class.equals(cs)) {
 						params[i] = response;
+					} else if (Map.class.equals(cs)) {
+						params[i] = ps;
 					} else if (ClassUtil.isBaseType(cs)) {
 						params[i] = Conversion.to(ps.get(p.getName()), cs);
 						// 判断参数为空并且参数名为ip
@@ -120,7 +123,7 @@ public class BasicServlet extends HttpServlet {
 			}
 			// 调用方法
 			ResponseUtil.json(response, callback, BeanUtil.invoke(action, method, params));
-			Logs.info("request ip={},path={},time={} end", ip, path, System.currentTimeMillis() - curr);
+			Logs.info("request ip={},name={},params={},time={} end", ip, name, params, System.currentTimeMillis() - curr);
 		}
 	}
 

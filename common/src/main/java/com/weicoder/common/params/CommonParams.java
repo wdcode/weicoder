@@ -49,7 +49,7 @@ public final class CommonParams {
 	/** udp服务器端口 */
 	public final static int			UDP_PORT				= Params.getInt("udp.port");
 	/** log实现 */
-	public final static String		LOG_CLASS				= Params.getString("log.class", "com.weicoder.core.log.LogSlf4j");
+	public final static String		LOG_CLASS				= Params.getString("log.class", "com.weicoder.core.log.Log4j2");
 	/** json实现 */
 	public final static String		JSON_CLASS				= Params.getString("json.class", "com.weicoder.core.json.JsonFast");
 	/** 执行任务名称数组 */

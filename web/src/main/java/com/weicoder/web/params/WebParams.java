@@ -20,6 +20,5 @@ public final class WebParams {
 	/** 域名 */
 	public final static String	DOMAIN				= Params.getString("domain");
 
-	private WebParams() {
-	}
+	private WebParams() {}
 }

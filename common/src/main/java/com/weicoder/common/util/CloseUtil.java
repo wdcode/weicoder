@@ -32,6 +32,5 @@ public final class CloseUtil {
 		}
 	}
 
-	private CloseUtil() {
-	}
+	private CloseUtil() {}
 }

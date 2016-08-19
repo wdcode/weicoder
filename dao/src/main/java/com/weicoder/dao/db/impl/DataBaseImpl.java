@@ -47,8 +47,7 @@ public final class DataBaseImpl implements DataBase {
 	}
 
 	/**
-	 * 完成数据库的增删改操作，要求传入的sql语句必须为insert,update或delete 
-	 * 以List包含数组表示的多条条件 可使用单条sql批量插入
+	 * 完成数据库的增删改操作，要求传入的sql语句必须为insert,update或delete 以List包含数组表示的多条条件 可使用单条sql批量插入
 	 * @param sql 传入的sql语句
 	 * @param parame SQL语句的参数 List包含数组 按顺序赋值给sql中的?
 	 * @return 更新的行数
@@ -68,8 +67,7 @@ public final class DataBaseImpl implements DataBase {
 	}
 
 	/**
-	 * 完成数据库的增删改操作，要求传入的sql语句必须为insert,update或delete
-	 * 以二维数组表示的多条条件 可使用单条sql批量插入
+	 * 完成数据库的增删改操作，要求传入的sql语句必须为insert,update或delete 以二维数组表示的多条条件 可使用单条sql批量插入
 	 * @param sql 传入的sql语句
 	 * @param parame SQL语句的参数 二维数组 按顺序赋值给sql中的?
 	 * @return 更新的行数
@@ -100,8 +98,7 @@ public final class DataBaseImpl implements DataBase {
 	}
 
 	/**
-	 * 传入一组sql语句，完成数据库的增删改操作 要求传入的sqlArr数组中的SQL语句必须为insert,update或delete 
-	 * 传入的parame为多个条件 每个一唯数组给一条sql附值
+	 * 传入一组sql语句，完成数据库的增删改操作 要求传入的sqlArr数组中的SQL语句必须为insert,update或delete 传入的parame为多个条件 每个一唯数组给一条sql附值
 	 * @param sql 传入的sql语句数组 可执行多条语句
 	 * @param parame SQL语句的参数 按顺序赋值给sql中的?
 	 * @return 更新的行数
@@ -119,8 +116,7 @@ public final class DataBaseImpl implements DataBase {
 	}
 
 	/**
-	 * 完成数据库的增删改操作，要求传入的sql语句必须为insert,update或delete 
-	 * 以一个List包含二维数组 可使用多条sql批量插入
+	 * 完成数据库的增删改操作，要求传入的sql语句必须为insert,update或delete 以一个List包含二维数组 可使用多条sql批量插入
 	 * @param sql 传入的sql语句 可执行多条语句
 	 * @param parame SQL语句的参数 List包含二维数组 按顺序赋值给sql中的?
 	 * @return 更新的行数

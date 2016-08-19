@@ -8,11 +8,11 @@ import com.weicoder.common.util.EmptyUtil;
 
 /**
  * 系统配置信息 内部使用 config.properties 中配置,本包实现可配置功能
- * @author WD 
+ * @author WD
  */
 public final class Params {
 	// Properties配置
-	private static Config config = new Config("config/config.properties", "config.properties");
+	private final static Config config = new Config("config-test.properties", "config/config-test.properties", "config.properties", "config/config.properties");
 
 	/**
 	 * 获得属性value
@@ -65,7 +65,7 @@ public final class Params {
 
 	/**
 	 * 获得属性value
-	 * @param key 属性key 
+	 * @param key 属性key
 	 * @return value
 	 */
 	public static int getInt(String key) {

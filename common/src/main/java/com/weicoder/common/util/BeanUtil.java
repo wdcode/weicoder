@@ -249,9 +249,7 @@ public final class BeanUtil {
 		// 设置字段值
 		try {
 			makeAccessible(field).set(object, Conversion.to(value, field.getType()));
-		} catch (IllegalAccessException e) {
-			Logs.debug(e);
-		}
+		} catch (IllegalAccessException e) {}
 	}
 
 	/**
@@ -291,14 +289,6 @@ public final class BeanUtil {
 	public static Object invoke(Object object, String name, Class<?>[] parameterTypes, Object[] parameters) {
 		// 声明Class
 		Class<?> c = null;
-		// // 字符串
-		// if (object instanceof String) {
-		// try {
-		// c = Class.forName(Conversion.toString(object));
-		// } catch (ClassNotFoundException e) {
-		// Logs.error(e);
-		// }
-		// } else
 		if (object instanceof Class<?>) {
 			c = (Class<?>) object;
 		} else {
@@ -349,9 +339,7 @@ public final class BeanUtil {
 			try {
 				// 获得字段
 				f = clazz.getDeclaredField(name);
-			} catch (Exception e) {
-				Logs.debug(e);
-			}
+			} catch (Exception e) {}
 		}
 		// 返回null
 		return f;
@@ -374,9 +362,7 @@ public final class BeanUtil {
 			try {
 				// 添加字段列表
 				fields.addAll(Lists.getList(clazz.getDeclaredFields()));
-			} catch (Exception e) {
-				Logs.debug(e);
-			}
+			} catch (Exception e) {}
 		}
 		// 没有找到返回null
 		return fields;
@@ -401,9 +387,7 @@ public final class BeanUtil {
 			try {
 				// 返回方法
 				method = superClass.getDeclaredMethod(name, parameterTypes);
-			} catch (Exception e) {
-				Logs.error(e);
-			}
+			} catch (Exception e) {}
 		}
 		// 返回方法
 		return method;
