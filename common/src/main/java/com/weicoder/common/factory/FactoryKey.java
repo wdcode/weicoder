@@ -1,17 +1,16 @@
 package com.weicoder.common.factory;
 
-import java.util.concurrent.ConcurrentMap;
+import java.util.Map;
 
 import com.weicoder.common.lang.Maps;
-import com.weicoder.common.util.EmptyUtil;
 
 /**
  * 拥有Key功能的工厂基础实现 根据Key生成单例
- * @author WD 
+ * @author WD
  */
 public abstract class FactoryKey<K, E> extends Factory<E> {
 	// 产品仓库
-	protected ConcurrentMap<K, E> map = Maps.getConcurrentMap();
+	protected Map<K, E> map = Maps.newMap();
 
 	/**
 	 * 获得实例 单例模式
@@ -22,15 +21,13 @@ public abstract class FactoryKey<K, E> extends Factory<E> {
 		// 获得产品
 		E e = map.get(key);
 		// 判断是否为空
-		if (EmptyUtil.isEmpty(e)) {
+		if (e == null) {
 			// 同步琐
 			lock.lock();
 			// 判断是否为空
-			if (EmptyUtil.isEmpty(e)) {
-				// 生成新的实例
-				e = newInstance(key);
-				// 添加到仓库中
-				map.put(key, e);
+			if (e == null) {
+				// 生成新的实例 添加到仓库中
+				map.put(key, e = newInstance(key));
 			}
 			// 解锁
 			lock.unlock();

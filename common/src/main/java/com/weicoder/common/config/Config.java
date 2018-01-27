@@ -9,7 +9,6 @@ import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.lang.Lists;
-import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.ResourceUtil;
 import com.weicoder.common.util.StringUtil;
@@ -24,22 +23,20 @@ public final class Config {
 
 	/**
 	 * 构造参数
-	 * @param fileName 文件名
+	 * @param fileName 文件名 可以已,分割
 	 */
-	public Config(String... fileName) {
+	public Config(String fileName) {
 		// 声明Properties
 		ps = new Properties();
 		// 循环加载文件
-		for (String name : fileName) {
+		for (String name : StringUtil.split(fileName, StringConstants.COMMA)) {
 			try (InputStream in = ResourceUtil.loadResource(name)) {
 				// 有配置文件加载
 				if (in != null) {
 					ps.load(in);
 					break;
 				}
-			} catch (IOException e) {
-				Logs.error(e);
-			}
+			} catch (IOException e) {}
 		}
 	}
 
@@ -50,7 +47,7 @@ public final class Config {
 	 * @return value
 	 */
 	public List<String> getList(String key, List<String> defaultValue) {
-		return Lists.getList(getStringArray(key, EmptyUtil.isEmpty(defaultValue) ? ArrayConstants.STRING_EMPTY : Lists.toArray(defaultValue)));
+		return Lists.newList(getStringArray(key, EmptyUtil.isEmpty(defaultValue) ? ArrayConstants.STRING_EMPTY : Lists.toArray(defaultValue)));
 	}
 
 	/**
@@ -145,5 +142,14 @@ public final class Config {
 	 */
 	public short getShort(String key, short defaultValue) {
 		return Conversion.toShort(getString(key), defaultValue);
+	}
+
+	/**
+	 * 检查键是否存在
+	 * @param key 键
+	 * @return 是否存在值
+	 */
+	public boolean exists(String key) {
+		return ps.containsKey(key);
 	}
 }

@@ -52,7 +52,7 @@ public abstract class BaseRedis implements Redis {
 	 */
 	public List<byte[]> extract(String... keys) {
 		// 声明列表
-		List<byte[]> list = Lists.getList(keys.length);
+		List<byte[]> list = Lists.newList(keys.length);
 		// 循环解压数据
 		for (Object o : get(keys)) {
 			list.add(ZipEngine.extract(o));

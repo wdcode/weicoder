@@ -1,5 +1,7 @@
 package com.weicoder.socket;
 
+import com.weicoder.common.binary.Buffer;
+
 /**
  * Socket Session
  * @author WD
@@ -9,65 +11,92 @@ public interface Session extends AutoCloseable {
 	 * 获得SessionId
 	 * @return SessionId
 	 */
-	long id();
-
-	/**
-	 * 写入数据
-	 * @param id 指令
-	 * @param message 消息
-	 * @return 字节数组
-	 */
-	byte[] send(short id, Object message);
-
-	/**
-	 * 写入数据
-	 * @param message 消息
-	 * @return 字节数组
-	 */
-	byte[] send(Object message);
-
-	/**
-	 * 写入数据
-	 * @param data 原始数据
-	 * @return 字节数组
-	 */
-	byte[] send(byte[] data);
-
-	/**
-	 * 写入原始数据 不做其它处理
-	 * @param data 原始数据
-	 */
-	void write(byte[] data);
+	long getId();
 
 	/**
 	 * 获得连接IP
 	 * @return IP
 	 */
-	String ip();
+	String getIp();
 
 	/**
 	 * 获得连接端口
 	 * @return port
 	 */
-	int port();
+	int getPort();
 
 	/**
-	 * 写入缓存
+	 * 获得心跳存活时间
+	 * @return 上次存活时间 秒
+	 */
+	int getHeart();
+
+	/**
+	 * 获得Buffer 一般为读取数据缓存
+	 * @return 字节数组
+	 */
+	Buffer buffer();
+
+	/**
+	 * 设置心跳存活时间
+	 * @param heart 存活时间 秒
+	 */
+	void setHeart(int heart);
+
+	/**
+	 * 写入数据
 	 * @param id 指令
 	 * @param message 消息
-	 * @return 字节数组
 	 */
-	byte[] buffer(short id, Object message);
+	void send(short id, Object message);
 
 	/**
-	 * 写入缓存
+	 * 写入数据
 	 * @param message 消息
-	 * @return 字节数组
 	 */
-	byte[] buffer(Object message);
+	void send(Object message);
+
+	/**
+	 * 写入数据
+	 * @param data 原始数据
+	 */
+	void send(byte[] data);
+
+	/**
+	 * 写入缓存 必须调用flush才能确保数据写入
+	 * @param id 指令
+	 * @param message 消息
+	 */
+	void write(short id, Object message);
+
+	/**
+	 * 写入缓存 必须调用flush才能确保数据写入
+	 * @param message 消息
+	 */
+	void write(Object message);
+
+	/**
+	 * 写入缓存 必须调用flush才能确保数据写入
+	 * @param data 原始数据
+	 */
+	void write(byte[] data);
 
 	/**
 	 * 把缓存区的数据一次性写入
 	 */
 	void flush();
+
+	/**
+	 * 设置绑定的对象 一般为用户
+	 * @param <E> 泛型
+	 * @param e 绑定对象一般为用户
+	 */
+	<E> void set(E e);
+
+	/**
+	 * 获得绑定的对象 一般为用户
+	 * @param <E> 泛型
+	 * @return E一般为用户
+	 */
+	<E> E get();
 }

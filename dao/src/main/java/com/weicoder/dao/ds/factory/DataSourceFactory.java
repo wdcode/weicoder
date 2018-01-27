@@ -4,7 +4,6 @@ import javax.sql.DataSource;
 
 import com.weicoder.common.factory.FactoryKey;
 import com.weicoder.dao.ds.impl.Druid;
-import com.weicoder.dao.ds.impl.Hikari;
 import com.weicoder.dao.ds.impl.Tomcat;
 import com.weicoder.dao.params.DataSourceParams;
 
@@ -39,17 +38,12 @@ public final class DataSourceFactory extends FactoryKey<String, DataSource> {
 	public DataSource newInstance(String key) {
 		// 判断数据源
 		switch (DataSourceParams.getParse(key)) {
-			case "druid":
-				return new Druid(key).getDataSource();
 			case "tomcat":
 				return new Tomcat(key).getDataSource();
-			case "hikari":
-				return new Hikari(key).getDataSource();
 			default:
 				return new Druid(key).getDataSource();
 		}
 	}
 
-	private DataSourceFactory() {
-	}
+	private DataSourceFactory() {}
 }

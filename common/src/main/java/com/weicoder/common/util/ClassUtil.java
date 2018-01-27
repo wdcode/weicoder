@@ -14,7 +14,7 @@ import java.util.jar.JarInputStream;
 
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Lists;
-import com.weicoder.common.log.Logs;
+import com.weicoder.common.log.Logs; 
 
 /**
  * 关于Class的一些操作
@@ -112,7 +112,9 @@ public final class ClassUtil {
 	@SuppressWarnings("unchecked")
 	public static <T> Class<T> getGenericClass(Type type, int index) {
 		try {
-			return type instanceof ParameterizedType ? (Class<T>) ((ParameterizedType) type).getActualTypeArguments()[index] : null;
+			return type instanceof ParameterizedType
+					? (Class<T>) ((ParameterizedType) type).getActualTypeArguments()[index]
+					: null;
 		} catch (Exception e) {
 			Logs.error(e);
 			return null;
@@ -168,11 +170,30 @@ public final class ClassUtil {
 	 */
 	public static Object newInstance(String className) {
 		try {
-			return forName(className).newInstance();
+			if (EmptyUtil.isEmpty(className)) {
+				return null;
+			}
+			Class<?> c = forName(className);
+			return c == null ? null : c.newInstance();
 		} catch (Exception e) {
 			Logs.error(e);
 			return null;
 		}
+	}
+
+	/**
+	 * 实例化对象
+	 * @param className 类名
+	 * @param obj 默认值
+	 * @param <E> 泛型
+	 * @return 实例化对象
+	 */
+	@SuppressWarnings("unchecked")
+	public static <E> E newInstance(String className, E obj) {
+		// 实例化对象
+		E o = (E) newInstance(className);
+		// 对象为null 返回默认
+		return o == null ? obj : o;
 	}
 
 	/**
@@ -183,7 +204,7 @@ public final class ClassUtil {
 	 */
 	public static <T> T newInstance(Class<T> clazz) {
 		try {
-			return clazz.newInstance();
+			return clazz == null ? null : clazz.newInstance();
 		} catch (Exception e) {
 			Logs.error(e);
 			return null;
@@ -201,15 +222,15 @@ public final class ClassUtil {
 		return Lists.get(getAssignedClass(StringConstants.EMPTY, cls), i);
 	}
 
-	/**
-	 * 指定包下 指定类的实现
-	 * @param cls 指定类
-	 * @param <E> 泛型
-	 * @return 类列表
-	 */
-	public static <E> List<Class<E>> getAssignedClass(Class<E> cls) {
-		return getAssignedClass(StringConstants.EMPTY, cls);
-	}
+	// /**
+	// * 指定包下 指定类的实现
+	// * @param cls 指定类
+	// * @param <E> 泛型
+	// * @return 类列表
+	// */
+	// public static <E> List<Class<E>> getAssignedClass(Class<E> cls) {
+	// return getAssignedClass(CommonParams.PACKAGES, cls);
+	// }
 
 	/**
 	 * 指定包下 指定类的实现
@@ -220,7 +241,7 @@ public final class ClassUtil {
 	 */
 	public static <E> List<Class<E>> getAssignedClass(String packageName, Class<E> cls) {
 		// 声明类列表
-		List<Class<E>> classes = Lists.getList();
+		List<Class<E>> classes = Lists.newList();
 		// 循环包下所有类
 		for (Class<E> c : getPackageClasses(packageName, cls)) {
 			// 是本类实现 并且不是本类
@@ -234,33 +255,39 @@ public final class ClassUtil {
 
 	/**
 	 * 指定包下 指定类的实现
+	 * @param packageName 包名
 	 * @param cls 指定类
 	 * @param i 指定索引
+	 * @param <E> 泛型
 	 * @return 类列表
 	 */
-	public static <E extends Annotation> Class<E> getAnnotationClass(Class<E> cls, int i) {
-		return Lists.get(getAnnotationClass(cls), i);
+	public static <E extends Annotation> Class<E> getAnnotationClass(String packageName,
+			Class<E> cls, int i) {
+		return Lists.get(getAnnotationClass(packageName, cls), i);
 	}
 
-	/**
-	 * 指定包下 指定类的实现
-	 * @param cls 指定类
-	 * @return 类列表
-	 */
-	public static <E extends Annotation> List<Class<E>> getAnnotationClass(Class<E> cls) {
-		return getAnnotationClass(StringConstants.EMPTY, cls);
-	}
+	// /**
+	// * 指定包下 指定类的实现
+	// * @param cls 指定类
+	// * @param <E> 泛型
+	// * @return 类列表
+	// */
+	// public static <E extends Annotation> List<Class<E>> getAnnotationClass(Class<E> cls) {
+	// return getAnnotationClass(CommonParams.PACKAGES, cls);
+	// }
 
 	/**
 	 * 指定包下 指定类的实现
 	 * @param packageName 包名
 	 * @param cls 指定类
+	 * @param <E> 泛型
 	 * @return 类列表
 	 */
 	@SuppressWarnings("unchecked")
-	public static <E extends Annotation> List<Class<E>> getAnnotationClass(String packageName, Class<E> cls) {
+	public static <E extends Annotation> List<Class<E>> getAnnotationClass(String packageName,
+			Class<E> cls) {
 		// 声明类列表
-		List<Class<E>> classes = Lists.getList();
+		List<Class<E>> classes = Lists.newList();
 		// 循环包下所有类
 		for (Class<?> c : getPackageClasses(packageName, cls)) {
 			// 是本类实现 并且不是本类
@@ -282,33 +309,38 @@ public final class ClassUtil {
 	@SuppressWarnings("unchecked")
 	public static <E> List<Class<E>> getPackageClasses(String packageName, Class<E> cls) {
 		// 声明返回类列表
-		List<Class<E>> classes = Lists.getList();
+		List<Class<E>> classes = Lists.newList();
 		// 转换报名为路径格式
-		String path = packageName.replace(StringConstants.POINT, StringConstants.BACKSLASH);
-		// 获得目录资源
-		URL url = ResourceUtil.getResource(path);
-		if (url == null) {
-			return classes;
-		}
-		// 循环目录下的所有文件与目录
-		for (String name : getClasses(url.getPath(), path)) {
-			// 如果是class文件
-			if (name.endsWith(".class")) {
-				try {
-					// 反射出类对象 并添加到列表中
-					name = packageName + StringConstants.POINT + StringUtil.subString(name, 0, name.length() - 6);
-					name = StringUtil.replace(name, StringConstants.BACKSLASH, StringConstants.POINT);
-					// 如果开始是.去掉
-					if (name.startsWith(StringConstants.POINT)) {
-						name = StringUtil.subString(name, 1);
+		for (String path : StringUtil.split(packageName, StringConstants.COMMA)) {
+			path = StringUtil.replace(path, StringConstants.POINT, StringConstants.BACKSLASH);
+			// 获得目录资源
+			URL url = ResourceUtil.getResource(path);
+			if (url == null) {
+				return classes;
+			}
+			// 循环目录下的所有文件与目录
+			for (String name : getClasses(url.getPath(), path)) {
+				// 如果是class文件
+				if (name.endsWith(".class")) {
+					try {
+						// 反射出类对象 并添加到列表中
+						name = path + StringConstants.POINT
+								+ StringUtil.subString(name, 0, name.length() - 6);
+						name = StringUtil.replace(name, StringConstants.BACKSLASH,
+								StringConstants.POINT);
+						// 如果开始是.去掉
+						if (name.startsWith(StringConstants.POINT)) {
+							name = StringUtil.subString(name, 1);
+						}
+						classes.add((Class<E>) Class.forName(name));
+					} catch (ClassNotFoundException e) {
+						Logs.error(e);
 					}
-					classes.add((Class<E>) Class.forName(name));
-				} catch (ClassNotFoundException e) {
-					Logs.error(e);
+				} else {
+					// 迭代调用本方法 获得类列表
+					classes.addAll(getPackageClasses(EmptyUtil.isEmpty(path) ? name
+							: path + StringConstants.BACKSLASH + name, cls));
 				}
-			} else {
-				// 迭代调用本方法 获得类列表
-				classes.addAll(getPackageClasses(EmptyUtil.isEmpty(packageName) ? name : packageName + StringConstants.BACKSLASH + name, cls));
 			}
 		}
 		// 返回类列表
@@ -321,10 +353,11 @@ public final class ClassUtil {
 		// 判断是否目录
 		if (path.isDirectory()) {
 			// 如果是目录
-			return Lists.getList(path.list());
+			return Lists.newList(path.list());
 		} else if (name.indexOf(".jar!") > -1) {
 			// 是否jar文件内
-			return getClassesFromJARFile(StringUtil.subString(name, "file:/", "!"), packageName + StringConstants.BACKSLASH);
+			return getClassesFromJARFile(StringUtil.subString(name, "file:/", "!"),
+					packageName + StringConstants.BACKSLASH);
 		}
 		// 返回空列表
 		return Lists.emptyList();
@@ -336,7 +369,7 @@ public final class ClassUtil {
 			jar = StringConstants.BACKSLASH + jar;
 		}
 		// 声明返回列表
-		List<String> list = Lists.getList();
+		List<String> list = Lists.newList();
 		// 获得jar流
 		try (JarInputStream jarFile = new JarInputStream(new FileInputStream(jar))) {
 			// 循环获得JarEntry

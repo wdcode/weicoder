@@ -14,7 +14,7 @@ import java.lang.annotation.Target;
 public @interface Handler {
 	/**
 	 * 名称 对应socket的名 一般为 server client
-	 * @return
+	 * @return 返回值
 	 */
 	String value() default "server";
 }

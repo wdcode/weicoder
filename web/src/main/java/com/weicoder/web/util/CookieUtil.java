@@ -10,7 +10,7 @@ import com.weicoder.web.params.WebParams;
 
 /**
  * Cookie相关操作
- * @author WD  
+ * @author WD
  */
 public final class CookieUtil {
 	/**
@@ -64,7 +64,9 @@ public final class CookieUtil {
 		// 获得所有Cookie
 		Cookie[] cookies = request.getCookies();
 		// 判断有Cookie
-		if (EmptyUtil.isEmpty(cookies)) { return null; }
+		if (EmptyUtil.isEmpty(cookies)) {
+			return null;
+		}
 		// 声明一个Cookie,用户保存临时Cookie
 		Cookie cookie = null;
 		// 循环Cookie
@@ -72,8 +74,7 @@ public final class CookieUtil {
 			// 获得Cookie
 			cookie = cookies[i];
 			// 判断Cookie
-			if (cookie.getName().equals(name)) {
-				// 相等返回Cookie
+			if (name.equals(cookie.getName())) {
 				return cookie;
 			}
 		}

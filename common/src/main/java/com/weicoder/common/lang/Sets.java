@@ -3,16 +3,13 @@ package com.weicoder.common.lang;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.Set;
-import java.util.TreeSet;
-import java.util.concurrent.CopyOnWriteArraySet;
 
 import com.weicoder.common.util.EmptyUtil;
 
 /**
  * Set的帮助类,获得Set的一些操作
- * @author WD  
+ * @author WD
  */
 public final class Sets {
 	/**
@@ -26,109 +23,21 @@ public final class Sets {
 
 	/**
 	 * 获得Set实例 实现类是HashSet 默认初始化大小为10
-	 * @param <E> 泛型 
+	 * @param <E> 泛型
 	 * @return Set
 	 */
-	public static <E> Set<E> getSet() {
-		return getLinkedHashSet();
+	public static <E> HashSet<E> newSet() {
+		return new HashSet<E>();
 	}
 
 	/**
 	 * 获得Set实例 实现类是HashSet
 	 * @param size 初始化大小
-	 * @param <E> 泛型 
+	 * @param <E> 泛型
 	 * @return Set
 	 */
-	public static <E> Set<E> getSet(int size) {
-		return getLinkedHashSet(size);
-	}
-
-	/**
-	 * 获得Set实例 实现类是HashSet
-	 * @param c 初始化的集合
-	 * @param <E> 泛型 
-	 * @return Set
-	 */
-	public static <E> Set<E> getSet(Collection<E> c) {
-		return getLinkedHashSet(c);
-	}
-
-	/**
-	 * 获得Set实例 实现类是HashSet
-	 * @param es 初始化的数组
-	 * @param <E> 泛型 
-	 * @return Set
-	 */
-	@SafeVarargs
-	public static <E> Set<E> getSet(E... es) {
-		return getLinkedHashSet(es);
-	}
-
-	/**
-	 * 获得同步Set实例 实现类是HashSet 默认初始化大小为10
-	 * @param <E> 泛型 
-	 * @return Set
-	 */
-	public static <E> Set<E> getSynchronizedSet() {
-		return getSynchronizedSet();
-	}
-
-	/**
-	 * 获得Set实例 实现类是HashSet
-	 * @param size 初始化大小
-	 * @param <E> 泛型 
-	 * @return Set
-	 */
-	public static <E> Set<E> getSynchronizedSet(int size) {
-		return Collections.synchronizedSet(new HashSet<E>(size));
-	}
-
-	/**
-	 * 获得Set实例 实现类是HashSet
-	 * @param c 初始化的集合
-	 * @param <E> 泛型 
-	 * @return Set
-	 */
-	public static <E> Set<E> getSynchronizedSet(Collection<E> c) {
-		return Collections.synchronizedSet(getHashSet(c));
-	}
-
-	/**
-	 * 获得并发的List实例 实现类是CopyOnWriteArrayList
-	 * @param <E> 泛型 
-	 * @return 同步的List
-	 */
-	public static <E> CopyOnWriteArraySet<E> getConcurrenrSet() {
-		return new CopyOnWriteArraySet<E>();
-	}
-
-	/**
-	 * 获得并发的Set实例 实现类是CopyOnWriteArraySet
-	 * @param c 初始化的集合
-	 * @param <E> 泛型 
-	 * @return 同步的List
-	 */
-	public static <E> CopyOnWriteArraySet<E> getConcurrenrSet(Collection<E> c) {
-		return new CopyOnWriteArraySet<E>(c);
-	}
-
-	/**
-	 * 获得Set实例 实现类是HashSet 默认初始化大小为10
-	 * @param <E> 泛型 
-	 * @return Set
-	 */
-	public static <E> LinkedHashSet<E> getLinkedHashSet() {
-		return getLinkedHashSet(16);
-	}
-
-	/**
-	 * 获得Set实例 实现类是HashSet
-	 * @param size 初始化大小
-	 * @param <E> 泛型 
-	 * @return Set
-	 */
-	public static <E> LinkedHashSet<E> getLinkedHashSet(int size) {
-		return new LinkedHashSet<E>(size);
+	public static <E> HashSet<E> newSet(int size) {
+		return new HashSet<E>(size);
 	}
 
 	/**
@@ -138,96 +47,26 @@ public final class Sets {
 	 * @return Set
 	 */
 	@SafeVarargs
-	public static <E> LinkedHashSet<E> getLinkedHashSet(E... es) {
-		return getLinkedHashSet(Lists.getList(es));
+	public static <E> HashSet<E> newSet(E... es) {
+		return newSet(Lists.newList(es));
 	}
 
 	/**
 	 * 获得Set实例 实现类是HashSet
 	 * @param c 初始化的集合
-	 * @param <E> 泛型 
+	 * @param <E> 泛型
 	 * @return Set
 	 */
-	public static <E> LinkedHashSet<E> getLinkedHashSet(Collection<E> c) {
-		return new LinkedHashSet<E>(c);
-	}
-
-	/**
-	 * 获得Set实例 实现类是HashSet 默认初始化大小为10
-	 * @param <E> 泛型 
-	 * @return Set
-	 */
-	public static <E> HashSet<E> getHashSet() {
-		return getHashSet(16);
-	}
-
-	/**
-	 * 获得Set实例 实现类是HashSet
-	 * @param size 初始化大小
-	 * @param <E> 泛型 
-	 * @return Set
-	 */
-	public static <E> HashSet<E> getHashSet(int size) {
-		return new HashSet<E>(size);
-	}
-
-	/**
-	 * 获得Set实例 实现类是HashSet
-	 * @param es 初始化的集合
-	 * @param <E> 泛型 
-	 * @return Set
-	 */
-	@SafeVarargs
-	public static <E> HashSet<E> getHashSet(E... es) {
-		return getHashSet(Lists.getList(es));
-	}
-
-	/**
-	 * 获得Set实例 实现类是HashSet
-	 * @param c 初始化的集合
-	 * @param <E> 泛型 
-	 * @return Set
-	 */
-	public static <E> HashSet<E> getHashSet(Collection<E> c) {
+	public static <E> HashSet<E> newSet(Collection<E> c) {
 		return new HashSet<E>(c);
 	}
 
 	/**
-	 * 获得Set实例 实现类是HashSet 默认初始化大小为10
-	 * @param <E> 泛型 
-	 * @return Set
-	 */
-	public static <E> TreeSet<E> getTreeSet() {
-		return new TreeSet<E>();
-	}
-
-	/**
-	 * 获得Set实例 实现类是HashSet
-	 * @param es 初始化的集合
-	 * @param <E> 泛型 
-	 * @return Set
-	 */
-	@SafeVarargs
-	public static <E> TreeSet<E> getTreeSet(E... es) {
-		return getTreeSet(Lists.getList(es));
-	}
-
-	/**
-	 * 获得Set实例 实现类是HashSet
-	 * @param c 初始化的集合
-	 * @param <E> 泛型 
-	 * @return Set
-	 */
-	public static <E> TreeSet<E> getTreeSet(Collection<E> c) {
-		return new TreeSet<E>(c);
-	}
-
-	/**
 	 * 获得一个不可变的空Set
-	 * @param <E> 泛型 
+	 * @param <E> 泛型
 	 * @return 一个不可变的空Set
 	 */
-	public static <E> Set<E> emptyList() {
+	public static <E> Set<E> emptySet() {
 		return Collections.emptySet();
 	}
 

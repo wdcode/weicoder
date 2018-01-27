@@ -7,10 +7,12 @@ import java.util.Map;
 
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.log.Logs;
+import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.dao.Dao;
+import com.weicoder.dao.Transactional;
 import com.weicoder.dao.annotation.Table;
 import com.weicoder.dao.db.DataBase;
 import com.weicoder.dao.db.factory.DataBaseFactory;
@@ -27,9 +29,10 @@ public final class JdbcDao implements Dao {
 
 	public JdbcDao() {
 		db = DataBaseFactory.getDataBase();
-		insert = Maps.getMap();
+		insert = Maps.newMap();
 		// 加载所有类对应的SQL语句
-		for (Class<Table> c : ClassUtil.getAnnotationClass(Table.class)) {
+		for (Class<Table> c : ClassUtil.getAnnotationClass(CommonParams.getPackages("jdbc"),
+				Table.class)) {
 			// 声明SQL INSERT INTO t(f1,f2,...) VALUES(?,?)
 			StringBuilder sql = new StringBuilder("insert into ");
 			// 反射类名为表名
@@ -142,61 +145,71 @@ public final class JdbcDao implements Dao {
 	}
 
 	@Override
-	public <E> List<E> like(Class<E> entityClass, String property, Object value, int firstResult, int maxResults) {
+	public <E> List<E> like(Class<E> entityClass, String property, Object value, int firstResult,
+			int maxResults) {
 
 		return null;
 	}
 
 	@Override
-	public <E> List<E> eq(Class<E> entityClass, String property, Object value, int firstResult, int maxResults) {
+	public <E> List<E> eq(Class<E> entityClass, String property, Object value, int firstResult,
+			int maxResults) {
 
 		return null;
 	}
 
 	@Override
-	public <E> List<E> eq(Class<E> entityClass, Map<String, Object> map, int firstResult, int maxResults) {
+	public <E> List<E> eq(Class<E> entityClass, Map<String, Object> map, int firstResult,
+			int maxResults) {
 
 		return null;
 	}
 
 	@Override
-	public <E> List<E> in(Class<E> entityClass, String property, List<?> values, int firstResult, int maxResults) {
+	public <E> List<E> in(Class<E> entityClass, String property, List<Object> values,
+			int firstResult, int maxResults) {
 
 		return null;
 	}
 
 	@Override
-	public <E> List<E> in(Class<E> entityClass, String property, List<Object> values, Map<String, Object> orders, int firstResult, int maxResults) {
+	public <E> List<E> in(Class<E> entityClass, String property, List<Object> values,
+			Map<String, Object> orders, int firstResult, int maxResults) {
 
 		return null;
 	}
 
 	@Override
-	public <E> List<E> in(Class<E> entityClass, Map<String, List<Object>> parames, int firstResult, int maxResults) {
+	public <E> List<E> in(Class<E> entityClass, Map<String, List<Object>> parames, int firstResult,
+			int maxResults) {
 
 		return null;
 	}
 
 	@Override
-	public <E> List<E> between(E entity, String property, Object lo, Object hi, int firstResult, int maxResults) {
+	public <E> List<E> between(E entity, String property, Object lo, Object hi, int firstResult,
+			int maxResults) {
 
 		return null;
 	}
 
 	@Override
-	public <E> List<E> between(Class<E> entity, String property, Object lo, Object hi, int firstResult, int maxResults) {
+	public <E> List<E> between(Class<E> entity, String property, Object lo, Object hi,
+			int firstResult, int maxResults) {
 
 		return null;
 	}
 
 	@Override
-	public <E> List<E> order(E entity, Map<String, Object> orders, int firstResult, int maxResults) {
+	public <E> List<E> order(E entity, Map<String, Object> orders, int firstResult,
+			int maxResults) {
 
 		return null;
 	}
 
 	@Override
-	public <E> List<E> order(Class<E> entityClass, Map<String, Object> orders, int firstResult, int maxResults) {
+	public <E> List<E> order(Class<E> entityClass, Map<String, Object> orders, int firstResult,
+			int maxResults) {
 
 		return null;
 	}
@@ -238,7 +251,8 @@ public final class JdbcDao implements Dao {
 	}
 
 	@Override
-	public <E> List<E> query(Class<?> entityClass, String sql, List<Object> values, int firstResult, int maxResults) {
+	public <E> List<E> query(Class<?> entityClass, String sql, List<Object> values, int firstResult,
+			int maxResults) {
 
 		return null;
 	}
@@ -268,5 +282,29 @@ public final class JdbcDao implements Dao {
 			o[i] = getParame(e.get(i));
 		}
 		return o;
+	}
+
+	@Override
+	public void inserts(Object... entitys) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void updates(Object... entitys) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void deletes(Object... entitys) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public Transactional getTransaction(Class<?> entityClass) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -2,6 +2,8 @@ package com.weicoder.common.crypto.base;
 
 import java.security.Key;
 import java.util.Map;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
@@ -14,16 +16,22 @@ import com.weicoder.common.util.StringUtil;
 
 /**
  * 加密解密基础类 内部使用
- * @author WD 
+ * @author WD
  */
 public abstract class BaseCrypt {
 	// 加密算法
-	private final static Map<String, Key> KEYS = Maps.getConcurrentMap();
+	private final static Map<String, Key>	KEYS;
+	// 锁
+	private final static Lock				LOCK;
+	static {
+		KEYS = Maps.newMap();
+		LOCK = new ReentrantLock();
+	}
 
 	/**
 	 * 计算密文
 	 * @param b 要计算的字节数组
-	 * @param keys 计算密钥Key 长度有限制 DSE 为8位 ASE 为16位 
+	 * @param keys 计算密钥Key 长度有限制 DSE 为8位 ASE 为16位
 	 * @param len 长度一共几位
 	 * @param algorithm 算法
 	 * @param mode 计算模式 加密和解密
@@ -71,10 +79,12 @@ public abstract class BaseCrypt {
 		Key key = KEYS.get(algorithm + keys);
 		// 如果key为空
 		if (key == null) {
+			LOCK.lock();
 			// 把键转换程字节数组
 			byte[] b = StringUtil.toBytes(StringUtil.resolve(keys, len));
 			// 添加到列表中
 			KEYS.put(algorithm + keys, key = new SecretKeySpec(b, 0, len, algorithm));
+			LOCK.unlock();
 		}
 		// 返回key
 		return key;

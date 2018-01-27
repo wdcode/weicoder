@@ -4,7 +4,7 @@ package com.weicoder.socket;
  * Socket 客户端
  * @author WD
  */
-public interface Client {
+public interface Client extends AutoCloseable {
 	/**
 	 * 连接到服务器
 	 */

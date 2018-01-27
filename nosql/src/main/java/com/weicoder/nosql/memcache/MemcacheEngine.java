@@ -74,8 +74,8 @@ public final class MemcacheEngine {
 	 * @param keys 键
 	 * @return 值
 	 */
-	public static Map<String, Object> getMap(String... keys) {
-		return MEMCACHE.getMap(keys);
+	public static Map<String, Object> newMap(String... keys) {
+		return MEMCACHE.newMap(keys);
 	}
 
 	/**

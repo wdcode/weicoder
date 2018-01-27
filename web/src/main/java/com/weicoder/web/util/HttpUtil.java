@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.weicoder.common.constants.DateConstants;
-import com.weicoder.common.constants.FileConstants;
 import com.weicoder.common.constants.HttpConstants;
 import com.weicoder.common.constants.StringConstants;
 
@@ -32,7 +31,7 @@ public final class HttpUtil {
 	 * @return 参数
 	 */
 	public static String toUrl(String url, Map<String, String> parameters) {
-		return url + StringConstants.QUESTION_MARK + toParameters(parameters);
+		return StringUtil.add(url, "?", toParameters(parameters));
 	}
 
 	/**
@@ -74,7 +73,7 @@ public final class HttpUtil {
 	 * @return 是否
 	 */
 	public static boolean isHttp(String str) {
-		return EmptyUtil.isEmpty(str) ? false : str.startsWith(HttpConstants.HTTP) || str.startsWith(HttpConstants.HTTPS);
+		return EmptyUtil.isEmpty(str) ? false : str.startsWith("http://") || str.startsWith("https://");
 	}
 
 	/**
@@ -90,7 +89,7 @@ public final class HttpUtil {
 		// 声明字符串缓存
 		StringBuilder sb = new StringBuilder();
 		// 获得Key列表
-		List<String> keys = Lists.sort(Lists.getList(map.keySet()));
+		List<String> keys = Lists.sort(Lists.newList(map.keySet()));
 		// 排序
 		Lists.sort(keys);
 		// 根据Key列表获得值
@@ -101,40 +100,12 @@ public final class HttpUtil {
 			String val = map.get(key);
 			// 判断值不为空
 			if (!EmptyUtil.isEmpty(val)) {
-				sb.append(key).append(StringConstants.EQ);
-				sb.append(val).append(StringConstants.AMP);
+				sb.append(key).append("=");
+				sb.append(val).append("&");
 			}
 		}
 		// 返回组合后的字符串
 		return StringUtil.subString(sb.toString(), 0, sb.length() - 1);
-	}
-
-	/**
-	 * 根据传进来的url判断ContentType
-	 * @param url URL路径
-	 * @return ContentType
-	 */
-	public static String getContentType(String url) {
-		// 如果有?把?去掉 并获得后缀
-		String suf = StringUtil.subStringLast(StringUtil.subStringEnd(url, StringConstants.QUESTION_MARK), StringConstants.POINT).toLowerCase();
-		// 判断是什么类型的文件
-		if (FileConstants.SUFFIX_JS.equals(suf)) {
-			return HttpConstants.CONTENT_TYPE_JS;
-		} else if (FileConstants.SUFFIX_CSS.equals(suf)) {
-			return HttpConstants.CONTENT_TYPE_CSS;
-		} else if (FileConstants.SUFFIX_HTML.equals(suf)) {
-			return HttpConstants.CONTENT_TYPE_HTML;
-		} else if (FileConstants.SUFFIX_TXT.equals(suf)) {
-			return HttpConstants.CONTENT_TYPE_TXT;
-		} else if (FileConstants.SUFFIX_GIF.equals(suf)) {
-			return HttpConstants.CONTENT_TYPE_GIF;
-		} else if (FileConstants.SUFFIX_JPG.equals(suf) || FileConstants.SUFFIX_JPEG.equals(suf)) {
-			return HttpConstants.CONTENT_TYPE_JPEG;
-		} else if (FileConstants.SUFFIX_PNG.equals(suf)) {
-			return HttpConstants.CONTENT_TYPE_PNG;
-		} else {
-			return StringConstants.EMPTY;
-		}
 	}
 
 	/**
@@ -146,7 +117,7 @@ public final class HttpUtil {
 		// Http 1.0 header
 		response.setDateHeader(HttpConstants.HEADER_KEY_EXPIRES, System.currentTimeMillis() + expiresSeconds * DateConstants.TIME_SECOND);
 		// Http 1.1 header
-		response.setHeader(HttpConstants.HEADER_KEY_CACHE_CONTROL, HttpConstants.HEADER_VAL_MAX_AGE + expiresSeconds);
+		response.setHeader(HttpConstants.HEADER_KEY_CACHE_CONTROL, "max-age=" + expiresSeconds);
 	}
 
 	/**
@@ -166,7 +137,7 @@ public final class HttpUtil {
 	 * @param lastModifiedDate LastModified时间
 	 */
 	public static void setLastModifiedHeader(HttpServletResponse response, long lastModifiedDate) {
-		response.setDateHeader(HttpConstants.HEADER_KEY_LAST_MODIFIED, lastModifiedDate);
+		response.setDateHeader("Last-Modified", lastModifiedDate);
 	}
 
 	/**
@@ -175,7 +146,7 @@ public final class HttpUtil {
 	 * @param etag Etag
 	 */
 	public static void setEtag(HttpServletResponse response, String etag) {
-		response.setHeader(HttpConstants.HEADER_KEY_ETAG, etag);
+		response.setHeader("ETag", etag);
 	}
 
 	/**
@@ -187,7 +158,7 @@ public final class HttpUtil {
 	 */
 	public static boolean checkIfModifiedSince(HttpServletRequest request, HttpServletResponse response, long lastModified) {
 		// 获得 If-Modified-Since时间
-		long ifModifiedSince = request.getDateHeader(HttpConstants.HEADER_KEY_IF_MODIFIED_SINCE);
+		long ifModifiedSince = request.getDateHeader("If-Modified-Since");
 		// 判断时间
 		if ((ifModifiedSince != -1) && (lastModified < ifModifiedSince + DateConstants.TIME_SECOND)) {
 			// 设置没修改
@@ -208,12 +179,12 @@ public final class HttpUtil {
 	 */
 	public static boolean checkIfNoneMatchEtag(HttpServletRequest request, HttpServletResponse response, String etag) {
 		// 获得If-None-Match
-		String headerValue = request.getHeader(HttpConstants.HEADER_KEY_IF_NONE_MATCH);
+		String headerValue = request.getHeader("If-None-Match");
 		if (!EmptyUtil.isEmpty(headerValue)) {
 			// 声明Boolean变量
 			boolean conditionSatisfied = false;
 			// 判断headerValue不等于 *
-			if (!StringConstants.ASTERISK.equals(headerValue)) {
+			if (!"*".equals(headerValue)) {
 				// 声明StringTokenizer
 				StringTokenizer commaTokenizer = new StringTokenizer(headerValue, StringConstants.COMMA);
 				// 循环处理
@@ -235,7 +206,7 @@ public final class HttpUtil {
 				// 设置无修改
 				response.setStatus(HttpServletResponse.SC_NOT_MODIFIED);
 				// 修改etag
-				response.setHeader(HttpConstants.HEADER_KEY_ETAG, etag);
+				setEtag(response, etag); 
 				// 返回false
 				return false;
 			}
@@ -251,7 +222,7 @@ public final class HttpUtil {
 	 */
 	public static boolean checkAccetptGzip(HttpServletRequest request) {
 		// 获得Accept-Encoding
-		String acceptEncoding = request.getHeader(HttpConstants.HEADER_KEY_ACCEPT_ENCODING);
+		String acceptEncoding = request.getHeader("Accept-Encoding");
 		// 判断acceptEncoding是否包含 gzip
 		return StringUtil.contains(acceptEncoding, "gzip");
 	}

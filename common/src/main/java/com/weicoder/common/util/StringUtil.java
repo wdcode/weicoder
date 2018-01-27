@@ -453,6 +453,17 @@ public final class StringUtil {
 	 * @return 替换后的字符
 	 */
 	public static String replace(String s, String regex, String replacement) {
+		return EmptyUtil.isEmpty(s) ? StringConstants.EMPTY : s.replace(regex, replacement);
+	}
+
+	/**
+	 * 替换字符串
+	 * @param s 要替换的字符串
+	 * @param regex 正则表达式
+	 * @param replacement 要替换掉的字符
+	 * @return 替换后的字符
+	 */
+	public static String replaceAll(String s, String regex, String replacement) {
 		return EmptyUtil.isEmpty(s) ? StringConstants.EMPTY : s.replaceAll(regex, replacement);
 	}
 

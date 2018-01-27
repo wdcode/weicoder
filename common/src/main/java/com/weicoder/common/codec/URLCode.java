@@ -29,6 +29,7 @@ public final class URLCode {
 	 */
 	public static String encode(String url, String encoding) {
 		try {
+			Logs.trace("URLCode decode");
 			return EmptyUtil.isEmpty(url) ? url : URLEncoder.encode(url, encoding);
 		} catch (Exception e) {
 			Logs.error(e);
@@ -53,6 +54,7 @@ public final class URLCode {
 	 */
 	public static String decode(String url, String encoding) {
 		try {
+			Logs.trace("URLCode decode");
 			return EmptyUtil.isEmpty(url) ? url : URLDecoder.decode(url, EmptyUtil.isEmpty(encoding) ? CommonParams.ENCODING : encoding);
 		} catch (Exception e) {
 			Logs.error(e);
@@ -60,6 +62,5 @@ public final class URLCode {
 		}
 	}
 
-	private URLCode() {
-	}
+	private URLCode() {}
 }

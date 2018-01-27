@@ -151,7 +151,7 @@ public final class Bytes {
 			return ArrayConstants.BYTES_EMPTY;
 		}
 		// 字段值
-		List<Object> values = Lists.getList();
+		List<Object> values = Lists.newList();
 		// 获得字段赋值
 		for (Field field : BeanUtil.getFields(binary.getClass())) {
 			if (!field.isSynthetic()) {
@@ -591,14 +591,16 @@ public final class Bytes {
 
 	/**
 	 * 读取字节数组变成对象
-	 * @param binary 序列化接口
+	 * @param c 序列化类
 	 * @param b 字节数组
 	 * @param <B> 泛型
 	 * @return 对象
 	 */
-	public static <B extends Binary> B toBinary(B binary, byte[] b) {
+	public static <B> B toBinary(Class<B> c, byte[] b) {
+		// 实例化
+		B binary = BeanUtil.newInstance(c);
 		// 获得全部字段
-		List<Field> fields = BeanUtil.getFields(binary.getClass());
+		List<Field> fields = BeanUtil.getFields(c);
 		// 偏移
 		int offset = 0;
 		// 循环设置字段值

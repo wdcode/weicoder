@@ -18,8 +18,9 @@ import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
-import com.weicoder.web.context.Contexts;
-import com.weicoder.web.params.ServletParams;
+import com.weicoder.web.annotation.Redirect;
+import com.weicoder.web.common.WebCommons;
+import com.weicoder.web.params.WebParams;
 import com.weicoder.web.util.RequestUtil;
 import com.weicoder.web.util.ResponseUtil;
 
@@ -32,17 +33,18 @@ public class BasicServlet extends HttpServlet {
 	private static final long serialVersionUID = 3117468121294921856L;
 
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		long curr = System.currentTimeMillis();
 		// 获得客户端IP
 		String ip = RequestUtil.getIp(request);
 		// 获得callback
 		String callback = RequestUtil.getParameter(request, "callback");
-		Logs.trace("check ip request ip={},ips={}", ip, ServletParams.IPS);
+		Logs.trace("check ip request ip={},ips={}", ip, WebParams.IPS);
 		// 过滤IP
-		if (!EmptyUtil.isEmpty(ServletParams.IPS)) {
+		if (!EmptyUtil.isEmpty(WebParams.IPS)) {
 			// 如果在允许列表继续 否则退出
-			if (!ServletParams.IPS.contains(ip)) {
+			if (!WebParams.IPS.contains(ip)) {
 				Logs.debug("this ip={}", ip);
 				ResponseUtil.json(response, callback, "not exist ip");
 				return;
@@ -53,7 +55,8 @@ public class BasicServlet extends HttpServlet {
 		Logs.trace("request ip={},path={},{}", ip, path, request.getQueryString());
 		if (!EmptyUtil.isEmpty(path)) {
 			// 分解提交action 去处开头的/ 并且按_分解出数组
-			String[] actions = StringUtil.split(StringUtil.subString(path, 1, path.length()), StringConstants.BACKSLASH);
+			String[] actions = StringUtil.split(StringUtil.subString(path, 1, path.length()),
+					StringConstants.UNDERLINE);
 			if (EmptyUtil.isEmpty(actions)) {
 				Logs.debug("this path={}", path);
 				ResponseUtil.json(response, callback, "action is null path");
@@ -61,7 +64,7 @@ public class BasicServlet extends HttpServlet {
 			}
 			// 获得Action
 			String name = actions[0];
-			Object action = Contexts.ACTIONS.get(name);
+			Object action = WebCommons.ACTIONS.get(name);
 			// action为空
 			if (action == null) {
 				// 如果使用action_method模式 直接返回
@@ -71,12 +74,12 @@ public class BasicServlet extends HttpServlet {
 					return;
 				}
 				// 查找方法对应action
-				action = Contexts.METHODS_ACTIONS.get(name);
+				action = WebCommons.METHODS_ACTIONS.get(name);
 			}
 			// 获得方法
-			Map<String, Method> methods = Contexts.ACTIONS_METHODS.get(name);
+			Map<String, Method> methods = WebCommons.ACTIONS_METHODS.get(name);
 			if (EmptyUtil.isEmpty(methods)) {
-				methods = Contexts.METHODS;
+				methods = WebCommons.METHODS;
 			}
 			Method method = methods.get(actions.length > 1 ? actions[1] : actions[0]);
 			if (method == null) {
@@ -114,7 +117,8 @@ public class BasicServlet extends HttpServlet {
 							// 赋值为调用客户端IP
 							params[i] = ip;
 						}
-						Logs.debug("request ip={},name={},params index={},name={},type={},value={}", ip, name, i, p.getName(), cs, params[i]);
+						Logs.debug("request ip={},name={},params index={},name={},type={},value={}",
+								ip, name, i, p.getName(), cs, params[i]);
 					} else {
 						params[i] = BeanUtil.copy(ps, cs);
 						Logs.debug("request ip={},name={},params={}", ip, name, params[i]);
@@ -122,14 +126,24 @@ public class BasicServlet extends HttpServlet {
 				}
 			}
 			// 调用方法
-			ResponseUtil.json(response, callback, BeanUtil.invoke(action, method, params));
-			Logs.info("request ip={},name={},params={},time={} end", ip, name, params, System.currentTimeMillis() - curr);
+			Object res = BeanUtil.invoke(action, method, params);
+			// 判断是否跳转url
+			if (method.isAnnotationPresent(Redirect.class)) {
+				String url = Conversion.toString(res);
+				response.sendRedirect(url);
+				Logs.debug("redirect url:{}", url);
+			} else if (res != null && !(res instanceof Void)) {
+				ResponseUtil.json(response, callback, res);
+			}
+			Logs.info("request ip={},name={},time={},res={},params={} end", ip, name,
+					System.currentTimeMillis() - curr, res, params);
 		}
 	}
 
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if (ServletParams.GET) {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		if (WebParams.GET) {
 			doPost(request, response);
 		} else {
 			ResponseUtil.json(response, "not supported get");

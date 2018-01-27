@@ -35,7 +35,7 @@ public final class Encrypts extends BaseCrypt {
 
 	/**
 	 * 加密字符串
-	 * @param b 要加密的字节数组 
+	 * @param b 要加密的字节数组
 	 * @return 加密后的字节数组
 	 */
 	public static byte[] encrypt(byte[] b) {
@@ -82,7 +82,7 @@ public final class Encrypts extends BaseCrypt {
 	 * @return 返回加密后的字节数组
 	 */
 	public static byte[] des(byte[] b, String key) {
-		return encrypt(b, key, CommonParams.ENCRYPT_KEY_LENGTH_DES, EncryptConstants.ALGO_DES);
+		return encrypt(b, key, EncryptConstants.LENGTH_DES, EncryptConstants.ALGO_DES);
 	}
 
 	/**
@@ -101,7 +101,7 @@ public final class Encrypts extends BaseCrypt {
 	 * @return 返回加密后的字节数组
 	 */
 	public static byte[] aes(byte[] b, String key) {
-		return encrypt(b, key, CommonParams.ENCRYPT_KEY_LENGTH_AES, EncryptConstants.ALGO_AES);
+		return encrypt(b, key, EncryptConstants.LENGTH_AES, EncryptConstants.ALGO_AES);
 	}
 
 	/**
@@ -120,7 +120,7 @@ public final class Encrypts extends BaseCrypt {
 	 * @return 返回加密后的字节数组
 	 */
 	public static byte[] rc4(byte[] b, String key) {
-		return encrypt(b, key, CommonParams.ENCRYPT_KEY_LENGTH_RC4, EncryptConstants.ALGO_RC4);
+		return encrypt(b, key, EncryptConstants.LENGTH_RC4, EncryptConstants.ALGO_RC4);
 	}
 
 	/**
@@ -135,6 +135,5 @@ public final class Encrypts extends BaseCrypt {
 		return doFinal(b, keys, len, algorithm, Cipher.ENCRYPT_MODE);
 	}
 
-	private Encrypts() {
-	}
+	private Encrypts() {}
 }

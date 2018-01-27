@@ -30,7 +30,11 @@ import com.mongodb.client.MongoDatabase;
  */
 public final class MongoImpl implements Mongo {
 	// MongoDB 主键常量
-	private final static String						ID	= "_id";
+	private final static String						ID		= "_id";
+	// 常量字符串 "key"
+	private final static String						KEY		= "key";
+	// 常量字符串 "value"
+	private final static String						VALUE	= "value";
 	// Mongo 客户端
 	private MongoClient								client;
 	// MongoDB
@@ -55,7 +59,7 @@ public final class MongoImpl implements Mongo {
 			// 如果库存在
 			db = client.getDatabase(MongoParams.getDB(key));
 			dbc = db.getCollection(MongoParams.getCollection(key));
-			dbcs = Maps.getConcurrentMap();
+			dbcs = Maps.newConcurrentMap();
 		} catch (Exception e) {
 			Logs.error(e);
 			// throw new RuntimeException(e);
@@ -77,11 +81,11 @@ public final class MongoImpl implements Mongo {
 	@SuppressWarnings("unchecked")
 	public void insert(String name, Map<String, Object>... maps) {
 		// 声明Document列表
-		List<Document> documents = Lists.getArrayList(maps.length);
+		List<Document> documents = Lists.newList(maps.length);
 		// 循环map数组
 		for (int i = 0; i < maps.length; i++) {
 			// 实例化新Document对象
-			documents.add(new Document(getMap(maps[i])));
+			documents.add(new Document(newMap(maps[i])));
 		}
 		// 插入数据
 		getCollection(name).insertMany(documents);
@@ -145,7 +149,7 @@ public final class MongoImpl implements Mongo {
 		// 循环map数组
 		for (int i = 0; i < maps.length; i++) {
 			// 删除对象
-			dbc.deleteOne(new BasicDBObject(getMap(maps[i])));
+			dbc.deleteOne(new BasicDBObject(newMap(maps[i])));
 		}
 	}
 
@@ -153,7 +157,7 @@ public final class MongoImpl implements Mongo {
 	 * 删除数据
 	 */
 	public void delete(String name, Map<String, Object> data) {
-		getCollection(name).deleteOne(new BasicDBObject(getMap(data)));
+		getCollection(name).deleteOne(new BasicDBObject(newMap(data)));
 	}
 
 	/**
@@ -197,7 +201,7 @@ public final class MongoImpl implements Mongo {
 		// 设置限定数量
 		iterable.limit(end - start);
 		// 获得列表
-		List<Map<String, Object>> list = Lists.getList();
+		List<Map<String, Object>> list = Lists.newList();
 		// 设置游标开始位置
 
 		// 循环游标
@@ -217,7 +221,7 @@ public final class MongoImpl implements Mongo {
 	 */
 	@SuppressWarnings("unchecked")
 	private Map<String, Object> toMap(Document object) {
-		return (Map<String, Object>) (EmptyUtil.isEmpty(object) ? Maps.getMap() : object);
+		return (Map<String, Object>) (EmptyUtil.isEmpty(object) ? Maps.newMap() : object);
 	}
 
 	/**
@@ -225,13 +229,13 @@ public final class MongoImpl implements Mongo {
 	 * @param map 数据Map
 	 * @return 更改完Map
 	 */
-	private Map<String, Object> getMap(Map<String, Object> map) {
+	private Map<String, Object> newMap(Map<String, Object> map) {
 		// 判断_id为空 赋值
 		if (!EmptyUtil.isEmpty(map)) {
 			// 获得ID
 			Object key = map.get(ID);
 			// 判断如果为空获得 id键
-			key = EmptyUtil.isEmpty(key) ? map.get(StringConstants.KEY) : key;
+			key = EmptyUtil.isEmpty(key) ? map.get(KEY) : key;
 			// 设置主键
 			map.put(ID, key);
 		}
@@ -242,10 +246,10 @@ public final class MongoImpl implements Mongo {
 	@Override
 	public boolean set(String key, Object value) {
 		// 获得Map
-		Map<String, Object> map = Maps.getMap();
+		Map<String, Object> map = Maps.newMap();
 		// 设置键值
 		map.put(ID, key);
-		map.put(StringConstants.VALUE, value);
+		map.put(VALUE, value);
 		// 添加数据
 		insert(StringConstants.EMPTY, map);
 		// 返回成功
@@ -254,7 +258,7 @@ public final class MongoImpl implements Mongo {
 
 	@Override
 	public Object get(String key) {
-		return toMap(dbc.find(new BasicDBObject(key, null)).first()).get(StringConstants.VALUE);
+		return toMap(dbc.find(new BasicDBObject(key, null)).first()).get(VALUE);
 	}
 
 	@Override
@@ -269,7 +273,7 @@ public final class MongoImpl implements Mongo {
 
 	@Override
 	public long count(String name, Object key) {
-		return count(name, Maps.getMap(ID, key));
+		return count(name, Maps.newMap(ID, key));
 	}
 
 	@Override
@@ -333,7 +337,7 @@ public final class MongoImpl implements Mongo {
 	 */
 	public List<byte[]> extract(String... keys) {
 		// 声明列表
-		List<byte[]> list = Lists.getList(keys.length);
+		List<byte[]> list = Lists.newList(keys.length);
 		// 循环解压数据
 		for (Object o : get(keys)) {
 			list.add(ZipEngine.extract(o));

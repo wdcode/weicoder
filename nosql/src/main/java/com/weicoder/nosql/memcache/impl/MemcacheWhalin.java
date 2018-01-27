@@ -41,7 +41,7 @@ public final class MemcacheWhalin extends BaseMemcache {
 	 * @param keys 键
 	 * @return 值
 	 */
-	public Map<String, Object> getMap(String... keys) {
+	public Map<String, Object> newMap(String... keys) {
 		return client.getMulti(keys);
 	}
 

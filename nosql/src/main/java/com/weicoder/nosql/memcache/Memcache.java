@@ -78,5 +78,5 @@ public interface Memcache {
 	 * @param keys 键
 	 * @return 值
 	 */
-	Map<String, Object> getMap(String... keys);
+	Map<String, Object> newMap(String... keys);
 }

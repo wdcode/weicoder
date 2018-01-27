@@ -1,6 +1,8 @@
 package com.weicoder.common.crypto;
 
 import java.util.Map;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -20,7 +22,13 @@ import com.weicoder.common.util.StringUtil;
  */
 public final class HMac {
 	// hmac算法使用
-	private final static Map<String, Mac> MACS = Maps.getConcurrentMap();
+	private final static Map<String, Mac>	MACS;
+	// 锁
+	private final static Lock				LOCK;
+	static {
+		MACS = Maps.newMap();
+		LOCK = new ReentrantLock();
+	}
 
 	/**
 	 * 使用HMAC-SHA1进行消息签名, 返回字节数组,长度为20字节.
@@ -126,12 +134,15 @@ public final class HMac {
 		// mac为空
 		if (mac == null) {
 			try {
+				LOCK.lock();
 				// 获得Mac
 				MACS.put(algorithm + keys, mac = Mac.getInstance(algorithm));
 				// 初始化算法
 				mac.init(new SecretKeySpec(StringUtil.toBytes(keys), algorithm));
 			} catch (Exception e) {
 				Logs.error(e);
+			} finally {
+				LOCK.unlock();
 			}
 		}
 		// 返回Mac

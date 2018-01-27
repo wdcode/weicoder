@@ -375,7 +375,7 @@ public final class Conversion {
 			} else if (obj instanceof String) {
 				// String
 				String is = obj.toString().trim();
-				return obj == null ? defaultValue : StringConstants.TRUE.equalsIgnoreCase(is) || StringConstants.YES.equalsIgnoreCase(is) || StringConstants.OK.equalsIgnoreCase(is);
+				return obj == null ? defaultValue : "true".equalsIgnoreCase(is) || "yes".equalsIgnoreCase(is) || "ok".equalsIgnoreCase(is);
 			} else if (obj instanceof Number) {
 				// Number
 				return ((Number) obj).intValue() > 0 ? true : false;

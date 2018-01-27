@@ -21,8 +21,7 @@ import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicNameValuePair;
 
-import com.weicoder.common.constants.ArrayConstants;
-import com.weicoder.common.constants.EncodingConstants;
+import com.weicoder.common.constants.ArrayConstants; 
 import com.weicoder.common.constants.HttpConstants;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.constants.SystemConstants;
@@ -30,6 +29,7 @@ import com.weicoder.common.io.IOUtil;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.log.Logs;
+import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
 
@@ -57,14 +57,14 @@ public final class HttpClient {
 		builder.setConnectionManager(pool);
 		builder.setMaxConnPerRoute(SystemConstants.CPU_NUM * 10);
 		// 设置 头
-		List<BasicHeader> headers = Lists.getList();
+		List<BasicHeader> headers = Lists.newList();
 		headers.add(new BasicHeader(HttpConstants.USER_AGENT_KEY, HttpConstants.USER_AGENT_VAL));
 		headers.add(new BasicHeader(HttpConstants.ACCEPT_KEY, HttpConstants.ACCEPT_VAL));
 		headers.add(new BasicHeader(HttpConstants.ACCEPT_LANGUAGE_KEY, HttpConstants.ACCEPT_LANGUAGE_VAL));
 		headers.add(new BasicHeader(HttpConstants.ACCEPT_CHARSET_KEY, HttpConstants.ACCEPT_CHARSET_VAL));
 		builder.setDefaultHeaders(headers);
 		// 设置连接配置
-		builder.setDefaultConnectionConfig(ConnectionConfig.custom().setCharset(Charset.forName(EncodingConstants.UTF_8)).build());
+		builder.setDefaultConnectionConfig(ConnectionConfig.custom().setCharset(Charset.forName(CommonParams.ENCODING)).build());
 		// 实例化客户端
 		CLIENT = builder.build();
 	}
@@ -75,7 +75,7 @@ public final class HttpClient {
 	 * @return 返回结果
 	 */
 	public static String get(String url) {
-		return get(url, EncodingConstants.UTF_8);
+		return get(url, CommonParams.ENCODING);
 	}
 
 	/**
@@ -174,7 +174,7 @@ public final class HttpClient {
 	 * @return 提交结果
 	 */
 	public static String post(String url, Map<String, Object> data) {
-		return post(url, data, EncodingConstants.UTF_8);
+		return post(url, data, CommonParams.ENCODING);
 	}
 
 	/**
@@ -194,7 +194,7 @@ public final class HttpClient {
 			// 如果参数列表为空 data为空map
 			if (!EmptyUtil.isEmpty(data)) {
 				// 声明参数列表
-				List<NameValuePair> list = Lists.getList(data.size());
+				List<NameValuePair> list = Lists.newList(data.size());
 				// 设置参数
 				for (Map.Entry<String, Object> entry : data.entrySet()) {
 					// 添加参数

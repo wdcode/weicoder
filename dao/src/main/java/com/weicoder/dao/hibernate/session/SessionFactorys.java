@@ -14,9 +14,10 @@ import org.hibernate.engine.spi.SessionFactoryImplementor;
 
 import com.weicoder.dao.hibernate.interceptor.EntityInterceptor;
 import com.weicoder.dao.hibernate.naming.ImprovedNamingStrategy;
-import com.weicoder.dao.params.FrameParams;
+import com.weicoder.dao.params.DaoParams;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
+import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.util.ResourceUtil;
 
@@ -37,8 +38,8 @@ public final class SessionFactorys {
 	 */
 	public SessionFactorys() {
 		// 实例化表列表
-		entity_factorys = Maps.getConcurrentMap();
-		factorys = Lists.getList();
+		entity_factorys = Maps.newMap();
+		factorys = Lists.newList();
 		// 初始化SessionFactory
 		initSessionFactory();
 		// 如果只有一个SessionFactory
@@ -46,11 +47,13 @@ public final class SessionFactorys {
 			factory = factorys.get(0);
 		}
 		// 循环获得表名
-		for (Class<?> e : ClassUtil.getAnnotationClass(Entity.class)) {
+		for (Class<?> e : ClassUtil.getAnnotationClass(CommonParams.getPackages("entity"),
+				Entity.class)) {
 			// 循环获得SessionFactory
 			for (SessionFactory sessionFactory : factorys) {
 				try {
-					if (((SessionFactoryImplementor) sessionFactory).getMetamodel().entity(e) != null) {
+					if (((SessionFactoryImplementor) sessionFactory).getMetamodel()
+							.entity(e) != null) {
 						entity_factorys.put(e, sessionFactory);
 					}
 				} catch (Exception ex) {}
@@ -87,13 +90,13 @@ public final class SessionFactorys {
 	 */
 	private void initSessionFactory() {
 		// 获得数据库配置文件
-		File file = ResourceUtil.getFile(FrameParams.DB_CONFIG);
+		File file = ResourceUtil.getFile(DaoParams.DB_CONFIG);
 		// 不为空
 		if (file != null) {
 			// 循环生成
 			for (String name : file.list()) {
 				// 实例化hibernate配置类
-				Configuration config = new Configuration().configure(FrameParams.DB_CONFIG + name);
+				Configuration config = new Configuration().configure(DaoParams.DB_CONFIG + name);
 				// 设置namingStrategy
 				config.setImplicitNamingStrategy(ImplicitNamingStrategyJpaCompliantImpl.INSTANCE);
 				config.setPhysicalNamingStrategy(ImprovedNamingStrategy.INSTANCE);

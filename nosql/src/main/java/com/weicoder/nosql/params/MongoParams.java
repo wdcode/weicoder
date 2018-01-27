@@ -9,14 +9,14 @@ import com.weicoder.common.params.Params;
 public final class MongoParams {
 	/* Redis使用 */
 	private final static String	PREFIX		= "mongo";		// 前缀
-	private final static String	HOST		= "host";		// 服务器地址
-	private final static String	PORT		= "port";		// 服务器端口
+	private final static String	HOST			= "host";		// 服务器地址
+	private final static String	PORT			= "port";		// 服务器端口
 	private final static String	DB			= "db";			// 数据库名
 	private final static String	COLLECTION	= "collection";	// 集合
 
 	/* Redis使用 */
-	private static String		host		= "127.0.0.1";	// 服务器地址
-	private static int			port		= 27017;		// 服务器端口
+	private static String		host			= "127.0.0.1";	// 服务器地址
+	private static int			port			= 27017;		// 服务器端口
 
 	/**
 	 * Mongo服务器地址

@@ -1,6 +1,6 @@
 package com.weicoder.dao.bean;
 
-import com.weicoder.dao.params.FrameParams; 
+import com.weicoder.dao.params.DaoParams;
 
 /**
  * 分页信息保存的实体Bean 在分页Dao和Tag之间传递值用
@@ -12,14 +12,15 @@ public final class Pagination {
 	// 当前页
 	private int	currentPage	= 1;
 	// 每页显示数量
-	private int	pageSize	= FrameParams.PAGE_SIZE;
+	private int	pageSize	= DaoParams.PAGE_SIZE;
 
 	/**
 	 * 获得总页数
 	 * @return 总页数
 	 */
 	public int getTotalPage() {
-		return totalSize == 0 ? 1 : totalSize % pageSize == 0 ? totalSize / pageSize : totalSize / pageSize + 1;
+		return totalSize == 0 ? 1
+				: totalSize % pageSize == 0 ? totalSize / pageSize : totalSize / pageSize + 1;
 	}
 
 	/**
@@ -88,6 +89,23 @@ public final class Pagination {
 		// 总页数
 		int total = getTotalPage();
 		// 返回结束页
-		return (current == 1 || current < 6) ? (total > 10 ? 10 : total) : (current + 5 <= total ? current + 5 : total);
+		return (current == 1 || current < 6) ? (total > 10 ? 10 : total)
+				: (current + 5 <= total ? current + 5 : total);
+	}
+
+	/**
+	 * 获得最大结果数
+	 * @return 最大结果数
+	 */
+	public int getMaxResults() {
+		return getCurrentPage() * getPageSize();
+	}
+
+	/**
+	 * 获得从第N条开始返回结果
+	 * @return 从第N条开始返回结果
+	 */
+	public int getFirstResult() {
+		return (getCurrentPage() - 1) * getPageSize();
 	}
 }

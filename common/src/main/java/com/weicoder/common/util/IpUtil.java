@@ -67,13 +67,13 @@ public final class IpUtil {
 	}
 
 	/**
-	 * 获得本机IP数组 
+	 * 获得本机IP数组
 	 * @return 客户端IP组
 	 */
 	public static String[] getIps() {
 		try {
 			// 声明IP列表
-			List<String> list = Lists.getList();
+			List<String> list = Lists.newList();
 			// 获得网络接口迭代
 			Enumeration<NetworkInterface> netInterfaces = NetworkInterface.getNetworkInterfaces();
 			// 循环所以网络接口 获得IP
@@ -106,7 +106,7 @@ public final class IpUtil {
 		// 判断是IP
 		if (Validate.isIp(ip)) {
 			// 拆分IP
-			String[] t = ip.split(StringConstants.DOT);
+			String[] t = ip.split("\\.");
 			// 判断数组长度为4
 			if (t.length == 4) {
 				return Conversion.toInt(t[0]) << 24 | Conversion.toInt(t[1]) << 16 | Conversion.toInt(t[2]) << 8 | Conversion.toInt(t[3]);
@@ -135,6 +135,5 @@ public final class IpUtil {
 		return sb.toString();
 	}
 
-	private IpUtil() {
-	}
+	private IpUtil() {}
 }

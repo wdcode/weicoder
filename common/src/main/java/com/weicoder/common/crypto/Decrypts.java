@@ -81,7 +81,7 @@ public final class Decrypts extends BaseCrypt {
 	 * @return 返回解密后的字符串
 	 */
 	public static byte[] des(byte[] b, String keys) {
-		return decrypt(b, keys, CommonParams.ENCRYPT_KEY_LENGTH_DES, EncryptConstants.ALGO_DES);
+		return decrypt(b, keys, EncryptConstants.LENGTH_DES, EncryptConstants.ALGO_DES);
 	}
 
 	/**
@@ -100,7 +100,7 @@ public final class Decrypts extends BaseCrypt {
 	 * @return 返回解密后的字符串 text为空或发生异常返回原串
 	 */
 	public static byte[] aes(byte[] b, String keys) {
-		return decrypt(b, keys, CommonParams.ENCRYPT_KEY_LENGTH_AES, EncryptConstants.ALGO_AES);
+		return decrypt(b, keys, EncryptConstants.LENGTH_AES, EncryptConstants.ALGO_AES);
 	}
 
 	/**
@@ -119,7 +119,7 @@ public final class Decrypts extends BaseCrypt {
 	 * @return 返回解密后的字符串 text为空或发生异常返回原串
 	 */
 	public static byte[] rc4(byte[] b, String keys) {
-		return decrypt(b, keys, CommonParams.ENCRYPT_KEY_LENGTH_RC4, EncryptConstants.ALGO_RC4);
+		return decrypt(b, keys, EncryptConstants.LENGTH_RC4, EncryptConstants.ALGO_RC4);
 	}
 
 	/**
@@ -134,6 +134,5 @@ public final class Decrypts extends BaseCrypt {
 		return doFinal(b, keys, len, algorithm, Cipher.DECRYPT_MODE);
 	}
 
-	private Decrypts() {
-	}
+	private Decrypts() {}
 }

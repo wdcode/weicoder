@@ -1,7 +1,10 @@
 package com.weicoder.common.crypto;
 
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Map;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import com.weicoder.common.codec.Hex;
 import com.weicoder.common.constants.ArrayConstants;
@@ -20,7 +23,13 @@ import com.weicoder.common.util.StringUtil;
  */
 public final class Digest {
 	// 保存摘要算法
-	private final static Map<String, MessageDigest> DIGEST = Maps.getConcurrentMap();
+	private final static Map<String, MessageDigest>	DIGEST;
+	// 锁
+	private final static Lock						LOCK;
+	static {
+		DIGEST = Maps.newMap();
+		LOCK = new ReentrantLock();
+	}
 
 	/**
 	 * 加密密码 空密码不加密
@@ -178,22 +187,23 @@ public final class Digest {
 		if (EmptyUtil.isEmptys(b, algorithm)) {
 			return ArrayConstants.BYTES_EMPTY;
 		}
-		try {
-			// 根据算法获得摘要
-			MessageDigest digest = DIGEST.get(algorithm);
-			// 摘要为空
-			if (digest == null) {
-				// 声明新摘要
-				digest = MessageDigest.getInstance(algorithm);
-				// 设置到静态列表中
-				DIGEST.put(algorithm, digest);
+		// 根据算法获得摘要
+		MessageDigest digest = DIGEST.get(algorithm);
+		// 摘要为空
+		if (digest == null) {
+			// 声明新摘要
+			try {
+				LOCK.lock();
+				DIGEST.put(algorithm, digest = MessageDigest.getInstance(algorithm));
+			} catch (NoSuchAlgorithmException e) {
+				Logs.error(e);
+				return b;
+			} finally {
+				LOCK.unlock();
 			}
-			// 摘要算法
-			return digest.digest(b);
-		} catch (Exception e) {
-			Logs.error(e);
-			return b;
 		}
+		// 摘要算法
+		return digest.digest(b);
 	}
 
 	private Digest() {}

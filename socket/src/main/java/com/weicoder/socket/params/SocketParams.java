@@ -1,7 +1,9 @@
 package com.weicoder.socket.params;
 
-import com.weicoder.common.constants.ArrayConstants;
+import com.weicoder.common.config.Config;
+import com.weicoder.common.config.ConfigFactory;
 import com.weicoder.common.constants.StringConstants;
+import com.weicoder.common.constants.SystemConstants;
 import com.weicoder.common.params.Params;
 
 /**
@@ -9,20 +11,16 @@ import com.weicoder.common.params.Params;
  * @author WD
  */
 public final class SocketParams {
-	/** 前缀 */
-	private final static String		PREFIX		= "socket";
-	/** Socket连接地址 */
-	public final static String		HOST		= Params.getString(PREFIX + ".host");
-	/** Socket服务器端口 */
-	public final static int			PORT		= Params.getInt(PREFIX + ".port");
-	/** Socket服务器名称数组 */
-	public final static String[]	NAMES		= Params.getStringArray(PREFIX + ".names", new String[] { StringConstants.EMPTY });
-	/** Socket服务器名称数组 */
-	public final static String[]	REGISTERS	= Params.getStringArray(PREFIX + ".registers", new String[] { StringConstants.EMPTY });
-	/** 写缓存间隔时间 */
-	public final static long		WRITE		= Params.getLong(PREFIX + ".write", 0);
+	/** socket配置文件 */
+	public final static Config	CONFIG	= ConfigFactory.getConfig("socket");
+	/** 获得Socket检测时间 单位秒 */
+	public final static int		TIME	= CONFIG.getInt("time", 10);
+	/** 获得Socket超时时间 单位秒 */
+	public final static int		TIMEOUT	= CONFIG.getInt("timeout", 60);
+	/** 设置socket连接池大小 */
+	public final static int		POOL	= CONFIG.getInt("pool", SystemConstants.CPU_NUM * 2);
 	/** 分组广播数 */
-	public final static int			BROAD		= Params.getInt(PREFIX + ".broad", 10000);
+	public final static Boolean	ZIP		= CONFIG.getBoolean("zip", false);
 
 	/**
 	 * 获得Socket连接服务器
@@ -30,7 +28,7 @@ public final class SocketParams {
 	 * @return 服务器
 	 */
 	public static String getHost(String name) {
-		return Params.getString(Params.getKey(PREFIX, name, "host"));
+		return CONFIG.getString(getKey(name, "host"));
 	}
 
 	/**
@@ -39,25 +37,7 @@ public final class SocketParams {
 	 * @return 端口
 	 */
 	public static int getPort(String name) {
-		return Params.getInt(Params.getKey(PREFIX, name, "port"));
-	}
-
-	/**
-	 * 获得Socket检测拒绝次数
-	 * @param name 名称
-	 * @return 次数
-	 */
-	public static int getOver(String name) {
-		return Params.getInt(Params.getKey(PREFIX, name, "over"), 10);
-	}
-
-	/**
-	 * 获得Socket检测时间 单位秒
-	 * @param name 名称
-	 * @return 时间
-	 */
-	public static int getTime(String name) {
-		return Params.getInt(Params.getKey(PREFIX, name, "time"));
+		return CONFIG.getInt(getKey(name, "port"));
 	}
 
 	/**
@@ -66,79 +46,17 @@ public final class SocketParams {
 	 * @return 是否
 	 */
 	public static boolean isZip(String name) {
-		return Params.getBoolean(Params.getKey(PREFIX, name, "zip"), false);
+		return CONFIG.getBoolean(getKey(name, "zip"), false);
 	}
 
 	/**
-	 * 获得Socket心跳检测ID指令
+	 * 用name替换键
 	 * @param name 名称
-	 * @return 指令
+	 * @param key 键
+	 * @return 替换后的键
 	 */
-	public static short getHeartId(String name) {
-		return Params.getShort(Params.getKey(PREFIX, name, "heart.id"), (short) 0);
-	}
-
-	/**
-	 * 获得Socket心跳检测时间 单位秒
-	 * @param name 名称
-	 * @return 心跳检测时间
-	 */
-	public static int getHeartTime(String name) {
-		return Params.getInt(Params.getKey(PREFIX, name, "heart.time"));
-	}
-
-	/**
-	 * 是否回心跳包
-	 * @param name 名称
-	 * @return 是否
-	 */
-	public static boolean isHeartPack(String name) {
-		return Params.getBoolean(Params.getKey(PREFIX, name, "heart.pack"), true);
-	}
-
-	/**
-	 * 获得Socket是否需要登录 大于0的指令为登录
-	 * @param name 名称
-	 * @return 登陆
-	 */
-	public static String getLogin(String name) {
-		return Params.getString(Params.getKey(PREFIX, name, "login"));
-	}
-
-	/**
-	 * 获得socket处理handler包
-	 * @param name 名称
-	 * @return 包名
-	 */
-	public static String getPackage(String name) {
-		return Params.getString(Params.getKey(PREFIX, name, "package"));
-	}
-
-	/**
-	 * 获得socket处理handler包
-	 * @param name 名称
-	 * @return 包
-	 */
-	public static String[] getPackages(String name) {
-		return Params.getStringArray(Params.getKey(PREFIX, name, "packages"), ArrayConstants.STRING_EMPTY);
-	}
-
-	/**
-	 * 获得socket Session连接处理器
-	 * @param name 名称
-	 * @return 连接处理器
-	 */
-	public static String getConnected(String name) {
-		return Params.getString(Params.getKey(PREFIX, name, "connected"));
-	}
-
-	/**
-	 * 获得socket Session关闭处理器
-	 * @param name 名称
-	 * @return 关闭处理器
-	 */
-	public static String getClosed(String name) {
-		return Params.getString(Params.getKey(PREFIX, name, "closed"));
+	private static String getKey(String name, String key) {
+		return Params.getKey(StringConstants.EMPTY, name, key);
 	}
 
 	private SocketParams() {}

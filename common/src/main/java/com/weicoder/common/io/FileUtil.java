@@ -20,13 +20,13 @@ import com.weicoder.common.util.StringUtil;
 
 /**
  * 对文件进行一些处理。
- * @author WD  
+ * @author WD
  */
 public final class FileUtil {
 	// IO模式
-	private final static boolean IO = "io".equalsIgnoreCase(CommonParams.IO_MODE);
+	private final static boolean	IO	= "io".equalsIgnoreCase(CommonParams.IO_MODE);
 	// AIO模式
-	private final static boolean AIO = "aio".equalsIgnoreCase(CommonParams.IO_MODE);
+	private final static boolean	AIO	= "aio".equalsIgnoreCase(CommonParams.IO_MODE);
 
 	/**
 	 * 创建目录
@@ -120,7 +120,7 @@ public final class FileUtil {
 				// 返回字节数组
 				return b;
 			} catch (IOException e) {
-				Logs.error(e); 
+				Logs.error(e);
 			}
 		} else if (AIO) {
 			// 获得文件通道
@@ -132,7 +132,7 @@ public final class FileUtil {
 				// 返回字节数组
 				return buf.array();
 			} catch (Exception e) {
-				Logs.error(e); 
+				Logs.error(e);
 			}
 		} else {
 			// 获得文件通道
@@ -144,7 +144,7 @@ public final class FileUtil {
 				// 返回字节数组
 				return buf.array();
 			} catch (Exception e) {
-				Logs.error(e); 
+				Logs.error(e);
 			}
 		}
 		// 返回空字节数组
@@ -196,7 +196,7 @@ public final class FileUtil {
 	 * @return true 成功 false 失败
 	 */
 	public static boolean write(String fileName, byte[] b) {
-		return write(fileName, b, true);
+		return write(fileName, b, false);
 	}
 
 	/**
@@ -214,7 +214,7 @@ public final class FileUtil {
 	 * 把字节写到文件中 可指定写入位置
 	 * @param fileName 文件名
 	 * @param b 字节数组
-	 * @param pos 偏移 
+	 * @param pos 偏移
 	 */
 	public static void write(String fileName, byte[] b, long pos) {
 		if (IO) {
@@ -223,7 +223,7 @@ public final class FileUtil {
 				// 写字节数组
 				file.write(b);
 			} catch (IOException e) {
-				Logs.error(e); 
+				Logs.error(e);
 			}
 		} else if (AIO) {
 			// 获得文件通道
@@ -231,7 +231,7 @@ public final class FileUtil {
 				// 写字节数组
 				channel.write(ByteBuffer.wrap(b), pos);
 			} catch (Exception e) {
-				Logs.error(e); 
+				Logs.error(e);
 			}
 		} else {
 			// 获得文件通道
@@ -239,7 +239,7 @@ public final class FileUtil {
 				// 写字节数组
 				channel.write(ByteBuffer.wrap(b), pos);
 			} catch (Exception e) {
-				Logs.error(e); 
+				Logs.error(e);
 			}
 		}
 	}
@@ -320,7 +320,7 @@ public final class FileUtil {
 			file.seek(pos);
 		} catch (Exception e) {
 			Logs.error(e);
-//			Logs.debug("FileUtil getRandomAccessFile=" + e.toString());
+			// Logs.debug("FileUtil getRandomAccessFile=" + e.toString());
 		}
 		// 返回RandomAccessFile
 		return file;
@@ -364,7 +364,7 @@ public final class FileUtil {
 			return file == null ? null : file.exists() ? new FileInputStream(file) : null;
 		} catch (Exception e) {
 			Logs.error(e);
-//			Logs.debug("FileUtil getInputStream=" + e.toString());
+			// Logs.debug("FileUtil getInputStream=" + e.toString());
 			return null;
 		}
 	}
@@ -375,7 +375,7 @@ public final class FileUtil {
 	 * @return 输出流
 	 */
 	public static FileOutputStream getOutputStream(File file) {
-		return getOutputStream(file, true);
+		return getOutputStream(file, false);
 	}
 
 	/**
@@ -393,7 +393,7 @@ public final class FileUtil {
 			}
 			return new FileOutputStream(file, append);
 		} catch (Exception e) {
-			Logs.error(e); 
+			Logs.error(e);
 			return null;
 		}
 	}

@@ -12,5 +12,9 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Trigger {
-	String value();
+	/**
+	 * 时间表达式 0 * * * * ? （秒 分 时 日 月 年）
+	 * @return 返回表达式
+	 */
+	String value() default "0/1 * * * * ?";
 }

@@ -4,17 +4,13 @@ import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 
 import com.weicoder.common.binary.Buffer;
-import com.weicoder.common.concurrent.ScheduledUtile;
-import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.util.StringUtil;
-import com.weicoder.common.zip.ZipEngine;
 import com.weicoder.common.log.Logs;
-import com.weicoder.socket.params.SocketParams;
 import com.weicoder.socket.Session;
-import com.weicoder.socket.message.Null;
+import com.weicoder.socket.Sockets;
 
 /**
  * 基础Socket Session实现
@@ -29,10 +25,12 @@ public abstract class BaseSession implements Session {
 	protected String	ip;
 	// 保存端口
 	protected int		port;
+	// 心跳存活时间
+	protected int		heart;
 	// 写缓存
 	protected Buffer	buffer;
-	// 是否使用压缩
-	protected boolean	zip;
+	// 保存属性 一般为绑定的对象
+	protected Object	obj;
 
 	/**
 	 * 构造
@@ -41,95 +39,102 @@ public abstract class BaseSession implements Session {
 	public BaseSession(String name) {
 		// 获得名称
 		this.name = name;
-		// 获得是否压缩
-		this.zip = SocketParams.isZip(name);
 		// 声明缓存
 		buffer = new Buffer();
-		// 使用写缓存
-		if (SocketParams.WRITE > 0) {
-			// 定时监控写缓存
-			ScheduledUtile.rate(() -> flush(), SocketParams.WRITE);
-		}
 	}
 
 	@Override
-	public long id() {
+	public long getId() {
 		return id;
 	}
 
 	@Override
-	public String ip() {
+	public String getIp() {
 		return ip;
 	}
 
 	@Override
-	public int port() {
+	public int getPort() {
 		return port;
 	}
 
 	@Override
-	public byte[] send(short id, Object message) {
-		return send(pack(id, message));
+	public void send(short id, Object message) {
+		send(Sockets.pack(id, message));
 	}
 
 	@Override
-	public byte[] send(Object message) {
-		return send(pack(message));
+	public void send(Object message) {
+		send(Sockets.pack(message));
 	}
 
 	@Override
-	public byte[] buffer(short id, Object message) {
-		return buffer.write(pack(id, message));
+	public void write(short id, Object message) {
+		write(Sockets.pack(id, message));
 	}
 
 	@Override
-	public byte[] buffer(Object message) {
-		return buffer.write(pack(message));
+	public void write(Object message) {
+		write(Sockets.pack(message));
 	}
 
 	@Override
-	public void flush() {
-		// 有写入数据
-		if (buffer.hasRemaining()) {
-			// 获得写入缓存字节数组
-			byte[] data = buffer.array();
-			// 清除缓存
-			buffer.clear();
-			// 写缓存
-			write(data);
-			Logs.info("name=" + name + ";socket=" + id + ";buffer send len=" + data.length);
-		}
+	public Buffer buffer() {
+		return buffer;
 	}
 
 	@Override
-	public byte[] send(byte[] data) {
-		// 是否使用写缓存
-		if (SocketParams.WRITE > 0) {
-			// 使用缓存
-			buffer.write(data);
-		} else {
-			// 不用缓存 发送数据
-			write(data);
-			Logs.info("name=" + name + ";socket=" + id + ";send len=" + data.length + ";id=" + Bytes.toShort(data, 4));
-		}
+	public int getHeart() {
+		return heart;
+	}
+
+	@Override
+	public void setHeart(int heart) {
+		this.heart = heart;
+	}
+
+	@Override
+	public void send(byte[] data) {
+		// 发送数据
+		write(data);
+		flush();
+		Logs.info("name={};socket={};send len={};id={}", name, id, data.length, Bytes.toShort(data, 4));
+		// }
 		// 返回原始数据
-		return data;
+		// return data;
 	}
 
 	@Override
-	public void close() {
-		// 使用写缓存
-		if (SocketParams.WRITE > 0) {
-			while (buffer.hasRemaining()) {
-				try {
-					Thread.sleep(SocketParams.WRITE + 5);
-				} catch (InterruptedException e) {
-					Logs.debug(e);
-				}
-			}
-		}
-		// 调用关闭
-		close0();
+	public <E> void set(E e) {
+		this.obj = e;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public <E> E get() {
+		return (E) obj;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (int) (id ^ (id >>> 32));
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		BaseSession other = (BaseSession) obj;
+		if (id != other.id)
+			return false;
+		return true;
 	}
 
 	/**
@@ -149,59 +154,4 @@ public abstract class BaseSession implements Session {
 			this.port = Conversion.toInt(StringUtil.subString(host, StringConstants.COLON));
 		}
 	}
-
-	/**
-	 * 包装数据
-	 * @param id 指令
-	 * @param message 消息
-	 * @return 字节数组
-	 */
-	protected byte[] pack(short id, Object message) {
-		// 声明字节数组
-		byte[] data = toBytes(message);
-		// 返回数据
-		return Bytes.toBytes(Conversion.toShort(data.length + 2), id, data);
-	}
-
-	/**
-	 * 包装数据
-	 * @param message 消息
-	 * @return 字节数组
-	 */
-	protected byte[] pack(Object message) {
-		// 声明字节数组
-		byte[] data = toBytes(message);
-		// 返回数据
-		return Bytes.toBytes(Conversion.toShort(data.length), data);
-	}
-
-	/**
-	 * 转换message为字节数组
-	 * @param message 消息
-	 * @return 字节数组
-	 */
-	protected byte[] toBytes(Object message) {
-		// 日志
-		Logs.info("name=" + name + ";socket=" + id + ";message=" + message);
-		// 声明字节数组
-		byte[] data = null;
-		// 判断类型
-		if (message == null || message instanceof Null) {
-			// 空
-			data = ArrayConstants.BYTES_EMPTY;
-		} else if (message instanceof String) {
-			// 字符串
-			data = StringUtil.toBytes(Conversion.toString(message));
-		} else {
-			// 不知道的类型 以字节数组发送
-			data = Bytes.toBytes(message);
-		}
-		// 使用压缩并且长度大于一个字节长度返回压缩 不使用直接返回字节数组
-		return zip && data.length > Byte.MAX_VALUE ? ZipEngine.compress(data) : data;
-	}
-
-	/**
-	 * 关闭
-	 */
-	protected abstract void close0();
 }

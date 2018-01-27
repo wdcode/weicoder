@@ -3,9 +3,7 @@ package com.weicoder.common.lang;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.weicoder.common.util.ArrayUtil;
 import com.weicoder.common.util.EmptyUtil;
@@ -41,7 +39,7 @@ public final class Lists {
 	 * @param <E> 泛型
 	 * @return List
 	 */
-	public static <E> List<E> getList() {
+	public static <E> List<E> newList() {
 		return new ArrayList<E>();
 	}
 
@@ -51,7 +49,7 @@ public final class Lists {
 	 * @param <E> 泛型
 	 * @return List
 	 */
-	public static <E> List<E> getList(int size) {
+	public static <E> List<E> newList(int size) {
 		return new ArrayList<E>(size < 1 ? 1 : size);
 	}
 
@@ -62,8 +60,8 @@ public final class Lists {
 	 * @return List
 	 */
 	@SafeVarargs
-	public static <E> List<E> getList(E... es) {
-		return getList(ArrayUtil.toList(es));
+	public static <E> List<E> newList(E... es) {
+		return newList(ArrayUtil.toList(es));
 	}
 
 	/**
@@ -72,7 +70,7 @@ public final class Lists {
 	 * @param <E> 泛型
 	 * @return List
 	 */
-	public static <E> List<E> getList(Collection<E> c) {
+	public static <E> List<E> newList(Collection<E> c) {
 		return c == null ? new ArrayList<E>() : new ArrayList<E>(c);
 	}
 
@@ -83,9 +81,9 @@ public final class Lists {
 	 * @return List
 	 */
 	@SafeVarargs
-	public static <E> List<E> getList(Collection<E>... c) {
+	public static <E> List<E> newList(Collection<E>... c) {
 		// 获得一个列表
-		List<E> list = getList();
+		List<E> list = newList();
 		// 循环集合
 		for (int i = 0; i < c.length; i++) {
 			// 添加到列表中
@@ -95,106 +93,6 @@ public final class Lists {
 		}
 		// 返回列表
 		return list;
-	}
-
-	/**
-	 * 获得List实例 默认初始化大小为10
-	 * @param <E> 泛型
-	 * @return List
-	 */
-	public static <E> ArrayList<E> getArrayList() {
-		return new ArrayList<E>();
-	}
-
-	/**
-	 * 获得List实例
-	 * @param size 初始化大小
-	 * @param <E> 泛型
-	 * @return List
-	 */
-	public static <E> ArrayList<E> getArrayList(int size) {
-		return new ArrayList<E>(size < 1 ? 1 : size);
-	}
-
-	/**
-	 * 获得List实例
-	 * @param es 初始化的数组
-	 * @param <E> 泛型
-	 * @return List
-	 */
-	@SafeVarargs
-	public static <E> ArrayList<E> getArrayList(E... es) {
-		return getArrayList(ArrayUtil.toList(es));
-	}
-
-	/**
-	 * 获得List实例
-	 * @param c 初始化的集合
-	 * @param <E> 泛型
-	 * @return List
-	 */
-	public static <E> ArrayList<E> getArrayList(Collection<E> c) {
-		return c == null ? new ArrayList<E>() : new ArrayList<E>(c);
-	}
-
-	/**
-	 * 获得并发的List实例 实现类是CopyOnWriteArrayList
-	 * @param <E> 泛型
-	 * @return 同步的List
-	 */
-	public static <E> CopyOnWriteArrayList<E> getConcurrenrList() {
-		return new CopyOnWriteArrayList<E>();
-	}
-
-	/**
-	 * 获得并发的List实例 实现类是CopyOnWriteArrayList
-	 * @param e 初始化数组
-	 * @param <E> 泛型
-	 * @return 同步的List
-	 */
-	@SafeVarargs
-	public static <E> CopyOnWriteArrayList<E> getConcurrenrList(E... e) {
-		return new CopyOnWriteArrayList<E>(e);
-	}
-
-	/**
-	 * 获得并发的List实例 实现类是CopyOnWriteArrayList
-	 * @param c 初始化的集合
-	 * @param <E> 泛型
-	 * @return 同步的List
-	 */
-	public static <E> CopyOnWriteArrayList<E> getConcurrenrList(Collection<E> c) {
-		return new CopyOnWriteArrayList<E>(c);
-	}
-
-	/**
-	 * 获得同步的List实例 实现类是LinkedList
-	 * @param <E> 泛型
-	 * @return 同步的List
-	 */
-	public static <E> LinkedList<E> getLinkedList() {
-		return new LinkedList<E>();
-	}
-
-	/**
-	 * 获得同步的List实例 实现类是LinkedList
-	 * @param c 初始化的集合
-	 * @param <E> 泛型
-	 * @return 同步的List
-	 */
-	public static <E> LinkedList<E> getLinkedList(Collection<E> c) {
-		return new LinkedList<E>(c);
-	}
-
-	/**
-	 * 获得List实例 实现类是LinkedList
-	 * @param e 初始化的数组
-	 * @param <E> 泛型
-	 * @return List
-	 */
-	@SafeVarargs
-	public static <E> List<E> getLinkedList(E... e) {
-		return getLinkedList(ArrayUtil.toList(e));
 	}
 
 	/**

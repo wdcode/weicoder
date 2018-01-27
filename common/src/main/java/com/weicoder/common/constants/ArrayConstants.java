@@ -2,7 +2,7 @@ package com.weicoder.common.constants;
 
 /**
  * 数组常量
- * @author WD 
+ * @author WD
  */
 public final class ArrayConstants {
 	/** 一个空的字节数组 */

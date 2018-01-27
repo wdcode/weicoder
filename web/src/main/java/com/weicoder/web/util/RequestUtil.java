@@ -7,12 +7,12 @@ import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import com.weicoder.common.constants.ArrayConstants;
-import com.weicoder.common.constants.HttpConstants;
+import com.weicoder.common.constants.ArrayConstants; 
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.IpUtil;
+import com.weicoder.common.util.StringUtil;
 
 /**
  * Request一些相关操作类
@@ -40,11 +40,11 @@ public final class RequestUtil {
 		// 判断不为空
 		if (!EmptyUtil.isEmpty(request)) {
 			// 获得IP
-			String ip = request.getHeader(HttpConstants.HEADER_IP_X_FORWARDED_FOR);
+			String ip = request.getHeader("X-Forwarded-For");
 			// 判断如果为空继续获得
 			if (EmptyUtil.isEmpty(ip)) {
 				// 为空换方法获得
-				ip = request.getHeader(HttpConstants.HEADER_IP_X_REAL_IP);
+				ip = request.getHeader("X-Real-IP");
 			}
 			// 判断如果为空继续获得
 			if (EmptyUtil.isEmpty(ip)) {
@@ -77,7 +77,7 @@ public final class RequestUtil {
 	 */
 	public static String getDomain(HttpServletRequest request) {
 		// 获得域名
-		String domain = HttpConstants.HTTP + getServer(request) + getBase(request);
+		String domain = StringUtil.add("http://", getServer(request), getBase(request));
 		// 返回域名
 		return domain.endsWith(StringConstants.BACKSLASH) ? domain : domain + StringConstants.BACKSLASH;
 	}
@@ -108,7 +108,7 @@ public final class RequestUtil {
 	 */
 	public static Map<String, String> getParameters(ServletRequest request) {
 		// 声明空Map
-		Map<String, String> map = Maps.getMap();
+		Map<String, String> map = Maps.newMap();
 		// 获得提交的所以参数名
 		for (Enumeration<String> e = request.getParameterNames(); e.hasMoreElements();) {
 			// 获得参数Key
@@ -207,7 +207,7 @@ public final class RequestUtil {
 	 * @return 浏览器类型
 	 */
 	public static String getUserAgent(HttpServletRequest request) {
-		return request.getHeader(HttpConstants.HEADER_USER_AGENT);
+		return request.getHeader("User-Agent");
 	}
 
 	/**
@@ -216,7 +216,7 @@ public final class RequestUtil {
 	 * @return 浏览器语言
 	 */
 	public static String getLanguage(HttpServletRequest request) {
-		return request.getHeader(HttpConstants.HEADER_ACCEPT_LANGUAGE);
+		return request.getHeader("accept-language");
 	}
 
 	private RequestUtil() {}

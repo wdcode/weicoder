@@ -24,12 +24,12 @@ import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.nio.reactor.IOReactorException;
 
-import com.weicoder.common.constants.EncodingConstants;
 import com.weicoder.common.constants.HttpConstants;
 import com.weicoder.common.constants.SystemConstants;
 import com.weicoder.common.io.IOUtil;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.log.Logs;
+import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
 
@@ -62,14 +62,14 @@ public final class HttpAsyncClient {
 		builder.setConnectionManager(pool);
 		builder.setMaxConnPerRoute(SystemConstants.CPU_NUM * 10);
 		// 设置 头
-		List<BasicHeader> headers = Lists.getList();
+		List<BasicHeader> headers = Lists.newList();
 		headers.add(new BasicHeader(HttpConstants.USER_AGENT_KEY, HttpConstants.USER_AGENT_VAL));
 		headers.add(new BasicHeader(HttpConstants.ACCEPT_KEY, HttpConstants.ACCEPT_VAL));
 		headers.add(new BasicHeader(HttpConstants.ACCEPT_LANGUAGE_KEY, HttpConstants.ACCEPT_LANGUAGE_VAL));
 		headers.add(new BasicHeader(HttpConstants.ACCEPT_CHARSET_KEY, HttpConstants.ACCEPT_CHARSET_VAL));
 		builder.setDefaultHeaders(headers);
 		// 设置连接配置
-		builder.setDefaultConnectionConfig(ConnectionConfig.custom().setCharset(Charset.forName(EncodingConstants.UTF_8)).build());
+		builder.setDefaultConnectionConfig(ConnectionConfig.custom().setCharset(Charset.forName(CommonParams.ENCODING)).build());
 		// 实例化客户端
 		CLIENT = builder.build();
 		// 启动
@@ -82,7 +82,7 @@ public final class HttpAsyncClient {
 	 * @param callback 回调结果
 	 */
 	public static void get(String url, Callback<String> callback) {
-		get(url, callback, EncodingConstants.UTF_8);
+		get(url, callback, CommonParams.ENCODING);
 	}
 
 	/**
@@ -205,7 +205,7 @@ public final class HttpAsyncClient {
 	 * @param callback 回调结果
 	 */
 	public static void post(String url, Map<String, String> data, Callback<String> callback) {
-		post(url, data, callback, EncodingConstants.UTF_8);
+		post(url, data, callback, CommonParams.ENCODING);
 	}
 
 	/**
@@ -225,7 +225,7 @@ public final class HttpAsyncClient {
 			// 如果参数列表为空 data为空map
 			if (!EmptyUtil.isEmpty(data)) {
 				// 声明参数列表
-				List<NameValuePair> list = Lists.getList(data.size());
+				List<NameValuePair> list = Lists.newList(data.size());
 				// 设置参数
 				for (Map.Entry<String, String> entry : data.entrySet()) {
 					// 添加参数
@@ -266,4 +266,16 @@ public final class HttpAsyncClient {
 	}
 
 	private HttpAsyncClient() {}
+
+	/**
+	 * HTTP 异步回调
+	 * @author WD
+	 */
+	public interface Callback<T> {
+		/**
+		 * http请求成功后返回
+		 * @param result 返回结果
+		 */
+		void callback(T result);
+	}
 }

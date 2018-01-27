@@ -2,7 +2,6 @@ package com.weicoder.common.lang;
 
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -25,38 +24,6 @@ public final class Maps {
 	}
 
 	/**
-	 * 获得Map实例 默认初始化大小为10
-	 * @param <K> 泛型
-	 * @param <V> 泛型
-	 * @return Map
-	 */
-	public static <K, V> Map<K, V> getMap() {
-		return getHashMap();
-	}
-
-	/**
-	 * 获得Map实例
-	 * @param size 初始化大小
-	 * @param <K> 泛型
-	 * @param <V> 泛型
-	 * @return Map
-	 */
-	public static <K, V> Map<K, V> getMap(int size) {
-		return getHashMap(size < 1 ? 1 : size);
-	}
-
-	/**
-	 * 获得Map实例
-	 * @param map 初始化的Map
-	 * @param <K> 泛型
-	 * @param <V> 泛型
-	 * @return Map
-	 */
-	public static <K, V> Map<K, V> getMap(Map<K, V> map) {
-		return getHashMap(map);
-	}
-
-	/**
 	 * 获得Map实例
 	 * @param key 键
 	 * @param value 值
@@ -64,9 +31,9 @@ public final class Maps {
 	 * @param <V> 泛型
 	 * @return Map
 	 */
-	public static <K, V> Map<K, V> getMap(K key, V value) {
+	public static <K, V> Map<K, V> newMap(K key, V value) {
 		// 获得Map
-		Map<K, V> map = getMap();
+		Map<K, V> map = newMap();
 		// 设置键值
 		map.put(key, value);
 		// 返回Map
@@ -81,8 +48,8 @@ public final class Maps {
 	 * @param <V> 泛型
 	 * @return Map
 	 */
-	public static <K, V> Map<K, V> getMap(K[] keys, V[] values) {
-		return getMap(Lists.getList(keys), Lists.getList(values));
+	public static <K, V> Map<K, V> newMap(K[] keys, V[] values) {
+		return newMap(Lists.newList(keys), Lists.newList(values));
 	}
 
 	/**
@@ -93,13 +60,13 @@ public final class Maps {
 	 * @param <V> 泛型
 	 * @return Map
 	 */
-	public static <K, V> Map<K, V> getMap(List<K> keys, List<V> values) {
+	public static <K, V> Map<K, V> newMap(List<K> keys, List<V> values) {
 		// 判断key和value为空或则键值数量不同 返回空Map
 		if (EmptyUtil.isEmpty(keys) || EmptyUtil.isEmpty(values) || keys.size() != values.size()) {
 			return emptyMap();
 		}
 		// 获得Map
-		Map<K, V> map = getMap();
+		Map<K, V> map = newMap();
 		// 循环填充map
 		for (int i = 0; i < keys.size(); i++) {
 			// 设置键值
@@ -110,6 +77,38 @@ public final class Maps {
 	}
 
 	/**
+	 * 获得Map实例 默认初始化大小为10
+	 * @param <K> 泛型
+	 * @param <V> 泛型
+	 * @return Map
+	 */
+	public static <K, V> Map<K, V> newMap() {
+		return new HashMap<K, V>();
+	}
+
+	/**
+	 * 获得Map实例
+	 * @param size 初始化大小
+	 * @param <K> 泛型
+	 * @param <V> 泛型
+	 * @return Map
+	 */
+	public static <K, V> Map<K, V> newMap(int size) {
+		return new HashMap<K, V>(size < 1 ? 1 : size);
+	}
+
+	/**
+	 * 获得Map实例
+	 * @param map 初始化的Map
+	 * @param <K> 泛型
+	 * @param <V> 泛型
+	 * @return Map
+	 */
+	public static <K, V> Map<K, V> newMap(Map<K, V> map) {
+		return map == null ? new HashMap<K, V>() : new HashMap<K, V>(map);
+	}
+
+	/**
 	 * 获得Map实例
 	 * @param maps 初始化的Map
 	 * @param <K> 泛型
@@ -117,9 +116,9 @@ public final class Maps {
 	 * @return Map
 	 */
 	@SafeVarargs
-	public static <K, V> Map<K, V> getMap(Map<K, V>... maps) {
+	public static <K, V> Map<K, V> newMap(Map<K, V>... maps) {
 		// 获得一个map
-		Map<K, V> map = getMap();
+		Map<K, V> map = newMap();
 		// 循环maps
 		for (int i = 0; i < maps.length; i++) {
 			// 添加到map
@@ -130,108 +129,12 @@ public final class Maps {
 	}
 
 	/**
-	 * 获得Map实例 实现类是HashMap
-	 * @param <K> 泛型
-	 * @param <V> 泛型
-	 * @return Map
-	 */
-	public static <K, V> HashMap<K, V> getHashMap() {
-		return new HashMap<K, V>();
-	}
-
-	/**
-	 * 获得Map实例 实现类是HashMap
-	 * @param size 初始化大小
-	 * @param <K> 泛型
-	 * @param <V> 泛型
-	 * @return Map
-	 */
-	public static <K, V> HashMap<K, V> getHashMap(int size) {
-		return new HashMap<K, V>(size);
-	}
-
-	/**
-	 * 获得Map实例 实现类是HashMap
-	 * @param map 初始化的Map
-	 * @param <K> 泛型
-	 * @param <V> 泛型
-	 * @return Map
-	 */
-	public static <K, V> HashMap<K, V> getHashMap(Map<K, V> map) {
-		return map == null ? new HashMap<K, V>() : new HashMap<K, V>(map);
-	}
-
-	/**
-	 * 获得Map实例 实现类是LinkedHashMap 默认初始化大小为10
-	 * @param <K> 泛型
-	 * @param <V> 泛型
-	 * @return Map
-	 */
-	public static <K, V> LinkedHashMap<K, V> getLinkedHashMap() {
-		return getLinkedHashMap(10);
-	}
-
-	/**
-	 * 获得Map实例 实现类是LinkedHashMap
-	 * @param size 初始化大小
-	 * @param <K> 泛型
-	 * @param <V> 泛型
-	 * @return Map
-	 */
-	public static <K, V> LinkedHashMap<K, V> getLinkedHashMap(int size) {
-		return new LinkedHashMap<K, V>(size);
-	}
-
-	/**
-	 * 获得Map实例 实现类是LinkedHashMap
-	 * @param map 初始化的Map
-	 * @param <K> 泛型
-	 * @param <V> 泛型
-	 * @return Map
-	 */
-	public static <K, V> LinkedHashMap<K, V> getLinkedHashMap(Map<K, V> map) {
-		return new LinkedHashMap<K, V>(map);
-	}
-
-	/**
-	 * 获得同步的Map实例 实现类是HashMap 默认初始化大小为10
-	 * @param <K> 泛型
-	 * @param <V> 泛型
-	 * @return Map
-	 */
-	public static <K, V> Map<K, V> getSynchronizedMap() {
-		return getSynchronizedMap(10);
-	}
-
-	/**
-	 * 获得同步的Map实例 实现类是HashMap
-	 * @param <K> 泛型
-	 * @param <V> 泛型
-	 * @param size 初始化大小
-	 * @return Map
-	 */
-	public static <K, V> Map<K, V> getSynchronizedMap(int size) {
-		return Collections.synchronizedMap(new HashMap<K, V>(size));
-	}
-
-	/**
-	 * 获得同步的Map实例 实现类是HashMap
-	 * @param map 初始化的Map
-	 * @param <K> 泛型
-	 * @param <V> 泛型
-	 * @return Map
-	 */
-	public static <K, V> Map<K, V> getSynchronizedMap(Map<K, V> map) {
-		return Collections.synchronizedMap(new HashMap<K, V>(map));
-	}
-
-	/**
 	 * 获得同步的Map实例 实现类是ConcurrentHashMap 默认初始化大小为10
 	 * @param <K> 泛型
 	 * @param <V> 泛型
 	 * @return Map
 	 */
-	public static <K, V> ConcurrentMap<K, V> getConcurrentMap() {
+	public static <K, V> ConcurrentMap<K, V> newConcurrentMap() {
 		return new ConcurrentHashMap<K, V>();
 	}
 
@@ -242,7 +145,7 @@ public final class Maps {
 	 * @param <V> 泛型
 	 * @return Map
 	 */
-	public static <K, V> ConcurrentMap<K, V> getConcurrentMap(int size) {
+	public static <K, V> ConcurrentMap<K, V> newConcurrentMap(int size) {
 		return new ConcurrentHashMap<K, V>(size);
 	}
 
@@ -253,7 +156,7 @@ public final class Maps {
 	 * @param <V> 泛型
 	 * @return Map
 	 */
-	public static <K, V> ConcurrentMap<K, V> getConcurrentMap(Map<K, V> map) {
+	public static <K, V> ConcurrentMap<K, V> newConcurrentMap(Map<K, V> map) {
 		return new ConcurrentHashMap<K, V>(map);
 	}
 

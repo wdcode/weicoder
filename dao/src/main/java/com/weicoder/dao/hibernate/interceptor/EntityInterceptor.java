@@ -7,9 +7,9 @@ import org.hibernate.Interceptor;
 
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.util.EmptyUtil;
-import com.weicoder.common.util.SqlUtil;
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.dao.hibernate.shards.Shards;
+import com.weicoder.dao.util.SqlUtil;
 
 /**
  * hibernate 实体拦截器
@@ -19,10 +19,9 @@ public class EntityInterceptor extends EmptyInterceptor {
 	public static final Interceptor	INSTANCE			= new EntityInterceptor();
 	private static final long		serialVersionUID	= 2314652107885146870L;
 	// 原表名
-	private Map<String, String>		names				= Maps.getMap();
+	private Map<String, String>		names				= Maps.newMap();
 
-	private EntityInterceptor() {
-	}
+	private EntityInterceptor() {}
 
 	@Override
 	public String onPrepareStatement(String sql) {

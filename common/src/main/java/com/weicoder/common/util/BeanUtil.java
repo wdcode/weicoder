@@ -100,7 +100,7 @@ public final class BeanUtil {
 		// 获得列表大小
 		int size = list.size();
 		// 获得列表
-		List<T> ls = Lists.getList(size);
+		List<T> ls = Lists.newList(size);
 		// 是 ArrayList
 		for (int i = 0; i < size; i++) {
 			ls.add(copy(list.get(i), dest));
@@ -145,7 +145,7 @@ public final class BeanUtil {
 			return Lists.emptyList();
 		}
 		// 声明返回列表
-		List<Object> ls = Lists.getList(list.size());
+		List<Object> ls = Lists.newList(list.size());
 		// 循环添加
 		for (Object e : list) {
 			// 获得值
@@ -170,7 +170,7 @@ public final class BeanUtil {
 		// 获得所有字段
 		List<Field> fields = getFields(obj.getClass());
 		// 声明值列表
-		List<Object> values = Lists.getList(fields.size());
+		List<Object> values = Lists.newList(fields.size());
 		// 循环赋值
 		for (Field field : fields) {
 			values.add(getFieldValue(obj, field.getName()));
@@ -356,12 +356,12 @@ public final class BeanUtil {
 			return Lists.emptyList();
 		}
 		// 声明列表
-		List<Field> fields = Lists.getList();
+		List<Field> fields = Lists.newList();
 		// 循环对象类
 		for (; clazz != Object.class; clazz = clazz.getSuperclass()) {
 			try {
 				// 添加字段列表
-				fields.addAll(Lists.getList(clazz.getDeclaredFields()));
+				fields.addAll(Lists.newList(clazz.getDeclaredFields()));
 			} catch (Exception e) {}
 		}
 		// 没有找到返回null

@@ -2,11 +2,12 @@ package com.weicoder.common.codec;
 
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.lang.Bytes;
+import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.EmptyUtil;
 
 /**
  * Base64 编码解码
- * @author WD 
+ * @author WD
  */
 public final class Base64 {
 	// 编码用
@@ -27,6 +28,7 @@ public final class Base64 {
 		}
 		CODES['+'] = 62;
 		CODES['/'] = 63;
+		Logs.trace("Base64 init complete");
 	}
 
 	/**
@@ -44,6 +46,7 @@ public final class Base64 {
 	 * @return 编码后的字符串
 	 */
 	public static String encode(byte[] data) {
+		Logs.trace("Base64 encode");
 		// 声明保存char数组
 		final char[] out = new char[((data.length + 2) / 3) * 4];
 		// 编码
@@ -81,8 +84,11 @@ public final class Base64 {
 	 * @return 解码后的字节数组
 	 */
 	public static byte[] decode(String str) {
+		Logs.trace("Base64 decode");
 		// 要解码的字符串为空
-		if (EmptyUtil.isEmpty(str)) { return ArrayConstants.BYTES_EMPTY; }
+		if (EmptyUtil.isEmpty(str)) {
+			return ArrayConstants.BYTES_EMPTY;
+		}
 		// 变为char数组
 		char[] data = str.toCharArray();
 		// 获得长度

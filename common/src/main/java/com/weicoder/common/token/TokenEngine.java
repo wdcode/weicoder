@@ -20,10 +20,11 @@ public final class TokenEngine {
 	 * 加密信息
 	 * @param id 用户ID
 	 * @param ip 用户IP
+	 * @param time 有效时间 当前时间戳加上time 单位秒
 	 * @return 加密token字符串
 	 */
-	public static String encrypt(long id, String ip) {
-		return encrypt(new Token(id, ip));
+	public static String encrypt(int id, String ip, int time) {
+		return encrypt(new Token(id, ip, time));
 	}
 
 	/**
@@ -47,7 +48,7 @@ public final class TokenEngine {
 		// 声明Token
 		Token token = new Token();
 		// 验证去掉"""
-		info = StringUtil.replace(info, StringConstants.DOUBLE_QUOT, StringConstants.EMPTY);
+		info = StringUtil.replace(info, "\"", StringConstants.EMPTY);
 		// 判断验证串是否符合标准
 		if (!EmptyUtil.isEmpty(info) && info.length() > LENGHT) {
 			// 变为小写

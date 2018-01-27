@@ -39,7 +39,7 @@ public final class MemcacheArray extends BaseMemcache {
 		// 初始化线程池
 		service = Executors.newFixedThreadPool(num);
 		// 实例化集群使用列表
-		ces = Lists.getList(num);
+		ces = Lists.newList(num);
 		// 初始化实例化集群使用列表
 		for (int i = 0; i < num; i++) {
 			ces.add(new ClientEntity(i));
@@ -69,8 +69,8 @@ public final class MemcacheArray extends BaseMemcache {
 	 * @param keys 键
 	 * @return 值
 	 */
-	public Map<String, Object> getMap(String... keys) {
-		return getMemCacheClient().getMap(keys);
+	public Map<String, Object> newMap(String... keys) {
+		return getMemCacheClient().newMap(keys);
 	}
 
 	/**
@@ -158,7 +158,7 @@ public final class MemcacheArray extends BaseMemcache {
 	/**
 	 * 客户端实体保存使用次数
 	 * @author WD
-	 * @since JDK7 2011-12-20
+	 *  2011-12-20
 	 */
 	class ClientEntity implements Comparable<ClientEntity> {
 		// 下标

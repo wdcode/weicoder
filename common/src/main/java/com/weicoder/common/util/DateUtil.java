@@ -943,17 +943,17 @@ public final class DateUtil {
 		}
 		// 连成时间字符串 不足10的补0
 		if (hour < 10) {
-			timeString.append(StringConstants.ZERO);
+			timeString.append("0");
 		}
 		timeString.append(hour);
-		timeString.append(":");
+		timeString.append(StringConstants.COLON);
 		if (minute < 10) {
-			timeString.append(StringConstants.ZERO);
+			timeString.append("0");
 		}
 		timeString.append(minute);
-		timeString.append(":");
+		timeString.append(StringConstants.COLON);
 		if (second < 10) {
-			timeString.append(StringConstants.ZERO);
+			timeString.append("0");
 		}
 		if (isNegative) {
 			time *= -1;

@@ -4,7 +4,7 @@
 	<groupId>com.weicoder</groupId>
 	<artifactId>dao</artifactId>
 	<packaging>jar</packaging>
-	<version>2.2</version>
+	<version>2.3</version>
 	<name>weicoder</name>
 	<description>java dao</description>
 	<url>https://github.com/wdcode/weicoder</url>
@@ -37,41 +37,33 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.weicoder</groupId>
-			<artifactId>common</artifactId>
-			<version>2.2</version>
+			<artifactId>core</artifactId>
+			<version>2.3</version>
 		</dependency>     
-		<dependency>
-			<groupId>com.alibaba</groupId>
-			<artifactId>druid</artifactId>
-			<version>1.0.24</version> 
-			<scope>provided</scope>
-		</dependency>  
-		<dependency>
-			<groupId>org.apache.tomcat</groupId>
-			<artifactId>tomcat-jdbc</artifactId>
-			<version>8.0.36</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.zaxxer</groupId>
-			<artifactId>HikariCP</artifactId>
-			<version>2.4.6</version>
-			<scope>provided</scope>
-		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
-			<version>5.2.2.Final</version>
+			<version>5.2.12.Final</version> 
+		</dependency>
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid</artifactId>
+			<version>1.1.6</version>  
+		</dependency>
+		<dependency>
+			<groupId>org.apache.tomcat</groupId>
+			<artifactId>tomcat-jdbc</artifactId>
+			<version>8.5.16</version>
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 
 	<build>
 		<plugins>
-			<plugin>
+			<plugin>	
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.5.1</version>
+				<version>3.7.0</version>
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
@@ -106,7 +98,16 @@
 			</distributionManagement>
 			<build>
 				<plugins>
-					<!-- Source -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<version>3.7.0</version>
+						<configuration>
+							<source>1.8</source>
+							<target>1.8</target>
+							<encoding>UTF-8</encoding>
+						</configuration>
+					</plugin>
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-source-plugin</artifactId>
@@ -119,12 +120,11 @@
 								</goals>
 							</execution>
 						</executions>
-					</plugin>
-					<!-- Javadoc -->
+					</plugin> 
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-javadoc-plugin</artifactId>
-						<version>2.10.4</version>
+						<version>3.0.0</version>
 						<executions>
 							<execution>
 								<phase>package</phase>
@@ -141,10 +141,10 @@
 						<executions>
 							<execution>
 								<id>sign-artifacts</id>
-								<phase>verify</phase>
+								<phase>verify</phase> 
 								<goals>
 									<goal>sign</goal>
-								</goals>
+								</goals> 
 							</execution>
 						</executions>
 					</plugin>

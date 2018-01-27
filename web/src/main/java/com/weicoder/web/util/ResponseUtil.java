@@ -13,7 +13,7 @@ import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.util.CloseUtil;
 import com.weicoder.common.util.EmptyUtil;
-import com.weicoder.common.json.JsonEngine;
+import com.weicoder.core.json.JsonEngine;
 import com.weicoder.common.log.Logs;
 
 /**
@@ -49,6 +49,7 @@ public final class ResponseUtil {
 		try {
 			pw = response.getWriter();
 			pw.write(str);
+			Logs.debug("write to string={}", str);
 		} catch (Exception e) {
 			Logs.error(e);
 		} finally {
@@ -107,13 +108,14 @@ public final class ResponseUtil {
 		StringBuilder s = new StringBuilder();
 		// 如果callback不为空 填补左括号
 		if (!EmptyUtil.isEmpty(callback)) {
-			s.append(callback).append(StringConstants.LEFT_PARENTHESIS);
+			s.append(callback).append("(");
 		}
 		// 添加json数据
-		s.append(data instanceof String || data instanceof Number ? Conversion.toString(data) : JsonEngine.toJson(data));
+		s.append(data instanceof String || data instanceof Number ? Conversion.toString(data)
+				: JsonEngine.toJson(data));
 		// 如果callback不为空 填补右括号
 		if (!EmptyUtil.isEmpty(callback)) {
-			s.append(StringConstants.RIGHT_PARENTHESIS);
+			s.append(")");
 		}
 		// 写入前端
 		return write(response, s.toString());
@@ -125,9 +127,10 @@ public final class ResponseUtil {
 	 */
 	public static void noCache(HttpServletResponse response) {
 		if (!EmptyUtil.isEmpty(response)) {
-			response.setHeader(HttpConstants.HEADER_KEY_PRAGMA, HttpConstants.HEADER_VAL_NO_CACHE);
-			response.setHeader(HttpConstants.HEADER_KEY_CACHE_CONTROL, HttpConstants.HEADER_VAL_NO_CACHE);
-			response.setDateHeader(HttpConstants.HEADER_KEY_EXPIRES, 0);
+			response.setHeader("Pragma", HttpConstants.HEADER_VAL_NO_CACHE);
+			response.setHeader(HttpConstants.HEADER_KEY_CACHE_CONTROL,
+					HttpConstants.HEADER_VAL_NO_CACHE);
+			response.setDateHeader("Expires", 0);
 		}
 	}
 

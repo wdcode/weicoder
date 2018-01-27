@@ -8,6 +8,7 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 
 import com.weicoder.common.log.Logs;
 import com.weicoder.nosql.params.KafkaParams;
+import com.weicoder.nosql.params.ZookeeperParams;
 
 /**
  * 生产者
@@ -20,6 +21,7 @@ public final class KafkaProducers {
 	static {
 		Properties props = new Properties();
 		props.put("bootstrap.servers", KafkaParams.SERVERS);
+		props.put("zookeeper.connect", ZookeeperParams.CONNECT);
 		props.put("acks", "all");
 		props.put("retries", 0);
 		props.put("batch.size", 16384);
@@ -28,6 +30,7 @@ public final class KafkaProducers {
 		props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
 		props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
 		producer = new KafkaProducer<>(props);
+		Logs.trace("KafkaProducers init complete");
 	}
 
 	/**
@@ -37,7 +40,8 @@ public final class KafkaProducers {
 	 */
 	public static void send(String topic, String value) {
 		producer.send(new ProducerRecord<>(topic, value));
-		Logs.debug("kafka send producer topic={},value={}", topic, value);
+		producer.flush();
+		Logs.trace("kafka send producer topic={},value={}", topic, value);
 	}
 
 	/**
@@ -48,7 +52,8 @@ public final class KafkaProducers {
 	 */
 	public static void send(String topic, String key, String value) {
 		producer.send(new ProducerRecord<>(topic, key, value));
-		Logs.debug("kafka send producer topic={},key={},value={}", topic, key, value);
+		producer.flush();
+		Logs.trace("kafka send producer topic={},key={},value={}", topic, key, value);
 	}
 
 	private KafkaProducers() {}

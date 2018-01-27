@@ -3,11 +3,12 @@ package com.weicoder.common.codec;
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Bytes;
+import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.EmptyUtil;
 
 /**
  * Hex 编码解码
- * @author WD 
+ * @author WD
  */
 public final class Hex {
 	// 编码用
@@ -28,8 +29,11 @@ public final class Hex {
 	 * @return 编码后的字符串
 	 */
 	public static String encode(byte[] data) {
+		Logs.trace("Hex encode");
 		// 如果为空返回字符串
-		if (EmptyUtil.isEmpty(data)) { return StringConstants.EMPTY; }
+		if (EmptyUtil.isEmpty(data)) {
+			return StringConstants.EMPTY;
+		}
 		// 声明字符数组
 		int l = data.length;
 		char[] out = new char[l << 1];
@@ -48,8 +52,11 @@ public final class Hex {
 	 * @return 解码后的字节数组
 	 */
 	public static byte[] decode(String str) {
+		Logs.trace("Hex decode");
 		// 如果要解码的字符串为空 返回字节数组
-		if (EmptyUtil.isEmpty(str)) { return ArrayConstants.BYTES_EMPTY; }
+		if (EmptyUtil.isEmpty(str)) {
+			return ArrayConstants.BYTES_EMPTY;
+		}
 		// 声明字节数组
 		char[] data = str.toCharArray();
 		int len = data.length;

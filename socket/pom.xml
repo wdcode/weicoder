@@ -4,7 +4,7 @@
 	<groupId>com.weicoder</groupId>
 	<artifactId>socket</artifactId>
 	<packaging>jar</packaging>
-	<version>2.2</version>
+	<version>2.3</version>
 	<name>weicoder</name>
 	<description>java socket</description>
 	<url>https://github.com/wdcode/weicoder</url>
@@ -37,13 +37,13 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.weicoder</groupId>
-			<artifactId>common</artifactId>
-			<version>2.2</version>
+			<artifactId>core</artifactId>
+			<version>2.3</version>
 		</dependency>
 		<dependency>
 			<groupId>io.netty</groupId>
 			<artifactId>netty-all</artifactId>
-			<version>4.1.4.Final</version> 
+			<version>4.1.20.Final</version>
 		</dependency>
 	</dependencies>
 
@@ -52,7 +52,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.5.1</version>
+				<version>3.7.0</version>
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
@@ -87,7 +87,16 @@
 			</distributionManagement>
 			<build>
 				<plugins>
-					<!-- Source -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<version>3.7.0</version>
+						<configuration>
+							<source>1.8</source>
+							<target>1.8</target>
+							<encoding>UTF-8</encoding>
+						</configuration>
+					</plugin>
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-source-plugin</artifactId>
@@ -101,11 +110,10 @@
 							</execution>
 						</executions>
 					</plugin>
-					<!-- Javadoc -->
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-javadoc-plugin</artifactId>
-						<version>2.10.4</version>
+						<version>3.0.0</version>
 						<executions>
 							<execution>
 								<phase>package</phase>

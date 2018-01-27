@@ -29,7 +29,12 @@ public final class EncryptConstants {
 	public final static String	ALGO_AES			= "AES";
 	/** 加密算法 RC4 */
 	public final static String	ALGO_RC4			= "RC4";
+	/** DES加密使用的密钥的长度(位) */
+	public final static int		LENGTH_DES			= 8;
+	/** AES加密使用的密钥的长度(位) */
+	public final static int		LENGTH_AES			= 16;
+	/** RC4加密使用的密钥的长度(位) */
+	public final static int		LENGTH_RC4			= 16;
 
-	private EncryptConstants() {
-	}
+	private EncryptConstants() {}
 }

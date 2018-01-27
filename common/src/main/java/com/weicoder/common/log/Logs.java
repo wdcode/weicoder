@@ -5,11 +5,11 @@ import com.weicoder.common.util.ClassUtil;
 
 /**
  * 打印日志工具类
- * @author WD 
+ * @author WD
  */
 public final class Logs {
 	// loggin日志对象
-	private final static Log LOG = (Log) ClassUtil.newInstance(CommonParams.LOG_CLASS);
+	private final static Log LOG = ClassUtil.newInstance(CommonParams.LOG_CLASS, new LogJdk());
 
 	/**
 	 * 使用trace打印日志

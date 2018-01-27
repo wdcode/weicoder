@@ -27,6 +27,7 @@ public class Tomcat extends BaseDataSource {
 		ds.setTimeBetweenEvictionRunsMillis(Conversion.toInt(DataSourceParams.getIdleTimeout(name)));
 		ds.setInitialSize(DataSourceParams.getInitialPoolSize(name));
 		ds.setMaxIdle(Conversion.toInt(DataSourceParams.getMinPoolSize(name)));
+		ds.setValidationQuery("SELECT 1"); 
 	}
 
 	@Override
