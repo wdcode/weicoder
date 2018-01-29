@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.weicoder.frame.engine.LoginEngine;
+import com.weicoder.frame.entity.EntityUser;
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.params.Params;
@@ -20,10 +21,10 @@ import java.io.IOException;
 /**
  * 检测用户是否登陆
  * @author WD
- * 
+ * @since JDK7
  * @version 1.0 2010-03-07
  */
-public final class LoginFilter implements Filter {
+public final class LoginFilter<L extends EntityUser> implements Filter {
 	// 常量
 	private final static String	REDIRECT	= "redirect";
 	private final static String	LOGIN		= "login";
@@ -62,11 +63,11 @@ public final class LoginFilter implements Filter {
 		boolean find = true;
 		// 获得当前页面
 		String paths = httpRequest.getServletPath();
-		// //如果路径为""或者"/"不检查
-		// if(){}
-		// 有数组
-		if (!EmptyUtil.isEmpty(special)) {
-			// 循环数组
+		// //如果路径为""或者为主页不检查
+		if (EmptyUtil.isEmpty(paths) || index.equals(paths)) {
+			find = false;
+		} else if (!EmptyUtil.isEmpty(special)) {
+			// 有要检测的数组 循环数组
 			for (int i = 0; i < special.length; i++) {
 				// 查找是相同页
 				if (paths.indexOf(special[i]) >= 0) {

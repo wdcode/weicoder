@@ -1,10 +1,17 @@
 package com.weicoder.frame.action;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.weicoder.frame.engine.LoginEngine;
+import com.weicoder.frame.entity.EntityUser;
 import com.weicoder.frame.params.SiteParams;
-import com.weicoder.frame.util.VerifyCodeUtil; 
-import com.weicoder.common.crypto.Digest; 
-import com.weicoder.common.token.Token; 
+import com.weicoder.frame.util.VerifyCodeUtil;
+import com.weicoder.common.crypto.Decrypts;
+import com.weicoder.common.crypto.Digest;
+import com.weicoder.common.lang.Conversion;
+import com.weicoder.common.lang.Validate;
+import com.weicoder.common.token.Token;
+import com.weicoder.common.util.DateUtil;
 import com.weicoder.common.util.EmptyUtil;
 
 /**
@@ -12,11 +19,13 @@ import com.weicoder.common.util.EmptyUtil;
  * @author WD
  * @version 1.0
  */
-public class SiteAction extends StrutsAction {
+public class SiteAction<U extends EntityUser> extends StrutsAction {
 	// 状态无效 0
 	protected final static int	STATE_INAVAIL	= 0;
 	// 状态无效 1
 	protected final static int	STATE_AVAIL		= 1;
+	// 用户实体
+	protected U					user;
 
 	// 验证码
 	private String				verifyCode;
@@ -60,7 +69,7 @@ public class SiteAction extends StrutsAction {
 	 * 主页
 	 */
 	public String index() throws Exception {
-		if (token.isLogin()) {
+		if (token != null && token.isLogin()) {
 			return SUCCESS;
 		} else {
 			return LOGIN;
@@ -74,15 +83,15 @@ public class SiteAction extends StrutsAction {
 	 */
 	public String changePwd() throws Exception {
 		if (newPwd.equals(echoPwd)) {
-			// // 获得原Bean
-			// EntityUser u = service.get(user.getClass(), key);
-			// // 判断是否原始密码
-			// if (password(oldPwd).equals(u.getPassword())) {
-			// // 设置新密码
-			// u.setPassword(newPwd);
-			// // 返回成功
-			// return callback(response, service.update(u));
-			// }
+			// 获得原Bean
+			EntityUser u = service.get(user.getClass(), key);
+			// 判断是否原始密码
+			if (password(oldPwd).equals(u.getPassword())) {
+				// 设置新密码
+				u.setPassword(newPwd);
+				// 返回成功
+				return callback(response, service.update(u));
+			}
 		}
 		// 返回失败
 		return callback(response, ERROR);
@@ -94,26 +103,26 @@ public class SiteAction extends StrutsAction {
 	 * @throws Exception
 	 */
 	public String register() throws Exception {
-		// // 注册ip
-		// if (EmptyUtil.isEmpty(user.getIp())) {
-		// String ip = getIp();
-		// user.setIp(ip);
-		// user.setLoginIp(ip);
-		// }
-		// // 创建时间
-		// int time = DateUtil.getTime();
-		// user.setTime(time);
-		// user.setLoginTime(time);
-		// // 是否Email验证
-		// if (SiteParams.USER_VERIFY_EMAIL) {
-		// // 设置状态无效
-		// user.setState(STATE_INAVAIL);
-		// } else {
-		// // 设置状态有效
-		// user.setState(STATE_AVAIL);
-		// }
-		// // 添加
-		// service.insert(user);
+		// 注册ip
+		if (EmptyUtil.isEmpty(user.getIp())) {
+			String ip = getIp();
+			user.setIp(ip);
+			user.setLoginIp(ip);
+		}
+		// 创建时间
+		int time = DateUtil.getTime();
+		user.setTime(time);
+		user.setLoginTime(time);
+		// 是否Email验证
+		if (SiteParams.USER_VERIFY_EMAIL) {
+			// 设置状态无效
+			user.setState(STATE_INAVAIL);
+		} else {
+			// 设置状态有效
+			user.setState(STATE_AVAIL);
+		}
+		// 添加
+		service.insert(user);
 		// 获得用户ID
 		// int id = user.getId();
 		// // 注册成功
@@ -136,8 +145,7 @@ public class SiteAction extends StrutsAction {
 		// }
 		// }
 		// 返回
-		// return callback(user);
-		return null;
+		return callback(user);
 	}
 
 	/**
@@ -146,30 +154,29 @@ public class SiteAction extends StrutsAction {
 	 * @throws Exception
 	 */
 	public String active() throws Exception {
-//		// 获得验证码解析后的字符串数组
-//		String[] temp = Decrypts.decryptString(activeCoding).split("&");
-//		// 获得用户ID
-//		int userId = Conversion.toInt(temp[0]);
-//		// 获得Email
-//		String email = temp[1];
-//		// 根据id获得用户实体
-//		if (userId > 0) {
-//			// 获得用户实体
-//			// 设置属性
-//			user.setId(userId);
-//			user.setEmail(email);
-//		}
-//		// 判断激活码是否正确
-//		if (user != null && user.getId() > 0) {
-//			// 设置状态为有效
-//			user.setState(STATE_AVAIL);
-//			// 修改用户实体
-//			return callback(EmptyUtil.isEmpty(service.update(user)) ? SUCCESS : ERROR);
-//		} else {
-//			// 验证码错误 返回到错误页
-//			return callback(ERROR);
-//		}
-		return null;
+		// 获得验证码解析后的字符串数组
+		String[] temp = Decrypts.decryptString(activeCoding).split("&");
+		// 获得用户ID
+		int userId = Conversion.toInt(temp[0]);
+		// 获得Email
+		String email = temp[1];
+		// 根据id获得用户实体
+		if (userId > 0) {
+			// 获得用户实体
+			// 设置属性
+			user.setId(userId);
+			user.setEmail(email);
+		}
+		// 判断激活码是否正确
+		if (user != null && user.getId() > 0) {
+			// 设置状态为有效
+			user.setState(STATE_AVAIL);
+			// 修改用户实体
+			return callback(EmptyUtil.isEmpty(service.update(user)) ? SUCCESS : ERROR);
+		} else {
+			// 验证码错误 返回到错误页
+			return callback(ERROR);
+		}
 	}
 
 	/**
@@ -177,7 +184,7 @@ public class SiteAction extends StrutsAction {
 	 */
 	public String logout() throws Exception {
 		// 移除登录信息
-//		LoginEngine.removeLogin(request, response, getLoginKey());
+		LoginEngine.removeLogin(request, response, getLoginKey());
 		// 返回登录页
 		return callback(SUCCESS);
 	}
@@ -186,57 +193,56 @@ public class SiteAction extends StrutsAction {
 	 * 用户登录方法
 	 */
 	public String login() throws Exception {
-//		// 验证验证码 判断验证码都为空 跳过验证码检查
-//		if (!VerifyCodeUtil.check(request, response, verifyCode)) {
-//			// 添加错误信息
-//			addError("verifyCode,error");
-//			// 返回登陆页
-//			return callback(LOGIN);
-//		}
-//		// 登录IP
-//		String ip = user.getLoginIp();
-//		if (!Validate.isIp(ip)) {
-//			ip = getIp();
-//		}
-//		// 查询获得用户实体
-//		U bean = service.get(user);
-//		// 登录标识
-//		boolean is = false;
-//		// 获得用户ID
-//		int uid = bean == null ? 0 : Conversion.toInt(bean.getKey());
-//		// 判断用户是否存在
-//		if (!EmptyUtil.isEmpty(bean) && uid > 0) {
-//			// 判断用户名和密码相等
-//			if (user.getPassword().equals(bean.getPassword())) {
-//				// 判断是否验证状态
-//				if (SiteParams.USER_VERIFY_STATE) {
-//					if (Conversion.toInt(bean.getState()) == STATE_AVAIL) {
-//						// 设置登录成功
-//						is = true;
-//					}
-//				} else {
-//					// 设置登录成功
-//					is = true;
-//				}
-//			}
-//		}
-//		// 登录验证
-//		if (is) {
-//			// 添加用户登录信息
-//			token = LoginEngine.addLogin(request, response, bean, getLoginTime());
-//			// 添加登录信息
-//			bean.setLoginIp(ip);
-//			bean.setLoginTime(DateUtil.getTime());
-//			service.update(bean);
-//			// 登录成功
-//			return callback(user = bean);
-//		} else {
-//			// 添加错误信息
-//			addError("login,fail");
-//			// 登录失败
-//			return callback(LOGIN);
-//		}
-		return null;
+		// 验证验证码 判断验证码都为空 跳过验证码检查
+		if (!VerifyCodeUtil.check(request, response, verifyCode)) {
+			// 添加错误信息
+			addError("verifyCode,error");
+			// 返回登陆页
+			return callback(LOGIN);
+		}
+		// 登录IP
+		String ip = user.getLoginIp();
+		if (!Validate.isIp(ip)) {
+			ip = getIp();
+		}
+		// 查询获得用户实体
+		U bean = service.get(user);
+		// 登录标识
+		boolean is = false;
+		// 获得用户ID
+		int uid = bean == null ? 0 : Conversion.toInt(bean.getKey());
+		// 判断用户是否存在
+		if (!EmptyUtil.isEmpty(bean) && uid > 0) {
+			// 判断用户名和密码相等
+			if (user.getPassword().equals(bean.getPassword())) {
+				// 判断是否验证状态
+				if (SiteParams.USER_VERIFY_STATE) {
+					if (Conversion.toInt(bean.getState()) == STATE_AVAIL) {
+						// 设置登录成功
+						is = true;
+					}
+				} else {
+					// 设置登录成功
+					is = true;
+				}
+			}
+		}
+		// 登录验证
+		if (is) {
+			// 添加用户登录信息
+			token = LoginEngine.addLogin(request, response, bean, getLoginTime());
+			// 添加登录信息
+			bean.setLoginIp(ip);
+			bean.setLoginTime(DateUtil.getTime());
+			service.update(bean);
+			// 登录成功
+			return callback(user = bean);
+		} else {
+			// 添加错误信息
+			addError("login,fail");
+			// 登录失败
+			return callback(LOGIN);
+		}
 	}
 
 	/**
@@ -370,7 +376,23 @@ public class SiteAction extends StrutsAction {
 	public void setActiveCoding(String activeCoding) {
 		this.activeCoding = activeCoding;
 	}
- 
+
+	/**
+	 * 获得用户实体
+	 * @return 用户实体
+	 */
+	public U getUser() {
+		return user;
+	}
+
+	/**
+	 * 设置登录实体
+	 * @param user 登录实体
+	 */
+	@Autowired
+	public void setUser(U user) {
+		this.user = user;
+	}
 
 	/**
 	 * 加密密码
@@ -380,14 +402,14 @@ public class SiteAction extends StrutsAction {
 	protected String password(String oldPwd) {
 		return Digest.password(oldPwd);
 	}
-//
-//	/**
-//	 * 获得登录Key
-//	 * @return 登录Key
-//	 */
-//	public String getLoginKey() {
-//		return user.getClass().getSimpleName();
-//	}
+
+	/**
+	 * 获得登录Key
+	 * @return 登录Key
+	 */
+	public String getLoginKey() {
+		return user.getClass().getSimpleName();
+	}
 
 	/**
 	 * 获得登录保存时间
@@ -397,8 +419,8 @@ public class SiteAction extends StrutsAction {
 		return autoLogin ? SiteParams.LOGIN_MAX_AGE : SiteParams.LOGIN_MIN_AGE;
 	}
 
-//	@Override
-//	protected Token auth() {
-//		return LoginEngine.getLoginBean(request, getLoginKey());
-//	}
+	@Override
+	protected Token auth() {
+		return LoginEngine.getLoginBean(request, getLoginKey());
+	}
 }

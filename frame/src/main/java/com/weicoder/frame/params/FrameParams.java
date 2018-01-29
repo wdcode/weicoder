@@ -5,7 +5,7 @@ import com.weicoder.common.params.Params;
 /**
  * WdBase包所用参数读取类
  * @author WD
- * 
+ * @since JDK7
  * @version 1.0 2010-01-05
  */
 public final class FrameParams {

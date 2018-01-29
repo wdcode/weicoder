@@ -10,17 +10,17 @@ import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.util.BeanUtil;
-import com.weicoder.web.util.ResponseUtil;
+import com.weicoder.frame.util.ResponseUtil; 
 
 /**
  * Struts2 Action 的抽象实现 其它Struts2 Action可继承此类
  * @author WD
- * 
+ * @since JDK7
  * @version 1.0 2009-08-26
  */
 public abstract class BasicAction {
 	// 回调方法处理
-	protected final static Map<String, Method> METHODS = Maps.newMap();
+	protected final static Map<String, Method>	METHODS	= Maps.newMap();
 
 	/**
 	 * 以ajax模式输出数据到客户端方法
@@ -29,7 +29,9 @@ public abstract class BasicAction {
 	 */
 	public String ajax(HttpServletResponse response, Object data) {
 		// 写字符串
-		return ResponseUtil.json(response, data);
+		ResponseUtil.json(response, data);
+		// 返回空
+		return null;
 	}
 
 	/**

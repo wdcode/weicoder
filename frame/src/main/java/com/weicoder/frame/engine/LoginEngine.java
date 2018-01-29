@@ -3,18 +3,19 @@ package com.weicoder.frame.engine;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.weicoder.frame.entity.EntityUser;
 import com.weicoder.frame.params.SiteParams;
-import com.weicoder.web.util.AttributeUtil;
-import com.weicoder.web.util.RequestUtil;
+import com.weicoder.frame.util.AttributeUtil;
+import com.weicoder.frame.util.RequestUtil;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.token.Token;
 import com.weicoder.common.token.TokenEngine;
-import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.util.EmptyUtil; 
 
 /**
  * 登录信息Bean
  * @author WD
- * 
+ * @since JDK7
  * @version 1.0 2012-07-20
  */
 public final class LoginEngine {
@@ -39,13 +40,13 @@ public final class LoginEngine {
 	 * 添加登录信息
 	 * @param request HttpServletRequest
 	 * @param response HttpServletResponse
-	 * @param key 保存key
-	 * @param id 登录ID
+	 * @param login 登录实体
 	 * @param maxAge 保存时间
 	 */
 	public static Token addLogin(HttpServletRequest request, HttpServletResponse response,
-			String key, int id, int maxAge) {
-		return setToken(request, response, key, getLogin(id, RequestUtil.getIp(request)), maxAge);
+			EntityUser login, int maxAge) {
+		return setToken(request, response, login.getClass().getSimpleName(),
+				getLogin(login.getId(), RequestUtil.getIp(request)), maxAge);
 	}
 
 	/**

@@ -1,6 +1,9 @@
-package com.weicoder.frame.search;
+package com.weicoder.frame.dao.hibernate.search;
 
 import java.util.List;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -11,25 +14,30 @@ import org.hibernate.search.FullTextSession;
 import org.hibernate.search.Search;
 import org.hibernate.search.annotations.Indexed;
 import org.hibernate.search.query.dsl.QueryBuilder;
-import com.weicoder.common.util.ClassUtil;
+import com.weicoder.frame.context.Context;
+import com.weicoder.frame.dao.hibernate.session.SessionFactorys;
+import com.weicoder.common.lang.Lists;
 import com.weicoder.common.util.EmptyUtil;
-import com.weicoder.dao.hibernate.session.SessionFactorys;
-import com.weicoder.dao.params.DaoParams;
 
 /**
  * Hibernate 使用lucene搜索数据
  * @author WD
- * 
+ * @since JDK7
  * @version 1.0 2013-12-31
  */
 public final class HibernateSearch {
+	// Context
+	@Resource
+	private Context			context;
 	// Session工厂
-	private SessionFactorys factorys;
+	@Resource
+	private SessionFactorys	factorys;
 
 	/**
-	 * 构造
+	 * 初始化
 	 */
-	public HibernateSearch() {
+	@PostConstruct
+	protected void init() {
 		// 创建索引
 		createIndex();
 	}
@@ -111,7 +119,7 @@ public final class HibernateSearch {
 	 */
 	public void createIndex() {
 		// 获得带索引的实体
-		List<Class<Indexed>> list = ClassUtil.getAnnotationClass(DaoParams.PACKAGES, Indexed.class);
+		List<Object> list = Lists.newList(context.getBeansWithAnnotation(Indexed.class).values());
 		// 如果有索引列表
 		if (!EmptyUtil.isEmpty(list)) {
 			// 获得列表长度
@@ -122,7 +130,7 @@ public final class HibernateSearch {
 			SessionFactory[] sessionFactory = new SessionFactory[size];
 			// 循环获得索引实体类型
 			for (int i = 0; i < size; i++) {
-				entityClass[i] = list.get(i);
+				entityClass[i] = list.get(i).getClass();
 				sessionFactory[i] = factorys.getSessionFactory(entityClass[i]);
 			}
 			// 创建索引

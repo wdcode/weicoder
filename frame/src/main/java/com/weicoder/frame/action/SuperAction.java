@@ -4,13 +4,19 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-import javax.persistence.Entity;
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.weicoder.frame.engine.LoginEngine;
+import com.weicoder.frame.entity.Entity;
+import com.weicoder.frame.entity.EntityIp;
+import com.weicoder.frame.entity.EntityStartEndTime;
+import com.weicoder.frame.entity.EntityTime;
+import com.weicoder.frame.entity.EntityUserId;
 import com.weicoder.frame.service.QueryService;
-import com.weicoder.web.util.RequestUtil;
+import com.weicoder.frame.service.SuperService;
+import com.weicoder.frame.util.RequestUtil;
 import com.weicoder.common.constants.DateConstants;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Conversion;
@@ -18,19 +24,18 @@ import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.token.Token;
+import com.weicoder.frame.bean.Pagination;
+import com.weicoder.frame.context.Context;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.DateUtil;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.core.json.JsonEngine;
-import com.weicoder.dao.bean.Pagination;
-import com.weicoder.dao.context.DaoContext;
-import com.weicoder.dao.service.SuperService;
 
 /**
  * 超级通用Action
  * @author WD
- * 
+ * @since JDK7
  * @version 1.0 2012-07-4
  */
 public abstract class SuperAction extends BasicAction {
@@ -44,7 +49,14 @@ public abstract class SuperAction extends BasicAction {
 	protected final static String	LIST		= "list";
 	// 时间字段
 	protected final static String	TIME_FIELD	= "time";
+	// 全局Context
+	@Resource
+	protected Context				context;
+	// 通用业务接口
+	@Resource
+	protected SuperService			service;
 	// 查询器
+	@Resource
 	protected QueryService			query;
 	// 验证登录标识
 	protected Token					token;
@@ -60,6 +72,7 @@ public abstract class SuperAction extends BasicAction {
 	// 实体类
 	protected Class<Entity>			entityClass;
 	// 分页Bean
+	@Resource
 	protected Pagination			pager;
 	// 排序参数
 	protected Map<String, Object>	orders;
@@ -121,7 +134,7 @@ public abstract class SuperAction extends BasicAction {
 			// 初始化空排序
 			orders = Maps.newMap();
 			// 获得实体类
-			entityClass = DaoContext.getClass(module);
+			entityClass = context.getClass(module);
 			// 获得ContentType
 			String contentType = request.getContentType();
 			// 判断为上传文件表单
@@ -129,21 +142,61 @@ public abstract class SuperAction extends BasicAction {
 					&& contentType.indexOf("multipart/form-data") > -1) {
 				isEntity = true;
 				// 获得实体
-				entity = BeanUtil.newInstance(entityClass);
+				entity = entityClass == null ? null : context.getBean(module, entityClass);
 			} else {
 				// 是否初始化实体
 				for (Map.Entry<String, String[]> e : request.getParameterMap().entrySet()) {
 					if (e.getKey().indexOf("entity") > -1) {
 						isEntity = true;
 						// 获得实体
-						entity = BeanUtil.newInstance(entityClass);
+						entity = entityClass == null ? null : context.getBean(module, entityClass);
 						break;
 					}
 				}
 			}
+			// 如果查询自己的数据 添加登录用户名
+			if (entity == null && entityClass != null
+					&& EntityUserId.class.isAssignableFrom(entityClass)) {
+				entity = context.getBean(module, entityClass);
+			}
+			if (entity instanceof EntityUserId) {
+				((EntityUserId) entity).setUserId(token.getId());
+			}
 		} catch (Exception e) {
 			Logs.error(e);
 		}
+	}
+
+	/**
+	 * 重置缓存
+	 * @return 跳转
+	 * @throws Exception
+	 */
+	public String load() throws Exception {
+		// 重载数据
+		if (entityClass == null) {
+			service.load();
+		} else {
+			service.load(entityClass);
+		}
+		// 返回到成功页
+		return callback(SUCCESS);
+	}
+
+	/**
+	 * 重置缓存
+	 * @return 跳转
+	 * @throws Exception
+	 */
+	public String cache() throws Exception {
+		// 重载缓存
+		if (entityClass == null) {
+			service.cache();
+		} else {
+			service.load(entityClass);
+		}
+		// 返回到成功页
+		return callback(SUCCESS);
 	}
 
 	/**
@@ -153,7 +206,7 @@ public abstract class SuperAction extends BasicAction {
 	 */
 	public String add() throws Exception {
 		Logs.info("add entity={}", entity);
-		return callback(entity = SuperService.DAO.insert(entity));
+		return callback(entity = service.insert(add(entity)));
 	}
 
 	/**
@@ -163,7 +216,7 @@ public abstract class SuperAction extends BasicAction {
 	 */
 	public String addOrUpdata() throws Exception {
 		Logs.info("addOrUpdata entity={}", entity);
-		return callback(entity = SuperService.DAO.insertOrUpdate(entity));
+		return callback(entity = service.insertOrUpdate(add(entity)));
 	}
 
 	/**
@@ -177,8 +230,12 @@ public abstract class SuperAction extends BasicAction {
 		if (EmptyUtil.isEmpty(entitys) && !EmptyUtil.isEmpty(key)) {
 			entitys = JsonEngine.toList(Conversion.toString(key), entityClass);
 		}
+		// 循环实体数组
+		for (Entity e : entitys) {
+			add(e);
+		}
 		// 添加并返回结果
-		return callback(SuperService.DAO.insert(entitys));
+		return callback(service.insert(entitys));
 	}
 
 	/**
@@ -186,12 +243,12 @@ public abstract class SuperAction extends BasicAction {
 	 * @return 跳转
 	 * @throws Exception
 	 */
-	public String edit(String key) throws Exception {
+	public String edit() throws Exception {
 		Logs.info("edit entity={}", entity);
 		// 获得要更像的实体
-		Entity e = SuperService.DAO.get(entityClass, key);// entity.getKey()
+		Entity e = service.get(entityClass, entity.getKey());
 		// 实体不为空 更新 否则返回错误
-		return callback(entity = SuperService.DAO.update(BeanUtil.copy(entity, e)));
+		return callback(entity = service.update(BeanUtil.copy(upload(request, entity), e)));
 	}
 
 	/**
@@ -206,7 +263,7 @@ public abstract class SuperAction extends BasicAction {
 			entitys = JsonEngine.toList(Conversion.toString(key), entityClass);
 		}
 		// 实体列表不为空
-		if (!EmptyUtil.isEmpty(keys)) {
+		if (!EmptyUtil.isEmpty(entitys)) {
 			// 获得列表长度
 			int size = entitys.size();
 			// 声明修改实体数组
@@ -216,10 +273,10 @@ public abstract class SuperAction extends BasicAction {
 				// 获得修改实体
 				Entity e = entitys.get(i);
 				// 把新修改的值赋值给修改是实体
-				es.add(BeanUtil.copy(e, SuperService.DAO.get(entityClass, "e.getKey()")));
+				es.add(BeanUtil.copy(e, service.get(entityClass, e.getKey())));
 			}
 			// 修改实体
-			entitys = SuperService.DAO.update(es);
+			entitys = service.update(es);
 		}
 		// 实体不为空 更新 否则返回错误
 		return callback(entitys);
@@ -237,17 +294,17 @@ public abstract class SuperAction extends BasicAction {
 			// 实体不为空
 			if (entity != null) {
 				// 实体主键为空
-				if (EmptyUtil.isEmpty("entity.getKey()")) {
+				if (EmptyUtil.isEmpty(entity.getKey())) {
 					// 按实体查询出相关列表 在删除
-					// entitys = SuperService.DAO.delete(entity);
+					entitys = service.delete(entity);
 				} else {
 					// 按实体主键删除
-					// entitys = SuperService.DAO.delete(entityClass, "entity.getKey()");
+					entitys = service.delete(entityClass, entity.getKey());
 				}
 			}
 		} else {
 			// 按key删除
-			// entitys = SuperService.DAO.delete(entityClass, key);
+			entitys = service.delete(entityClass, key);
 		}
 		return callback(EmptyUtil.isEmpty(entitys) ? ERROR : (entity = entitys.get(0)));
 	}
@@ -259,10 +316,9 @@ public abstract class SuperAction extends BasicAction {
 	 */
 	public String dels() throws Exception {
 		Logs.info("dels entity=" + entitys);
-		return callback(EmptyUtil.isEmpty(
-				entitys = SuperService.DAO.delete(SuperService.DAO.gets(entityClass, keys))) ? ERROR
-						: SUCCESS);
-		// return callback(EmptyUtil.isEmpty(entitys = SuperService.DAO.delete(entityClass, keys)) ? ERROR :
+		return callback(
+				EmptyUtil.isEmpty(entitys = service.delete(entityClass, keys)) ? ERROR : SUCCESS);
+		// return callback(EmptyUtil.isEmpty(entitys = service.delete(entityClass, keys)) ? ERROR :
 		// mode);
 	}
 
@@ -272,7 +328,7 @@ public abstract class SuperAction extends BasicAction {
 	 * @throws Exception
 	 */
 	public String all() throws Exception {
-		return callback(entitys = SuperService.DAO.list(entityClass, -1, -1));
+		return callback(entitys = service.all(entityClass));
 	}
 
 	/**
@@ -283,9 +339,7 @@ public abstract class SuperAction extends BasicAction {
 	public String page() throws Exception {
 		Logs.info("page entity=" + entity + ";pager=" + pager);
 		// 查询实体列表
-		entitys = (entity == null
-				? SuperService.DAO.list(entityClass, pager.getFirstResult(), pager.getMaxResults())
-				: SuperService.DAO.list(entity, pager.getFirstResult(), pager.getMaxResults()));
+		entitys = (entity == null ? service.list(entityClass, pager) : service.list(entity, pager));
 		// 声明返回列表
 		Map<String, Object> map = Maps.newMap();
 		map.put("pager", pager);
@@ -301,11 +355,8 @@ public abstract class SuperAction extends BasicAction {
 	 */
 	public String order() throws Exception {
 		Logs.info("page entity=" + entity + ";pager=" + pager);
-		return callback(entitys = entity == null
-				? SuperService.DAO.order(entityClass, orders, pager.getFirstResult(),
-						pager.getMaxResults())
-				: SuperService.DAO.order(entity, orders, pager.getFirstResult(),
-						pager.getMaxResults()));
+		return callback(entitys = entity == null ? service.order(entityClass, orders, pager)
+				: service.order(entity, orders, pager));
 	}
 
 	/**
@@ -319,7 +370,7 @@ public abstract class SuperAction extends BasicAction {
 		// 如果开始时间和结束时间都为空
 		if (EmptyUtil.isEmpty(startDate) && EmptyUtil.isEmpty(endDate)) {
 			// 直接分页查询
-			entitys = SuperService.DAO.list(entity, pager.getFirstResult(), pager.getMaxResults());
+			entitys = service.list(entity, pager);
 		} else {
 			// 判断开始时间为空 为当前时间
 			if (EmptyUtil.isEmpty(startDate)) {
@@ -330,9 +381,8 @@ public abstract class SuperAction extends BasicAction {
 				endDate = DateUtil.getShortDate();
 			}
 			// 按时间查询
-			entitys = SuperService.DAO.between(entity, TIME_FIELD, DateUtil.getTime(startDate),
-					DateUtil.getTime(endDate) + DateConstants.DAY, pager.getFirstResult(),
-					pager.getMaxResults());
+			entitys = service.between(entity, TIME_FIELD, DateUtil.getTime(startDate),
+					DateUtil.getTime(endDate) + DateConstants.DAY, pager);
 		}
 		// 返回列表页
 		return callback(entitys);
@@ -345,7 +395,7 @@ public abstract class SuperAction extends BasicAction {
 	 */
 	public String get() throws Exception {
 		Logs.info("get key=" + key);
-		return callback(entity = key == null ? null : SuperService.DAO.get(entityClass, key));
+		return callback(entity = key == null ? null : service.get(entityClass, key));
 	}
 
 	/**
@@ -355,8 +405,8 @@ public abstract class SuperAction extends BasicAction {
 	 */
 	public String gets() throws Exception {
 		Logs.info("get keys=" + keys);
-		return keys == null ? callback(entitys = SuperService.DAO.gets(entityClass, key))
-				: callback(entitys = SuperService.DAO.gets(entityClass, keys));
+		return keys == null ? callback(entitys = service.gets(entityClass, key))
+				: callback(entitys = service.gets(entityClass, keys));
 	}
 
 	/**
@@ -366,7 +416,7 @@ public abstract class SuperAction extends BasicAction {
 	 */
 	public String entity() throws Exception {
 		Logs.info("entity=" + entity);
-		return callback(entity = entity == null ? null : SuperService.DAO.get(entity));
+		return callback(entity = entity == null ? null : service.get(entity));
 	}
 
 	/**
@@ -376,9 +426,7 @@ public abstract class SuperAction extends BasicAction {
 	 */
 	public String entitys() throws Exception {
 		Logs.info("entitys entity=" + entity + ";pager=" + pager);
-		return callback(entity == null ? LIST
-				: (entitys = SuperService.DAO.list(entity, pager.getFirstResult(),
-						pager.getMaxResults())));
+		return callback(entity == null ? LIST : (entitys = service.list(entity, pager)));
 	}
 
 	/**
@@ -388,8 +436,7 @@ public abstract class SuperAction extends BasicAction {
 	 */
 	public String theme() throws Exception {
 		Logs.info("theme entity=" + entity);
-		return callback(
-				!EmptyUtil.isEmpty(entity = SuperService.DAO.get(entityClass, "entity.getKey()")));
+		return callback(!EmptyUtil.isEmpty(entity = service.get(entityClass, entity.getKey())));
 	}
 
 	/**
@@ -401,16 +448,11 @@ public abstract class SuperAction extends BasicAction {
 		Logs.info("list entity=" + entity + ";pager=" + pager + ";orders=" + orders);
 		// 排序参数为空
 		if (EmptyUtil.isEmpty(orders)) {
-			entitys = entity == null
-					? SuperService.DAO.list(entityClass, pager.getFirstResult(),
-							pager.getMaxResults())
-					: SuperService.DAO.list(entity, pager.getFirstResult(), pager.getMaxResults());
+			entitys = entity == null ? service.list(entityClass, pager)
+					: service.list(entity, pager);
 		} else {
-			entitys = entity == null
-					? SuperService.DAO.order(entityClass, orders, pager.getFirstResult(),
-							pager.getMaxResults())
-					: SuperService.DAO.order(entity, orders, pager.getFirstResult(),
-							pager.getMaxResults());
+			entitys = entity == null ? service.order(entityClass, orders, pager)
+					: service.order(entity, orders, pager);
 		}
 		// 返回结果
 		return callback(entitys);
@@ -423,19 +465,18 @@ public abstract class SuperAction extends BasicAction {
 	 */
 	public String count() throws Exception {
 		Logs.info("count entity=" + entity);
-		return callback(entity == null ? SuperService.DAO.count(entityClass)
-				: SuperService.DAO.count(entity));
+		return callback(entity == null ? service.count(entityClass) : service.count(entity));
 	}
 
-	// /**
-	// * 跳转到列表页
-	// * @return 跳转
-	// * @throws Exception
-	// */
-	// public String search() throws Exception {
-	// Logs.info("theme search=" + entity + ";pager=" + pager);
-	// return callback(entitys = SuperService.DAO.search(entity, pager.getFirstResult(),pager.getMaxResults()));
-	// }
+	/**
+	 * 跳转到列表页
+	 * @return 跳转
+	 * @throws Exception
+	 */
+	public String search() throws Exception {
+		Logs.info("theme search=" + entity + ";pager=" + pager);
+		return callback(entitys = service.search(entity, pager));
+	}
 
 	// /**
 	// * 获得Action方法名 只保留x_x
@@ -573,6 +614,14 @@ public abstract class SuperAction extends BasicAction {
 	}
 
 	/**
+	 * 获得业务
+	 * @return 业务
+	 */
+	public SuperService getService() {
+		return service;
+	}
+
+	/**
 	 * 获得查询器
 	 * @return 查询器
 	 */
@@ -660,14 +709,12 @@ public abstract class SuperAction extends BasicAction {
 	public String call(HttpServletResponse response, Object obj) {
 		if (obj == null) {
 			return addMessage(ERROR);
-		} else if ("ajax".equals(mode)) {
+		}  else if ("ajax".equals(mode)) {
 			return ajax(response, obj);
 		} else if (obj instanceof String) {
 			String re = Conversion.toString(obj);
 			return SUCCESS.equals(re) || ERROR.equals(re) ? addMessage(re) : re;
-		} else if (obj instanceof List<?> || obj instanceof Map<?, ?>)
-
-		{
+		} else if (obj instanceof List<?> || obj instanceof Map<?, ?>) {
 			return LIST;
 		} else if (obj instanceof Boolean) {
 			return Conversion.toBoolean(obj) ? SUCCESS : ERROR;
@@ -697,6 +744,90 @@ public abstract class SuperAction extends BasicAction {
 	}
 
 	/**
+	 * 添加实体
+	 * @param e
+	 * @return
+	 */
+	protected Entity theme(Entity e) {
+		// 判断e==null 直接返回
+		if (e == null) {
+			return e;
+		}
+		// 判断是否EntityStartEndTime
+		if (e instanceof EntityStartEndTime) {
+			// 开始时间
+			if (((EntityStartEndTime) e).getStartTime() != null) {
+				startDate = DateUtil.toString(((EntityStartEndTime) e).getStartTime());
+			}
+			// 结束时间
+			if (((EntityStartEndTime) e).getEndTime() != null) {
+				endDate = DateUtil.toString(((EntityStartEndTime) e).getEndTime());
+			}
+		}
+		return e;
+	}
+
+	/**
+	 * 添加实体
+	 * @param e
+	 * @return
+	 */
+	protected Entity add(Entity e) {
+		// 判断实体类型
+		if (e instanceof EntityTime && EmptyUtil.isEmpty(((EntityTime) e).getTime())) {
+			((EntityTime) e).setTime(DateUtil.getTime());
+		}
+		if (e instanceof EntityIp && EmptyUtil.isEmpty(((EntityIp) e).getIp())) {
+			if (!EmptyUtil.isEmpty(((EntityIp) e).getIp())) {
+				((EntityIp) e).setIp(getIp());
+			}
+		}
+		if (e instanceof EntityStartEndTime) {
+			// 开始时间
+			if (!EmptyUtil.isEmpty(startDate)
+					&& EmptyUtil.isEmpty(((EntityStartEndTime) e).getStartTime())) {
+				((EntityStartEndTime) e).setStartTime(DateUtil.getTime(startDate));
+			}
+			// 结束时间
+			if (!EmptyUtil.isEmpty(endDate)
+					&& EmptyUtil.isEmpty(((EntityStartEndTime) e).getEndTime())) {
+				((EntityStartEndTime) e).setEndTime(DateUtil.getTime(endDate));
+			}
+		}
+		if (e instanceof EntityUserId) {
+			((EntityUserId) e).setUserId(token.getId());
+		}
+		// 返回E
+		return upload(request, e);
+	}
+
+	/**
+	 * 上传文件
+	 * @param request
+	 * @param e
+	 * @return
+	 */
+	protected Entity upload(HttpServletRequest request, Entity e) {
+		// if (e instanceof EntityFile) {
+		// // 上次文件
+		// String path = upload(request, file, fileFileName);
+		// // 路径不为空
+		// if (!EmptyUtil.isEmpty(path)) {
+		// ((EntityFile) e).setPath(path);
+		// }
+		// }
+		// if (e instanceof EntityFiles) {
+		// // 上次文件
+		// String[] paths = uploads(request, files, filesFileName);
+		// // 路径不为空
+		// if (!EmptyUtil.isEmpty(paths)) {
+		// ((EntityFiles) e).setPaths(paths);
+		// }
+		// }
+		return e;
+	}
+
+	/**
 	 * 以sign模式输出数据到客户端方法
 	 * @param response
 	 * @param json 对象
@@ -706,15 +837,15 @@ public abstract class SuperAction extends BasicAction {
 				: EmptyUtil.isEmpty(obj) ? ERROR : SUCCESS);
 	}
 
-	// /**
-	// * 以key模式输出数据到客户端方法
-	// * @param response
-	// * @param json 对象
-	// */
-	// protected String key(HttpServletResponse response, Object obj) {
-	// return ajax(response, obj instanceof String || obj instanceof Number ? obj
-	// : obj instanceof Entity ? ((Entity) obj).getKey() : ERROR);
-	// }
+	/**
+	 * 以key模式输出数据到客户端方法
+	 * @param response
+	 * @param json 对象
+	 */
+	protected String key(HttpServletResponse response, Object obj) {
+		return ajax(response, obj instanceof String || obj instanceof Number ? obj
+				: obj instanceof Entity ? ((Entity) obj).getKey() : ERROR);
+	}
 
 	/**
 	 * 获得验证登录凭证

@@ -4,19 +4,28 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-import javax.persistence.Entity;
+import javax.annotation.Resource;
 
-import com.weicoder.common.lang.Maps; 
-import com.weicoder.dao.bean.Pagination;
-import com.weicoder.dao.context.DaoContext;
-import com.weicoder.dao.service.SuperService;
+import org.springframework.stereotype.Service;
+import com.weicoder.frame.bean.Pagination;
+import com.weicoder.frame.context.Context;
+import com.weicoder.frame.entity.Entity;
+import com.weicoder.common.lang.Maps;
 
 /**
  * 基于Hibernate的查询器
  * @author WD
+ * @since JDK7
  * @version 1.0 2012-06-24
  */
+@Service
 public final class QueryService {
+	// 超级业务接口
+	@Resource
+	private SuperService	service;
+	// context工具类
+	@Resource
+	private Context			context;
 
 	/**
 	 * 根据ID 获得实体
@@ -24,8 +33,8 @@ public final class QueryService {
 	 * @param pk 主键
 	 * @return 实体
 	 */
-	public Object get(String entity, Serializable pk) {
-		return SuperService.DAO.get(DaoContext.getClass(entity), pk);
+	public Entity get(String entity, Serializable pk) {
+		return service.get(context.getClass(entity), pk);
 	}
 
 	/**
@@ -35,8 +44,8 @@ public final class QueryService {
 	 * @param value 属性值
 	 * @return 要获得的持久化对象，如果不存在返回null
 	 */
-	public Object get(String entity, String property, Object value) {
-		return SuperService.DAO.get(DaoContext.getClass(entity), property, value);
+	public Entity get(String entity, String property, Object value) {
+		return service.get(context.getClass(entity), property, value);
 	}
 
 	/**
@@ -45,57 +54,54 @@ public final class QueryService {
 	 * @param data 属性列与值
 	 * @return 要获得的持久化对象，如果不存在返回null
 	 */
-	public Object get(String entity, Map<String, Object> data) {
-		return SuperService.DAO.get(DaoContext.getClass(entity), data);
+	public Entity get(String entity, Map<String, Object> data) {
+		return service.get(context.getClass(entity), data);
 	}
 
-	// /**
-	// * 使用索引查询
-	// * @param entity 实体类
-	// * @param property 属性名
-	// * @param value 属性值
-	// * @param firstResult 重第几条开始查询
-	// * @param maxResults 一共查回多少条
-	// * @return 数据列表
-	// */
-	// public List<? extends Object> search(String entity, String property, Object value) {
-	// return search(entity, property, value, -1, -1);
-	// }
+	/**
+	 * 使用索引查询
+	 * @param entity 实体类
+	 * @param property 属性名
+	 * @param value 属性值
+	 * @param firstResult 重第几条开始查询
+	 * @param maxResults 一共查回多少条
+	 * @return 数据列表
+	 */
+	public List<? extends Entity> search(String entity, String property, Object value) {
+		return search(entity, property, value, -1, -1);
+	}
 
-	// /**
-	// * 使用索引查询
-	// * @param entity 实体类
-	// * @param property 属性名
-	// * @param value 属性值
-	// * @param maxResults 一共查回多少条
-	// * @return 数据列表
-	// */
-	// public List<? extends Object> search(String entity, String property, Object value,
-	// int maxResults) {
-	// return search(entity, property, value, -1, maxResults);
-	// }
+	/**
+	 * 使用索引查询
+	 * @param entity 实体类
+	 * @param property 属性名
+	 * @param value 属性值
+	 * @param maxResults 一共查回多少条
+	 * @return 数据列表
+	 */
+	public List<? extends Entity> search(String entity, String property, Object value, int maxResults) {
+		return search(entity, property, value, -1, maxResults);
+	}
 
-	// /**
-	// * 使用索引查询
-	// * @param entity 实体类
-	// * @param property 属性名
-	// * @param value 属性值
-	// * @param firstResult 重第几条开始查询
-	// * @param maxResults 一共查回多少条
-	// * @return 数据列表
-	// */
-	// public List<? extends Object> search(String entity, String property, Object value,
-	// int firstResult, int maxResults) {
-	// return SuperService.DAO.search(DaoContext.getClass(entity), property, value, firstResult,
-	// maxResults);
-	// }
+	/**
+	 * 使用索引查询
+	 * @param entity 实体类
+	 * @param property 属性名
+	 * @param value 属性值
+	 * @param firstResult 重第几条开始查询
+	 * @param maxResults 一共查回多少条
+	 * @return 数据列表
+	 */
+	public List<? extends Entity> search(String entity, String property, Object value, int firstResult, int maxResults) {
+		return service.search(context.getClass(entity), property, value, firstResult, maxResults);
+	}
 
 	/**
 	 * 查询全部
 	 * @param entity 要查询的实体
 	 * @return 全部实体
 	 */
-	public List<? extends Object> list(String entity) {
+	public List<? extends Entity> list(String entity) {
 		return list(entity, -1);
 	}
 
@@ -105,7 +111,7 @@ public final class QueryService {
 	 * @param num 要查询的条数
 	 * @return 全部实体
 	 */
-	public List<? extends Object> list(String entity, int num) {
+	public List<? extends Entity> list(String entity, int num) {
 		return list(entity, -1, num);
 	}
 
@@ -116,8 +122,8 @@ public final class QueryService {
 	 * @param maxResults 一共查回多少条
 	 * @return 全部实体
 	 */
-	public List<? extends Object> list(String entity, int firstResult, int maxResults) {
-		return SuperService.DAO.list(DaoContext.getClass(entity), firstResult, maxResults);
+	public List<? extends Entity> list(String entity, int firstResult, int maxResults) {
+		return service.list(context.getClass(entity), firstResult, maxResults);
 	}
 
 	/**
@@ -127,7 +133,7 @@ public final class QueryService {
 	 * @param values 属性值
 	 * @return 数据列表
 	 */
-	public List<? extends Object> list(String entity, String property, List<Object> values) {
+	public List<? extends Entity> list(String entity, String property, List<Object> values) {
 		return list(entity, property, values, -1);
 	}
 
@@ -139,8 +145,7 @@ public final class QueryService {
 	 * @param maxResults 一共查回多少条
 	 * @return 数据列表
 	 */
-	public List<? extends Object> list(String entity, String property, List<Object> values,
-			int maxResults) {
+	public List<? extends Entity> list(String entity, String property, List<Object> values, int maxResults) {
 		return list(entity, property, values, -1, maxResults);
 	}
 
@@ -153,9 +158,8 @@ public final class QueryService {
 	 * @param maxResults 一共查回多少条
 	 * @return 数据列表
 	 */
-	public List<? extends Object> list(String entity, String property, List<Object> values,
-			int firstResult, int maxResults) {
-		return SuperService.DAO.in(DaoContext.getClass(entity), property, values, -1, maxResults);
+	public List<? extends Entity> list(String entity, String property, List<Object> values, int firstResult, int maxResults) {
+		return service.in(context.getClass(entity), property, values, -1, maxResults);
 	}
 
 	/**
@@ -165,7 +169,7 @@ public final class QueryService {
 	 * @param map 对应的属性和值
 	 * @return 数据列表
 	 */
-	public List<? extends Object> list(String entity, List<String> keys, List<Object> values) {
+	public List<? extends Entity> list(String entity, List<String> keys, List<Object> values) {
 		return list(entity, keys, values, -1, -1);
 	}
 
@@ -177,8 +181,7 @@ public final class QueryService {
 	 * @param maxResults 一共查回多少条
 	 * @return 数据列表
 	 */
-	public List<? extends Object> list(String entity, List<String> keys, List<Object> values,
-			int maxResults) {
+	public List<? extends Entity> list(String entity, List<String> keys, List<Object> values, int maxResults) {
 		return list(entity, keys, values, -1, maxResults);
 	}
 
@@ -188,7 +191,7 @@ public final class QueryService {
 	 * @param parames 参数map
 	 * @return 数据列表
 	 */
-	public List<? extends Object> list(String entity, Map<String, List<Object>> parames) {
+	public List<? extends Entity> list(String entity, Map<String, List<Object>> parames) {
 		return list(entity, parames, -1);
 	}
 
@@ -199,8 +202,7 @@ public final class QueryService {
 	 * @param maxResults 一共查回多少条
 	 * @return 数据列表
 	 */
-	public List<? extends Object> list(String entity, Map<String, List<Object>> parames,
-			int maxResults) {
+	public List<? extends Entity> list(String entity, Map<String, List<Object>> parames, int maxResults) {
 		return list(entity, parames, -1, maxResults);
 	}
 
@@ -212,9 +214,8 @@ public final class QueryService {
 	 * @param maxResults 一共查回多少条
 	 * @return 数据列表
 	 */
-	public List<? extends Object> list(String entity, Map<String, List<Object>> parames,
-			int firstResult, int maxResults) {
-		return SuperService.DAO.in(DaoContext.getClass(entity), parames, firstResult, maxResults);
+	public List<? extends Entity> list(String entity, Map<String, List<Object>> parames, int firstResult, int maxResults) {
+		return service.in(context.getClass(entity), parames, firstResult, maxResults);
 	}
 
 	/**
@@ -226,10 +227,8 @@ public final class QueryService {
 	 * @param maxResults 一共查回多少条
 	 * @return 数据列表
 	 */
-	public List<? extends Object> list(String entity, List<String> keys, List<Object> values,
-			int firstResult, int maxResults) {
-		return SuperService.DAO.eq(DaoContext.getClass(entity), Maps.newMap(keys, values),
-				firstResult, maxResults);
+	public List<? extends Entity> list(String entity, List<String> keys, List<Object> values, int firstResult, int maxResults) {
+		return service.eq(context.getClass(entity), Maps.newMap(keys, values), firstResult, maxResults);
 	}
 
 	/**
@@ -239,7 +238,7 @@ public final class QueryService {
 	 * @param value 属性值
 	 * @return 数据列表
 	 */
-	public List<? extends Object> list(String entity, String property, Object value) {
+	public List<? extends Entity> list(String entity, String property, Object value) {
 		return list(entity, property, value, -1);
 	}
 
@@ -251,8 +250,7 @@ public final class QueryService {
 	 * @param maxResults 一共查回多少条
 	 * @return 数据列表
 	 */
-	public List<? extends Object> list(String entity, String property, Object value,
-			int maxResults) {
+	public List<? extends Entity> list(String entity, String property, Object value, int maxResults) {
 		return list(entity, property, value, -1, maxResults);
 	}
 
@@ -265,10 +263,8 @@ public final class QueryService {
 	 * @param maxResults 一共查回多少条
 	 * @return 数据列表
 	 */
-	public List<? extends Object> list(String entity, String property, Object value,
-			int firstResult, int maxResults) {
-		return SuperService.DAO.eq(DaoContext.getClass(entity), property, value, firstResult,
-				maxResults);
+	public List<? extends Entity> list(String entity, String property, Object value, int firstResult, int maxResults) {
+		return service.eq(context.getClass(entity), property, value, firstResult, maxResults);
 	}
 
 	/**
@@ -279,10 +275,8 @@ public final class QueryService {
 	 * @param pager 分页Bean
 	 * @return 数据列表
 	 */
-	public List<Entity> list(String entity, String property, List<Object> values,
-			Pagination pager) {
-		return SuperService.DAO.in(DaoContext.getClass(entity), property, values,
-				pager.getFirstResult(), pager.getMaxResults());
+	public List<? extends Entity> list(String entity, String property, List<Object> values, Pagination pager) {
+		return service.in(context.getClass(entity), property, values, pager);
 	}
 
 	/**
@@ -293,10 +287,8 @@ public final class QueryService {
 	 * @param pager 分页Bean
 	 * @return 数据列表
 	 */
-	public List<Entity> list(String entity, String property, List<Object> values,
-			Map<String, Object> orders, Pagination pager) {
-		return SuperService.DAO.in(DaoContext.getClass(entity), property, values, orders,
-				pager.getFirstResult(), pager.getMaxResults());
+	public List<? extends Entity> list(String entity, String property, List<Object> values, Map<String, Object> orders, Pagination pager) {
+		return service.in(context.getClass(entity), property, values, orders, pager);
 	}
 
 	/**
@@ -307,9 +299,8 @@ public final class QueryService {
 	 * @param pager 分页Bean
 	 * @return 数据列表
 	 */
-	public List<Entity> list(String entity, String property, Object value, Pagination pager) {
-		return SuperService.DAO.eq(DaoContext.getClass(entity), property, value,
-				pager.getFirstResult(), pager.getMaxResults());
+	public List<? extends Entity> list(String entity, String property, Object value, Pagination pager) {
+		return service.eq(context.getClass(entity), property, value, pager);
 	}
 
 	/**
@@ -318,7 +309,7 @@ public final class QueryService {
 	 * @return 数量
 	 */
 	public int count(String entity) {
-		return SuperService.DAO.count(DaoContext.getClass(entity));
+		return service.count(context.getClass(entity));
 	}
 
 	/**
@@ -329,30 +320,30 @@ public final class QueryService {
 	 * @return 数量
 	 */
 	public int count(String entity, String property, Object value) {
-		return SuperService.DAO.count(DaoContext.getClass(entity), property, value);
+		return service.count(context.getClass(entity), property, value);
 	}
 
-	// /**
-	// * 获得指定属性下的所有实体 包含指定属性
-	// * @param entity 类名称
-	// * @param property 属性名
-	// * @param values 属性值
-	// * @return 下级所有分类列表
-	// */
-	// public List<? extends Object> next(String entity, String property, Object value) {
-	// return SuperService.DAO.next(DaoContext.getClass(entity), property, value);
-	// }
-	//
-	// /**
-	// * 获得指定属性上的所有实体 包含指定属性
-	// * @param entity 类名称
-	// * @param property 属性名
-	// * @param pk 主键
-	// * @return 上级所有分类列表
-	// */
-	// public List<Entity> prev(String entity, String property, Serializable pk) {
-	// return SuperService.DAO.prev(DaoContext.getClass(entity), property, pk);
-	// }
+	/**
+	 * 获得指定属性下的所有实体 包含指定属性
+	 * @param entity 类名称
+	 * @param property 属性名
+	 * @param values 属性值
+	 * @return 下级所有分类列表
+	 */
+	public List<? extends Entity> next(String entity, String property, Object value) {
+		return service.next(context.getClass(entity), property, value);
+	}
+
+	/**
+	 * 获得指定属性上的所有实体 包含指定属性
+	 * @param entity 类名称
+	 * @param property 属性名
+	 * @param pk 主键
+	 * @return 上级所有分类列表
+	 */
+	public List<? extends Entity> prev(String entity, String property, Serializable pk) {
+		return service.prev(context.getClass(entity), property, pk);
+	}
 
 	/**
 	 * 查询属性名等值的实体列表
@@ -361,8 +352,7 @@ public final class QueryService {
 	 * @param maxResults 一共查回多少条
 	 * @return 数据列表
 	 */
-	public List<Entity> order(String entity, Map<String, Object> orders, int firstResult,
-			int maxResults) {
-		return SuperService.DAO.order(DaoContext.getClass(entity), orders, firstResult, maxResults);
+	public List<Entity> order(String entity, Map<String, Object> orders, int firstResult, int maxResults) {
+		return service.order(context.getClass(entity), orders, firstResult, maxResults);
 	}
 }

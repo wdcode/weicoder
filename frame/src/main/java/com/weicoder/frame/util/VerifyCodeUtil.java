@@ -16,8 +16,6 @@ import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.ImageUtil;
 import com.weicoder.common.util.RandomUtil;
 import com.weicoder.frame.params.FrameParams;
-import com.weicoder.web.util.AttributeUtil;
-import com.weicoder.web.util.ResponseUtil;
 
 /**
  * 生成验证图片,并把验证码保存到sessin中
