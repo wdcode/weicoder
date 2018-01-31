@@ -48,8 +48,8 @@ public final class HttpClient {
 		pool.setMaxTotal(SystemConstants.CPU_NUM * 10);
 		// 设置请求参数
 		RequestConfig.Builder config = RequestConfig.custom();
-		config.setSocketTimeout(2000);
-		config.setConnectTimeout(2000);
+		config.setSocketTimeout(5000);
+		config.setConnectTimeout(5000);
 		config.setCircularRedirectsAllowed(false);
 		// HttpClientBuilder
 		HttpClientBuilder builder = HttpClientBuilder.create();

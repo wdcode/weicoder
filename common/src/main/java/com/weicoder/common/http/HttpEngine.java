@@ -33,8 +33,8 @@ public final class HttpEngine {
 			// 设置为post方式
 			conn.setRequestMethod("GET");
 			// 设置超时
-			conn.setConnectTimeout(3000);
-			conn.setReadTimeout(3000);
+			conn.setConnectTimeout(5000);
+			conn.setReadTimeout(5000);
 			// 连接
 			conn.connect();
 			// 使用GZIP一般服务器支持解压获得的流 然后转成字符串 一般为UTF-8
