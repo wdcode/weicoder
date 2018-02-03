@@ -54,7 +54,7 @@ public class SiteAction<U extends EntityUser> extends StrutsAction {
 
 	/**
 	 * 设置登录凭证
-	 * @param token
+	 * @param token 凭证
 	 */
 	public void setToken(String token) {
 		// 解析登录凭证
@@ -67,8 +67,9 @@ public class SiteAction<U extends EntityUser> extends StrutsAction {
 
 	/**
 	 * 主页
+	 * @return 状态
 	 */
-	public String index() throws Exception {
+	public String index() {
 		if (token != null && token.isLogin()) {
 			return SUCCESS;
 		} else {
@@ -78,10 +79,9 @@ public class SiteAction<U extends EntityUser> extends StrutsAction {
 
 	/**
 	 * 修改个人密码
-	 * @return
-	 * @throws Exception
+	 * @return 状态
 	 */
-	public String changePwd() throws Exception {
+	public String changePwd() {
 		if (newPwd.equals(echoPwd)) {
 			// 获得原Bean
 			EntityUser u = service.get(user.getClass(), key);
@@ -99,10 +99,9 @@ public class SiteAction<U extends EntityUser> extends StrutsAction {
 
 	/**
 	 * 注册用户
-	 * @return
-	 * @throws Exception
+	 * @return 注册状态
 	 */
-	public String register() throws Exception {
+	public String register() {
 		// 注册ip
 		if (EmptyUtil.isEmpty(user.getIp())) {
 			String ip = getIp();
@@ -150,10 +149,9 @@ public class SiteAction<U extends EntityUser> extends StrutsAction {
 
 	/**
 	 * 激活用户
-	 * @return
-	 * @throws Exception
+	 * @return 状态
 	 */
-	public String active() throws Exception {
+	public String active() {
 		// 获得验证码解析后的字符串数组
 		String[] temp = Decrypts.decryptString(activeCoding).split("&");
 		// 获得用户ID
@@ -181,8 +179,9 @@ public class SiteAction<U extends EntityUser> extends StrutsAction {
 
 	/**
 	 * 执行退出
+	 * @return 登录状态
 	 */
-	public String logout() throws Exception {
+	public String logout() {
 		// 移除登录信息
 		LoginEngine.removeLogin(request, response, getLoginKey());
 		// 返回登录页
@@ -191,8 +190,9 @@ public class SiteAction<U extends EntityUser> extends StrutsAction {
 
 	/**
 	 * 用户登录方法
+	 * @return 登录状态
 	 */
-	public String login() throws Exception {
+	public String login() {
 		// 验证验证码 判断验证码都为空 跳过验证码检查
 		if (!VerifyCodeUtil.check(request, response, verifyCode)) {
 			// 添加错误信息
@@ -265,7 +265,7 @@ public class SiteAction<U extends EntityUser> extends StrutsAction {
 	 * 是否登录
 	 * @return 是否自动登录
 	 */
-	public String isLogin() throws Exception {
+	public String isLogin() {
 		return callback(token.isLogin());
 	}
 
@@ -273,24 +273,24 @@ public class SiteAction<U extends EntityUser> extends StrutsAction {
 	 * 获得登录凭证
 	 * @return 获得登录凭证
 	 */
-	public String token() throws Exception {
+	public String token() {
 		return callback(LoginEngine.encrypt(token));
 	}
 
 	/**
 	 * 获得登录凭证
+	 * @param obj 登录对象
 	 * @return 获得登录凭证
 	 */
-	public String token(Object obj) throws Exception {
+	public String token(Object obj) {
 		return ajax(response, LoginEngine.encrypt(token));
 	}
 
 	/**
 	 * 获得验证码方法
-	 * @return
-	 * @throws Exception
+	 * @return 验证码
 	 */
-	public String verifyCode() throws Exception {
+	public String verifyCode() {
 		// 获得验证码
 		VerifyCodeUtil.make(request, response);
 		// 返回到登录页
@@ -396,8 +396,8 @@ public class SiteAction<U extends EntityUser> extends StrutsAction {
 
 	/**
 	 * 加密密码
-	 * @param oldPwd
-	 * @return
+	 * @param oldPwd 旧密码
+	 * @return 加密后密码
 	 */
 	protected String password(String oldPwd) {
 		return Digest.password(oldPwd);

@@ -109,6 +109,7 @@ public final class HibernateDao implements Dao {
 	/**
 	 * 持久化数据，锁表 更新表中一行数据
 	 * @param entity 对象实体
+	 * @param <E> 泛型
 	 * @return 是否成功
 	 */
 	public <E> E update(final E entity) {
@@ -117,10 +118,9 @@ public final class HibernateDao implements Dao {
 
 	/**
 	 * 持久化数据，锁表 更新表中一行数据
-	 * @param entity 对象实体
-	 * @param lockMode 锁表的模式 具体参看 LockMode
+	 * @param entitys 对象实体
+	 * @param <E> 泛型
 	 * @return 是否成功
-	 * @see org.hibernate.LockMode
 	 */
 	public <E> List<E> update(final List<E> entitys) {
 		return execute(entitys.get(0).getClass(), new Callback<List<E>>() {
@@ -138,7 +138,8 @@ public final class HibernateDao implements Dao {
 	/**
 	 * 批量持久化对象 保存或更新，如果存在就更新，不存在就插入
 	 * @param entity 需要持久化的对象
-	 * @return 列表对象
+	 * @param <E> 泛型
+	 * @return 对象
 	 */
 	public <E> E insertOrUpdate(E entity) {
 		return insertOrUpdate(Lists.newList(entity)).get(0);
@@ -147,6 +148,7 @@ public final class HibernateDao implements Dao {
 	/**
 	 * 批量持久化对象 保存或更新，如果存在就更新，不存在就插入
 	 * @param entitys 需要持久化的对象
+	 * @param <E> 泛型
 	 * @return 列表对象
 	 */
 	public <E> List<E> insertOrUpdate(final List<E> entitys) {
@@ -165,7 +167,8 @@ public final class HibernateDao implements Dao {
 	/**
 	 * 持久化数据，删除表中多行数据
 	 * @param entity 需要持久话对象的集合
-	 * @return 是否成功
+	 * @param <E> 泛型
+	 * @return 对象
 	 */
 	public <E> E delete(E entity) {
 		return delete(Lists.newList(entity)).get(0);
@@ -174,7 +177,7 @@ public final class HibernateDao implements Dao {
 	/**
 	 * 持久化数据，删除表中多行数据
 	 * @param entitys 需要持久话对象的集合
-	 * @return 是否成功
+	 * @return 列表
 	 */
 	public <E> List<E> delete(final List<E> entitys) {
 		return execute(entitys.get(0).getClass(), new Callback<List<E>>() {
@@ -192,8 +195,7 @@ public final class HibernateDao implements Dao {
 	/**
 	 * 获得持久化对象
 	 * @param entityClass 实体类
-	 * @param id 持久化对象的唯一标识(主键)
-	 * @param lockMode 锁表的模式 具体参看 org.hibernate.LockMode
+	 * @param pk 持久化对象的唯一标识(主键)
 	 * @return 要获得的持久化对象，异常返回null
 	 */
 	public <E> E get(final Class<E> entityClass, final Serializable pk) {
@@ -230,11 +232,7 @@ public final class HibernateDao implements Dao {
 		});
 	}
 
-	/**
-	 * 获得持久化对象 如果没有查询到对象 返回null
-	 * @param entity 对象实体
-	 * @return 持久化对象
-	 */
+	@Override
 	public <E> E get(final E entity) {
 		// 获得结果
 		List<E> list = list(entity, 0, 1);
@@ -242,24 +240,13 @@ public final class HibernateDao implements Dao {
 		return EmptyUtil.isEmpty(list) ? null : list.get(0);
 	}
 
-	/**
-	 * 获得持久化对象
-	 * @param entity 实体类
-	 * @param property 属性名
-	 * @param value 属性值
-	 * @return 要获得的持久化对象，如果不存在返回null
-	 */
+	@Override
 	public <E> E get(Class<E> entity, String property, Object value) {
 		return getCriteria(entity,
 				DetachedCriteria.forClass(entity).add(Restrictions.eq(property, value)));
 	}
 
-	/**
-	 * 获得持久化对象
-	 * @param entity 实体类
-	 * @param map 属性键值
-	 * @return 要获得的持久化对象，如果不存在返回null
-	 */
+	@Override
 	public <E> E get(Class<E> entity, Map<String, Object> map) {
 		return getCriteria(entity, DetachedCriteria.forClass(entity).add(Restrictions.allEq(map)));
 	}
@@ -371,7 +358,7 @@ public final class HibernateDao implements Dao {
 
 	/**
 	 * 查询属性名等值的实体列表
-	 * @param entity 实体类
+	 * @param entityClass 实体类
 	 * @param orders 排序参数
 	 * @param firstResult 重第几条开始查询
 	 * @param maxResults 一共查回多少条
@@ -495,7 +482,6 @@ public final class HibernateDao implements Dao {
 	/**
 	 * 获得查询的对象实体总数
 	 * @param entityClass 实体类
-	 * @param op 操作符
 	 * @param map 属性键值
 	 * @return 对象实体总数 异常返回 0
 	 */
@@ -583,7 +569,6 @@ public final class HibernateDao implements Dao {
 
 	/**
 	 * 关闭Session
-	 * @param session
 	 */
 	public void close() {
 		factorys.close();

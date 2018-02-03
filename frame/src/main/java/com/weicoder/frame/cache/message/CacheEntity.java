@@ -23,9 +23,9 @@ public final class CacheEntity implements Binary {
 
 	/**
 	 * 构造
-	 * @param entity
-	 * @param common
-	 * @param json
+	 * @param entity 实体
+	 * @param common 命令
+	 * @param json 数据
 	 */
 	public CacheEntity(String entity, String common, String json) {
 		this.entity = entity;

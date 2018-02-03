@@ -42,6 +42,8 @@ public abstract class StrutsAction extends SuperAction {
 
 	/**
 	 * 获得国际化值
+	 * @param name 名称
+	 * @return 国际化
 	 */
 	public String getText(String name) {
 		// 获得数组
@@ -60,6 +62,7 @@ public abstract class StrutsAction extends SuperAction {
 
 	/**
 	 * 获得当前Action
+	 * @param <E> 泛型
 	 * @return Action
 	 */
 	@SuppressWarnings("unchecked")
@@ -83,8 +86,8 @@ public abstract class StrutsAction extends SuperAction {
 
 	/**
 	 * 以ajax模式输出数据到客户端方法
-	 * @param response
-	 * @param json 对象
+	 * @param response HttpServletResponse
+	 * @param obj 对象
 	 */
 	public String ajax(HttpServletResponse response, Object obj) {
 		return super.ajax(response, obj == null ? StringConstants.EMPTY
@@ -125,6 +128,8 @@ public abstract class StrutsAction extends SuperAction {
 
 	/**
 	 * 获得Action方法
+	 * @param list 列表
+	 * @param fieldName 字段名
 	 * @return Action方法
 	 */
 	public List<Object> getFields(Collection<Object> list, String fieldName) {
@@ -133,6 +138,8 @@ public abstract class StrutsAction extends SuperAction {
 
 	/**
 	 * 获得国际化值
+	 * @param values 国际化值
+	 * @return 国际化值
 	 */
 	public String add(List<Object> values) {
 		return MathUtil.add(values.toArray()).toPlainString();
@@ -193,7 +200,7 @@ public abstract class StrutsAction extends SuperAction {
 
 	/**
 	 * 获得模式名
-	 * @return
+	 * @return 模式名
 	 */
 	public String getMode() {
 		return mode;
@@ -201,7 +208,7 @@ public abstract class StrutsAction extends SuperAction {
 
 	/**
 	 * 获得错误信息列表
-	 * @return
+	 * @return 错误列表
 	 */
 	public List<String> getError() {
 		return error;
@@ -209,7 +216,7 @@ public abstract class StrutsAction extends SuperAction {
 
 	/**
 	 * 获得信息列表
-	 * @return
+	 * @return 消息列表
 	 */
 	public List<String> getMessage() {
 		return message;
@@ -241,7 +248,7 @@ public abstract class StrutsAction extends SuperAction {
 
 	/**
 	 * 获得模板名
-	 * @return
+	 * @return 模版名
 	 */
 	public String getModule() {
 		return module;
@@ -249,7 +256,7 @@ public abstract class StrutsAction extends SuperAction {
 
 	/**
 	 * 获得方法名
-	 * @return
+	 * @return 方法名
 	 */
 	public String getMethod() {
 		return method;

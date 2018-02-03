@@ -20,7 +20,7 @@ public abstract class BaseEntityId extends BaseEntity {
 	// ID
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int	id;
+	private int id;
 
 	/**
 	 * 获得ID
@@ -40,6 +40,7 @@ public abstract class BaseEntityId extends BaseEntity {
 
 	/**
 	 * 获得Key
+	 * @return Key
 	 */
 	public Serializable getKey() {
 		return id;
@@ -47,6 +48,7 @@ public abstract class BaseEntityId extends BaseEntity {
 
 	/**
 	 * 设置Key
+	 * @param key Key
 	 */
 	public void setKey(Serializable key) {
 		// 如果传进的是数组

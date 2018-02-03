@@ -18,31 +18,28 @@ import com.weicoder.common.util.EmptyUtil;
 @MappedSuperclass
 public abstract class BaseEntityTime extends BaseEntity implements EntityTime {
 	// 时间
-	private Integer	time;
+	private Integer time;
 
-	/**
-	 * 获得时间
-	 */
+	@Override
 	public Integer getTime() {
 		return time;
 	}
 
-	/**
-	 * 时间
-	 */
+	@Override
 	public void setTime(Integer time) {
 		this.time = time;
 	}
 
-	/**
-	 * 获得日期
-	 */
+	@Override
 	public String getDate() {
 		return EmptyUtil.isEmpty(time) ? StringConstants.EMPTY : DateUtil.toString(time);
 	}
 
 	@Override
 	public int compareTo(Entity o) {
-		return o instanceof EntityTime && time != null ? Integer.compare(Conversion.toInt(time), Conversion.toInt(((EntityTime) o).getTime())) : super.compareTo(o);
+		return o instanceof EntityTime && time != null
+				? Integer.compare(Conversion.toInt(time),
+						Conversion.toInt(((EntityTime) o).getTime()))
+				: super.compareTo(o);
 	}
 }

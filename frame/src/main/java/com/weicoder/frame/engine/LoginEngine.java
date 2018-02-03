@@ -10,7 +10,7 @@ import com.weicoder.frame.util.RequestUtil;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.token.Token;
 import com.weicoder.common.token.TokenEngine;
-import com.weicoder.common.util.EmptyUtil; 
+import com.weicoder.common.util.EmptyUtil;
 
 /**
  * 登录信息Bean
@@ -42,6 +42,7 @@ public final class LoginEngine {
 	 * @param response HttpServletResponse
 	 * @param login 登录实体
 	 * @param maxAge 保存时间
+	 * @return Token
 	 */
 	public static Token addLogin(HttpServletRequest request, HttpServletResponse response,
 			EntityUser login, int maxAge) {
@@ -66,7 +67,7 @@ public final class LoginEngine {
 	 * @param key 登录标识
 	 * @param token 登录实体
 	 * @param maxAge 保存时间
-	 * @return
+	 * @return Token
 	 */
 	public static Token setToken(HttpServletRequest request, HttpServletResponse response,
 			String key, Token token, int maxAge) {
@@ -128,6 +129,7 @@ public final class LoginEngine {
 
 	/**
 	 * 验证登录凭证
+	 * @param info 实体信息
 	 * @return 登录实体
 	 */
 	public static Token decrypt(String info) {
@@ -136,6 +138,9 @@ public final class LoginEngine {
 
 	/**
 	 * 获得一样空登录信息
+	 * @param request HttpServletRequest
+	 * @param response HttpServletResponse
+	 * @param key Key
 	 * @return Token
 	 */
 	public static Token guest(HttpServletRequest request, HttpServletResponse response,
@@ -154,6 +159,7 @@ public final class LoginEngine {
 
 	/**
 	 * 获得一样空登录信息
+	 * @param ip 客户端ip
 	 * @return Token
 	 */
 	public static Token guest(String ip) {

@@ -19,6 +19,7 @@ import com.weicoder.core.json.JsonEngine;
 public abstract class BaseEntity implements Entity {
 	/**
 	 * 判断是否为空
+	 * @return 是否为空
 	 */
 	public boolean isEmpty() {
 		return EmptyUtil.isEmpty(getKey());
@@ -26,14 +27,12 @@ public abstract class BaseEntity implements Entity {
 
 	/**
 	 * 重写toString 使用json输出属性
+	 * @return 字符串
 	 */
 	public String toString() {
 		return JsonEngine.toJson(this);
 	}
 
-	/**
-	 * hashCode方法
-	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -42,9 +41,6 @@ public abstract class BaseEntity implements Entity {
 		return result;
 	}
 
-	/**
-	 * 判断对象是否相同
-	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

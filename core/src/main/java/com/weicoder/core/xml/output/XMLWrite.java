@@ -12,7 +12,7 @@ import com.weicoder.core.xml.Document;
 public interface XMLWrite {
 	/**
 	 * 设置输出格式
-	 * @param format
+	 * @param format 输出格式
 	 */
 	void setFormat(Format format);
 

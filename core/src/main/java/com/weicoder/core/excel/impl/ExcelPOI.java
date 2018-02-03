@@ -17,8 +17,7 @@ import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.core.excel.base.BaseExcel;
 
 /**
- * 使用POI操作Excel<br/>
- * <h2>注: 内部使用</h2>
+ * 使用POI操作Excel 
  * @author WD 
  * @version 1.0 
  */

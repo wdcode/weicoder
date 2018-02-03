@@ -105,6 +105,7 @@ public final class Context {
 
 	/**
 	 * 根据类获得缓存
+	 * @param <E> 泛型
 	 * @return 缓存
 	 */
 	@SuppressWarnings("unchecked")
@@ -124,6 +125,7 @@ public final class Context {
 	/**
 	 * 根据传入的注解类获得 名-对象 Map列表
 	 * @param type 注解类
+	 * @param <E> 泛型
 	 * @return Map列表
 	 */
 	public <E> Map<String, E> getBeans(Class<E> type) {

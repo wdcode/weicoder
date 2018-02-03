@@ -11,53 +11,53 @@ import java.util.Map;
 public interface Excel {
 	/**
 	 * 获得第一张Sheet表内容
-	 * @return 返回List(行)<List(列)<String(值)>>
+	 * @return 返回List
 	 */
 	List<List<String>> readSheet();
 
 	/**
 	 * 获得所有Sheet表内容
-	 * @return 返回List(行)<List(列)<String(值)>>
+	 * @return 返回List
 	 */
 	List<List<String>> readSheetByAll();
 
 	/**
 	 * 获得指定页码Sheet表内容
 	 * @param index 页码
-	 * @return 返回List(行)<List(列)<String(值)>>
+	 * @return 返回List
 	 */
 	List<List<String>> readSheet(int index);
 
 	/**
 	 * 获得指定名称Sheet表内容
 	 * @param sheetName Sheet名
-	 * @return 返回List(行)<List(列)<String(值)>>
+	 * @return 返回List
 	 */
 	List<List<String>> readSheet(String sheetName);
 
 	/**
 	 * 获得指定名称Sheet表内容
 	 * @param sheetName Sheet名
-	 * @return 返回List(行)<List(列)<String(值)>>
+	 * @return 返回List
 	 */
 	List<Map<String, String>> readSheetByCol(String sheetName);
 
 	/**
 	 * 获得第一张Sheet表内容
-	 * @return 返回List(行)<<Map(列)<String(列名), String(列值)>>
+	 * @return 返回List
 	 */
 	List<Map<String, String>> readSheetByCol();
 
 	/**
 	 * 获得第一张Sheet表内容
-	 * @return 返回List(行)<<Map(列)<String(列名), String(列值)>>
+	 * @return 返回List
 	 */
 	List<Map<String, String>> readSheetByColByAll();
 
 	/**
 	 * 获得指定页码Sheet表内容
 	 * @param index 页码
-	 * @return 返回List(行)<<Map(列)<String(列名), String(列值)>>
+	 * @return 返回List
 	 */
 	List<Map<String, String>> readSheetByCol(int index);
 
@@ -77,59 +77,53 @@ public interface Excel {
 	String readContents(int index, int row, int col);
 
 	/**
-	 * 写入第一张Sheet表内容
-	 * @return 返回List(行)<List(列)<String(值)>>
+	 * 写入第一张Sheet表内容 
+	 * @param list 列表
 	 */
 	void writeSheet(List<List<String>> list);
 
 	/**
 	 * 写入数据到工作薄中
-	 * @param list List(行)<List(列)<String(值)>>要写入的内容
-	 * @param index 页码
-	 * @return 成功行数
+	 * @param list List要写入的内容
+	 * @param index 页码 
 	 */
 	void writeSheet(List<List<String>> list, int index);
 
 	/**
-	 * 获得第一张Sheet表内容
-	 * @return 返回List(行)<<Map(列)<String(列名), String(列值)>>
+	 * 获得第一张Sheet表内容 
+	 * @param list 列表
 	 */
 	void writeSheetByCol(List<Map<String, String>> list);
 
 	/**
 	 * 写Sheet，第一行第一列内容
-	 * @param content 单元格内容
-	 * @return 是否成功
+	 * @param content 单元格内容 
 	 */
 	void writeContents(String content);
 
 	/**
 	 * 写Sheet，新行第N列内容
 	 * @param col 第几列
-	 * @param content 单元格内容
-	 * @return 是否成功
+	 * @param content 单元格内容 
 	 */
 	void writeContentsByNewRow(int col, String content);
 
 	/**
 	 * 写Sheet，新行第1列内容
-	 * @param content 单元格内容
-	 * @return 是否成功
+	 * @param content 单元格内容 
 	 */
 	void writeContentsByNewRow(String content);
 
 	/**
 	 * 写Sheet，N行新列内容
 	 * @param row 第几行
-	 * @param content 单元格内容
-	 * @return 是否成功
+	 * @param content 单元格内容 
 	 */
 	void writeContentsByNewCol(int row, String content);
 
 	/**
 	 * 写Sheet，1行新列内容
-	 * @param content 单元格内容
-	 * @return 是否成功
+	 * @param content 单元格内容 
 	 */
 	void writeContentsByNewCol(String content);
 
@@ -137,8 +131,8 @@ public interface Excel {
 	 * 获得指定Sheet，指定行列内容
 	 * @param index Sheet码 注 添加了这个参数 就直接设置了Sheet 以后调用 getContents(int row,int col)就可获得这页内容
 	 * @param row 行码
-	 * @param col 列码
-	 * @return 单元格内容
+	 * @param col 列码 
+	 * @param content 内容
 	 */
 	void writeContents(int index, int row, int col, String content);
 
@@ -201,25 +195,22 @@ public interface Excel {
 
 	/**
 	 * 写入数据到工作薄中
-	 * @param list List(行)<List(列)<String(值)>>要写入的内容
-	 * @param sheetName 名
-	 * @return 成功行数
+	 * @param list List要写入的内容
+	 * @param sheetName 名 
 	 */
 	void writeSheet(List<List<String>> list, String sheetName);
 
 	/**
 	 * 写入数据到工作薄中
-	 * @param list List(行)<<Map(列)<String(列名), String(列值)>>
-	 * @param sheetName 名
-	 * @return 成功行数
+	 * @param list List
+	 * @param sheetName 名 
 	 */
 	void writeSheetByCol(List<Map<String, String>> list, String sheetName);
 
 	/**
 	 * 写入数据到工作薄中
-	 * @param list List(行)<<Map(列)<String(列名), String(列值)>>
-	 * @param index 页码
-	 * @return 成功行数
+	 * @param list List
+	 * @param index 页码 
 	 */
 	void writeSheetByCol(List<Map<String, String>> list, int index);
 

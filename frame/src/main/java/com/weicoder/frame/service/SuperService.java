@@ -74,6 +74,7 @@ public class SuperService {
 	/**
 	 * 添加
 	 * @param entity 实体
+	 * @param <E> 泛型
 	 * @return ID
 	 */
 	public <E extends Entity> E insert(E entity) {
@@ -83,6 +84,7 @@ public class SuperService {
 	/**
 	 * 添加
 	 * @param entitys 实体
+	 * @param <E> 泛型
 	 * @return ID
 	 */
 	public <E extends Entity> List<E> insert(List<E> entitys) {
@@ -92,6 +94,7 @@ public class SuperService {
 	/**
 	 * 更新
 	 * @param entity 实体
+	 * @param <E> 泛型
 	 * @return 是否成功
 	 */
 	public <E extends Entity> E update(E entity) {
@@ -101,7 +104,8 @@ public class SuperService {
 	/**
 	 * 更新
 	 * @param entitys 实体
-	 * @return 是否成功
+	 * @param <E> 泛型
+	 * @return 实体列表
 	 */
 	public <E extends Entity> List<E> update(List<E> entitys) {
 		return getCache(entitys).set(dao.update(entitys));
@@ -109,8 +113,9 @@ public class SuperService {
 
 	/**
 	 * 添加或更新
-	 * @param entitys 实体
-	 * @return 影响行数
+	 * @param entity 实体
+	 * @param <E> 泛型
+	 * @return 实体
 	 */
 	public <E extends Entity> E insertOrUpdate(E entity) {
 		return getCache(entity).set(dao.insertOrUpdate(entity));
@@ -119,6 +124,7 @@ public class SuperService {
 	/**
 	 * 添加或更新
 	 * @param entitys 实体
+	 * @param <E> 泛型
 	 * @return 影响行数
 	 */
 	public <E extends Entity> List<E> insertOrUpdate(List<E> entitys) {
@@ -127,7 +133,8 @@ public class SuperService {
 
 	/**
 	 * 删除
-	 * @param list 实体列表
+	 * @param entity 实体
+	 * @param <E> 泛型
 	 * @return 是否成功
 	 */
 	public <E extends Entity> List<E> delete(E entity) {
@@ -145,7 +152,8 @@ public class SuperService {
 
 	/**
 	 * 删除
-	 * @param list 实体列表
+	 * @param entitys 实体列表
+	 * @param <E> 泛型
 	 * @return 是否成功
 	 */
 	public <E extends Entity> List<E> delete(List<E> entitys) {
@@ -158,7 +166,8 @@ public class SuperService {
 	/**
 	 * 根据ID数组删除 完全删除
 	 * @param entity 要查询的实体
-	 * @param pk 主键数组
+	 * @param pks 主键数组
+	 * @param <E> 泛型
 	 * @return 是否成功
 	 */
 	public <E extends Entity> List<E> delete(Class<E> entity, Serializable... pks) {
@@ -169,6 +178,7 @@ public class SuperService {
 	 * 根据ID 获得实体
 	 * @param entityClass 要查询的实体
 	 * @param pk 主键
+	 * @param <E> 泛型
 	 * @return 实体
 	 */
 	public <E extends Entity> E get(Class<E> entityClass, Serializable pk) {
@@ -184,7 +194,8 @@ public class SuperService {
 	/**
 	 * 根据ID 获得实体
 	 * @param entityClass 要查询的实体
-	 * @param pk 主键
+	 * @param pks 主键
+	 * @param <E> 泛型
 	 * @return 实体
 	 */
 	public <E extends Entity> List<E> gets(Class<E> entityClass, Serializable... pks) {
@@ -211,7 +222,8 @@ public class SuperService {
 
 	/**
 	 * 根据传入的条件，返回唯一的实体 如果有多个返回第一个实体
-	 * @param entity 实体,
+	 * @param entity 实体
+	 * @param <E> 泛型
 	 * @return 实体
 	 */
 	public <E extends Entity> E get(E entity) {
@@ -223,6 +235,7 @@ public class SuperService {
 	 * @param entityClass 要查询的实体
 	 * @param property 属性名
 	 * @param value 属性值
+	 * @param <E> 泛型
 	 * @return 要获得的持久化对象，如果不存在返回null
 	 */
 	public <E extends Entity> E get(Class<E> entityClass, String property, Object value) {
@@ -233,6 +246,7 @@ public class SuperService {
 	 * 获得持久化对象
 	 * @param entityClass 实体类
 	 * @param map 属性键值
+	 * @param <E> 泛型
 	 * @return 要获得的持久化对象，如果不存在返回null
 	 */
 	public <E extends Entity> E get(Class<E> entityClass, Map<String, Object> map) {
@@ -242,6 +256,7 @@ public class SuperService {
 	/**
 	 * 查询全部数据
 	 * @param entityClass 要查询的实体
+	 * @param <E> 泛型
 	 * @return 全部实体
 	 */
 	public <E extends Entity> List<E> all(Class<E> entityClass) {
@@ -253,6 +268,7 @@ public class SuperService {
 	 * @param entityClass 要查询的实体
 	 * @param firstResult 开始查询的条数
 	 * @param maxResults 最多查询多少条
+	 * @param <E> 泛型
 	 * @return 全部实体
 	 */
 	public <E extends Entity> List<E> list(Class<E> entityClass, int firstResult, int maxResults) {
@@ -275,6 +291,7 @@ public class SuperService {
 	 * 获得查询的对象实体列表 分页功能
 	 * @param entityClass 要查询的实体
 	 * @param page 分页Bean
+	 * @param <E> 泛型
 	 * @return 返回这个对象的列表
 	 */
 	public <E extends Entity> List<E> list(Class<E> entityClass, Pagination page) {
@@ -295,9 +312,9 @@ public class SuperService {
 	/**
 	 * 根据实体查询
 	 * @param entity 要查询的实体
-	 * @param entity 实体
 	 * @param firstResult 开始查询的条数
 	 * @param maxResults 最多查询多少条
+	 * @param <E> 泛型
 	 * @return 列表
 	 */
 	public <E extends Entity> List<E> list(E entity, int firstResult, int maxResults) {
@@ -308,6 +325,7 @@ public class SuperService {
 	 * 获得查询的对象实体列表 分页功能
 	 * @param entity 需要获得的对象，会查询出实体中封装的相等的条件
 	 * @param page 分页Bean
+	 * @param <E> 泛型
 	 * @return 返回这个对象的列表
 	 */
 	public <E extends Entity> List<E> list(E entity, Pagination page) {
@@ -332,6 +350,7 @@ public class SuperService {
 	 * @param value 属性值
 	 * @param firstResult 重第几条开始查询
 	 * @param maxResults 一共查回多少条
+	 * @param <E> 泛型
 	 * @return 数据列表
 	 */
 	public <E extends Entity> List<E> like(Class<E> entityClass, String property, Object value,
@@ -345,6 +364,7 @@ public class SuperService {
 	 * @param map 键值表
 	 * @param firstResult 重第几条开始查询
 	 * @param maxResults 一共查回多少条
+	 * @param <E> 泛型
 	 * @return 数据列表
 	 */
 	public <E extends Entity> List<E> eq(Class<E> entityClass, Map<String, Object> map,
@@ -359,6 +379,7 @@ public class SuperService {
 	 * @param value 属性值
 	 * @param firstResult 重第几条开始查询
 	 * @param maxResults 一共查回多少条
+	 * @param <E> 泛型
 	 * @return 数据列表
 	 */
 	public <E extends Entity> List<E> eq(Class<E> entityClass, String property, Object value,
@@ -374,6 +395,7 @@ public class SuperService {
 	 * @param property 属性名
 	 * @param values 属性值
 	 * @param pager 分页Bean
+	 * @param <E> 泛型
 	 * @return 数据列表
 	 */
 	public <E extends Entity> List<E> in(Class<E> entityClass, String property, List<Object> values,
@@ -399,6 +421,7 @@ public class SuperService {
 	 * @param property 属性名
 	 * @param value 属性值
 	 * @param pager 分页Bean
+	 * @param <E> 泛型
 	 * @return 数据列表
 	 */
 	public <E extends Entity> List<E> eq(Class<E> entityClass, String property, Object value,
@@ -425,6 +448,7 @@ public class SuperService {
 	 * @param values 属性值
 	 * @param firstResult 重第几条开始查询
 	 * @param maxResults 一共查回多少条
+	 * @param <E> 泛型
 	 * @return 数据列表
 	 */
 	@SuppressWarnings("unchecked")
@@ -439,8 +463,10 @@ public class SuperService {
 	 * @param entityClass 要查询的实体
 	 * @param property 属性名
 	 * @param values 属性值
+	 * @param orders 排序
 	 * @param firstResult 重第几条开始查询
 	 * @param maxResults 一共查回多少条
+	 * @param <E> 泛型
 	 * @return 数据列表
 	 */
 	public <E extends Entity> List<E> in(Class<E> entityClass, String property, List<Object> values,
@@ -453,7 +479,9 @@ public class SuperService {
 	 * @param entityClass 要查询的实体
 	 * @param property 属性名
 	 * @param values 属性值
+	 * @param orders 排序
 	 * @param pager 分页Bean
+	 * @param <E> 泛型
 	 * @return 数据列表
 	 */
 	public <E extends Entity> List<E> in(Class<E> entityClass, String property, List<Object> values,
@@ -479,6 +507,7 @@ public class SuperService {
 	 * @param parames 参数map
 	 * @param firstResult 重第几条开始查询
 	 * @param maxResults 一共查回多少条
+	 * @param <E> 泛型
 	 * @return 数据列表
 	 */
 	public <E extends Entity> List<E> in(Class<E> entityClass, Map<String, List<Object>> parames,
@@ -494,6 +523,7 @@ public class SuperService {
 	 * @param hi 结束条件
 	 * @param firstResult 重第几条开始查询
 	 * @param maxResults 一共查回多少条
+	 * @param <E> 泛型
 	 * @return 返回结果列表
 	 */
 	public <E extends Entity> List<E> between(E entity, String property, Object lo, Object hi,
@@ -509,6 +539,7 @@ public class SuperService {
 	 * @param hi 结束条件
 	 * @param firstResult 重第几条开始查询
 	 * @param maxResults 一共查回多少条
+	 * @param <E> 泛型
 	 * @return 返回结果列表
 	 */
 	public <E extends Entity> List<E> between(Class<E> entity, String property, Object lo,
@@ -523,6 +554,7 @@ public class SuperService {
 	 * @param lo 开始条件
 	 * @param hi 结束条件
 	 * @param page 分页实体
+	 * @param <E> 泛型
 	 * @return 返回结果列表
 	 */
 	public <E extends Entity> List<E> between(E entity, String property, Object lo, Object hi,
@@ -546,6 +578,7 @@ public class SuperService {
 	 * @param entity 查询实体
 	 * @param orders 排序参数
 	 * @param page 分页实体
+	 * @param <E> 泛型
 	 * @return 返回结果列表
 	 */
 	public <E extends Entity> List<E> order(E entity, Map<String, Object> orders, Pagination page) {
@@ -568,6 +601,7 @@ public class SuperService {
 	 * @param entity 查询实体
 	 * @param orders 排序参数
 	 * @param page 分页实体
+	 * @param <E> 泛型
 	 * @return 返回结果列表
 	 */
 	public <E extends Entity> List<E> order(Class<E> entity, Map<String, Object> orders,
@@ -592,6 +626,7 @@ public class SuperService {
 	 * @param orders 排序参数
 	 * @param firstResult 重第几条开始查询
 	 * @param maxResults 一共查回多少条
+	 * @param <E> 泛型
 	 * @return 数据列表
 	 */
 	public <E extends Entity> List<E> order(E entity, Map<String, Object> orders, int firstResult,
@@ -605,6 +640,7 @@ public class SuperService {
 	 * @param orders 排序参数
 	 * @param firstResult 重第几条开始查询
 	 * @param maxResults 一共查回多少条
+	 * @param <E> 泛型
 	 * @return 数据列表
 	 */
 	public <E extends Entity> List<E> order(Class<E> entityClass, Map<String, Object> orders,
@@ -618,6 +654,7 @@ public class SuperService {
 	 * @param property 属性名
 	 * @param value 属性值
 	 * @param pager 分页Bean
+	 * @param <E> 泛型
 	 * @return 数据列表
 	 */
 	public <E extends Entity> List<E> search(Class<E> entityClass, String property, Object value,
@@ -644,6 +681,7 @@ public class SuperService {
 	 * @param value 属性值
 	 * @param firstResult 重第几条开始查询
 	 * @param maxResults 一共查回多少条
+	 * @param <E> 泛型
 	 * @return 数据列表
 	 */
 	public <E extends Entity> List<E> search(Class<E> entityClass, String property, Object value,
@@ -656,6 +694,7 @@ public class SuperService {
 	 * @param entity 实体
 	 * @param firstResult 重第几条开始查询
 	 * @param maxResults 一共查回多少条
+	 * @param <E> 泛型
 	 * @return 数据列表
 	 */
 	public <E> List<E> search(E entity, int firstResult, int maxResults) {
@@ -664,10 +703,9 @@ public class SuperService {
 
 	/**
 	 * 使用索引查询
-	 * @param entityClass 实体类
-	 * @param property 属性名
-	 * @param value 属性值
+	 * @param entity 实体类
 	 * @param pager 分页Bean
+	 * @param <E> 泛型
 	 * @return 数据列表
 	 */
 	public <E extends Entity> List<E> search(E entity, Pagination pager) {
@@ -688,6 +726,7 @@ public class SuperService {
 	/**
 	 * 根据实体条件查询数量
 	 * @param entity 实体
+	 * @param <E> 泛型
 	 * @return 数量
 	 */
 	public <E extends Entity> int count(E entity) {
@@ -697,6 +736,7 @@ public class SuperService {
 	/**
 	 * 根据实体条件查询数量
 	 * @param entityClass 实体
+	 * @param <E> 泛型
 	 * @return 数量
 	 */
 	public <E extends Entity> int count(Class<E> entityClass) {
@@ -708,6 +748,7 @@ public class SuperService {
 	 * @param entityClass 实体类
 	 * @param property 属性名
 	 * @param value 属性值
+	 * @param <E> 泛型
 	 * @return 数量
 	 */
 	public <E extends Entity> int count(Class<E> entityClass, String property, Object value) {
@@ -721,6 +762,7 @@ public class SuperService {
 	 * @param entityClass 实体类
 	 * @param property 属性名
 	 * @param values 属性值
+	 * @param <E> 泛型
 	 * @return 数量
 	 */
 	public <E extends Entity> int count(Class<E> entityClass, String property,
@@ -736,6 +778,7 @@ public class SuperService {
 	 * @param property 字段名
 	 * @param lo 开始条件
 	 * @param hi 结束条件
+	 * @param <E> 泛型
 	 * @return 返回结果列表
 	 */
 	public <E extends Entity> int count(E entity, String property, Object lo, Object hi) {
@@ -746,7 +789,8 @@ public class SuperService {
 	 * 获得指定属性下的所有实体 包含指定属性
 	 * @param entity 类名称
 	 * @param property 属性名
-	 * @param values 属性值
+	 * @param value 属性值
+	 * @param <E> 泛型
 	 * @return 下级所有分类列表
 	 */
 	public <E extends Entity> List<E> next(Class<E> entity, String property, Object value) {
@@ -769,6 +813,7 @@ public class SuperService {
 	 * @param entity 类名称
 	 * @param property 属性名
 	 * @param pk 主键
+	 * @param <E> 泛型
 	 * @return 上级所有分类列表
 	 */
 	public <E extends Entity> List<E> prev(Class<E> entity, String property, Serializable pk) {
@@ -812,6 +857,7 @@ public class SuperService {
 	/**
 	 * 加载指定类的所有数据
 	 * @param entityClass 实体类
+	 * @param <E> 泛型
 	 */
 	public <E extends Entity> void load(final Class<E> entityClass) {
 		ExecutorUtil.execute(new Runnable() {
@@ -834,6 +880,7 @@ public class SuperService {
 	/**
 	 * 根据实体类获得缓存
 	 * @param entityClass 实体类
+	 * @param <E> 泛型
 	 * @return 缓存
 	 */
 	@SuppressWarnings("unchecked")
@@ -857,6 +904,7 @@ public class SuperService {
 	/**
 	 * 根据实体类获得缓存
 	 * @param entity 实体类
+	 * @param <E> 泛型
 	 * @return 缓存
 	 */
 	@SuppressWarnings("unchecked")
@@ -867,6 +915,7 @@ public class SuperService {
 	/**
 	 * 根据实体类获得缓存
 	 * @param entitys 实体类
+	 * @param <E> 泛型
 	 * @return 缓存
 	 */
 	private <E extends Entity> Cache<E> getCache(List<E> entitys) {
@@ -876,6 +925,7 @@ public class SuperService {
 	/**
 	 * 是否使用缓存
 	 * @param entityClass 实体类
+	 * @param <E> 泛型
 	 * @return 是否使用缓存
 	 */
 	private <E extends Entity> boolean isCache(Class<E> entityClass) {
@@ -903,7 +953,7 @@ public class SuperService {
 	/**
 	 * 处理主键
 	 * @param keys 主键
-	 * @return
+	 * @return 主键
 	 */
 	private Serializable[] keys(Serializable... keys) {
 		// 返回的主键key
@@ -917,7 +967,7 @@ public class SuperService {
 	/**
 	 * 处理主键
 	 * @param key 主键
-	 * @return
+	 * @return 主键
 	 */
 	private Serializable key(Serializable key) {
 		return Conversion.toInt(key) > 0 ? Conversion.toInt(key) : Conversion.toString(key);

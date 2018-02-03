@@ -62,9 +62,7 @@ public final class QueryService {
 	 * 使用索引查询
 	 * @param entity 实体类
 	 * @param property 属性名
-	 * @param value 属性值
-	 * @param firstResult 重第几条开始查询
-	 * @param maxResults 一共查回多少条
+	 * @param value 属性值 
 	 * @return 数据列表
 	 */
 	public List<? extends Entity> search(String entity, String property, Object value) {
@@ -79,7 +77,8 @@ public final class QueryService {
 	 * @param maxResults 一共查回多少条
 	 * @return 数据列表
 	 */
-	public List<? extends Entity> search(String entity, String property, Object value, int maxResults) {
+	public List<? extends Entity> search(String entity, String property, Object value,
+			int maxResults) {
 		return search(entity, property, value, -1, maxResults);
 	}
 
@@ -92,7 +91,8 @@ public final class QueryService {
 	 * @param maxResults 一共查回多少条
 	 * @return 数据列表
 	 */
-	public List<? extends Entity> search(String entity, String property, Object value, int firstResult, int maxResults) {
+	public List<? extends Entity> search(String entity, String property, Object value,
+			int firstResult, int maxResults) {
 		return service.search(context.getClass(entity), property, value, firstResult, maxResults);
 	}
 
@@ -145,7 +145,8 @@ public final class QueryService {
 	 * @param maxResults 一共查回多少条
 	 * @return 数据列表
 	 */
-	public List<? extends Entity> list(String entity, String property, List<Object> values, int maxResults) {
+	public List<? extends Entity> list(String entity, String property, List<Object> values,
+			int maxResults) {
 		return list(entity, property, values, -1, maxResults);
 	}
 
@@ -158,15 +159,16 @@ public final class QueryService {
 	 * @param maxResults 一共查回多少条
 	 * @return 数据列表
 	 */
-	public List<? extends Entity> list(String entity, String property, List<Object> values, int firstResult, int maxResults) {
+	public List<? extends Entity> list(String entity, String property, List<Object> values,
+			int firstResult, int maxResults) {
 		return service.in(context.getClass(entity), property, values, -1, maxResults);
 	}
 
 	/**
 	 * 查询属性名含有列表的实体列表
 	 * @param entity 要查询的实体
-	 * @param op 操作符号
-	 * @param map 对应的属性和值
+	 * @param keys 主键
+	 * @param values 对应的值
 	 * @return 数据列表
 	 */
 	public List<? extends Entity> list(String entity, List<String> keys, List<Object> values) {
@@ -176,12 +178,13 @@ public final class QueryService {
 	/**
 	 * 查询属性名含有列表的实体列表
 	 * @param entity 要查询的实体
-	 * @param op 操作符号
-	 * @param map 对应的属性和值
+	 * @param keys 主键列表
+	 * @param values 属性值
 	 * @param maxResults 一共查回多少条
 	 * @return 数据列表
 	 */
-	public List<? extends Entity> list(String entity, List<String> keys, List<Object> values, int maxResults) {
+	public List<? extends Entity> list(String entity, List<String> keys, List<Object> values,
+			int maxResults) {
 		return list(entity, keys, values, -1, maxResults);
 	}
 
@@ -202,7 +205,8 @@ public final class QueryService {
 	 * @param maxResults 一共查回多少条
 	 * @return 数据列表
 	 */
-	public List<? extends Entity> list(String entity, Map<String, List<Object>> parames, int maxResults) {
+	public List<? extends Entity> list(String entity, Map<String, List<Object>> parames,
+			int maxResults) {
 		return list(entity, parames, -1, maxResults);
 	}
 
@@ -214,7 +218,8 @@ public final class QueryService {
 	 * @param maxResults 一共查回多少条
 	 * @return 数据列表
 	 */
-	public List<? extends Entity> list(String entity, Map<String, List<Object>> parames, int firstResult, int maxResults) {
+	public List<? extends Entity> list(String entity, Map<String, List<Object>> parames,
+			int firstResult, int maxResults) {
 		return service.in(context.getClass(entity), parames, firstResult, maxResults);
 	}
 
@@ -227,8 +232,10 @@ public final class QueryService {
 	 * @param maxResults 一共查回多少条
 	 * @return 数据列表
 	 */
-	public List<? extends Entity> list(String entity, List<String> keys, List<Object> values, int firstResult, int maxResults) {
-		return service.eq(context.getClass(entity), Maps.newMap(keys, values), firstResult, maxResults);
+	public List<? extends Entity> list(String entity, List<String> keys, List<Object> values,
+			int firstResult, int maxResults) {
+		return service.eq(context.getClass(entity), Maps.newMap(keys, values), firstResult,
+				maxResults);
 	}
 
 	/**
@@ -250,7 +257,8 @@ public final class QueryService {
 	 * @param maxResults 一共查回多少条
 	 * @return 数据列表
 	 */
-	public List<? extends Entity> list(String entity, String property, Object value, int maxResults) {
+	public List<? extends Entity> list(String entity, String property, Object value,
+			int maxResults) {
 		return list(entity, property, value, -1, maxResults);
 	}
 
@@ -263,7 +271,8 @@ public final class QueryService {
 	 * @param maxResults 一共查回多少条
 	 * @return 数据列表
 	 */
-	public List<? extends Entity> list(String entity, String property, Object value, int firstResult, int maxResults) {
+	public List<? extends Entity> list(String entity, String property, Object value,
+			int firstResult, int maxResults) {
 		return service.eq(context.getClass(entity), property, value, firstResult, maxResults);
 	}
 
@@ -275,7 +284,8 @@ public final class QueryService {
 	 * @param pager 分页Bean
 	 * @return 数据列表
 	 */
-	public List<? extends Entity> list(String entity, String property, List<Object> values, Pagination pager) {
+	public List<? extends Entity> list(String entity, String property, List<Object> values,
+			Pagination pager) {
 		return service.in(context.getClass(entity), property, values, pager);
 	}
 
@@ -284,10 +294,12 @@ public final class QueryService {
 	 * @param entity 要查询的实体
 	 * @param property 属性名
 	 * @param values 属性值
+	 * @param orders 排序
 	 * @param pager 分页Bean
 	 * @return 数据列表
 	 */
-	public List<? extends Entity> list(String entity, String property, List<Object> values, Map<String, Object> orders, Pagination pager) {
+	public List<? extends Entity> list(String entity, String property, List<Object> values,
+			Map<String, Object> orders, Pagination pager) {
 		return service.in(context.getClass(entity), property, values, orders, pager);
 	}
 
@@ -299,7 +311,8 @@ public final class QueryService {
 	 * @param pager 分页Bean
 	 * @return 数据列表
 	 */
-	public List<? extends Entity> list(String entity, String property, Object value, Pagination pager) {
+	public List<? extends Entity> list(String entity, String property, Object value,
+			Pagination pager) {
 		return service.eq(context.getClass(entity), property, value, pager);
 	}
 
@@ -327,7 +340,7 @@ public final class QueryService {
 	 * 获得指定属性下的所有实体 包含指定属性
 	 * @param entity 类名称
 	 * @param property 属性名
-	 * @param values 属性值
+	 * @param value 属性值
 	 * @return 下级所有分类列表
 	 */
 	public List<? extends Entity> next(String entity, String property, Object value) {
@@ -347,12 +360,14 @@ public final class QueryService {
 
 	/**
 	 * 查询属性名等值的实体列表
-	 * @param entityClass 实体类
+	 * @param entity 实体类
 	 * @param orders 排序参数
+	 * @param firstResult 开始条数
 	 * @param maxResults 一共查回多少条
 	 * @return 数据列表
 	 */
-	public List<Entity> order(String entity, Map<String, Object> orders, int firstResult, int maxResults) {
+	public List<Entity> order(String entity, Map<String, Object> orders, int firstResult,
+			int maxResults) {
 		return service.order(context.getClass(entity), orders, firstResult, maxResults);
 	}
 }

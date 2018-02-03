@@ -34,7 +34,7 @@ public final class HttpEngine {
 			conn.setRequestMethod("GET");
 			// 设置超时
 			conn.setConnectTimeout(5000);
-			conn.setReadTimeout(5000);
+			conn.setReadTimeout(30000);
 			// 连接
 			conn.connect();
 			// 使用GZIP一般服务器支持解压获得的流 然后转成字符串 一般为UTF-8
@@ -91,8 +91,8 @@ public final class HttpEngine {
 				IOUtil.write(conn.getOutputStream(), sb.substring(0, sb.length() - 1));
 			}
 			// 设置超时
-			conn.setConnectTimeout(3000);
-			conn.setReadTimeout(3000);
+			conn.setConnectTimeout(5000);
+			conn.setReadTimeout(30000);
 			// 连接
 			conn.connect();
 			// 使用GZIP一般服务器支持解压获得的流 然后转成字符串 一般为UTF-8
@@ -120,9 +120,11 @@ public final class HttpEngine {
 			// // 设置属性
 			conn.addRequestProperty(HttpConstants.USER_AGENT_KEY, HttpConstants.USER_AGENT_VAL);
 			conn.addRequestProperty(HttpConstants.ACCEPT_KEY, HttpConstants.ACCEPT_VAL);
-			conn.addRequestProperty(HttpConstants.ACCEPT_LANGUAGE_KEY, HttpConstants.ACCEPT_LANGUAGE_VAL);
+			conn.addRequestProperty(HttpConstants.ACCEPT_LANGUAGE_KEY,
+					HttpConstants.ACCEPT_LANGUAGE_VAL);
 			conn.addRequestProperty("Accept-Encoding", "gzip,deflate");
-			conn.addRequestProperty(HttpConstants.ACCEPT_CHARSET_KEY, HttpConstants.ACCEPT_CHARSET_VAL);
+			conn.addRequestProperty(HttpConstants.ACCEPT_CHARSET_KEY,
+					HttpConstants.ACCEPT_CHARSET_VAL);
 			conn.addRequestProperty(HttpConstants.CONTENT_TYPE_KEY, HttpConstants.CONTENT_TYPE_VAL);
 			conn.addRequestProperty("Connection", "Keep-Alive");
 		} catch (Exception e) {

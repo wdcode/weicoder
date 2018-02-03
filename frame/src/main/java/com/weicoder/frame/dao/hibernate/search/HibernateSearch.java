@@ -50,6 +50,7 @@ public final class HibernateSearch {
 	 * @param value 属性值
 	 * @param firstResult 重第几条开始查询
 	 * @param maxResults 一共查回多少条
+	 * @param <E> 泛型
 	 * @return 数据列表
 	 */
 	@SuppressWarnings("unchecked")
@@ -85,6 +86,7 @@ public final class HibernateSearch {
 	 * @param entity 实体
 	 * @param firstResult 重第几条开始查询
 	 * @param maxResults 一共查回多少条
+	 * @param <E> 泛型
 	 * @return 数据列表
 	 */
 	@SuppressWarnings("unchecked")

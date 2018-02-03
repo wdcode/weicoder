@@ -9,16 +9,19 @@ package com.weicoder.frame.entity;
 public interface EntityTime {
 	/**
 	 * 获得创建时间
+	 * @return 时间
 	 */
 	Integer getTime();
 
 	/**
 	 * 设置创建时间
+	 * @param time 时间
 	 */
 	void setTime(Integer time);
 
 	/**
 	 * 获得日期
+	 * @return 日期
 	 */
 	String getDate();
 }

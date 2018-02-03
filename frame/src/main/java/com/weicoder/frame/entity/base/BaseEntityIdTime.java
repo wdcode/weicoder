@@ -16,25 +16,19 @@ import com.weicoder.common.util.EmptyUtil;
 @MappedSuperclass
 public abstract class BaseEntityIdTime extends BaseEntityId implements EntityTime {
 	// 时间
-	private Integer	time;
+	private Integer time;
 
-	/**
-	 * 获得时间
-	 */
+	@Override
 	public Integer getTime() {
 		return time;
 	}
 
-	/**
-	 * 时间
-	 */
+	@Override
 	public void setTime(Integer time) {
 		this.time = time;
 	}
 
-	/**
-	 * 获得日期
-	 */
+	@Override
 	public String getDate() {
 		return EmptyUtil.isEmpty(time) ? StringConstants.EMPTY : DateUtil.toString(time);
 	}

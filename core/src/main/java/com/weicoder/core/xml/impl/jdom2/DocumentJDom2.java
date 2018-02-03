@@ -6,8 +6,8 @@ import com.weicoder.core.xml.Element;
 
 /**
  * Document接口 JDom实现
- * @author WD 
- * @version 1.0  
+ * @author WD
+ * @version 1.0
  */
 public final class DocumentJDom2 implements Document {
 	// JDom Document对象
@@ -83,7 +83,7 @@ public final class DocumentJDom2 implements Document {
 
 	/**
 	 * 设置JDom Document
-	 * @param doc
+	 * @param doc 文档
 	 */
 	public void setDocument(org.jdom2.Document doc) {
 		document = doc;
@@ -101,6 +101,7 @@ public final class DocumentJDom2 implements Document {
 
 	/**
 	 * 返回对象字符串
+	 * @return 字符串
 	 */
 	public String toString() {
 		return document.toString();

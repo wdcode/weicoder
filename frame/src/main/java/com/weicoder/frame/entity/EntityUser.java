@@ -27,6 +27,7 @@ public interface EntityUser extends Entity, EntityIp, EntityTime {
 
 	/**
 	 * 设置名称
+	 * @param name 名称
 	 */
 	void setName(String name);
 
@@ -74,19 +75,19 @@ public interface EntityUser extends Entity, EntityIp, EntityTime {
 
 	/**
 	 * 设置登录时间
+	 * @param time 登录时间
 	 */
 	void setLoginTime(Integer time);
 
 	/**
 	 * 获得状态
-	 * @param state
 	 * @return 状态
 	 */
 	Integer getState();
 
 	/**
 	 * 设置状态
-	 * @param state
+	 * @param state 状态
 	 */
 	void setState(Integer state);
 }

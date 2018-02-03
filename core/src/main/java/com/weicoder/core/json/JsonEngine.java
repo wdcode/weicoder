@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
@@ -92,6 +94,24 @@ public final class JsonEngine {
 	}
 
 	/**
+	 * 把json变成 JSONArray
+	 * @param json json字符串
+	 * @return JSONArray
+	 */
+	public static JSONArray toJSONArray(String json) {
+		return JSON.parseArray(json);
+	}
+
+	/**
+	 * 把json变成 JSONObject
+	 * @param json json字符串
+	 * @return JSONObject
+	 */
+	public static JSONObject toJSONObject(String json) {
+		return JSON.parseObject(json);
+	}
+
+	/**
 	 * 转换JSON根据传入的Class反射生成回实体Bean
 	 * @param json JSON字符串
 	 * @param clazz 要转换对象的class
@@ -109,9 +129,8 @@ public final class JsonEngine {
 	 * @param <E> 泛型
 	 * @return List
 	 */
-	@SuppressWarnings("unchecked")
 	public static <E> List<E> toList(String json, Class<E> clazz) {
-		return EmptyUtil.isEmpty(json) ? (List<E>) Lists.newList() : JSON.parseArray(json, clazz);
+		return EmptyUtil.isEmpty(json) ? Lists.emptyList() : JSON.parseArray(json, clazz);
 	}
 
 	/**

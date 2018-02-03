@@ -14,8 +14,8 @@ import com.weicoder.core.xml.output.XMLWrite;
 
 /**
  * XMLOutputter接口 Dom4J实现
- * @author WD 
- * @version 1.0 
+ * @author WD
+ * @version 1.0
  */
 public final class XMLWriteDom4J implements XMLWrite {
 	// Dom4J XMLWriter
@@ -70,7 +70,7 @@ public final class XMLWriteDom4J implements XMLWrite {
 
 	/**
 	 * 设置输出格式
-	 * @param format
+	 * @param format 输出格式
 	 */
 	public void setFormat(Format format) {
 		this.format = format;

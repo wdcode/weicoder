@@ -122,6 +122,7 @@ public interface Element {
 	/**
 	 * 设置本元素的Document
 	 * @param doc Document对象
+	 * @return Element
 	 */
 	Element setDocument(Document doc);
 }

@@ -22,7 +22,7 @@ public interface Transactional {
 
 	/**
 	 * 是否开始事务
-	 * @return
+	 * @return 是否成功
 	 */
 	boolean isBegin();
 }

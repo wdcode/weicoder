@@ -4,8 +4,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts2.ServletActionContext;
 
-import com.weicoder.common.constants.StringConstants; 
-import com.weicoder.frame.action.SuperAction; 
+import com.weicoder.common.constants.StringConstants;
+import com.weicoder.frame.action.SuperAction;
 
 import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionInvocation;
@@ -16,7 +16,7 @@ import com.opensymphony.xwork2.interceptor.AbstractInterceptor;
  * @author WD 2013-9-22
  */
 public class BasicInterceptor<E extends SuperAction> extends AbstractInterceptor {
-	private static final long	serialVersionUID	= 8518576935365577689L;
+	private static final long serialVersionUID = 8518576935365577689L;
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -45,6 +45,8 @@ public class BasicInterceptor<E extends SuperAction> extends AbstractInterceptor
 
 	/**
 	 * 是否执行下面拦截
+	 * @param invocation 拦截器
+	 * @return 是否成功
 	 */
 	protected boolean execute(ActionInvocation invocation) {
 		return true;
@@ -52,8 +54,9 @@ public class BasicInterceptor<E extends SuperAction> extends AbstractInterceptor
 
 	/**
 	 * 前置通知方法
-	 * @param action
-	 * @param request
+	 * @param action Action
+	 * @param request HttpServletRequest
+	 * @return 是否成功
 	 */
 	protected boolean before(E action, HttpServletRequest request) {
 		return true;
@@ -61,9 +64,9 @@ public class BasicInterceptor<E extends SuperAction> extends AbstractInterceptor
 
 	/**
 	 * 异常处理
-	 * @param action
-	 * @param e
-	 * @return
+	 * @param action Action
+	 * @param e 异常
+	 * @return 字符串
 	 */
 	protected String exception(E action, Throwable e) {
 		// 声明消息字符串
@@ -81,7 +84,9 @@ public class BasicInterceptor<E extends SuperAction> extends AbstractInterceptor
 
 	/**
 	 * 后置通知方法
-	 * @param action
+	 * @param action Action
+	 * @param result 结果
+	 * @return 字符串
 	 */
 	protected String after(E action, String result) {
 		return result;

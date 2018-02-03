@@ -10,7 +10,7 @@ import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.util.BeanUtil;
-import com.weicoder.frame.util.ResponseUtil; 
+import com.weicoder.frame.util.ResponseUtil;
 
 /**
  * Struts2 Action 的抽象实现 其它Struts2 Action可继承此类
@@ -20,12 +20,13 @@ import com.weicoder.frame.util.ResponseUtil;
  */
 public abstract class BasicAction {
 	// 回调方法处理
-	protected final static Map<String, Method>	METHODS	= Maps.newMap();
+	protected final static Map<String, Method> METHODS = Maps.newMap();
 
 	/**
 	 * 以ajax模式输出数据到客户端方法
-	 * @param response
-	 * @param json 对象
+	 * @param response HttpServletResponse
+	 * @param data 对象
+	 * @return 返回字符串
 	 */
 	public String ajax(HttpServletResponse response, Object data) {
 		// 写字符串
@@ -36,7 +37,7 @@ public abstract class BasicAction {
 
 	/**
 	 * 方法回调 所有直接Action回调的方法 一边统一处理
-	 * @param response
+	 * @param response HttpServletResponse
 	 * @param obj 处理对象
 	 * @return 返回标识
 	 */
@@ -46,8 +47,9 @@ public abstract class BasicAction {
 
 	/**
 	 * 方法回调 所有直接Action回调的方法 一边统一处理
-	 * @param response
+	 * @param response HttpServletResponse
 	 * @param obj 处理对象
+	 * @param mode 模式
 	 * @return 返回标识
 	 */
 	public String callback(HttpServletResponse response, Object obj, String mode) {
@@ -72,7 +74,7 @@ public abstract class BasicAction {
 
 	/**
 	 * 获得程序路径
-	 * @param request
+	 * @param request HttpServletRequest
 	 * @param name 文件名
 	 * @return 程序路径
 	 */

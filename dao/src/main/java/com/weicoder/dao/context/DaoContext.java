@@ -31,7 +31,7 @@ public final class DaoContext {
 	/**
 	 * 根据实体名称获得类
 	 * @param entity 实体名称
-	 * @return
+	 * @return 类
 	 */
 	public static Class<Entity> getClass(String entity) {
 		return ENTITYS.get(entity);

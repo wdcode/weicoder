@@ -25,8 +25,8 @@ import com.weicoder.frame.params.FrameParams;
 public final class VerifyCodeUtil {
 	/**
 	 * 校验验证码
-	 * @param request
-	 * @param response
+	 * @param request HttpServletRequest
+	 * @param response HttpServletResponse
 	 * @param code 校验码
 	 * @return true 成功 false 失败
 	 */
@@ -46,8 +46,8 @@ public final class VerifyCodeUtil {
 
 	/**
 	 * 功能描述 : 生成验证图片,并把验证码保存
-	 * @param request
-	 * @param response
+	 * @param request HttpServletRequest
+	 * @param response HttpServletResponse
 	 */
 	public static void make(HttpServletRequest request, HttpServletResponse response) {
 		make(request, response, true);
@@ -55,8 +55,8 @@ public final class VerifyCodeUtil {
 
 	/**
 	 * 功能描述 : 生成验证图片,并把验证码保存
-	 * @param request
-	 * @param response
+	 * @param request HttpServletRequest
+	 * @param response HttpServletResponse
 	 * @param isClose 是否关闭流
 	 */
 	public static void make(HttpServletRequest request, HttpServletResponse response,
@@ -66,8 +66,8 @@ public final class VerifyCodeUtil {
 
 	/**
 	 * 功能描述 : 生成验证图片,并把验证码保存到sessin中
-	 * @param request
-	 * @param response
+	 * @param request HttpServletRequest
+	 * @param response HttpServletResponse
 	 * @param key 保存在session中的key
 	 * @param isClose 是否关闭流
 	 */
@@ -146,8 +146,7 @@ public final class VerifyCodeUtil {
 	/**
 	 * 获得验证码
 	 * @param request Request
-	 * @param response Response
-	 * @return 验证码
+	 * @param response Response 
 	 */
 	public static void removeValue(HttpServletRequest request, HttpServletResponse response) {
 		AttributeUtil.remove(request, response, FrameParams.VERIFY_KEY);
@@ -155,7 +154,7 @@ public final class VerifyCodeUtil {
 
 	/**
 	 * 产生随机字符串
-	 * @return
+	 * @return 随机字符串
 	 */
 	private static String randString() {
 		// 声明字符数组
@@ -173,9 +172,9 @@ public final class VerifyCodeUtil {
 
 	/**
 	 * 给定范围获得随机颜色
-	 * @param fc
-	 * @param bc
-	 * @return
+	 * @param fc 颜色范围
+	 * @param bc 颜色范围
+	 * @return 随机颜色
 	 */
 	private static Color getRandColor(int fc, int bc) {
 		// fc不能大于255

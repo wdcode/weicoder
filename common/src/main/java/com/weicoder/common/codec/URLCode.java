@@ -29,7 +29,7 @@ public final class URLCode {
 	 */
 	public static String encode(String url, String encoding) {
 		try {
-			Logs.trace("URLCode decode");
+			Logs.trace("URLCode encode");
 			return EmptyUtil.isEmpty(url) ? url : URLEncoder.encode(url, encoding);
 		} catch (Exception e) {
 			Logs.error(e);

@@ -51,6 +51,7 @@ public final class ProtobufEngine {
 	 * 反序列化获得对象
 	 * @param b 字节数组
 	 * @param c 反序列化的对象
+	 * @param <E> 范型
 	 * @return 获得的对象
 	 */
 	public static <E> E toBean(byte[] b, Class<E> c) {

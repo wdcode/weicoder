@@ -79,6 +79,7 @@ public final class SessionFactorys {
 
 	/**
 	 * 获得当前Session
+	 * @param entity 实体类
 	 * @return Session
 	 */
 	public Session getSession(Class<?> entity) {

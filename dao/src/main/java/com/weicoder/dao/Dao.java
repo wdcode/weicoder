@@ -27,15 +27,13 @@ public interface Dao {
 
 	/**
 	 * 一个事务下插入多个对象
-	 * @param entitys
-	 * @return 是否成功
+	 * @param entitys 对象列表
 	 */
 	void inserts(Object... entitys);
 
 	/**
 	 * 一个事务下更新多个对象
-	 * @param entitys
-	 * @return 是否成功
+	 * @param entitys 对象列表
 	 */
 	void updates(Object... entitys);
 
@@ -83,14 +81,13 @@ public interface Dao {
 	 * 持久化数据，删除表中多行数据
 	 * @param entitys 需要持久话对象的集合
 	 * @param <E> 泛型
-	 * @return 是否成功
+	 * @return 列表
 	 */
 	<E> List<E> delete(List<E> entitys);
 
 	/**
 	 * 一个事务中删除多个数据
 	 * @param entitys 需要持久话对象的集合
-	 * @return 是否成功
 	 */
 	void deletes(Object... entitys);
 

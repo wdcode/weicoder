@@ -13,8 +13,8 @@ import com.weicoder.core.xml.Element;
 
 /**
  * XML节点接口 Dom4J实现
- * @author WD 
- * @version 1.0 
+ * @author WD
+ * @version 1.0
  */
 public final class ElementDom4J implements Element {
 	// Document对象
@@ -32,7 +32,7 @@ public final class ElementDom4J implements Element {
 
 	/**
 	 * 构造方法
-	 * @param e
+	 * @param e 节点
 	 */
 	public ElementDom4J(org.dom4j.Element e) {
 		element = e;
@@ -193,6 +193,7 @@ public final class ElementDom4J implements Element {
 	/**
 	 * 设置属性
 	 * @param a 属性
+	 * @return Element
 	 */
 	public Element setAttribute(Attribute a) {
 		element.add(((AttributeDom4J) a).getAttribute());
@@ -203,6 +204,7 @@ public final class ElementDom4J implements Element {
 	 * 设置节点属性
 	 * @param name 属性name
 	 * @param value 属性 value
+	 * @return Element
 	 */
 	public Element setAttribute(String name, String value) {
 		element.addAttribute(name, value);
@@ -240,6 +242,7 @@ public final class ElementDom4J implements Element {
 
 	/**
 	 * 设置Dom4J Element
+	 * @param e 节点
 	 */
 	public void setElement(org.dom4j.Element e) {
 		element = e;
@@ -256,6 +259,7 @@ public final class ElementDom4J implements Element {
 
 	/**
 	 * 返回对象字符串
+	 * @return 字符串
 	 */
 	public String toString() {
 		return element.asXML();
@@ -264,11 +268,13 @@ public final class ElementDom4J implements Element {
 	/**
 	 * 把Dom4J节点集合 变成Element接口集合
 	 * @param list
-	 * @return
+	 * @return 列表
 	 */
 	private List<Element> getElementList(List<?> list) {
 		// 判断列表不为空
-		if (EmptyUtil.isEmpty(list)) { return Lists.emptyList(); }
+		if (EmptyUtil.isEmpty(list)) {
+			return Lists.emptyList();
+		}
 		// 获得列表大小
 		int size = list.size();
 		// 声明节点集合

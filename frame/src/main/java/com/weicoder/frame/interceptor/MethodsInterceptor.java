@@ -7,7 +7,7 @@ import com.weicoder.common.lang.Lists;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.frame.action.StrutsAction;
-import com.weicoder.frame.action.SuperAction; 
+import com.weicoder.frame.action.SuperAction;
 
 import com.opensymphony.xwork2.ActionInvocation;
 
@@ -22,7 +22,7 @@ public class MethodsInterceptor<E extends SuperAction> extends BasicInterceptor<
 
 	/**
 	 * 设置方法
-	 * @param methods
+	 * @param methods 方法
 	 */
 	public void setMethods(String methods) {
 		this.methods = Lists.newList(StringUtil.split(methods, StringConstants.COMMA));

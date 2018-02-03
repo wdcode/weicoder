@@ -22,8 +22,7 @@ import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 
 /**
- * 使用JXL操作Excel<br/>
- * <h2>注: 内部使用</h2>
+ * 使用JXL操作Excel  
  * @author WD 
  * @version 1.0 
  */

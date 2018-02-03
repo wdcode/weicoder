@@ -65,8 +65,7 @@ public final class EmailApache extends BaseEmail {
 	 * 发送HTML格式邮件
 	 * @param to 发送地址
 	 * @param subject 邮件标题
-	 * @param msg 邮件内容
-	 * @param attach 附件
+	 * @param msg 邮件内容 
 	 */
 	protected final void sendHtmlEmail(String[] to, String subject, String msg) {
 		// 发送Email

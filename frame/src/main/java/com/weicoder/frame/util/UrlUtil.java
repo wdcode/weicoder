@@ -9,14 +9,14 @@ import com.weicoder.common.util.EmptyUtil;
 
 /**
  * URL相关操作
- * @author WD 
- * @version 1.0 
+ * @author WD
+ * @version 1.0
  */
 public final class UrlUtil {
 	/**
 	 * 获得URL
-	 * @param url
-	 * @return
+	 * @param url URL
+	 * @return 输入流
 	 */
 	public static InputStream openStream(URL url) {
 		try {

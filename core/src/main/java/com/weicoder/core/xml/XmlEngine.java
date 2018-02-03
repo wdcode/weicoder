@@ -52,6 +52,7 @@ public final class XmlEngine {
 	 * 把xml字符串转换成特定实体对象
 	 * @param xml xml字符串
 	 * @param clazz 要转换的类型
+	 * @param <T> 范型
 	 * @return 特定实体对象
 	 */
 	@SuppressWarnings("unchecked")

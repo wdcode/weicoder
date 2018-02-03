@@ -108,8 +108,8 @@ public final class CacheMap<E extends Entity> extends BaseCache<E> {
 	}
 
 	/**
-	 * 添加缓存r
-	 * @param cachees 缓存
+	 * 添加缓存
+	 * @param caches 缓存
 	 * @return 添加的缓存
 	 */
 	public List<E> set(Map<Serializable, E> caches) {
@@ -188,6 +188,7 @@ public final class CacheMap<E extends Entity> extends BaseCache<E> {
 
 	/**
 	 * 判断是否为空
+	 * @return 是否为空
 	 */
 	public boolean isEmpty() {
 		return EmptyUtil.isEmpty(mapCache);
@@ -199,8 +200,7 @@ public final class CacheMap<E extends Entity> extends BaseCache<E> {
 	}
 
 	/**
-	 * 添加缓存
-	 * @param key 缓存的Key
+	 * 添加缓存 
 	 * @param value 缓存的Value
 	 * @return 缓存的Value
 	 */

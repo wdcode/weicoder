@@ -244,6 +244,9 @@ public final class Process {
 				} else if (Manager.class.equals(type)) {
 					// Manager
 					params[i] = Sockets.manager();
+				}  else if (type.isAnnotationPresent(Protobuf.class)) {
+					// 字节流
+					params[i] = ProtobufEngine.toBean(data, type);
 				} else if (type.equals(String.class)) {
 					// 字符串
 					params[i] = StringUtil.toString(data);
@@ -277,10 +280,7 @@ public final class Process {
 				} else if (type.equals(byte[].class)) {
 					// 字节流
 					params[i] = data;
-				} else if (type.isAnnotationPresent(Protobuf.class)) {
-					// 字节流
-					params[i] = ProtobufEngine.toBean(data, type);
-				} else {
+				}else {
 					params[i] = null;
 				}
 			}

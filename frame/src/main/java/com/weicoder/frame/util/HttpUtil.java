@@ -10,7 +10,7 @@ import java.util.zip.GZIPOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.weicoder.common.constants.DateConstants;   
+import com.weicoder.common.constants.DateConstants;
 import com.weicoder.common.http.HttpEngine;
 import com.weicoder.common.io.FileUtil;
 import com.weicoder.common.lang.Lists;
@@ -19,17 +19,17 @@ import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.frame.constants.FileConstants;
 import com.weicoder.frame.constants.HttpConstants;
-import com.weicoder.frame.constants.StringConstants; 
+import com.weicoder.frame.constants.StringConstants;
 
 /**
  * HTTP一些相关操作类
- * @author WD 
- * @version 1.0 
+ * @author WD
+ * @version 1.0
  */
 public final class HttpUtil {
 
 	/**
-	 * 根据url和Map获得URL提交 &连接 如果值为空不连接 对Key进行排序
+	 * 获得url
 	 * @param url 要提交的url
 	 * @param parameters 参数列表
 	 * @return 参数
@@ -39,7 +39,7 @@ public final class HttpUtil {
 	}
 
 	/**
-	 * 根据url和Map获得表单提交 &连接 如果值为空不连接 对Key进行排序
+	 * 获得表单
 	 * @param url 要提交的url
 	 * @param parameters 参数列表
 	 * @param charset 编码
@@ -73,15 +73,16 @@ public final class HttpUtil {
 
 	/**
 	 * 判断字符串是否是HTTP请求
-	 * @param str
-	 * @return
+	 * @param str 字符串
+	 * @return 是否成功
 	 */
 	public static boolean isHttp(String str) {
-		return EmptyUtil.isEmpty(str) ? false : str.startsWith(HttpConstants.HTTP) || str.startsWith(HttpConstants.HTTPS);
+		return EmptyUtil.isEmpty(str) ? false
+				: str.startsWith(HttpConstants.HTTP) || str.startsWith(HttpConstants.HTTPS);
 	}
 
 	/**
-	 * 根据Map获得URL后的参数 &连接 如果值为空不连接 对Key进行排序
+	 * 获得参数
 	 * @param map 参数列表
 	 * @return 参数
 	 */
@@ -119,7 +120,10 @@ public final class HttpUtil {
 	 */
 	public static String getContentType(String url) {
 		// 如果有?把?去掉 并获得后缀
-		String suf = StringUtil.subStringLast(StringUtil.subStringEnd(url, StringConstants.QUESTION_MARK), StringConstants.POINT).toLowerCase();
+		String suf = StringUtil
+				.subStringLast(StringUtil.subStringEnd(url, StringConstants.QUESTION_MARK),
+						StringConstants.POINT)
+				.toLowerCase();
 		// 判断是什么类型的文件
 		if (FileConstants.SUFFIX_JS.equals(suf)) {
 			return HttpConstants.CONTENT_TYPE_JS;
@@ -147,19 +151,23 @@ public final class HttpUtil {
 	 */
 	public static void setExpiresHeader(HttpServletResponse response, long expiresSeconds) {
 		// Http 1.0 header
-		response.setDateHeader(HttpConstants.HEADER_KEY_EXPIRES, System.currentTimeMillis() + expiresSeconds * DateConstants.TIME_SECOND);
+		response.setDateHeader(HttpConstants.HEADER_KEY_EXPIRES,
+				System.currentTimeMillis() + expiresSeconds * DateConstants.TIME_SECOND);
 		// Http 1.1 header
-		response.setHeader(HttpConstants.HEADER_KEY_CACHE_CONTROL, HttpConstants.HEADER_VAL_MAX_AGE + expiresSeconds);
+		response.setHeader(HttpConstants.HEADER_KEY_CACHE_CONTROL,
+				HttpConstants.HEADER_VAL_MAX_AGE + expiresSeconds);
 	}
 
 	/**
 	 * 设置客户端无缓存Header.
+	 * @param response HttpServletResponse
 	 */
 	public static void setNoCacheHeader(HttpServletResponse response) {
 		// Http 1.0 header
 		response.setDateHeader(HttpConstants.HEADER_KEY_EXPIRES, 0);
 		// Http 1.1 header
-		response.setHeader(HttpConstants.HEADER_KEY_CACHE_CONTROL, HttpConstants.HEADER_VAL_NO_CACHE);
+		response.setHeader(HttpConstants.HEADER_KEY_CACHE_CONTROL,
+				HttpConstants.HEADER_VAL_NO_CACHE);
 	}
 
 	/**
@@ -181,18 +189,19 @@ public final class HttpUtil {
 	}
 
 	/**
-	 * 根据浏览器If-Modified-Since Header, 计算文件是否已被修改. 如果无修改, checkIfModify返回false,设置304 not modify
-	 * status.
+	 * 根据浏览器If-Modified-Since Header, 计算文件是否已被修改. 如果无修改, checkIfModify返回false,设置304 not modify status.
 	 * @param request HttpServletRequest
 	 * @param response HttpServletResponse
 	 * @param lastModified 内容的最后修改时间.
 	 * @return true false
 	 */
-	public static boolean checkIfModifiedSince(HttpServletRequest request, HttpServletResponse response, long lastModified) {
+	public static boolean checkIfModifiedSince(HttpServletRequest request,
+			HttpServletResponse response, long lastModified) {
 		// 获得 If-Modified-Since时间
 		long ifModifiedSince = request.getDateHeader(HttpConstants.HEADER_KEY_IF_MODIFIED_SINCE);
 		// 判断时间
-		if ((ifModifiedSince != -1) && (lastModified < ifModifiedSince + DateConstants.TIME_SECOND)) {
+		if ((ifModifiedSince != -1)
+				&& (lastModified < ifModifiedSince + DateConstants.TIME_SECOND)) {
 			// 设置没修改
 			response.setStatus(HttpServletResponse.SC_NOT_MODIFIED);
 			// 返回false
@@ -203,14 +212,14 @@ public final class HttpUtil {
 	}
 
 	/**
-	 * 根据浏览器 If-None-Match Header, 计算Etag是否已无效. 如果Etag有效, checkIfNoneMatch返回false, 设置304 not modify
-	 * status.
+	 * 根据浏览器 If-None-Match Header, 计算Etag是否已无效. 如果Etag有效, checkIfNoneMatch返回false, 设置304 not modify status.
 	 * @param request HttpServletRequest
 	 * @param response HttpServletResponse
 	 * @param etag 内容的ETag
 	 * @return true false
 	 */
-	public static boolean checkIfNoneMatchEtag(HttpServletRequest request, HttpServletResponse response, String etag) {
+	public static boolean checkIfNoneMatchEtag(HttpServletRequest request,
+			HttpServletResponse response, String etag) {
 		// 获得If-None-Match
 		String headerValue = request.getHeader(HttpConstants.HEADER_KEY_IF_NONE_MATCH);
 		if (!EmptyUtil.isEmpty(headerValue)) {
@@ -219,7 +228,8 @@ public final class HttpUtil {
 			// 判断headerValue不等于 *
 			if (!StringConstants.ASTERISK.equals(headerValue)) {
 				// 声明StringTokenizer
-				StringTokenizer commaTokenizer = new StringTokenizer(headerValue, StringConstants.COMMA);
+				StringTokenizer commaTokenizer = new StringTokenizer(headerValue,
+						StringConstants.COMMA);
 				// 循环处理
 				while (!conditionSatisfied && commaTokenizer.hasMoreTokens()) {
 					// 获得Token
@@ -298,6 +308,6 @@ public final class HttpUtil {
 	public static void saveToFile(String url, String fileName) {
 		FileUtil.write(fileName, HttpEngine.download(url), false);
 	}
- 
+
 	private HttpUtil() {}
 }

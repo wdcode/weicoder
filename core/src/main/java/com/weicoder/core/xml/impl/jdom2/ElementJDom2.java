@@ -30,7 +30,7 @@ public final class ElementJDom2 implements Element {
 
 	/**
 	 * 构造方法
-	 * @param e
+	 * @param e 节点
 	 */
 	public ElementJDom2(org.jdom2.Element e) {
 		element = e;

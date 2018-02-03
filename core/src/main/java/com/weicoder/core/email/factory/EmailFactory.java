@@ -41,9 +41,8 @@ public final class EmailFactory extends Factory<Email> {
 	 * @param from 发送Email服务器地址
 	 * @param password Email服务器密码
 	 * @param auth 是否验证
-	 * @param charset 编码格式
-	 * @param parse 解析包
-	 * @return EmailUtil
+	 * @param charset 编码格式 
+	 * @return Email
 	 */
 	public static Email newEmail(String host, String from, String password, boolean auth, String charset) {
 		return FACTORY.newInstance(host, from, password, auth, charset);
@@ -74,9 +73,8 @@ public final class EmailFactory extends Factory<Email> {
 	 * @param from 发送Email服务器地址
 	 * @param password Email服务器密码
 	 * @param auth 是否验证
-	 * @param charset 编码格式
-	 * @param parse 解析包
-	 * @return EmailUtil
+	 * @param charset 编码格式 
+	 * @return Email
 	 */
 	public Email newInstance(String host, String from, String password, boolean auth, String charset) {
 		// 判断使用哪个包

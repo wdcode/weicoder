@@ -11,8 +11,8 @@ import com.weicoder.core.xml.Element;
 
 /**
  * Element接口 JDom实现
- * @author WD 
- * @version 1.0  
+ * @author WD
+ * @version 1.0
  */
 public final class ElementJDom implements Element {
 	// Document对象
@@ -30,7 +30,7 @@ public final class ElementJDom implements Element {
 
 	/**
 	 * 构造方法
-	 * @param e
+	 * @param e 节点
 	 */
 	public ElementJDom(org.jdom.Element e) {
 		element = e;
@@ -38,7 +38,7 @@ public final class ElementJDom implements Element {
 
 	/**
 	 * 获得本元素的Document
-	 * @return Document
+	 * @return Document 文档
 	 */
 	public Document getDocument() {
 		return doc;

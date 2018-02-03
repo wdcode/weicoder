@@ -14,8 +14,8 @@ import com.weicoder.core.xml.output.XMLWrite;
 
 /**
  * XMLOutput接口 JDom实现
- * @author WD 
- * @version 1.0  
+ * @author WD
+ * @version 1.0
  */
 public final class XMLWriteJDom implements XMLWrite {
 	// JDom XMLWriter
@@ -37,7 +37,7 @@ public final class XMLWriteJDom implements XMLWrite {
 	/**
 	 * 输出XML文档
 	 * @param doc Document对象
-	 * @param os 输出流
+	 * @param out 输出流
 	 */
 	public void output(Document doc, OutputStream out) {
 		// 获得out
@@ -80,7 +80,7 @@ public final class XMLWriteJDom implements XMLWrite {
 
 	/**
 	 * 设置输出格式
-	 * @param format
+	 * @param format 格式化
 	 */
 	public void setFormat(Format format) {
 		this.format = format;

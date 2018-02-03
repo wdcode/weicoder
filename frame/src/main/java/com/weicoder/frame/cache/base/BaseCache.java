@@ -30,8 +30,7 @@ public abstract class BaseCache<E extends Entity> implements Cache<E> {
 	}
 
 	/**
-	 * 添加缓存
-	 * @param key 缓存的Key
+	 * 添加缓存 
 	 * @param values 缓存的Value
 	 * @return 缓存的Value
 	 */

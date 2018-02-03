@@ -106,9 +106,6 @@ public abstract class SuperAction extends BasicAction {
 	 * @param request HttpServletRequest
 	 * @param response HttpServletResponse
 	 * @param actionName action名称
-	 * @param module
-	 * @param method
-	 * @param mode
 	 */
 	protected void init(HttpServletRequest request, HttpServletResponse response,
 			String actionName) {
@@ -170,9 +167,8 @@ public abstract class SuperAction extends BasicAction {
 	/**
 	 * 重置缓存
 	 * @return 跳转
-	 * @throws Exception
 	 */
-	public String load() throws Exception {
+	public String load() {
 		// 重载数据
 		if (entityClass == null) {
 			service.load();
@@ -186,9 +182,8 @@ public abstract class SuperAction extends BasicAction {
 	/**
 	 * 重置缓存
 	 * @return 跳转
-	 * @throws Exception
 	 */
-	public String cache() throws Exception {
+	public String cache() {
 		// 重载缓存
 		if (entityClass == null) {
 			service.cache();
@@ -202,9 +197,8 @@ public abstract class SuperAction extends BasicAction {
 	/**
 	 * 添加
 	 * @return 跳转
-	 * @throws Exception
 	 */
-	public String add() throws Exception {
+	public String add() {
 		Logs.info("add entity={}", entity);
 		return callback(entity = service.insert(add(entity)));
 	}
@@ -212,9 +206,8 @@ public abstract class SuperAction extends BasicAction {
 	/**
 	 * 添加或修改
 	 * @return 跳转
-	 * @throws Exception
 	 */
-	public String addOrUpdata() throws Exception {
+	public String addOrUpdata() {
 		Logs.info("addOrUpdata entity={}", entity);
 		return callback(entity = service.insertOrUpdate(add(entity)));
 	}
@@ -222,9 +215,8 @@ public abstract class SuperAction extends BasicAction {
 	/**
 	 * 添加
 	 * @return 跳转
-	 * @throws Exception
 	 */
-	public String adds() throws Exception {
+	public String adds() {
 		Logs.info("adds entity={};key={}", entitys, key);
 		// 如果实体列表为空 并且key不为空
 		if (EmptyUtil.isEmpty(entitys) && !EmptyUtil.isEmpty(key)) {
@@ -241,9 +233,8 @@ public abstract class SuperAction extends BasicAction {
 	/**
 	 * 修改
 	 * @return 跳转
-	 * @throws Exception
 	 */
-	public String edit() throws Exception {
+	public String edit() {
 		Logs.info("edit entity={}", entity);
 		// 获得要更像的实体
 		Entity e = service.get(entityClass, entity.getKey());
@@ -254,9 +245,8 @@ public abstract class SuperAction extends BasicAction {
 	/**
 	 * 修改
 	 * @return 跳转
-	 * @throws Exception
 	 */
-	public String edits() throws Exception {
+	public String edits() {
 		Logs.info("edits entity={};key={}", entitys, key);
 		// 如果实体列表为空 并且key不为空
 		if (EmptyUtil.isEmpty(entitys) && !EmptyUtil.isEmpty(key)) {
@@ -285,9 +275,8 @@ public abstract class SuperAction extends BasicAction {
 	/**
 	 * 删除
 	 * @return 跳转
-	 * @throws Exception
 	 */
-	public String del() throws Exception {
+	public String del() {
 		Logs.info("del entity=" + entity + ";key=" + key);
 		// key为空
 		if (EmptyUtil.isEmpty(key)) {
@@ -312,9 +301,8 @@ public abstract class SuperAction extends BasicAction {
 	/**
 	 * 删除多个
 	 * @return 跳转
-	 * @throws Exception
 	 */
-	public String dels() throws Exception {
+	public String dels() {
 		Logs.info("dels entity=" + entitys);
 		return callback(
 				EmptyUtil.isEmpty(entitys = service.delete(entityClass, keys)) ? ERROR : SUCCESS);
@@ -325,18 +313,16 @@ public abstract class SuperAction extends BasicAction {
 	/**
 	 * 查询所有
 	 * @return 跳转list
-	 * @throws Exception
 	 */
-	public String all() throws Exception {
+	public String all() {
 		return callback(entitys = service.all(entityClass));
 	}
 
 	/**
 	 * 分页查询
 	 * @return 跳转list
-	 * @throws Exception
 	 */
-	public String page() throws Exception {
+	public String page() {
 		Logs.info("page entity=" + entity + ";pager=" + pager);
 		// 查询实体列表
 		entitys = (entity == null ? service.list(entityClass, pager) : service.list(entity, pager));
@@ -351,9 +337,8 @@ public abstract class SuperAction extends BasicAction {
 	/**
 	 * 分页查询
 	 * @return 跳转list
-	 * @throws Exception
 	 */
-	public String order() throws Exception {
+	public String order() {
 		Logs.info("page entity=" + entity + ";pager=" + pager);
 		return callback(entitys = entity == null ? service.order(entityClass, orders, pager)
 				: service.order(entity, orders, pager));
@@ -362,9 +347,8 @@ public abstract class SuperAction extends BasicAction {
 	/**
 	 * 分页查询
 	 * @return 跳转list
-	 * @throws Exception
 	 */
-	public String date() throws Exception {
+	public String date() {
 		Logs.info("page entity=" + entity + ";pager=" + pager + ";start=" + startDate + ";end="
 				+ endDate);
 		// 如果开始时间和结束时间都为空
@@ -391,9 +375,8 @@ public abstract class SuperAction extends BasicAction {
 	/**
 	 * 实体条件查询出所有
 	 * @return 跳转SUCCESS
-	 * @throws Exception
 	 */
-	public String get() throws Exception {
+	public String get() {
 		Logs.info("get key=" + key);
 		return callback(entity = key == null ? null : service.get(entityClass, key));
 	}
@@ -401,9 +384,8 @@ public abstract class SuperAction extends BasicAction {
 	/**
 	 * 实体条件查询出所有
 	 * @return 跳转SUCCESS
-	 * @throws Exception
 	 */
-	public String gets() throws Exception {
+	public String gets() {
 		Logs.info("get keys=" + keys);
 		return keys == null ? callback(entitys = service.gets(entityClass, key))
 				: callback(entitys = service.gets(entityClass, keys));
@@ -412,9 +394,8 @@ public abstract class SuperAction extends BasicAction {
 	/**
 	 * 实体条件查询出所有
 	 * @return 跳转SUCCESS
-	 * @throws Exception
 	 */
-	public String entity() throws Exception {
+	public String entity() {
 		Logs.info("entity=" + entity);
 		return callback(entity = entity == null ? null : service.get(entity));
 	}
@@ -422,9 +403,8 @@ public abstract class SuperAction extends BasicAction {
 	/**
 	 * 实体条件查询出所有
 	 * @return 跳转list
-	 * @throws Exception
 	 */
-	public String entitys() throws Exception {
+	public String entitys() {
 		Logs.info("entitys entity=" + entity + ";pager=" + pager);
 		return callback(entity == null ? LIST : (entitys = service.list(entity, pager)));
 	}
@@ -432,9 +412,8 @@ public abstract class SuperAction extends BasicAction {
 	/**
 	 * 跳转到修改页
 	 * @return 跳转
-	 * @throws Exception
 	 */
-	public String theme() throws Exception {
+	public String theme() {
 		Logs.info("theme entity=" + entity);
 		return callback(!EmptyUtil.isEmpty(entity = service.get(entityClass, entity.getKey())));
 	}
@@ -442,9 +421,8 @@ public abstract class SuperAction extends BasicAction {
 	/**
 	 * 跳转到列表页
 	 * @return 跳转
-	 * @throws Exception
 	 */
-	public String list() throws Exception {
+	public String list() {
 		Logs.info("list entity=" + entity + ";pager=" + pager + ";orders=" + orders);
 		// 排序参数为空
 		if (EmptyUtil.isEmpty(orders)) {
@@ -461,9 +439,8 @@ public abstract class SuperAction extends BasicAction {
 	/**
 	 * 获得数量
 	 * @return 跳转
-	 * @throws Exception
 	 */
-	public String count() throws Exception {
+	public String count() {
 		Logs.info("count entity=" + entity);
 		return callback(entity == null ? service.count(entityClass) : service.count(entity));
 	}
@@ -471,9 +448,8 @@ public abstract class SuperAction extends BasicAction {
 	/**
 	 * 跳转到列表页
 	 * @return 跳转
-	 * @throws Exception
 	 */
-	public String search() throws Exception {
+	public String search() {
 		Logs.info("theme search=" + entity + ";pager=" + pager);
 		return callback(entitys = service.search(entity, pager));
 	}
@@ -493,19 +469,17 @@ public abstract class SuperAction extends BasicAction {
 
 	/**
 	 * 直接跳转
-	 * @return
-	 * @throws Exception
+	 * @return 跳转
 	 */
-	public String to() throws Exception {
+	public String to() {
 		return SUCCESS;
 	}
 
 	/**
 	 * 直接跳转
-	 * @return
-	 * @throws Exception
+	 * @return 跳转
 	 */
-	public String tos() throws Exception {
+	public String tos() {
 		return LIST;
 	}
 
@@ -702,14 +676,14 @@ public abstract class SuperAction extends BasicAction {
 
 	/**
 	 * 方法回调 所有直接Action回调的方法 一边统一处理
-	 * @param response
+	 * @param response HttpServletResponse
 	 * @param obj 处理对象
 	 * @return 返回标识
 	 */
 	public String call(HttpServletResponse response, Object obj) {
 		if (obj == null) {
 			return addMessage(ERROR);
-		}  else if ("ajax".equals(mode)) {
+		} else if ("ajax".equals(mode)) {
 			return ajax(response, obj);
 		} else if (obj instanceof String) {
 			String re = Conversion.toString(obj);
@@ -728,6 +702,7 @@ public abstract class SuperAction extends BasicAction {
 	/**
 	 * 添加错误信息 错误Field=key value=国际化value
 	 * @param key 国际化文件的Key
+	 * @return 字符串
 	 */
 	public String addError(String key) {
 		error.add(key);
@@ -737,6 +712,7 @@ public abstract class SuperAction extends BasicAction {
 	/**
 	 * 添加信息 调用addActionMessage做国际化处理
 	 * @param key 国际化文件的Key
+	 * @return 字符串
 	 */
 	public String addMessage(String key) {
 		message.add(key);
@@ -745,8 +721,8 @@ public abstract class SuperAction extends BasicAction {
 
 	/**
 	 * 添加实体
-	 * @param e
-	 * @return
+	 * @param e Entity
+	 * @return Entity
 	 */
 	protected Entity theme(Entity e) {
 		// 判断e==null 直接返回
@@ -769,8 +745,8 @@ public abstract class SuperAction extends BasicAction {
 
 	/**
 	 * 添加实体
-	 * @param e
-	 * @return
+	 * @param e Entity
+	 * @return Entity
 	 */
 	protected Entity add(Entity e) {
 		// 判断实体类型
@@ -803,9 +779,9 @@ public abstract class SuperAction extends BasicAction {
 
 	/**
 	 * 上传文件
-	 * @param request
-	 * @param e
-	 * @return
+	 * @param request HttpServletRequest
+	 * @param e Entity
+	 * @return Entity
 	 */
 	protected Entity upload(HttpServletRequest request, Entity e) {
 		// if (e instanceof EntityFile) {
@@ -829,8 +805,9 @@ public abstract class SuperAction extends BasicAction {
 
 	/**
 	 * 以sign模式输出数据到客户端方法
-	 * @param response
-	 * @param json 对象
+	 * @param response HttpServletResponse
+	 * @param obj 对象
+	 * @return 字符串
 	 */
 	protected String sign(HttpServletResponse response, Object obj) {
 		return ajax(response, obj instanceof String || obj instanceof Number ? obj
@@ -839,8 +816,9 @@ public abstract class SuperAction extends BasicAction {
 
 	/**
 	 * 以key模式输出数据到客户端方法
-	 * @param response
-	 * @param json 对象
+	 * @param response HttpServletResponse
+	 * @param obj 对象
+	 * @return 字符串
 	 */
 	protected String key(HttpServletResponse response, Object obj) {
 		return ajax(response, obj instanceof String || obj instanceof Number ? obj
@@ -849,6 +827,7 @@ public abstract class SuperAction extends BasicAction {
 
 	/**
 	 * 获得验证登录凭证
+	 * @return Token
 	 */
 	protected Token auth() {
 		return LoginEngine.getLoginBean(request, "user");
