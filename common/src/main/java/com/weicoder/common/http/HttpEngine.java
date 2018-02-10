@@ -72,12 +72,17 @@ public final class HttpEngine {
 			conn = getConnection(url);
 			// 设置为post方式
 			conn.setRequestMethod("POST");
+			// 设置超时
+			conn.setConnectTimeout(5000);
+			conn.setReadTimeout(30000);
 			// 设置允许Input
 			conn.setDoInput(true);
+			// 设置允许output
+			conn.setDoOutput(true);
+			// 连接
+			conn.connect();
 			// 判断有参数提交
 			if (!EmptyUtil.isEmpty(data)) {
-				// 设置允许output
-				conn.setDoOutput(true);
 				// 声明字符串缓存
 				StringBuilder sb = new StringBuilder();
 				// 循环参数
@@ -90,11 +95,6 @@ public final class HttpEngine {
 				// 写数据流
 				IOUtil.write(conn.getOutputStream(), sb.substring(0, sb.length() - 1));
 			}
-			// 设置超时
-			conn.setConnectTimeout(5000);
-			conn.setReadTimeout(30000);
-			// 连接
-			conn.connect();
 			// 使用GZIP一般服务器支持解压获得的流 然后转成字符串 一般为UTF-8
 			return StringUtil.toString(ZipEngine.GZIP.extract(IOUtil.read(conn.getInputStream())));
 		} catch (IOException e) {

@@ -1,6 +1,5 @@
 package com.weicoder.core.http;
 
-import java.io.File;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.List;
@@ -13,15 +12,13 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.config.ConnectionConfig;
-import org.apache.http.entity.mime.HttpMultipartMode;
-import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicNameValuePair;
 
-import com.weicoder.common.constants.ArrayConstants; 
+import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.HttpConstants;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.constants.SystemConstants;
@@ -39,7 +36,7 @@ import com.weicoder.common.util.StringUtil;
  */
 public final class HttpClient {
 	// Http客户端
-	private final static CloseableHttpClient CLIENT;
+	final static CloseableHttpClient CLIENT;
 
 	static {
 		// Http连接池
@@ -60,11 +57,14 @@ public final class HttpClient {
 		List<BasicHeader> headers = Lists.newList();
 		headers.add(new BasicHeader(HttpConstants.USER_AGENT_KEY, HttpConstants.USER_AGENT_VAL));
 		headers.add(new BasicHeader(HttpConstants.ACCEPT_KEY, HttpConstants.ACCEPT_VAL));
-		headers.add(new BasicHeader(HttpConstants.ACCEPT_LANGUAGE_KEY, HttpConstants.ACCEPT_LANGUAGE_VAL));
-		headers.add(new BasicHeader(HttpConstants.ACCEPT_CHARSET_KEY, HttpConstants.ACCEPT_CHARSET_VAL));
+		headers.add(new BasicHeader(HttpConstants.ACCEPT_LANGUAGE_KEY,
+				HttpConstants.ACCEPT_LANGUAGE_VAL));
+		headers.add(new BasicHeader(HttpConstants.ACCEPT_CHARSET_KEY,
+				HttpConstants.ACCEPT_CHARSET_VAL));
 		builder.setDefaultHeaders(headers);
 		// 设置连接配置
-		builder.setDefaultConnectionConfig(ConnectionConfig.custom().setCharset(Charset.forName(CommonParams.ENCODING)).build());
+		builder.setDefaultConnectionConfig(ConnectionConfig.custom()
+				.setCharset(Charset.forName(CommonParams.ENCODING)).build());
 		// 实例化客户端
 		CLIENT = builder.build();
 	}
@@ -99,7 +99,8 @@ public final class HttpClient {
 		try {
 			// 获得HttpGet对象
 			get = new HttpGet(url);
-			get.addHeader(new BasicHeader(HttpConstants.CONTENT_TYPE_KEY, HttpConstants.CONTENT_TYPE_VAL));
+			get.addHeader(new BasicHeader(HttpConstants.CONTENT_TYPE_KEY,
+					HttpConstants.CONTENT_TYPE_VAL));
 			// 获得HttpResponse
 			HttpResponse response = CLIENT.execute(get);
 			// 返回字节流
@@ -117,54 +118,6 @@ public final class HttpClient {
 			}
 		}
 		return ArrayConstants.BYTES_EMPTY;
-	}
-
-	/**
-	 * 上传文件
-	 * @param url post提交地址
-	 * @param files 上传文件
-	 * @return 返回结果
-	 */
-	public static String upload(String url, File... files) {
-		// 如果文件为空
-		if (EmptyUtil.isEmpty(url) || EmptyUtil.isEmpty(files)) {
-			return StringConstants.EMPTY;
-		}
-		// 声明HttpPost
-		HttpPost post = null;
-		try {
-			// 获得HttpPost
-			post = new HttpPost(url);
-			// post.addHeader(new BasicHeader(HttpConstants.CONTENT_TYPE_KEY, HttpConstants.CONTENT_TYPE_FILE + "; boundary=---123"));
-			// 多提交实体构造器
-			MultipartEntityBuilder builder = MultipartEntityBuilder.create();
-			// 设置浏览器上传
-			builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
-			// 添加上传文件
-			for (File file : files) {
-				builder.addBinaryBody(file.getName(), file);
-				// builder.addPart(file.getName(), new FileBody(file));
-				// builder.addBinaryBody("file", file, ContentType.MULTIPART_FORM_DATA,file.getName());
-			}
-			// 设置提交文件参数
-			post.setEntity(builder.build());
-			// 获得HttpResponse参数
-			HttpResponse response = CLIENT.execute(post);
-			// 返回结果
-			try (InputStream in = response.getEntity().getContent()) {
-				return IOUtil.readString(in);
-			} catch (Exception e) {
-				Logs.error(e);
-			}
-		} catch (Exception e) {
-			Logs.error(e);
-		} finally {
-			// 销毁post
-			if (post != null) {
-				post.abort();
-			}
-		}
-		return StringConstants.EMPTY;
 	}
 
 	/**
@@ -190,7 +143,8 @@ public final class HttpClient {
 		try {
 			// 获得HttpPost
 			post = new HttpPost(url);
-			post.addHeader(new BasicHeader(HttpConstants.CONTENT_TYPE_KEY, HttpConstants.CONTENT_TYPE_VAL));
+			post.addHeader(new BasicHeader(HttpConstants.CONTENT_TYPE_KEY,
+					HttpConstants.CONTENT_TYPE_VAL));
 			// 如果参数列表为空 data为空map
 			if (!EmptyUtil.isEmpty(data)) {
 				// 声明参数列表
@@ -198,7 +152,8 @@ public final class HttpClient {
 				// 设置参数
 				for (Map.Entry<String, Object> entry : data.entrySet()) {
 					// 添加参数
-					list.add(new BasicNameValuePair(entry.getKey(), Conversion.toString(entry.getValue())));
+					list.add(new BasicNameValuePair(entry.getKey(),
+							Conversion.toString(entry.getValue())));
 				}
 				// 设置参数与 编码格式
 				post.setEntity(new UrlEncodedFormEntity(list, charset));

@@ -55,8 +55,8 @@ public class BasicServlet extends HttpServlet {
 		Logs.trace("request ip={},path={},{}", ip, path, request.getQueryString());
 		if (!EmptyUtil.isEmpty(path)) {
 			// 分解提交action 去处开头的/ 并且按_分解出数组
-			String[] actions = StringUtil.split(StringUtil.subString(path, 1, path.length()),
-					StringConstants.UNDERLINE);
+			String actionName = StringUtil.subString(path, 1, path.length());
+			String[] actions = StringUtil.split(actionName, StringConstants.UNDERLINE);
 			if (EmptyUtil.isEmpty(actions)) {
 				Logs.debug("this path={}", path);
 				ResponseUtil.json(response, callback, "action is null path");
@@ -69,7 +69,7 @@ public class BasicServlet extends HttpServlet {
 			if (action == null) {
 				// 如果使用action_method模式 直接返回
 				if (actions.length == 2) {
-					Logs.trace("request ip={},path={},no action", ip, path);
+					Logs.debug("request ip={},path={},no action", ip, path);
 					ResponseUtil.json(response, callback, "no.action");
 					return;
 				}
@@ -83,11 +83,11 @@ public class BasicServlet extends HttpServlet {
 			}
 			Method method = methods.get(actions.length > 1 ? actions[1] : actions[0]);
 			if (method == null) {
-				Logs.trace("request ip={},path={},no method", ip, path);
+				Logs.debug("request ip={},path={},no method", ip, path);
 				ResponseUtil.json(response, callback, "no.method");
 				return;
 			}
-			Logs.debug("request ip={},name={}", ip, name);
+			Logs.debug("request ip={},name={}", ip, actionName);
 			// 设置参数
 			Parameter[] pars = method.getParameters();
 			Object[] params = null;
@@ -118,10 +118,10 @@ public class BasicServlet extends HttpServlet {
 							params[i] = ip;
 						}
 						Logs.debug("request ip={},name={},params index={},name={},type={},value={}",
-								ip, name, i, p.getName(), cs, params[i]);
+								ip, actionName, i, p.getName(), cs, params[i]);
 					} else {
 						params[i] = BeanUtil.copy(ps, cs);
-						Logs.debug("request ip={},name={},params={}", ip, name, params[i]);
+						Logs.debug("request ip={},name={},params={}", ip, actionName, params[i]);
 					}
 				}
 			}
@@ -135,7 +135,7 @@ public class BasicServlet extends HttpServlet {
 			} else if (res != null && !(res instanceof Void)) {
 				ResponseUtil.json(response, callback, res);
 			}
-			Logs.info("request ip={},name={},time={},res={},params={} end", ip, name,
+			Logs.info("request ip={},name={},time={},res={},params={} end", ip, actionName,
 					System.currentTimeMillis() - curr, res, params);
 		}
 	}

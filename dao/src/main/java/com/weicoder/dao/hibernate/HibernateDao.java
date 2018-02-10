@@ -565,7 +565,7 @@ public final class HibernateDao implements Dao {
 		T t = null;
 		try {
 			// 是否自己控制事务
-			if (isSession && txl != null && !txl.isBegin()) {
+			if (isSession && txl == null) {
 				// 开始事务
 				tx = session.beginTransaction();
 			}

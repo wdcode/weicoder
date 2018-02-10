@@ -39,6 +39,8 @@ public final class CommonParams {
 	/** 执行任务名称数组 */
 	public final static String[]	INIT_CLASSES	= CONFIG.getStringArray("init.class",
 			ArrayConstants.STRING_EMPTY);
+	/** 包名 */
+	public final static String		PACKAGES		= CONFIG.getString("packages");
 
 	/**
 	 * 获得包名
@@ -46,7 +48,7 @@ public final class CommonParams {
 	 * @return 名称下的包名
 	 */
 	public static String getPackages(String name) {
-		return CONFIG.getString(Params.getKey(StringConstants.EMPTY, name, "packages"));
+		return CONFIG.getString(Params.getKey(StringConstants.EMPTY, name, "packages"), PACKAGES);
 	}
 
 	private CommonParams() {}
