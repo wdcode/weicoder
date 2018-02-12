@@ -307,4 +307,18 @@ public final class JdbcDao implements Dao {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public <E> List<E> gt(Class<E> entityClass, String property, Object value, int firstResult,
+			int maxResults) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public <E> List<E> lt(Class<E> entityClass, String property, Object value, int firstResult,
+			int maxResults) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

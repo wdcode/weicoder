@@ -17,7 +17,7 @@ public final class DaoParams {
 	/** 分页大小 */
 	public final static int		PAGE_SIZE	= CONFIG.getInt("page.size", 20);
 	/** 数据源配置 */
-	public final static String	DB_CONFIG	= CONFIG.getString("db.config", "db/");
+	public final static String	DB_CONFIG	= CONFIG.getString("db.config", "db");
 	/** PO 扫描包名 */
 	public final static String	PACKAGES	= CONFIG.getString("packages");
 

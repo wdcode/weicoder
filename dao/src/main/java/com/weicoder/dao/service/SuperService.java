@@ -137,11 +137,48 @@ public final class SuperService {
 	 * @param entityClass 要查询的实体
 	 * @param property 属性名
 	 * @param value 属性值
+	 * @param <E> 泛型
+	 * @return 数据列表
+	 */
+	public static <E> List<E> eq(Class<E> entityClass, String property, Object value) {
+		return DAO.eq(entityClass, property, value, -1, -1);
+	}
+
+	/**
+	 * 查询属性名等值的实体列表
+	 * @param entityClass 要查询的实体
+	 * @param property 属性名
+	 * @param value 属性值
+	 * @param <E> 泛型
+	 * @return 数据列表
+	 */
+	public static <E> List<E> gt(Class<E> entityClass, String property, Object value) {
+		return DAO.gt(entityClass, property, value, -1, -1);
+	}
+
+	/**
+	 * 查询属性名等值的实体列表
+	 * @param entityClass 要查询的实体
+	 * @param property 属性名
+	 * @param value 属性值
+	 * @param <E> 泛型
+	 * @return 数据列表
+	 */
+	public static <E> List<E> lt(Class<E> entityClass, String property, Object value) {
+		return DAO.lt(entityClass, property, value, -1, -1);
+	}
+
+	/**
+	 * 查询属性名等值的实体列表
+	 * @param entityClass 要查询的实体
+	 * @param property 属性名
+	 * @param value 属性值
 	 * @param pager 分页Bean
 	 * @param <E> 泛型
 	 * @return 数据列表
 	 */
-	public static <E> List<E> eq(Class<E> entityClass, String property, Object value, Pagination pager) {
+	public static <E> List<E> eq(Class<E> entityClass, String property, Object value,
+			Pagination pager) {
 		// 获得数据列表
 		List<E> list = DAO.eq(entityClass, property, value, getFirstResult(pager),
 				getMaxResults(pager));
@@ -190,11 +227,25 @@ public final class SuperService {
 	 * @param property 字段名
 	 * @param lo 开始条件
 	 * @param hi 结束条件
+	 * @param <E> 泛型
+	 * @return 返回结果列表
+	 */
+	public static <E> List<E> between(Class<E> entity, String property, Object lo, Object hi) {
+		return DAO.between(entity, property, lo, hi, -1, -1);
+	}
+
+	/**
+	 * 查询字段在lo到hi之间的实体
+	 * @param entity 查询实体
+	 * @param property 字段名
+	 * @param lo 开始条件
+	 * @param hi 结束条件
 	 * @param page 分页实体
 	 * @param <E> 泛型
 	 * @return 返回结果列表
 	 */
-	public static <E> List<E> between(E entity, String property, Object lo, Object hi, Pagination page) {
+	public static <E> List<E> between(E entity, String property, Object lo, Object hi,
+			Pagination page) {
 		// 获得数据列表
 		List<E> list = DAO.between(entity, property, lo, hi, getFirstResult(page),
 				getMaxResults(page));

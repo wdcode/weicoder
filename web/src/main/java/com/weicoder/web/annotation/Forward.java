@@ -6,9 +6,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 标示为response.sendRedirect(url)跳转 返回的是url
+ * 标示为request.getRequestDispatcher(url).forward(request, response)跳转 返回的是url
  * @author WD
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Redirect {}
+public @interface Forward {}

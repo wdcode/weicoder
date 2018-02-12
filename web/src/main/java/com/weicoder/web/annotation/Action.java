@@ -11,4 +11,16 @@ import java.lang.annotation.Target;
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Action {}
+public @interface Action {
+	/**
+	 * 是否启用ip验证 只允许servlet.ips 配置的ip
+	 * @return 是否验证
+	 */
+	boolean ips() default false;
+
+	/**
+	 * 是否启用token验证 需要输入参数token 使用common里加密
+	 * @return 是否验证
+	 */
+	boolean token() default false;
+}

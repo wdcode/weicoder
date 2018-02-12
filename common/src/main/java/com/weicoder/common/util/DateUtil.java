@@ -2,6 +2,7 @@ package com.weicoder.common.util;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -245,7 +246,8 @@ public final class DateUtil {
 	public static Date toDate(String dateString, String format) {
 		try {
 			// 格式化日期
-			DateFormat df = EmptyUtil.isEmpty(format) ? new SimpleDateFormat() : new SimpleDateFormat(format);
+			DateFormat df = EmptyUtil.isEmpty(format) ? new SimpleDateFormat()
+					: new SimpleDateFormat(format);
 			// 返回转换后的日期
 			return df.parse(dateString);
 		} catch (Exception e) {
@@ -879,7 +881,16 @@ public final class DateUtil {
 	 * @return 几天
 	 */
 	public static int getMonthHaveDay() {
-		return getMonthHaveDay(getCurrentDate());
+		return getMonthHaveDay(0);
+	}
+
+	/**
+	 * 获得增加指定月份有几天
+	 * @param month 增加的月份 本月填0 上个月填 -1 下个月填1
+	 * @return 几天
+	 */
+	public static int getMonthHaveDay(int month) {
+		return LocalDate.now().plusMonths(month).lengthOfMonth();
 	}
 
 	/**

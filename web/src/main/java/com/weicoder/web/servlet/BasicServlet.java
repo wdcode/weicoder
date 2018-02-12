@@ -14,10 +14,13 @@ import javax.servlet.http.HttpServletResponse;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.log.Logs;
+import com.weicoder.common.token.TokenEngine;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
+import com.weicoder.web.annotation.Action;
+import com.weicoder.web.annotation.Forward;
 import com.weicoder.web.annotation.Redirect;
 import com.weicoder.web.common.WebCommons;
 import com.weicoder.web.params.WebParams;
@@ -40,19 +43,10 @@ public class BasicServlet extends HttpServlet {
 		String ip = RequestUtil.getIp(request);
 		// 获得callback
 		String callback = RequestUtil.getParameter(request, "callback");
-		Logs.trace("check ip request ip={},ips={}", ip, WebParams.IPS);
-		// 过滤IP
-		if (!EmptyUtil.isEmpty(WebParams.IPS)) {
-			// 如果在允许列表继续 否则退出
-			if (!WebParams.IPS.contains(ip)) {
-				Logs.debug("this ip={}", ip);
-				ResponseUtil.json(response, callback, "not exist ip");
-				return;
-			}
-		}
+		Logs.debug("check ip request ip={},ips={}", ip, WebParams.IPS);
 		// 获得path
 		String path = request.getPathInfo();
-		Logs.trace("request ip={},path={},{}", ip, path, request.getQueryString());
+		Logs.debug("request ip={},path={},{}", ip, path, request.getQueryString());
 		if (!EmptyUtil.isEmpty(path)) {
 			// 分解提交action 去处开头的/ 并且按_分解出数组
 			String actionName = StringUtil.subString(path, 1, path.length());
@@ -70,11 +64,38 @@ public class BasicServlet extends HttpServlet {
 				// 如果使用action_method模式 直接返回
 				if (actions.length == 2) {
 					Logs.debug("request ip={},path={},no action", ip, path);
-					ResponseUtil.json(response, callback, "no.action");
+					ResponseUtil.json(response, callback, "no action");
 					return;
 				}
 				// 查找方法对应action
 				action = WebCommons.METHODS_ACTIONS.get(name);
+			}
+			// action为空
+			if (action == null) {
+				// 还是为空
+				Logs.warn("request ip={},path={},no action and method", ip, path);
+				ResponseUtil.json(response, callback, "no action and method");
+				return;
+			}
+			// 过滤IP
+			Action a = action.getClass().getAnnotation(Action.class);
+			if (a.ips() && !EmptyUtil.isEmpty(WebParams.IPS)) {
+				// 如果在允许列表继续 否则退出
+				if (!WebParams.IPS.contains(ip)) {
+					Logs.debug("this ip={}", ip);
+					ResponseUtil.json(response, callback, "not exist ip");
+					return;
+				}
+			}
+			// 验证token
+			if (a.token()) {
+				// 获得token
+				String token = RequestUtil.getParameter(request, "token");
+				if (!TokenEngine.decrypt(token).isLogin()) {
+					Logs.debug("this token={}", token);
+					ResponseUtil.json(response, callback, "token is no login");
+					return;
+				}
 			}
 			// 获得方法
 			Map<String, Method> methods = WebCommons.ACTIONS_METHODS.get(name);
@@ -84,7 +105,7 @@ public class BasicServlet extends HttpServlet {
 			Method method = methods.get(actions.length > 1 ? actions[1] : actions[0]);
 			if (method == null) {
 				Logs.debug("request ip={},path={},no method", ip, path);
-				ResponseUtil.json(response, callback, "no.method");
+				ResponseUtil.json(response, callback, "no method");
 				return;
 			}
 			Logs.debug("request ip={},name={}", ip, actionName);
@@ -132,6 +153,10 @@ public class BasicServlet extends HttpServlet {
 				String url = Conversion.toString(res);
 				response.sendRedirect(url);
 				Logs.debug("redirect url:{}", url);
+			} else if (method.isAnnotationPresent(Forward.class)) {
+				String url = Conversion.toString(res);
+				request.getRequestDispatcher(url).forward(request, response);
+				Logs.debug("forward url:{}", url);
 			} else if (res != null && !(res instanceof Void)) {
 				ResponseUtil.json(response, callback, res);
 			}

@@ -15,6 +15,7 @@ import org.hibernate.engine.spi.SessionFactoryImplementor;
 import com.weicoder.dao.hibernate.interceptor.EntityInterceptor;
 import com.weicoder.dao.hibernate.naming.ImprovedNamingStrategy;
 import com.weicoder.dao.params.DaoParams;
+import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.params.CommonParams;
@@ -89,14 +90,21 @@ public final class SessionFactorys {
 	 * 初始化SessionFactory
 	 */
 	private void initSessionFactory() {
+		// 优先加载测试文件夹
+		String path = DaoParams.DB_CONFIG + "-test/";
 		// 获得数据库配置文件
-		File file = ResourceUtil.getFile(DaoParams.DB_CONFIG);
-		// 不为空
+		File file = ResourceUtil.getFile(path);
+		// 为空设置为正式
+		if (file == null || !file.exists() || !file.isDirectory()) {
+			path = DaoParams.DB_CONFIG + StringConstants.BACKSLASH;
+			file = ResourceUtil.getFile(path);
+		}
+		// 不为
 		if (file != null) {
 			// 循环生成
 			for (String name : file.list()) {
 				// 实例化hibernate配置类
-				Configuration config = new Configuration().configure(DaoParams.DB_CONFIG + name);
+				Configuration config = new Configuration().configure(path + name);
 				// 设置namingStrategy
 				config.setImplicitNamingStrategy(ImplicitNamingStrategyJpaCompliantImpl.INSTANCE);
 				config.setPhysicalNamingStrategy(ImprovedNamingStrategy.INSTANCE);

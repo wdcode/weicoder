@@ -35,7 +35,7 @@ public class InitListener implements ServletContextListener {
 				// 获得action名结尾为action去掉
 				String cname = StringUtil
 						.convert(StringUtil.subStringLastEnd(c.getSimpleName(), "Action"));
-				Logs.debug("init action sname={},cname={}", c.getSimpleName(), cname);
+				Logs.info("init action sname={},cname={}", c.getSimpleName(), cname);
 				// 实例化Action并放在context中
 				Object action = BeanUtil.newInstance(c);
 				WebCommons.ACTIONS.put(cname, action);
@@ -52,7 +52,7 @@ public class InitListener implements ServletContextListener {
 								WebCommons.ACTIONS_METHODS.put(cname, map = Maps.newMap());
 							}
 							map.put(mname, m);
-							Logs.debug("add method={} to action={}", mname, cname);
+							Logs.info("add method={} to action={}", mname, cname);
 							// 放入总方法池
 							if (WebCommons.METHODS.containsKey(mname)) {
 								Logs.warn("method name exist! name={} action={}", mname, cname);
