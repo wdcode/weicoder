@@ -145,7 +145,7 @@ public final class SuperService {
 	}
 
 	/**
-	 * 查询属性名等值的实体列表
+	 * 查询属性名大于的实体列表
 	 * @param entityClass 要查询的实体
 	 * @param property 属性名
 	 * @param value 属性值
@@ -157,7 +157,7 @@ public final class SuperService {
 	}
 
 	/**
-	 * 查询属性名等值的实体列表
+	 * 查询属性名小于的实体列表
 	 * @param entityClass 要查询的实体
 	 * @param property 属性名
 	 * @param value 属性值

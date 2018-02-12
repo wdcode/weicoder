@@ -184,7 +184,7 @@ public interface Dao {
 			int maxResults);
 
 	/**
-	 * 查询属性名等值的实体列表
+	 * 查询属性名大于的实体列表
 	 * @param entityClass 实体类
 	 * @param property 属性名
 	 * @param value 属性值
@@ -197,7 +197,7 @@ public interface Dao {
 			int maxResults);
 
 	/**
-	 * 查询属性名等值的实体列表
+	 * 查询属性名小于的实体列表
 	 * @param entityClass 实体类
 	 * @param property 属性名
 	 * @param value 属性值
