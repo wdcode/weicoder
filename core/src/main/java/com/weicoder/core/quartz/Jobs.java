@@ -8,7 +8,9 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.quartz.PersistJobDataAfterExecution;
 
+import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.BeanUtil;
+import com.weicoder.common.util.DateUtil;
 
 /**
  * Quartz任务类
@@ -19,7 +21,16 @@ import com.weicoder.common.util.BeanUtil;
 public final class Jobs implements Job {
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {
-		BeanUtil.invoke(context.getJobDetail().getJobDataMap().get("obj"),
-				(Method) context.getJobDetail().getJobDataMap().get("method"));
+		// 开始时间
+		int time = DateUtil.getTime();
+		// 获得执行任务的对象 和方法
+		Object obj = context.getJobDetail().getJobDataMap().get("obj");
+		Method method = (Method) context.getJobDetail().getJobDataMap().get("method");
+		Logs.info("job obj={} method={} start time={}", obj.getClass().getSimpleName(), method.getName(),
+				DateUtil.getTheDate());
+		// 执行任务
+		BeanUtil.invoke(obj, method);
+		Logs.info("job obj={} method={} end time={}", obj.getClass().getSimpleName(), method.getName(),
+				DateUtil.getTime() - time);
 	}
 }

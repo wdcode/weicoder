@@ -30,11 +30,11 @@ public final class Quartzs {
 					Job.class);
 			if (!EmptyUtil.isEmpty(jobs)) {
 				// 任务执行器
-				Scheduler scheduler = new StdSchedulerFactory().getScheduler();
+				Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
 				// 循环处理任务类
 				for (Class<Job> c : jobs) {
 					// 执行对象
-					Job obj = BeanUtil.newInstance(c);
+					Object obj = BeanUtil.newInstance(c);
 					// Trigger生成器
 					TriggerBuilder<org.quartz.Trigger> builder = TriggerBuilder.newTrigger();
 					// 处理所有方法
@@ -48,6 +48,7 @@ public final class Quartzs {
 							job.getJobDataMap().put("obj", obj);
 							// 设置任务执行类
 							scheduler.scheduleJob(job, builder
+									.withIdentity(m.getName(), obj.getClass().getSimpleName())
 									.withSchedule(CronScheduleBuilder.cronSchedule(t.value()))
 									.build());
 						}

@@ -3,15 +3,18 @@ package com.weicoder.common.io;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import com.weicoder.common.constants.ArrayConstants;
+import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.params.CommonParams;
 
 /**
  * IO流操作
- * @author WD  
+ * @author WD
  */
 public final class IOUtil {
 	// IO接口
-	private final static IO IO = "io".equalsIgnoreCase(CommonParams.IO_MODE) ? new OIO() : new NIO();
+	private final static IO IO = "io".equalsIgnoreCase(CommonParams.IO_MODE) ? new OIO()
+			: new NIO();
 
 	/**
 	 * 读取InputStream内容成为字符串 默认使用UTF-8
@@ -19,7 +22,7 @@ public final class IOUtil {
 	 * @return 读取的字符串
 	 */
 	public static String readString(InputStream in) {
-		return IO.readString(in);
+		return in == null ? StringConstants.EMPTY : IO.readString(in);
 	}
 
 	/**
@@ -29,7 +32,7 @@ public final class IOUtil {
 	 * @return 读取的字符串
 	 */
 	public static String readString(InputStream in, String charsetName) {
-		return IO.readString(in, charsetName);
+		return in == null ? StringConstants.EMPTY : IO.readString(in, charsetName);
 	}
 
 	/**
@@ -40,7 +43,7 @@ public final class IOUtil {
 	 * @return 读取的字符串
 	 */
 	public static String readString(InputStream in, String charsetName, boolean isClose) {
-		return IO.readString(in, charsetName, isClose);
+		return in == null ? StringConstants.EMPTY : IO.readString(in, charsetName, isClose);
 	}
 
 	/**
@@ -49,7 +52,7 @@ public final class IOUtil {
 	 * @return 字节数组
 	 */
 	public static byte[] read(InputStream in) {
-		return IO.read(in);
+		return in == null ? ArrayConstants.BYTES_EMPTY : IO.read(in);
 	}
 
 	/**
@@ -59,7 +62,7 @@ public final class IOUtil {
 	 * @return 字节数组
 	 */
 	public static byte[] read(InputStream in, boolean isClose) {
-		return IO.read(in, isClose);
+		return in == null ? ArrayConstants.BYTES_EMPTY : IO.read(in, isClose);
 	}
 
 	/**
@@ -69,7 +72,7 @@ public final class IOUtil {
 	 * @return boolean
 	 */
 	public static boolean write(OutputStream out, String text) {
-		return IO.write(out, text);
+		return out == null ? false : IO.write(out, text);
 	}
 
 	/**
@@ -80,7 +83,7 @@ public final class IOUtil {
 	 * @return true false
 	 */
 	public static boolean write(OutputStream out, String text, String charsetName) {
-		return IO.write(out, text, charsetName);
+		return out == null ? false : IO.write(out, text, charsetName);
 	}
 
 	/**
@@ -91,8 +94,9 @@ public final class IOUtil {
 	 * @param isClose 是否关闭流
 	 * @return true false
 	 */
-	public static boolean write(OutputStream out, String text, String charsetName, boolean isClose) {
-		return IO.write(out, text, charsetName, isClose);
+	public static boolean write(OutputStream out, String text, String charsetName,
+			boolean isClose) {
+		return out == null ? false : IO.write(out, text, charsetName, isClose);
 	}
 
 	/**
@@ -102,7 +106,7 @@ public final class IOUtil {
 	 * @return 是否成功
 	 */
 	public static boolean write(OutputStream out, byte[] b) {
-		return IO.write(out, b);
+		return out == null ? false : IO.write(out, b);
 	}
 
 	/**
@@ -113,7 +117,7 @@ public final class IOUtil {
 	 * @return 是否成功
 	 */
 	public static boolean write(OutputStream out, byte[] b, boolean isClose) {
-		return IO.write(out, b, isClose);
+		return out == null ? false : IO.write(out, b, isClose);
 	}
 
 	/**
@@ -123,7 +127,7 @@ public final class IOUtil {
 	 * @return true false
 	 */
 	public static boolean write(OutputStream out, InputStream in) {
-		return IO.write(out, in);
+		return out == null ? false : IO.write(out, in);
 	}
 
 	/**
@@ -134,7 +138,7 @@ public final class IOUtil {
 	 * @return true false
 	 */
 	public static boolean write(OutputStream out, InputStream in, boolean isClose) {
-		return IO.write(out, in, isClose);
+		return out == null ? false : IO.write(out, in, isClose);
 	}
 
 	private IOUtil() {}

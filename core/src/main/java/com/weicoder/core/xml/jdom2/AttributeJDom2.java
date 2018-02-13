@@ -1,4 +1,4 @@
-package com.weicoder.core.xml.impl.jdom2;
+package com.weicoder.core.xml.jdom2;
 
 import com.weicoder.core.xml.Attribute;
 

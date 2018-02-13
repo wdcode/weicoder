@@ -1,48 +1,48 @@
-package com.weicoder.core.xml.impl.dom4j;
-
-import org.dom4j.DocumentHelper;
+package com.weicoder.core.xml.jdom2;
 
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.core.xml.Document;
 import com.weicoder.core.xml.Element;
 
 /**
- * Document接口 Dom4J实现
- * @author WD 
- * @version 1.0 
+ * Document接口 JDom实现
+ * @author WD
+ * @version 1.0
  */
-public final class DocumentDom4J implements Document {
-	// Dom4J Document对象
-	private org.dom4j.Document	document;
+public final class DocumentJDom2 implements Document {
+	// JDom Document对象
+	private org.jdom2.Document	document;
 	// Element接口对象 根节点
 	private Element				root;
 
 	/**
 	 * 构造方法
 	 */
-	public DocumentDom4J() {
-		document = DocumentHelper.createDocument();
-		root = new ElementDom4J(document.getRootElement());
+	public DocumentJDom2() {
+		// 创建Document
+		document = new org.jdom2.Document();
+		root = new ElementJDom2(document.getRootElement());
 	}
 
 	/**
 	 * 构造方法
-	 * @param document XML Document
+	 * @param document org.jdom2.Document
 	 */
-	public DocumentDom4J(org.dom4j.Document document) {
+	public DocumentJDom2(org.jdom2.Document document) {
 		this.document = document;
-		root = new ElementDom4J(document.getRootElement());
+		root = new ElementJDom2(document.getRootElement());
 	}
 
 	/**
 	 * 构造方法
 	 * @param root 根节点
 	 */
-	public DocumentDom4J(Element root) {
+	public DocumentJDom2(Element root) {
 		// 创建Document
-		document = DocumentHelper.createDocument();
+		document = new org.jdom2.Document();
+		// 判断传入的根节点不为空
 		// 创建根节点
-		this.root = root;
+		this.root = root == null ? new ElementJDom2("root") : root;
 		// 设置根
 		setRoot();
 	}
@@ -57,7 +57,7 @@ public final class DocumentDom4J implements Document {
 
 	/**
 	 * 设置根节点
-	 * @param root 根
+	 * @param root 根节点
 	 */
 	public void setRootElement(Element root) {
 		this.root = root;
@@ -74,35 +74,36 @@ public final class DocumentDom4J implements Document {
 	}
 
 	/**
-	 * 获得Dom4j Document
-	 * @return org.dom4j.Document
+	 * 获得JDom Document
+	 * @return Document
 	 */
-	public org.dom4j.Document getDocument() {
+	public org.jdom2.Document getDocument() {
 		return document;
 	}
 
 	/**
-	 * 设置Dom4j Document
-	 * @param doc org.dom4j.Document
+	 * 设置JDom Document
+	 * @param doc 文档
 	 */
-	public void setDocument(org.dom4j.Document doc) {
+	public void setDocument(org.jdom2.Document doc) {
 		document = doc;
 	}
 
-	/**
-	 * 设置根节点
+	/*
+	 * 设置根
 	 */
 	private void setRoot() {
 		// 设置根节点
-		document.setRootElement(((ElementDom4J) root).getElement());
+		document.setRootElement(((ElementJDom2) root).getElement());
 		// 设置Document
 		root.setDocument(this);
 	}
 
 	/**
 	 * 返回对象字符串
+	 * @return 字符串
 	 */
 	public String toString() {
-		return document.asXML();
+		return document.toString();
 	}
 }

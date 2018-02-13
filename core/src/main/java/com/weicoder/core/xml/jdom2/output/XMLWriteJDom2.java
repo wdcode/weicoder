@@ -1,14 +1,14 @@
-package com.weicoder.core.xml.impl.jdom.output;
+package com.weicoder.core.xml.jdom2.output;
 
 import java.io.IOException;
 import java.io.OutputStream;
 
-import org.jdom.output.XMLOutputter;
+import org.jdom2.output.XMLOutputter;
 
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.CloseUtil;
 import com.weicoder.core.xml.Document;
-import com.weicoder.core.xml.impl.jdom.DocumentJDom;
+import com.weicoder.core.xml.jdom2.DocumentJDom2;
 import com.weicoder.core.xml.output.Format;
 import com.weicoder.core.xml.output.XMLWrite;
 
@@ -17,7 +17,7 @@ import com.weicoder.core.xml.output.XMLWrite;
  * @author WD
  * @version 1.0
  */
-public final class XMLWriteJDom implements XMLWrite {
+public final class XMLWriteJDom2 implements XMLWrite {
 	// JDom XMLWriter
 	private XMLOutputter	writer;
 	// Format对象
@@ -29,7 +29,7 @@ public final class XMLWriteJDom implements XMLWrite {
 	 * 构造方法
 	 * @param format 输出格式
 	 */
-	public XMLWriteJDom(Format format) {
+	public XMLWriteJDom2(Format format) {
 		// 设置Format实例
 		this.format = format;
 	}
@@ -43,10 +43,10 @@ public final class XMLWriteJDom implements XMLWrite {
 		// 获得out
 		this.out = out;
 		// 实例化 XMLOutputter
-		writer = new XMLOutputter(((FormatJDom) format).getFormat());
+		writer = new XMLOutputter(((FormatJDom2) format).getFormat());
 		// 写Document
 		try {
-			writer.output(((DocumentJDom) doc).getDocument(), out);
+			writer.output(((DocumentJDom2) doc).getDocument(), out);
 		} catch (IOException e) {
 			Logs.error(e);
 		}
@@ -80,7 +80,7 @@ public final class XMLWriteJDom implements XMLWrite {
 
 	/**
 	 * 设置输出格式
-	 * @param format 格式化
+	 * @param format 格式
 	 */
 	public void setFormat(Format format) {
 		this.format = format;

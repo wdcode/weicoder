@@ -7,32 +7,21 @@ import com.weicoder.core.params.CoreParams;
 import com.weicoder.core.xml.Attribute;
 import com.weicoder.core.xml.Document;
 import com.weicoder.core.xml.Element;
-import com.weicoder.core.xml.impl.dom4j.AttributeDom4J;
-import com.weicoder.core.xml.impl.dom4j.DocumentDom4J;
-import com.weicoder.core.xml.impl.dom4j.ElementDom4J;
-import com.weicoder.core.xml.impl.dom4j.input.XMLReadDom4J;
-import com.weicoder.core.xml.impl.dom4j.output.FormatDom4J;
-import com.weicoder.core.xml.impl.dom4j.output.XMLWriteDom4J;
-import com.weicoder.core.xml.impl.jdom.AttributeJDom;
-import com.weicoder.core.xml.impl.jdom.DocumentJDom;
-import com.weicoder.core.xml.impl.jdom.ElementJDom;
-import com.weicoder.core.xml.impl.jdom.input.XMLReadJDom;
-import com.weicoder.core.xml.impl.jdom.output.FormatJDom;
-import com.weicoder.core.xml.impl.jdom.output.XMLWriteJDom;
-import com.weicoder.core.xml.impl.jdom2.AttributeJDom2;
-import com.weicoder.core.xml.impl.jdom2.DocumentJDom2;
-import com.weicoder.core.xml.impl.jdom2.ElementJDom2;
-import com.weicoder.core.xml.impl.jdom2.input.XMLReadJDom2;
-import com.weicoder.core.xml.impl.jdom2.output.FormatJDom2;
-import com.weicoder.core.xml.impl.jdom2.output.XMLWriteJDom2;
+import com.weicoder.core.xml.jdom2.input.XMLReadJDom2;
+import com.weicoder.core.xml.jdom2.output.FormatJDom2;
+import com.weicoder.core.xml.jdom2.output.XMLWriteJDom2;
 import com.weicoder.core.xml.input.XMLRead;
+import com.weicoder.core.xml.jdom2.AttributeJDom2;
+import com.weicoder.core.xml.jdom2.DocumentJDom2;
+import com.weicoder.core.xml.jdom2.ElementJDom2;
 import com.weicoder.core.xml.output.Format;
 import com.weicoder.core.xml.output.XMLWrite;
 
 /**
- * XMLDocument工厂,创建XML解析用对象 <h2>注: 本包功能需要jdom或dom4j依赖包</h2>
- * @author WD 
- * @version 1.0 
+ * XMLDocument工厂,创建XML解析用对象
+ * <h2>注: 本包功能需要jdom或dom4j依赖包</h2>
+ * @author WD
+ * @version 1.0
  */
 public final class XmlBuilder {
 	/**
@@ -49,14 +38,7 @@ public final class XmlBuilder {
 	 * @return Format
 	 */
 	public static Format createFormat(String encoding) {
-		switch (CoreParams.XML_PARSE) {
-			case "jdom2":
-				return new FormatJDom2(encoding);
-			case "jdom":
-				return new FormatJDom(encoding);
-			default:
-				return new FormatDom4J(encoding);
-		}
+		return new FormatJDom2(encoding);
 	}
 
 	/**
@@ -64,14 +46,7 @@ public final class XmlBuilder {
 	 * @return Document
 	 */
 	public static Document createDocument() {
-		switch (CoreParams.XML_PARSE) {
-			case "jdom2":
-				return new DocumentJDom2();
-			case "jdom":
-				return new DocumentJDom();
-			default:
-				return new DocumentDom4J();
-		}
+		return new DocumentJDom2();
 	}
 
 	/**
@@ -89,14 +64,7 @@ public final class XmlBuilder {
 	 * @return Document
 	 */
 	public static Document createDocument(Element e) {
-		switch (CoreParams.XML_PARSE) {
-			case "jdom2":
-				return new DocumentJDom2(e);
-			case "jdom":
-				return new DocumentJDom(e);
-			default:
-				return new DocumentDom4J(e);
-		}
+		return new DocumentJDom2(e);
 	}
 
 	/**
@@ -113,14 +81,7 @@ public final class XmlBuilder {
 	 * @return Element
 	 */
 	public static Element createElement(String name) {
-		switch (CoreParams.XML_PARSE) {
-			case "jdom2":
-				return new ElementJDom2(name);
-			case "jdom":
-				return new ElementJDom(name);
-			default:
-				return new ElementDom4J(name);
-		}
+		return new ElementJDom2(name);
 	}
 
 	/**
@@ -130,14 +91,7 @@ public final class XmlBuilder {
 	 * @return Attribute
 	 */
 	public static Attribute createAttribute(String name, String value) {
-		switch (CoreParams.XML_PARSE) {
-			case "jdom2":
-				return new AttributeJDom2(name, value);
-			case "jdom":
-				return new AttributeJDom(name, value);
-			default:
-				return new AttributeDom4J(name, value);
-		}
+		return new AttributeJDom2(name, value);
 	}
 
 	/**
@@ -154,14 +108,7 @@ public final class XmlBuilder {
 	 * @return XMLOutput @ 没有解析包
 	 */
 	public static XMLWrite createXMLOutput(Format format) {
-		switch (CoreParams.XML_PARSE) {
-			case "jdom2":
-				return new XMLWriteJDom2(format);
-			case "jdom":
-				return new XMLWriteJDom(format);
-			default:
-				return new XMLWriteDom4J(format);
-		}
+		return new XMLWriteJDom2(format);
 	}
 
 	/**
@@ -169,14 +116,7 @@ public final class XmlBuilder {
 	 * @return XMLRead
 	 */
 	public static XMLRead createXMLRead() {
-		switch (CoreParams.XML_PARSE) {
-			case "jdom2":
-				return new XMLReadJDom2();
-			case "jdom":
-				return new XMLReadJDom();
-			default:
-				return new XMLReadDom4J();
-		}
+		return new XMLReadJDom2();
 	}
 
 	/**

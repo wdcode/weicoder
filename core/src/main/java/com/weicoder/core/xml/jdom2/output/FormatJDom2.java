@@ -1,4 +1,4 @@
-package com.weicoder.core.xml.impl.jdom2.output;
+package com.weicoder.core.xml.jdom2.output;
 
 import com.weicoder.core.xml.output.Format;
 
