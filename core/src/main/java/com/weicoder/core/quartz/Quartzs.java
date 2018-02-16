@@ -12,6 +12,7 @@ import org.quartz.impl.StdSchedulerFactory;
 
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
+import com.weicoder.common.params.Params;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.util.EmptyUtil;
@@ -26,8 +27,7 @@ public final class Quartzs {
 	 */
 	public final static void init() {
 		try {
-			List<Class<Job>> jobs = ClassUtil.getAnnotationClass(CommonParams.getPackages("quartz"),
-					Job.class);
+			List<Class<Job>> jobs = ClassUtil.getAnnotationClass(CommonParams.getPackages("quartz"), Job.class);
 			if (!EmptyUtil.isEmpty(jobs)) {
 				// 任务执行器
 				Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
@@ -47,10 +47,11 @@ public final class Quartzs {
 							job.getJobDataMap().put("method", m);
 							job.getJobDataMap().put("obj", obj);
 							// 设置任务执行类
-							scheduler.scheduleJob(job, builder
-									.withIdentity(m.getName(), obj.getClass().getSimpleName())
-									.withSchedule(CronScheduleBuilder.cronSchedule(t.value()))
-									.build());
+							scheduler.scheduleJob(job,
+									builder.withIdentity(m.getName(), obj.getClass().getSimpleName())
+											.withSchedule(CronScheduleBuilder.cronSchedule(
+													Params.getString("job.trigger." + m.getName(), t.value())))
+											.build());
 						}
 					}
 				}

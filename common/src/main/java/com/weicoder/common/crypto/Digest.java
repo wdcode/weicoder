@@ -10,7 +10,7 @@ import com.weicoder.common.codec.Hex;
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.EncryptConstants;
 import com.weicoder.common.constants.StringConstants;
-
+import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
@@ -93,6 +93,15 @@ public final class Digest {
 	 */
 	public static String md5(String text) {
 		return Hex.encode(md5(StringUtil.toBytes(text)));
+	}
+
+	/**
+	 * 返回字符串的MD5(信息-摘要算法)码
+	 * @param obj 要MD5的对象
+	 * @return MD5后的字节数组的hex后字符串
+	 */
+	public static String md5(Object obj) {
+		return Hex.encode(md5(Bytes.toBytes(obj)));
 	}
 
 	/**

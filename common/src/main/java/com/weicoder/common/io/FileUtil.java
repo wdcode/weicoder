@@ -34,7 +34,7 @@ public final class FileUtil {
 	 * @return true 成功 false 失败
 	 */
 	public static boolean mkdirs(String path) {
-		return getFile(StringUtil.subStringLastEnd(path, File.separator)).mkdirs();
+		return newFile(StringUtil.subStringLastEnd(path, File.separator)).mkdirs();
 	}
 
 	/**
@@ -43,7 +43,7 @@ public final class FileUtil {
 	 * @return true 存在 false 不存在
 	 */
 	public static boolean exists(String name) {
-		return getFile(name).exists();
+		return newFile(name).exists();
 	}
 
 	/**
@@ -52,7 +52,7 @@ public final class FileUtil {
 	 * @return true 成功 false 失败
 	 */
 	public static boolean delete(String fileName) {
-		return delete(getFile(fileName));
+		return delete(newFile(fileName));
 	}
 
 	/**
@@ -293,7 +293,7 @@ public final class FileUtil {
 	 * @param fileName 文件名含路径
 	 * @return File对象
 	 */
-	public static File getFile(String fileName) {
+	public static File newFile(String fileName) {
 		return new File(fileName);
 	}
 
@@ -308,7 +308,7 @@ public final class FileUtil {
 		// 声明RandomAccessFile
 		RandomAccessFile file = null;
 		try {
-			File f = getFile(fileName);
+			File f = newFile(fileName);
 			// //如果文件不存在 创建
 			if (!f.exists()) {
 				mkdirs(fileName);
@@ -332,7 +332,7 @@ public final class FileUtil {
 	 * @return 输入流
 	 */
 	public static FileInputStream getInputStream(String fileName) {
-		return getInputStream(getFile(fileName));
+		return getInputStream(newFile(fileName));
 	}
 
 	/**
@@ -341,7 +341,7 @@ public final class FileUtil {
 	 * @return 输出流
 	 */
 	public static FileOutputStream getOutputStream(String fileName) {
-		return getOutputStream(getFile(fileName));
+		return getOutputStream(newFile(fileName));
 	}
 
 	/**
@@ -351,7 +351,7 @@ public final class FileUtil {
 	 * @return 输出流
 	 */
 	public static FileOutputStream getOutputStream(String fileName, boolean append) {
-		return getOutputStream(getFile(fileName), append);
+		return getOutputStream(newFile(fileName), append);
 	}
 
 	/**

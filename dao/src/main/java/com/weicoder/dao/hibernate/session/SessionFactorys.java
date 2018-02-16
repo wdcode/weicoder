@@ -18,6 +18,7 @@ import com.weicoder.dao.params.DaoParams;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
+import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.util.ResourceUtil;
@@ -48,13 +49,11 @@ public final class SessionFactorys {
 			factory = factorys.get(0);
 		}
 		// 循环获得表名
-		for (Class<?> e : ClassUtil.getAnnotationClass(CommonParams.getPackages("entity"),
-				Entity.class)) {
+		for (Class<?> e : ClassUtil.getAnnotationClass(CommonParams.getPackages("entity"), Entity.class)) {
 			// 循环获得SessionFactory
 			for (SessionFactory sessionFactory : factorys) {
 				try {
-					if (((SessionFactoryImplementor) sessionFactory).getMetamodel()
-							.entity(e) != null) {
+					if (((SessionFactoryImplementor) sessionFactory).getMetamodel().entity(e) != null) {
 						entity_factorys.put(e, sessionFactory);
 					}
 				} catch (Exception ex) {}
@@ -93,11 +92,11 @@ public final class SessionFactorys {
 		// 优先加载测试文件夹
 		String path = DaoParams.DB_CONFIG + "-test/";
 		// 获得数据库配置文件
-		File file = ResourceUtil.getFile(path);
+		File file = ResourceUtil.newFile(path);
 		// 为空设置为正式
 		if (file == null || !file.exists() || !file.isDirectory()) {
 			path = DaoParams.DB_CONFIG + StringConstants.BACKSLASH;
-			file = ResourceUtil.getFile(path);
+			file = ResourceUtil.newFile(path);
 		}
 		// 不为
 		if (file != null) {
@@ -105,6 +104,7 @@ public final class SessionFactorys {
 			for (String name : file.list()) {
 				// 实例化hibernate配置类
 				Configuration config = new Configuration().configure(path + name);
+				Logs.info("load hibernate name={},config={}", path + name, config);
 				// 设置namingStrategy
 				config.setImplicitNamingStrategy(ImplicitNamingStrategyJpaCompliantImpl.INSTANCE);
 				config.setPhysicalNamingStrategy(ImprovedNamingStrategy.INSTANCE);

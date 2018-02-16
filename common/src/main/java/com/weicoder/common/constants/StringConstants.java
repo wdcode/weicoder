@@ -13,6 +13,8 @@ public final class StringConstants {
 	public final static String	POINT		= ".";
 	/** 常量字符串 "_" */
 	public final static String	UNDERLINE	= "_";
+	/** 常量字符串 "-" */
+	public final static String	LINE			= "-";
 	/** 常量字符串 "," */
 	public final static String	COMMA		= ",";
 	/** 常量字符串 ":" */

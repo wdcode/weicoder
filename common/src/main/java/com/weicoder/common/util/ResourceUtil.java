@@ -7,6 +7,8 @@ import java.util.Enumeration;
 import java.util.List;
 
 import com.weicoder.common.constants.StringConstants;
+import com.weicoder.common.constants.SystemConstants;
+import com.weicoder.common.io.FileUtil;
 import com.weicoder.common.lang.Lists;
 
 /**
@@ -19,11 +21,11 @@ public final class ResourceUtil {
 	 * @param name 文件名 相对路径
 	 * @return 文件 如果不存在返回 null
 	 */
-	public static File getFile(String name) {
+	public static File newFile(String name) {
 		try {
 			return new File(getResource(name).toURI());
 		} catch (Exception e) {
-			return null;
+			return FileUtil.newFile(SystemConstants.USER_DIR + StringConstants.BACKSLASH + name);
 		}
 	}
 
@@ -62,13 +64,15 @@ public final class ResourceUtil {
 		List<URL> urls = Lists.newList();
 		try {
 			// 获得资源URL 使用当前线程
-			for (Enumeration<URL> u = Thread.currentThread().getContextClassLoader().getResources(resourceName); u.hasMoreElements();) {
+			for (Enumeration<URL> u = Thread.currentThread().getContextClassLoader().getResources(resourceName); u
+					.hasMoreElements();) {
 				urls.add(u.nextElement());
 			}
 			// 如果获得的资源为null
 			if (EmptyUtil.isEmpty(urls)) {
 				// 使用本类加载
-				for (Enumeration<URL> u = ClassLoader.getSystemClassLoader().getResources(resourceName); u.hasMoreElements();) {
+				for (Enumeration<URL> u = ClassLoader.getSystemClassLoader().getResources(resourceName); u
+						.hasMoreElements();) {
 					urls.add(u.nextElement());
 				}
 				// 如果为空
@@ -79,7 +83,8 @@ public final class ResourceUtil {
 				}
 			}
 			// 如果url还为空 做资源的名的判断重新调用方法
-			if (EmptyUtil.isEmpty(urls) && !EmptyUtil.isEmpty(resourceName) && (!resourceName.startsWith(StringConstants.BACKSLASH))) {
+			if (EmptyUtil.isEmpty(urls) && !EmptyUtil.isEmpty(resourceName)
+					&& (!resourceName.startsWith(StringConstants.BACKSLASH))) {
 				return getResources(StringConstants.BACKSLASH + resourceName);
 			}
 		} catch (Exception e) {}

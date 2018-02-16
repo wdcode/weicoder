@@ -61,7 +61,8 @@ public final class Conversion {
 	 * @return 转换后的字符串
 	 */
 	public static String toString(Object obj, String defaultValue) {
-		return EmptyUtil.isEmpty(obj) ? defaultValue : obj instanceof Object[] ? Arrays.toString(((Object[]) obj)).trim() : obj.toString().trim();
+		return EmptyUtil.isEmpty(obj) ? defaultValue
+				: obj instanceof Object[] ? Arrays.toString(((Object[]) obj)).trim() : obj.toString().trim();
 	}
 
 	/**
@@ -96,7 +97,7 @@ public final class Conversion {
 				return toInt(Math.round(toDouble(obj, defaultValue)));
 			}
 		} catch (RuntimeException e) {
-			Logs.debug("Conversion toInt=%s", e.toString());
+			Logs.debug("Conversion toInt={}", obj);
 			return defaultValue;
 		}
 	}
@@ -133,7 +134,7 @@ public final class Conversion {
 				return Math.round(toDouble(obj, defaultValue));
 			}
 		} catch (RuntimeException e) {
-			Logs.debug("Conversion toLong=%s", e.toString());
+			Logs.debug("Conversion toLong={}", obj);
 			return defaultValue;
 		}
 	}
@@ -174,7 +175,7 @@ public final class Conversion {
 				return Float.parseFloat(toString(obj));
 			}
 		} catch (RuntimeException e) {
-			Logs.debug("Conversion toFloat=%s", e.toString());
+			Logs.debug("Conversion toFloat={}", obj);
 			return defaultValue;
 		}
 	}
@@ -215,7 +216,7 @@ public final class Conversion {
 				return Double.parseDouble(toString(obj));
 			}
 		} catch (RuntimeException e) {
-			Logs.debug("Conversion toDouble=%s", e.toString());
+			Logs.debug("Conversion toDouble={}", obj);
 			return defaultValue;
 		}
 	}
@@ -256,7 +257,7 @@ public final class Conversion {
 				return Short.parseShort(toString(obj));
 			}
 		} catch (RuntimeException e) {
-			Logs.debug("Conversion toShort=%s", e.toString());
+			Logs.debug("Conversion toShort={}", obj);
 			return defaultValue;
 		}
 	}
@@ -297,7 +298,7 @@ public final class Conversion {
 				return Byte.parseByte(toString(obj));
 			}
 		} catch (RuntimeException e) {
-			Logs.debug("Conversion toByte=%s", e.toString());
+			Logs.debug("Conversion toByte={}", obj);
 			return defaultValue;
 		}
 	}
@@ -344,7 +345,7 @@ public final class Conversion {
 				return new BigDecimal(toString(obj));
 			}
 		} catch (RuntimeException e) {
-			Logs.debug("Conversion toBigDecimal=%s", e.toString());
+			Logs.debug("Conversion toBigDecimal={}", obj);
 			return defaultValue;
 		}
 	}
@@ -375,7 +376,8 @@ public final class Conversion {
 			} else if (obj instanceof String) {
 				// String
 				String is = obj.toString().trim();
-				return obj == null ? defaultValue : "true".equalsIgnoreCase(is) || "yes".equalsIgnoreCase(is) || "ok".equalsIgnoreCase(is);
+				return obj == null ? defaultValue
+						: "true".equalsIgnoreCase(is) || "yes".equalsIgnoreCase(is) || "ok".equalsIgnoreCase(is);
 			} else if (obj instanceof Number) {
 				// Number
 				return ((Number) obj).intValue() > 0 ? true : false;
@@ -384,7 +386,7 @@ public final class Conversion {
 				return Boolean.parseBoolean(toString(obj));
 			}
 		} catch (RuntimeException e) {
-			Logs.debug("Conversion toBoolean=%s", e.toString());
+			Logs.debug("Conversion toBoolean={}", obj);
 			return defaultValue;
 		}
 	}

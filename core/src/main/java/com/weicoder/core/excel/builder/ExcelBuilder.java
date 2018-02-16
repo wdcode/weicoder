@@ -18,7 +18,7 @@ public final class ExcelBuilder {
 	 * @return Excel对象
 	 */
 	public static Excel getExcel(String fileName) {
-		return getExcel(FileUtil.getFile(fileName));
+		return getExcel(FileUtil.newFile(fileName));
 	}
 
 	/**
