@@ -14,7 +14,7 @@ import java.lang.annotation.Target;
 public @interface Before {
 	/**
 	 * 拦截的Action下的方法
-	 * @return
+	 * @return 拦截的方法
 	 */
 	String value();
 }

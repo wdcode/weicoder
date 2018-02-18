@@ -4,7 +4,7 @@
 	<groupId>com.weicoder</groupId>
 	<artifactId>dao</artifactId>
 	<packaging>jar</packaging>
-	<version>2.3</version>
+	<version>2.3.1</version>
 	<name>weicoder</name>
 	<description>java dao</description>
 	<url>https://github.com/wdcode/weicoder</url>
@@ -34,11 +34,11 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
 
-	<dependencies>
+	<dependencies> 
 		<dependency>
 			<groupId>com.weicoder</groupId>
 			<artifactId>core</artifactId>
-			<version>2.3</version>
+			<version>2.3.1</version>
 		</dependency>     
 		<dependency>
 			<groupId>org.hibernate</groupId>

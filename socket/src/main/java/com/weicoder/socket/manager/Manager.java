@@ -129,6 +129,7 @@ public final class Manager {
 
 	/**
 	 * 广播数据 发送给管理器下所有的session
+	 * @param ids 所有session id
 	 * @param id 指令
 	 * @param message 消息
 	 */

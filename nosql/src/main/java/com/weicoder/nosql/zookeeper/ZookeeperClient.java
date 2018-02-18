@@ -111,7 +111,7 @@ public final class ZookeeperClient {
 	/**
 	 * 获得节点数据
 	 * @param path 节点
-	 * @return
+	 * @return 字节数组
 	 */
 	public static byte[] get(String path) {
 		try {
@@ -123,8 +123,8 @@ public final class ZookeeperClient {
 
 	/**
 	 * 异步获取ZK节点数据，同时自动重新注册Watcher.
-	 * @param path
-	 * @param callback
+	 * @param path 路径
+	 * @param callback 回调
 	 */
 	public static void getDataAsync(final String path,
 			final Callback callback) {

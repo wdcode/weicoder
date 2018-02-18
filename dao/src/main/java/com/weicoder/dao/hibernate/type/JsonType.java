@@ -60,7 +60,7 @@ public final class JsonType implements UserType, Serializable {
 	 * deepCopy方法构造的复制版本，原始的版本将有Hibernate维护，复制版由用户使用。原始版本用作 稍后的脏数据检查依据；Hibernate将在脏数据检查过程中将两个版本的数据进行对比（通过调用 equals方法），如果数据发生了变化（equals方法返回false），则执行对应的持久化操作
 	 * @param o 对象
 	 * @return 对象
-	 * @throws HibernateException
+	 * @throws HibernateException 异常
 	 */
 	@Override
 	public Object deepCopy(Object o) throws HibernateException {
@@ -92,8 +92,7 @@ public final class JsonType implements UserType, Serializable {
 	}
 
 	@Override
-	public Object nullSafeGet(ResultSet rs, String[] names,
-			SharedSessionContractImplementor session, Object owner)
+	public Object nullSafeGet(ResultSet rs, String[] names, SharedSessionContractImplementor session, Object owner)
 			throws HibernateException, SQLException {
 		String json = rs.getString(names[0]);
 		// 判断json不为空
@@ -102,8 +101,7 @@ public final class JsonType implements UserType, Serializable {
 		} else {
 			// 声明字段名
 			Field field = null;
-			for (String p : session.getFactory().getMetamodel()
-					.getImplementors(owner.getClass().getName())) {
+			for (String p : session.getFactory().getMetamodel().getImplementors(owner.getClass().getName())) {
 				if (names[0].indexOf(StringUtil.subString(p, 0, 6)) > -1) {
 					field = BeanUtil.getField(owner, p);
 					break;
@@ -128,8 +126,8 @@ public final class JsonType implements UserType, Serializable {
 	 * @throws SQLException sql异常
 	 */
 	@Override
-	public void nullSafeSet(PreparedStatement st, Object value, int index,
-			SharedSessionContractImplementor session) throws HibernateException, SQLException {
+	public void nullSafeSet(PreparedStatement st, Object value, int index, SharedSessionContractImplementor session)
+			throws HibernateException, SQLException {
 		if (value == null) {
 			st.setNull(index, Types.VARCHAR);
 		} else {

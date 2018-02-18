@@ -81,6 +81,7 @@ public interface Redis {
 	/**
 	 * 根据哈希键字段获得值
 	 * @param key 键
+	 * @param field 值
 	 * @return 值
 	 */
 	String hget(String key, String field);
@@ -102,6 +103,7 @@ public interface Redis {
 	/**
 	 * 删除键值
 	 * @param key 键
+	 * @return 成功数量
 	 */
 	long del(String... key);
 

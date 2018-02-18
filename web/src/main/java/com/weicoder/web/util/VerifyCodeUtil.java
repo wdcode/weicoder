@@ -25,6 +25,7 @@ public final class VerifyCodeUtil {
 	/**
 	 * 功能描述 : 生成验证图片 返回验证码 图片写到流中
 	 * @param out 写入图片的流
+	 * @return 验证码
 	 */
 	public static String make(OutputStream out) {
 		return make(out, WebParams.VERIFY_LENGTH);
@@ -34,6 +35,7 @@ public final class VerifyCodeUtil {
 	 * 功能描述 : 生成验证图片 返回验证码 图片写到流中
 	 * @param out 写入图片的流
 	 * @param len 生成验证码的长度
+	 * @return 验证码
 	 */
 	public static String make(OutputStream out, int len) {
 		// 获得验证码
@@ -72,7 +74,8 @@ public final class VerifyCodeUtil {
 			for (int i = 0; i < len; i++) {
 				// 将认证码显示到图象中
 				// 设置颜色
-				g.setColor(new Color(20 + RandomUtil.nextInt(110), 20 + RandomUtil.nextInt(110), 20 + RandomUtil.nextInt(110)));
+				g.setColor(new Color(20 + RandomUtil.nextInt(110), 20 + RandomUtil.nextInt(110),
+						20 + RandomUtil.nextInt(110)));
 				// 写文字
 				g.drawString(rand.substring(i, i + 1), charWidth * i + 10, charHeight);
 			}

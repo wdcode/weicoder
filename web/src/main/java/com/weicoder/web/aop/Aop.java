@@ -13,8 +13,8 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Aop {
 	/**
-	 * 拦截的Action名称
-	 * @return
+	 * 拦截的Action名称 
+	 * @return 拦截的方法
 	 */
 	String value() default "";
 }

@@ -9,7 +9,7 @@ import com.weicoder.common.log.Logs;
 public final class ThreadUtil {
 	/**
 	 * 封装sleep异常处理
-	 * @param millis
+	 * @param millis 暂停时间毫秒
 	 */
 	public static void sleep(long millis) {
 		try {
