@@ -3,9 +3,12 @@ package com.weicoder.common.crypto;
 import javax.crypto.Cipher;
 
 import com.weicoder.common.codec.Hex;
+import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.EncryptConstants;
+import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.crypto.base.BaseCrypt;
 import com.weicoder.common.params.CommonParams;
+import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
 
 /**
@@ -13,6 +16,34 @@ import com.weicoder.common.util.StringUtil;
  * @author WD
  */
 public final class Decrypts extends BaseCrypt {
+
+	/**
+	 * 解密Token 使用
+	 * @param info token信息串
+	 * @return 字节数组
+	 */
+	public static byte[] token(String info) {
+		// 验证去掉"""
+		info = StringUtil.replace(info, "\"", StringConstants.EMPTY);
+		// 判断验证串是否符合标准
+		if (!EmptyUtil.isEmpty(info) && info.length() > CommonParams.TOKEN_LENGHT) {
+			// 变为小写
+			info = info.toLowerCase();
+			// 拆分字符串
+			String[] temp = StringUtil.separate(info, info.length() / CommonParams.TOKEN_LENGHT);
+			if (!EmptyUtil.isEmpty(temp) && temp.length == 2) {
+				// 验证串
+				String ver = temp[0];// StringUtil.subString(info, 0, LENGHT);
+				// 信息串
+				String user = temp[1];// StringUtil.subString(info, LENGHT);
+				// 判断校验串是否合法
+				if (ver.equals(Digest.absolute(user, CommonParams.TOKEN_LENGHT))) {
+					return Decrypts.rc4(Hex.decode(user));
+				}
+			}
+		}
+		return ArrayConstants.BYTES_EMPTY;
+	}
 
 	/**
 	 * 解密字符串

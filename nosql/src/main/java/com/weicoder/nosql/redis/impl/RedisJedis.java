@@ -1,6 +1,7 @@
 package com.weicoder.nosql.redis.impl;
 
 import com.weicoder.common.constants.ArrayConstants;
+import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.log.Logs;
 import com.weicoder.nosql.redis.base.BaseRedis;
@@ -29,36 +30,72 @@ public final class RedisJedis extends BaseRedis {
 		pool = new JedisPool(config, RedisParams.getHost(name), RedisParams.getPort(name));
 	}
 
-	/**
-	 * 设置键值 无论存储空间是否存在相同键 都保存 对象将变成字节数组村储存 需要对象能序列化或则能转变为json
-	 * @param key 键
-	 * @param value 值
-	 */
-	public boolean set(String key, Object value) {
+	@Override
+	public String set(String key, String value) {
 		// 获得Jedis对象
 		try (Jedis jedis = pool.getResource()) {
-			// 设置值
-			jedis.set(Bytes.toBytes(key), Bytes.toBytes(value));
-			// 返回成功
-			return true;
+			return jedis.set(key, value);
 		} catch (Exception e) {
 			// 返回失败
 			Logs.error(e);
-			return false;
+			return StringConstants.EMPTY;
 		}
 	}
 
-	/**
-	 * 根据键获得值 值都是字节数组
-	 * @param key 键
-	 * @return 值
-	 */
-	public byte[] get(String key) {
+	@Override
+	public long hset(String key, String field, String value) {
 		// 获得Jedis对象
 		try (Jedis jedis = pool.getResource()) {
-			return jedis.get(Bytes.toBytes(key));
+			return jedis.hset(key, field, value);
 		} catch (Exception e) {
 			// 返回失败
+			Logs.error(e);
+			return -1;
+		}
+	}
+
+	@Override
+	public String set(byte[] key, byte[] value) {
+		// 获得Jedis对象
+		try (Jedis jedis = pool.getResource()) {
+			return jedis.set(key, value);
+		} catch (Exception e) {
+			// 返回失败
+			Logs.error(e);
+			return StringConstants.EMPTY;
+		}
+	}
+
+	@Override
+	public String setex(String key, int seconds, String value) {
+		// 获得Jedis对象
+		try (Jedis jedis = pool.getResource()) {
+			// 设置值
+			return jedis.setex(key, seconds, value);
+		} catch (Exception e) {
+			// 返回失败
+			Logs.error(e);
+			return StringConstants.EMPTY;
+		}
+	}
+
+	@Override
+	public String get(String key) {
+		// 获得Jedis对象
+		try (Jedis jedis = pool.getResource()) {
+			return jedis.get(key);
+		} catch (Exception e) {
+			Logs.error(e);
+			return StringConstants.EMPTY;
+		}
+	}
+
+	@Override
+	public byte[] get(byte[] key) {
+		// 获得Jedis对象
+		try (Jedis jedis = pool.getResource()) {
+			return jedis.get(key);
+		} catch (Exception e) {
 			Logs.error(e);
 			return ArrayConstants.BYTES_EMPTY;
 		}
@@ -68,13 +105,14 @@ public final class RedisJedis extends BaseRedis {
 	 * 删除键值
 	 * @param key 键
 	 */
-	public void remove(String... key) {
+	public long del(String... key) {
 		// 获得Jedis对象
 		try (Jedis jedis = pool.getResource()) {
 			// 删除
-			jedis.del(key);
+			return jedis.del(key);
 		} catch (Exception e) { // 返回失败
 			Logs.error(e);
+			return -1;
 		}
 	}
 
@@ -86,7 +124,7 @@ public final class RedisJedis extends BaseRedis {
 	public boolean exists(String key) {
 		// 获得Jedis对象
 		try (Jedis jedis = pool.getResource()) {
-			return jedis.exists(Bytes.toBytes(key));
+			return jedis.exists(key);
 		} catch (Exception e) { // 返回失败
 			Logs.error(e);
 			return false;
@@ -104,6 +142,40 @@ public final class RedisJedis extends BaseRedis {
 		} catch (Exception e) { // 返回失败
 			Logs.error(e);
 			return false;
+		}
+	}
+
+	@Override
+	public long ttl(String key) {
+		// 获得Jedis对象
+		try (Jedis jedis = pool.getResource()) {
+			// 设置值
+			return jedis.ttl(key);
+		} catch (Exception e) {
+			Logs.error(e);
+			return 0;
+		}
+	}
+
+	@Override
+	public boolean hexists(String key, String field) {
+		// 获得Jedis对象
+		try (Jedis jedis = pool.getResource()) {
+			return jedis.hexists(key, field);
+		} catch (Exception e) {
+			Logs.error(e);
+			return false;
+		}
+	}
+
+	@Override
+	public String hget(String key, String field) {
+		// 获得Jedis对象
+		try (Jedis jedis = pool.getResource()) {
+			return jedis.hget(key, field);
+		} catch (Exception e) {
+			Logs.error(e);
+			return StringConstants.EMPTY;
 		}
 	}
 }

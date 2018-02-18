@@ -48,9 +48,11 @@ public class BasicServlet extends HttpServlet {
 		String path = request.getPathInfo();
 		Logs.debug("request ip={},path={},{}", ip, path, request.getQueryString());
 		if (!EmptyUtil.isEmpty(path)) {
-			// 分解提交action 去处开头的/ 并且按_分解出数组
+			// 分解提交action 去处开头的/ 并且按/或者_分解出数组
 			String actionName = StringUtil.subString(path, 1, path.length());
-			String[] actions = StringUtil.split(actionName, StringConstants.UNDERLINE);
+			String[] actions = StringUtil.contains(actionName, StringConstants.BACKSLASH)
+					? StringUtil.split(actionName, StringConstants.BACKSLASH)
+					: StringUtil.split(actionName, StringConstants.UNDERLINE);
 			if (EmptyUtil.isEmpty(actions)) {
 				Logs.debug("this path={}", path);
 				ResponseUtil.json(response, callback, "action is null path");
@@ -138,8 +140,8 @@ public class BasicServlet extends HttpServlet {
 							// 赋值为调用客户端IP
 							params[i] = ip;
 						}
-						Logs.debug("request ip={},name={},params index={},name={},type={},value={}",
-								ip, actionName, i, p.getName(), cs, params[i]);
+						Logs.debug("request ip={},name={},params index={},name={},type={},value={}", ip, actionName, i,
+								p.getName(), cs, params[i]);
 					} else {
 						params[i] = BeanUtil.copy(ps, cs);
 						Logs.debug("request ip={},name={},params={}", ip, actionName, params[i]);

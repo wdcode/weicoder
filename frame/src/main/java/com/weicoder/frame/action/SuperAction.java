@@ -38,7 +38,7 @@ import com.weicoder.core.json.JsonEngine;
  * @since JDK7
  * @version 1.0 2012-07-4
  */
-public abstract class SuperAction extends BasicAction {
+public class SuperAction extends BasicAction {
 	// 成功
 	protected static final String	SUCCESS		= "success";
 	// 错误
@@ -107,8 +107,7 @@ public abstract class SuperAction extends BasicAction {
 	 * @param response HttpServletResponse
 	 * @param actionName action名称
 	 */
-	protected void init(HttpServletRequest request, HttpServletResponse response,
-			String actionName) {
+	protected void init(HttpServletRequest request, HttpServletResponse response, String actionName) {
 		// 父类初始化
 		try {
 			// 获得request与response
@@ -121,8 +120,7 @@ public abstract class SuperAction extends BasicAction {
 			// 方法名
 			method = action.length > 1 ? action[1] : action[0];
 			// 获得方法名
-			mode = EmptyUtil.isEmpty(mode)
-					? action.length > 2 ? action[2] : action.length == 2 ? action[1] : action[0]
+			mode = EmptyUtil.isEmpty(mode) ? action.length > 2 ? action[2] : action.length == 2 ? action[1] : action[0]
 					: mode;
 			// 如果mode为空
 			if (EmptyUtil.isEmpty(mode)) {
@@ -135,8 +133,7 @@ public abstract class SuperAction extends BasicAction {
 			// 获得ContentType
 			String contentType = request.getContentType();
 			// 判断为上传文件表单
-			if (!EmptyUtil.isEmpty(contentType)
-					&& contentType.indexOf("multipart/form-data") > -1) {
+			if (!EmptyUtil.isEmpty(contentType) && contentType.indexOf("multipart/form-data") > -1) {
 				isEntity = true;
 				// 获得实体
 				entity = entityClass == null ? null : context.getBean(module, entityClass);
@@ -152,8 +149,7 @@ public abstract class SuperAction extends BasicAction {
 				}
 			}
 			// 如果查询自己的数据 添加登录用户名
-			if (entity == null && entityClass != null
-					&& EntityUserId.class.isAssignableFrom(entityClass)) {
+			if (entity == null && entityClass != null && EntityUserId.class.isAssignableFrom(entityClass)) {
 				entity = context.getBean(module, entityClass);
 			}
 			if (entity instanceof EntityUserId) {
@@ -304,8 +300,7 @@ public abstract class SuperAction extends BasicAction {
 	 */
 	public String dels() {
 		Logs.info("dels entity=" + entitys);
-		return callback(
-				EmptyUtil.isEmpty(entitys = service.delete(entityClass, keys)) ? ERROR : SUCCESS);
+		return callback(EmptyUtil.isEmpty(entitys = service.delete(entityClass, keys)) ? ERROR : SUCCESS);
 		// return callback(EmptyUtil.isEmpty(entitys = service.delete(entityClass, keys)) ? ERROR :
 		// mode);
 	}
@@ -349,8 +344,7 @@ public abstract class SuperAction extends BasicAction {
 	 * @return 跳转list
 	 */
 	public String date() {
-		Logs.info("page entity=" + entity + ";pager=" + pager + ";start=" + startDate + ";end="
-				+ endDate);
+		Logs.info("page entity=" + entity + ";pager=" + pager + ";start=" + startDate + ";end=" + endDate);
 		// 如果开始时间和结束时间都为空
 		if (EmptyUtil.isEmpty(startDate) && EmptyUtil.isEmpty(endDate)) {
 			// 直接分页查询
@@ -426,11 +420,9 @@ public abstract class SuperAction extends BasicAction {
 		Logs.info("list entity=" + entity + ";pager=" + pager + ";orders=" + orders);
 		// 排序参数为空
 		if (EmptyUtil.isEmpty(orders)) {
-			entitys = entity == null ? service.list(entityClass, pager)
-					: service.list(entity, pager);
+			entitys = entity == null ? service.list(entityClass, pager) : service.list(entity, pager);
 		} else {
-			entitys = entity == null ? service.order(entityClass, orders, pager)
-					: service.order(entity, orders, pager);
+			entitys = entity == null ? service.order(entityClass, orders, pager) : service.order(entity, orders, pager);
 		}
 		// 返回结果
 		return callback(entitys);
@@ -760,13 +752,11 @@ public abstract class SuperAction extends BasicAction {
 		}
 		if (e instanceof EntityStartEndTime) {
 			// 开始时间
-			if (!EmptyUtil.isEmpty(startDate)
-					&& EmptyUtil.isEmpty(((EntityStartEndTime) e).getStartTime())) {
+			if (!EmptyUtil.isEmpty(startDate) && EmptyUtil.isEmpty(((EntityStartEndTime) e).getStartTime())) {
 				((EntityStartEndTime) e).setStartTime(DateUtil.getTime(startDate));
 			}
 			// 结束时间
-			if (!EmptyUtil.isEmpty(endDate)
-					&& EmptyUtil.isEmpty(((EntityStartEndTime) e).getEndTime())) {
+			if (!EmptyUtil.isEmpty(endDate) && EmptyUtil.isEmpty(((EntityStartEndTime) e).getEndTime())) {
 				((EntityStartEndTime) e).setEndTime(DateUtil.getTime(endDate));
 			}
 		}
@@ -810,8 +800,8 @@ public abstract class SuperAction extends BasicAction {
 	 * @return 字符串
 	 */
 	protected String sign(HttpServletResponse response, Object obj) {
-		return ajax(response, obj instanceof String || obj instanceof Number ? obj
-				: EmptyUtil.isEmpty(obj) ? ERROR : SUCCESS);
+		return ajax(response,
+				obj instanceof String || obj instanceof Number ? obj : EmptyUtil.isEmpty(obj) ? ERROR : SUCCESS);
 	}
 
 	/**

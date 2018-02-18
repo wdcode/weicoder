@@ -21,6 +21,10 @@ public class Token implements ByteArray {
 
 	public Token() {}
 
+	public Token(byte[] array) {
+		array(array);
+	}
+
 	/**
 	 * 构造方法
 	 * @param id 登录用户ID

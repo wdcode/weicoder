@@ -15,6 +15,19 @@ import com.weicoder.common.util.StringUtil;
  * @author WD
  */
 public final class Encrypts extends BaseCrypt {
+
+	/**
+	 * 加密token方法
+	 * @param array token转换的字符串
+	 * @return 加密后的字符串
+	 */
+	public static String token(byte[] array) {
+		// 加密登录凭证字符串
+		String info = Hex.encode(Encrypts.rc4(array));
+		// 返回加密字符串
+		return StringUtil.combine(Digest.absolute(info, CommonParams.TOKEN_LENGHT), info).toUpperCase();
+	}
+
 	/**
 	 * 加密
 	 * @param obj 要加密的对象

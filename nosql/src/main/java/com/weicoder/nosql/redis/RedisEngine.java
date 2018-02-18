@@ -16,7 +16,7 @@ public final class RedisEngine {
 	 * @param value 值
 	 * @return 是否成功
 	 */
-	public static boolean compress(String key, Object value) {
+	public static String compress(String key, Object value) {
 		return REDIS.compress(key, value);
 	}
 
@@ -35,7 +35,7 @@ public final class RedisEngine {
 	 * @param value 值
 	 * @return 是否成功
 	 */
-	public static boolean set(String key, Object value) {
+	public static String set(String key, String value) {
 		return REDIS.set(key, value);
 	}
 
@@ -43,8 +43,8 @@ public final class RedisEngine {
 	 * 删除键值
 	 * @param key 键
 	 */
-	public static void remove(String key) {
-		REDIS.remove(key);
+	public static void del(String key) {
+		REDIS.del(key);
 	}
 
 	/**

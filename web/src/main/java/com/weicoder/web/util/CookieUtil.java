@@ -20,7 +20,18 @@ public final class CookieUtil {
 	 * @param value 值
 	 */
 	public static void add(HttpServletResponse response, String name, String value) {
-		add(response, name, value, -1);
+		add(response, name, value, WebParams.DOMAIN, -1);
+	}
+
+	/**
+	 * 添加Cookie 浏览器进程
+	 * @param response Response
+	 * @param name 名
+	 * @param value 值
+	 * @param domain 域名
+	 */
+	public static void add(HttpServletResponse response, String name, String value, String domain) {
+		add(response, name, value, domain, -1);
 	}
 
 	/**
@@ -31,6 +42,18 @@ public final class CookieUtil {
 	 * @param maxAge 保存多少秒
 	 */
 	public static void add(HttpServletResponse response, String name, String value, int maxAge) {
+		add(response, name, value, WebParams.DOMAIN, maxAge);
+	}
+
+	/**
+	 * 添加Cookie 保存maxAge秒
+	 * @param response Response
+	 * @param name 名
+	 * @param value 值
+	 * @param domain 域名
+	 * @param maxAge 保存多少秒
+	 */
+	public static void add(HttpServletResponse response, String name, String value, String domain, int maxAge) {
 		// 实例化Cookie
 		Cookie cookie = new Cookie(name, value);
 		// 设置Cookie过期时间
@@ -38,8 +61,8 @@ public final class CookieUtil {
 		// 设置目录
 		cookie.setPath(StringConstants.BACKSLASH);
 		// 设置域
-		if (!EmptyUtil.isEmpty(WebParams.DOMAIN)) {
-			cookie.setDomain(WebParams.DOMAIN);
+		if (!EmptyUtil.isEmpty(domain)) {
+			cookie.setDomain(domain);
 		}
 		// 添加Cookie
 		response.addCookie(cookie);
@@ -51,7 +74,17 @@ public final class CookieUtil {
 	 * @param name 名
 	 */
 	public static void remove(HttpServletResponse response, String name) {
-		add(response, name, null, 0);
+		remove(response, name, WebParams.DOMAIN);
+	}
+
+	/**
+	 * 删除Cookie
+	 * @param response Response
+	 * @param name 名
+	 * @param domain 域名
+	 */
+	public static void remove(HttpServletResponse response, String name, String domain) {
+		add(response, name, null, WebParams.DOMAIN, 0);
 	}
 
 	/**

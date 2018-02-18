@@ -24,7 +24,7 @@ import com.weicoder.common.util.StringUtil;
  * @author WD
  * @version 1.0
  */
-public abstract class StrutsAction extends SuperAction {
+public class StrutsAction extends SuperAction {
 	// 提交的url
 	protected String	url;
 	// 跨域方法
@@ -36,8 +36,7 @@ public abstract class StrutsAction extends SuperAction {
 	 * 初始化Action
 	 */
 	protected void init() {
-		init(ServletActionContext.getRequest(), ServletActionContext.getResponse(),
-				getActionName());
+		init(ServletActionContext.getRequest(), ServletActionContext.getResponse(), getActionName());
 	}
 
 	/**

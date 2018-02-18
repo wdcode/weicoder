@@ -18,7 +18,7 @@ import com.weicoder.frame.util.ResponseUtil;
  * @since JDK7
  * @version 1.0 2009-08-26
  */
-public abstract class BasicAction {
+public class BasicAction {
 	// 回调方法处理
 	protected final static Map<String, Method> METHODS = Maps.newMap();
 

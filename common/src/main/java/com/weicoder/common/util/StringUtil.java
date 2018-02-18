@@ -30,6 +30,16 @@ public final class StringUtil {
 	}
 
 	/**
+	 * 判断两个字符串是否相等 两个字符串都要不为空情况下才判断 都为空也为false
+	 * @param str1 第一个字符串
+	 * @param str2 第二个字符串
+	 * @return true false
+	 */
+	public static boolean equals(String str1, String str2) {
+		return EmptyUtil.isEmpty(str1) || EmptyUtil.isEmpty(str2) ? false : str1.equals(str2);
+	}
+
+	/**
 	 * 返回字符串长度，汉字占两字节 主要是用于计算有汉字时的长度 一般情况下不使用,如果str为空返回0
 	 * @param str 要校验长度的字符串
 	 * @return 字符串长度
@@ -522,7 +532,8 @@ public final class StringUtil {
 	 * @return 返回聚合后字符串
 	 */
 	public static String combine(String s1, String s2) {
-		return EmptyUtil.isEmpty(s1) || EmptyUtil.isEmpty(s2) ? StringConstants.EMPTY : combine(s1, s2, (s1.length() + s2.length()) / s1.length());
+		return EmptyUtil.isEmpty(s1) || EmptyUtil.isEmpty(s2) ? StringConstants.EMPTY
+				: combine(s1, s2, (s1.length() + s2.length()) / s1.length());
 	}
 
 	/**

@@ -2,6 +2,7 @@ package com.weicoder.nosql.redis.base;
 
 import java.util.List;
 
+import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.zip.ZipEngine;
 import com.weicoder.nosql.redis.Redis;
@@ -16,8 +17,8 @@ public abstract class BaseRedis implements Redis {
 	 * @param key 键
 	 * @param value 值
 	 */
-	public final boolean compress(String key, Object value) {
-		return set(key, ZipEngine.compress(value));
+	public final String compress(String key, Object value) {
+		return set(Bytes.toBytes(key), ZipEngine.compress(value));
 	}
 
 	/**
