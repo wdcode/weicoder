@@ -8,7 +8,9 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.concurrent.FutureCallback;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.message.BasicHeader;
 
+import com.weicoder.common.constants.HttpConstants;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.io.IOUtil;
 import com.weicoder.common.log.Logs;
@@ -36,6 +38,8 @@ public class HttpUpload {
 		try {
 			// 获得HttpPost
 			post = new HttpPost(url);
+			post.addHeader(new BasicHeader(HttpConstants.CONTENT_TYPE_KEY,
+					HttpConstants.CONTENT_TYPE_VAL));
 			// post.addHeader(new BasicHeader(HttpConstants.CONTENT_TYPE_KEY, HttpConstants.CONTENT_TYPE_FILE + "; boundary=---123"));
 			// 多提交实体构造器
 			MultipartEntityBuilder builder = MultipartEntityBuilder.create();

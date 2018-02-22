@@ -48,7 +48,7 @@ public class SiteAction<U extends EntityUser> extends StrutsAction {
 		super.init();
 		// 获得登录凭证
 		if (EmptyUtil.isEmpty(token)) {
-			token = auth();
+			token = auth(); 
 		}
 	}
 

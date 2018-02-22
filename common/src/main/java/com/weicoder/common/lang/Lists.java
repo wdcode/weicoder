@@ -22,7 +22,8 @@ public final class Lists {
 	 * @return 处理后的元素
 	 */
 	public static <E> E get(List<E> list, int i) {
-		return EmptyUtil.isEmpty(list) ? null : i < 0 ? list.get(0) : i > list.size() ? list.get(list.size()) : list.get(i);
+		return EmptyUtil.isEmpty(list) ? null
+				: i < 0 ? list.get(0) : i >= list.size() ? list.get(list.size() - 1) : list.get(i);
 	}
 
 	/**
@@ -201,7 +202,8 @@ public final class Lists {
 		// 判断不为空
 		if (!EmptyUtil.isEmpty(list) && o != null) {
 			for (Object obj : list) {
-				if (o.getClass().equals(obj.getClass()) ? o.equals(obj) : Conversion.toString(o).equals(Conversion.toString(obj))) {
+				if (o.getClass().equals(obj.getClass()) ? o.equals(obj)
+						: Conversion.toString(o).equals(Conversion.toString(obj))) {
 					return true;
 				}
 			}

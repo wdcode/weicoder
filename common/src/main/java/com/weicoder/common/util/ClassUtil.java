@@ -14,7 +14,7 @@ import java.util.jar.JarInputStream;
 
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Lists;
-import com.weicoder.common.log.Logs; 
+import com.weicoder.common.log.Logs;
 
 /**
  * 关于Class的一些操作
@@ -158,7 +158,6 @@ public final class ClassUtil {
 		try {
 			return EmptyUtil.isEmpty(className) ? null : Class.forName(className);
 		} catch (Exception e) {
-			Logs.error(e);
 			return null;
 		}
 	}
@@ -176,7 +175,6 @@ public final class ClassUtil {
 			Class<?> c = forName(className);
 			return c == null ? null : c.newInstance();
 		} catch (Exception e) {
-			Logs.error(e);
 			return null;
 		}
 	}
@@ -206,7 +204,6 @@ public final class ClassUtil {
 		try {
 			return clazz == null ? null : clazz.newInstance();
 		} catch (Exception e) {
-			Logs.error(e);
 			return null;
 		}
 	}
@@ -261,8 +258,7 @@ public final class ClassUtil {
 	 * @param <E> 泛型
 	 * @return 类列表
 	 */
-	public static <E extends Annotation> Class<E> getAnnotationClass(String packageName,
-			Class<E> cls, int i) {
+	public static <E extends Annotation> Class<E> getAnnotationClass(String packageName, Class<E> cls, int i) {
 		return Lists.get(getAnnotationClass(packageName, cls), i);
 	}
 
@@ -284,8 +280,7 @@ public final class ClassUtil {
 	 * @return 类列表
 	 */
 	@SuppressWarnings("unchecked")
-	public static <E extends Annotation> List<Class<E>> getAnnotationClass(String packageName,
-			Class<E> cls) {
+	public static <E extends Annotation> List<Class<E>> getAnnotationClass(String packageName, Class<E> cls) {
 		// 声明类列表
 		List<Class<E>> classes = Lists.newList();
 		// 循环包下所有类
@@ -324,10 +319,8 @@ public final class ClassUtil {
 				if (name.endsWith(".class")) {
 					try {
 						// 反射出类对象 并添加到列表中
-						name = path + StringConstants.POINT
-								+ StringUtil.subString(name, 0, name.length() - 6);
-						name = StringUtil.replace(name, StringConstants.BACKSLASH,
-								StringConstants.POINT);
+						name = path + StringConstants.POINT + StringUtil.subString(name, 0, name.length() - 6);
+						name = StringUtil.replace(name, StringConstants.BACKSLASH, StringConstants.POINT);
 						// 如果开始是.去掉
 						if (name.startsWith(StringConstants.POINT)) {
 							name = StringUtil.subString(name, 1);
@@ -338,8 +331,8 @@ public final class ClassUtil {
 					}
 				} else {
 					// 迭代调用本方法 获得类列表
-					classes.addAll(getPackageClasses(EmptyUtil.isEmpty(path) ? name
-							: path + StringConstants.BACKSLASH + name, cls));
+					classes.addAll(getPackageClasses(
+							EmptyUtil.isEmpty(path) ? name : path + StringConstants.BACKSLASH + name, cls));
 				}
 			}
 		}

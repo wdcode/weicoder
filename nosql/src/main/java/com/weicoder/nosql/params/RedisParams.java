@@ -9,16 +9,16 @@ import com.weicoder.common.params.Params;
 public final class RedisParams {
 	/* Redis使用 */
 	private final static String	PREFIX		= "redis";		// 前缀
-	private final static String	HOST			= "host";		// 服务器地址
-	private final static String	PORT			= "port";		// 服务器端口
+	private final static String	HOST		= "host";		// 服务器地址
+	private final static String	PORT		= "port";		// 服务器端口
 	private final static String	MAX_TOTAL	= "maxTotal";	// 最大活动数
-	private final static String	MAX_IDLE		= "maxIdle";	// 最大空闲数
-	private final static String	MAX_WAIT		= "maxWait";	// 最大等待时间
+	private final static String	MAX_IDLE	= "maxIdle";	// 最大空闲数
+	private final static String	MAX_WAIT	= "maxWait";	// 最大等待时间
 
 	/* Redis使用 */
-	private static String		host			= "127.0.0.1";	// 服务器地址
-	private static int			port			= 6379;			// 服务器端口
-	private static int			maxTotal		= 100;			// 最大活动数
+	private static String		host		= "127.0.0.1";	// 服务器地址
+	private static int			port		= 6379;			// 服务器端口
+	private static int			maxTotal	= 100;			// 最大活动数
 	private static int			maxIdle		= 30;			// 最大空闲数
 	private static long			maxWait		= 1000;			// 最大等待时间
 
@@ -56,6 +56,15 @@ public final class RedisParams {
 	 */
 	public static int getMaxIdle(String name) {
 		return Params.getInt(getKey(name, MAX_IDLE), maxIdle);
+	}
+
+	/**
+	 * Redis最大等待时间
+	 * @param name 名
+	 * @return long
+	 */
+	public static String getPassword(String name) {
+		return Params.getString(getKey(name, "password"));
 	}
 
 	/**

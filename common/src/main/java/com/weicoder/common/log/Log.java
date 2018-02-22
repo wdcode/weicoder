@@ -2,7 +2,7 @@ package com.weicoder.common.log;
 
 /**
  * 日志接口
- * @author WD  
+ * @author WD
  */
 public interface Log {
 	/**
@@ -69,4 +69,34 @@ public interface Log {
 	 * @param t 异常
 	 */
 	void error(Throwable t);
+
+	/**
+	 * 是否trace 级别
+	 * @return true 是 false 否
+	 */
+	boolean isTrace();
+
+	/**
+	 * 是否debug 级别
+	 * @return true 是 false 否
+	 */
+	boolean isDebug();
+
+	/**
+	 * 是否info 级别
+	 * @return true 是 false 否
+	 */
+	boolean isInfo();
+
+	/**
+	 * 是否warn 级别
+	 * @return true 是 false 否
+	 */
+	boolean isWarn();
+
+	/**
+	 * 是否trace 级别
+	 * @return true 是 false 否
+	 */
+	boolean isError();
 }

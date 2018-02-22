@@ -17,7 +17,8 @@ public final class Logs {
 	 * @param params 字符串格式化参数
 	 */
 	public static void trace(String msg, Object... params) {
-		LOG.trace(msg, params);
+		if (LOG.isTrace())
+			LOG.trace(msg, params);
 	}
 
 	/**
@@ -25,7 +26,8 @@ public final class Logs {
 	 * @param t 异常
 	 */
 	public static void trace(Throwable t) {
-		LOG.trace(t);
+		if (LOG.isTrace())
+			LOG.trace(t);
 	}
 
 	/**
@@ -34,7 +36,8 @@ public final class Logs {
 	 * @param params 字符串格式化参数
 	 */
 	public static void debug(String msg, Object... params) {
-		LOG.debug(msg, params);
+		if (LOG.isDebug())
+			LOG.debug(msg, params);
 	}
 
 	/**
@@ -42,7 +45,8 @@ public final class Logs {
 	 * @param t 异常
 	 */
 	public static void debug(Throwable t) {
-		LOG.debug(t);
+		if (LOG.isDebug())
+			LOG.debug(t);
 	}
 
 	/**
@@ -51,7 +55,8 @@ public final class Logs {
 	 * @param params 字符串格式化参数
 	 */
 	public static void info(String msg, Object... params) {
-		LOG.info(msg, params);
+		if (LOG.isInfo())
+			LOG.info(msg, params);
 	}
 
 	/**
@@ -59,7 +64,8 @@ public final class Logs {
 	 * @param t 异常
 	 */
 	public static void info(Throwable t) {
-		LOG.info(t);
+		if (LOG.isInfo())
+			LOG.info(t);
 	}
 
 	/**
@@ -68,7 +74,8 @@ public final class Logs {
 	 * @param params 字符串格式化参数
 	 */
 	public static void warn(String msg, Object... params) {
-		LOG.warn(msg, params);
+		if (LOG.isWarn())
+			LOG.warn(msg, params);
 	}
 
 	/**
@@ -76,7 +83,8 @@ public final class Logs {
 	 * @param t 异常
 	 */
 	public static void warn(Throwable t) {
-		LOG.warn(t);
+		if (LOG.isWarn())
+			LOG.warn(t);
 	}
 
 	/**
@@ -85,7 +93,8 @@ public final class Logs {
 	 * @param params 字符串格式化参数
 	 */
 	public static void error(String msg, Object... params) {
-		LOG.error(msg, params);
+		if (LOG.isError())
+			LOG.error(msg, params);
 	}
 
 	/**
@@ -93,7 +102,8 @@ public final class Logs {
 	 * @param t 异常
 	 */
 	public static void error(Throwable t) {
-		LOG.error(t);
+		if (LOG.isError())
+			LOG.error(t);
 	}
 
 	private Logs() {}

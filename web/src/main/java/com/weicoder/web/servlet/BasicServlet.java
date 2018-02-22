@@ -59,11 +59,20 @@ public class BasicServlet extends HttpServlet {
 				return;
 			}
 			// 获得Action
-			String name = actions[0];
-			Object action = WebCommons.ACTIONS.get(name);
+			// String name = actions.length > 2 ? actions[actions.length - 2] : actions[actions.length - 1];
+			// Object action = WebCommons.ACTIONS.get(name);
+			String name = null;
+			Object action = null;
+			for (String n : actions) {
+				name = n;
+				action = WebCommons.ACTIONS.get(name);
+				if (action != null) {
+					break;
+				}
+			}
 			// action为空
 			if (action == null) {
-				// 如果使用action_method模式 直接返回
+				// 如果使用action[_/]method模式 直接返回
 				if (actions.length == 2) {
 					Logs.debug("request ip={},path={},no action", ip, path);
 					ResponseUtil.json(response, callback, "no action");
@@ -104,7 +113,7 @@ public class BasicServlet extends HttpServlet {
 			if (EmptyUtil.isEmpty(methods)) {
 				methods = WebCommons.METHODS;
 			}
-			Method method = methods.get(actions.length > 1 ? actions[1] : actions[0]);
+			Method method = methods.get(actions[actions.length - 1]);
 			if (method == null) {
 				Logs.debug("request ip={},path={},no method", ip, path);
 				ResponseUtil.json(response, callback, "no method");

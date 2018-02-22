@@ -62,4 +62,29 @@ public class LogJdk implements Log {
 	public void error(Throwable t) {
 		log.log(Level.SEVERE, StringConstants.EMPTY, t);
 	}
+
+	@Override
+	public boolean isTrace() {
+		return log.isLoggable(Level.ALL);
+	}
+
+	@Override
+	public boolean isDebug() {
+		return log.isLoggable(Level.CONFIG);
+	}
+
+	@Override
+	public boolean isInfo() {
+		return log.isLoggable(Level.INFO);
+	}
+
+	@Override
+	public boolean isWarn() {
+		return log.isLoggable(Level.WARNING);
+	}
+
+	@Override
+	public boolean isError() {
+		return log.isLoggable(Level.SEVERE);
+	}
 }

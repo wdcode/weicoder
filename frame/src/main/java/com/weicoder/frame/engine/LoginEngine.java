@@ -19,8 +19,6 @@ import com.weicoder.common.util.EmptyUtil;
  * @version 1.0 2012-07-20
  */
 public final class LoginEngine {
-	// 空登录信息
-	private final static Token	EMPTY		= new Token();
 	// 登录信息标识
 	private final static String	INFO		= "_info";
 	// 游客IP
@@ -44,8 +42,8 @@ public final class LoginEngine {
 	 * @param maxAge 保存时间
 	 * @return Token
 	 */
-	public static Token addLogin(HttpServletRequest request, HttpServletResponse response,
-			EntityUser login, int maxAge) {
+	public static Token addLogin(HttpServletRequest request, HttpServletResponse response, EntityUser login,
+			int maxAge) {
 		return setToken(request, response, login.getClass().getSimpleName(),
 				getLogin(login.getId(), RequestUtil.getIp(request)), maxAge);
 	}
@@ -57,7 +55,7 @@ public final class LoginEngine {
 	 * @return 获得登录状态
 	 */
 	public static Token getLogin(int id, String ip) {
-		return new Token(id, ip, SiteParams.LOGIN_MAX_AGE);
+		return TokenEngine.newToken(id, ip, SiteParams.LOGIN_MAX_AGE);
 	}
 
 	/**
@@ -69,8 +67,8 @@ public final class LoginEngine {
 	 * @param maxAge 保存时间
 	 * @return Token
 	 */
-	public static Token setToken(HttpServletRequest request, HttpServletResponse response,
-			String key, Token token, int maxAge) {
+	public static Token setToken(HttpServletRequest request, HttpServletResponse response, String key, Token token,
+			int maxAge) {
 		// 保存登录信息
 		AttributeUtil.set(request, response, key + INFO, encrypt(token), maxAge);
 		// 返回token
@@ -88,7 +86,7 @@ public final class LoginEngine {
 		String info = Conversion.toString(AttributeUtil.get(request, key + INFO));
 		// 如果用户信息为空
 		if (EmptyUtil.isEmpty(info)) {
-			return EMPTY;
+			return empty();
 		} else {
 			return decrypt(info);
 		}
@@ -100,8 +98,7 @@ public final class LoginEngine {
 	 * @param response HttpServletResponse
 	 * @param key 登录标识
 	 */
-	public static void removeLogin(HttpServletRequest request, HttpServletResponse response,
-			String key) {
+	public static void removeLogin(HttpServletRequest request, HttpServletResponse response, String key) {
 		// 写入用户信息
 		AttributeUtil.remove(request, response, key + INFO);
 		// 销毁用户session
@@ -143,14 +140,13 @@ public final class LoginEngine {
 	 * @param key Key
 	 * @return Token
 	 */
-	public static Token guest(HttpServletRequest request, HttpServletResponse response,
-			String key) {
+	public static Token guest(HttpServletRequest request, HttpServletResponse response, String key) {
 		// 如果游客ID已经分配到最大值 把游客ID重置
 		if (GUEST_ID == Integer.MIN_VALUE) {
 			GUEST_ID = 0;
 		}
 		// 获得游客凭证
-		Token token = new Token(GUEST_ID--, RequestUtil.getIp(request), SiteParams.LOGIN_MAX_AGE);
+		Token token = TokenEngine.newToken(GUEST_ID--, RequestUtil.getIp(request), SiteParams.LOGIN_MAX_AGE);
 		// 设置游客凭证
 		AttributeUtil.set(request, response, key + INFO, encrypt(token), -1);
 		// 返回游客凭证
@@ -168,7 +164,7 @@ public final class LoginEngine {
 			GUEST_ID = 0;
 		}
 		// 返回游客凭证
-		return new Token(GUEST_ID--, ip, SiteParams.LOGIN_MAX_AGE);
+		return TokenEngine.newToken(GUEST_ID--, ip, SiteParams.LOGIN_MAX_AGE);
 	}
 
 	/**
@@ -176,7 +172,7 @@ public final class LoginEngine {
 	 * @return Token
 	 */
 	public static Token empty() {
-		return EMPTY;
+		return TokenEngine.EMPTY;
 	}
 
 	/**

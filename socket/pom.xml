@@ -14,7 +14,7 @@
 			<name>The Apache Software License, Version 2.0</name>
 			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
 		</license>
-	</licenses>
+	</licenses> 
 
 	<developers>
 		<developer>
@@ -43,7 +43,7 @@
 		<dependency>
 			<groupId>io.netty</groupId>
 			<artifactId>netty-all</artifactId>
-			<version>4.1.21.Final</version>
+			<version>4.1.22.Final</version>
 		</dependency>
 	</dependencies>
 

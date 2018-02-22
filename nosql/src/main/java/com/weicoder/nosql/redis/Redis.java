@@ -108,6 +108,14 @@ public interface Redis {
 	long del(String... key);
 
 	/**
+	 * 删除键值
+	 * @param key 键
+	 * @param field 要删除的字段
+	 * @return 成功数量
+	 */
+	long hdel(String key, String... field);
+
+	/**
 	 * 验证键是否存在
 	 * @param key 键
 	 * @return true 存在 false 不存在

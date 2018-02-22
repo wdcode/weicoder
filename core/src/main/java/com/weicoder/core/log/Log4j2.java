@@ -63,4 +63,29 @@ public class Log4j2 implements Log {
 	public void error(Throwable t) {
 		log.error(StringConstants.EMPTY, t);
 	}
+
+	@Override
+	public boolean isTrace() {
+		return log.isTraceEnabled();
+	}
+
+	@Override
+	public boolean isDebug() {
+		return log.isDebugEnabled();
+	}
+
+	@Override
+	public boolean isInfo() {
+		return log.isInfoEnabled();
+	}
+
+	@Override
+	public boolean isWarn() {
+		return log.isWarnEnabled();
+	}
+
+	@Override
+	public boolean isError() {
+		return log.isErrorEnabled();
+	}
 }

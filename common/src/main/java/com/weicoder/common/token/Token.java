@@ -5,23 +5,36 @@ import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.util.DateUtil;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.IpUtil;
-import com.weicoder.common.util.StringUtil;
 
 /**
  * 登录信息封装
  * @author WD
  */
-public class Token implements ByteArray {
+public final class Token implements ByteArray {
 	// 用户ID
-	protected int		id;
+	protected long		id;
 	// 过期时间 固定时间戳秒
 	protected int		time;
 	// 登录IP
 	protected String	ip;
+	// 保存token
+	private String		token;
 
-	public Token() {}
+	Token() {}
 
-	public Token(byte[] array) {
+	/**
+	 * 构造方法
+	 * @param token token串
+	 */
+	Token(String token) {
+		this(TokenEngine.decrypt(token).array());
+	}
+
+	/**
+	 * 构造方法
+	 * @param array 字节数组
+	 */
+	Token(byte[] array) {
 		array(array);
 	}
 
@@ -31,10 +44,11 @@ public class Token implements ByteArray {
 	 * @param ip 登录IP
 	 * @param time 有效时间 当前时间戳加上time 单位秒
 	 */
-	public Token(int id, String ip, int time) {
+	Token(long id, String ip, int time) {
 		this.id = id;
 		this.time = DateUtil.getTime() + time;
 		this.ip = ip;
+		this.token = TokenEngine.encrypt(this);
 	}
 
 	/**
@@ -49,29 +63,21 @@ public class Token implements ByteArray {
 	 * 获得用户ID
 	 * @return 用户ID
 	 */
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
 	/**
-	 * 获得登录时间
+	 * 获得Token加密串
 	 * @return 登录时间
 	 */
-	public int getTime() {
-		return time;
-	}
-
-	/**
-	 * 获得登录IP
-	 * @return IP
-	 */
-	public String getIp() {
-		return ip;
+	public String getToken() {
+		return token;
 	}
 
 	@Override
 	public String toString() {
-		return StringUtil.add("id=", id, ";time=", time, ";ip=", ip);
+		return token;
 	}
 
 	@Override
@@ -83,9 +89,9 @@ public class Token implements ByteArray {
 	public Token array(byte[] b) {
 		// 判断字节数组不为空
 		if (!EmptyUtil.isEmpty(b)) {
-			this.id = Bytes.toInt(b);
-			this.time = Bytes.toInt(b, 4);
-			this.ip = IpUtil.decode(Bytes.toInt(b, 8));
+			this.id = Bytes.toLong(b);
+			this.time = Bytes.toInt(b, 8);
+			this.ip = IpUtil.decode(Bytes.toInt(b, 12));
 		}
 		// 返回自身
 		return this;

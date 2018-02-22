@@ -57,14 +57,14 @@ public final class HttpClient {
 		List<BasicHeader> headers = Lists.newList();
 		headers.add(new BasicHeader(HttpConstants.USER_AGENT_KEY, HttpConstants.USER_AGENT_VAL));
 		headers.add(new BasicHeader(HttpConstants.ACCEPT_KEY, HttpConstants.ACCEPT_VAL));
-		headers.add(new BasicHeader(HttpConstants.ACCEPT_LANGUAGE_KEY,
-				HttpConstants.ACCEPT_LANGUAGE_VAL));
-		headers.add(new BasicHeader(HttpConstants.ACCEPT_CHARSET_KEY,
-				HttpConstants.ACCEPT_CHARSET_VAL));
+		// headers.add(new BasicHeader(HttpConstants.ACCEPT_LANGUAGE_KEY,
+		// HttpConstants.ACCEPT_LANGUAGE_VAL));
+		// headers.add(new BasicHeader(HttpConstants.ACCEPT_CHARSET_KEY,
+		// HttpConstants.ACCEPT_CHARSET_VAL));
 		builder.setDefaultHeaders(headers);
 		// 设置连接配置
-		builder.setDefaultConnectionConfig(ConnectionConfig.custom()
-				.setCharset(Charset.forName(CommonParams.ENCODING)).build());
+		builder.setDefaultConnectionConfig(
+				ConnectionConfig.custom().setCharset(Charset.forName(CommonParams.ENCODING)).build());
 		// 实例化客户端
 		CLIENT = builder.build();
 	}
@@ -99,8 +99,6 @@ public final class HttpClient {
 		try {
 			// 获得HttpGet对象
 			get = new HttpGet(url);
-			get.addHeader(new BasicHeader(HttpConstants.CONTENT_TYPE_KEY,
-					HttpConstants.CONTENT_TYPE_VAL));
 			// 获得HttpResponse
 			HttpResponse response = CLIENT.execute(get);
 			// 返回字节流
@@ -143,8 +141,6 @@ public final class HttpClient {
 		try {
 			// 获得HttpPost
 			post = new HttpPost(url);
-			post.addHeader(new BasicHeader(HttpConstants.CONTENT_TYPE_KEY,
-					HttpConstants.CONTENT_TYPE_VAL));
 			// 如果参数列表为空 data为空map
 			if (!EmptyUtil.isEmpty(data)) {
 				// 声明参数列表
@@ -152,8 +148,7 @@ public final class HttpClient {
 				// 设置参数
 				for (Map.Entry<String, Object> entry : data.entrySet()) {
 					// 添加参数
-					list.add(new BasicNameValuePair(entry.getKey(),
-							Conversion.toString(entry.getValue())));
+					list.add(new BasicNameValuePair(entry.getKey(), Conversion.toString(entry.getValue())));
 				}
 				// 设置参数与 编码格式
 				post.setEntity(new UrlEncodedFormEntity(list, charset));
