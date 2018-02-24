@@ -16,7 +16,7 @@ public final class RegexConstants {
 	/** 普通电话、传真号码：可以“+”开头，除数字外，可含有“-” */
 	public final static String	PHONE				= "^[+]{0,1}(\\d){1,3}[   ]?([-]?((\\d)|[   ]){1,12})+$";
 	/** 手机号码 13x 15x 188 189 开头 */
-	public final static String	MOBILE				= "^(13[0-9]|15[0|3|6-9]|18[8|9])\\d{8}$";
+	public final static String	MOBILE				= "^(13[0-9]|15[0-9]|17[0-9]|18[0-9])\\d{8}$";
 	/** 邮政编码 */
 	public final static String	POST				= "^[a-zA-Z0-9   ]{3,6}$";
 	/** IP */

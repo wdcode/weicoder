@@ -1,7 +1,6 @@
 package com.weicoder.core.http;
 
-import java.io.InputStream;
-import java.nio.charset.Charset;
+import java.io.InputStream; 
 import java.util.List;
 import java.util.Map;
 
@@ -10,8 +9,7 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.config.ConnectionConfig;
+import org.apache.http.client.methods.HttpPost; 
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
@@ -41,7 +39,7 @@ public final class HttpClient {
 	static {
 		// Http连接池
 		PoolingHttpClientConnectionManager pool = new PoolingHttpClientConnectionManager();
-		pool.setDefaultMaxPerRoute(SystemConstants.CPU_NUM * 10);
+		pool.setDefaultMaxPerRoute(SystemConstants.CPU_NUM);
 		pool.setMaxTotal(SystemConstants.CPU_NUM * 10);
 		// 设置请求参数
 		RequestConfig.Builder config = RequestConfig.custom();
@@ -52,7 +50,7 @@ public final class HttpClient {
 		HttpClientBuilder builder = HttpClientBuilder.create();
 		builder.setDefaultRequestConfig(config.build());
 		builder.setConnectionManager(pool);
-		builder.setMaxConnPerRoute(SystemConstants.CPU_NUM * 10);
+		builder.setMaxConnPerRoute(SystemConstants.CPU_NUM);
 		// 设置 头
 		List<BasicHeader> headers = Lists.newList();
 		headers.add(new BasicHeader(HttpConstants.USER_AGENT_KEY, HttpConstants.USER_AGENT_VAL));
@@ -62,9 +60,9 @@ public final class HttpClient {
 		// headers.add(new BasicHeader(HttpConstants.ACCEPT_CHARSET_KEY,
 		// HttpConstants.ACCEPT_CHARSET_VAL));
 		builder.setDefaultHeaders(headers);
-		// 设置连接配置
-		builder.setDefaultConnectionConfig(
-				ConnectionConfig.custom().setCharset(Charset.forName(CommonParams.ENCODING)).build());
+//		// 设置连接配置
+//		builder.setDefaultConnectionConfig(
+//				ConnectionConfig.custom().setCharset(Charset.forName(CommonParams.ENCODING)).build());
 		// 实例化客户端
 		CLIENT = builder.build();
 	}
