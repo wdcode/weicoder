@@ -1,8 +1,11 @@
 package com.weicoder.nosql.redis.impl;
 
+import java.util.List;
+
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Bytes;
+import com.weicoder.common.lang.Lists;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.nosql.redis.base.BaseRedis;
@@ -11,6 +14,7 @@ import com.weicoder.nosql.params.RedisParams;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
+import redis.clients.jedis.JedisPubSub;
 import redis.clients.jedis.Protocol;
 
 /**
@@ -191,6 +195,25 @@ public final class RedisJedis extends BaseRedis {
 		} catch (Exception e) {
 			Logs.error(e);
 			return -1;
+		}
+	}
+
+	@Override
+	public void subscribe(final JedisPubSub jedisPubSub, final String... channels) {
+		try (Jedis jedis = pool.getResource()) {
+			jedis.subscribe(jedisPubSub, channels);
+		} catch (Exception e) {
+			Logs.error(e);
+		}
+	}
+
+	@Override
+	public List<byte[]> mget(byte[][] key) {
+		try (Jedis jedis = pool.getResource()) {
+			return jedis.mget(key);
+		} catch (Exception e) {
+			Logs.error(e);
+			return Lists.emptyList();
 		}
 	}
 }

@@ -56,7 +56,15 @@ public final class Token implements ByteArray {
 	 * @return true 登录 false 未登录
 	 */
 	public boolean isLogin() {
-		return id != 0 && (time - DateUtil.getTime() > 0);
+		return id != 0 && isExpire();
+	}
+
+	/**
+	 * 是否有效期
+	 * @return true 有效 false 无效
+	 */
+	public boolean isExpire() {
+		return time - DateUtil.getTime() > 0;
 	}
 
 	/**

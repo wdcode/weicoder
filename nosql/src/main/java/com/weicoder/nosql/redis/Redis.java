@@ -2,6 +2,8 @@ package com.weicoder.nosql.redis;
 
 import java.util.List;
 
+import redis.clients.jedis.JedisPubSub;
+
 /**
  * Redis 操作接口
  * @author WD
@@ -94,6 +96,13 @@ public interface Redis {
 	byte[] get(byte[] key);
 
 	/**
+	 * 根据键获得值
+	 * @param key 键
+	 * @return 值
+	 */
+	List<byte[]> mget(byte[][] key);
+
+	/**
 	 * 获得多个键的数组
 	 * @param keys 键
 	 * @return 值
@@ -136,4 +145,11 @@ public interface Redis {
 	 * @return 返回整数 剩余的时间以秒为单位 -1 版本不支持 -2 不存在
 	 */
 	long ttl(String key);
+
+	/**
+	 * 订阅消息
+	 * @param jedisPubSub 订阅类
+	 * @param channels 通道
+	 */
+	void subscribe(JedisPubSub jedisPubSub, String... channels);
 }
