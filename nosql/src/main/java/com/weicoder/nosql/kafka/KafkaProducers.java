@@ -2,11 +2,13 @@ package com.weicoder.nosql.kafka;
 
 import java.util.Properties;
 
+import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 
 import com.weicoder.common.log.Logs;
+import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.nosql.params.KafkaParams;
 import com.weicoder.nosql.params.ZookeeperParams;
 
@@ -20,8 +22,10 @@ public final class KafkaProducers {
 
 	static {
 		Properties props = new Properties();
-		props.put("bootstrap.servers", KafkaParams.SERVERS);
-		props.put("zookeeper.connect", ZookeeperParams.CONNECT);
+		props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, KafkaParams.SERVERS);
+		if (!EmptyUtil.isEmpty(ZookeeperParams.CONNECT)) {
+			props.put("zookeeper.connect", ZookeeperParams.CONNECT);
+		}
 		props.put("acks", "all");
 		props.put("retries", 0);
 		props.put("batch.size", 16384);
@@ -30,7 +34,7 @@ public final class KafkaProducers {
 		props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
 		props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
 		producer = new KafkaProducer<>(props);
-		Logs.trace("KafkaProducers init complete");
+		Logs.info("KafkaProducers init complete props={}", props);
 	}
 
 	/**
@@ -41,7 +45,7 @@ public final class KafkaProducers {
 	public static void send(String topic, String value) {
 		producer.send(new ProducerRecord<>(topic, value));
 		producer.flush();
-		Logs.trace("kafka send producer topic={},value={}", topic, value);
+		Logs.debug("kafka send producer topic={},value={}", topic, value);
 	}
 
 	/**
@@ -53,7 +57,7 @@ public final class KafkaProducers {
 	public static void send(String topic, String key, String value) {
 		producer.send(new ProducerRecord<>(topic, key, value));
 		producer.flush();
-		Logs.trace("kafka send producer topic={},key={},value={}", topic, key, value);
+		Logs.debug("kafka send producer topic={},key={},value={}", topic, key, value);
 	}
 
 	private KafkaProducers() {}

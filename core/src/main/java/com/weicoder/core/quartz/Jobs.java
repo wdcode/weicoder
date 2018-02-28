@@ -26,11 +26,11 @@ public final class Jobs implements Job {
 		// 获得执行任务的对象 和方法
 		Object obj = context.getJobDetail().getJobDataMap().get("obj");
 		Method method = (Method) context.getJobDetail().getJobDataMap().get("method");
-		Logs.info("job obj={} method={} start time={}", obj.getClass().getSimpleName(), method.getName(),
+		Logs.debug("job obj={} method={} start time={}", obj.getClass().getSimpleName(), method.getName(),
 				DateUtil.getTheDate());
 		// 执行任务
 		BeanUtil.invoke(obj, method);
-		Logs.info("job obj={} method={} end time={}", obj.getClass().getSimpleName(), method.getName(),
+		Logs.debug("job obj={} method={} end time={}", obj.getClass().getSimpleName(), method.getName(),
 				DateUtil.getTime() - time);
 	}
 }

@@ -52,6 +52,7 @@ public final class Quartzs {
 											.withSchedule(CronScheduleBuilder.cronSchedule(
 													Params.getString("job.trigger." + m.getName(), t.value())))
 											.build());
+							Logs.info("add quartz job={}", job);
 						}
 					}
 				}

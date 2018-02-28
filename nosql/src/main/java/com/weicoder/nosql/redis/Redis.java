@@ -140,6 +140,15 @@ public interface Redis {
 	boolean hexists(String key, String field);
 
 	/**
+	 * 如果字段不存在，则将指定的散列字段设置为指定的值
+	 * @param key 健
+	 * @param field 字段
+	 * @param value 值
+	 * @return 如果字段已存在返回，则返回0，否则如果创建新字段，则为1
+	 */
+	long hsetnx(String key, String field, String value);
+
+	/**
 	 * 返回剩余的时间以秒为单位
 	 * @param key 键
 	 * @return 返回整数 剩余的时间以秒为单位 -1 版本不支持 -2 不存在
@@ -152,4 +161,26 @@ public interface Redis {
 	 * @param channels 通道
 	 */
 	void subscribe(JedisPubSub jedisPubSub, String... channels);
+
+	/**
+	 * 从右侧入队列
+	 * @param key 健
+	 * @param strings 入队数据
+	 * @return 返回数量
+	 */
+	long rpush(String key, String... strings);
+
+	/**
+	 * 从左侧读取数据
+	 * @param key 健
+	 * @return 读出的元素
+	 */
+	String lpop(String key);
+
+	/**
+	 * 读取队列数量
+	 * @param key 健
+	 * @return 数量
+	 */
+	long llen(String key);
 }

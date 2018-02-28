@@ -162,11 +162,15 @@ public class BasicServlet extends HttpServlet {
 			// 判断是否跳转url
 			if (method.isAnnotationPresent(Redirect.class)) {
 				String url = Conversion.toString(res);
-				response.sendRedirect(url);
+				if (!EmptyUtil.isEmpty(url)) {
+					response.sendRedirect(url);
+				}
 				Logs.debug("redirect url:{}", url);
 			} else if (method.isAnnotationPresent(Forward.class)) {
 				String url = Conversion.toString(res);
-				request.getRequestDispatcher(url).forward(request, response);
+				if (!EmptyUtil.isEmpty(url)) {
+					request.getRequestDispatcher(url).forward(request, response);
+				}
 				Logs.debug("forward url:{}", url);
 			} else if (res != null && !(res instanceof Void)) {
 				ResponseUtil.json(response, callback, res);

@@ -88,10 +88,8 @@ public final class HttpUtil {
 		}
 		// 声明字符串缓存
 		StringBuilder sb = new StringBuilder();
-		// 获得Key列表
+		// 获得Key列表并排序
 		List<String> keys = Lists.sort(Lists.newList(map.keySet()));
-		// 排序
-		Lists.sort(keys);
 		// 根据Key列表获得值
 		for (int i = 0; i < keys.size(); i++) {
 			// 获得Key
@@ -115,7 +113,8 @@ public final class HttpUtil {
 	 */
 	public static void setExpiresHeader(HttpServletResponse response, long expiresSeconds) {
 		// Http 1.0 header
-		response.setDateHeader(HttpConstants.HEADER_KEY_EXPIRES, System.currentTimeMillis() + expiresSeconds * DateConstants.TIME_SECOND);
+		response.setDateHeader(HttpConstants.HEADER_KEY_EXPIRES,
+				System.currentTimeMillis() + expiresSeconds * DateConstants.TIME_SECOND);
 		// Http 1.1 header
 		response.setHeader(HttpConstants.HEADER_KEY_CACHE_CONTROL, "max-age=" + expiresSeconds);
 	}
@@ -156,7 +155,8 @@ public final class HttpUtil {
 	 * @param lastModified 内容的最后修改时间.
 	 * @return true false
 	 */
-	public static boolean checkIfModifiedSince(HttpServletRequest request, HttpServletResponse response, long lastModified) {
+	public static boolean checkIfModifiedSince(HttpServletRequest request, HttpServletResponse response,
+			long lastModified) {
 		// 获得 If-Modified-Since时间
 		long ifModifiedSince = request.getDateHeader("If-Modified-Since");
 		// 判断时间
@@ -206,7 +206,7 @@ public final class HttpUtil {
 				// 设置无修改
 				response.setStatus(HttpServletResponse.SC_NOT_MODIFIED);
 				// 修改etag
-				setEtag(response, etag); 
+				setEtag(response, etag);
 				// 返回false
 				return false;
 			}
