@@ -3,7 +3,6 @@ package com.weicoder.common.codec;
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Bytes;
-import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.EmptyUtil;
 
 /**
@@ -12,7 +11,11 @@ import com.weicoder.common.util.EmptyUtil;
  */
 public final class Hex {
 	// 编码用
-	private static final char[] DIGITS = "0123456789abcdef".toCharArray();
+	private static final char[] DIGITS;
+
+	static {
+		DIGITS = "0123456789abcdef".toCharArray();
+	}
 
 	/**
 	 * Hex 编码
@@ -29,7 +32,6 @@ public final class Hex {
 	 * @return 编码后的字符串
 	 */
 	public static String encode(byte[] data) {
-		Logs.trace("Hex encode len={}", data.length);
 		// 如果为空返回字符串
 		if (EmptyUtil.isEmpty(data)) {
 			return StringConstants.EMPTY;
@@ -52,7 +54,6 @@ public final class Hex {
 	 * @return 解码后的字节数组
 	 */
 	public static byte[] decode(String str) {
-		Logs.trace("Hex decode str={}", str);
 		// 如果要解码的字符串为空 返回字节数组
 		if (EmptyUtil.isEmpty(str)) {
 			return ArrayConstants.BYTES_EMPTY;

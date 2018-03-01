@@ -5,7 +5,6 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Bytes;
-import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
@@ -83,7 +82,6 @@ public final class Buffer implements ByteArray {
 		if (sync) {
 			lock = new ReentrantLock(true);
 		}
-		Logs.trace("buffer init top={},offset={},sync={}", top, offset, sync);
 	}
 
 	/**
@@ -91,7 +89,6 @@ public final class Buffer implements ByteArray {
 	 * @param len 长度
 	 */
 	public void capacity(int len) {
-		Logs.trace("buffer capacity len={}", len);
 		// 要扩展的容量小于原长度 放弃修改
 		if (len <= data.length) {
 			return;
@@ -130,7 +127,6 @@ public final class Buffer implements ByteArray {
 		if (top > length())
 			capacity(top);
 		this.top = top;
-		Logs.trace("buffer top top={}", top);
 	}
 
 	/**
@@ -149,7 +145,6 @@ public final class Buffer implements ByteArray {
 		if (offset < 0 || offset > top)
 			return;
 		this.offset = offset;
-		Logs.trace("buffer offset offset={}", offset);
 	}
 
 	/**
@@ -202,7 +197,6 @@ public final class Buffer implements ByteArray {
 	 * @return 字节数组
 	 */
 	public byte[] read(byte[] data, int pos, int len) {
-		Logs.trace("buffer read pos={},len={}", pos, len);
 		// 如果同步 加锁
 		if (sync) {
 			lock.lock();
@@ -288,7 +282,6 @@ public final class Buffer implements ByteArray {
 	 * @return String
 	 */
 	public String readString(int len) {
-		Logs.trace("buffer readString len={}", len);
 		return len == 0 ? StringConstants.EMPTY : new String(read(new byte[len], 0, len));
 	}
 
@@ -317,7 +310,6 @@ public final class Buffer implements ByteArray {
 	 * @return 字节数组
 	 */
 	public byte[] write(byte[] data, int pos, int len) {
-		Logs.trace("buffer write pos={},len={}", pos, len);
 		// 容量不足扩容
 		if (data.length < top + len) {
 			capacity(top + len);
@@ -454,7 +446,6 @@ public final class Buffer implements ByteArray {
 	 * 压缩缓冲区 抛弃以读数据 并把容量截取到写坐标
 	 */
 	public void compact() {
-		Logs.trace("buffer compact");
 		// 读位置不为0时才需要压缩
 		if (offset > 0) {
 			// 如果同步 加锁
@@ -477,7 +468,6 @@ public final class Buffer implements ByteArray {
 	 * 获得有效数据
 	 */
 	public byte[] array() {
-		Logs.trace("buffer array");
 		return Bytes.copy(data, 0, top);
 	}
 
@@ -485,7 +475,6 @@ public final class Buffer implements ByteArray {
 	 * 清除字节缓存对象
 	 */
 	public void clear() {
-		Logs.trace("buffer clear");
 		// 如果数组长度小于默认缓存长度 重新生成数组
 		if (length() < CommonParams.IO_BUFFERSIZE) {
 			data = new byte[CommonParams.IO_BUFFERSIZE];

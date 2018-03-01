@@ -2,7 +2,6 @@ package com.weicoder.common.codec;
 
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.lang.Bytes;
-import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.EmptyUtil;
 
 /**
@@ -11,10 +10,11 @@ import com.weicoder.common.util.EmptyUtil;
  */
 public final class Base64 {
 	// 编码用
-	private final static char[]	DIGITS	= "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/="
-			.toCharArray();
-	private final static byte[]	CODES	= new byte[256];
+	private final static char[]	DIGITS;
+	private final static byte[]	CODES;
 	static {
+		DIGITS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=".toCharArray();
+		CODES = new byte[256];
 		for (int i = 0; i < 256; i++) {
 			CODES[i] = -1;
 		}
@@ -29,7 +29,6 @@ public final class Base64 {
 		}
 		CODES['+'] = 62;
 		CODES['/'] = 63;
-		Logs.trace("Base64 init complete");
 	}
 
 	/**
@@ -47,7 +46,6 @@ public final class Base64 {
 	 * @return 编码后的字符串
 	 */
 	public static String encode(byte[] data) {
-		Logs.trace("Base64 encode len={}", data.length);
 		// 声明保存char数组
 		final char[] out = new char[((data.length + 2) / 3) * 4];
 		// 编码
@@ -85,7 +83,6 @@ public final class Base64 {
 	 * @return 解码后的字节数组
 	 */
 	public static byte[] decode(String str) {
-		Logs.trace("Base64 decode str={}", str);
 		// 要解码的字符串为空
 		if (EmptyUtil.isEmpty(str)) {
 			return ArrayConstants.BYTES_EMPTY;

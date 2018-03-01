@@ -36,7 +36,7 @@ public final class ScheduledUtil {
 	 * @return ScheduledFuture
 	 */
 	public static ScheduledFuture<?> rate(Runnable command, long initialDelay, long period, TimeUnit unit) {
-		Logs.trace("ScheduledUtile rate command={},initialDelay={},period={},unit={}", command, initialDelay, period, unit);
+		Logs.debug("ScheduledUtile rate command={},initialDelay={},period={},unit={}", command, initialDelay, period, unit);
 		return POOL.scheduleAtFixedRate(command, initialDelay, period, unit);
 	}
 
@@ -69,7 +69,7 @@ public final class ScheduledUtil {
 	 * @return ScheduledFuture
 	 */
 	public static ScheduledFuture<?> delay(Runnable command, long initialDelay, long delay, TimeUnit unit) {
-		Logs.trace("ScheduledUtile rate command={},initialDelay={},delay={},unit={}", command, initialDelay, delay, unit);
+		Logs.debug("ScheduledUtile rate command={},initialDelay={},delay={},unit={}", command, initialDelay, delay, unit);
 		return POOL.scheduleWithFixedDelay(command, initialDelay, delay, unit);
 	}
 

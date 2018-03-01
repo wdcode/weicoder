@@ -26,7 +26,7 @@ public final class NettyHandler extends SimpleChannelInboundHandler<ByteBuf> {
 
 	/**
 	 * 构造
-	 * @param name 名称 
+	 * @param name 名称
 	 */
 	public NettyHandler(String name) {
 		this.name = name;
@@ -65,7 +65,6 @@ public final class NettyHandler extends SimpleChannelInboundHandler<ByteBuf> {
 		byte[] data = new byte[msg.readableBytes()];
 		// 读取字节流
 		msg.readBytes(data);
-		Logs.trace("channel read data len={} channel={}", data.length, ctx);
 		// 交给数据处理器
 		process.process(getSesson(ctx.channel()), data);
 	}

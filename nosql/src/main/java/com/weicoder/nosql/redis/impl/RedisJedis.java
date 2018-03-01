@@ -1,12 +1,14 @@
 package com.weicoder.nosql.redis.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.lang.Lists;
+import com.weicoder.common.lang.Maps;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.nosql.redis.base.BaseRedis;
@@ -60,7 +62,6 @@ public final class RedisJedis extends BaseRedis {
 
 	@Override
 	public String lpop(String key) {
-
 		try (Jedis jedis = pool.getResource()) {
 			return jedis.lpop(key);
 		} catch (Exception e) {
@@ -71,7 +72,6 @@ public final class RedisJedis extends BaseRedis {
 
 	@Override
 	public String set(String key, String value) {
-
 		try (Jedis jedis = pool.getResource()) {
 			return jedis.set(key, value);
 		} catch (Exception e) {
@@ -82,7 +82,6 @@ public final class RedisJedis extends BaseRedis {
 
 	@Override
 	public long hset(String key, String field, String value) {
-
 		try (Jedis jedis = pool.getResource()) {
 			return jedis.hset(key, field, value);
 		} catch (Exception e) {
@@ -93,7 +92,6 @@ public final class RedisJedis extends BaseRedis {
 
 	@Override
 	public String set(byte[] key, byte[] value) {
-
 		try (Jedis jedis = pool.getResource()) {
 			return jedis.set(key, value);
 		} catch (Exception e) {
@@ -104,7 +102,6 @@ public final class RedisJedis extends BaseRedis {
 
 	@Override
 	public String setex(String key, int seconds, String value) {
-
 		try (Jedis jedis = pool.getResource()) {
 			// 设置值
 			return jedis.setex(key, seconds, value);
@@ -116,7 +113,6 @@ public final class RedisJedis extends BaseRedis {
 
 	@Override
 	public long hsetnx(String key, String field, String value) {
-
 		try (Jedis jedis = pool.getResource()) {
 			// 设置值
 			return jedis.hsetnx(key, field, value);
@@ -128,7 +124,6 @@ public final class RedisJedis extends BaseRedis {
 
 	@Override
 	public String get(String key) {
-
 		try (Jedis jedis = pool.getResource()) {
 			return jedis.get(key);
 		} catch (Exception e) {
@@ -139,7 +134,6 @@ public final class RedisJedis extends BaseRedis {
 
 	@Override
 	public byte[] get(byte[] key) {
-
 		try (Jedis jedis = pool.getResource()) {
 			return jedis.get(key);
 		} catch (Exception e) {
@@ -153,7 +147,6 @@ public final class RedisJedis extends BaseRedis {
 	 * @param key 键
 	 */
 	public long del(String... key) {
-
 		try (Jedis jedis = pool.getResource()) {
 			// 删除
 			return jedis.del(key);
@@ -169,7 +162,6 @@ public final class RedisJedis extends BaseRedis {
 	 * @return true 存在 false 不存在
 	 */
 	public boolean exists(String key) {
-
 		try (Jedis jedis = pool.getResource()) {
 			return jedis.exists(key);
 		} catch (Exception e) {
@@ -180,7 +172,6 @@ public final class RedisJedis extends BaseRedis {
 
 	@Override
 	public boolean append(String key, Object value) {
-
 		try (Jedis jedis = pool.getResource()) {
 			// 设置值
 			jedis.append(Bytes.toBytes(key), Bytes.toBytes(value));
@@ -194,7 +185,6 @@ public final class RedisJedis extends BaseRedis {
 
 	@Override
 	public long ttl(String key) {
-
 		try (Jedis jedis = pool.getResource()) {
 			// 设置值
 			return jedis.ttl(key);
@@ -206,7 +196,6 @@ public final class RedisJedis extends BaseRedis {
 
 	@Override
 	public boolean hexists(String key, String field) {
-
 		try (Jedis jedis = pool.getResource()) {
 			return jedis.hexists(key, field);
 		} catch (Exception e) {
@@ -217,7 +206,6 @@ public final class RedisJedis extends BaseRedis {
 
 	@Override
 	public String hget(String key, String field) {
-
 		try (Jedis jedis = pool.getResource()) {
 			return jedis.hget(key, field);
 		} catch (Exception e) {
@@ -227,8 +215,17 @@ public final class RedisJedis extends BaseRedis {
 	}
 
 	@Override
-	public long hdel(String key, String... field) {
+	public Map<String, String> hgetAll(String key) {
+		try (Jedis jedis = pool.getResource()) {
+			return jedis.hgetAll(key);
+		} catch (Exception e) {
+			Logs.error(e);
+			return Maps.emptyMap();
+		}
+	}
 
+	@Override
+	public long hdel(String key, String... field) {
 		try (Jedis jedis = pool.getResource()) {
 			// 删除
 			return jedis.hdel(key, field);

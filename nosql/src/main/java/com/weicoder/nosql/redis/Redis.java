@@ -1,6 +1,7 @@
 package com.weicoder.nosql.redis;
 
 import java.util.List;
+import java.util.Map;
 
 import redis.clients.jedis.JedisPubSub;
 
@@ -87,6 +88,13 @@ public interface Redis {
 	 * @return 值
 	 */
 	String hget(String key, String field);
+
+	/**
+	 * 根据哈希主键获得所有列表数据
+	 * @param key 哈希主键
+	 * @return Map
+	 */
+	Map<String, String> hgetAll(String key);
 
 	/**
 	 * 根据键获得值
