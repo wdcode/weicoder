@@ -40,7 +40,12 @@ public final class ResponseUtil {
 	 */
 	public static String write(HttpServletResponse response, String str, String charsetName) {
 		// 清除缓存
-		ResponseUtil.noCache(response);
+		noCache(response);
+		// 设置头
+		setContentType(response, HttpConstants.CONTENT_TYPE_JSON);
+		// "CP='IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT'"
+		response.setHeader("P3P",
+				"CP='CURa ADMa DEVa PSAo PSDo OUR BUS UNI PUR INT DEM STA PRE COM NAV OTC NOI DSP COR'");
 		// 设置编码
 		response.setCharacterEncoding(charsetName);
 		// 声明PrintWriter
@@ -111,8 +116,8 @@ public final class ResponseUtil {
 			s.append(callback).append("(");
 		}
 		// 添加json数据
-		s.append(data instanceof String || data instanceof Number ? Conversion.toString(data)
-				: JsonEngine.toJson(data));
+		s.append(
+				data instanceof String || data instanceof Number ? Conversion.toString(data) : JsonEngine.toJson(data));
 		// 如果callback不为空 填补右括号
 		if (!EmptyUtil.isEmpty(callback)) {
 			s.append(")");
@@ -128,8 +133,7 @@ public final class ResponseUtil {
 	public static void noCache(HttpServletResponse response) {
 		if (!EmptyUtil.isEmpty(response)) {
 			response.setHeader("Pragma", HttpConstants.HEADER_VAL_NO_CACHE);
-			response.setHeader(HttpConstants.HEADER_KEY_CACHE_CONTROL,
-					HttpConstants.HEADER_VAL_NO_CACHE);
+			response.setHeader(HttpConstants.HEADER_KEY_CACHE_CONTROL, HttpConstants.HEADER_VAL_NO_CACHE);
 			response.setDateHeader("Expires", 0);
 		}
 	}

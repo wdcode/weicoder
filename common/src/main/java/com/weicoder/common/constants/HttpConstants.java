@@ -31,6 +31,8 @@ public final class HttpConstants {
 	public final static String	CONTENT_TYPE_KEY			= "Content-Type";
 	/** 头Content-Type信息 VALUE */
 	public final static String	CONTENT_TYPE_VAL			= "application/x-www-form-urlencoded";
+	/** 头Content-Type信息 json */
+	public final static String	CONTENT_TYPE_JSON			= "application/json;charset=utf-8";
 
 	private HttpConstants() {}
 }
