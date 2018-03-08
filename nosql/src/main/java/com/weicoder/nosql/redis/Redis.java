@@ -3,6 +3,7 @@ package com.weicoder.nosql.redis;
 import java.util.List;
 import java.util.Map;
 
+import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPubSub;
 
 /**
@@ -10,6 +11,12 @@ import redis.clients.jedis.JedisPubSub;
  * @author WD
  */
 public interface Redis {
+	/**
+	 * 获取资源Jedis
+	 * @return Jedis
+	 */
+	Jedis getResource();
+
 	/**
 	 * 压缩值 当值能压缩时才压缩
 	 * @param key 键

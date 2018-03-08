@@ -39,7 +39,9 @@ public final class ExcelPOI extends BaseExcel {
 			workbook = EmptyUtil.isEmpty(file) ? new HSSFWorkbook() : WorkbookFactory.create(file);
 			// 获得输出流
 			this.file = file;
-		} catch (Exception e) {}
+		} catch (Exception e) {
+			Logs.error(e);
+		}
 	}
 
 	/**

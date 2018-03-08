@@ -44,7 +44,7 @@ public final class KafkaConsumers {
 	 * @return ConsumerRecords
 	 */
 	public static ConsumerRecords<String, String> poll() {
-		return CONSUMER.poll(1000);
+		return CONSUMER.poll(100000);
 	}
 
 	private KafkaConsumers() {}

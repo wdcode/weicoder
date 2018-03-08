@@ -48,7 +48,7 @@ public class SiteAction<U extends EntityUser> extends StrutsAction {
 		super.init();
 		// 获得登录凭证
 		if (EmptyUtil.isEmpty(token)) {
-			token = auth(); 
+			token = auth();
 		}
 	}
 
@@ -274,7 +274,7 @@ public class SiteAction<U extends EntityUser> extends StrutsAction {
 	 * @return 获得登录凭证
 	 */
 	public String token() {
-		return callback(LoginEngine.encrypt(token));
+		return callback(token.getToken());
 	}
 
 	/**
@@ -283,7 +283,7 @@ public class SiteAction<U extends EntityUser> extends StrutsAction {
 	 * @return 获得登录凭证
 	 */
 	public String token(Object obj) {
-		return ajax(response, LoginEngine.encrypt(token));
+		return ajax(response, token.getToken());
 	}
 
 	/**

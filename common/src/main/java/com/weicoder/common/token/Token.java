@@ -1,6 +1,8 @@
 package com.weicoder.common.token;
 
 import com.weicoder.common.binary.ByteArray;
+import com.weicoder.common.crypto.Decrypts;
+import com.weicoder.common.crypto.Encrypts;
 import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.util.DateUtil;
 import com.weicoder.common.util.EmptyUtil;
@@ -27,15 +29,8 @@ public final class Token implements ByteArray {
 	 * @param token token串
 	 */
 	Token(String token) {
-		this(TokenEngine.decrypt(token).array());
-	}
-
-	/**
-	 * 构造方法
-	 * @param array 字节数组
-	 */
-	Token(byte[] array) {
-		array(array);
+		array(Decrypts.token(token));
+		this.token = token;
 	}
 
 	/**
@@ -48,7 +43,7 @@ public final class Token implements ByteArray {
 		this.id = id;
 		this.time = DateUtil.getTime() + time;
 		this.ip = ip;
-		this.token = TokenEngine.encrypt(this);
+		this.token = Encrypts.token(array());
 	}
 
 	/**

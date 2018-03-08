@@ -70,7 +70,7 @@ public final class LoginEngine {
 	public static Token setToken(HttpServletRequest request, HttpServletResponse response, String key, Token token,
 			int maxAge) {
 		// 保存登录信息
-		AttributeUtil.set(request, response, key + INFO, encrypt(token), maxAge);
+		AttributeUtil.set(request, response, key + INFO, token.getToken(), maxAge);
 		// 返回token
 		return token;
 	}
@@ -112,16 +112,7 @@ public final class LoginEngine {
 	 * @return 加密信息
 	 */
 	public static String encrypt(int id, String ip) {
-		return TokenEngine.encrypt(getLogin(id, ip));
-	}
-
-	/**
-	 * 加密信息
-	 * @param token 登录凭证
-	 * @return 加密信息
-	 */
-	public static String encrypt(Token token) {
-		return TokenEngine.encrypt(token);
+		return getLogin(id, ip).getToken();
 	}
 
 	/**
@@ -148,7 +139,7 @@ public final class LoginEngine {
 		// 获得游客凭证
 		Token token = TokenEngine.newToken(GUEST_ID--, RequestUtil.getIp(request), SiteParams.LOGIN_MAX_AGE);
 		// 设置游客凭证
-		AttributeUtil.set(request, response, key + INFO, encrypt(token), -1);
+		AttributeUtil.set(request, response, key + INFO, token.getToken(), -1);
 		// 返回游客凭证
 		return token;
 	}
