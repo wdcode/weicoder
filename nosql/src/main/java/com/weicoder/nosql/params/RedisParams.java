@@ -1,6 +1,9 @@
 package com.weicoder.nosql.params;
 
+import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.params.Params;
+
+import redis.clients.jedis.Protocol;
 
 /**
  * Redis配置读取
@@ -21,6 +24,15 @@ public final class RedisParams {
 	private static int			maxTotal	= 100;			// 最大活动数
 	private static int			maxIdle		= 30;			// 最大空闲数
 	private static long			maxWait		= 1000;			// 最大等待时间
+
+	/**
+	 * Redis集群地址
+	 * @param name 名
+	 * @return 集群地址
+	 */
+	public static String[] getCluster(String name) {
+		return Params.getStringArray(getKey(name, "cluster"), ArrayConstants.STRING_EMPTY);
+	}
 
 	/**
 	 * Redis服务器地址
@@ -65,6 +77,15 @@ public final class RedisParams {
 	 */
 	public static String getPassword(String name) {
 		return Params.getString(getKey(name, "password"));
+	}
+
+	/**
+	 * redis数据库
+	 * @param name 数据库名
+	 * @return 默认数据库
+	 */
+	public static int getDatabase(String name) {
+		return Params.getInt(getKey(name, "database"), Protocol.DEFAULT_DATABASE);
 	}
 
 	/**

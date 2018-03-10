@@ -37,7 +37,7 @@ public final class RedisJedis extends BaseRedis {
 		config.setMaxWaitMillis(RedisParams.getMaxWait(name));
 		// 实例化连接池
 		pool = new JedisPool(config, RedisParams.getHost(name), RedisParams.getPort(name), Protocol.DEFAULT_TIMEOUT,
-				EmptyUtil.isEmpty(RedisParams.getPassword(name)) ? null : RedisParams.getPassword(name));
+				EmptyUtil.isEmpty(RedisParams.getPassword(name)) ? null : RedisParams.getPassword(name), 0, null);
 	}
 
 	@Override
