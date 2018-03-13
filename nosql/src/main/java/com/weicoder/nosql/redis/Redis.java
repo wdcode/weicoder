@@ -45,7 +45,7 @@ public interface Redis {
 	 * @param value 值
 	 * @return 是否成功
 	 */
-	boolean append(String key, Object value);
+	long append(String key, Object value);
 
 	/**
 	 * 设置键值 无论存储空间是否存在相同键，都保存

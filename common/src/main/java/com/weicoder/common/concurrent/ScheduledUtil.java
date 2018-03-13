@@ -14,8 +14,29 @@ import com.weicoder.common.log.Logs;
  * @author WD
  */
 public final class ScheduledUtil {
-	/** 并发定时任务池 */
-	public final static ScheduledExecutorService POOL = Executors.newScheduledThreadPool(SystemConstants.CPU_NUM, DaemonThreadFactory.INSTANCE);
+	// 并发定时任务池
+	private final static ScheduledExecutorService	POOL		= Executors
+			.newScheduledThreadPool(SystemConstants.CPU_NUM);
+	// 守护线程并发定时任务池
+	private final static ScheduledExecutorService	DAEMON_POOL	= Executors
+			.newScheduledThreadPool(SystemConstants.CPU_NUM, DaemonThreadFactory.INSTANCE);
+
+	/**
+	 * 获得定时任务池 此方法返回守护线程的池
+	 * @return 定时任务池
+	 */
+	public static ScheduledExecutorService pool() {
+		return pool(true);
+	}
+
+	/**
+	 * 获得定时任务池
+	 * @param daemon 是否守护线程
+	 * @return 定时任务池
+	 */
+	public static ScheduledExecutorService pool(boolean daemon) {
+		return daemon ? DAEMON_POOL : POOL;
+	}
 
 	/**
 	 * 执行定时任务 按初始时间间隔
@@ -36,8 +57,9 @@ public final class ScheduledUtil {
 	 * @return ScheduledFuture
 	 */
 	public static ScheduledFuture<?> rate(Runnable command, long initialDelay, long period, TimeUnit unit) {
-		Logs.debug("ScheduledUtile rate command={},initialDelay={},period={},unit={}", command, initialDelay, period, unit);
-		return POOL.scheduleAtFixedRate(command, initialDelay, period, unit);
+		Logs.debug("ScheduledUtile rate command={},initialDelay={},period={},unit={}", command, initialDelay, period,
+				unit);
+		return pool().scheduleAtFixedRate(command, initialDelay, period, unit);
 	}
 
 	/**
@@ -69,8 +91,9 @@ public final class ScheduledUtil {
 	 * @return ScheduledFuture
 	 */
 	public static ScheduledFuture<?> delay(Runnable command, long initialDelay, long delay, TimeUnit unit) {
-		Logs.debug("ScheduledUtile rate command={},initialDelay={},delay={},unit={}", command, initialDelay, delay, unit);
-		return POOL.scheduleWithFixedDelay(command, initialDelay, delay, unit);
+		Logs.debug("ScheduledUtile rate command={},initialDelay={},delay={},unit={}", command, initialDelay, delay,
+				unit);
+		return pool().scheduleWithFixedDelay(command, initialDelay, delay, unit);
 	}
 
 	/**

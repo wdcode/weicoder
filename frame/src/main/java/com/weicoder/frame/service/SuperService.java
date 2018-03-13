@@ -50,8 +50,7 @@ public class SuperService {
 	@PostConstruct
 	protected void init() {
 		// 获得所有带缓存实体
-		Map<String, Object> map = context
-				.getBeansWithAnnotation(com.weicoder.frame.annotation.Cache.class);
+		Map<String, Object> map = context.getBeansWithAnnotation(com.weicoder.frame.annotation.Cache.class);
 		// 实例化缓存
 		caches = Maps.newConcurrentMap();
 		// 实例化缓存加载
@@ -282,8 +281,7 @@ public class SuperService {
 			list = Lists.subList(cache.list(), firstResult, firstResult + maxResults);
 		}
 		// 查询数据库
-		return EmptyUtil.isEmpty(list) ? cache.set(dao.list(entityClass, firstResult, maxResults))
-				: list;
+		return EmptyUtil.isEmpty(list) ? cache.set(dao.list(entityClass, firstResult, maxResults)) : list;
 
 	}
 
@@ -353,8 +351,8 @@ public class SuperService {
 	 * @param <E> 泛型
 	 * @return 数据列表
 	 */
-	public <E extends Entity> List<E> like(Class<E> entityClass, String property, Object value,
-			int firstResult, int maxResults) {
+	public <E extends Entity> List<E> like(Class<E> entityClass, String property, Object value, int firstResult,
+			int maxResults) {
 		return dao.like(entityClass, property, value, firstResult, maxResults);
 	}
 
@@ -367,8 +365,8 @@ public class SuperService {
 	 * @param <E> 泛型
 	 * @return 数据列表
 	 */
-	public <E extends Entity> List<E> eq(Class<E> entityClass, Map<String, Object> map,
-			int firstResult, int maxResults) {
+	public <E extends Entity> List<E> eq(Class<E> entityClass, Map<String, Object> map, int firstResult,
+			int maxResults) {
 		return dao.eq(entityClass, map, firstResult, maxResults);
 	}
 
@@ -382,10 +380,9 @@ public class SuperService {
 	 * @param <E> 泛型
 	 * @return 数据列表
 	 */
-	public <E extends Entity> List<E> eq(Class<E> entityClass, String property, Object value,
-			int firstResult, int maxResults) {
-		return dao.eq(entityClass, property,
-				Conversion.to(value, BeanUtil.getField(entityClass, property).getType()),
+	public <E extends Entity> List<E> eq(Class<E> entityClass, String property, Object value, int firstResult,
+			int maxResults) {
+		return dao.eq(entityClass, property, Conversion.to(value, BeanUtil.getField(entityClass, property).getType()),
 				firstResult, maxResults);
 	}
 
@@ -398,11 +395,9 @@ public class SuperService {
 	 * @param <E> 泛型
 	 * @return 数据列表
 	 */
-	public <E extends Entity> List<E> in(Class<E> entityClass, String property, List<Object> values,
-			Pagination pager) {
+	public <E extends Entity> List<E> in(Class<E> entityClass, String property, List<Object> values, Pagination pager) {
 		// 获得数据列表
-		List<E> list = in(entityClass, property, values, getFirstResult(pager),
-				getMaxResults(pager));
+		List<E> list = in(entityClass, property, values, getFirstResult(pager), getMaxResults(pager));
 		// 判断列表
 		if (EmptyUtil.isEmpty(list)) {
 			// 为空 设置总数为 0
@@ -424,11 +419,9 @@ public class SuperService {
 	 * @param <E> 泛型
 	 * @return 数据列表
 	 */
-	public <E extends Entity> List<E> eq(Class<E> entityClass, String property, Object value,
-			Pagination pager) {
+	public <E extends Entity> List<E> eq(Class<E> entityClass, String property, Object value, Pagination pager) {
 		// 获得数据列表
-		List<E> list = eq(entityClass, property, value, getFirstResult(pager),
-				getMaxResults(pager));
+		List<E> list = eq(entityClass, property, value, getFirstResult(pager), getMaxResults(pager));
 		// 判断列表
 		if (EmptyUtil.isEmpty(list)) {
 			// 为空 设置总数为 0
@@ -452,8 +445,8 @@ public class SuperService {
 	 * @return 数据列表
 	 */
 	@SuppressWarnings("unchecked")
-	public <E extends Entity> List<E> in(Class<E> entityClass, String property, List<?> values,
-			int firstResult, int maxResults) {
+	public <E extends Entity> List<E> in(Class<E> entityClass, String property, List<?> values, int firstResult,
+			int maxResults) {
 		return (List<E>) (EmptyUtil.isEmpty(values) ? Lists.newList()
 				: dao.in(entityClass, property, values, firstResult, maxResults));
 	}
@@ -487,8 +480,7 @@ public class SuperService {
 	public <E extends Entity> List<E> in(Class<E> entityClass, String property, List<Object> values,
 			Map<String, Object> orders, Pagination pager) {
 		// 获得数据列表
-		List<E> list = in(entityClass, property, values, orders, getFirstResult(pager),
-				getMaxResults(pager));
+		List<E> list = in(entityClass, property, values, orders, getFirstResult(pager), getMaxResults(pager));
 		// 判断列表
 		if (EmptyUtil.isEmpty(list)) {
 			// 为空 设置总数为 0
@@ -510,8 +502,8 @@ public class SuperService {
 	 * @param <E> 泛型
 	 * @return 数据列表
 	 */
-	public <E extends Entity> List<E> in(Class<E> entityClass, Map<String, List<Object>> parames,
-			int firstResult, int maxResults) {
+	public <E extends Entity> List<E> in(Class<E> entityClass, Map<String, List<Object>> parames, int firstResult,
+			int maxResults) {
 		return dao.in(entityClass, parames, firstResult, maxResults);
 	}
 
@@ -526,8 +518,8 @@ public class SuperService {
 	 * @param <E> 泛型
 	 * @return 返回结果列表
 	 */
-	public <E extends Entity> List<E> between(E entity, String property, Object lo, Object hi,
-			int firstResult, int maxResults) {
+	public <E extends Entity> List<E> between(E entity, String property, Object lo, Object hi, int firstResult,
+			int maxResults) {
 		return dao.between(entity, property, lo, hi, firstResult, maxResults);
 	}
 
@@ -542,8 +534,8 @@ public class SuperService {
 	 * @param <E> 泛型
 	 * @return 返回结果列表
 	 */
-	public <E extends Entity> List<E> between(Class<E> entity, String property, Object lo,
-			Object hi, int firstResult, int maxResults) {
+	public <E extends Entity> List<E> between(Class<E> entity, String property, Object lo, Object hi, int firstResult,
+			int maxResults) {
 		return dao.between(entity, property, lo, hi, firstResult, maxResults);
 	}
 
@@ -557,8 +549,7 @@ public class SuperService {
 	 * @param <E> 泛型
 	 * @return 返回结果列表
 	 */
-	public <E extends Entity> List<E> between(E entity, String property, Object lo, Object hi,
-			Pagination page) {
+	public <E extends Entity> List<E> between(E entity, String property, Object lo, Object hi, Pagination page) {
 		// 获得数据列表
 		List<E> list = between(entity, property, lo, hi, getFirstResult(page), getMaxResults(page));
 		// 判断列表
@@ -604,8 +595,7 @@ public class SuperService {
 	 * @param <E> 泛型
 	 * @return 返回结果列表
 	 */
-	public <E extends Entity> List<E> order(Class<E> entity, Map<String, Object> orders,
-			Pagination page) {
+	public <E extends Entity> List<E> order(Class<E> entity, Map<String, Object> orders, Pagination page) {
 		// 获得数据列表
 		List<E> list = order(entity, orders, getFirstResult(page), getMaxResults(page));
 		// 判断列表
@@ -629,8 +619,7 @@ public class SuperService {
 	 * @param <E> 泛型
 	 * @return 数据列表
 	 */
-	public <E extends Entity> List<E> order(E entity, Map<String, Object> orders, int firstResult,
-			int maxResults) {
+	public <E extends Entity> List<E> order(E entity, Map<String, Object> orders, int firstResult, int maxResults) {
 		return dao.order(entity, orders, firstResult, maxResults);
 	}
 
@@ -643,8 +632,8 @@ public class SuperService {
 	 * @param <E> 泛型
 	 * @return 数据列表
 	 */
-	public <E extends Entity> List<E> order(Class<E> entityClass, Map<String, Object> orders,
-			int firstResult, int maxResults) {
+	public <E extends Entity> List<E> order(Class<E> entityClass, Map<String, Object> orders, int firstResult,
+			int maxResults) {
 		return dao.order(entityClass, orders, firstResult, maxResults);
 	}
 
@@ -657,11 +646,9 @@ public class SuperService {
 	 * @param <E> 泛型
 	 * @return 数据列表
 	 */
-	public <E extends Entity> List<E> search(Class<E> entityClass, String property, Object value,
-			Pagination pager) {
+	public <E extends Entity> List<E> search(Class<E> entityClass, String property, Object value, Pagination pager) {
 		// 获得数据列表
-		List<E> list = search(entityClass, property, value, getFirstResult(pager),
-				getMaxResults(pager));
+		List<E> list = search(entityClass, property, value, getFirstResult(pager), getMaxResults(pager));
 		// 判断列表
 		if (EmptyUtil.isEmpty(list)) {
 			// 为空 设置总数为 0
@@ -684,8 +671,8 @@ public class SuperService {
 	 * @param <E> 泛型
 	 * @return 数据列表
 	 */
-	public <E extends Entity> List<E> search(Class<E> entityClass, String property, Object value,
-			int firstResult, int maxResults) {
+	public <E extends Entity> List<E> search(Class<E> entityClass, String property, Object value, int firstResult,
+			int maxResults) {
 		return dao.search(entityClass, property, value, firstResult, maxResults);
 	}
 
@@ -765,8 +752,7 @@ public class SuperService {
 	 * @param <E> 泛型
 	 * @return 数量
 	 */
-	public <E extends Entity> int count(Class<E> entityClass, String property,
-			List<Object> values) {
+	public <E extends Entity> int count(Class<E> entityClass, String property, List<Object> values) {
 		// return isCache(entityClass) ? in(entityClass, property, values, -1, -1).size() :
 		// dao.count(entityClass, property, values);
 		return dao.count(entityClass, property, values);
@@ -823,8 +809,7 @@ public class SuperService {
 		E obj = get(entity, pk);
 		// 对象不为空
 		if (obj != null) {
-			list.addAll(
-					prev(entity, property, (Serializable) BeanUtil.getFieldValue(obj, property)));
+			list.addAll(prev(entity, property, (Serializable) BeanUtil.getFieldValue(obj, property)));
 			// 添加对象
 			list.add(obj);
 		}
@@ -860,7 +845,7 @@ public class SuperService {
 	 * @param <E> 泛型
 	 */
 	public <E extends Entity> void load(final Class<E> entityClass) {
-		ExecutorUtil.execute(new Runnable() {
+		ExecutorUtil.pool().execute(new Runnable() {
 			@Override
 			public void run() {
 				// 获得缓存

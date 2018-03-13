@@ -4,9 +4,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.lang.Sets;
+import com.weicoder.common.util.StringUtil;
 import com.weicoder.nosql.params.RedisParams;
 import com.weicoder.nosql.redis.base.BaseRedis;
 
@@ -33,7 +35,10 @@ public final class RedisCluster extends BaseRedis {
 		config.setMaxWaitMillis(RedisParams.getMaxWait(name));
 		// 服务器节点
 		Set<HostAndPort> nodes = Sets.newSet();
-		for (String host : RedisParams.getCluster(name)) {}
+		for (String server : RedisParams.getCluster(name)) {
+			String[] s = StringUtil.split(server, StringConstants.COLON);
+			nodes.add(new HostAndPort(s[0], Conversion.toInt(s[1])));
+		}
 		// 生成JedisCluster
 		cluster = new JedisCluster(nodes, config);
 	}
@@ -111,9 +116,8 @@ public final class RedisCluster extends BaseRedis {
 	}
 
 	@Override
-	public boolean append(String key, Object value) {
-		cluster.append(Bytes.toBytes(key), Bytes.toBytes(value));
-		return true;
+	public long append(String key, Object value) {
+		return cluster.append(Bytes.toBytes(key), Bytes.toBytes(value));
 	}
 
 	@Override

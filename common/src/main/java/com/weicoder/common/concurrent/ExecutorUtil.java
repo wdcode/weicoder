@@ -17,11 +17,31 @@ import com.weicoder.common.util.EmptyUtil;
  * @author WD
  */
 public final class ExecutorUtil {
-	/** 并发线程池 */
-	public final static ExecutorService			POOL		= Executors.newCachedThreadPool(DaemonThreadFactory.INSTANCE);
+	// 并发线程池
+	private final static ExecutorService		POOL		= Executors.newCachedThreadPool();
+	// 守护线程并发线程池
+	private final static ExecutorService		DAEMON_POOL	= Executors
+			.newCachedThreadPool(DaemonThreadFactory.INSTANCE);
 	// 保存线程
 	private final static List<Runnable>			RUNNABLES	= Lists.newList();
 	private final static List<Callable<Object>>	CALLABLES	= Lists.newList();
+
+	/**
+	 * 获得线程池 此方法返回守护线程的池
+	 * @return 线程池
+	 */
+	public static ExecutorService pool() {
+		return pool(true);
+	}
+
+	/**
+	 * 获得线程池
+	 * @param daemon 是否守护线程
+	 * @return 线程池
+	 */
+	public static ExecutorService pool(boolean daemon) {
+		return daemon ? DAEMON_POOL : POOL;
+	}
 
 	/**
 	 * 添加线程Runnable
@@ -65,24 +85,6 @@ public final class ExecutorUtil {
 	}
 
 	/**
-	 * 执行任务 不需要等待
-	 * @param task 任务
-	 */
-	public static void execute(Runnable task) {
-		POOL.execute(task);
-	}
-
-	/**
-	 * 执行任务 不需要等待
-	 * @param task 任务
-	 * @param <T> 泛型
-	 * @return Future
-	 */
-	public static <T> Future<T> submit(Callable<T> task) {
-		return POOL.submit(task);
-	}
-
-	/**
 	 * 执行任务 等待任务结束
 	 * @param tasks 任务
 	 */
@@ -91,10 +93,10 @@ public final class ExecutorUtil {
 		List<Future<?>> list = Lists.newList(tasks.size());
 		// 执行任务
 		for (Runnable task : tasks) {
-			list.add(POOL.submit(task));
+			list.add(pool().submit(task));
 		}
 		// 循环等待
-		while (POOL.isTerminated()) {
+		while (pool().isTerminated()) {
 			// 是否全部完成
 			for (Iterator<Future<?>> it = list.iterator(); it.hasNext();) {
 				if (it.next().isDone()) {
@@ -105,12 +107,6 @@ public final class ExecutorUtil {
 			if (EmptyUtil.isEmpty(list)) {
 				break;
 			}
-			// // 等待
-			// try {
-			// Thread.sleep(100);
-			// } catch (InterruptedException e) {
-			// Logs.warn(e);
-			// }
 		}
 	}
 
@@ -140,7 +136,7 @@ public final class ExecutorUtil {
 		List<T> ls = Lists.newList(len);
 		// 执行任务
 		for (Callable<T> task : tasks) {
-			list.add(POOL.submit(task));
+			list.add(pool().submit(task));
 		}
 		// 循环获得结果
 		for (Future<T> f : list) {
