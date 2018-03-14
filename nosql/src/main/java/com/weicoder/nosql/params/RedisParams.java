@@ -2,6 +2,7 @@ package com.weicoder.nosql.params;
 
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.params.Params;
+import com.weicoder.common.util.EmptyUtil;
 
 import redis.clients.jedis.Protocol;
 
@@ -76,7 +77,8 @@ public final class RedisParams {
 	 * @return long
 	 */
 	public static String getPassword(String name) {
-		return Params.getString(getKey(name, "password"));
+		String password = Params.getString(getKey(name, "password"));
+		return EmptyUtil.isEmpty(password) ? null : password;
 	}
 
 	/**

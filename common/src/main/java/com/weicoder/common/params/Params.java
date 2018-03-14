@@ -122,13 +122,10 @@ public final class Params {
 		// 声明字符串缓存
 		StringBuilder sb = new StringBuilder(prefix);
 		// 前缀不为空添加.
-		if (!EmptyUtil.isEmpty(prefix)) {
-			sb.append(StringConstants.POINT);
-		}
-		// 判断名称是否为空
 		if (!EmptyUtil.isEmpty(name)) {
+			sb.append(StringConstants.POINT);
 			sb.append(name);
-		}
+		} 
 		// 后缀不为空添加.
 		if (!EmptyUtil.isEmpty(suffix)) {
 			sb.append(StringConstants.POINT);

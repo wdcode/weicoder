@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.EmptyUtil;
 
 /**
@@ -14,6 +15,50 @@ import com.weicoder.common.util.EmptyUtil;
  * @author WD
  */
 public final class Maps {
+	/**
+	 * 获得map中的元素 如果有一者为空 返回 null 如果key对应的值为空 用Class实例化个新值放在map例
+	 * @param map 取数据的map
+	 * @param key 对应的key
+	 * @param c 对应值的类
+	 * @return 值
+	 */
+	public static <K, V> V get(Map<K, V> map, K key, Class<V> c) {
+		// 如果map和key val 为空
+		if (EmptyUtil.isEmpty(map) || key == null || c == null) {
+			return null;
+		}
+		// 获得值
+		V val = map.get(key);
+		// 如果值为空
+		if (val == null) {
+			// 实例化并保存
+			map.put(key, val = BeanUtil.newInstance(c));
+		}
+		// 返回值
+		return val;
+	}
+
+	/**
+	 * 判断是否Map
+	 * @param obj 对象
+	 * @return 是否Map
+	 */
+	public static <K, V> List<V> getList(Map<K, List<V>> map, K key, Class<V> c) {
+		// 如果map和key val 为空
+		if (map == null || key == null || c == null) {
+			return null;
+		}
+		// 获得值
+		List<V> val = map.get(key);
+		// 如果值为空
+		if (val == null) {
+			// 实例化并保存
+			map.put(key, val = Lists.newList());
+		}
+		// 返回值
+		return val;
+	}
+
 	/**
 	 * 判断是否Map
 	 * @param obj 对象

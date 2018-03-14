@@ -32,14 +32,9 @@ import com.weicoder.dao.Transactional;
  */
 public final class HibernateDao implements Dao {
 	// Session工厂
-	private SessionFactorys				factorys;
+	private SessionFactorys				factorys	= new SessionFactorys();
 	// 事务保存列表
-	private Map<Session, Transactional>	txs;
-
-	public HibernateDao() {
-		factorys = new SessionFactorys();
-		txs = Maps.newMap();
-	}
+	private Map<Session, Transactional>	txs			= Maps.newMap();
 
 	@Override
 	public Transactional getTransaction(Class<?> entityClass) {
@@ -108,6 +103,18 @@ public final class HibernateDao implements Dao {
 	}
 
 	@Override
+	public void insertOrUpdates(Object... entitys) {
+		execute(entitys[0].getClass(), (Session session) -> {
+			// 循环添加
+			for (Object o : entitys) {
+				session.saveOrUpdate(o);
+			}
+			// 返回实体
+			return entitys;
+		});
+	}
+
+	@Override
 	public <E> E delete(E entity) {
 		return delete(Lists.newList(entity)).get(0);
 	}
@@ -116,9 +123,7 @@ public final class HibernateDao implements Dao {
 	public <E> List<E> delete(final List<E> entitys) {
 		return execute(entitys.get(0).getClass(), (Session session) -> {
 			// 循环更新
-			for (E e : entitys) {
-				session.delete(e);
-			}
+			entitys.forEach((E e) -> session.delete(e));
 			// 返回实体
 			return entitys;
 		});
@@ -597,4 +602,5 @@ public final class HibernateDao implements Dao {
 		 */
 		T callback(Session session);
 	}
+
 }

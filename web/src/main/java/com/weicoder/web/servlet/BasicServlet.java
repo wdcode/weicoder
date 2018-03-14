@@ -122,7 +122,7 @@ public class BasicServlet extends HttpServlet {
 			Logs.debug("request ip={},name={}", ip, actionName);
 			// 设置参数
 			Parameter[] pars = method.getParameters();
-			Object[] params = null; 
+			Object[] params = null;
 			if (!EmptyUtil.isEmpty(pars)) {
 				// 参数不为空 设置参数
 				params = new Object[pars.length];

@@ -1,41 +1,40 @@
 package com.weicoder.nosql.redis.factory;
 
-import com.weicoder.common.factory.FactoryKey;
 import com.weicoder.nosql.redis.Redis;
-import com.weicoder.nosql.redis.impl.RedisJedis;
+
+import redis.clients.jedis.JedisCluster;
+import redis.clients.jedis.JedisPool;
 
 /**
  * RedisPool工厂
- * @author WD  
+ * @author WD
  */
-public final class RedisFactory extends FactoryKey<String, Redis> {
-	// 工厂
-	private final static RedisFactory FACTORY = new RedisFactory();
-
-	/**
-	 * 获得Redis
-	 * @return Redis
-	 */
-	public static Redis getRedis() {
-		return FACTORY.getInstance();
-	}
-
+public final class RedisFactory {
 	/**
 	 * 获得Redis
 	 * @param key 键
 	 * @return Redis
 	 */
 	public static Redis getRedis(String key) {
-		return FACTORY.getInstance(key);
+		return RedisJedisFactory.FACTORY.getInstance(key);
 	}
 
 	/**
-	 * 实例化一个新对象
+	 * 获得JedisCluster
+	 * @param key 键
+	 * @return JedisCluster
+	 */
+	public static JedisCluster getJedisCluster(String key) {
+		return JedisClusterFactory.FACTORY.getInstance(key);
+	}
+
+	/**
+	 * 获得JedisPool
 	 * @param key 键
 	 * @return Redis
 	 */
-	public Redis newInstance(String key) {
-		return new RedisJedis(key);
+	public static JedisPool getJedisPool(String key) {
+		return JedisPoolFactory.FACTORY.getInstance(key);
 	}
 
 	private RedisFactory() {}

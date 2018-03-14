@@ -11,4 +11,10 @@ import java.lang.annotation.Target;
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Consumer {}
+public @interface Consumer {
+	/**
+	 * kafka读取配置key 默认""
+	 * @return 字符串
+	 */
+	String value() default "";
+}
