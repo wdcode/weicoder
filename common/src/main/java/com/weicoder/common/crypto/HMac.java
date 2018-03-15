@@ -45,7 +45,16 @@ public final class HMac {
 	 * @return 结果
 	 */
 	public static byte[] sha1(byte[] b) {
-		return doFinal(b, EncryptConstants.ALGO_HMAC_SHA_1, CommonParams.ENCRYPT_KEY);
+		return sha1(b, CommonParams.ENCRYPT_KEY);
+	}
+
+	/**
+	 * 使用HMAC-SHA1进行消息签名, 返回字节数组,长度为20字节.
+	 * @param b 原始输入字符串
+	 * @return 结果
+	 */
+	public static byte[] sha1(byte[] b, String key) {
+		return doFinal(b, EncryptConstants.ALGO_HMAC_SHA_1, key);
 	}
 
 	/**

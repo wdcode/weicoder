@@ -9,6 +9,8 @@ import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.HttpConstants;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.io.IOUtil;
+import com.weicoder.common.lang.Conversion;
+import com.weicoder.common.lang.Maps;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
@@ -63,18 +65,34 @@ public final class HttpEngine {
 	 * 使用post提交url
 	 * @param url 网址
 	 * @param data 参数
+	 * @param header http头列表
 	 * @return 返回的结果
 	 */
 	public static String post(String url, Map<String, Object> data) {
+		return post(url, data, Maps.emptyMap());
+	}
+
+	/**
+	 * 使用post提交url
+	 * @param url 网址
+	 * @param data 参数
+	 * @param header http头列表
+	 * @return 返回的结果
+	 */
+	public static String post(String url, Map<String, Object> data, Map<String, Object> header) {
 		HttpURLConnection conn = null;
 		try {
 			// 获得连接
 			conn = getConnection(url);
+			// 头不为空，添加头
+			for (Map.Entry<String, Object> h : header.entrySet()) {
+				conn.setRequestProperty(h.getKey(), Conversion.toString(h.getValue()));
+			}
 			// 设置为post方式
 			conn.setRequestMethod("POST");
 			// 设置超时
 			conn.setConnectTimeout(5000);
-			conn.setReadTimeout(30000);
+			conn.setReadTimeout(10000);
 			// 设置允许Input
 			conn.setDoInput(true);
 			// 设置允许output
@@ -96,7 +114,9 @@ public final class HttpEngine {
 				IOUtil.write(conn.getOutputStream(), sb.substring(0, sb.length() - 1));
 			}
 			// 使用GZIP一般服务器支持解压获得的流 然后转成字符串 一般为UTF-8
-			return StringUtil.toString(ZipEngine.GZIP.extract(IOUtil.read(conn.getInputStream())));
+			String res = StringUtil.toString(ZipEngine.GZIP.extract(IOUtil.read(conn.getInputStream())));
+			Logs.debug("HttpEngine post url={},data={},header={}", url, data, header, res);
+			return res;
 		} catch (IOException e) {
 			Logs.error(e);
 		} finally {
@@ -118,15 +138,13 @@ public final class HttpEngine {
 			// 获得连接
 			conn = (HttpURLConnection) new URL(url).openConnection();
 			// // 设置属性
-			conn.addRequestProperty(HttpConstants.USER_AGENT_KEY, HttpConstants.USER_AGENT_VAL);
-			conn.addRequestProperty(HttpConstants.ACCEPT_KEY, HttpConstants.ACCEPT_VAL);
-			conn.addRequestProperty(HttpConstants.ACCEPT_LANGUAGE_KEY,
-					HttpConstants.ACCEPT_LANGUAGE_VAL);
-			conn.addRequestProperty("Accept-Encoding", "gzip,deflate");
-			conn.addRequestProperty(HttpConstants.ACCEPT_CHARSET_KEY,
-					HttpConstants.ACCEPT_CHARSET_VAL);
-			conn.addRequestProperty(HttpConstants.CONTENT_TYPE_KEY, HttpConstants.CONTENT_TYPE_VAL);
-			conn.addRequestProperty("Connection", "Keep-Alive");
+			conn.setRequestProperty(HttpConstants.USER_AGENT_KEY, HttpConstants.USER_AGENT_VAL);
+			conn.setRequestProperty(HttpConstants.ACCEPT_KEY, HttpConstants.ACCEPT_VAL);
+			conn.setRequestProperty(HttpConstants.ACCEPT_LANGUAGE_KEY, HttpConstants.ACCEPT_LANGUAGE_VAL);
+			conn.setRequestProperty("Accept-Encoding", "gzip,deflate");
+			conn.setRequestProperty(HttpConstants.ACCEPT_CHARSET_KEY, HttpConstants.ACCEPT_CHARSET_VAL);
+			// conn.addRequestProperty(HttpConstants.CONTENT_TYPE_KEY, HttpConstants.CONTENT_TYPE_VAL);
+			conn.setRequestProperty("Connection", "Keep-Alive");
 		} catch (Exception e) {
 			Logs.error(e);
 		}

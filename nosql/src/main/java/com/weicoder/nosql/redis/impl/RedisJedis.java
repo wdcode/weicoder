@@ -40,7 +40,7 @@ public final class RedisJedis extends BaseRedis {
 	}
 
 	@Override
-	public long rpush(String key, String... strings) {
+	public Long rpush(String key, String... strings) {
 		try (Jedis jedis = pool.getResource()) {
 			return jedis.rpush(key, strings);
 		}
@@ -57,6 +57,13 @@ public final class RedisJedis extends BaseRedis {
 	public String lpop(String key) {
 		try (Jedis jedis = pool.getResource()) {
 			return jedis.lpop(key);
+		}
+	}
+
+	@Override
+	public Long lpush(String key, String... strings) {
+		try (Jedis jedis = pool.getResource()) {
+			return jedis.lpush(key, strings);
 		}
 	}
 

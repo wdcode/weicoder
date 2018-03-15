@@ -29,6 +29,39 @@ public final class Bytes {
 	private final static boolean IS_HIGH = "high".equals(CommonParams.BYTES);
 
 	/**
+	 * 转换dest到src同类型
+	 * @param obj 要转换的对象
+	 * @param c 要转换的类型
+	 * @return 转换后的对象
+	 */
+	public static Object to(byte[] b, Class<?> c) {
+		// 判断类型
+		if (c == null) {
+			return b;
+		} else if (String.class == c) {
+			return toString(b);
+		} else if (Integer.class == c || int.class == c) {
+			return toInt(b);
+		} else if (Long.class == c || long.class == c) {
+			return toLong(b);
+		} else if (Float.class == c || float.class == c) {
+			return toFloat(b);
+		} else if (Double.class == c || double.class == c) {
+			return toDouble(b);
+		} else if (Short.class == c || short.class == c) {
+			return toShort(b);
+		} else if (Byte.class == c || byte.class == c) {
+			return toByte(b);
+		} else if (Boolean.class == c || boolean.class == c) {
+			return toBoolean(b);
+		} else if (c.isAssignableFrom(ByteArray.class)) {
+			return toBean((ByteArray) BeanUtil.newInstance(c), b);
+		} else {
+			return toBinary(c, b);
+		}
+	}
+
+	/**
 	 * 转换Object变成字节数组
 	 * @param objs 对象
 	 * @return 字节数组
@@ -480,14 +513,35 @@ public final class Bytes {
 	/**
 	 * 把字节数组转换成long
 	 * @param b 字节数组
+	 * @param high true 高位在前 false 低位在前
+	 * @return long
+	 */
+	public static long toLong(byte[] b, boolean high) {
+		return toLong(b, 0, high);
+	}
+
+	/**
+	 * 把字节数组转换成long
+	 * @param b 字节数组
 	 * @param offset 偏移
 	 * @return long
 	 */
 	public static long toLong(byte[] b, int offset) {
+		return toLong(b, offset, IS_HIGH);
+	}
+
+	/**
+	 * 把字节数组转换成long
+	 * @param b 字节数组
+	 * @param offset 偏移
+	 * @param high true 高位在前 false 低位在前
+	 * @return long
+	 */
+	public static long toLong(byte[] b, int offset, boolean high) {
 		// 返回整数
 		long l = 0;
 		// 使用什么算法
-		if (IS_HIGH) {
+		if (high) {
 			// 高位在前
 			l = b[offset + 0] & 0xFF;
 			l = (l << 8) | (b[offset + 1] & 0xFF);

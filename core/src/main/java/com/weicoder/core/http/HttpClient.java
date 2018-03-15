@@ -1,6 +1,6 @@
 package com.weicoder.core.http;
 
-import java.io.InputStream; 
+import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
@@ -9,7 +9,7 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost; 
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
@@ -23,6 +23,7 @@ import com.weicoder.common.constants.SystemConstants;
 import com.weicoder.common.io.IOUtil;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.lang.Lists;
+import com.weicoder.common.lang.Maps;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.util.EmptyUtil;
@@ -60,9 +61,9 @@ public final class HttpClient {
 		// headers.add(new BasicHeader(HttpConstants.ACCEPT_CHARSET_KEY,
 		// HttpConstants.ACCEPT_CHARSET_VAL));
 		builder.setDefaultHeaders(headers);
-//		// 设置连接配置
-//		builder.setDefaultConnectionConfig(
-//				ConnectionConfig.custom().setCharset(Charset.forName(CommonParams.ENCODING)).build());
+		// // 设置连接配置
+		// builder.setDefaultConnectionConfig(
+		// ConnectionConfig.custom().setCharset(Charset.forName(CommonParams.ENCODING)).build());
 		// 实例化客户端
 		CLIENT = builder.build();
 	}
@@ -130,10 +131,33 @@ public final class HttpClient {
 	 * 模拟post提交
 	 * @param url post提交地址
 	 * @param data 提交参数
+	 * @param header http头
+	 * @return 提交结果
+	 */
+	public static String post(String url, Map<String, Object> data, Map<String, Object> header) {
+		return post(url, data, header, CommonParams.ENCODING);
+	}
+
+	/**
+	 * 模拟post提交
+	 * @param url post提交地址
+	 * @param data 提交参数
 	 * @param charset 编码
 	 * @return 提交结果
 	 */
 	public static String post(String url, Map<String, Object> data, String charset) {
+		return post(url, data, Maps.emptyMap(), charset);
+	}
+
+	/**
+	 * 模拟post提交
+	 * @param url post提交地址
+	 * @param data 提交参数
+	 * @param header http头
+	 * @param charset 编码
+	 * @return 提交结果
+	 */
+	public static String post(String url, Map<String, Object> data, Map<String, Object> header, String charset) {
 		// 声明HttpPost
 		HttpPost post = null;
 		try {
@@ -151,14 +175,14 @@ public final class HttpClient {
 				// 设置参数与 编码格式
 				post.setEntity(new UrlEncodedFormEntity(list, charset));
 			}
+			// 添加http头
+			for (Map.Entry<String, Object> h : header.entrySet()) {
+				post.addHeader(h.getKey(), Conversion.toString(h.getValue()));
+			}
 			// 获得HttpResponse参数
 			HttpResponse response = CLIENT.execute(post);
 			// 返回结果
-			try (InputStream in = response.getEntity().getContent()) {
-				return IOUtil.readString(in);
-			} catch (Exception e) {
-				Logs.error(e);
-			}
+			return IOUtil.readString(response.getEntity().getContent());
 		} catch (Exception e) {
 			Logs.error(e);
 		} finally {

@@ -3,6 +3,7 @@ package com.weicoder.common.util;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -188,7 +189,8 @@ public final class BeanUtil {
 	public static Object getFieldValue(Object object, String fieldName) {
 		// 如果有复杂字段
 		if (fieldName.indexOf(StringConstants.POINT) > -1) {
-			return getFieldValue(getFieldValue(object, StringUtil.subStringEnd(fieldName, StringConstants.POINT)), StringUtil.subString(fieldName, StringConstants.POINT));
+			return getFieldValue(getFieldValue(object, StringUtil.subStringEnd(fieldName, StringConstants.POINT)),
+					StringUtil.subString(fieldName, StringConstants.POINT));
 		}
 		// 获得字段
 		Field field = getField(object, fieldName);
@@ -261,6 +263,7 @@ public final class BeanUtil {
 	 */
 	public static Object invoke(Object obj, Method method, Object... args) {
 		try {
+			Logs.debug("invoke method={} params={}", method.getName(), Arrays.toString(args));
 			return makeAccessible(method).invoke(obj, args);
 		} catch (Exception e) {
 			Logs.error(e);
@@ -330,7 +333,8 @@ public final class BeanUtil {
 		}
 		// 如果有复杂字段
 		if (name.indexOf(StringConstants.POINT) > -1) {
-			return getField(getField(clazz, StringUtil.subStringEnd(name, StringConstants.POINT)), StringUtil.subString(name, StringConstants.POINT));
+			return getField(getField(clazz, StringUtil.subStringEnd(name, StringConstants.POINT)),
+					StringUtil.subString(name, StringConstants.POINT));
 		}
 		// 声明字段
 		Field f = null;
@@ -383,7 +387,8 @@ public final class BeanUtil {
 		// 声明Method
 		Method method = null;
 		// 循环对象类
-		for (Class<?> superClass = obj instanceof Class<?> ? (Class<?>) obj : obj.getClass(); superClass != Object.class && method == null; superClass = superClass.getSuperclass()) {
+		for (Class<?> superClass = obj instanceof Class<?> ? (Class<?>) obj : obj.getClass(); superClass != Object.class
+				&& method == null; superClass = superClass.getSuperclass()) {
 			try {
 				// 返回方法
 				method = superClass.getDeclaredMethod(name, parameterTypes);
@@ -415,7 +420,8 @@ public final class BeanUtil {
 	 */
 	private static Method makeAccessible(Method method) {
 		// 判断字段是否公有
-		if (!Modifier.isPublic(method.getModifiers()) || !Modifier.isPublic(method.getDeclaringClass().getModifiers())) {
+		if (!Modifier.isPublic(method.getModifiers())
+				|| !Modifier.isPublic(method.getDeclaringClass().getModifiers())) {
 			// 设置可访问
 			method.setAccessible(true);
 		}

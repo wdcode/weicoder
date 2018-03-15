@@ -354,39 +354,39 @@ public final class HibernateDao implements Dao {
 	}
 
 	@Override
-	public void inserts(Object... entitys) {
-		execute(entitys[0].getClass(), (Session session) -> {
+	public boolean inserts(Object... entitys) {
+		return execute(entitys[0].getClass(), (Session session) -> {
 			// 循环添加
 			for (Object o : entitys) {
 				session.save(o);
 			}
 			// 返回实体
 			return entitys;
-		});
+		}) != null;
 	}
 
 	@Override
-	public void updates(Object... entitys) {
-		execute(entitys[0].getClass(), (Session session) -> {
+	public boolean updates(Object... entitys) {
+		return execute(entitys[0].getClass(), (Session session) -> {
 			// 循环添加
 			for (Object o : entitys) {
 				session.update(o);
 			}
 			// 返回实体
 			return entitys;
-		});
+		}) != null;
 	}
 
 	@Override
-	public void deletes(Object... entitys) {
-		execute(entitys[0].getClass(), (Session session) -> {
+	public boolean deletes(Object... entitys) {
+		return execute(entitys[0].getClass(), (Session session) -> {
 			// 循环添加
 			for (Object o : entitys) {
 				session.delete(o);
 			}
 			// 返回实体
 			return entitys;
-		});
+		}) != null;
 	}
 
 	/**
@@ -579,6 +579,7 @@ public final class HibernateDao implements Dao {
 			if (!EmptyUtil.isEmpty(txl)) {
 				txl.rollback();
 			}
+			t = null;
 			Logs.error(e);
 		} finally {
 			// 自己关闭session

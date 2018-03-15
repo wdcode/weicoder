@@ -7,6 +7,7 @@ import java.util.Map;
 import com.weicoder.dao.bean.Pagination;
 import com.weicoder.dao.factory.DaoFactory;
 import com.weicoder.common.lang.Lists;
+import com.weicoder.common.lang.Maps;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.dao.Dao;
@@ -70,10 +71,10 @@ public final class SuperService {
 		// 判断列表
 		if (EmptyUtil.isEmpty(list)) {
 			// 为空 设置总数为 0
-			page.setTotalSize(0);
+			page.setTotal(0);
 		} else {
 			// 不为空 查询出总数
-			page.setTotalSize(DAO.count(entityClass));
+			page.setTotal(DAO.count(entityClass));
 		}
 		// 返回列表
 		return list;
@@ -86,19 +87,19 @@ public final class SuperService {
 	 * @param <E> 泛型
 	 * @return 返回这个对象的列表
 	 */
-	public static <E> List<E> list(E entity, Pagination page) {
+	public static Map<String, Object> list(Object entity, Pagination page) {
 		// 获得数据列表
-		List<E> list = DAO.list(entity, getFirstResult(page), getMaxResults(page));
+		List<Object> list = DAO.list(entity, getFirstResult(page), getMaxResults(page));
 		// 判断列表
 		if (EmptyUtil.isEmpty(list)) {
 			// 为空 设置总数为 0
-			page.setTotalSize(0);
+			page.setTotal(0);
 		} else {
 			// 不为空 查询出总数
-			page.setTotalSize(DAO.count(entity));
+			page.setTotal(DAO.count(entity));
 		}
 		// 返回列表
-		return list;
+		return Maps.newMap(new String[] { "list", "pager" }, new Object[] { list, page });
 	}
 
 	/**
@@ -116,10 +117,10 @@ public final class SuperService {
 		// 判断列表
 		if (EmptyUtil.isEmpty(list)) {
 			// 为空 设置总数为 0
-			pager.setTotalSize(0);
+			pager.setTotal(0);
 		} else {
 			// 不为空 查询出总数
-			pager.setTotalSize(DAO.count(entityClass, property, values));
+			pager.setTotal(DAO.count(entityClass, property, values));
 		}
 		// 返回列表
 		return list;
@@ -176,10 +177,10 @@ public final class SuperService {
 		// 判断列表
 		if (EmptyUtil.isEmpty(list)) {
 			// 为空 设置总数为 0
-			pager.setTotalSize(0);
+			pager.setTotal(0);
 		} else {
 			// 不为空 查询出总数
-			pager.setTotalSize(DAO.count(entityClass, property, value));
+			pager.setTotal(DAO.count(entityClass, property, value));
 		}
 		// 返回列表
 		return list;
@@ -202,10 +203,10 @@ public final class SuperService {
 		// 判断列表
 		if (EmptyUtil.isEmpty(list)) {
 			// 为空 设置总数为 0
-			pager.setTotalSize(0);
+			pager.setTotal(0);
 		} else {
 			// 不为空 查询出总数
-			pager.setTotalSize(DAO.count(entityClass, property, values));
+			pager.setTotal(DAO.count(entityClass, property, values));
 		}
 		// 返回列表
 		return list;
@@ -240,10 +241,10 @@ public final class SuperService {
 		// 判断列表
 		if (EmptyUtil.isEmpty(list)) {
 			// 为空 设置总数为 0
-			page.setTotalSize(0);
+			page.setTotal(0);
 		} else {
 			// 不为空 查询出总数
-			page.setTotalSize(DAO.count(entity, property, lo, hi));
+			page.setTotal(DAO.count(entity, property, lo, hi));
 		}
 		// 返回列表
 		return list;
@@ -263,10 +264,10 @@ public final class SuperService {
 		// 判断列表
 		if (EmptyUtil.isEmpty(list)) {
 			// 为空 设置总数为 0
-			page.setTotalSize(0);
+			page.setTotal(0);
 		} else {
 			// 不为空 查询出总数
-			page.setTotalSize(DAO.count(entity));
+			page.setTotal(DAO.count(entity));
 		}
 		// 返回列表
 		return list;
@@ -286,10 +287,10 @@ public final class SuperService {
 		// 判断列表
 		if (EmptyUtil.isEmpty(list)) {
 			// 为空 设置总数为 0
-			page.setTotalSize(0);
+			page.setTotal(0);
 		} else {
 			// 不为空 查询出总数
-			page.setTotalSize(DAO.count(entity));
+			page.setTotal(DAO.count(entity));
 		}
 		// 返回列表
 		return list;
@@ -347,7 +348,7 @@ public final class SuperService {
 	 * @return 最大结果数
 	 */
 	private static int getMaxResults(Pagination page) {
-		return EmptyUtil.isEmpty(page) ? -1 : page.getPageSize();
+		return EmptyUtil.isEmpty(page) ? -1 : page.getSize();
 	}
 
 	/**
@@ -356,6 +357,6 @@ public final class SuperService {
 	 * @return 从第N条开始返回结果
 	 */
 	private static int getFirstResult(Pagination page) {
-		return EmptyUtil.isEmpty(page) ? -1 : (page.getCurrentPage() - 1) * page.getPageSize();
+		return EmptyUtil.isEmpty(page) ? -1 : (page.getPage() - 1) * page.getSize();
 	}
 }

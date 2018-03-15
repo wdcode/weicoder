@@ -1,8 +1,8 @@
 package com.weicoder.common.codec;
 
 import com.weicoder.common.constants.ArrayConstants;
-import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.util.StringUtil;
 
 /**
  * Base64 编码解码
@@ -36,8 +36,8 @@ public final class Base64 {
 	 * @param data 要编码的对象 此对象要能转换成字节数组
 	 * @return 编码后的字符串
 	 */
-	public static String encode(Object data) {
-		return encode(Bytes.toBytes(data));
+	public static String encode(String data) {
+		return encode(StringUtil.toBytes(data));
 	}
 
 	/**

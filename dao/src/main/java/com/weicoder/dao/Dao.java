@@ -29,13 +29,13 @@ public interface Dao {
 	 * 一个事务下插入多个对象
 	 * @param entitys 对象列表
 	 */
-	void inserts(Object... entitys);
+	boolean inserts(Object... entitys);
 
 	/**
 	 * 一个事务下更新多个对象
 	 * @param entitys 对象列表
 	 */
-	void updates(Object... entitys);
+	boolean updates(Object... entitys);
 
 	/**
 	 * 持久化数据，锁表 更新表中一行数据
@@ -97,7 +97,7 @@ public interface Dao {
 	 * 一个事务中删除多个数据
 	 * @param entitys 需要持久话对象的集合
 	 */
-	void deletes(Object... entitys);
+	boolean deletes(Object... entitys);
 
 	/**
 	 * 获得持久化对象

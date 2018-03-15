@@ -157,25 +157,29 @@ public class BasicServlet extends HttpServlet {
 				}
 			}
 			// 调用方法
-			Object res = BeanUtil.invoke(action, method, params);
-			// 判断是否跳转url
-			if (method.isAnnotationPresent(Redirect.class)) {
-				String url = Conversion.toString(res);
-				if (!EmptyUtil.isEmpty(url)) {
-					response.sendRedirect(url);
+			try {
+				Object res = BeanUtil.invoke(action, method, params);
+				// 判断是否跳转url
+				if (method.isAnnotationPresent(Redirect.class)) {
+					String url = Conversion.toString(res);
+					if (!EmptyUtil.isEmpty(url)) {
+						response.sendRedirect(url);
+					}
+					Logs.debug("redirect url:{}", url);
+				} else if (method.isAnnotationPresent(Forward.class)) {
+					String url = Conversion.toString(res);
+					if (!EmptyUtil.isEmpty(url)) {
+						request.getRequestDispatcher(url).forward(request, response);
+					}
+					Logs.debug("forward url:{}", url);
+				} else if (res != null && !(res instanceof Void)) {
+					ResponseUtil.json(response, callback, res);
 				}
-				Logs.debug("redirect url:{}", url);
-			} else if (method.isAnnotationPresent(Forward.class)) {
-				String url = Conversion.toString(res);
-				if (!EmptyUtil.isEmpty(url)) {
-					request.getRequestDispatcher(url).forward(request, response);
-				}
-				Logs.debug("forward url:{}", url);
-			} else if (res != null && !(res instanceof Void)) {
-				ResponseUtil.json(response, callback, res);
+				Logs.info("request ip={},name={},time={},res={},params={} end", ip, actionName,
+						System.currentTimeMillis() - curr, res, params);
+			} catch (Exception e) {
+				Logs.error(e);
 			}
-			Logs.info("request ip={},name={},time={},res={},params={} end", ip, actionName,
-					System.currentTimeMillis() - curr, res, params);
 		}
 	}
 

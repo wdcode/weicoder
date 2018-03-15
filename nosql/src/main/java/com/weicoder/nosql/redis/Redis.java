@@ -183,7 +183,7 @@ public interface Redis {
 	 * @param strings 入队数据
 	 * @return 返回数量
 	 */
-	long rpush(String key, String... strings);
+	Long rpush(String key, String... strings);
 
 	/**
 	 * 从左侧读取数据
@@ -191,6 +191,14 @@ public interface Redis {
 	 * @return 读出的元素
 	 */
 	String lpop(String key);
+
+	/**
+	 * 从左侧入队列
+	 * @param key 健
+	 * @param strings 入队数据
+	 * @return 返回数量
+	 */
+	Long lpush(String key, String... strings);
 
 	/**
 	 * 读取队列数量

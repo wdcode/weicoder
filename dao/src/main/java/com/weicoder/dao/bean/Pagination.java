@@ -8,67 +8,66 @@ import com.weicoder.dao.params.DaoParams;
  */
 public final class Pagination {
 	// 总数量
-	private int	totalSize;
+	private int	total;
 	// 当前页
-	private int	currentPage	= 1;
+	private int	page	= 1;
 	// 每页显示数量
-	private int	pageSize	= DaoParams.PAGE_SIZE;
+	private int	size	= DaoParams.PAGE_SIZE;
 
 	/**
 	 * 获得总页数
 	 * @return 总页数
 	 */
 	public int getTotalPage() {
-		return totalSize == 0 ? 1
-				: totalSize % pageSize == 0 ? totalSize / pageSize : totalSize / pageSize + 1;
+		return total == 0 ? 1 : total % size == 0 ? total / size : total / size + 1;
 	}
 
 	/**
 	 * 获得每页显示数量
 	 * @return 每页显示数量
 	 */
-	public int getPageSize() {
-		return pageSize;
+	public int getSize() {
+		return size;
 	}
 
 	/**
 	 * 设置每页显示数量
-	 * @param pageSize 每页显示数量
+	 * @param size 每页显示数量
 	 */
-	public void setPageSize(int pageSize) {
-		this.pageSize = pageSize;
+	public void setSize(int size) {
+		this.size = size;
 	}
 
 	/**
 	 * 获得总数量
 	 * @return 总数量
 	 */
-	public int getTotalSize() {
-		return totalSize;
+	public int getTotal() {
+		return total;
 	}
 
 	/**
 	 * 设置总数量
-	 * @param totalSize 总数量
+	 * @param total 总数量
 	 */
-	public void setTotalSize(int totalSize) {
-		this.totalSize = totalSize;
+	public void setTotal(int total) {
+		this.total = total;
 	}
 
 	/**
 	 * 获得当前显示页
 	 * @return 当前显示页
 	 */
-	public int getCurrentPage() {
-		return currentPage;
+	public int getPage() {
+		return page;
 	}
 
 	/**
 	 * 设置当前显示页
-	 * @param currentPage 当前显示页
+	 * @param page 当前显示页
 	 */
-	public void setCurrentPage(int currentPage) {
-		this.currentPage = currentPage;
+	public void setPage(int page) {
+		this.page = page;
 	}
 
 	/**
@@ -76,7 +75,7 @@ public final class Pagination {
 	 * @return 开始页码
 	 */
 	public int getStartPage() {
-		return currentPage - 5 > 0 ? currentPage - 5 : 1;
+		return page - 5 > 0 ? page - 5 : 1;
 	}
 
 	/**
@@ -85,12 +84,11 @@ public final class Pagination {
 	 */
 	public int getEndPage() {
 		// 开始页
-		int current = getCurrentPage();
+		int current = getPage();
 		// 总页数
 		int total = getTotalPage();
 		// 返回结束页
-		return (current == 1 || current < 6) ? (total > 10 ? 10 : total)
-				: (current + 5 <= total ? current + 5 : total);
+		return (current == 1 || current < 6) ? (total > 10 ? 10 : total) : (current + 5 <= total ? current + 5 : total);
 	}
 
 	/**
@@ -98,7 +96,7 @@ public final class Pagination {
 	 * @return 最大结果数
 	 */
 	public int getMaxResults() {
-		return getCurrentPage() * getPageSize();
+		return getPage() * getSize();
 	}
 
 	/**
@@ -106,6 +104,6 @@ public final class Pagination {
 	 * @return 从第N条开始返回结果
 	 */
 	public int getFirstResult() {
-		return (getCurrentPage() - 1) * getPageSize();
+		return (getPage() - 1) * getSize();
 	}
 }

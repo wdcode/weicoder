@@ -2,6 +2,7 @@ package com.weicoder.nosql.kafka;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -9,7 +10,7 @@ import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 
 import com.weicoder.common.concurrent.ScheduledUtil;
-import com.weicoder.common.lang.Conversion;
+import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
@@ -17,6 +18,7 @@ import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.util.DateUtil;
 import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.util.StringUtil;
 import com.weicoder.nosql.kafka.factory.KafkaFactory;
 
 /**
@@ -93,13 +95,17 @@ public final class Kafkas {
 							} else {
 								// 有参数 现在只支持 1-2位的参数，1个参数表示value,2个参数表示key,value
 								if (params.length == 1) {
-									objs[0] = Conversion.to(record.value(), params[0].getType());
+									objs[0] = toParam(record.value(), params[0].getType());
 								} else {
-									objs[0] = Conversion.to(record.key(), params[0].getType());
-									objs[1] = Conversion.to(record.value(), params[1].getType());
+									objs[0] = toParam(record.key(), params[0].getType());
+									objs[1] = toParam(record.value(), params[0].getType());
 								}
 								// 执行方法
-								BeanUtil.invoke(obj, method, objs);
+								try {
+									BeanUtil.invoke(obj, method, objs);
+								} catch (Exception e) {
+									Logs.error(e);
+								}
 							}
 							n++;
 							Logs.debug("delay consumer method={}   params={}", method.getName(), params);
@@ -111,6 +117,17 @@ public final class Kafkas {
 		} catch (Exception e) {
 			Logs.error(e);
 		}
+	}
+
+	/**
+	 * 转换成参数
+	 * @param b 字节数组
+	 * @param c 类型
+	 * @return 参数
+	 */
+	private static Object toParam(byte[] b, Class<?> c) {
+		Logs.debug("toParam b={} c={}", Arrays.toString(b), c);
+		return String.class.equals(c) ? StringUtil.toString(b) : Bytes.to(b, c);
 	}
 
 	private Kafkas() {}
