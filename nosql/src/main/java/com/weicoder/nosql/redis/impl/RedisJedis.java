@@ -192,4 +192,11 @@ public final class RedisJedis extends BaseRedis {
 			return jedis.mget(key);
 		}
 	}
+
+	@Override
+	public long zcard(String key) {
+		try (Jedis jedis = pool.getResource()) {
+			return jedis.zcard(key);
+		}
+	}
 }

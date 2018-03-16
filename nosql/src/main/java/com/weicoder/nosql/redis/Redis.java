@@ -206,4 +206,11 @@ public interface Redis {
 	 * @return 数量
 	 */
 	long llen(String key);
+
+	/**
+	 * 返回集合数量
+	 * @param key 键
+	 * @return 集合数量
+	 */
+	long zcard(String key);
 }

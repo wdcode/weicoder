@@ -1,4 +1,4 @@
-package com.weicoder.nosql.kafka;
+package com.weicoder.nosql.kafka.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

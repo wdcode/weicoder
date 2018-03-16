@@ -52,7 +52,7 @@ public final class HibernateDao implements Dao {
 
 	@Override
 	public <E> E insert(final E entity) {
-		return insert(Lists.newList(entity)).get(0);
+		return Lists.get(insert(Lists.newList(entity)), 0);
 	}
 
 	@Override

@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.apache.kafka.clients.producer.ProducerRecord;
 
 import com.weicoder.common.concurrent.ScheduledUtil;
 import com.weicoder.common.lang.Bytes;
@@ -19,6 +20,8 @@ import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.util.DateUtil;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
+import com.weicoder.nosql.kafka.annotation.Consumer;
+import com.weicoder.nosql.kafka.annotation.Topic;
 import com.weicoder.nosql.kafka.factory.KafkaFactory;
 
 /**
@@ -117,6 +120,27 @@ public final class Kafkas {
 		} catch (Exception e) {
 			Logs.error(e);
 		}
+	}
+
+	/**
+	 * 实例化一个消费数据
+	 * @param topic topic
+	 * @param value value
+	 * @return ProducerRecord
+	 */
+	public static ProducerRecord<byte[], byte[]> newRecord(String topic, Object value) {
+		return new ProducerRecord<byte[], byte[]>(topic, Bytes.toBytes(value));
+	}
+
+	/**
+	 * 实例化一个消费数据
+	 * @param topic topic
+	 * @param key key
+	 * @param value value
+	 * @return ProducerRecord
+	 */
+	public static ProducerRecord<byte[], byte[]> newRecord(String topic, Object key, Object value) {
+		return new ProducerRecord<byte[], byte[]>(topic, Bytes.toBytes(key), Bytes.toBytes(value));
 	}
 
 	/**
