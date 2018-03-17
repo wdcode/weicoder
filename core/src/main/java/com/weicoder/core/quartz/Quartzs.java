@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.quartz.CronScheduleBuilder;
 import org.quartz.JobBuilder;
+import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
 import org.quartz.TriggerBuilder;
@@ -44,8 +45,10 @@ public final class Quartzs {
 						if (t != null) {
 							// 获得任务
 							JobDetail job = JobBuilder.newJob(Jobs.class).build();
-							job.getJobDataMap().put("method", m);
-							job.getJobDataMap().put("obj", obj);
+							// 设置对应方法和对象
+							JobDataMap map = job.getJobDataMap();
+							map.put("method", m);
+							map.put("obj", obj);
 							// 设置任务执行类
 							scheduler.scheduleJob(job,
 									builder.withIdentity(m.getName(), obj.getClass().getSimpleName())

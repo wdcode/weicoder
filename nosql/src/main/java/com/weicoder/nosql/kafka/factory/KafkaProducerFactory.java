@@ -24,10 +24,11 @@ final class KafkaProducerFactory extends FactoryKey<String, Producer<byte[], byt
 	public Producer<byte[], byte[]> newInstance(String key) {
 		// 设置属性
 		Properties props = new Properties();
-		props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, KafkaParams.getServers(key));
+		props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, KafkaParams.getServers(key)); 
 		if (!EmptyUtil.isEmpty(ZookeeperParams.CONNECT)) {
 			props.put("zookeeper.connect", ZookeeperParams.CONNECT);
 		}
+		
 		props.put(ProducerConfig.ACKS_CONFIG, "all");
 		props.put(ProducerConfig.RETRIES_CONFIG, 0);
 		props.put(ProducerConfig.BATCH_SIZE_CONFIG, 16384);

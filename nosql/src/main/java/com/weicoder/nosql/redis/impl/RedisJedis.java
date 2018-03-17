@@ -31,7 +31,7 @@ public final class RedisJedis extends BaseRedis {
 		config.setMaxWaitMillis(RedisParams.getMaxWait(name));
 		// 实例化连接池
 		pool = new JedisPool(config, RedisParams.getHost(name), RedisParams.getPort(name), Protocol.DEFAULT_TIMEOUT,
-				RedisParams.getPassword(name), 0, null);
+				RedisParams.getPassword(name), RedisParams.getDatabase(name), null);
 	}
 
 	@Override
@@ -198,5 +198,17 @@ public final class RedisJedis extends BaseRedis {
 		try (Jedis jedis = pool.getResource()) {
 			return jedis.zcard(key);
 		}
+	}
+
+	@Override
+	public Double zscore(String key, String member) {
+		try (Jedis jedis = pool.getResource()) {
+			return jedis.zscore(key, member);
+		}
+	}
+
+	@Override
+	public boolean zexists(String key, String member) {
+		return zscore(key, member) != null;
 	}
 }

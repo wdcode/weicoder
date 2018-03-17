@@ -4,6 +4,7 @@ import java.lang.reflect.Method;
 
 import org.quartz.DisallowConcurrentExecution;
 import org.quartz.Job;
+import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.quartz.PersistJobDataAfterExecution;
@@ -24,8 +25,9 @@ public final class Jobs implements Job {
 		// 开始时间
 		int time = DateUtil.getTime();
 		// 获得执行任务的对象 和方法
-		Object obj = context.getJobDetail().getJobDataMap().get("obj");
-		Method method = (Method) context.getJobDetail().getJobDataMap().get("method");
+		JobDataMap map = context.getJobDetail().getJobDataMap();
+		Object obj = map.get("obj");
+		Method method = (Method) map.get("method");
 		Logs.debug("job obj={} method={} start time={}", obj.getClass().getSimpleName(), method.getName(),
 				DateUtil.getTheDate());
 		// 执行任务

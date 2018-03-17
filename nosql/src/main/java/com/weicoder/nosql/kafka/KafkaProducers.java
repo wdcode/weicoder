@@ -2,6 +2,7 @@ package com.weicoder.nosql.kafka;
 
 import org.apache.kafka.clients.producer.Producer;
 
+import com.weicoder.common.concurrent.ExecutorUtil;
 import com.weicoder.common.log.Logs;
 import com.weicoder.nosql.kafka.factory.KafkaFactory;
 
@@ -20,7 +21,7 @@ public final class KafkaProducers {
 	 */
 	public static void send(String topic, Object value) {
 		PRODUCER.send(Kafkas.newRecord(topic, value));
-		// PRODUCER.flush();
+		PRODUCER.flush();
 		Logs.debug("kafka send producer topic={},value={}", topic, value);
 	}
 
@@ -32,8 +33,31 @@ public final class KafkaProducers {
 	 */
 	public static void send(String topic, Object key, Object value) {
 		PRODUCER.send(Kafkas.newRecord(topic, key, value));
-		// PRODUCER.flush();
+		PRODUCER.flush();
 		Logs.debug("kafka send producer topic={},key={},value={}", topic, key, value);
+	}
+
+	/**
+	 * 异步发送数据
+	 * @param topic 节点
+	 * @param value 值
+	 */
+	public static void asyn(String topic, Object value) {
+		ExecutorUtil.pool().execute(() -> {
+			send(topic, value);
+		});
+	}
+
+	/**
+	 * 异步发送数据
+	 * @param topic 节点
+	 * @param key 键
+	 * @param value 值
+	 */
+	public static void asyn(String topic, Object key, Object value) {
+		ExecutorUtil.pool().execute(() -> {
+			send(topic, key, value);
+		});
 	}
 
 	private KafkaProducers() {}

@@ -86,6 +86,7 @@ public final class Kafkas {
 						// 获得消费数据
 						for (ConsumerRecord<byte[], byte[]> record : consumer.poll(1000)) {
 							// 获得消费对象类和方法
+							Logs.debug("read consumer record={}", record);
 							String topic = record.topic();
 							Object obj = CONSUMERS.get(topic);
 							Method method = METHODS.get(topic);
@@ -104,11 +105,7 @@ public final class Kafkas {
 									objs[1] = toParam(record.value(), params[0].getType());
 								}
 								// 执行方法
-								try {
-									BeanUtil.invoke(obj, method, objs);
-								} catch (Exception e) {
-									Logs.error(e);
-								}
+								BeanUtil.invoke(obj, method, objs);
 							}
 							n++;
 							Logs.debug("delay consumer method={}   params={}", method.getName(), params);
@@ -150,7 +147,7 @@ public final class Kafkas {
 	 * @return 参数
 	 */
 	private static Object toParam(byte[] b, Class<?> c) {
-		Logs.debug("toParam b={} c={}", Arrays.toString(b), c);
+		Logs.debug("kafka consumer toParam b={} c={}", Arrays.toString(b), c);
 		return String.class.equals(c) ? StringUtil.toString(b) : Bytes.to(b, c);
 	}
 

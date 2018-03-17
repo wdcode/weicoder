@@ -213,4 +213,20 @@ public interface Redis {
 	 * @return 集合数量
 	 */
 	long zcard(String key);
+
+	/**
+	 * 返回有序集 key 中，成员 member 的 score 值 如果 member 元素不是有序集 key 的成员，或 key 不存在，返回 null
+	 * @param key 键
+	 * @param member 成员
+	 * @return Double
+	 */
+	Double zscore(String key, String member);
+
+	/**
+	 * 返回有序集 key 中 成员 member是否存在
+	 * @param key 键
+	 * @param member 成员
+	 * @return true false
+	 */
+	boolean zexists(String key, String member);
 }
