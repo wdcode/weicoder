@@ -39,6 +39,7 @@ public final class HttpEngine {
 			conn.setReadTimeout(30000);
 			// 连接
 			conn.connect();
+			Logs.debug("HttpEngine get url={}", url);
 			// 使用GZIP一般服务器支持解压获得的流 然后转成字符串 一般为UTF-8
 			return ZipEngine.GZIP.extract(IOUtil.read(conn.getInputStream()));
 		} catch (IOException e) {
@@ -113,10 +114,9 @@ public final class HttpEngine {
 				// 写数据流
 				IOUtil.write(conn.getOutputStream(), sb.substring(0, sb.length() - 1));
 			}
+			Logs.debug("HttpEngine post url={},data={},header={}", url, data, header);
 			// 使用GZIP一般服务器支持解压获得的流 然后转成字符串 一般为UTF-8
-			String res = StringUtil.toString(ZipEngine.GZIP.extract(IOUtil.read(conn.getInputStream())));
-			Logs.debug("HttpEngine post url={},data={},header={}", url, data, header, res);
-			return res;
+			return StringUtil.toString(ZipEngine.GZIP.extract(IOUtil.read(conn.getInputStream())));
 		} catch (IOException e) {
 			Logs.error(e);
 		} finally {

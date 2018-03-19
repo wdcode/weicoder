@@ -146,7 +146,7 @@ public final class StringUtil {
 	 * @return 截取后的字符串
 	 */
 	public static String subString(String str, int start) {
-		return subString(str, start, str.length());
+		return EmptyUtil.isEmpty(str) ? StringConstants.EMPTY : subString(str, start, str.length());
 	}
 
 	/**

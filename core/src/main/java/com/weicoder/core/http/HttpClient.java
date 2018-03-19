@@ -1,10 +1,8 @@
 package com.weicoder.core.http;
 
-import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -96,16 +94,11 @@ public final class HttpClient {
 		// 声明HttpGet对象
 		HttpGet get = null;
 		try {
+			Logs.debug("HttpClient get url={}", url);
 			// 获得HttpGet对象
 			get = new HttpGet(url);
-			// 获得HttpResponse
-			HttpResponse response = CLIENT.execute(get);
-			// 返回字节流
-			try (InputStream in = response.getEntity().getContent()) {
-				return IOUtil.read(in);
-			} catch (Exception e) {
-				Logs.error(e);
-			}
+			// 获得HttpResponse 返回字节流
+			return IOUtil.read(CLIENT.execute(get).getEntity().getContent());
 		} catch (Exception e) {
 			Logs.error(e);
 		} finally {
@@ -179,10 +172,9 @@ public final class HttpClient {
 			for (Map.Entry<String, Object> h : header.entrySet()) {
 				post.addHeader(h.getKey(), Conversion.toString(h.getValue()));
 			}
-			// 获得HttpResponse参数
-			HttpResponse response = CLIENT.execute(post);
+			Logs.debug("HttpClient post url={} data={} header={} charset={}", url, data, header, charset);
 			// 返回结果
-			return IOUtil.readString(response.getEntity().getContent());
+			return IOUtil.readString(CLIENT.execute(post).getEntity().getContent());
 		} catch (Exception e) {
 			Logs.error(e);
 		} finally {

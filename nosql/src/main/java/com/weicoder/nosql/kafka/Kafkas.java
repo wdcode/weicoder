@@ -12,6 +12,7 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 
 import com.weicoder.common.concurrent.ScheduledUtil;
 import com.weicoder.common.lang.Bytes;
+import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
@@ -126,7 +127,7 @@ public final class Kafkas {
 	 * @return ProducerRecord
 	 */
 	public static ProducerRecord<byte[], byte[]> newRecord(String topic, Object value) {
-		return new ProducerRecord<byte[], byte[]>(topic, Bytes.toBytes(value));
+		return new ProducerRecord<byte[], byte[]>(topic, toBytes(value));
 	}
 
 	/**
@@ -137,7 +138,7 @@ public final class Kafkas {
 	 * @return ProducerRecord
 	 */
 	public static ProducerRecord<byte[], byte[]> newRecord(String topic, Object key, Object value) {
-		return new ProducerRecord<byte[], byte[]>(topic, Bytes.toBytes(key), Bytes.toBytes(value));
+		return new ProducerRecord<byte[], byte[]>(topic, toBytes(key), toBytes(value));
 	}
 
 	/**
@@ -149,6 +150,15 @@ public final class Kafkas {
 	private static Object toParam(byte[] b, Class<?> c) {
 		Logs.debug("kafka consumer toParam b={} c={}", Arrays.toString(b), c);
 		return String.class.equals(c) ? StringUtil.toString(b) : Bytes.to(b, c);
+	}
+
+	/**
+	 * 序列号对象为自己数组
+	 * @param obj 对象
+	 * @return 自己数组
+	 */
+	private static byte[] toBytes(Object obj) {
+		return obj instanceof String ? Conversion.toString(obj).getBytes() : Bytes.toBytes(obj);
 	}
 
 	private Kafkas() {}

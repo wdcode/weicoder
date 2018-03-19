@@ -12,15 +12,21 @@ import com.weicoder.common.params.Params;
  */
 public final class WebParams {
 	/** 是否支持get */
-	public final static boolean		GET				= Params.getBoolean("servlet.get", true);
+	public final static boolean		GET					= Params.getBoolean("servlet.get", true);
 	/** IP鉴权 允许的IP访问 */
-	public final static Set<String>	IPS				= Sets.newSet(Params.getStringArray("servlet.ips", ArrayConstants.STRING_EMPTY));
+	public final static Set<String>	IPS					= Sets
+			.newSet(Params.getStringArray("servlet.ips", ArrayConstants.STRING_EMPTY));
 	/** 验证码出现的字符集 */
-	public final static char[]		VERIFY_CODE		= Params.getString("verify.code", "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ").toCharArray();
+	public final static char[]		VERIFY_CODE			= Params
+			.getString("verify.code", "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ").toCharArray();
 	/** 验证码长度 */
-	public final static int			VERIFY_LENGTH	= Params.getInt("verify.length", 4);
+	public final static int			VERIFY_LENGTH		= Params.getInt("verify.length", 4);
 	/** 域名 */
-	public final static String		DOMAIN			= Params.getString("domain");
+	public final static String		DOMAIN				= Params.getString("domain");
+	/** 状态码 空状态 */
+	public final static int			ERROR_NULL_STATE	= Params.getInt("error.null.state", 100);
+	/** 状态码 空信息 */
+	public final static String		ERROR_NULL_MESSAGE	= Params.getString("error.null.message", "res is null");
 
 	private WebParams() {}
 }

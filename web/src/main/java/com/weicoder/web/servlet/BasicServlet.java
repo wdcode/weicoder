@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Conversion;
+import com.weicoder.common.lang.Maps;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.token.TokenEngine;
 import com.weicoder.common.util.BeanUtil;
@@ -22,6 +23,7 @@ import com.weicoder.common.util.StringUtil;
 import com.weicoder.web.annotation.Action;
 import com.weicoder.web.annotation.Forward;
 import com.weicoder.web.annotation.Redirect;
+import com.weicoder.web.annotation.State;
 import com.weicoder.web.common.WebCommons;
 import com.weicoder.web.params.WebParams;
 import com.weicoder.web.util.RequestUtil;
@@ -157,29 +159,56 @@ public class BasicServlet extends HttpServlet {
 				}
 			}
 			// 调用方法
-			try {
-				Object res = BeanUtil.invoke(action, method, params);
-				// 判断是否跳转url
-				if (method.isAnnotationPresent(Redirect.class)) {
-					String url = Conversion.toString(res);
-					if (!EmptyUtil.isEmpty(url)) {
-						response.sendRedirect(url);
-					}
-					Logs.debug("redirect url:{}", url);
-				} else if (method.isAnnotationPresent(Forward.class)) {
-					String url = Conversion.toString(res);
-					if (!EmptyUtil.isEmpty(url)) {
-						request.getRequestDispatcher(url).forward(request, response);
-					}
-					Logs.debug("forward url:{}", url);
-				} else if (res != null && !(res instanceof Void)) {
-					ResponseUtil.json(response, callback, res);
+			// try {
+			Object res = BeanUtil.invoke(action, method, params);
+			// 判断是否跳转url
+			if (method.isAnnotationPresent(Redirect.class)) {
+				String url = Conversion.toString(res);
+				if (EmptyUtil.isEmpty(url)) {
+					ResponseUtil.json(response, callback, "Redirect is null");
+				} else {
+					response.sendRedirect(url);
 				}
-				Logs.info("request ip={},name={},time={},res={},params={} end", ip, actionName,
-						System.currentTimeMillis() - curr, res, params);
-			} catch (Exception e) {
-				Logs.error(e);
+				Logs.debug("redirect url:{}", url);
+			} else if (method.isAnnotationPresent(Forward.class)) {
+				String url = Conversion.toString(res);
+				if (EmptyUtil.isEmpty(url)) {
+					ResponseUtil.json(response, callback, "Forward is null");
+				} else {
+					request.getRequestDispatcher(url).forward(request, response);
+				}
+				Logs.debug("forward url:{}", url);
+			} else if (method.isAnnotationPresent(State.class) || action.getClass().isAnnotationPresent(State.class)) {
+				// 状态码对象
+				State state = method.getAnnotation(State.class);
+				if (state == null) {
+					state = action.getClass().getAnnotation(State.class);
+				}
+				// 字段名
+				String status = state.value();
+				String success = state.success();
+				String error = state.error();
+				// 如果res为状态码
+				if (res == null) {
+					// 写空信息
+					ResponseUtil.json(response, callback, Maps.newMap(new String[] { status, error },
+							new Object[] { WebParams.ERROR_NULL_STATE, WebParams.ERROR_NULL_MESSAGE }));
+				} else if (res instanceof Integer) {
+					// 写错误信息
+					ResponseUtil.json(response, callback,
+							Maps.newMap(new String[] { status, error }, new Object[] { Conversion.toInt(res), res }));
+				} else {
+					ResponseUtil.json(response, callback,
+							Maps.newMap(new String[] { status, success }, new Object[] { 0, res }));
+				}
+			} else if (res != null && !(res instanceof Void)) {
+				ResponseUtil.json(response, callback, res);
 			}
+			Logs.info("request ip={},name={},time={},res={},params={} end", ip, actionName,
+					System.currentTimeMillis() - curr, res, params);
+			// } catch (Exception e) {
+			// Logs.error(e);
+			// }
 		}
 	}
 
