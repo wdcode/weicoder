@@ -24,9 +24,7 @@ public final class WebParams {
 	/** 域名 */
 	public final static String		DOMAIN				= Params.getString("domain");
 	/** 状态码 空状态 */
-	public final static int			ERROR_NULL_STATE	= Params.getInt("error.null.state", 100);
-	/** 状态码 空信息 */
-	public final static String		ERROR_NULL_MESSAGE	= Params.getString("error.null.message", "res is null");
+	public final static int			ERROR_NULL_STATE	= Params.getInt("error.null.state", 100); 
 
 	private WebParams() {}
 }

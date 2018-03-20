@@ -25,6 +25,7 @@ import com.weicoder.web.annotation.Forward;
 import com.weicoder.web.annotation.Redirect;
 import com.weicoder.web.annotation.State;
 import com.weicoder.web.common.WebCommons;
+import com.weicoder.web.params.ErrorCodeParams;
 import com.weicoder.web.params.WebParams;
 import com.weicoder.web.util.RequestUtil;
 import com.weicoder.web.util.ResponseUtil;
@@ -161,6 +162,7 @@ public class BasicServlet extends HttpServlet {
 			// 调用方法
 			// try {
 			Object res = BeanUtil.invoke(action, method, params);
+			Logs.debug("invoke method={},params={},res={} end", method.getName(), params, res);
 			// 判断是否跳转url
 			if (method.isAnnotationPresent(Redirect.class)) {
 				String url = Conversion.toString(res);
@@ -191,18 +193,27 @@ public class BasicServlet extends HttpServlet {
 				// 如果res为状态码
 				if (res == null) {
 					// 写空信息
-					ResponseUtil.json(response, callback, Maps.newMap(new String[] { status, error },
-							new Object[] { WebParams.ERROR_NULL_STATE, WebParams.ERROR_NULL_MESSAGE }));
+					ResponseUtil.json(response, callback, Maps.newMap(new String[] { status, error }, new Object[] {
+							WebParams.ERROR_NULL_STATE, ErrorCodeParams.getMessage(WebParams.ERROR_NULL_STATE) }));
 				} else if (res instanceof Integer) {
 					// 写错误信息
-					ResponseUtil.json(response, callback,
-							Maps.newMap(new String[] { status, error }, new Object[] { Conversion.toInt(res), res }));
+					int errorcode = Conversion.toInt(res);
+					ResponseUtil.json(response, callback, Maps.newMap(new String[] { status, error },
+							new Object[] { errorcode, ErrorCodeParams.getMessage(errorcode) }));
 				} else {
 					ResponseUtil.json(response, callback,
 							Maps.newMap(new String[] { status, success }, new Object[] { 0, res }));
 				}
-			} else if (res != null && !(res instanceof Void)) {
+				Logs.debug("servlet state={} method={},params={},res={} end", state, method.getName(), params, res);
+			} else {
+				// 如果结果为空
+				if (res == null || res instanceof Void) {
+					// 结果设置为空map
+					res = Maps.emptyMap();
+				}
+				// 写到前端
 				ResponseUtil.json(response, callback, res);
+				Logs.debug("servlet  method={},params={},res={} end", method.getName(), params, res);
 			}
 			Logs.info("request ip={},name={},time={},res={},params={} end", ip, actionName,
 					System.currentTimeMillis() - curr, res, params);

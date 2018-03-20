@@ -73,7 +73,7 @@
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-email</artifactId>
-			<version>1.5</version>
+			<version>1.5-weicoder</version>
 			<scope>provided</scope>
 		</dependency> 
 	</dependencies>
