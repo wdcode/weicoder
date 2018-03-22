@@ -8,9 +8,7 @@ import org.apache.kafka.clients.producer.ProducerConfig;
 
 import com.weicoder.common.factory.FactoryKey;
 import com.weicoder.common.log.Logs;
-import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.nosql.params.KafkaParams;
-import com.weicoder.nosql.params.ZookeeperParams;
 
 /**
  * kafka消费者工厂
@@ -24,11 +22,11 @@ final class KafkaProducerFactory extends FactoryKey<String, Producer<byte[], byt
 	public Producer<byte[], byte[]> newInstance(String key) {
 		// 设置属性
 		Properties props = new Properties();
-		props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, KafkaParams.getServers(key)); 
-		if (!EmptyUtil.isEmpty(ZookeeperParams.CONNECT)) {
-			props.put("zookeeper.connect", ZookeeperParams.CONNECT);
-		}
-		
+		props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, KafkaParams.getServers(key));
+		// if (!EmptyUtil.isEmpty(ZookeeperParams.CONNECT)) {
+		// props.put("zookeeper.connect", ZookeeperParams.CONNECT);
+		// }
+
 		props.put(ProducerConfig.ACKS_CONFIG, "all");
 		props.put(ProducerConfig.RETRIES_CONFIG, 0);
 		props.put(ProducerConfig.BATCH_SIZE_CONFIG, 16384);

@@ -21,7 +21,7 @@ public final class KafkaProducers {
 	 */
 	public static void send(String topic, Object value) {
 		PRODUCER.send(Kafkas.newRecord(topic, value));
-		PRODUCER.flush();
+		// PRODUCER.flush();
 		Logs.debug("kafka send producer topic={},value={}", topic, value);
 	}
 
@@ -33,7 +33,7 @@ public final class KafkaProducers {
 	 */
 	public static void send(String topic, Object key, Object value) {
 		PRODUCER.send(Kafkas.newRecord(topic, key, value));
-		PRODUCER.flush();
+		// PRODUCER.flush();
 		Logs.debug("kafka send producer topic={},key={},value={}", topic, key, value);
 	}
 
@@ -57,6 +57,52 @@ public final class KafkaProducers {
 	public static void asyn(String topic, Object key, Object value) {
 		ExecutorUtil.pool().execute(() -> {
 			send(topic, key, value);
+		});
+	}
+
+	/**
+	 * 发送数据
+	 * @param topic 节点
+	 * @param value 值
+	 */
+	public static void send(String name, String topic, Object value) {
+		KafkaFactory.getProducer(name).send(Kafkas.newRecord(topic, value));
+		// PRODUCER.flush();
+		Logs.debug("kafka send producer name={} topic={},value={}", name, topic, value);
+	}
+
+	/**
+	 * 发送数据
+	 * @param topic 节点
+	 * @param key 键
+	 * @param value 值
+	 */
+	public static void send(String name, String topic, Object key, Object value) {
+		KafkaFactory.getProducer(name).send(Kafkas.newRecord(topic, key, value));
+		// PRODUCER.flush();
+		Logs.debug("kafka send producer name={} topic={} key={} value={}", name, topic, key, value);
+	}
+
+	/**
+	 * 异步发送数据
+	 * @param topic 节点
+	 * @param value 值
+	 */
+	public static void asyn(String name, String topic, Object value) {
+		ExecutorUtil.pool().execute(() -> {
+			send(name, topic, value);
+		});
+	}
+
+	/**
+	 * 异步发送数据
+	 * @param topic 节点
+	 * @param key 键
+	 * @param value 值
+	 */
+	public static void asyn(String name, String topic, Object key, Object value) {
+		ExecutorUtil.pool().execute(() -> {
+			send(name, topic, key, value);
 		});
 	}
 

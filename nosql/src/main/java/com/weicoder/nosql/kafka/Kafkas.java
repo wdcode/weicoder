@@ -2,7 +2,6 @@ package com.weicoder.nosql.kafka;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -43,80 +42,79 @@ public final class Kafkas {
 	 * 初始化
 	 */
 	public static void init() {
-		try {
-			List<Class<Consumer>> consumers = ClassUtil.getAnnotationClass(CommonParams.getPackages("kafka"),
-					Consumer.class);
-			if (!EmptyUtil.isEmpty(consumers)) {
-				// 循环处理kafka类
-				for (Class<Consumer> c : consumers) {
-					// 执行对象
-					Object consumer = BeanUtil.newInstance(c);
-					String name = consumer.getClass().getAnnotation(Consumer.class).value();
-					// 如果KafkaConsumer列表里没有相对应的消费者 创建
-					if (!KAFKA_CONSUMERS.containsKey(name)) {
-						KAFKA_CONSUMERS.put(name, KafkaFactory.getConsumer(name));
-					}
-					// 获得topic列表
-					List<String> topics = Maps.getList(TOPICS, name, String.class);
-					// 处理所有方法
-					for (Method m : c.getMethods()) {
-						// 方法有执行时间注解
-						Topic topic = m.getAnnotation(Topic.class);
-						if (topic != null) {
-							String val = topic.value();
-							METHODS.put(val, m);
-							CONSUMERS.put(val, consumer);
-							topics.add(val);
-							Logs.info("add kafka Consumer={} topic={}", c.getSimpleName(), val);
-						}
-					}
+		List<Class<Consumer>> consumers = ClassUtil.getAnnotationClass(CommonParams.getPackages("kafka"),
+				Consumer.class);
+		if (!EmptyUtil.isEmpty(consumers)) {
+			// 循环处理kafka类
+			for (Class<Consumer> c : consumers) {
+				// 执行对象
+				Object consumer = BeanUtil.newInstance(c);
+				String name = consumer.getClass().getAnnotation(Consumer.class).value();
+				// 如果KafkaConsumer列表里没有相对应的消费者 创建
+				if (!KAFKA_CONSUMERS.containsKey(name)) {
+					KAFKA_CONSUMERS.put(name, KafkaFactory.getConsumer(name));
 				}
-				Logs.info("add kafka Consumers size={}", consumers.size());
-				// 订阅相关消费数据
-				for (String key : TOPICS.keySet()) {
-					List<String> topics = TOPICS.get(key);
-					KAFKA_CONSUMERS.get(key).subscribe(topics);
-					Logs.info("Kafkas init Consumer={} subscribe topic={}", key, topics);
-				}
-				// 启动定时读取kafka消息
-				for (final KafkaConsumer<byte[], byte[]> consumer : KAFKA_CONSUMERS.values()) {
-					ScheduledUtil.delay(() -> {
-						// 日志使用
-						int time = DateUtil.getTime();
-						int n = 0;
-						// 获得消费数据
-						for (ConsumerRecord<byte[], byte[]> record : consumer.poll(1000)) {
-							// 获得消费对象类和方法
-							Logs.debug("read consumer record={}", record);
-							String topic = record.topic();
-							Object obj = CONSUMERS.get(topic);
-							Method method = METHODS.get(topic);
-							// 获得所有参数
-							Parameter[] params = method.getParameters();
-							Object[] objs = new Object[params.length];
-							if (EmptyUtil.isEmpty(params)) {
-								// 参数为空直接执行方法
-								BeanUtil.invoke(obj, method);
-							} else {
-								// 有参数 现在只支持 1-2位的参数，1个参数表示value,2个参数表示key,value
-								if (params.length == 1) {
-									objs[0] = toParam(record.value(), params[0].getType());
-								} else {
-									objs[0] = toParam(record.key(), params[0].getType());
-									objs[1] = toParam(record.value(), params[0].getType());
-								}
-								// 执行方法
-								BeanUtil.invoke(obj, method, objs);
-							}
-							n++;
-							Logs.debug("delay consumer method={}   params={}", method.getName(), params);
-						}
-						Logs.debug("delay consumer end size={}  time={}", n, DateUtil.getTime() - time);
-					}, 1);
+				// 获得topic列表
+				List<String> topics = Maps.getList(TOPICS, name, String.class);
+				// 处理所有方法
+				for (Method m : c.getMethods()) {
+					// 方法有执行时间注解
+					Topic topic = m.getAnnotation(Topic.class);
+					if (topic != null) {
+						String val = topic.value();
+						METHODS.put(val, m);
+						CONSUMERS.put(val, consumer);
+						topics.add(val);
+						Logs.info("add kafka Consumer={} topic={}", c.getSimpleName(), val);
+					}
 				}
 			}
-		} catch (Exception e) {
-			Logs.error(e);
+			Logs.info("add kafka Consumers size={}", consumers.size());
+			// 订阅相关消费数据
+			for (String key : TOPICS.keySet()) {
+				List<String> topics = TOPICS.get(key);
+				KAFKA_CONSUMERS.get(key).subscribe(topics);
+				Logs.info("Kafkas init Consumer={} subscribe topic={}", key, topics);
+			}
+			// 启动定时读取kafka消息
+			for (final KafkaConsumer<byte[], byte[]> consumer : KAFKA_CONSUMERS.values()) {
+				ScheduledUtil.delay(() -> {
+					// 日志使用
+					int time = DateUtil.getTime();
+					int n = 0;
+					// 获得消费数据
+					for (ConsumerRecord<byte[], byte[]> record : consumer.poll(1000)) {
+						// 获得消费对象类和方法
+						Logs.debug("kafka read consumer record={}", record);
+						String topic = record.topic();
+						Object obj = CONSUMERS.get(topic);
+						Method method = METHODS.get(topic);
+						// 获得所有参数
+						Parameter[] params = method.getParameters();
+						Object[] objs = new Object[params.length];
+						if (EmptyUtil.isEmpty(params)) {
+							// 参数为空直接执行方法
+							BeanUtil.invoke(obj, method);
+						} else {
+							// 有参数 现在只支持 1-2位的参数，1个参数表示value,2个参数表示key,value
+							if (params.length == 1) {
+								objs[0] = toParam(record.value(), params[0].getType());
+							} else {
+								objs[0] = toParam(record.key(), params[0].getType());
+								objs[1] = toParam(record.value(), params[1].getType());
+							}
+							// 执行方法
+							BeanUtil.invoke(obj, method, objs);
+						}
+						n++;
+						Logs.debug("kafka consumer method={} params={} args={}", method.getName(), params, objs);
+					}
+					// 数量不为空
+					if (n > 0) {
+						Logs.debug("kafka consumer end size={}  time={}", n, DateUtil.getTime() - time);
+					}
+				}, 1);
+			}
 		}
 	}
 
@@ -148,7 +146,6 @@ public final class Kafkas {
 	 * @return 参数
 	 */
 	private static Object toParam(byte[] b, Class<?> c) {
-		Logs.debug("kafka consumer toParam b={} c={}", Arrays.toString(b), c);
 		return String.class.equals(c) ? StringUtil.toString(b) : Bytes.to(b, c);
 	}
 
