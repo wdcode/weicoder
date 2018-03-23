@@ -33,37 +33,14 @@ import com.weicoder.common.util.StringUtil;
  */
 public final class HttpClient {
 	// Http客户端
-	final static CloseableHttpClient CLIENT;
+	final static CloseableHttpClient CLIENT = init();
 
-	static {
-		// Http连接池
-		PoolingHttpClientConnectionManager pool = new PoolingHttpClientConnectionManager();
-		pool.setDefaultMaxPerRoute(SystemConstants.CPU_NUM);
-		pool.setMaxTotal(SystemConstants.CPU_NUM * 10);
-		// 设置请求参数
-		RequestConfig.Builder config = RequestConfig.custom();
-		config.setSocketTimeout(5000);
-		config.setConnectTimeout(5000);
-		config.setCircularRedirectsAllowed(false);
-		// HttpClientBuilder
-		HttpClientBuilder builder = HttpClientBuilder.create();
-		builder.setDefaultRequestConfig(config.build());
-		builder.setConnectionManager(pool);
-		builder.setMaxConnPerRoute(SystemConstants.CPU_NUM);
-		// 设置 头
-		List<BasicHeader> headers = Lists.newList();
-		headers.add(new BasicHeader(HttpConstants.USER_AGENT_KEY, HttpConstants.USER_AGENT_VAL));
-		headers.add(new BasicHeader(HttpConstants.ACCEPT_KEY, HttpConstants.ACCEPT_VAL));
-		// headers.add(new BasicHeader(HttpConstants.ACCEPT_LANGUAGE_KEY,
-		// HttpConstants.ACCEPT_LANGUAGE_VAL));
-		// headers.add(new BasicHeader(HttpConstants.ACCEPT_CHARSET_KEY,
-		// HttpConstants.ACCEPT_CHARSET_VAL));
-		builder.setDefaultHeaders(headers);
-		// // 设置连接配置
-		// builder.setDefaultConnectionConfig(
-		// ConnectionConfig.custom().setCharset(Charset.forName(CommonParams.ENCODING)).build());
-		// 实例化客户端
-		CLIENT = builder.build();
+	/**
+	 * 获得HttpClient
+	 * @return HttpClient
+	 */
+	public static CloseableHttpClient getClient() {
+		return CLIENT;
 	}
 
 	/**
@@ -184,6 +161,35 @@ public final class HttpClient {
 			}
 		}
 		return StringConstants.EMPTY;
+	}
+
+	/**
+	 * 初始化httpclient
+	 * @return CloseableHttpClient
+	 */
+	private static CloseableHttpClient init() {
+		// Http连接池
+		PoolingHttpClientConnectionManager pool = new PoolingHttpClientConnectionManager();
+		pool.setDefaultMaxPerRoute(SystemConstants.CPU_NUM);
+		pool.setMaxTotal(SystemConstants.CPU_NUM * 10);
+		// 设置请求参数
+		RequestConfig.Builder config = RequestConfig.custom();
+		config.setSocketTimeout(5000);
+		config.setConnectTimeout(5000);
+		config.setCircularRedirectsAllowed(false);
+		// HttpClientBuilder
+		HttpClientBuilder builder = HttpClientBuilder.create();
+		builder.setDefaultRequestConfig(config.build());
+		builder.setConnectionManager(pool);
+		builder.setMaxConnPerRoute(SystemConstants.CPU_NUM);
+		// 设置 头
+		List<BasicHeader> headers = Lists.newList();
+		headers.add(new BasicHeader(HttpConstants.USER_AGENT_KEY, HttpConstants.USER_AGENT_VAL));
+		headers.add(new BasicHeader(HttpConstants.ACCEPT_KEY, HttpConstants.ACCEPT_VAL));
+		builder.setDefaultHeaders(headers);
+		// // 设置连接配置
+		// 实例化客户端
+		return builder.build();
 	}
 
 	private HttpClient() {}
