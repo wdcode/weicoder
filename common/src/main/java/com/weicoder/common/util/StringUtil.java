@@ -36,7 +36,7 @@ public final class StringUtil {
 	 * @return true false
 	 */
 	public static boolean equals(String str1, String str2) {
-		return EmptyUtil.isEmpty(str1) || EmptyUtil.isEmpty(str2) ? false : str1.equals(str2);
+		return trim(str1).equals(trim(str2));
 	}
 
 	/**
