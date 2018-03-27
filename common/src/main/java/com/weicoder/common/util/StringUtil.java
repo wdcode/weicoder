@@ -17,6 +17,16 @@ import com.weicoder.common.params.CommonParams;
  */
 public final class StringUtil {
 	/**
+	 * 判断字符串是否prefix开头
+	 * @param str 字符串
+	 * @param prefix 开头字符串
+	 * @return 是否开头
+	 */
+	public static boolean startsWith(String str, String prefix) {
+		return Conversion.toString(str).startsWith(prefix);
+	}
+
+	/**
 	 * 字符串累加
 	 * @param os 累加字符串
 	 * @return 返回累加后字符串

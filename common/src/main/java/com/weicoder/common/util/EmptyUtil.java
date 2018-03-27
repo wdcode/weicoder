@@ -72,7 +72,7 @@ public final class EmptyUtil {
 	}
 
 	/**
-	 * 判断字节数组是否空 判断  b == null || b.length == 0
+	 * 判断字节数组是否空 判断 b == null || b.length == 0
 	 * @param b 字节数组
 	 * @return true为空,false非空
 	 */
@@ -105,6 +105,15 @@ public final class EmptyUtil {
 	 */
 	public static boolean isEmpty(int[] objects) {
 		return objects == null || objects.length == 0;
+	}
+
+	/**
+	 * 返回字符串是否为空 判断 s== null || s.length() == 0;
+	 * @param s 字符串
+	 * @return true为空,false非空
+	 */
+	public static boolean isEmpty(String s) {
+		return s == null || s.length() == 0;
 	}
 
 	/**

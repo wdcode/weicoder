@@ -51,6 +51,7 @@ public final class HMac {
 	/**
 	 * 使用HMAC-SHA1进行消息签名, 返回字节数组,长度为20字节.
 	 * @param b 原始输入字符串
+	 * @param key 加密key
 	 * @return 结果
 	 */
 	public static byte[] sha1(byte[] b, String key) {

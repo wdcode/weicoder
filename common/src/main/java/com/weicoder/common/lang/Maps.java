@@ -20,6 +20,8 @@ public final class Maps {
 	 * @param map 取数据的map
 	 * @param key 对应的key
 	 * @param c 对应值的类
+	 * @param <K> key
+	 * @param <V> val
 	 * @return 值
 	 */
 	public static <K, V> V get(Map<K, V> map, K key, Class<V> c) {
@@ -39,9 +41,11 @@ public final class Maps {
 	}
 
 	/**
-	 * 判断是否Map
-	 * @param obj 对象
-	 * @return 是否Map
+	 * 根据map获得相关的list值，如果值为空生成新list
+	 * @param map 列表
+	 * @param key 键
+	 * @param c 类
+	 * @return List
 	 */
 	public static <K, V> List<V> getList(Map<K, List<V>> map, K key, Class<V> c) {
 		// 如果map和key val 为空

@@ -65,8 +65,7 @@ public final class HttpEngine {
 	/**
 	 * 使用post提交url
 	 * @param url 网址
-	 * @param data 参数
-	 * @param header http头列表
+	 * @param data 参数 
 	 * @return 返回的结果
 	 */
 	public static String post(String url, Map<String, Object> data) {

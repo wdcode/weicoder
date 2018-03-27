@@ -30,7 +30,7 @@ public final class Bytes {
 
 	/**
 	 * 转换dest到src同类型
-	 * @param obj 要转换的对象
+	 * @param b 要转换的对象
 	 * @param c 要转换的类型
 	 * @return 转换后的对象
 	 */
