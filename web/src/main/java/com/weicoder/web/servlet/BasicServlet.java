@@ -164,7 +164,7 @@ public class BasicServlet extends HttpServlet {
 			Object res = BeanUtil.invoke(action, method, params);
 			Logs.debug("invoke method={},params={},res={} end", method.getName(), params, res);
 			// 判断是否跳转url
-			if (method.isAnnotationPresent(Redirect.class)) {
+			if (method.isAnnotationPresent(Redirect.class) || action.getClass().isAnnotationPresent(Redirect.class)) {
 				String url = Conversion.toString(res);
 				if (EmptyUtil.isEmpty(url)) {
 					ResponseUtil.json(response, callback, "Redirect is null");
@@ -172,7 +172,8 @@ public class BasicServlet extends HttpServlet {
 					response.sendRedirect(url);
 				}
 				Logs.debug("redirect url:{}", url);
-			} else if (method.isAnnotationPresent(Forward.class)) {
+			} else if (method.isAnnotationPresent(Forward.class)
+					|| action.getClass().isAnnotationPresent(Forward.class)) {
 				String url = Conversion.toString(res);
 				if (EmptyUtil.isEmpty(url)) {
 					ResponseUtil.json(response, callback, "Forward is null");
@@ -187,14 +188,18 @@ public class BasicServlet extends HttpServlet {
 					state = action.getClass().getAnnotation(State.class);
 				}
 				// 字段名
-				String status = state.value();
+				String status = state.state();
 				String success = state.success();
 				String error = state.error();
 				// 如果res为状态码
 				if (res == null) {
 					// 写空信息
 					ResponseUtil.json(response, callback, Maps.newMap(new String[] { status, error }, new Object[] {
-							WebParams.ERROR_NULL_STATE, ErrorCodeParams.getMessage(WebParams.ERROR_NULL_STATE) }));
+							WebParams.STATE_ERROR_NULL, ErrorCodeParams.getMessage(WebParams.STATE_ERROR_NULL) }));
+				} else if (res instanceof Void) {
+					// 空返回
+					ResponseUtil.json(response, callback, Maps.newMap(new String[] { status, success },
+							new Object[] { WebParams.STATE_SUCCESS, WebParams.STATE_SUCCESS_MSG }));
 				} else if (res instanceof Integer) {
 					// 写错误信息
 					int errorcode = Conversion.toInt(res);
@@ -217,9 +222,6 @@ public class BasicServlet extends HttpServlet {
 			}
 			Logs.info("request ip={},name={},time={},res={},params={} end", ip, actionName,
 					System.currentTimeMillis() - curr, res, params);
-			// } catch (Exception e) {
-			// Logs.error(e);
-			// }
 		}
 	}
 

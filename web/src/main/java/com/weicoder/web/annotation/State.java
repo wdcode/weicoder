@@ -16,7 +16,7 @@ public @interface State {
 	 * 返回状态的字段名 默认state
 	 * @return 返回信息的字段名
 	 */
-	String value() default "state";
+	String state() default "state";
 
 	/**
 	 * 返回成功内容的字段名 默认content
