@@ -1,10 +1,16 @@
 package com.weicoder.web.util;
 
+import java.lang.reflect.Field;
+import java.util.Map;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.weicoder.common.constants.StringConstants;
+import com.weicoder.common.lang.Conversion;
+import com.weicoder.common.log.Logs;
+import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.web.params.WebParams;
 
@@ -13,6 +19,34 @@ import com.weicoder.web.params.WebParams;
  * @author WD
  */
 public final class CookieUtil {
+	/**
+	 * 把结果写cookie
+	 * @param response response
+	 * @param res 返回结果
+	 */
+	public static void adds(HttpServletResponse response, Object res) {
+		try {
+			// 如果返回结果是map
+			if (res instanceof Map<?, ?>) {
+				for (Map.Entry<?, ?> e : ((Map<?, ?>) res).entrySet()) {
+					add(response, Conversion.toString(e.getKey()), Conversion.toString(e.getValue()));
+				}
+			} else {
+				// 普通实体按字段返回
+				for (Field field : BeanUtil.getFields(res.getClass())) {
+					// 值不为空 写cookie
+					String val = Conversion.toString(BeanUtil.getFieldValue(res, field));
+					if (!EmptyUtil.isEmpty(val)) {
+						add(response, field.getName(), val);
+					}
+				}
+			}
+			Logs.debug("adds cookie res={}", res);
+		} catch (Exception e) {
+			Logs.error(e);
+		}
+	}
+
 	/**
 	 * 添加Cookie 浏览器进程
 	 * @param response Response

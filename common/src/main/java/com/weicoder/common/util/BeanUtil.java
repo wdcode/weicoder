@@ -37,6 +37,7 @@ public final class BeanUtil {
 	 * @param <T> 泛型
 	 * @return 目标对象
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> T copy(Object source, T target) {
 		// 判读对象为空
 		if (source == null || target == null) {
@@ -46,13 +47,23 @@ public final class BeanUtil {
 		if (source instanceof Map<?, ?>) {
 			return copy((Map<?, ?>) source, target);
 		}
+		// 如果目标为Map
+		Map<String, Object> map = null;
+		if (target instanceof Map<?, ?>) {
+			map = (Map<String, Object>) target;
+		}
 		// 循环字段
 		for (Field field : getFields(source.getClass())) {
 			try {
 				// 不是符合字段
 				if (!field.isSynthetic()) {
-					// 设置字段值
-					setFieldValue(target, getField(target, field.getName()), getFieldValue(source, field));
+					// 设置字段值 getField(target, field.getName())
+					if (map == null) {
+						setFieldValue(target, field, getFieldValue(source, field));
+					} else {
+						map.put(field.getName(), getFieldValue(source, field));
+					}
+
 				}
 			} catch (Exception e) {
 				Logs.error(e);

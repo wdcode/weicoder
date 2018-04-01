@@ -14,13 +14,15 @@ import com.weicoder.common.util.IpUtil;
  */
 public final class Token implements ByteArray {
 	// 用户ID
-	protected long		id;
+	private long	id;
 	// 过期时间 固定时间戳秒
-	protected int		time;
+	private int		time;
 	// 登录IP
-	protected String	ip;
+	private String	ip;
+	// 是否有效
+	private boolean	valid;
 	// 保存token
-	private String		token;
+	private String	token;
 
 	Token() {}
 
@@ -44,6 +46,7 @@ public final class Token implements ByteArray {
 		this.time = DateUtil.getTime() + time;
 		this.ip = ip;
 		this.token = Encrypts.token(array());
+		this.valid = true;
 	}
 
 	/**
@@ -51,7 +54,11 @@ public final class Token implements ByteArray {
 	 * @return true 登录 false 未登录
 	 */
 	public boolean isLogin() {
-		return id != 0 && isExpire();
+		return id != 0 && isExpire() && isValid();
+	}
+
+	public boolean isValid() {
+		return valid;
 	}
 
 	/**
@@ -95,6 +102,7 @@ public final class Token implements ByteArray {
 			this.id = Bytes.toLong(b);
 			this.time = Bytes.toInt(b, 8);
 			this.ip = IpUtil.decode(Bytes.toInt(b, 12));
+			this.valid = true;
 		}
 		// 返回自身
 		return this;

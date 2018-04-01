@@ -1,6 +1,7 @@
 package com.weicoder.web.servlet;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.Map;
@@ -15,18 +16,21 @@ import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.log.Logs;
+import com.weicoder.common.token.Token;
 import com.weicoder.common.token.TokenEngine;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.web.annotation.Action;
+import com.weicoder.web.annotation.Cookies;
 import com.weicoder.web.annotation.Forward;
 import com.weicoder.web.annotation.Redirect;
 import com.weicoder.web.annotation.State;
 import com.weicoder.web.common.WebCommons;
 import com.weicoder.web.params.ErrorCodeParams;
 import com.weicoder.web.params.WebParams;
+import com.weicoder.web.util.CookieUtil;
 import com.weicoder.web.util.RequestUtil;
 import com.weicoder.web.util.ResponseUtil;
 
@@ -104,8 +108,8 @@ public class BasicServlet extends HttpServlet {
 			// 验证token
 			if (a.token()) {
 				// 获得token
-				String token = RequestUtil.getParameter(request, "token");
-				if (!TokenEngine.decrypt(token).isLogin()) {
+				Token token = TokenEngine.decrypt(RequestUtil.getParameter(request, "token"));
+				if (!token.isLogin()) {
 					Logs.debug("this token={}", token);
 					ResponseUtil.json(response, callback, "token is no login");
 					return;
@@ -142,6 +146,9 @@ public class BasicServlet extends HttpServlet {
 						params[i] = request;
 					} else if (HttpServletResponse.class.equals(cs)) {
 						params[i] = response;
+					} else if (Token.class.equals(cs)) {
+						// 设置Token
+						params[i] = TokenEngine.decrypt(RequestUtil.getParameter(request, p.getName()));
 					} else if (Map.class.equals(cs)) {
 						params[i] = ps;
 					} else if (ClassUtil.isBaseType(cs)) {
@@ -154,7 +161,14 @@ public class BasicServlet extends HttpServlet {
 						Logs.debug("request ip={},name={},params index={},name={},type={},value={}", ip, actionName, i,
 								p.getName(), cs, params[i]);
 					} else {
+						// 设置属性
 						params[i] = BeanUtil.copy(ps, cs);
+						// 获得IP字段
+						Field field = BeanUtil.getField(cs, "ip");
+						// 判断字段不为空并且没有值
+						if (field != null && !EmptyUtil.isEmpty(BeanUtil.getFieldValue(params[i], field))) {
+							BeanUtil.setFieldValue(params[i], field, ip);
+						}
 						Logs.debug("request ip={},name={},params={}", ip, actionName, params[i]);
 					}
 				}
@@ -163,6 +177,9 @@ public class BasicServlet extends HttpServlet {
 			// try {
 			Object res = BeanUtil.invoke(action, method, params);
 			Logs.debug("invoke method={},params={},res={} end", method.getName(), params, res);
+			// 判断是否需要写cookie
+			boolean cookie = method.isAnnotationPresent(Cookies.class)
+					|| action.getClass().isAnnotationPresent(Cookies.class);
 			// 判断是否跳转url
 			if (method.isAnnotationPresent(Redirect.class) || action.getClass().isAnnotationPresent(Redirect.class)) {
 				String url = Conversion.toString(res);
@@ -196,25 +213,30 @@ public class BasicServlet extends HttpServlet {
 					// 写空信息
 					ResponseUtil.json(response, callback, Maps.newMap(new String[] { status, error }, new Object[] {
 							WebParams.STATE_ERROR_NULL, ErrorCodeParams.getMessage(WebParams.STATE_ERROR_NULL) }));
-				} else if (res instanceof Void) {
-					// 空返回
-					ResponseUtil.json(response, callback, Maps.newMap(new String[] { status, success },
-							new Object[] { WebParams.STATE_SUCCESS, WebParams.STATE_SUCCESS_MSG }));
 				} else if (res instanceof Integer) {
 					// 写错误信息
 					int errorcode = Conversion.toInt(res);
+					// 写入到前端
 					ResponseUtil.json(response, callback, Maps.newMap(new String[] { status, error },
 							new Object[] { errorcode, ErrorCodeParams.getMessage(errorcode) }));
 				} else {
+					// 是否写cookie
+					if (cookie) {
+						CookieUtil.adds(response, res);
+					}
+					// 写入到前端
 					ResponseUtil.json(response, callback,
 							Maps.newMap(new String[] { status, success }, new Object[] { 0, res }));
 				}
 				Logs.debug("servlet state={} method={},params={},res={} end", state, method.getName(), params, res);
 			} else {
 				// 如果结果为空
-				if (res == null || res instanceof Void) {
+				if (res == null) {
 					// 结果设置为空map
 					res = Maps.emptyMap();
+				} else if (cookie) {
+					// 写cookie
+					CookieUtil.adds(response, res);
 				}
 				// 写到前端
 				ResponseUtil.json(response, callback, res);

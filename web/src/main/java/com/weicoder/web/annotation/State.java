@@ -6,7 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 
+ * 返回状态码
  * @author WD
  */
 @Target({ ElementType.METHOD, ElementType.TYPE })
