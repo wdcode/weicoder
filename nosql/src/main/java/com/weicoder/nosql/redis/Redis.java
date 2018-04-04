@@ -97,6 +97,13 @@ public interface Redis {
 	String hget(String key, String field);
 
 	/**
+	 * 根据哈希键获得数量
+	 * @param key 键
+	 * @return 值
+	 */
+	long hlen(String key);
+
+	/**
 	 * 根据哈希主键获得所有列表数据
 	 * @param key 哈希主键
 	 * @return Map

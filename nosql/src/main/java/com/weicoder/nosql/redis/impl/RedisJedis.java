@@ -211,4 +211,11 @@ public final class RedisJedis extends BaseRedis {
 	public boolean zexists(String key, String member) {
 		return zscore(key, member) != null;
 	}
+
+	@Override
+	public long hlen(String key) {
+		try (Jedis jedis = pool.getResource()) {
+			return jedis.hlen(key);
+		}
+	}
 }

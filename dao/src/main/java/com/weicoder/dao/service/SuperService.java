@@ -83,8 +83,7 @@ public final class SuperService {
 	/**
 	 * 获得查询的对象实体列表 分页功能
 	 * @param entity 需要获得的对象，会查询出实体中封装的相等的条件
-	 * @param page 分页Bean
-	 * @param <E> 泛型
+	 * @param page 分页Bean 
 	 * @return 返回这个对象的列表
 	 */
 	public static Map<String, Object> list(Object entity, Pagination page) {

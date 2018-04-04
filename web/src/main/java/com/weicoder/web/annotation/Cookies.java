@@ -11,4 +11,10 @@ import java.lang.annotation.Target;
  */
 @Target({ ElementType.METHOD, ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Cookies {}
+public @interface Cookies {
+	/**
+	 * 指定写入cookie的属性 默认为空 写全部
+	 * @return 指定写入的属性
+	 */
+	String[] names() default {};
+}

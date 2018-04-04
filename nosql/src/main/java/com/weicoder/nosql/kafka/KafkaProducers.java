@@ -62,6 +62,7 @@ public final class KafkaProducers {
 
 	/**
 	 * 按kafka名称选择服务器 发送数据
+	 * @param name kafka名称
 	 * @param topic 节点
 	 * @param value 值
 	 */
@@ -73,6 +74,7 @@ public final class KafkaProducers {
 
 	/**
 	 * 按kafka名称选择服务器 发送数据
+	 * @param name kafka名称
 	 * @param topic 节点
 	 * @param key 键
 	 * @param value 值
@@ -85,6 +87,7 @@ public final class KafkaProducers {
 
 	/**
 	 * 按kafka名称选择服务器 异步发送数据
+	 * @param name kafka名称
 	 * @param topic 节点
 	 * @param value 值
 	 */
@@ -96,6 +99,7 @@ public final class KafkaProducers {
 
 	/**
 	 * 按kafka名称选择服务器 异步发送数据
+	 * @param name kafka名称
 	 * @param topic 节点
 	 * @param key 键
 	 * @param value 值

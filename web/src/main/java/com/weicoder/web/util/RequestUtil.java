@@ -7,7 +7,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import com.weicoder.common.constants.ArrayConstants; 
+import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.util.EmptyUtil;
@@ -40,11 +40,11 @@ public final class RequestUtil {
 		// 判断不为空
 		if (!EmptyUtil.isEmpty(request)) {
 			// 获得IP
-			String ip = request.getHeader("X-Forwarded-For");
+			String ip = request.getHeader("X-Real-IP");
 			// 判断如果为空继续获得
 			if (EmptyUtil.isEmpty(ip)) {
 				// 为空换方法获得
-				ip = request.getHeader("X-Real-IP");
+				ip = request.getHeader("X-Forwarded-For");
 			}
 			// 判断如果为空继续获得
 			if (EmptyUtil.isEmpty(ip)) {
@@ -52,7 +52,8 @@ public final class RequestUtil {
 				ip = request.getRemoteAddr();
 			}
 			// 返回IP
-			return EmptyUtil.isEmpty(ip) ? ArrayConstants.STRING_EMPTY : ip.indexOf(StringConstants.COMMA) == -1 ? new String[] { ip } : ip.split(StringConstants.COMMA);
+			return EmptyUtil.isEmpty(ip) ? ArrayConstants.STRING_EMPTY
+					: ip.indexOf(StringConstants.COMMA) == -1 ? new String[] { ip } : ip.split(StringConstants.COMMA);
 		}
 		// 返回""
 		return ArrayConstants.STRING_EMPTY;

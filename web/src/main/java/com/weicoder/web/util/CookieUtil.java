@@ -23,21 +23,45 @@ public final class CookieUtil {
 	 * 把结果写cookie
 	 * @param response response
 	 * @param res 返回结果
+	 * @param names 要写cookie的键 如果为空就写全部属性
 	 */
-	public static void adds(HttpServletResponse response, Object res) {
+	public static void adds(HttpServletResponse response, Object res, String... names) {
 		try {
 			// 如果返回结果是map
 			if (res instanceof Map<?, ?>) {
-				for (Map.Entry<?, ?> e : ((Map<?, ?>) res).entrySet()) {
-					add(response, Conversion.toString(e.getKey()), Conversion.toString(e.getValue()));
+				// 转成map
+				Map<?, ?> map = (Map<?, ?>) res;
+				// 如果键为空
+				if (EmptyUtil.isEmpty(names)) {
+					// 写全部属性
+					for (Map.Entry<?, ?> e : map.entrySet()) {
+						add(response, Conversion.toString(e.getKey()), Conversion.toString(e.getValue()));
+					}
+				} else {
+					// 写指定属性
+					for (String name : names) {
+						add(response, name, Conversion.toString(name));
+					}
 				}
 			} else {
-				// 普通实体按字段返回
-				for (Field field : BeanUtil.getFields(res.getClass())) {
-					// 值不为空 写cookie
-					String val = Conversion.toString(BeanUtil.getFieldValue(res, field));
-					if (!EmptyUtil.isEmpty(val)) {
-						add(response, field.getName(), val);
+				// 普通实体按字段返回 如果键为空
+				if (EmptyUtil.isEmpty(names)) {
+					// 写全部属性
+					for (Field field : BeanUtil.getFields(res.getClass())) {
+						// 值不为空 写cookie
+						String val = Conversion.toString(BeanUtil.getFieldValue(res, field));
+						if (!EmptyUtil.isEmpty(val)) {
+							add(response, field.getName(), val);
+						}
+					}
+				} else {
+					// 写指定属性
+					for (String name : names) {
+						// 值不为空 写cookie
+						String val = Conversion.toString(BeanUtil.getFieldValue(res, name));
+						if (!EmptyUtil.isEmpty(val)) {
+							add(response, name, val);
+						}
 					}
 				}
 			}
@@ -88,18 +112,20 @@ public final class CookieUtil {
 	 * @param maxAge 保存多少秒
 	 */
 	public static void add(HttpServletResponse response, String name, String value, String domain, int maxAge) {
-		// 实例化Cookie
-		Cookie cookie = new Cookie(name, value);
-		// 设置Cookie过期时间
-		cookie.setMaxAge(maxAge);
-		// 设置目录
-		cookie.setPath(StringConstants.BACKSLASH);
-		// 设置域
-		if (!EmptyUtil.isEmpty(domain)) {
-			cookie.setDomain(domain);
-		}
-		// 添加Cookie
-		response.addCookie(cookie);
+		try {
+			// 实例化Cookie
+			Cookie cookie = new Cookie(name, value);
+			// 设置Cookie过期时间
+			cookie.setMaxAge(maxAge);
+			// 设置目录
+			cookie.setPath(StringConstants.BACKSLASH);
+			// 设置域
+			if (!EmptyUtil.isEmpty(domain)) {
+				cookie.setDomain(domain);
+			}
+			// 添加Cookie
+			response.addCookie(cookie);
+		} catch (Exception e) {}
 	}
 
 	/**

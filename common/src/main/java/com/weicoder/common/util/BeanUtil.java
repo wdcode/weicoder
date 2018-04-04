@@ -57,13 +57,12 @@ public final class BeanUtil {
 			try {
 				// 不是符合字段
 				if (!field.isSynthetic()) {
-					// 设置字段值 getField(target, field.getName())
+					// 设置字段值
 					if (map == null) {
-						setFieldValue(target, field, getFieldValue(source, field));
+						setFieldValue(target, getField(target, field.getName()), getFieldValue(source, field));
 					} else {
 						map.put(field.getName(), getFieldValue(source, field));
 					}
-
 				}
 			} catch (Exception e) {
 				Logs.error(e);
@@ -262,7 +261,7 @@ public final class BeanUtil {
 		// 设置字段值
 		try {
 			makeAccessible(field).set(object, Conversion.to(value, field.getType()));
-		} catch (IllegalAccessException e) {}
+		} catch (Exception e) {}
 	}
 
 	/**

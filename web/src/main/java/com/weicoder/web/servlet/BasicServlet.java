@@ -158,8 +158,6 @@ public class BasicServlet extends HttpServlet {
 							// 赋值为调用客户端IP
 							params[i] = ip;
 						}
-						Logs.debug("request ip={},name={},params index={},name={},type={},value={}", ip, actionName, i,
-								p.getName(), cs, params[i]);
 					} else {
 						// 设置属性
 						params[i] = BeanUtil.copy(ps, cs);
@@ -171,6 +169,8 @@ public class BasicServlet extends HttpServlet {
 						}
 						Logs.debug("request ip={},name={},params={}", ip, actionName, params[i]);
 					}
+					Logs.debug("request ip={},name={},params index={},name={},type={},value={}", ip, actionName, i,
+							p.getName(), cs, params[i]);
 				}
 			}
 			// 调用方法
@@ -180,6 +180,15 @@ public class BasicServlet extends HttpServlet {
 			// 判断是否需要写cookie
 			boolean cookie = method.isAnnotationPresent(Cookies.class)
 					|| action.getClass().isAnnotationPresent(Cookies.class);
+			String[] names = null;
+			if (cookie) {
+				// 获得Cookies注解
+				Cookies c = method.getAnnotation(Cookies.class);
+				if (c == null) {
+					c = action.getClass().getAnnotation(Cookies.class);
+				}
+				names = c.names();
+			}
 			// 判断是否跳转url
 			if (method.isAnnotationPresent(Redirect.class) || action.getClass().isAnnotationPresent(Redirect.class)) {
 				String url = Conversion.toString(res);
@@ -222,7 +231,7 @@ public class BasicServlet extends HttpServlet {
 				} else {
 					// 是否写cookie
 					if (cookie) {
-						CookieUtil.adds(response, res);
+						CookieUtil.adds(response, res, names);
 					}
 					// 写入到前端
 					ResponseUtil.json(response, callback,
@@ -236,7 +245,7 @@ public class BasicServlet extends HttpServlet {
 					res = Maps.emptyMap();
 				} else if (cookie) {
 					// 写cookie
-					CookieUtil.adds(response, res);
+					CookieUtil.adds(response, res, names);
 				}
 				// 写到前端
 				ResponseUtil.json(response, callback, res);

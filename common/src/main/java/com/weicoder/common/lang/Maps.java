@@ -45,6 +45,8 @@ public final class Maps {
 	 * @param map 列表
 	 * @param key 键
 	 * @param c 类
+	 * @param <K> 泛型
+	 * @param <V> 泛型
 	 * @return List
 	 */
 	public static <K, V> List<V> getList(Map<K, List<V>> map, K key, Class<V> c) {

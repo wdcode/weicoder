@@ -28,12 +28,14 @@ public interface Dao {
 	/**
 	 * 一个事务下插入多个对象
 	 * @param entitys 对象列表
+	 * @return 是否成功
 	 */
 	boolean inserts(Object... entitys);
 
 	/**
 	 * 一个事务下更新多个对象
 	 * @param entitys 对象列表
+	 * @return 是否成功
 	 */
 	boolean updates(Object... entitys);
 
@@ -71,9 +73,7 @@ public interface Dao {
 
 	/**
 	 * 一个事务批量持久化对象 保存或更新，如果存在就更新，不存在就插入
-	 * @param entity 需要持久化的对象
-	 * @param <E> 泛型
-	 * @return 列表对象
+	 * @param entity 需要持久化的对象 
 	 */
 	void insertOrUpdates(Object... entity);
 
@@ -96,6 +96,7 @@ public interface Dao {
 	/**
 	 * 一个事务中删除多个数据
 	 * @param entitys 需要持久话对象的集合
+	 * @return 是否成功
 	 */
 	boolean deletes(Object... entitys);
 
