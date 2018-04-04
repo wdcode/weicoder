@@ -40,11 +40,11 @@ public final class RequestUtil {
 		// 判断不为空
 		if (!EmptyUtil.isEmpty(request)) {
 			// 获得IP
-			String ip = request.getHeader("X-Real-IP");
+			String ip = request.getHeader("X-Forwarded-For");
 			// 判断如果为空继续获得
 			if (EmptyUtil.isEmpty(ip)) {
 				// 为空换方法获得
-				ip = request.getHeader("X-Forwarded-For");
+				ip = request.getHeader("X-Real-IP");
 			}
 			// 判断如果为空继续获得
 			if (EmptyUtil.isEmpty(ip)) {
