@@ -125,7 +125,10 @@ public final class CookieUtil {
 			}
 			// 添加Cookie
 			response.addCookie(cookie);
-		} catch (Exception e) {}
+			Logs.debug("add cookie name={} value={} domain={} maxAge={}", name, value, domain, maxAge);
+		} catch (Exception e) {
+			Logs.error(e);
+		}
 	}
 
 	/**
