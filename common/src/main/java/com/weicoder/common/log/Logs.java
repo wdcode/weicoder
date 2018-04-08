@@ -69,7 +69,7 @@ public final class Logs {
 	}
 
 	/**
-	 * 使用debug打印日志
+	 * 使用warn打印日志
 	 * @param msg 信息 可以是字符串xxx{}xxx
 	 * @param params 字符串格式化参数
 	 */
@@ -79,7 +79,7 @@ public final class Logs {
 	}
 
 	/**
-	 * 使用debug打印日志
+	 * 使用warn打印日志
 	 * @param t 异常
 	 */
 	public static void warn(Throwable t) {
@@ -98,7 +98,7 @@ public final class Logs {
 	}
 
 	/**
-	 * 使用debug打印日志
+	 * 使用error打印日志
 	 * @param t 异常
 	 */
 	public static void error(Throwable t) {

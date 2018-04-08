@@ -65,7 +65,7 @@ public final class CookieUtil {
 					}
 				}
 			}
-			Logs.debug("adds cookie res={}", res);
+			Logs.debug("adds cookie names={} res={}", res);
 		} catch (Exception e) {
 			Logs.error(e);
 		}

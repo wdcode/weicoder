@@ -65,6 +65,13 @@ public interface Log {
 	void error(String msg, Object... params);
 
 	/**
+	 * 使用error打印日志
+	 * @param msg 信息
+	 * @param t 异常
+	 */
+	void error(String msg, Throwable t);
+
+	/**
 	 * 使用debug打印日志
 	 * @param t 异常
 	 */
