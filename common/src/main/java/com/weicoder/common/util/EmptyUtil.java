@@ -10,6 +10,15 @@ import java.util.Map;
  */
 public final class EmptyUtil {
 	/**
+	 * 判断对象是否非空 !isEmptys(objs...);
+	 * @param objs 对象
+	 * @return true为空,false非空
+	 */
+	public static boolean isNotEmptys(Object... objs) {
+		return !isEmptys(objs);
+	}
+
+	/**
 	 * 判断对象是否空 传入的对象有一个为空就返回 false
 	 * @param objs 对象
 	 * @return true为空,false非空
@@ -32,6 +41,15 @@ public final class EmptyUtil {
 	 */
 	public static boolean isEmpty(Object[] objects) {
 		return objects == null || objects.length == 0;
+	}
+
+	/**
+	 * 判断对象是否非空 !isEmpty(obj);
+	 * @param obj 对象
+	 * @return true为空,false非空
+	 */
+	public static boolean isNotEmpty(Object obj) {
+		return !isEmpty(obj);
 	}
 
 	/**

@@ -14,7 +14,7 @@ public final class StringConstants {
 	/** 常量字符串 "_" */
 	public final static String	UNDERLINE	= "_";
 	/** 常量字符串 "-" */
-	public final static String	LINE			= "-";
+	public final static String	LINE		= "-";
 	/** 常量字符串 "," */
 	public final static String	COMMA		= ",";
 	/** 常量字符串 ":" */
@@ -23,8 +23,10 @@ public final class StringConstants {
 	public final static String	BACKSLASH	= "/";
 	/** 常量字符串 "key" */
 	public final static String	KEY			= "key";
+	/** 常量字符串 "*" */
+	public final static String	ASTERISK	= "*";
 	/** 常量字符串 "key" */
-	public final static String	SEPA			= "`";
+	public final static String	SEPA		= "`";
 
 	private StringConstants() {}
 }

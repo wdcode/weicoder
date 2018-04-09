@@ -28,12 +28,12 @@ public final class CommonParams {
 	public final static String		ENCRYPT_ALGO	= Params.getString("encrypt.algo", EncryptConstants.ALGO_AES);
 	/** 加密使用摘要算法 */
 	public final static String		ENCRYPT_DIGEST	= Params.getString("encrypt.digest", EncryptConstants.ALGO_SHA_1);
-	/** 执行任务名称数组 */
-	public final static String[]	INIT_CLASSES	= Params.getStringArray("init.class", ArrayConstants.STRING_EMPTY);
 	/** 包名 */
 	public final static String		PACKAGES		= Params.getString("packages");
 	/** token 验证长度 */
 	public final static int			TOKEN_LENGHT	= Params.getInt("token.lenght", 8);
+	/** 获得ips过滤组 */
+	public final static String[]	IPS				= Params.getStringArray("ips", ArrayConstants.STRING_EMPTY);
 
 	/**
 	 * 获得包名

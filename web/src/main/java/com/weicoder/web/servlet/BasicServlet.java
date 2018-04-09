@@ -21,6 +21,7 @@ import com.weicoder.common.token.TokenEngine;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.util.IpUtil;
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.web.annotation.Action;
 import com.weicoder.web.annotation.Cookies;
@@ -50,7 +51,6 @@ public class BasicServlet extends HttpServlet {
 		String ip = RequestUtil.getIp(request);
 		// 获得callback
 		String callback = RequestUtil.getParameter(request, "callback");
-		Logs.debug("check ip request ip={},ips={}", ip, WebParams.IPS);
 		// 获得path
 		String path = request.getPathInfo();
 		Logs.debug("request ip={},path={},{}", ip, path, request.getQueryString());
@@ -97,9 +97,9 @@ public class BasicServlet extends HttpServlet {
 			}
 			// 过滤IP
 			Action a = action.getClass().getAnnotation(Action.class);
-			if (a.ips() && !EmptyUtil.isEmpty(WebParams.IPS)) {
+			if (a.ips()) {
 				// 如果在允许列表继续 否则退出
-				if (!WebParams.IPS.contains(ip)) {
+				if (!IpUtil.contains(ip)) {
 					Logs.debug("this ip={}", ip);
 					ResponseUtil.json(response, callback, "not exist ip");
 					return;

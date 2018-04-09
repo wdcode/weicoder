@@ -59,6 +59,8 @@ public final class RegexConstants {
 	public final static String	DATE_YMD_H_M_S		= "^(\\d{4})(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1]) (0[0-9]|1[0-9]|2[0-4]):([0-5][0-9]):([0-5][0-9])$";
 	/** Date 如12:10:16 */
 	public final static String	DATE_HH_MM_SS		= "^(0[0-9]|1[0-9]|2[0-4]):([0-5][0-9]):([0-5][0-9])$";
+	/** 正则使用字符串 "\\." */
+	public final static String	POINT				= "\\.";
 
 	private RegexConstants() {}
 }

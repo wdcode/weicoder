@@ -1,9 +1,5 @@
 package com.weicoder.web.params;
 
-import java.util.Set;
-
-import com.weicoder.common.constants.ArrayConstants;
-import com.weicoder.common.lang.Sets;
 import com.weicoder.common.params.Params;
 
 /**
@@ -12,23 +8,20 @@ import com.weicoder.common.params.Params;
  */
 public final class WebParams {
 	/** 是否支持get */
-	public final static boolean		GET					= Params.getBoolean("servlet.get", true);
-	/** IP鉴权 允许的IP访问 */
-	public final static Set<String>	IPS					= Sets
-			.newSet(Params.getStringArray("servlet.ips", ArrayConstants.STRING_EMPTY));
+	public final static boolean	GET					= Params.getBoolean("servlet.get", true);
 	/** 验证码出现的字符集 */
-	public final static char[]		VERIFY_CODE			= Params
+	public final static char[]	VERIFY_CODE			= Params
 			.getString("verify.code", "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ").toCharArray();
 	/** 验证码长度 */
-	public final static int			VERIFY_LENGTH		= Params.getInt("verify.length", 4);
+	public final static int		VERIFY_LENGTH		= Params.getInt("verify.length", 4);
 	/** 域名 */
-	public final static String		DOMAIN				= Params.getString("domain");
+	public final static String	DOMAIN				= Params.getString("domain");
 	/** 状态码 空状态 */
-	public final static int			STATE_ERROR_NULL	= Params.getInt("state.error.null", 100);
+	public final static int		STATE_ERROR_NULL	= Params.getInt("state.error.null", 100);
 	/** 状态码 成功 */
-	public final static int			STATE_SUCCESS		= Params.getInt("state.success", 0);
+	public final static int		STATE_SUCCESS		= Params.getInt("state.success", 0);
 	/** 状态码成功信息 */
-	public final static String		STATE_SUCCESS_MSG	= Params.getString("state.success.msg", "success");
+	public final static String	STATE_SUCCESS_MSG	= Params.getString("state.success.msg", "success");
 
 	private WebParams() {}
 }
