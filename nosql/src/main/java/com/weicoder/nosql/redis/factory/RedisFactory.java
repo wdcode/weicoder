@@ -1,6 +1,7 @@
 package com.weicoder.nosql.redis.factory;
 
-import com.weicoder.nosql.redis.Redis;
+import com.weicoder.nosql.redis.RedisPool;
+import com.weicoder.nosql.redis.Subscribe;
 
 import redis.clients.jedis.JedisCluster;
 import redis.clients.jedis.JedisPool;
@@ -15,7 +16,7 @@ public final class RedisFactory {
 	 * @param key 键
 	 * @return Redis
 	 */
-	public static Redis getRedis(String key) {
+	public static RedisPool getRedis(String key) {
 		return RedisJedisFactory.FACTORY.getInstance(key);
 	}
 
@@ -24,7 +25,7 @@ public final class RedisFactory {
 	 * @param key 键
 	 * @return JedisCluster
 	 */
-	public static JedisCluster getJedisCluster(String key) {
+	public static JedisCluster getCluster(String key) {
 		return JedisClusterFactory.FACTORY.getInstance(key);
 	}
 
@@ -33,8 +34,17 @@ public final class RedisFactory {
 	 * @param key 键
 	 * @return Redis
 	 */
-	public static JedisPool getJedisPool(String key) {
+	public static JedisPool getPool(String key) {
 		return JedisPoolFactory.FACTORY.getInstance(key);
+	}
+
+	/**
+	 * 获得RedisSubscribe
+	 * @param key 键
+	 * @return RedisSubscribe
+	 */
+	public static Subscribe getSubscribe(String key) {
+		return RedisSubscribeFactory.FACTORY.getInstance(key);
 	}
 
 	private RedisFactory() {}

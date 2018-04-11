@@ -4,6 +4,7 @@ import java.util.Enumeration;
 import java.util.Map;
 
 import javax.servlet.ServletRequest;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -107,7 +108,7 @@ public final class RequestUtil {
 	 * @param request ServletRequest
 	 * @return Map参数
 	 */
-	public static Map<String, String> getParameters(ServletRequest request) {
+	public static Map<String, String> getParameters(HttpServletRequest request) {
 		// 声明空Map
 		Map<String, String> map = Maps.newMap();
 		// 获得提交的所以参数名
@@ -119,6 +120,72 @@ public final class RequestUtil {
 		}
 		// 返回Map
 		return map;
+	}
+
+	/**
+	 * 获得request的提交头参数 如果没有返回空Map
+	 * @param request HttpServletRequest
+	 * @return Map参数
+	 */
+	public static Map<String, String> getHeaders(HttpServletRequest request) {
+		// 声明空Map
+		Map<String, String> map = Maps.newMap();
+		// 获得提交的所以参数名
+		for (Enumeration<String> e = request.getHeaderNames(); e.hasMoreElements();) {
+			// 获得参数Key
+			String key = e.nextElement();
+			// 获得参数值并添加到Map中
+			map.put(key, request.getHeader(key));
+		}
+		// 返回Map
+		return map;
+	}
+
+	/**
+	 * 获得request的提交Cookie参数 如果没有返回空Map
+	 * @param request HttpServletRequest
+	 * @return Map参数
+	 */
+	public static Map<String, String> getCookies(HttpServletRequest request) {
+		// 声明空Map
+		Map<String, String> map = Maps.newMap();
+		try {
+			// 获得提交的所以参数名
+			for (Cookie c : request.getCookies()) {
+				// 获得参数值并添加到Map中
+				map.put(c.getName(), c.getValue());
+			}
+		} catch (Exception e) {}
+		// 返回Map
+		return map;
+	}
+
+	/**
+	 * 获得request的提交Attribute参数 如果没有返回空Map
+	 * @param request HttpServletRequest
+	 * @return Map参数
+	 */
+	public static Map<String, String> getAttributes(HttpServletRequest request) {
+		// 声明空Map
+		Map<String, String> map = Maps.newMap();
+		// 获得提交的所以参数名
+		for (Enumeration<String> e = request.getAttributeNames(); e.hasMoreElements();) {
+			// 获得参数Key
+			String key = e.nextElement();
+			// 获得参数值并添加到Map中
+			map.put(key, request.getHeader(key));
+		}
+		// 返回Map
+		return map;
+	}
+
+	/**
+	 * 获得request的提交所有参数 包括cookie和header
+	 * @param request HttpServletRequest
+	 * @return Map参数
+	 */
+	public static Map<String, String> getAll(HttpServletRequest request) {
+		return Maps.newMap(getAttributes(request), getCookies(request), getHeaders(request), getParameters(request));
 	}
 
 	/**

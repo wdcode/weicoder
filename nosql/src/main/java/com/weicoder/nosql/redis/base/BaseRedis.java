@@ -5,13 +5,13 @@ import java.util.List;
 import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.zip.ZipEngine;
-import com.weicoder.nosql.redis.Redis;
+import com.weicoder.nosql.redis.RedisPool;
 
 /**
  * Redis基类
  * @author WD
  */
-public abstract class BaseRedis implements Redis {
+public abstract class BaseRedis implements RedisPool {
 	/**
 	 * 压缩值 当值能压缩时才压缩
 	 * @param key 键

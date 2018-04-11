@@ -39,7 +39,7 @@ public final class Quartzs {
 					// Trigger生成器
 					TriggerBuilder<org.quartz.Trigger> builder = TriggerBuilder.newTrigger();
 					// 处理所有方法
-					for (Method m : c.getMethods()) {
+					for (Method m : c.getDeclaredMethods()) {
 						// 方法有执行时间注解
 						Trigger t = m.getAnnotation(Trigger.class);
 						if (t != null) {

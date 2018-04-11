@@ -1,239 +1,110 @@
 package com.weicoder.nosql.redis;
 
+import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.util.List;
 import java.util.Map;
 
-import redis.clients.jedis.Jedis;
+import com.weicoder.common.concurrent.ScheduledUtil;
+import com.weicoder.common.lang.Lists;
+import com.weicoder.common.lang.Maps;
+import com.weicoder.common.log.Logs;
+import com.weicoder.common.params.CommonParams;
+import com.weicoder.common.util.BeanUtil;
+import com.weicoder.common.util.ClassUtil;
+import com.weicoder.common.util.DateUtil;
+import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.nosql.redis.annotation.Channel;
+import com.weicoder.nosql.redis.annotation.Subscribes;
+import com.weicoder.nosql.redis.factory.RedisFactory;
+
 import redis.clients.jedis.JedisPubSub;
 
 /**
- * Redis 操作接口
+ * redis订阅功能
  * @author WD
  */
-public interface Redis {
-	/**
-	 * 获取资源Jedis
-	 * @return Jedis
-	 */
-	Jedis getResource();
+public final class Redis {
+	// 保存Channel对应对象
+	private final static Map<String, Object>		SUBSCRIBES	= Maps.newMap();
+	// 保存Channel对应方法
+	private final static Map<String, Method>		METHODS		= Maps.newMap();
+	// 保存Redis消费
+	private final static Map<String, Subscribe>		REDIS		= Maps.newMap();
+	// 保存Redis对应消费的Channel
+	private final static Map<String, List<String>>	CHANNELS	= Maps.newMap();
 
 	/**
-	 * 压缩值 当值能压缩时才压缩
-	 * @param key 键
-	 * @param value 值
-	 * @return 是否成功
+	 * 初始化redis订阅
 	 */
-	String compress(String key, Object value);
+	public static void subscribes() {
+		// 获得所有redis订阅者
+		List<Class<Subscribes>> subscribes = ClassUtil.getAnnotationClass(CommonParams.getPackages("redis"),
+				Subscribes.class);
+		if (EmptyUtil.isNotEmpty(subscribes)) {
+			// 循环处理所有redis订阅类
+			for (Class<Subscribes> c : subscribes) {
+				// 执行对象
+				Object subscribe = BeanUtil.newInstance(c);
+				Subscribes a = subscribe.getClass().getAnnotation(Subscribes.class);
+				String name = a.value();
+				if (!REDIS.containsKey(name)) {
+					REDIS.put(name, RedisFactory.getSubscribe(name));
+				}
+				// 获得channels列表
+				List<String> channels = Maps.getList(CHANNELS, name, String.class);
+				// 处理所有方法
+				for (Method m : c.getDeclaredMethods()) {
+					// 方法有执行时间注解
+					Channel channel = m.getAnnotation(Channel.class);
+					if (channel != null) {
+						String val = channel.value();
+						METHODS.put(val, m);
+						channels.add(val);
+						SUBSCRIBES.put(val, subscribe);
+						Logs.info("add redis subscribe={} channel={}", c.getSimpleName(), val);
+					}
+				}
+			}
+			Logs.info("add redis subscribe={} channels={}", subscribes.size());
+			// // 订阅相关消费数据
+			for (String key : CHANNELS.keySet()) {
+				List<String> channels = CHANNELS.get(key);
+				// 定时观察订阅信息
+				ScheduledUtil.delay(() -> {
+					REDIS.get(key).subscribe(new JedisPubSub() {
+						@Override
+						public void onMessage(String channel, String message) {
+							// 获得订阅通道的对象和方法
+							int time = DateUtil.getTime();
+							Object s = SUBSCRIBES.get(channel);
+							Method m = METHODS.get(channel);
+							if (EmptyUtil.isNotEmptys(s, m)) {
+								// 获得所有参数
+								Parameter[] params = m.getParameters();
+								Object[] objs = null;
+								if (EmptyUtil.isEmpty(params)) {
+									// 参数为空直接执行方法
+									BeanUtil.invoke(s, m);
+								} else {
+									objs = new Object[params.length];
+									// 有参数 现在只支持 1-2位的参数，1个参数表示message
+									if (params.length == 1) {
+										objs[0] = message;
+									}
+									// 执行方法
+									BeanUtil.invoke(s, m, objs);
+								}
+							}
+							Logs.debug("redis onMessage subscribe={} method={} time={}", s, m,
+									DateUtil.getTime() - time);
+						}
+					}, Lists.toArray(channels));
+				}, 1);
+			}
 
-	/**
-	 * 根据键获得压缩值 如果是压缩的返回解压缩的byte[] 否是返回Object
-	 * @param key 键
-	 * @return 值
-	 */
-	byte[] extract(String key);
+		}
+	}
 
-	/**
-	 * 获得多个键的数组
-	 * @param keys 键
-	 * @return 值
-	 */
-	List<byte[]> extract(String... keys);
-
-	/**
-	 * 追加键值
-	 * @param key 键
-	 * @param value 值
-	 * @return 是否成功
-	 */
-	long append(String key, Object value);
-
-	/**
-	 * 设置键值 无论存储空间是否存在相同键，都保存
-	 * @param key 键
-	 * @param value 值
-	 * @return 状态码
-	 */
-	String set(String key, String value);
-
-	/**
-	 * 根据哈希健 保存字段值
-	 * @param key 键
-	 * @param field 字段
-	 * @param value 值
-	 * @return 状态码 0 更新 1 新增 -1 错误
-	 */
-	long hset(String key, String field, String value);
-
-	/**
-	 * 设置键值 无论存储空间是否存在相同键，都保存
-	 * @param key 键
-	 * @param value 值
-	 * @return 状态码
-	 */
-	String set(byte[] key, byte[] value);
-
-	/**
-	 * 设置值 带有效期
-	 * @param key 健
-	 * @param seconds 有效期秒
-	 * @param value 值
-	 * @return 状态码
-	 */
-	String setex(String key, int seconds, String value);
-
-	/**
-	 * 根据键获得值
-	 * @param key 键
-	 * @return 值
-	 */
-	String get(String key);
-
-	/**
-	 * 根据哈希键字段获得值
-	 * @param key 键
-	 * @param field 值
-	 * @return 值
-	 */
-	String hget(String key, String field);
-
-	/**
-	 * 根据哈希键获得数量
-	 * @param key 键
-	 * @return 值
-	 */
-	long hlen(String key);
-
-	/**
-	 * 根据哈希主键获得所有列表数据
-	 * @param key 哈希主键
-	 * @return Map
-	 */
-	Map<String, String> hgetAll(String key);
-
-	/**
-	 * 根据键获得值
-	 * @param key 键
-	 * @return 值
-	 */
-	byte[] get(byte[] key);
-
-	/**
-	 * 根据键获得值
-	 * @param key 键
-	 * @return 值
-	 */
-	List<byte[]> mget(byte[][] key);
-
-	/**
-	 * 获得多个键的数组
-	 * @param keys 键
-	 * @return 值
-	 */
-	Object[] get(String... keys);
-
-	/**
-	 * 删除键值
-	 * @param key 键
-	 * @return 成功数量
-	 */
-	long del(String... key);
-
-	/**
-	 * 删除键值
-	 * @param key 键
-	 * @param field 要删除的字段
-	 * @return 成功数量
-	 */
-	long hdel(String key, String... field);
-
-	/**
-	 * 验证键是否存在
-	 * @param key 键
-	 * @return true 存在 false 不存在
-	 */
-	boolean exists(String key);
-
-	/**
-	 * 根据哈希指定字段 验证是否存在
-	 * @param key 键
-	 * @param field 字段
-	 * @return true 存在 false 不存在
-	 */
-	boolean hexists(String key, String field);
-
-	/**
-	 * 如果字段不存在，则将指定的散列字段设置为指定的值
-	 * @param key 健
-	 * @param field 字段
-	 * @param value 值
-	 * @return 如果字段已存在返回，则返回0，否则如果创建新字段，则为1
-	 */
-	long hsetnx(String key, String field, String value);
-
-	/**
-	 * 返回剩余的时间以秒为单位
-	 * @param key 键
-	 * @return 返回整数 剩余的时间以秒为单位 -1 版本不支持 -2 不存在
-	 */
-	long ttl(String key);
-
-	/**
-	 * 订阅消息
-	 * @param jedisPubSub 订阅类
-	 * @param channels 通道
-	 */
-	void subscribe(JedisPubSub jedisPubSub, String... channels);
-
-	/**
-	 * 从右侧入队列
-	 * @param key 健
-	 * @param strings 入队数据
-	 * @return 返回数量
-	 */
-	Long rpush(String key, String... strings);
-
-	/**
-	 * 从左侧读取数据
-	 * @param key 健
-	 * @return 读出的元素
-	 */
-	String lpop(String key);
-
-	/**
-	 * 从左侧入队列
-	 * @param key 健
-	 * @param strings 入队数据
-	 * @return 返回数量
-	 */
-	Long lpush(String key, String... strings);
-
-	/**
-	 * 读取队列数量
-	 * @param key 健
-	 * @return 数量
-	 */
-	long llen(String key);
-
-	/**
-	 * 返回集合数量
-	 * @param key 键
-	 * @return 集合数量
-	 */
-	long zcard(String key);
-
-	/**
-	 * 返回有序集 key 中，成员 member 的 score 值 如果 member 元素不是有序集 key 的成员，或 key 不存在，返回 null
-	 * @param key 键
-	 * @param member 成员
-	 * @return Double
-	 */
-	Double zscore(String key, String member);
-
-	/**
-	 * 返回有序集 key 中 成员 member是否存在
-	 * @param key 键
-	 * @param member 成员
-	 * @return true false
-	 */
-	boolean zexists(String key, String member);
+	private Redis() {}
 }

@@ -1,5 +1,6 @@
 package com.weicoder.web.params;
 
+import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.params.Params;
 
 /**
@@ -17,9 +18,9 @@ public final class WebParams {
 	/** 域名 */
 	public final static String	DOMAIN				= Params.getString("domain");
 	/** 状态码 空状态 */
-	public final static int		STATE_ERROR_NULL	= Params.getInt("state.error.null", 100);
+	public final static int		STATE_ERROR_NULL	= Params.getShort("state.error.null", Conversion.toShort(100));
 	/** 状态码 成功 */
-	public final static int		STATE_SUCCESS		= Params.getInt("state.success", 0);
+	public final static int		STATE_SUCCESS		= Params.getShort("state.success", Conversion.toShort(0));
 	/** 状态码成功信息 */
 	public final static String	STATE_SUCCESS_MSG	= Params.getString("state.success.msg", "success");
 

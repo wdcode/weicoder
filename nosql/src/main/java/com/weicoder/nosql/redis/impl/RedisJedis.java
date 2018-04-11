@@ -218,4 +218,18 @@ public final class RedisJedis extends BaseRedis {
 			return jedis.hlen(key);
 		}
 	}
+
+	@Override
+	public long publish(String channel, String message) {
+		try (Jedis jedis = pool.getResource()) {
+			return jedis.publish(channel, message);
+		}
+	}
+
+	@Override
+	public long publish(byte[] channel, byte[] message) {
+		try (Jedis jedis = pool.getResource()) {
+			return jedis.publish(channel, message);
+		}
+	}
 }

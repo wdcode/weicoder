@@ -36,6 +36,15 @@ public final class RedisParams {
 	}
 
 	/**
+	 * Redis 解析类型 默认 cluster 可选项 cluster 集群 pool池 redisson
+	 * @param name 名
+	 * @return 服务器地址
+	 */
+	public static String getType(String name) {
+		return Params.getString(getKey(name, "type"), "cluster");
+	}
+
+	/**
 	 * Redis服务器地址
 	 * @param name 名
 	 * @return 服务器地址

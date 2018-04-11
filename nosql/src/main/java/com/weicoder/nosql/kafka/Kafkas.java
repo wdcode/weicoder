@@ -39,12 +39,13 @@ public final class Kafkas {
 	private final static Map<String, List<String>>					TOPICS			= Maps.newMap();
 
 	/**
-	 * 初始化
+	 * 初始化消费者
 	 */
-	public static void init() {
+	public static void consumers() {
+		// 获得所有kafka消费者
 		List<Class<Consumer>> consumers = ClassUtil.getAnnotationClass(CommonParams.getPackages("kafka"),
 				Consumer.class);
-		if (!EmptyUtil.isEmpty(consumers)) {
+		if (EmptyUtil.isNotEmpty(consumers)) {
 			// 循环处理kafka类
 			for (Class<Consumer> c : consumers) {
 				// 执行对象
@@ -57,7 +58,7 @@ public final class Kafkas {
 				// 获得topic列表
 				List<String> topics = Maps.getList(TOPICS, name, String.class);
 				// 处理所有方法
-				for (Method m : c.getMethods()) {
+				for (Method m : c.getDeclaredMethods()) {
 					// 方法有执行时间注解
 					Topic topic = m.getAnnotation(Topic.class);
 					if (topic != null) {
@@ -65,7 +66,7 @@ public final class Kafkas {
 						METHODS.put(val, m);
 						CONSUMERS.put(val, consumer);
 						topics.add(val);
-						Logs.info("add kafka Consumer={} topic={}", c.getSimpleName(), val);
+						Logs.info("add kafka consumer={} topic={}", c.getSimpleName(), val);
 					}
 				}
 			}
@@ -91,11 +92,13 @@ public final class Kafkas {
 						Method method = METHODS.get(topic);
 						// 获得所有参数
 						Parameter[] params = method.getParameters();
-						Object[] objs = new Object[params.length];
+						Object[] objs = null;
 						if (EmptyUtil.isEmpty(params)) {
 							// 参数为空直接执行方法
 							BeanUtil.invoke(obj, method);
 						} else {
+							// 参数
+							objs = new Object[params.length];
 							// 有参数 现在只支持 1-2位的参数，1个参数表示value,2个参数表示key,value
 							if (params.length == 1) {
 								objs[0] = toParam(record.value(), params[0].getType());

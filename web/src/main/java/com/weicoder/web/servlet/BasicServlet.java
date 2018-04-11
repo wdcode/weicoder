@@ -1,7 +1,6 @@
 package com.weicoder.web.servlet;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.Map;
@@ -134,7 +133,11 @@ public class BasicServlet extends HttpServlet {
 				// 参数不为空 设置参数
 				params = new Object[pars.length];
 				// 所有提交的参数
-				Map<String, String> ps = RequestUtil.getParameters(request);
+				Map<String, String> ps = RequestUtil.getAll(request);
+				if (EmptyUtil.isEmpty(ps.get("ip"))) {
+					ps.put("ip", ip);
+				}
+				Logs.trace("request all ip={} params={}", ip, params);
 				// action全部参数下标
 				int i = 0;
 				for (; i < pars.length; i++) {
@@ -153,21 +156,21 @@ public class BasicServlet extends HttpServlet {
 						params[i] = ps;
 					} else if (ClassUtil.isBaseType(cs)) {
 						params[i] = Conversion.to(ps.get(p.getName()), cs);
-						// 判断参数为空并且参数名为ip
-						if (EmptyUtil.isEmpty(params[i]) && "ip".equals(p.getName())) {
-							// 赋值为调用客户端IP
-							params[i] = ip;
-						}
+						// // 判断参数为空并且参数名为ip
+						// if (EmptyUtil.isEmpty(params[i]) && "ip".equals(p.getName())) {
+						// // 赋值为调用客户端IP
+						// params[i] = ip;
+						// }
 					} else {
 						// 设置属性
 						params[i] = BeanUtil.copy(ps, cs);
-						// 获得IP字段
-						Field field = BeanUtil.getField(cs, "ip");
-						// 判断字段不为空并且没有值
-						if (field != null && !EmptyUtil.isEmpty(BeanUtil.getFieldValue(params[i], field))) {
-							BeanUtil.setFieldValue(params[i], field, ip);
-						}
-						Logs.debug("request ip={},name={},params={}", ip, actionName, params[i]);
+						// // 获得IP字段
+						// Field field = BeanUtil.getField(cs, "ip");
+						// // 判断字段不为空并且没有值
+						// if (field != null && !EmptyUtil.isEmpty(BeanUtil.getFieldValue(params[i], field))) {
+						// BeanUtil.setFieldValue(params[i], field, ip);
+						// }
+						// Logs.debug("request ip={},name={},params={}", ip, actionName, params[i]);
 					}
 					Logs.debug("request ip={},name={},params index={},name={},type={},value={}", ip, actionName, i,
 							p.getName(), cs, params[i]);
@@ -234,8 +237,8 @@ public class BasicServlet extends HttpServlet {
 						CookieUtil.adds(response, res, names);
 					}
 					// 写入到前端
-					ResponseUtil.json(response, callback,
-							Maps.newMap(new String[] { status, success }, new Object[] { 0, res }));
+					ResponseUtil.json(response, callback, Maps.newMap(new String[] { status, success },
+							new Object[] { WebParams.STATE_SUCCESS, res }));
 				}
 				Logs.debug("servlet state={} method={},params={},res={} end", state, method.getName(), params, res);
 			} else {
