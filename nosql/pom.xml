@@ -4,7 +4,7 @@
 	<groupId>com.weicoder</groupId>
 	<artifactId>nosql</artifactId>
 	<packaging>jar</packaging>
-	<version>2.3.2.1</version>
+	<version>2.3.3-SNAPSHOT</version>
 	<name>weicoder</name>
 	<description>java nosql</description>
 	<url>https://github.com/wdcode/weicoder</url>
@@ -38,7 +38,7 @@
 		<dependency>
 			<groupId>com.weicoder</groupId>
 			<artifactId>common</artifactId>
-			<version>2.3.2.1</version>
+			<version>2.3.3-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.whalin</groupId>
