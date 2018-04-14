@@ -65,8 +65,8 @@ public final class IpUtil {
 
 	/**
 	 * 校验ip是否在列表里 一般用在过滤ip白名单 支持泛*等操作
-	 * @param ip
-	 * @return
+	 * @param ip 查询ip是否存在过滤列表
+	 * @return true 存在 false 不存在
 	 */
 	public static boolean contains(String ip) {
 		// 分解ip段
