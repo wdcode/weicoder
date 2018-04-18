@@ -11,8 +11,7 @@ import com.weicoder.common.constants.RegexConstants;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.lang.Lists;
-import com.weicoder.common.lang.Sets;
-import com.weicoder.common.lang.Validate;
+import com.weicoder.common.lang.Sets; 
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
 
@@ -140,7 +139,7 @@ public final class IpUtil {
 					// 获得IP
 					String ip = ips.nextElement().getHostAddress();
 					// 判断不是IP和本机IP
-					if (Validate.isIp(ip) && !LOCAL_IP.equals(ip)) {
+					if (RegexUtil.isIp(ip) && !LOCAL_IP.equals(ip)) {
 						list.add(ip);
 					}
 				}
@@ -159,7 +158,7 @@ public final class IpUtil {
 	 */
 	public static int encode(String ip) {
 		// 判断是IP
-		if (Validate.isIp(ip)) {
+		if (RegexUtil.isIp(ip)) {
 			// 拆分IP
 			String[] t = ip.split("\\.");
 			// 判断数组长度为4

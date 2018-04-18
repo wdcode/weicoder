@@ -308,8 +308,7 @@ public final class JdbcDao implements Dao {
 	}
 
 	@Override
-	public void insertOrUpdates(Object... entity) {
-		// TODO Auto-generated method stub
-
+	public boolean insertOrUpdates(Object... entity) {
+		return false;
 	}
 }

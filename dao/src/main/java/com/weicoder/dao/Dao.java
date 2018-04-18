@@ -73,9 +73,9 @@ public interface Dao {
 
 	/**
 	 * 一个事务批量持久化对象 保存或更新，如果存在就更新，不存在就插入
-	 * @param entity 需要持久化的对象 
+	 * @param entity 需要持久化的对象
 	 */
-	void insertOrUpdates(Object... entity);
+	boolean insertOrUpdates(Object... entity);
 
 	/**
 	 * 持久化数据，删除表中多行数据

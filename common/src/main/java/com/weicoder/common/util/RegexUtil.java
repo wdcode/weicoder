@@ -1,15 +1,14 @@
-package com.weicoder.common.lang;
+package com.weicoder.common.util;
 
 import java.util.regex.Pattern;
 
 import com.weicoder.common.constants.RegexConstants;
-import com.weicoder.common.util.EmptyUtil;
 
 /**
  * 用于校验字符串是否符合正则表达式
- * @author WD 
+ * @author WD
  */
-public final class Validate {
+public final class RegexUtil {
 	/**
 	 * 字母 正则表达式为 ^[a-zA-Z]+$
 	 * @param str 要验证的字符串
@@ -70,7 +69,8 @@ public final class Validate {
 	 * @return true false
 	 */
 	public static boolean isDate(String str) {
-		return is(new String[] { RegexConstants.DATE_YYYYMMDD, RegexConstants.DATE_YYYY_MM_DD, RegexConstants.DATE_Y_M_D_H_M_S, RegexConstants.DATE_Y_M_D_H_M, RegexConstants.DATE_YMD_H_M_S,
+		return is(new String[] { RegexConstants.DATE_YYYYMMDD, RegexConstants.DATE_YYYY_MM_DD,
+				RegexConstants.DATE_Y_M_D_H_M_S, RegexConstants.DATE_Y_M_D_H_M, RegexConstants.DATE_YMD_H_M_S,
 				RegexConstants.DATE_HH_MM_SS }, str);
 	}
 
@@ -198,7 +198,8 @@ public final class Validate {
 	 * @return true false
 	 */
 	public static boolean is(String regex, String str) {
-		return EmptyUtil.isEmpty(regex) || EmptyUtil.isEmpty(str) ? false : Pattern.compile(regex).matcher(str).matches();
+		return EmptyUtil.isEmpty(regex) || EmptyUtil.isEmpty(str) ? false
+				: Pattern.compile(regex).matcher(str).matches();
 	}
 
 	/**
@@ -214,11 +215,13 @@ public final class Validate {
 		} else {
 			// 循环判断正则 只要有一个符合就返回true
 			for (String regex : regexs) {
-				if (is(regex, str)) { return true; }
+				if (is(regex, str)) {
+					return true;
+				}
 			}
 		}
 		return false;
 	}
 
-	private Validate() {}
+	private RegexUtil() {}
 }

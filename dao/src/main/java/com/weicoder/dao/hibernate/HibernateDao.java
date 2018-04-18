@@ -103,15 +103,15 @@ public final class HibernateDao implements Dao {
 	}
 
 	@Override
-	public void insertOrUpdates(Object... entitys) {
-		execute(entitys[0].getClass(), (Session session) -> {
+	public boolean insertOrUpdates(Object... entitys) {
+		return execute(entitys[0].getClass(), (Session session) -> {
 			// 循环添加
 			for (Object o : entitys) {
 				session.saveOrUpdate(o);
 			}
 			// 返回实体
 			return entitys;
-		});
+		}) != null;
 	}
 
 	@Override

@@ -6,8 +6,7 @@ import java.util.regex.Pattern;
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.StringConstants;
 
-import com.weicoder.common.lang.Conversion;
-import com.weicoder.common.lang.Validate;
+import com.weicoder.common.lang.Conversion; 
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
 
@@ -66,7 +65,7 @@ public final class StringUtil {
 		// 循环字符数组
 		for (int i = 0; i < temp.length; i++) {
 			// 判断是否中文
-			if (Validate.isChinese(String.valueOf(temp[i]))) {
+			if (RegexUtil.isChinese(String.valueOf(temp[i]))) {
 				// 中文长度加2
 				length += 2;
 			} else {

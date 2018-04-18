@@ -11,8 +11,7 @@ import com.weicoder.common.constants.RegexConstants;
 
 import com.weicoder.common.constants.StringConstants;
 
-import com.weicoder.common.lang.Conversion;
-import com.weicoder.common.lang.Validate;
+import com.weicoder.common.lang.Conversion; 
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
 
@@ -31,19 +30,19 @@ public final class DateUtil {
 	 */
 	public static String getFormat(String date) {
 		// 开始判断格式
-		if (Validate.is(RegexConstants.DATE_YYYYMMDD, date)) {
+		if (RegexUtil.is(RegexConstants.DATE_YYYYMMDD, date)) {
 			return DateConstants.FORMAT_YYYYMMDD;
-		} else if (Validate.is(RegexConstants.DATE_YYYY_MM_DD, date)) {
+		} else if (RegexUtil.is(RegexConstants.DATE_YYYY_MM_DD, date)) {
 			return DateConstants.FORMAT_YYYY_MM_DD;
-		} else if (Validate.is(RegexConstants.DATE_Y_M_D_H_M_S, date)) {
+		} else if (RegexUtil.is(RegexConstants.DATE_Y_M_D_H_M_S, date)) {
 			return DateConstants.FORMAT_Y_M_D_H_M_S;
-		} else if (Validate.is(RegexConstants.DATE_Y_M_D_H_M, date)) {
+		} else if (RegexUtil.is(RegexConstants.DATE_Y_M_D_H_M, date)) {
 			return DateConstants.FORMAT_Y_M_D_H_M;
-		} else if (Validate.is(RegexConstants.DATE_YMD_H_M_S, date)) {
+		} else if (RegexUtil.is(RegexConstants.DATE_YMD_H_M_S, date)) {
 			return DateConstants.FORMAT_YMD_H_M_S;
-		} else if (Validate.is(RegexConstants.DATE_HH_MM_SS, date)) {
+		} else if (RegexUtil.is(RegexConstants.DATE_HH_MM_SS, date)) {
 			return DateConstants.FORMAT_HH_MM_SS;
-		} else if (Validate.is(RegexConstants.DATE_YYYYMM, date)) {
+		} else if (RegexUtil.is(RegexConstants.DATE_YYYYMM, date)) {
 			return DateConstants.FORMAT_YYYYMM;
 		}
 		return null;
