@@ -57,6 +57,10 @@ public final class Token implements ByteArray {
 		return id != 0 && isExpire() && isValid();
 	}
 
+	/**
+	 * 判断Token是否无效
+	 * @return
+	 */
 	public boolean isValid() {
 		return valid;
 	}

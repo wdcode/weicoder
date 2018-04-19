@@ -13,6 +13,7 @@ import com.weicoder.web.validator.annotation.Max;
 import com.weicoder.web.validator.annotation.Min;
 import com.weicoder.web.validator.annotation.NotEmpty;
 import com.weicoder.web.validator.annotation.NotNull;
+import com.weicoder.web.validator.annotation.Number;
 import com.weicoder.web.validator.annotation.Regex;
 
 /**
@@ -59,15 +60,21 @@ public final class Validators {
 		// 如果是基本类型
 		for (Annotation a : as) {
 			// 判断验证类型
-			if (a instanceof Max) {
+			if (a instanceof Number) {
+				// 是数字并且在可用范围内
+				long i = Conversion.toLong(value, Long.MIN_VALUE);
+				if (i < ((Number) a).min() || i > ((Number) a).max()) {
+					return ((Number) a).error();
+				}
+			} else if (a instanceof Max) {
 				// 是数字并且小于最大值
-				long i = Conversion.toLong(value, -1);
+				long i = Conversion.toLong(value, Long.MAX_VALUE);
 				if (i > ((Max) a).value()) {
 					return ((Max) a).error();
 				}
 			} else if (a instanceof Min) {
 				// 是数字并且大于最小值
-				long i = Conversion.toLong(value, -1);
+				long i = Conversion.toLong(value, Long.MIN_VALUE);
 				if (i < ((Min) a).value()) {
 					return ((Min) a).error();
 				}
@@ -84,7 +91,7 @@ public final class Validators {
 			} else if (a instanceof Regex) {
 				// 判断正则
 				if (!RegexUtil.is(((Regex) a).value(), Conversion.toString(value))) {
-					return ((NotEmpty) a).error();
+					return ((Regex) a).error();
 				}
 			}
 		}

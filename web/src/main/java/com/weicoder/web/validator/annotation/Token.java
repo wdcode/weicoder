@@ -7,8 +7,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import com.weicoder.common.constants.StringConstants;
-
 /**
  * 使用TokenEngine验证Token
  * @author WD
@@ -23,14 +21,14 @@ public @interface Token {
 	String value() default "token";
 
 	/**
-	 * 验证不通过的错误码
+	 * 无效的Token错误码
 	 * @return 错误码
 	 */
-	int error();
+	int valid();
 
 	/**
-	 * 验证不通过的错误信息 如果不写 根据error读取errorcode里的信息
-	 * @return 错误信息
+	 * 过期的Token错误码
+	 * @return
 	 */
-	String message() default StringConstants.EMPTY;
+	int expire();
 }

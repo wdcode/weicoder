@@ -33,6 +33,7 @@ import com.weicoder.web.params.WebParams;
 import com.weicoder.web.util.CookieUtil;
 import com.weicoder.web.util.RequestUtil;
 import com.weicoder.web.util.ResponseUtil;
+import com.weicoder.web.validator.Validators;
 
 /**
  * 基础Servlet 3
@@ -104,16 +105,16 @@ public class BasicServlet extends HttpServlet {
 					return;
 				}
 			}
-			// 验证token
-			if (a.token()) {
-				// 获得token
-				Token token = TokenEngine.decrypt(RequestUtil.getParameter(request, "token"));
-				if (!token.isLogin()) {
-					Logs.debug("this token={}", token);
-					ResponseUtil.json(response, callback, "token is no login");
-					return;
-				}
-			}
+			// // 验证token
+			// if (a.token()) {
+			// // 获得token
+			// Token token = TokenEngine.decrypt(RequestUtil.getParameter(request, "token"));
+			// if (!token.isLogin()) {
+			// Logs.debug("this token={}", token);
+			// ResponseUtil.json(response, callback, "token is no login");
+			// return;
+			// }
+			// }
 			// 获得方法
 			Map<String, Method> methods = WebCommons.ACTIONS_METHODS.get(name);
 			if (EmptyUtil.isEmpty(methods)) {
@@ -127,8 +128,10 @@ public class BasicServlet extends HttpServlet {
 			}
 			Logs.debug("request ip={},name={}", ip, actionName);
 			// 设置参数
-			Parameter[] pars = method.getParameters();
+			Parameter[] pars = WebCommons.METHODS_PARAMES.get(method);
 			Object[] params = null;
+			// 验证错误码
+			int code = WebParams.STATE_SUCCESS;
 			if (!EmptyUtil.isEmpty(pars)) {
 				// 参数不为空 设置参数
 				params = new Object[pars.length];
@@ -138,48 +141,83 @@ public class BasicServlet extends HttpServlet {
 					ps.put("ip", ip);
 				}
 				Logs.trace("request all ip={} params={}", ip, params);
-				// action全部参数下标
-				int i = 0;
-				for (; i < pars.length; i++) {
-					// 判断类型并设置
-					Parameter p = pars[i];
-					// 参数的类型
-					Class<?> cs = p.getType();
-					if (HttpServletRequest.class.equals(cs)) {
-						params[i] = request;
-					} else if (HttpServletResponse.class.equals(cs)) {
-						params[i] = response;
-					} else if (Token.class.equals(cs)) {
-						// 设置Token
-						params[i] = TokenEngine.decrypt(RequestUtil.getParameter(request, p.getName()));
-					} else if (Map.class.equals(cs)) {
-						params[i] = ps;
-					} else if (ClassUtil.isBaseType(cs)) {
-						params[i] = Conversion.to(ps.get(p.getName()), cs);
-						// // 判断参数为空并且参数名为ip
-						// if (EmptyUtil.isEmpty(params[i]) && "ip".equals(p.getName())) {
-						// // 赋值为调用客户端IP
-						// params[i] = ip;
-						// }
-					} else {
-						// 设置属性
-						params[i] = BeanUtil.copy(ps, cs);
-						// // 获得IP字段
-						// Field field = BeanUtil.getField(cs, "ip");
-						// // 判断字段不为空并且没有值
-						// if (field != null && !EmptyUtil.isEmpty(BeanUtil.getFieldValue(params[i], field))) {
-						// BeanUtil.setFieldValue(params[i], field, ip);
-						// }
-						// Logs.debug("request ip={},name={},params={}", ip, actionName, params[i]);
+				// 获得是否验证Token注解
+				com.weicoder.web.validator.annotation.Token t = method
+						.getAnnotation(com.weicoder.web.validator.annotation.Token.class);
+				// 方法上没有 检查类上
+				if (t == null) {
+					t = action.getClass().getAnnotation(com.weicoder.web.validator.annotation.Token.class);
+				}
+				// 验证token不为空
+				if (t != null) {
+					// 验证token 获得Token
+					Token token = TokenEngine.decrypt(ps.get(t.value()));
+					// 判断是否过期
+					if (!token.isValid()) {
+						code = t.valid();
+					} else if (!token.isExpire()) {
+						code = t.expire();
 					}
-					Logs.debug("request ip={},name={},params index={},name={},type={},value={}", ip, actionName, i,
-							p.getName(), cs, params[i]);
+				}
+				// token验证通过在执行
+				if (code == WebParams.STATE_SUCCESS) {
+					// action全部参数下标
+					int i = 0;
+					for (; i < pars.length; i++) {
+						// 判断类型并设置
+						Parameter p = pars[i];
+						// 参数的类型
+						Class<?> cs = p.getType();
+						if (HttpServletRequest.class.equals(cs)) {
+							params[i] = request;
+						} else if (HttpServletResponse.class.equals(cs)) {
+							params[i] = response;
+						} else if (Token.class.equals(cs)) {
+							// 设置Token
+							params[i] = TokenEngine.decrypt(RequestUtil.getParameter(request, p.getName()));
+						} else if (Map.class.equals(cs)) {
+							params[i] = ps;
+						} else if (ClassUtil.isBaseType(cs)) {
+							// 获得参数
+							params[i] = Conversion.to(ps.get(p.getName()), cs);
+							// 验证参数
+							if ((code = Validators.validator(p, params[i])) != WebParams.STATE_SUCCESS) {
+								break;
+							}
+							// // 判断参数为空并且参数名为ip
+							// if (EmptyUtil.isEmpty(params[i]) && "ip".equals(p.getName())) {
+							// // 赋值为调用客户端IP
+							// params[i] = ip;
+							// }
+						} else {
+							// 设置属性
+							params[i] = BeanUtil.copy(ps, cs);
+							// 验证参数
+							if ((code = Validators.validator(params[i])) != WebParams.STATE_SUCCESS) {
+								break;
+							}
+							// // 获得IP字段
+							// Field field = BeanUtil.getField(cs, "ip");
+							// // 判断字段不为空并且没有值
+							// if (field != null && !EmptyUtil.isEmpty(BeanUtil.getFieldValue(params[i], field))) {
+							// BeanUtil.setFieldValue(params[i], field, ip);
+							// }
+							// Logs.debug("request ip={},name={},params={}", ip, actionName, params[i]);
+						}
+						Logs.debug("request ip={},name={}, index={},name={},type={},value={}", ip, actionName, i,
+								p.getName(), cs, params[i]);
+					}
 				}
 			}
 			// 调用方法
 			// try {
-			Object res = BeanUtil.invoke(action, method, params);
-			Logs.debug("invoke method={},params={},res={} end", method.getName(), params, res);
+			Object res = null;
+			if (code == WebParams.STATE_SUCCESS) {
+				res = BeanUtil.invoke(action, method, params);
+			} else {
+				res = code;
+			}
+			Logs.debug("invoke method={},pars={}, params={},res={} end", method.getName(), pars, params, res);
 			// 判断是否需要写cookie
 			boolean cookie = method.isAnnotationPresent(Cookies.class)
 					|| action.getClass().isAnnotationPresent(Cookies.class);
@@ -229,8 +267,11 @@ public class BasicServlet extends HttpServlet {
 					// 写错误信息
 					int errorcode = Conversion.toInt(res);
 					// 写入到前端
-					ResponseUtil.json(response, callback, Maps.newMap(new String[] { status, error },
-							new Object[] { errorcode, ErrorCodeParams.getMessage(errorcode) }));
+					ResponseUtil.json(response, callback,
+							Maps.newMap(new String[] { status, errorcode == WebParams.STATE_SUCCESS ? success : error },
+									new Object[] { errorcode,
+											errorcode == WebParams.STATE_SUCCESS ? WebParams.STATE_SUCCESS_MSG
+													: ErrorCodeParams.getMessage(errorcode) }));
 				} else {
 					// 是否写cookie
 					if (cookie) {
@@ -246,6 +287,10 @@ public class BasicServlet extends HttpServlet {
 				if (res == null) {
 					// 结果设置为空map
 					res = Maps.emptyMap();
+				} else if (res instanceof Integer) {
+					// 写错误信息
+					String error = ErrorCodeParams.getMessage(Conversion.toInt(res));
+					res = EmptyUtil.isEmpty(error) ? res : error;
 				} else if (cookie) {
 					// 写cookie
 					CookieUtil.adds(response, res, names);

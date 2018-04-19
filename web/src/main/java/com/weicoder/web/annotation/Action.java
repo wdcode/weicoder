@@ -18,9 +18,9 @@ public @interface Action {
 	 */
 	boolean ips() default false;
 
-	/**
-	 * 是否启用token验证 需要输入参数token 使用common里加密
-	 * @return 是否验证
-	 */
-	boolean token() default false;
+//	/**
+//	 * 是否启用token验证 需要输入参数token 使用common里加密
+//	 * @return 是否验证
+//	 */
+//	boolean token() default false;
 }

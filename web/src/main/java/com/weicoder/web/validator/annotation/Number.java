@@ -8,17 +8,23 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * 验证必须是数字类型 并且大于等于指定值
+ * 验证必须是数字 并且验证最大值与最小值
  * @author WD
  */
 @Target({ FIELD, PARAMETER })
 @Retention(RUNTIME)
-public @interface Min {
+public @interface Number {
 	/**
-	 * 验证数字的最小值
-	 * @return
+	 * 数字最小值
+	 * @return 最小值
 	 */
-	long value();
+	long min();
+
+	/**
+	 * 数字最大值
+	 * @return 最大值
+	 */
+	long max();
 
 	/**
 	 * 验证不通过的错误码
