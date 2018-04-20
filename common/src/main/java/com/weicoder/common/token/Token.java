@@ -4,6 +4,7 @@ import com.weicoder.common.binary.ByteArray;
 import com.weicoder.common.crypto.Decrypts;
 import com.weicoder.common.crypto.Encrypts;
 import com.weicoder.common.lang.Bytes;
+import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.DateUtil;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.IpUtil;
@@ -102,11 +103,13 @@ public final class Token implements ByteArray {
 	@Override
 	public Token array(byte[] b) {
 		// 判断字节数组不为空
-		if (!EmptyUtil.isEmpty(b)) {
+		if (EmptyUtil.isNotEmpty(b) && b.length == 16) {
 			this.id = Bytes.toLong(b);
 			this.time = Bytes.toInt(b, 8);
 			this.ip = IpUtil.decode(Bytes.toInt(b, 12));
 			this.valid = true;
+		} else {
+			Logs.debug("token decrypt fail token={}", token);
 		}
 		// 返回自身
 		return this;
