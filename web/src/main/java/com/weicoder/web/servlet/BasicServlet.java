@@ -70,8 +70,8 @@ public class BasicServlet extends HttpServlet {
 			// Object action = WebCommons.ACTIONS.get(name);
 			String name = null;
 			Object action = null;
-			for (String n : actions) {
-				name = n;
+			for (int i = actions.length - 1; i >= 0; i--) {
+				name = actions[i];
 				action = WebCommons.ACTIONS.get(name);
 				if (action != null) {
 					break;
