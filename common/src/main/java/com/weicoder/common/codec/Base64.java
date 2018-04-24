@@ -10,11 +10,10 @@ import com.weicoder.common.util.StringUtil;
  */
 public final class Base64 {
 	// 编码用
-	private final static char[]	DIGITS;
-	private final static byte[]	CODES;
+	private final static char[]	DIGITS	= "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/="
+			.toCharArray();
+	private final static byte[]	CODES	= new byte[256];
 	static {
-		DIGITS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=".toCharArray();
-		CODES = new byte[256];
 		for (int i = 0; i < 256; i++) {
 			CODES[i] = -1;
 		}

@@ -20,13 +20,9 @@ import com.weicoder.common.util.StringUtil;
  */
 public abstract class BaseCrypt {
 	// 加密算法
-	private final static Map<String, Key>	KEYS;
+	private final static Map<String, Key>	KEYS	= Maps.newMap();
 	// 锁
-	private final static Lock				LOCK;
-	static {
-		KEYS = Maps.newMap();
-		LOCK = new ReentrantLock();
-	}
+	private final static Lock				LOCK	= new ReentrantLock(true);
 
 	/**
 	 * 计算密文
@@ -62,7 +58,7 @@ public abstract class BaseCrypt {
 			// 返回计算结果
 			return cipher.doFinal(b);
 		} catch (Exception e) {
-			Logs.error(e);
+			Logs.error("crypt data={} algorithm={} mode={} e={}", b.length, algorithm, mode, e);
 			return ArrayConstants.BYTES_EMPTY;
 		}
 	}

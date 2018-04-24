@@ -66,7 +66,7 @@ public class Log4j2 implements Log {
 
 	@Override
 	public void error(String msg, Throwable t) {
-		log.error(StringConstants.EMPTY, t);
+		log.error(msg, t);
 	}
 
 	@Override

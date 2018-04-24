@@ -4,6 +4,8 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import com.weicoder.common.concurrent.ScheduledUtil;
 import com.weicoder.common.lang.Lists;
@@ -14,6 +16,7 @@ import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.util.DateUtil;
 import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.nosql.params.RedisParams;
 import com.weicoder.nosql.redis.annotation.Channel;
 import com.weicoder.nosql.redis.annotation.Subscribes;
 import com.weicoder.nosql.redis.factory.RedisFactory;
@@ -67,11 +70,13 @@ public final class Redis {
 				}
 			}
 			Logs.info("add redis subscribe={} channels={}", subscribes.size());
-			// // 订阅相关消费数据
+			// 订阅相关消费数据
+			ScheduledExecutorService ses = ScheduledUtil.newPool(RedisParams.SUBSCRIBE_POOL,
+					RedisParams.SUBSCRIBE_DAEMON);
 			for (String key : CHANNELS.keySet()) {
 				List<String> channels = CHANNELS.get(key);
 				// 定时观察订阅信息
-				ScheduledUtil.delay(() -> {
+				ses.scheduleAtFixedRate(() -> {
 					REDIS.get(key).subscribe(new JedisPubSub() {
 						@Override
 						public void onMessage(String channel, String message) {
@@ -96,11 +101,11 @@ public final class Redis {
 									BeanUtil.invoke(s, m, objs);
 								}
 							}
-							Logs.debug("redis onMessage subscribe={} method={} time={}", s, m,
-									DateUtil.getTime() - time);
+							Logs.info("redis onMessage subscribe={} method={} channel={} message={} time={}", s, m,
+									channel, message, DateUtil.getTime() - time);
 						}
 					}, Lists.toArray(channels));
-				}, 1);
+				}, 0, RedisParams.SUBSCRIBE_PERIOD, TimeUnit.MILLISECONDS);
 			}
 
 		}

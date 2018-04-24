@@ -5,11 +5,11 @@ import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * 抽象工厂抽象实现
- * @author WD 
+ * @author WD
  */
 public abstract class Factory<E> {
 	// 对象锁
-	protected Lock	lock	= new ReentrantLock();
+	protected Lock	lock	= new ReentrantLock(true);
 	// 产品
 	protected E		e;
 

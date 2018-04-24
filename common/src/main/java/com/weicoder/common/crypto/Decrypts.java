@@ -1,5 +1,7 @@
 package com.weicoder.common.crypto;
 
+import java.util.Arrays;
+
 import javax.crypto.Cipher;
 
 import com.weicoder.common.codec.Hex;
@@ -7,6 +9,7 @@ import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.EncryptConstants;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.crypto.base.BaseCrypt;
+import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
@@ -16,7 +19,6 @@ import com.weicoder.common.util.StringUtil;
  * @author WD
  */
 public final class Decrypts extends BaseCrypt {
-
 	/**
 	 * 解密Token 使用
 	 * @param info token信息串
@@ -24,24 +26,34 @@ public final class Decrypts extends BaseCrypt {
 	 */
 	public static byte[] token(String info) {
 		// 验证去掉"""
-		info = StringUtil.replace(info, "\"", StringConstants.EMPTY);
+		String token = StringUtil.replace(StringUtil.trim(info), "\"", StringConstants.EMPTY);
 		// 判断验证串是否符合标准
-		if (!EmptyUtil.isEmpty(info) && info.length() > CommonParams.TOKEN_LENGHT) {
+		if (!EmptyUtil.isEmpty(token) && token.length() > CommonParams.TOKEN_LENGHT) {
 			// 变为小写
-			info = info.toLowerCase();
+			String t = token.toLowerCase();
 			// 拆分字符串
-			String[] temp = StringUtil.separate(info, info.length() / CommonParams.TOKEN_LENGHT);
+			String[] temp = StringUtil.separate(t, t.length() / CommonParams.TOKEN_LENGHT);
 			if (!EmptyUtil.isEmpty(temp) && temp.length == 2) {
 				// 验证串
-				String ver = temp[0];// StringUtil.subString(info, 0, LENGHT);
+				String ver = temp[0];
 				// 信息串
-				String user = temp[1];// StringUtil.subString(info, LENGHT);
+				String user = temp[1];
 				// 判断校验串是否合法
-				if (ver.equals(Digest.absolute(user, CommonParams.TOKEN_LENGHT))) {
+				String val = Digest.absolute(user, CommonParams.TOKEN_LENGHT);
+				boolean is = ver.equals(val);
+				if (is) {
 					return Decrypts.rc4(Hex.decode(user));
+				} else {
+					Logs.info("Decrypts token equals info={} token={} t={} ver={} user={} val={} is={} vvv={}", info,
+							token, t, ver, user, val, is, Digest.absolute(user, CommonParams.TOKEN_LENGHT));
 				}
+			} else {
+				Logs.info("Decrypts token temp info={} token={} t={} temp={}", info, token, t, Arrays.toString(temp));
 			}
 		}
+		Logs.info("Decrypts token info={} token={} notEmpty={} len={} tlen={} etlen={}", info, token,
+				!EmptyUtil.isEmpty(token), token.length(), CommonParams.TOKEN_LENGHT,
+				token.length() > CommonParams.TOKEN_LENGHT);
 		return ArrayConstants.BYTES_EMPTY;
 	}
 

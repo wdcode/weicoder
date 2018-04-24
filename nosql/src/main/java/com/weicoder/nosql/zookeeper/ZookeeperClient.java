@@ -22,14 +22,19 @@ public final class ZookeeperClient {
 	private final static CuratorFramework curatorFramework;
 	static {
 		// 初始化CuratorFramework
-		curatorFramework = CuratorFrameworkFactory.builder()
-				.connectString(ZookeeperParams.CONNECT)
-				.connectionTimeoutMs(30000).sessionTimeoutMs(30000)
-				.canBeReadOnly(false)
-				.retryPolicy(new ExponentialBackoffRetry(1000, 3))
-				.defaultData(null).build();
+		curatorFramework = CuratorFrameworkFactory.builder().connectString(ZookeeperParams.CONNECT)
+				.connectionTimeoutMs(30000).sessionTimeoutMs(30000).canBeReadOnly(false)
+				.retryPolicy(new ExponentialBackoffRetry(1000, 3)).defaultData(null).build();
 		// 启动
 		curatorFramework.start();
+	}
+
+	/**
+	 * 返回CuratorFramework
+	 * @return CuratorFramework
+	 */
+	public static CuratorFramework getCuratorFramework() {
+		return curatorFramework;
 	}
 
 	/**
@@ -87,8 +92,7 @@ public final class ZookeeperClient {
 	 */
 	public static void createWithPersistent(String path, byte[] bytes) {
 		try {
-			curatorFramework.create().creatingParentsIfNeeded()
-					.withMode(CreateMode.PERSISTENT).forPath(path, bytes);
+			curatorFramework.create().creatingParentsIfNeeded().withMode(CreateMode.PERSISTENT).forPath(path, bytes);
 		} catch (Exception e) {
 			Logs.error(e);
 		}
@@ -101,8 +105,7 @@ public final class ZookeeperClient {
 	 */
 	public static void create(String path, byte[] bytes) {
 		try {
-			curatorFramework.create().creatingParentsIfNeeded()
-					.withMode(CreateMode.EPHEMERAL).forPath(path, bytes);
+			curatorFramework.create().creatingParentsIfNeeded().withMode(CreateMode.EPHEMERAL).forPath(path, bytes);
 		} catch (Exception e) {
 			Logs.error(e);
 		}
@@ -126,11 +129,9 @@ public final class ZookeeperClient {
 	 * @param path 路径
 	 * @param callback 回调
 	 */
-	public static void getDataAsync(final String path,
-			final Callback callback) {
+	public static void getDataAsync(final String path, final Callback callback) {
 		// 异步读取数据回调
-		final BackgroundCallback background = (CuratorFramework client,
-				CuratorEvent event) -> {
+		final BackgroundCallback background = (CuratorFramework client, CuratorEvent event) -> {
 			try {
 				callback.callBack(event.getData());
 			} catch (Exception e) {
@@ -143,8 +144,7 @@ public final class ZookeeperClient {
 			public void process(WatchedEvent event) {
 				if (event.getType() == Event.EventType.NodeDataChanged) {
 					try {
-						curatorFramework.getData().usingWatcher(this)
-								.inBackground(background).forPath(path);
+						curatorFramework.getData().usingWatcher(this).inBackground(background).forPath(path);
 					} catch (Exception e) {
 						Logs.error(e);
 					}
@@ -154,8 +154,7 @@ public final class ZookeeperClient {
 
 		// 这里首次注册Watcher并异步读数据
 		try {
-			curatorFramework.getData().usingWatcher(watcher)
-					.inBackground(background).forPath(path);
+			curatorFramework.getData().usingWatcher(watcher).inBackground(background).forPath(path);
 		} catch (Exception e) {
 			Logs.error(e);
 		}

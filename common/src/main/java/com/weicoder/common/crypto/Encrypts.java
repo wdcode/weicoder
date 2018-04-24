@@ -15,7 +15,6 @@ import com.weicoder.common.util.StringUtil;
  * @author WD
  */
 public final class Encrypts extends BaseCrypt {
-
 	/**
 	 * 加密token方法
 	 * @param array token转换的字符串

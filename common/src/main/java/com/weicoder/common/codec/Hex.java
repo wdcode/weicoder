@@ -11,11 +11,7 @@ import com.weicoder.common.util.EmptyUtil;
  */
 public final class Hex {
 	// 编码用
-	private static final char[] DIGITS;
-
-	static {
-		DIGITS = "0123456789abcdef".toCharArray();
-	}
+	private static final char[] DIGITS = "0123456789abcdef".toCharArray();
 
 	/**
 	 * Hex 编码

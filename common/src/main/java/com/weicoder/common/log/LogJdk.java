@@ -65,7 +65,7 @@ public class LogJdk implements Log {
 
 	@Override
 	public void error(String msg, Throwable t) {
-		log.log(Level.SEVERE, StringConstants.EMPTY, t);
+		log.log(Level.SEVERE, msg, t);
 	}
 
 	@Override

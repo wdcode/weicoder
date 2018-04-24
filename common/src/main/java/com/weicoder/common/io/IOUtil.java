@@ -13,8 +13,7 @@ import com.weicoder.common.params.CommonParams;
  */
 public final class IOUtil {
 	// IO接口
-	private final static IO IO = "io".equalsIgnoreCase(CommonParams.IO_MODE) ? new OIO()
-			: new NIO();
+	private final static IO IO = "io".equalsIgnoreCase(CommonParams.IO_MODE) ? new OIO() : new NIO();
 
 	/**
 	 * 读取InputStream内容成为字符串 默认使用UTF-8
@@ -94,8 +93,7 @@ public final class IOUtil {
 	 * @param isClose 是否关闭流
 	 * @return true false
 	 */
-	public static boolean write(OutputStream out, String text, String charsetName,
-			boolean isClose) {
+	public static boolean write(OutputStream out, String text, String charsetName, boolean isClose) {
 		return out == null ? false : IO.write(out, text, charsetName, isClose);
 	}
 

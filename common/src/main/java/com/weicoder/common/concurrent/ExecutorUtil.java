@@ -18,13 +18,32 @@ import com.weicoder.common.util.EmptyUtil;
  */
 public final class ExecutorUtil {
 	// 并发线程池
-	private final static ExecutorService		POOL		= Executors.newCachedThreadPool();
+	private final static ExecutorService		POOL		= newPool(false);
 	// 守护线程并发线程池
-	private final static ExecutorService		DAEMON_POOL	= Executors
-			.newCachedThreadPool(DaemonThreadFactory.INSTANCE);
+	private final static ExecutorService		DAEMON_POOL	= newPool(true);
 	// 保存线程
 	private final static List<Runnable>			RUNNABLES	= Lists.newList();
 	private final static List<Callable<Object>>	CALLABLES	= Lists.newList();
+
+	/**
+	 * 获得新的缓存线程池
+	 * @param daemon 是否守护线程
+	 * @return 缓存线程池
+	 */
+	public static ExecutorService newPool(boolean daemon) {
+		return daemon ? Executors.newCachedThreadPool(DaemonThreadFactory.INSTANCE) : Executors.newCachedThreadPool();
+	}
+
+	/**
+	 * 获得新的线程池
+	 * @param size 池数量
+	 * @param daemon 是否守护线程
+	 * @return 线程池
+	 */
+	public static ExecutorService newPool(int size, boolean daemon) {
+		return daemon ? Executors.newFixedThreadPool(size, DaemonThreadFactory.INSTANCE)
+				: Executors.newFixedThreadPool(size);
+	}
 
 	/**
 	 * 获得线程池 此方法返回守护线程的池

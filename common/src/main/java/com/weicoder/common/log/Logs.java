@@ -106,5 +106,15 @@ public final class Logs {
 			LOG.error(t);
 	}
 
+	/**
+	 * 使用error打印日志
+	 * @param msg 信息
+	 * @param t 异常
+	 */
+	public static void error(String msg, Throwable t) {
+		if (LOG.isError())
+			LOG.error(msg, t);
+	}
+
 	private Logs() {}
 }

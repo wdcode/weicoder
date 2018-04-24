@@ -1,6 +1,7 @@
 package com.weicoder.nosql.params;
 
 import com.weicoder.common.constants.ArrayConstants;
+import com.weicoder.common.constants.SystemConstants;
 import com.weicoder.common.params.Params;
 import com.weicoder.common.util.EmptyUtil;
 
@@ -11,20 +12,28 @@ import redis.clients.jedis.Protocol;
  * @author WD
  */
 public final class RedisParams {
-	/* Redis使用 */
-	private final static String	PREFIX		= "redis";		// 前缀
-	private final static String	HOST		= "host";		// 服务器地址
-	private final static String	PORT		= "port";		// 服务器端口
-	private final static String	MAX_TOTAL	= "maxTotal";	// 最大活动数
-	private final static String	MAX_IDLE	= "maxIdle";	// 最大空闲数
-	private final static String	MAX_WAIT	= "maxWait";	// 最大等待时间
+	/** Redis 订阅线程是否守护线程 */
+	public final static boolean	SUBSCRIBE_DAEMON	= Params.getBoolean("redis.subscribe.daemon", true);
+	/** Redis 订阅线程数数量 */
+	public final static int		SUBSCRIBE_POOL		= Params.getInt("redis.subscribe.pool",
+			SystemConstants.CPU_NUM * 2);
+	/** Redis 订阅定时间隔时间 */
+	public final static long	SUBSCRIBE_PERIOD	= Params.getLong("redis.subscribe.period", 100L);
 
 	/* Redis使用 */
-	private static String		host		= "127.0.0.1";	// 服务器地址
-	private static int			port		= 6379;			// 服务器端口
-	private static int			maxTotal	= 100;			// 最大活动数
-	private static int			maxIdle		= 30;			// 最大空闲数
-	private static long			maxWait		= 1000;			// 最大等待时间
+	private final static String	PREFIX				= "redis";											// 前缀
+	private final static String	HOST				= "host";											// 服务器地址
+	private final static String	PORT				= "port";											// 服务器端口
+	private final static String	MAX_TOTAL			= "maxTotal";										// 最大活动数
+	private final static String	MAX_IDLE			= "maxIdle";										// 最大空闲数
+	private final static String	MAX_WAIT			= "maxWait";										// 最大等待时间
+
+	/* Redis使用 */
+	private static String		host				= "127.0.0.1";										// 服务器地址
+	private static int			port				= 6379;												// 服务器端口
+	private static int			maxTotal			= 100;												// 最大活动数
+	private static int			maxIdle				= 30;												// 最大空闲数
+	private static long			maxWait				= 1000;												// 最大等待时间
 
 	/**
 	 * Redis集群地址

@@ -22,13 +22,9 @@ import com.weicoder.common.util.StringUtil;
  */
 public final class HMac {
 	// hmac算法使用
-	private final static Map<String, Mac>	MACS;
+	private final static Map<String, Mac>	MACS	= Maps.newMap();
 	// 锁
-	private final static Lock				LOCK;
-	static {
-		MACS = Maps.newMap();
-		LOCK = new ReentrantLock();
-	}
+	private final static Lock				LOCK	= new ReentrantLock();
 
 	/**
 	 * 使用HMAC-SHA1进行消息签名, 返回字节数组,长度为20字节.
@@ -127,7 +123,7 @@ public final class HMac {
 			}
 			return getMac(algorithm, keys).doFinal(b);
 		} catch (Exception e) {
-			Logs.error(e);
+			Logs.error("hmac data={} algorithm={} e={}", b.length, algorithm, e);
 			return ArrayConstants.BYTES_EMPTY;
 		}
 	}
@@ -150,7 +146,7 @@ public final class HMac {
 				// 初始化算法
 				mac.init(new SecretKeySpec(StringUtil.toBytes(keys), algorithm));
 			} catch (Exception e) {
-				Logs.error(e);
+				Logs.error("getMac algorithm={} e={}", algorithm, e);
 			} finally {
 				LOCK.unlock();
 			}

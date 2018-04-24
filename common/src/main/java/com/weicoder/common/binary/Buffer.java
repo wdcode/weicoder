@@ -29,7 +29,7 @@ public final class Buffer implements ByteArray {
 	 * 按默认的大小构造一个字节缓存对象
 	 */
 	public Buffer() {
-		this(CommonParams.IO_BUFFERSIZE, false);
+		this(false);
 	}
 
 	/**
@@ -37,7 +37,7 @@ public final class Buffer implements ByteArray {
 	 * @param sync 是否线程安全
 	 */
 	public Buffer(boolean sync) {
-		this(CommonParams.IO_BUFFERSIZE, false);
+		this(CommonParams.IO_BUFFERSIZE, sync);
 	}
 
 	/**
@@ -54,7 +54,7 @@ public final class Buffer implements ByteArray {
 	 * @param data 初始化数组
 	 */
 	public Buffer(byte[] data) {
-		this(data, 0, data.length, false);
+		this(data, false);
 	}
 
 	/**

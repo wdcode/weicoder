@@ -1,5 +1,7 @@
 package com.weicoder.common.token;
 
+import java.util.Arrays;
+
 import com.weicoder.common.binary.ByteArray;
 import com.weicoder.common.crypto.Decrypts;
 import com.weicoder.common.crypto.Encrypts;
@@ -32,8 +34,8 @@ public final class Token implements ByteArray {
 	 * @param token token串
 	 */
 	Token(String token) {
-		array(Decrypts.token(token));
 		this.token = token;
+		array(Decrypts.token(token));
 	}
 
 	/**
@@ -48,6 +50,10 @@ public final class Token implements ByteArray {
 		this.ip = ip;
 		this.token = Encrypts.token(array());
 		this.valid = true;
+	}
+
+	public String getDate() {
+		return DateUtil.toString(time);
 	}
 
 	/**
@@ -109,7 +115,7 @@ public final class Token implements ByteArray {
 			this.ip = IpUtil.decode(Bytes.toInt(b, 12));
 			this.valid = true;
 		} else {
-			Logs.debug("token decrypt fail token={}", token);
+			Logs.debug("token decrypt fail data={} token={}", Arrays.toString(b), token);
 		}
 		// 返回自身
 		return this;

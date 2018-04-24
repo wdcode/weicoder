@@ -15,11 +15,20 @@ import com.weicoder.common.log.Logs;
  */
 public final class ScheduledUtil {
 	// 并发定时任务池
-	private final static ScheduledExecutorService	POOL		= Executors
-			.newScheduledThreadPool(SystemConstants.CPU_NUM);
+	private final static ScheduledExecutorService	POOL		= newPool(SystemConstants.CPU_NUM * 2, false);
 	// 守护线程并发定时任务池
-	private final static ScheduledExecutorService	DAEMON_POOL	= Executors
-			.newScheduledThreadPool(SystemConstants.CPU_NUM, DaemonThreadFactory.INSTANCE);
+	private final static ScheduledExecutorService	DAEMON_POOL	= newPool(SystemConstants.CPU_NUM * 2, true);
+
+	/**
+	 * 获得新的线程任务池
+	 * @param size 池数量
+	 * @param daemon 是否守护线程
+	 * @return 线程任务池
+	 */
+	public static ScheduledExecutorService newPool(int size, boolean daemon) {
+		return daemon ? Executors.newScheduledThreadPool(size, DaemonThreadFactory.INSTANCE)
+				: Executors.newScheduledThreadPool(size);
+	}
 
 	/**
 	 * 获得定时任务池 此方法返回守护线程的池
