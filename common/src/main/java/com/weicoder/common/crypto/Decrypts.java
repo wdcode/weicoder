@@ -1,7 +1,5 @@
 package com.weicoder.common.crypto;
 
-import java.util.Arrays;
-
 import javax.crypto.Cipher;
 
 import com.weicoder.common.codec.Hex;
@@ -9,7 +7,6 @@ import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.EncryptConstants;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.crypto.base.BaseCrypt;
-import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
@@ -39,21 +36,11 @@ public final class Decrypts extends BaseCrypt {
 				// 信息串
 				String user = temp[1];
 				// 判断校验串是否合法
-				String val = Digest.absolute(user, CommonParams.TOKEN_LENGHT);
-				boolean is = ver.equals(val);
-				if (is) {
+				if (ver.equals(Digest.absolute(user, CommonParams.TOKEN_LENGHT))) {
 					return Decrypts.rc4(Hex.decode(user));
-				} else {
-					Logs.info("Decrypts token equals info={} token={} t={} ver={} user={} val={} is={} vvv={}", info,
-							token, t, ver, user, val, is, Digest.absolute(user, CommonParams.TOKEN_LENGHT));
 				}
-			} else {
-				Logs.info("Decrypts token temp info={} token={} t={} temp={}", info, token, t, Arrays.toString(temp));
 			}
 		}
-		Logs.info("Decrypts token info={} token={} notEmpty={} len={} tlen={} etlen={}", info, token,
-				!EmptyUtil.isEmpty(token), token.length(), CommonParams.TOKEN_LENGHT,
-				token.length() > CommonParams.TOKEN_LENGHT);
 		return ArrayConstants.BYTES_EMPTY;
 	}
 

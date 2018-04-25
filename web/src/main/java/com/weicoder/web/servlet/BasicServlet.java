@@ -91,7 +91,8 @@ public class BasicServlet extends HttpServlet {
 			// action为空
 			if (action == null) {
 				// 还是为空
-				Logs.warn("request ip={},path={},no action and method", ip, path);
+				Logs.warn("request ip={},path={},name={},actionName={},ma={},no action and method", ip, path, name,
+						actionName, WebCommons.METHODS_ACTIONS);
 				ResponseUtil.json(response, callback, "no action and method");
 				return;
 			}
@@ -105,16 +106,6 @@ public class BasicServlet extends HttpServlet {
 					return;
 				}
 			}
-			// // 验证token
-			// if (a.token()) {
-			// // 获得token
-			// Token token = TokenEngine.decrypt(RequestUtil.getParameter(request, "token"));
-			// if (!token.isLogin()) {
-			// Logs.debug("this token={}", token);
-			// ResponseUtil.json(response, callback, "token is no login");
-			// return;
-			// }
-			// }
 			// 获得方法
 			Map<String, Method> methods = WebCommons.ACTIONS_METHODS.get(name);
 			if (EmptyUtil.isEmpty(methods)) {
@@ -148,15 +139,26 @@ public class BasicServlet extends HttpServlet {
 				if (t == null) {
 					t = action.getClass().getAnnotation(com.weicoder.web.validator.annotation.Token.class);
 				}
+				// Tokne
+				Token token = null;
+				String tname = StringConstants.EMPTY;
 				// 验证token不为空
 				if (t != null) {
 					// 验证token 获得Token
-					Token token = TokenEngine.decrypt(ps.get(t.value()));
+					token = TokenEngine.decrypt(ps.get(tname = t.value()));
 					// 判断是否过期
 					if (!token.isValid()) {
 						code = t.valid();
 					} else if (!token.isExpire()) {
 						code = t.expire();
+					}
+					// 判断参数里没有id和uid
+					String uid = Conversion.toString(token.getId());
+					if (!ps.containsKey("uid")) {
+						ps.put("uid", uid);
+					}
+					if (!ps.containsKey("id")) {
+						ps.put("id", uid);
 					}
 				}
 				// token验证通过在执行
@@ -174,7 +176,11 @@ public class BasicServlet extends HttpServlet {
 							params[i] = response;
 						} else if (Token.class.equals(cs)) {
 							// 设置Token
-							params[i] = TokenEngine.decrypt(RequestUtil.getParameter(request, p.getName()));
+							if (StringUtil.equals(tname, p.getName())) {
+								params[i] = token;
+							} else {
+								params[i] = TokenEngine.decrypt(RequestUtil.getParameter(request, p.getName()));
+							}
 						} else if (Map.class.equals(cs)) {
 							params[i] = ps;
 						} else if (ClassUtil.isBaseType(cs)) {

@@ -4,6 +4,11 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
@@ -30,13 +35,20 @@ import com.weicoder.nosql.kafka.factory.KafkaFactory;
  */
 public final class Kafkas {
 	// 保存Topic对应对象
-	private final static Map<String, Object>						CONSUMERS		= Maps.newMap();
+	private final static Map<String, Object>												CONSUMERS		= Maps
+			.newMap();
 	// 保存Topic对应方法
-	private final static Map<String, Method>						METHODS			= Maps.newMap();
+	private final static Map<String, Method>												METHODS			= Maps
+			.newMap();
 	// 保存kafka消费
-	private final static Map<String, KafkaConsumer<byte[], byte[]>>	KAFKA_CONSUMERS	= Maps.newMap();
+	private final static Map<String, KafkaConsumer<byte[], byte[]>>							KAFKA_CONSUMERS	= Maps
+			.newMap();
 	// 保存kafka对应消费的topic
-	private final static Map<String, List<String>>					TOPICS			= Maps.newMap();
+	private final static Map<String, List<String>>											TOPICS			= Maps
+			.newMap();
+	// 保存Topic队列
+	private final static Map<String, Map<String, Queue<ConsumerRecord<byte[], byte[]>>>>	TOPIC_RECORDS	= Maps
+			.newConcurrentMap();
 
 	/**
 	 * 初始化消费者
@@ -51,9 +63,12 @@ public final class Kafkas {
 				// 执行对象
 				Object consumer = BeanUtil.newInstance(c);
 				String name = consumer.getClass().getAnnotation(Consumer.class).value();
+				// 消费者队列
+				Map<String, Queue<ConsumerRecord<byte[], byte[]>>> map = TOPIC_RECORDS.get(name);
 				// 如果KafkaConsumer列表里没有相对应的消费者 创建
 				if (!KAFKA_CONSUMERS.containsKey(name)) {
 					KAFKA_CONSUMERS.put(name, KafkaFactory.getConsumer(name));
+					TOPIC_RECORDS.put(name, map = Maps.newConcurrentMap());
 				}
 				// 获得topic列表
 				List<String> topics = Maps.getList(TOPICS, name, String.class);
@@ -66,6 +81,7 @@ public final class Kafkas {
 						METHODS.put(val, m);
 						CONSUMERS.put(val, consumer);
 						topics.add(val);
+						map.put(val, new ConcurrentLinkedQueue<>());// LinkedBlockingQueue
 						Logs.info("add kafka consumer={} topic={}", c.getSimpleName(), val);
 					}
 				}
@@ -77,48 +93,79 @@ public final class Kafkas {
 				KAFKA_CONSUMERS.get(key).subscribe(topics);
 				Logs.info("Kafkas init Consumer={} subscribe topic={}", key, topics);
 			}
+			// 读取topic定时
+			ScheduledExecutorService ses = Executors.newSingleThreadScheduledExecutor();
 			// 启动定时读取kafka消息
-			for (final KafkaConsumer<byte[], byte[]> consumer : KAFKA_CONSUMERS.values()) {
-				ScheduledUtil.delay(() -> {
+			ses.scheduleWithFixedDelay(() -> {
+				KAFKA_CONSUMERS.forEach((name, consumer) -> {
 					// 日志使用
 					int time = DateUtil.getTime();
 					int n = 0;
+					// 根据name获得kafka消费者列表
+					Map<String, Queue<ConsumerRecord<byte[], byte[]>>> map = TOPIC_RECORDS.get(name);
 					// 获得消费数据
 					for (ConsumerRecord<byte[], byte[]> record : consumer.poll(1000)) {
 						// 获得消费对象类和方法
 						Logs.debug("kafka read consumer record={}", record);
-						String topic = record.topic();
-						Object obj = CONSUMERS.get(topic);
-						Method method = METHODS.get(topic);
-						// 获得所有参数
-						Parameter[] params = method.getParameters();
-						Object[] objs = null;
-						if (EmptyUtil.isEmpty(params)) {
-							// 参数为空直接执行方法
-							BeanUtil.invoke(obj, method);
-						} else {
-							// 参数
-							objs = new Object[params.length];
-							// 有参数 现在只支持 1-2位的参数，1个参数表示value,2个参数表示key,value
-							if (params.length == 1) {
-								objs[0] = toParam(record.value(), params[0].getType());
-							} else {
-								objs[0] = toParam(record.key(), params[0].getType());
-								objs[1] = toParam(record.value(), params[1].getType());
-							}
-							// 执行方法
-							BeanUtil.invoke(obj, method, objs);
-						}
+						map.get(record.topic()).add(record);
 						n++;
-						Logs.debug("kafka consumer method={} params={} args={}", method.getName(), params, objs);
 					}
 					// 数量不为空
 					if (n > 0) {
-						Logs.debug("kafka consumer end size={}  time={}", n, DateUtil.getTime() - time);
+						Logs.info("kafka read consumer end name={} size={} time={}", name, n,
+								DateUtil.getTime() - time);
 					}
-				}, 1);
-			}
+				});
+			}, 100L, 100L, TimeUnit.MICROSECONDS);
+			// 消费队列
+			ScheduledUtil.delay(() -> {
+				TOPIC_RECORDS.values().forEach(map -> {
+					map.values().parallelStream().forEach((records) -> {
+						// ExecutorUtil.pool().execute(() -> {
+						// 日志使用
+						int time = DateUtil.getTime();
+						int n = 0;
+						String topic = null;
+						// 处理队列信息
+						ConsumerRecord<byte[], byte[]> record = null;
+						while ((record = records.poll()) != null) {
+							topic = record.topic();
+							Object obj = CONSUMERS.get(topic);
+							Method method = METHODS.get(topic);
+							// 获得所有参数
+							Parameter[] params = method.getParameters();
+							Object[] objs = null;
+							if (EmptyUtil.isEmpty(params)) {
+								// 参数为空直接执行方法
+								BeanUtil.invoke(obj, method);
+							} else {
+								// 参数
+								objs = new Object[params.length];
+								// 有参数 现在只支持 1-2位的参数，1个参数表示value,2个参数表示key,value
+								if (params.length == 1) {
+									objs[0] = toParam(record.value(), params[0].getType());
+								} else {
+									objs[0] = toParam(record.key(), params[0].getType());
+									objs[1] = toParam(record.value(), params[1].getType());
+								}
+								// 执行方法
+								BeanUtil.invoke(obj, method, objs);
+							}
+							Logs.debug("kafka consumer method={} params={} args={}", method.getName(), params, objs);
+							n++;
+						}
+						// 数量不为空
+						if (n > 0) {
+							Logs.info("kafka consumer end topic={} size={} time={}", topic, n,
+									DateUtil.getTime() - time);
+						}
+						// });
+					});
+				});
+			}, 100L);
+
 		}
+
 	}
 
 	/**

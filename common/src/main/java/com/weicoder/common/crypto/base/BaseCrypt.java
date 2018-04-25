@@ -77,9 +77,11 @@ public abstract class BaseCrypt {
 		if (key == null) {
 			LOCK.lock();
 			// 把键转换程字节数组
-			byte[] b = StringUtil.toBytes(StringUtil.resolve(keys, len));
-			// 添加到列表中
-			KEYS.put(algorithm + keys, key = new SecretKeySpec(b, 0, len, algorithm));
+			if (KEYS.get(algorithm + keys) == null) {
+				byte[] b = StringUtil.toBytes(StringUtil.resolve(keys, len));
+				// 添加到列表中
+				KEYS.put(algorithm + keys, key = new SecretKeySpec(b, 0, len, algorithm));
+			}
 			LOCK.unlock();
 		}
 		// 返回key
