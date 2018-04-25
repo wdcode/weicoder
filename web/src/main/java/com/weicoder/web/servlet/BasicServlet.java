@@ -15,7 +15,7 @@ import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.log.Logs;
-import com.weicoder.common.token.Token;
+import com.weicoder.common.token.TokenBean;
 import com.weicoder.common.token.TokenEngine;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.ClassUtil;
@@ -140,7 +140,7 @@ public class BasicServlet extends HttpServlet {
 					t = action.getClass().getAnnotation(com.weicoder.web.validator.annotation.Token.class);
 				}
 				// Tokne
-				Token token = null;
+				TokenBean token = null;
 				String tname = StringConstants.EMPTY;
 				// 验证token不为空
 				if (t != null) {
@@ -174,7 +174,7 @@ public class BasicServlet extends HttpServlet {
 							params[i] = request;
 						} else if (HttpServletResponse.class.equals(cs)) {
 							params[i] = response;
-						} else if (Token.class.equals(cs)) {
+						} else if (TokenBean.class.equals(cs)) {
 							// 设置Token
 							if (StringUtil.equals(tname, p.getName())) {
 								params[i] = token;

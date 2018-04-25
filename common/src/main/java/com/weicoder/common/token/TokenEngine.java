@@ -6,7 +6,7 @@ package com.weicoder.common.token;
  */
 public final class TokenEngine {
 	/** 空登录信息 */
-	public final static Token EMPTY = new Token();
+	public final static TokenBean EMPTY = new TokenBean();
 
 	/**
 	 * 加密信息
@@ -15,8 +15,8 @@ public final class TokenEngine {
 	 * @param time 有效时间 当前时间戳加上time 单位秒
 	 * @return Token
 	 */
-	public static Token newToken(long id, String ip, int time) {
-		return new Token(id, ip, time);
+	public static TokenBean newToken(long id, String ip, int time) {
+		return new TokenBean(id, ip, time);
 	}
 
 	/**
@@ -35,8 +35,8 @@ public final class TokenEngine {
 	 * @param info 登陆信息
 	 * @return 登录实体
 	 */
-	public static Token decrypt(String info) {
-		return new Token(info);
+	public static TokenBean decrypt(String info) {
+		return new TokenBean(info);
 	}
 
 	private TokenEngine() {}
