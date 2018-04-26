@@ -14,6 +14,7 @@ import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.web.annotation.Action;
 import com.weicoder.web.common.WebCommons;
+import com.weicoder.web.validator.Validators;
 import com.weicoder.web.websocket.annotation.WebSocket;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
@@ -28,6 +29,8 @@ public class InitListener implements ServletContextListener {
 	 * 初始化资源
 	 */
 	public void contextInitialized(ServletContextEvent event) {
+		// 初始化验证类
+		Validators.init();
 		// 按包处理Action
 		for (Class<?> c : ClassUtil.getAnnotationClass(CommonParams.getPackages("action"), Action.class)) {
 			try {

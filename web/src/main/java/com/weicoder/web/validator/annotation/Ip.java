@@ -8,27 +8,21 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * 使用TokenEngine验证Token
+ * 验证ip
  * @author WD
  */
 @Target({ METHOD, TYPE })
 @Retention(RUNTIME)
-public @interface Token {
+public @interface Ip {
 	/**
-	 * 验证token的参数名 默认token
+	 * 获得ip使用,号分割 暂时不支持ip段
 	 * @return
 	 */
-	String value() default "token";
+	String value();
 
 	/**
-	 * 无效的Token错误码
+	 * 验证不通过的错误码
 	 * @return 错误码
 	 */
-	int valid() default 101;
-
-	/**
-	 * 过期的Token错误码
-	 * @return
-	 */
-	int expire() default 102;
+	int error();
 }

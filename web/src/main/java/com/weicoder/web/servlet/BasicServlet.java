@@ -68,9 +68,9 @@ public class BasicServlet extends HttpServlet {
 			// 获得Action
 			// String name = actions.length > 2 ? actions[actions.length - 2] : actions[actions.length - 1];
 			// Object action = WebCommons.ACTIONS.get(name);
-			String name = null;
+			String name = actions[actions.length - 1];
 			Object action = null;
-			for (int i = actions.length - 1; i >= 0; i--) {
+			for (int i = actions.length - 2; i >= 0; i--) {
 				name = actions[i];
 				action = WebCommons.ACTIONS.get(name);
 				if (action != null) {
@@ -132,35 +132,8 @@ public class BasicServlet extends HttpServlet {
 					ps.put("ip", ip);
 				}
 				Logs.trace("request all ip={} params={}", ip, params);
-				// 获得是否验证Token注解
-				com.weicoder.web.validator.annotation.Token t = method
-						.getAnnotation(com.weicoder.web.validator.annotation.Token.class);
-				// 方法上没有 检查类上
-				if (t == null) {
-					t = action.getClass().getAnnotation(com.weicoder.web.validator.annotation.Token.class);
-				}
-				// Tokne
-				TokenBean token = null;
-				String tname = StringConstants.EMPTY;
-				// 验证token不为空
-				if (t != null) {
-					// 验证token 获得Token
-					token = TokenEngine.decrypt(ps.get(tname = t.value()));
-					// 判断是否过期
-					if (!token.isValid()) {
-						code = t.valid();
-					} else if (!token.isExpire()) {
-						code = t.expire();
-					}
-					// 判断参数里没有id和uid
-					String uid = Conversion.toString(token.getId());
-					if (!ps.containsKey("uid")) {
-						ps.put("uid", uid);
-					}
-					if (!ps.containsKey("id")) {
-						ps.put("id", uid);
-					}
-				}
+				// 走验证
+				code = Validators.validator(method, action, ps, ip);
 				// token验证通过在执行
 				if (code == WebParams.STATE_SUCCESS) {
 					// action全部参数下标
@@ -176,11 +149,11 @@ public class BasicServlet extends HttpServlet {
 							params[i] = response;
 						} else if (TokenBean.class.equals(cs)) {
 							// 设置Token
-							if (StringUtil.equals(tname, p.getName())) {
-								params[i] = token;
-							} else {
-								params[i] = TokenEngine.decrypt(RequestUtil.getParameter(request, p.getName()));
-							}
+							// if (StringUtil.equals(tname, p.getName())) {
+							// params[i] = token;
+							// } else {
+							params[i] = TokenEngine.decrypt(RequestUtil.getParameter(request, p.getName()));
+							// }
 						} else if (Map.class.equals(cs)) {
 							params[i] = ps;
 						} else if (ClassUtil.isBaseType(cs)) {
@@ -287,7 +260,7 @@ public class BasicServlet extends HttpServlet {
 					ResponseUtil.json(response, callback, Maps.newMap(new String[] { status, success },
 							new Object[] { WebParams.STATE_SUCCESS, res }));
 				}
-				Logs.debug("servlet state={} method={},params={},res={} end", state, method.getName(), params, res);
+				Logs.debug("servlet state={} method={} params={} res={} end", state, method.getName(), params, res);
 			} else {
 				// 如果结果为空
 				if (res == null) {
@@ -303,10 +276,10 @@ public class BasicServlet extends HttpServlet {
 				}
 				// 写到前端
 				ResponseUtil.json(response, callback, res);
-				Logs.debug("servlet  method={},params={},res={} end", method.getName(), params, res);
+				Logs.debug("servlet  method={} params={} res={} end", method.getName(), params, res);
 			}
-			Logs.info("request ip={},name={},time={},res={},params={} end", ip, actionName,
-					System.currentTimeMillis() - curr, res, params);
+			Logs.info("request ip={} name={} params={} time={} res={} end", ip, actionName, params,
+					System.currentTimeMillis() - curr, res);
 		}
 	}
 
