@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.StringConstants;
 
-import com.weicoder.common.lang.Conversion; 
+import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
 
@@ -553,6 +553,7 @@ public final class StringUtil {
 	 * @return 返回聚合后字符串
 	 */
 	public static String combine(String s1, String s2, int len) {
+		// try {
 		// 获得字符数组
 		char[] c1 = s1.toCharArray();
 		char[] c2 = s2.toCharArray();
@@ -570,6 +571,9 @@ public final class StringUtil {
 		}
 		// 返回字符数组
 		return new String(c);
+		// } catch (Exception e) {
+		// return StringConstants.EMPTY;
+		// }
 	}
 
 	/**
@@ -579,27 +583,31 @@ public final class StringUtil {
 	 * @return 返回分开后字符串数组
 	 */
 	public static String[] separate(String s, int len) {
-		// 如果字符为空返回空
-		if (EmptyUtil.isEmpty(s)) {
+		try {
+			// 如果字符为空返回空
+			if (EmptyUtil.isEmpty(s)) {
+				return ArrayConstants.STRING_EMPTY;
+			}
+			// 声明字符数组
+			char[] c = s.toCharArray();
+			char[] c1 = new char[c.length / len];
+			char[] c2 = new char[c.length - c1.length];
+			// 字符下标
+			int i1 = 0;
+			int i2 = 0;
+			// 拆分数组
+			for (int i = 0; i < c.length; i++) {
+				if (i % len == 0) {
+					c1[i1++] = c[i];
+				} else {
+					c2[i2++] = c[i];
+				}
+			}
+			// 返回字符串数组
+			return new String[] { new String(c1), new String(c2) };
+		} catch (Exception e) {
 			return ArrayConstants.STRING_EMPTY;
 		}
-		// 声明字符数组
-		char[] c = s.toCharArray();
-		char[] c1 = new char[c.length / len];
-		char[] c2 = new char[c.length - c1.length];
-		// 字符下标
-		int i1 = 0;
-		int i2 = 0;
-		// 拆分数组
-		for (int i = 0; i < c.length; i++) {
-			if (i % len == 0) {
-				c1[i1++] = c[i];
-			} else {
-				c2[i2++] = c[i];
-			}
-		}
-		// 返回字符串数组
-		return new String[] { new String(c1), new String(c2) };
 	}
 
 	private StringUtil() {}

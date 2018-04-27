@@ -94,6 +94,25 @@ public final class Params {
 	/**
 	 * 获得属性value
 	 * @param key 属性key
+	 * @return value
+	 */
+	public static byte getByte(String key) {
+		return CONFIG.getByte(key);
+	}
+
+	/**
+	 * 获得属性value
+	 * @param key 属性key
+	 * @param defaultValue 默认值
+	 * @return value
+	 */
+	public static byte getByte(String key, byte defaultValue) {
+		return CONFIG.getByte(key, defaultValue);
+	}
+
+	/**
+	 * 获得属性value
+	 * @param key 属性key
 	 * @param defaultValue 默认值
 	 * @return value
 	 */
@@ -125,7 +144,7 @@ public final class Params {
 		if (!EmptyUtil.isEmpty(name)) {
 			sb.append(StringConstants.POINT);
 			sb.append(name);
-		} 
+		}
 		// 后缀不为空添加.
 		if (!EmptyUtil.isEmpty(suffix)) {
 			sb.append(StringConstants.POINT);

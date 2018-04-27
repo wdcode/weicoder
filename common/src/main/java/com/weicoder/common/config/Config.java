@@ -47,7 +47,8 @@ public final class Config {
 	 * @return value
 	 */
 	public List<String> getList(String key, List<String> defaultValue) {
-		return Lists.newList(getStringArray(key, EmptyUtil.isEmpty(defaultValue) ? ArrayConstants.STRING_EMPTY : Lists.toArray(defaultValue)));
+		return Lists.newList(getStringArray(key,
+				EmptyUtil.isEmpty(defaultValue) ? ArrayConstants.STRING_EMPTY : Lists.toArray(defaultValue)));
 	}
 
 	/**
@@ -122,6 +123,25 @@ public final class Config {
 	 */
 	public int getInt(String key, int defaultValue) {
 		return Conversion.toInt(getString(key), defaultValue);
+	}
+
+	/**
+	 * 获得属性value
+	 * @param key 属性key
+	 * @return value
+	 */
+	public byte getByte(String key) {
+		return getByte(key, Byte.parseByte("0"));
+	}
+
+	/**
+	 * 获得属性value
+	 * @param key 属性key
+	 * @param defaultValue 默认值
+	 * @return value
+	 */
+	public byte getByte(String key, byte defaultValue) {
+		return Conversion.toByte(getString(key), defaultValue);
 	}
 
 	/**
