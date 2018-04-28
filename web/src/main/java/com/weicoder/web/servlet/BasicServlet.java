@@ -22,6 +22,7 @@ import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.IpUtil;
 import com.weicoder.common.util.StringUtil;
+import com.weicoder.core.json.JsonEngine;
 import com.weicoder.web.annotation.Action;
 import com.weicoder.web.annotation.Cookies;
 import com.weicoder.web.annotation.Forward;
@@ -121,19 +122,17 @@ public class BasicServlet extends HttpServlet {
 			// 设置参数
 			Parameter[] pars = WebCommons.METHODS_PARAMES.get(method);
 			Object[] params = null;
-			// 验证错误码
-			int code = WebParams.STATE_SUCCESS;
+			// 所有提交的参数
+			Map<String, String> ps = RequestUtil.getAll(request);
+			// 验证
+			int code = Validators.validator(method, action, ps, ip);
 			if (!EmptyUtil.isEmpty(pars)) {
 				// 参数不为空 设置参数
 				params = new Object[pars.length];
-				// 所有提交的参数
-				Map<String, String> ps = RequestUtil.getAll(request);
 				if (EmptyUtil.isEmpty(ps.get("ip"))) {
 					ps.put("ip", ip);
 				}
 				Logs.trace("request all ip={} params={}", ip, params);
-				// 走验证
-				code = Validators.validator(method, action, ps, ip);
 				// token验证通过在执行
 				if (code == WebParams.STATE_SUCCESS) {
 					// action全部参数下标
@@ -196,7 +195,7 @@ public class BasicServlet extends HttpServlet {
 			} else {
 				res = code;
 			}
-			Logs.debug("invoke method={},pars={}, params={},res={} end", method.getName(), pars, params, res);
+			Logs.debug("invoke method={},pars={}, params={} end", method.getName(), pars, params);
 			// 判断是否需要写cookie
 			boolean cookie = method.isAnnotationPresent(Cookies.class)
 					|| action.getClass().isAnnotationPresent(Cookies.class);
@@ -260,7 +259,7 @@ public class BasicServlet extends HttpServlet {
 					ResponseUtil.json(response, callback, Maps.newMap(new String[] { status, success },
 							new Object[] { WebParams.STATE_SUCCESS, res }));
 				}
-				Logs.debug("servlet state={} method={} params={} res={} end", state, method.getName(), params, res);
+				Logs.debug("servlet state={} method={} params={} end", state, method.getName(), params);
 			} else {
 				// 如果结果为空
 				if (res == null) {
@@ -276,10 +275,11 @@ public class BasicServlet extends HttpServlet {
 				}
 				// 写到前端
 				ResponseUtil.json(response, callback, res);
-				Logs.debug("servlet  method={} params={} res={} end", method.getName(), params, res);
+				Logs.debug("servlet  method={} params={} end", method.getName(), params);
 			}
+			String json = JsonEngine.toJson(res);
 			Logs.info("request ip={} name={} params={} time={} res={} end", ip, actionName, params,
-					System.currentTimeMillis() - curr, res);
+					System.currentTimeMillis() - curr, StringUtil.subString(json, 0, 50));
 		}
 	}
 

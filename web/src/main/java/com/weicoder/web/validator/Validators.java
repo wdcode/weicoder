@@ -21,6 +21,7 @@ import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.RegexUtil;
 import com.weicoder.common.util.StringUtil;
+import com.weicoder.core.json.JsonEngine;
 import com.weicoder.web.common.WebCommons;
 import com.weicoder.web.params.WebParams;
 import com.weicoder.web.validator.annotation.Ip;
@@ -175,26 +176,29 @@ public final class Validators {
 		if (t == null) {
 			t = action.getClass().getAnnotation(Token.class);
 		}
-		// Tokne
-		TokenBean token = null;
-		// String tname = StringConstants.EMPTY;
 		// 验证token不为空
 		if (t != null) {
 			// 验证token 获得Token
-			token = TokenEngine.decrypt(ps.get(t.value()));
-			// 判断是否过期
+			TokenBean token = TokenEngine.decrypt(ps.get(t.value()));
+			Logs.debug("action validator token={} t={}", JsonEngine.toJson(token));
+			// 判断token
 			if (!token.isValid()) {
+				// 无效
 				return t.valid();
 			} else if (!token.isExpire()) {
+				// 过期
 				return t.expire();
+			} else if (EmptyUtil.isNotEmpty(t.id()) && Conversion.toInt(ps.get(t.id())) != token.getId()) {
+				// 不是用户
+				return t.valid();
 			}
 			// 判断参数里没有id和uid
 			String uid = Conversion.toString(token.getId());
 			if (!ps.containsKey("uid")) {
-				ps.put("uid", uid);
+				Logs.debug("action validator token add uid={} uid={}", ps.put("uid", uid), uid);
 			}
 			if (!ps.containsKey("id")) {
-				ps.put("id", uid);
+				Logs.debug("action validator token add id={} id={}", ps.put("id", uid), uid);
 			}
 		}
 
@@ -208,8 +212,10 @@ public final class Validators {
 		if (ipv != null) {
 			// 获得验证ip
 			Set<String> ips = Sets.newSet(StringUtil.split(ipv.value(), StringConstants.COMMA));
+			Logs.debug("action validator ips={}", ips);
 			// 判断是否在白名单
 			if (!ips.contains(ip)) {
+				Logs.debug("action validator ips not contains ip={}", ip);
 				return ipv.error();
 			}
 		}
