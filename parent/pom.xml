@@ -6,6 +6,8 @@
 	<artifactId>parent</artifactId>
 	<version>2.3.3</version>
 	<packaging>pom</packaging>
+	<description>java tools</description>
+	<url>https://github.com/wdcode/weicoder</url>
 
 	<modules>
 		<module>../common</module>

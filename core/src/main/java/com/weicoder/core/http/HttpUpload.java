@@ -74,11 +74,12 @@ public class HttpUpload {
 	/**
 	 * 上传文件
 	 * @param url post提交地址
+	 * @param name 参数名
 	 * @param b 流
 	 * @return 返回结果
 	 */
 	public static String upload(String url, String name, byte[] b) {
-		// 如果文件为空 
+		// 如果文件为空
 		if (EmptyUtil.isEmpty(url) || EmptyUtil.isEmpty(b)) {
 			return StringConstants.EMPTY;
 		}
@@ -116,59 +117,59 @@ public class HttpUpload {
 		return StringConstants.EMPTY;
 	}
 
-//	/**
-//	 * 上传文件
-//	 * @param url post提交地址
-//	 * @param callback 回调结果
-//	 * @param files 上传文件
-//	 */
-//	public static void upload(String url, Callback<String> callback, File... files) {
-//		// 声明HttpPost
-//		HttpPost post = null;
-//		try {
-//			// 获得HttpPost
-//			post = new HttpPost(url);
-//			// post.addHeader(new BasicHeader(HttpConstants.CONTENT_TYPE_KEY, HttpConstants.CONTENT_TYPE_FILE + "; boundary=---123"));
-//			// 多提交实体构造器
-//			MultipartEntityBuilder builder = MultipartEntityBuilder.create();
-//			// 设置浏览器上传
-//			builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
-//			// 添加上传文件
-//			for (File file : files) {
-//				builder.addBinaryBody(file.getName(), file);
-//				// builder.addPart(file.getName(), new FileBody(file));
-//				// builder.addBinaryBody("file", file, ContentType.MULTIPART_FORM_DATA,file.getName());
-//			}
-//			// 设置提交文件参数
-//			post.setEntity(builder.build());
-//			// 执行post
-//			HttpAsyncClient.CLIENT.execute(post, new FutureCallback<HttpResponse>() {
-//				@Override
-//				public void failed(Exception ex) {
-//					Logs.error(ex);
-//				}
-//
-//				@Override
-//				public void completed(HttpResponse result) {
-//					if (callback != null) {
-//						try (InputStream in = result.getEntity().getContent()) {
-//							callback.callback(IOUtil.readString(in));
-//						} catch (Exception e) {
-//							Logs.error(e);
-//						}
-//					}
-//				}
-//
-//				@Override
-//				public void cancelled() {}
-//			});
-//		} catch (Exception e) {
-//			Logs.error(e);
-//		} finally {
-//			// 销毁post
-//			if (post != null) {
-//				post.abort();
-//			}
-//		}
-//	}
+	// /**
+	// * 上传文件
+	// * @param url post提交地址
+	// * @param callback 回调结果
+	// * @param files 上传文件
+	// */
+	// public static void upload(String url, Callback<String> callback, File... files) {
+	// // 声明HttpPost
+	// HttpPost post = null;
+	// try {
+	// // 获得HttpPost
+	// post = new HttpPost(url);
+	// // post.addHeader(new BasicHeader(HttpConstants.CONTENT_TYPE_KEY, HttpConstants.CONTENT_TYPE_FILE + "; boundary=---123"));
+	// // 多提交实体构造器
+	// MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+	// // 设置浏览器上传
+	// builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+	// // 添加上传文件
+	// for (File file : files) {
+	// builder.addBinaryBody(file.getName(), file);
+	// // builder.addPart(file.getName(), new FileBody(file));
+	// // builder.addBinaryBody("file", file, ContentType.MULTIPART_FORM_DATA,file.getName());
+	// }
+	// // 设置提交文件参数
+	// post.setEntity(builder.build());
+	// // 执行post
+	// HttpAsyncClient.CLIENT.execute(post, new FutureCallback<HttpResponse>() {
+	// @Override
+	// public void failed(Exception ex) {
+	// Logs.error(ex);
+	// }
+	//
+	// @Override
+	// public void completed(HttpResponse result) {
+	// if (callback != null) {
+	// try (InputStream in = result.getEntity().getContent()) {
+	// callback.callback(IOUtil.readString(in));
+	// } catch (Exception e) {
+	// Logs.error(e);
+	// }
+	// }
+	// }
+	//
+	// @Override
+	// public void cancelled() {}
+	// });
+	// } catch (Exception e) {
+	// Logs.error(e);
+	// } finally {
+	// // 销毁post
+	// if (post != null) {
+	// post.abort();
+	// }
+	// }
+	// }
 }
