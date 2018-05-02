@@ -16,7 +16,7 @@ public class RedisSubscribeCluster implements Subscribe {
 
 	/**
 	 * 构造
-	 * @param name
+	 * @param name 名称
 	 */
 	public RedisSubscribeCluster(String name) {
 		this.cluster = RedisFactory.getCluster(name);

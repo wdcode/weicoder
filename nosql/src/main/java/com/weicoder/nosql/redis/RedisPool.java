@@ -2,6 +2,7 @@ package com.weicoder.nosql.redis;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPubSub;
@@ -246,10 +247,29 @@ public interface RedisPool {
 	Double zscore(String key, String member);
 
 	/**
-	 * 返回有序集 key 中 成员 member是否存在
-	 * @param key 键
-	 * @param member 成员
-	 * @return true false
+	 * 获得redis list 数据
+	 * @param key 健
+	 * @param start 开始数
+	 * @param end 结束数
+	 * @return 值列表
 	 */
-	boolean zexists(String key, String member);
+	Set<String> zrevrange(String key, long start, long end);
+
+	/**
+	 * 添加列表数据
+	 * @param key 健
+	 * @param score 分值
+	 * @param member 成员
+	 * @return 数量
+	 */
+	Long zadd(String key, double score, String member);
+
+	/**
+	 * 删除列表数据
+	 * @param key 健
+	 * @param score 分值
+	 * @param members 成员
+	 * @return 数量
+	 */
+	Long zrem(String key, String... members);
 }

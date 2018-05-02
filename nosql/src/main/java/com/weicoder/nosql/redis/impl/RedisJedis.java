@@ -2,9 +2,11 @@ package com.weicoder.nosql.redis.impl;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.lang.Conversion;
+import com.weicoder.common.log.Logs;
 import com.weicoder.nosql.redis.base.BaseRedis;
 import com.weicoder.nosql.params.RedisParams;
 
@@ -30,6 +32,7 @@ public final class RedisJedis extends BaseRedis {
 		config.setMaxIdle(RedisParams.getMaxIdle(name));
 		config.setMaxWaitMillis(RedisParams.getMaxWait(name));
 		// 实例化连接池
+		Logs.info("redis init pool config={}", config);
 		pool = new JedisPool(config, RedisParams.getHost(name), RedisParams.getPort(name), Protocol.DEFAULT_TIMEOUT,
 				RedisParams.getPassword(name), RedisParams.getDatabase(name), null);
 	}
@@ -208,11 +211,6 @@ public final class RedisJedis extends BaseRedis {
 	}
 
 	@Override
-	public boolean zexists(String key, String member) {
-		return zscore(key, member) != null;
-	}
-
-	@Override
 	public long hlen(String key) {
 		try (Jedis jedis = pool.getResource()) {
 			return jedis.hlen(key);
@@ -230,6 +228,27 @@ public final class RedisJedis extends BaseRedis {
 	public long publish(byte[] channel, byte[] message) {
 		try (Jedis jedis = pool.getResource()) {
 			return jedis.publish(channel, message);
+		}
+	}
+
+	@Override
+	public Set<String> zrevrange(String key, long start, long end) {
+		try (Jedis jedis = pool.getResource()) {
+			return jedis.zrevrange(key, start, end);
+		}
+	}
+
+	@Override
+	public Long zadd(String key, double score, String member) {
+		try (Jedis jedis = pool.getResource()) {
+			return jedis.zadd(key, score, member);
+		}
+	}
+
+	@Override
+	public Long zrem(String key, String... members) {
+		try (Jedis jedis = pool.getResource()) {
+			return jedis.zrem(key, members);
 		}
 	}
 }

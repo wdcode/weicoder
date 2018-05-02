@@ -6,6 +6,7 @@ import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.factory.FactoryKey;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.lang.Sets;
+import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.nosql.params.RedisParams;
 
@@ -36,6 +37,7 @@ final class JedisClusterFactory extends FactoryKey<String, JedisCluster> {
 			nodes.add(new HostAndPort(s[0], Conversion.toInt(s[1])));
 		}
 		// 生成JedisCluster
+		Logs.info("redis init cluster nodes={} config={}", nodes, config);
 		return new JedisCluster(nodes, 3000, 3000, 5, RedisParams.getPassword(name), config);
 	}
 
