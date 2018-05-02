@@ -16,7 +16,7 @@ import java.lang.annotation.Target;
 public @interface Regex {
 	/**
 	 * 要验证的正则表达式
-	 * @return
+	 * @return 验证正则表达式
 	 */
 	String value();
 

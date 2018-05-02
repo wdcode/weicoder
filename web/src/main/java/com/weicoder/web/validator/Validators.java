@@ -42,8 +42,8 @@ import com.weicoder.web.validator.annotation.ValidatorClass;
 public final class Validators {
 	/**
 	 * 根据注解验证参数
-	 * @param pars 参数类型
-	 * @param ps 参数值
+	 * @param par 参数类型
+	 * @param value 参数值
 	 * @return 验证码
 	 */
 	public static int validator(Parameter par, Object value) {
@@ -52,8 +52,7 @@ public final class Validators {
 
 	/**
 	 * 根据注解验证参数
-	 * @param pars 参数类型
-	 * @param ps 参数值
+	 * @param bean 验证bean
 	 * @return 验证码
 	 */
 	public static int validator(Object bean) {
@@ -167,7 +166,9 @@ public final class Validators {
 	 * 验证方法与对象
 	 * @param method 要验证方法
 	 * @param action 要验证对象
-	 * @return 状态码
+	 * @param ps 参数
+	 * @param ip 用户ip
+	 * @return 验证码
 	 */
 	public static int validator(Method method, Object action, Map<String, String> ps, String ip) {
 		// 获得是否验证Token注解
@@ -185,7 +186,7 @@ public final class Validators {
 			if (!token.isValid()) {
 				// 无效
 				return t.valid();
-			} else if (!token.isExpire()) {
+			} else if (token.isExpire()) {
 				// 过期
 				return t.expire();
 			} else if (EmptyUtil.isNotEmpty(t.id()) && Conversion.toInt(ps.get(t.id())) != token.getId()) {

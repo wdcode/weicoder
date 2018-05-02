@@ -6,7 +6,7 @@ import com.weicoder.common.binary.ByteArray;
 import com.weicoder.common.crypto.Decrypts;
 import com.weicoder.common.crypto.Encrypts;
 import com.weicoder.common.lang.Bytes;
-import com.weicoder.common.log.Logs; 
+import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.DateUtil;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.IpUtil;
@@ -65,7 +65,7 @@ public final class TokenBean implements ByteArray {
 	 * @return true 登录 false 未登录
 	 */
 	public boolean isLogin() {
-		return id != 0 && isExpire() && isValid();// && isSign();
+		return id != 0 && !isExpire() && isValid();// && isSign();
 	}
 
 	// /**
@@ -78,7 +78,7 @@ public final class TokenBean implements ByteArray {
 
 	/**
 	 * 判断Token是否无效
-	 * @return
+	 * @return true 有效 false 无效
 	 */
 	public boolean isValid() {
 		return valid;
@@ -86,10 +86,10 @@ public final class TokenBean implements ByteArray {
 
 	/**
 	 * 是否有效期
-	 * @return true 有效 false 无效
+	 * @return true 到期 false 有效
 	 */
 	public boolean isExpire() {
-		return time - DateUtil.getTime() > 0;
+		return time - DateUtil.getTime() < 0;
 	}
 
 	/**

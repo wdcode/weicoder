@@ -16,7 +16,7 @@ import java.lang.annotation.Target;
 public @interface Ip {
 	/**
 	 * 获得ip使用,号分割 暂时不支持ip段
-	 * @return
+	 * @return 验证ip值
 	 */
 	String value();
 

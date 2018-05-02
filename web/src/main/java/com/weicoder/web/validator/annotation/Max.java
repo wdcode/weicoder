@@ -16,7 +16,7 @@ import java.lang.annotation.Target;
 public @interface Max {
 	/**
 	 * 验证数字的最大值
-	 * @return
+	 * @return 最大值
 	 */
 	long value();
 

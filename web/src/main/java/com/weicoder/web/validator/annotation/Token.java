@@ -18,7 +18,7 @@ import com.weicoder.common.constants.StringConstants;
 public @interface Token {
 	/**
 	 * 验证token的参数名 默认token
-	 * @return
+	 * @return token的参数名
 	 */
 	String value() default "token";
 
@@ -30,13 +30,13 @@ public @interface Token {
 
 	/**
 	 * 过期的Token错误码
-	 * @return
+	 * @return 错误码
 	 */
 	int expire() default 102;
 
 	/**
 	 * 验证id是否相同 验证用户token与用户id是否相同 不为0验证
-	 * @return
+	 * @return 验证id
 	 */
 	String id() default StringConstants.EMPTY;
 }

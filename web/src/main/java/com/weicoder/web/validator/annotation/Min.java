@@ -16,7 +16,7 @@ import java.lang.annotation.Target;
 public @interface Min {
 	/**
 	 * 验证数字的最小值
-	 * @return
+	 * @return 最小值
 	 */
 	long value();
 
