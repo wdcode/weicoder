@@ -37,7 +37,7 @@ final class JedisClusterFactory extends FactoryKey<String, JedisCluster> {
 			nodes.add(new HostAndPort(s[0], Conversion.toInt(s[1])));
 		}
 		// 生成JedisCluster
-		Logs.info("redis init cluster nodes={} config={}", nodes, config);
+		Logs.info("redis init cluster nodes={}", nodes);
 		return new JedisCluster(nodes, 3000, 3000, 5, RedisParams.getPassword(name), config);
 	}
 
