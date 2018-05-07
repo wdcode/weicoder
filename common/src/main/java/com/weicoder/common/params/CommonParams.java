@@ -37,7 +37,7 @@ public final class CommonParams {
 	/** token 验证长度 */
 	public final static int			TOKEN_LENGHT			= Params.getInt("token.lenght", 8);
 	/** token 验证长度 */
-	public final static byte		TOKEN_SIGN				= Params.getByte("token.sign", Byte.MIN_VALUE);
+	public final static int			TOKEN_SIGN				= Params.getInt("token.sign", Byte.MIN_VALUE);
 	/** 获得ips过滤组 */
 	public final static String[]	IPS						= Params.getStringArray("ips", ArrayConstants.STRING_EMPTY);
 	/** http连接超时时间 */

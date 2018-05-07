@@ -7,6 +7,7 @@ import com.weicoder.common.crypto.Decrypts;
 import com.weicoder.common.crypto.Encrypts;
 import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.log.Logs;
+import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.util.DateUtil;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.IpUtil;
@@ -22,10 +23,10 @@ public final class TokenBean implements ByteArray {
 	private int		time;
 	// 登录IP
 	private String	ip;
-	// // 标志
-	// private byte sign = CommonParams.TOKEN_SIGN;
-	// // 补位
-	// private byte sss;
+	// 服务器IP
+	private String	server;
+	// 标志
+	private int		sign;
 	// 是否有效
 	private boolean	valid;
 	// 保存token
@@ -52,6 +53,8 @@ public final class TokenBean implements ByteArray {
 		this.id = id;
 		this.time = DateUtil.getTime() + time;
 		this.ip = ip;
+		this.server = IpUtil.SERVER_IP;
+		this.sign = CommonParams.TOKEN_SIGN;
 		this.token = Encrypts.token(array());
 		this.valid = true;
 	}
@@ -65,16 +68,16 @@ public final class TokenBean implements ByteArray {
 	 * @return true 登录 false 未登录
 	 */
 	public boolean isLogin() {
-		return id != 0 && !isExpire() && isValid();// && isSign();
+		return id != 0 && !isExpire() && isValid() && isSign();
 	}
 
-	// /**
-	// * 判断Token标示是否正确
-	// * @return
-	// */
-	// public boolean isSign() {
-	// return sign == CommonParams.TOKEN_SIGN;
-	// }
+	/**
+	 * 判断Token标示是否正确
+	 * @return
+	 */
+	public boolean isSign() {
+		return sign == CommonParams.TOKEN_SIGN;
+	}
 
 	/**
 	 * 判断Token是否无效
@@ -131,7 +134,7 @@ public final class TokenBean implements ByteArray {
 
 	@Override
 	public byte[] array() {
-		return Bytes.toBytes(id, time, IpUtil.encode(ip));// , sign, sss);
+		return Bytes.toBytes(id, time, IpUtil.encode(ip), IpUtil.encode(server), sign);
 	}
 
 	@Override
@@ -141,9 +144,8 @@ public final class TokenBean implements ByteArray {
 			this.id = Bytes.toLong(b);
 			this.time = Bytes.toInt(b, 8);
 			this.ip = IpUtil.decode(Bytes.toInt(b, 12));
-			// this.sign = Bytes.toByte(b, 16);
-			// this.sss = Bytes.toByte(b, 17);
-			// this.valid = sign == CommonParams.TOKEN_SIGN;
+			this.ip = IpUtil.decode(Bytes.toInt(b, 16));
+			this.sign = Bytes.toInt(b, 20);
 			this.valid = true;
 		} else {
 			Logs.debug("token decrypt fail data={} token={}", Arrays.toString(b), token);

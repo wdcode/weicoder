@@ -12,6 +12,7 @@ import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.util.StringUtil;
 import com.weicoder.web.params.WebParams;
 
 /**
@@ -120,12 +121,19 @@ public final class CookieUtil {
 			// 设置目录
 			cookie.setPath(StringConstants.BACKSLASH);
 			// 设置域
-			if (!EmptyUtil.isEmpty(domain)) {
-				cookie.setDomain(domain);
+			if (EmptyUtil.isEmpty(domain)) {
+				// 添加Cookie
+				response.addCookie(cookie);
+				Logs.debug("add cookie name={} value={} domain={} maxAge={}", name, value, domain, maxAge);
+			} else {
+				// 写不同的域
+				for (String d : StringUtil.split(domain, StringConstants.COMMA)) {
+					cookie.setDomain(d);
+					// 添加Cookie
+					response.addCookie(cookie);
+					Logs.debug("add cookie name={} value={} domain={} maxAge={}", name, value, d, maxAge);
+				}
 			}
-			// 添加Cookie
-			response.addCookie(cookie);
-			Logs.debug("add cookie name={} value={} domain={} maxAge={}", name, value, domain, maxAge);
 		} catch (Exception e) {
 			Logs.error(e);
 		}
