@@ -44,7 +44,7 @@ public final class CommonParams {
 	public final static int			TOKEN_SIGN				= Params.getInt("token.sign", Byte.MIN_VALUE);
 	/** token 发放服务器 */
 	public final static Set<String>	TOKEN_SERVERS			= Sets
-			.newSet(Params.getStringArray("token.servers", new String[] { IpUtil.SERVER_IP }));
+			.newSet(Params.getStringArray("token.servers", ArrayConstants.STRING_EMPTY));
 	/** 获得ips过滤组 */
 	public final static String[]	IPS						= Params.getStringArray("ips", ArrayConstants.STRING_EMPTY);
 	/** http连接超时时间 */
