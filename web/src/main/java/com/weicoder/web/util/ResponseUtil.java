@@ -13,6 +13,7 @@ import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.util.CloseUtil;
 import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.util.StringUtil;
 import com.weicoder.core.json.JsonEngine;
 import com.weicoder.common.log.Logs;
 
@@ -54,7 +55,7 @@ public final class ResponseUtil {
 		try {
 			pw = response.getWriter();
 			pw.write(str);
-			Logs.debug("write to string={}", str);
+			Logs.debug("write to string={}", StringUtil.subString(str, 0, 50));
 		} catch (Exception e) {
 			Logs.error(e);
 		} finally {

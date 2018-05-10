@@ -1,6 +1,7 @@
 package com.weicoder.common.token;
 
 import java.util.Arrays;
+import java.util.Set;
 
 import com.weicoder.common.binary.ByteArray;
 import com.weicoder.common.crypto.Decrypts;
@@ -73,10 +74,37 @@ public final class TokenBean implements ByteArray {
 
 	/**
 	 * 判断Token标示是否正确
-	 * @return
+	 * @return 是否正确
 	 */
 	public boolean isSign() {
-		return sign == CommonParams.TOKEN_SIGN;
+		return isSign(CommonParams.TOKEN_SIGN);
+	}
+
+	/**
+	 * 验证是否服务器发放token
+	 * @param servers 服务器列表
+	 * @return 是否存在
+	 */
+	public boolean isServer() {
+		return isServer(CommonParams.TOKEN_SERVERS);
+	}
+
+	/**
+	 * 验证是否服务器发放token
+	 * @param servers 服务器列表
+	 * @return 是否存在
+	 */
+	public boolean isServer(Set<String> servers) {
+		return servers.contains(server);
+	}
+
+	/**
+	 * 判断Token标示是否正确
+	 * @param sign 验证标签
+	 * @return 是否正确
+	 */
+	public boolean isSign(int sign) {
+		return this.sign == sign;
 	}
 
 	/**

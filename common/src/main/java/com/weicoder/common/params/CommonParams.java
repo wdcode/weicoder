@@ -1,9 +1,13 @@
 package com.weicoder.common.params;
 
+import java.util.Set;
+
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.DateConstants;
 import com.weicoder.common.constants.EncryptConstants;
 import com.weicoder.common.constants.StringConstants;
+import com.weicoder.common.lang.Sets;
+import com.weicoder.common.util.IpUtil;
 
 /**
  * Common包参数读取类
@@ -38,6 +42,9 @@ public final class CommonParams {
 	public final static int			TOKEN_LENGHT			= Params.getInt("token.lenght", 8);
 	/** token 验证长度 */
 	public final static int			TOKEN_SIGN				= Params.getInt("token.sign", Byte.MIN_VALUE);
+	/** token 发放服务器 */
+	public final static Set<String>	TOKEN_SERVERS			= Sets
+			.newSet(Params.getStringArray("token.servers", new String[] { IpUtil.SERVER_IP }));
 	/** 获得ips过滤组 */
 	public final static String[]	IPS						= Params.getStringArray("ips", ArrayConstants.STRING_EMPTY);
 	/** http连接超时时间 */
