@@ -38,15 +38,15 @@ public final class CommonParams {
 			EncryptConstants.ALGO_SHA_1);
 	/** 包名 */
 	public final static String		PACKAGES				= Params.getString("packages");
+	/** 获得ips过滤组 */
+	public final static String[]	IPS						= Params.getStringArray("ips", ArrayConstants.STRING_EMPTY);
 	/** token 验证长度 */
 	public final static int			TOKEN_LENGHT			= Params.getInt("token.lenght", 8);
 	/** token 验证长度 */
 	public final static int			TOKEN_SIGN				= Params.getInt("token.sign", Byte.MIN_VALUE);
 	/** token 发放服务器 */
 	public final static Set<String>	TOKEN_SERVERS			= Sets
-			.newSet(Params.getStringArray("token.servers", ArrayConstants.STRING_EMPTY));
-	/** 获得ips过滤组 */
-	public final static String[]	IPS						= Params.getStringArray("ips", ArrayConstants.STRING_EMPTY);
+			.newSet(Params.getStringArray("token.servers", new String[] { IpUtil.SERVER_IP }));
 	/** http连接超时时间 */
 	public final static int			HTTP_CONNECT_TIMEOUT	= Params.getInt("http.connect.timeout", 3000);
 	/** http读取超时时间 */

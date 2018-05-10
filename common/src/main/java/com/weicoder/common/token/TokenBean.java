@@ -172,7 +172,7 @@ public final class TokenBean implements ByteArray {
 			this.id = Bytes.toLong(b);
 			this.time = Bytes.toInt(b, 8);
 			this.ip = IpUtil.decode(Bytes.toInt(b, 12));
-			this.ip = IpUtil.decode(Bytes.toInt(b, 16));
+			this.server = IpUtil.decode(Bytes.toInt(b, 16));
 			this.sign = Bytes.toInt(b, 20);
 			this.valid = true;
 		} else {

@@ -18,7 +18,7 @@ import com.weicoder.core.json.JsonEngine;
  * Json保存数据类型
  * @author WD
  */
-public abstract class JsonType implements UserType {
+public class JsonType implements UserType {
 	@Override
 	public int[] sqlTypes() {
 		return new int[] { Types.VARCHAR };
@@ -89,5 +89,7 @@ public abstract class JsonType implements UserType {
 	}
 
 	@Override
-	public abstract Class<?> returnedClass();
+	public Class<?> returnedClass() {
+		return String.class;
+	}
 }
