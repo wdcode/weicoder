@@ -273,10 +273,12 @@ public final class BeanUtil {
 	 */
 	public static Object invoke(Object obj, Method method, Object... args) {
 		try {
-			Logs.debug("invoke method={} args={}", method.getName(), Arrays.toString(args));
+			Logs.debug("invoke method={} params={} args={}", method.getName(), Arrays.toString(method.getParameters()),
+					Arrays.toString(args));
 			return makeAccessible(method).invoke(obj, args);
 		} catch (Exception e) {
-			Logs.error(e);
+			Logs.error("invoke method={} params={} args={} e={}", method.getName(), method.getParameters(),
+					Arrays.toString(args), e);
 			return null;
 		}
 	}

@@ -10,7 +10,7 @@ public final class Pagination {
 	// 总数量
 	private int	total;
 	// 当前页
-	private int	page	= 1;
+	private int	page;
 	// 每页显示数量
 	private int	size	= DaoParams.PAGE_SIZE;
 
@@ -19,7 +19,7 @@ public final class Pagination {
 	 * @return 总页数
 	 */
 	public int getTotalPage() {
-		return total == 0 ? 1 : total % size == 0 ? total / size : total / size + 1;
+		return total < size ? 0 : total % size == 0 ? total / size : total / size + 1;
 	}
 
 	/**
@@ -75,7 +75,7 @@ public final class Pagination {
 	 * @return 开始页码
 	 */
 	public int getStartPage() {
-		return page - 5 > 0 ? page - 5 : 1;
+		return page - 5 > 0 ? page - 5 : 0;
 	}
 
 	/**
@@ -96,7 +96,7 @@ public final class Pagination {
 	 * @return 最大结果数
 	 */
 	public int getMaxResults() {
-		return getPage() * getSize();
+		return (getPage() + 1) * getSize();
 	}
 
 	/**
@@ -104,6 +104,6 @@ public final class Pagination {
 	 * @return 从第N条开始返回结果
 	 */
 	public int getFirstResult() {
-		return (getPage() - 1) * getSize();
+		return getPage() * getSize();
 	}
 }
