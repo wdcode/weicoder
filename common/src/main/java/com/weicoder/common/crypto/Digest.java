@@ -186,7 +186,7 @@ public final class Digest {
 		try {
 			return MessageDigest.getInstance(algorithm).digest(b);
 		} catch (Exception e) {
-			Logs.error("digest data={} algorithm={} e={}", b.length, algorithm, e);
+			Logs.error(e, "digest data={} algorithm={}", b.length, algorithm);
 			return b;
 		}
 	}

@@ -39,7 +39,7 @@ public final class HttpEngine {
 			// 使用GZIP一般服务器支持解压获得的流 然后转成字符串 一般为UTF-8
 			return ZipEngine.GZIP.extract(IOUtil.read(conn.getInputStream()));
 		} catch (IOException e) {
-			Logs.error("HttpEngine get url={} e={}", url, e);
+			Logs.error(e, "HttpEngine get url={}", url);
 		} finally {
 			if (conn != null) {
 				conn.disconnect();
@@ -112,7 +112,7 @@ public final class HttpEngine {
 			Logs.debug("HttpEngine post url={} data={} header={} res={}", url, data, header, res);
 			return res;
 		} catch (IOException e) {
-			Logs.error("HttpEngine post url={} data={} header={} e={}", url, data, header, e);
+			Logs.error(e, "HttpEngine post url={} data={} header={}", url, data, header);
 		} finally {
 			if (conn != null) {
 				conn.disconnect();
@@ -143,7 +143,7 @@ public final class HttpEngine {
 			conn.setConnectTimeout(CommonParams.HTTP_CONNECT_TIMEOUT);
 			conn.setReadTimeout(CommonParams.HTTP_READ_TIMEOUT);
 		} catch (Exception e) {
-			Logs.error("HttpEngine getConnection url={} e={}", url, e);
+			Logs.error(e, "HttpEngine getConnection url={}", url);
 		}
 		// 返回连接connection
 		return conn;

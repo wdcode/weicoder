@@ -93,11 +93,13 @@ public final class SessionFactorys {
 		String path = DaoParams.DB_CONFIG + "-test/";
 		// 获得数据库配置文件
 		File file = ResourceUtil.newFile(path);
+		Logs.debug("hibernate initSessionFactory test={}", file);
 		// 为空设置为正式
 		if (file == null || !file.exists() || !file.isDirectory()) {
 			path = DaoParams.DB_CONFIG + StringConstants.BACKSLASH;
 			file = ResourceUtil.newFile(path);
 		}
+		Logs.debug("hibernate initSessionFactory config={}", file);
 		// 不为
 		if (file != null) {
 			// 循环生成

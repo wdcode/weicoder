@@ -277,8 +277,8 @@ public final class BeanUtil {
 					Arrays.toString(args));
 			return makeAccessible(method).invoke(obj, args);
 		} catch (Exception e) {
-			Logs.error("invoke method={} params={} args={} e={}", method.getName(), method.getParameters(),
-					Arrays.toString(args), e);
+			Logs.error(e, "invoke method={} params={} args={}", method.getName(), method.getParameters(),
+					Arrays.toString(args));
 			return null;
 		}
 	}

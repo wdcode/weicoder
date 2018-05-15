@@ -123,7 +123,7 @@ public final class HMac {
 			}
 			return getMac(algorithm, keys).doFinal(b);
 		} catch (Exception e) {
-			Logs.error("hmac data={} algorithm={} e={}", b.length, algorithm, e);
+			Logs.error(e, "hmac data={} algorithm={}", b.length, algorithm);
 			return ArrayConstants.BYTES_EMPTY;
 		}
 	}
@@ -146,7 +146,7 @@ public final class HMac {
 				// 初始化算法
 				mac.init(new SecretKeySpec(StringUtil.toBytes(keys), algorithm));
 			} catch (Exception e) {
-				Logs.error("getMac algorithm={} e={}", algorithm, e);
+				Logs.error(e, "getMac algorithm={}", algorithm);
 			} finally {
 				LOCK.unlock();
 			}

@@ -58,7 +58,7 @@ public abstract class BaseCrypt {
 			// 返回计算结果
 			return cipher.doFinal(b);
 		} catch (Exception e) {
-			Logs.error("crypt data={} algorithm={} mode={} e={}", b.length, algorithm, mode, e);
+			Logs.error(e, "crypt data={} algorithm={} mode={}", b.length, algorithm, mode);
 			return ArrayConstants.BYTES_EMPTY;
 		}
 	}

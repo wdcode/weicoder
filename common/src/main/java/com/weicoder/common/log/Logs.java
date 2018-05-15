@@ -116,5 +116,17 @@ public final class Logs {
 			LOG.error(msg, t);
 	}
 
+	/**
+	 * 使用error打印日志
+	 * @param msg 信息 可以是字符串xxx{}xxx
+	 * @param params 字符串格式化参数
+	 */
+	public static void error(Throwable t, String msg, Object... params) {
+		if (LOG.isError()) {
+			LOG.error(msg, params);
+			LOG.error(t);
+		}
+	}
+
 	private Logs() {}
 }
