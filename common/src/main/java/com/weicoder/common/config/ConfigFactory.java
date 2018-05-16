@@ -21,7 +21,8 @@ public final class ConfigFactory extends FactoryKey<String, Config> {
 
 	@Override
 	public Config newInstance(String key) {
-		return new Config("%s-test.properties,config/%s-test.properties,%s.properties,config/%s.properties".replaceAll("%s", key));
+//		return new Config("%s-test.properties,config/%s-test.properties,%s.properties,config/%s.properties".replaceAll("%s", key));
+		return new Config("%s-test.properties,%s.properties".replaceAll("%s", key));
 	}
 
 	private ConfigFactory() {}

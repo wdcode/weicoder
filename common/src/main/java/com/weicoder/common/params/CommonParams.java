@@ -7,7 +7,6 @@ import com.weicoder.common.constants.DateConstants;
 import com.weicoder.common.constants.EncryptConstants;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Sets;
-import com.weicoder.common.util.IpUtil;
 
 /**
  * Common包参数读取类
@@ -46,7 +45,7 @@ public final class CommonParams {
 	public final static int			TOKEN_SIGN				= Params.getInt("token.sign", Byte.MIN_VALUE);
 	/** token 发放服务器 */
 	public final static Set<String>	TOKEN_SERVERS			= Sets
-			.newSet(Params.getStringArray("token.servers", new String[] { IpUtil.SERVER_IP }));
+			.newSet(Params.getStringArray("token.servers", ArrayConstants.STRING_EMPTY));
 	/** http连接超时时间 */
 	public final static int			HTTP_CONNECT_TIMEOUT	= Params.getInt("http.connect.timeout", 3000);
 	/** http读取超时时间 */
