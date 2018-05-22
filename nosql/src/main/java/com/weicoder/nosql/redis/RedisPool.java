@@ -266,8 +266,7 @@ public interface RedisPool {
 
 	/**
 	 * 删除列表数据
-	 * @param key 健
-	 * @param score 分值
+	 * @param key 健 
 	 * @param members 成员
 	 * @return 数量
 	 */
