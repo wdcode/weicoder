@@ -22,12 +22,12 @@ import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.ClassUtil;
-import com.weicoder.common.util.DateUtil;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.nosql.kafka.annotation.Consumer;
 import com.weicoder.nosql.kafka.annotation.Topic;
 import com.weicoder.nosql.kafka.factory.KafkaFactory;
+import com.weicoder.nosql.params.KafkaParams;
 
 /**
  * kafka生成器
@@ -98,38 +98,45 @@ public final class Kafkas {
 			// 启动定时读取kafka消息
 			ses.scheduleWithFixedDelay(() -> {
 				KAFKA_CONSUMERS.forEach((name, consumer) -> {
+					// 线程池id
+					long tid = Thread.currentThread().getId();
 					// 日志使用
-					int time = DateUtil.getTime();
+					long time = System.currentTimeMillis();
 					int n = 0;
 					// 根据name获得kafka消费者列表
 					Map<String, Queue<ConsumerRecord<byte[], byte[]>>> map = TOPIC_RECORDS.get(name);
 					// 获得消费数据
 					for (ConsumerRecord<byte[], byte[]> record : consumer.poll(1000)) {
 						// 获得消费对象类和方法
-						Logs.debug("kafka read consumer record={}", record);
+						Logs.debug("kafka read consumer thread={} record={}", tid, record);
 						map.get(record.topic()).add(record);
 						n++;
 					}
 					// 数量不为空
 					if (n > 0) {
-						Logs.info("kafka read consumer end name={} size={} time={}", name, n,
-								DateUtil.getTime() - time);
+						Logs.info("kafka read consumer end name={} size={} time={} thread={}", name, n,
+								System.currentTimeMillis() - time, tid);
 					}
 				});
 			}, 100L, 100L, TimeUnit.MICROSECONDS);
 			// 消费队列
-			ScheduledUtil.delay(() -> {
-				TOPIC_RECORDS.values().forEach(map -> {
-					map.values().parallelStream().forEach((records) -> {
-						// ExecutorUtil.pool().execute(() -> {
+			// ScheduledExecutorService sesc = ScheduledUtil.newPool(KafkaParams.CONSUMER_POOL,
+			// KafkaParams.CONSUMER_DAEMON);
+			TOPIC_RECORDS.values().forEach(map -> {
+				map.values().forEach((records) -> {
+					ScheduledUtil.delay(KafkaParams.PREFIX, () -> {
+						// 线程池id
+						long tid = Thread.currentThread().getId();
 						// 日志使用
-						int time = DateUtil.getTime();
+						long time = System.currentTimeMillis();
 						int n = 0;
 						String topic = null;
+						long offset = 0;
 						// 处理队列信息
 						ConsumerRecord<byte[], byte[]> record = null;
 						while ((record = records.poll()) != null) {
 							topic = record.topic();
+							offset = record.offset();
 							Object obj = CONSUMERS.get(topic);
 							Method method = METHODS.get(topic);
 							// 获得所有参数
@@ -151,19 +158,18 @@ public final class Kafkas {
 								// 执行方法
 								BeanUtil.invoke(obj, method, objs);
 							}
-							Logs.debug("kafka consumer method={} args={} params={}", method.getName(), objs, params);
+							Logs.debug("kafka consumer topic={} offset={} method={} args={} params={} thread={}", topic,
+									offset, method.getName(), objs, params, tid);
 							n++;
 						}
 						// 数量不为空
 						if (n > 0) {
-							Logs.info("kafka consumer end topic={} size={} time={}", topic, n,
-									DateUtil.getTime() - time);
+							Logs.info("kafka consumer end topic={} offset={} size={} time={} thread={}", topic, offset,
+									n, System.currentTimeMillis() - time, tid);
 						}
-						// });
-					});
+					}, 100L);
 				});
-			}, 100L);
-
+			});
 		}
 
 	}

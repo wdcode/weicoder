@@ -11,8 +11,8 @@ import com.weicoder.common.params.Params;
  * @author WD
  */
 public final class KafkaParams {
-	// kafka使用
-	private final static String			PREFIX	= "kafka";											// 前缀
+	/** kafka使用 */
+	public final static String			PREFIX	= "kafka";											// 前缀
 	/** kafka 服务器 */
 	public final static String			SERVERS	= Params.getString("kafka.servers");
 	/** 要监听的topic */

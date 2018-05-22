@@ -133,8 +133,8 @@ public final class Params {
 	/**
 	 * 根据前后缀和和名称获得键
 	 * @param prefix 前缀
-	 * @param suffix 后缀
 	 * @param name 名称
+	 * @param suffix 后缀
 	 * @return 替换后的键
 	 */
 	public static String getKey(String prefix, String name, String suffix) {

@@ -6,6 +6,7 @@ import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.DateConstants;
 import com.weicoder.common.constants.EncryptConstants;
 import com.weicoder.common.constants.StringConstants;
+import com.weicoder.common.constants.SystemConstants;
 import com.weicoder.common.lang.Sets;
 
 /**
@@ -58,6 +59,42 @@ public final class CommonParams {
 	 */
 	public static String getPackages(String name) {
 		return Params.getString(Params.getKey(StringConstants.EMPTY, name, "packages"), PACKAGES);
+	}
+
+	/**
+	 * 获得定时任务池
+	 * @param name 名称
+	 * @return 数量
+	 */
+	public static int getScheduledPool(String name) {
+		return Params.getInt(Params.getKey("scheduled", name, "pool"), SystemConstants.CPU_NUM);
+	}
+
+	/**
+	 * 获得定时任务池是否守护线程
+	 * @param name 名称
+	 * @return 数量
+	 */
+	public static boolean getScheduledDaemon(String name) {
+		return Params.getBoolean(Params.getKey("scheduled", name, "daemon"), true);
+	}
+
+	/**
+	 * 获得线程池
+	 * @param name 名称
+	 * @return 数量
+	 */
+	public static int getExecutorPool(String name) {
+		return Params.getInt(Params.getKey("executor", name, "pool"), SystemConstants.CPU_NUM);
+	}
+
+	/**
+	 * 获得线程是否守护线程
+	 * @param name 名称
+	 * @return 数量
+	 */
+	public static boolean getExecutorDaemon(String name) {
+		return Params.getBoolean(Params.getKey("executor", name, "daemon"), true);
 	}
 
 	private CommonParams() {}

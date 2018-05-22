@@ -26,6 +26,7 @@ import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
+import com.weicoder.core.json.JsonEngine;
 
 /**
  * HTTP客户端工具类
@@ -149,7 +150,8 @@ public final class HttpClient {
 			for (Map.Entry<String, Object> h : header.entrySet()) {
 				post.addHeader(h.getKey(), Conversion.toString(h.getValue()));
 			}
-			Logs.debug("HttpClient post url={} data={} header={} charset={}", url, data, header, charset);
+			Logs.debug("HttpClient post url={} data={} header={} charset={}", url,
+					StringUtil.subString(JsonEngine.toJson(data), 0, 50), header, charset);
 			// 返回结果
 			return IOUtil.readString(CLIENT.execute(post).getEntity().getContent());
 		} catch (Exception e) {
