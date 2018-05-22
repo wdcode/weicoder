@@ -81,8 +81,7 @@ public final class TokenBean implements ByteArray {
 	}
 
 	/**
-	 * 验证是否服务器发放token
-	 * @param servers 服务器列表
+	 * 验证是否服务器发放token 
 	 * @return 是否存在
 	 */
 	public boolean isServer() {
