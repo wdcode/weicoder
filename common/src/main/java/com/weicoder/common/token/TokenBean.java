@@ -143,8 +143,8 @@ public final class TokenBean implements ByteArray {
 	 * 获得登录IP
 	 * @return 登录IP
 	 */
-	public int getIp() {
-		return time;
+	public String getIp() {
+		return ip;
 	}
 
 	/**

@@ -54,7 +54,8 @@ public class BasicServlet extends HttpServlet {
 		String callback = RequestUtil.getParameter(request, "callback");
 		// 获得path
 		String path = request.getPathInfo();
-		Logs.debug("request ip={},path={},{}", ip, path, request.getQueryString());
+		String queryString = request.getQueryString();
+		Logs.debug("request ip={},path={},queryString={}", ip, path, queryString);
 		if (!EmptyUtil.isEmpty(path)) {
 			// 分解提交action 去处开头的/ 并且按/或者_分解出数组
 			String actionName = StringUtil.subString(path, 1, path.length());
@@ -195,7 +196,7 @@ public class BasicServlet extends HttpServlet {
 			} else {
 				res = code;
 			}
-			Logs.debug("invoke method={},pars={}, params={} end", method.getName(), pars, params);
+			Logs.debug("invoke method={},params={},pars={} end", method.getName(), params, pars);
 			// 判断是否需要写cookie
 			boolean cookie = method.isAnnotationPresent(Cookies.class)
 					|| action.getClass().isAnnotationPresent(Cookies.class);

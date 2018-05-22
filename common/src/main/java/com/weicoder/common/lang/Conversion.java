@@ -6,6 +6,7 @@ import java.util.Arrays;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.util.MathUtil;
 
 /**
  * 数据类型转换,对null和异常进行处理
@@ -94,7 +95,7 @@ public final class Conversion {
 			} else if (obj instanceof Character) {
 				return ((Character) obj).charValue();
 			} else {
-				return toInt(Math.round(toDouble(obj, defaultValue)));
+				return MathUtil.add(obj).intValue();
 			}
 		} catch (RuntimeException e) {
 			Logs.debug("Conversion toInt={}", obj);
@@ -131,7 +132,7 @@ public final class Conversion {
 			} else if (obj instanceof Character) {
 				return ((Character) obj).charValue();
 			} else {
-				return Math.round(toDouble(obj, defaultValue));
+				return MathUtil.add(obj).longValue();
 			}
 		} catch (RuntimeException e) {
 			Logs.debug("Conversion toLong={}", obj);

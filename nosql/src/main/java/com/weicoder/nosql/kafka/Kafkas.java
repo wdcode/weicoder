@@ -151,7 +151,7 @@ public final class Kafkas {
 								// 执行方法
 								BeanUtil.invoke(obj, method, objs);
 							}
-							Logs.debug("kafka consumer method={} params={} args={}", method.getName(), params, objs);
+							Logs.debug("kafka consumer method={} args={} params={}", method.getName(), objs, params);
 							n++;
 						}
 						// 数量不为空
