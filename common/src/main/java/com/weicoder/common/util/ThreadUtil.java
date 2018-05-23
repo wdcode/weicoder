@@ -1,5 +1,6 @@
 package com.weicoder.common.util;
 
+import com.weicoder.common.constants.DateConstants;
 import com.weicoder.common.log.Logs;
 
 /**
@@ -17,6 +18,14 @@ public final class ThreadUtil {
 		} catch (InterruptedException e) {
 			Logs.error(e);
 		}
+	}
+
+	/**
+	 * 封装sleep异常处理
+	 * @param millis 暂停时间毫秒
+	 */
+	public static void sleep(int millis) {
+		sleep(millis * DateConstants.TIME_SECOND);
 	}
 
 	/**
