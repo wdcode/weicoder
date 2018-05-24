@@ -15,13 +15,27 @@ public final class KafkaProducers {
 	private final static Producer<byte[], byte[]> PRODUCER = KafkaFactory.getProducer();
 
 	/**
+	 * 获得生产者
+	 * @return 生产者
+	 */
+	public static Producer<byte[], byte[]> getProducer() {
+		return PRODUCER;
+	}
+
+	/**
+	 * 刷新缓存
+	 */
+	public static void flush() {
+		PRODUCER.flush();
+	}
+
+	/**
 	 * 发送数据
 	 * @param topic 节点
 	 * @param value 值
 	 */
 	public static void send(String topic, Object value) {
 		PRODUCER.send(Kafkas.newRecord(topic, value));
-		PRODUCER.flush();
 		Logs.debug("kafka send producer topic={},value={}", topic, value);
 	}
 
@@ -33,7 +47,6 @@ public final class KafkaProducers {
 	 */
 	public static void send(String topic, Object key, Object value) {
 		PRODUCER.send(Kafkas.newRecord(topic, key, value));
-		PRODUCER.flush();
 		Logs.debug("kafka send producer topic={},key={},value={}", topic, key, value);
 	}
 
@@ -61,6 +74,14 @@ public final class KafkaProducers {
 	}
 
 	/**
+	 * 刷新缓存
+	 * @param name kafka名称
+	 */
+	public static void flush(String name) {
+		PRODUCER.flush();
+	}
+
+	/**
 	 * 按kafka名称选择服务器 发送数据
 	 * @param name kafka名称
 	 * @param topic 节点
@@ -68,7 +89,6 @@ public final class KafkaProducers {
 	 */
 	public static void sendN(String name, String topic, Object value) {
 		KafkaFactory.getProducer(name).send(Kafkas.newRecord(topic, value));
-		PRODUCER.flush();
 		Logs.debug("kafka send producer name={} topic={},value={}", name, topic, value);
 	}
 
@@ -81,7 +101,6 @@ public final class KafkaProducers {
 	 */
 	public static void sendN(String name, String topic, Object key, Object value) {
 		KafkaFactory.getProducer(name).send(Kafkas.newRecord(topic, key, value));
-		PRODUCER.flush();
 		Logs.debug("kafka send producer name={} topic={} key={} value={}", name, topic, key, value);
 	}
 
