@@ -20,17 +20,17 @@ public final class ScheduledUtil {
 	// // 守护线程并发定时任务池
 	// private final static ScheduledExecutorService DAEMON_POOL = newPool(SystemConstants.CPU_NUM * 2, true);
 
-//	/**
-//	 * 获得新的线程任务池
-//	 * @param size 池数量
-//	 * @param daemon 是否守护线程
-//	 * @return 线程任务池
-//	 */
-//	public static ScheduledExecutorService newPool(int size, boolean daemon) {
-//		// return daemon ? Executors.newScheduledThreadPool(size, DaemonThreadFactory.INSTANCE)
-//		// : Executors.newScheduledThreadPool(size);
-//		return FACTORY.newPool(size, daemon);
-//	}
+	// /**
+	// * 获得新的线程任务池
+	// * @param size 池数量
+	// * @param daemon 是否守护线程
+	// * @return 线程任务池
+	// */
+	// public static ScheduledExecutorService newPool(int size, boolean daemon) {
+	// // return daemon ? Executors.newScheduledThreadPool(size, DaemonThreadFactory.INSTANCE)
+	// // : Executors.newScheduledThreadPool(size);
+	// return FACTORY.newPool(size, daemon);
+	// }
 
 	/**
 	 * 获得定时任务池 此方法返回守护线程的池
@@ -66,7 +66,7 @@ public final class ScheduledUtil {
 	 * @return ScheduledFuture
 	 */
 	public static ScheduledFuture<?> rate(Runnable command, long period) {
-		return rate(command, period, period, TimeUnit.MILLISECONDS);
+		return rate(command, 0, period, TimeUnit.MILLISECONDS);
 	}
 
 	/**
@@ -136,7 +136,7 @@ public final class ScheduledUtil {
 	 * @return ScheduledFuture
 	 */
 	public static ScheduledFuture<?> delay(Runnable command, long delay) {
-		return delay(command, delay, delay, TimeUnit.MILLISECONDS);
+		return delay(command, 0, delay, TimeUnit.MILLISECONDS);
 	}
 
 	/**
@@ -169,7 +169,7 @@ public final class ScheduledUtil {
 	 * @return ScheduledFuture
 	 */
 	public static ScheduledFuture<?> delay(String name, Runnable command, long delay) {
-		return delay(name, command, delay, delay, TimeUnit.MILLISECONDS);
+		return delay(name, command, 0, delay, TimeUnit.MILLISECONDS);
 	}
 
 	/**

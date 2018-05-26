@@ -183,8 +183,8 @@ public class BasicServlet extends HttpServlet {
 							// }
 							// Logs.debug("request ip={},name={},params={}", ip, actionName, params[i]);
 						}
-						Logs.debug("request ip={},name={}, index={},name={},type={},value={}", ip, actionName, i,
-								p.getName(), cs, params[i]);
+						// Logs.debug("request ip={},name={}, index={},name={},type={},value={}", ip, actionName, i,
+						// p.getName(), cs, params[i]);
 					}
 				}
 			}
@@ -196,7 +196,7 @@ public class BasicServlet extends HttpServlet {
 			} else {
 				res = code;
 			}
-			Logs.debug("invoke method={},params={},pars={} end", method.getName(), params, pars);
+			// Logs.debug("invoke method={},params={},pars={} end", method.getName(), params, pars);
 			// 判断是否需要写cookie
 			boolean cookie = method.isAnnotationPresent(Cookies.class)
 					|| action.getClass().isAnnotationPresent(Cookies.class);
@@ -278,9 +278,8 @@ public class BasicServlet extends HttpServlet {
 				ResponseUtil.json(response, callback, res);
 				Logs.debug("servlet  method={} params={} end", method.getName(), params);
 			}
-			String json = JsonEngine.toJson(res);
 			Logs.info("request ip={} name={} params={} time={} res={} end", ip, actionName, params,
-					System.currentTimeMillis() - curr, StringUtil.subString(json, 0, 50));
+					System.currentTimeMillis() - curr, StringUtil.subString(JsonEngine.toJson(res), 0, 80));
 		}
 	}
 
