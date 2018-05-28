@@ -260,7 +260,7 @@ public class BasicServlet extends HttpServlet {
 					ResponseUtil.json(response, callback, Maps.newMap(new String[] { status, success },
 							new Object[] { WebParams.STATE_SUCCESS, res }));
 				}
-				Logs.debug("servlet state={} method={} params={} end", state, method.getName(), params);
+				// Logs.debug("servlet state={} method={} params={} end", state, method.getName(), params);
 			} else {
 				// 如果结果为空
 				if (res == null) {
@@ -276,10 +276,10 @@ public class BasicServlet extends HttpServlet {
 				}
 				// 写到前端
 				ResponseUtil.json(response, callback, res);
-				Logs.debug("servlet  method={} params={} end", method.getName(), params);
+				// Logs.debug("servlet method={} params={} end", method.getName(), params);
 			}
-			Logs.info("request ip={} name={} params={} time={} res={} end", ip, actionName, params,
-					System.currentTimeMillis() - curr, StringUtil.subString(JsonEngine.toJson(res), 0, 80));
+			Logs.info("request ip={} name={}  params={} pars={} time={} res={} end", ip, actionName, params, pars,
+					System.currentTimeMillis() - curr, StringUtil.subString(JsonEngine.toJson(res), 0, 100));
 		}
 	}
 
