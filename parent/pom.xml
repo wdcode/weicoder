@@ -137,57 +137,17 @@
 					</plugin>
 				</plugins>
 			</build>
-		</profile>
-		<profile>
-			<id>snapshot</id>
-			<distributionManagement>
-				<snapshotRepository>
-					<id>nexus</id>
-					<url>http://43.254.3.212:8081/nexus/content/repositories/snapshots/</url>
-				</snapshotRepository>
-				<repository>
-					<id>nexus</id>
-					<url>http://43.254.3.212:8081/nexus/content/groups/public/</url>
-				</repository>
-			</distributionManagement>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-compiler-plugin</artifactId>
-						<version>3.7.0</version>
-						<configuration>
-							<source>1.8</source>
-							<target>1.8</target>
-							<encoding>UTF-8</encoding>
-						</configuration>
-					</plugin>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-source-plugin</artifactId>
-						<version>3.0.1</version>
-						<executions>
-							<execution>
-								<phase>package</phase>
-								<goals>
-									<goal>jar-no-fork</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
+		</profile> 
 		<profile>
 			<id>weicoder</id>
 			<distributionManagement>
 				<snapshotRepository>
 					<id>weicoder</id>
-					<url>http://47.88.228.35:8081/repository/maven-snapshots/</url>
+					<url>http://nexus.weicoder.com:8081/repository/maven-snapshots/</url>
 				</snapshotRepository>
 				<repository>
 					<id>weicoder</id>
-					<url>http://47.88.228.35:8081/repository/maven-central/</url>
+					<url>http://nexus.weicoder.com:8081/repository/maven-central/</url>
 				</repository>
 			</distributionManagement>
 			<build>

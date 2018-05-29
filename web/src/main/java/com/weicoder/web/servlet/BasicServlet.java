@@ -119,7 +119,7 @@ public class BasicServlet extends HttpServlet {
 				ResponseUtil.json(response, callback, "no method");
 				return;
 			}
-			Logs.debug("request ip={},name={}", ip, actionName);
+//			Logs.debug("request ip={},name={}", ip, actionName);
 			// 设置参数
 			Parameter[] pars = WebCommons.METHODS_PARAMES.get(method);
 			Object[] params = null;
