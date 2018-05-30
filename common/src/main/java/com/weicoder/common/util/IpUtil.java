@@ -11,7 +11,7 @@ import com.weicoder.common.constants.RegexConstants;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.lang.Lists;
-import com.weicoder.common.lang.Sets; 
+import com.weicoder.common.lang.Sets;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
 
@@ -74,6 +74,16 @@ public final class IpUtil {
 		// 判断解析处理的ip放在不同列表
 		return IPS_ALL.contains(ip) || IPS_THREE.contains(StringUtil.add(t[0], p, t[1], p, t[2], p))
 				|| IPS_TWO.contains(StringUtil.add(t[0], p, t[1], p)) || IPS_ONE.contains(StringUtil.add(t[0], p));
+	}
+
+	/**
+	 * 校验ip是否相等 支持*段
+	 * @param regex ip正则
+	 * @param ip ip
+	 * @return 是否相等
+	 */
+	public static boolean contains(String regex, String ip) {
+		return RegexUtil.is(regex, ip);
 	}
 
 	/**

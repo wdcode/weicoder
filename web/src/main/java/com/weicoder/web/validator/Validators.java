@@ -183,10 +183,10 @@ public final class Validators {
 			TokenBean token = TokenEngine.decrypt(ps.get(t.value()));
 			Logs.debug("action validator token={} t={}", JsonEngine.toJson(token));
 			// 判断token
-			if (!token.isValid()) {
+			if (t.valid() > 0 && !token.isValid()) {
 				// 无效
 				return t.valid();
-			} else if (token.isExpire()) {
+			} else if (t.expire() > 0 && token.isExpire()) {
 				// 过期
 				return t.expire();
 			} else if (EmptyUtil.isNotEmpty(t.id()) && Conversion.toInt(ps.get(t.id())) != token.getId()) {

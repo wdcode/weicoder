@@ -26,6 +26,8 @@ import com.weicoder.core.json.JsonEngine;
 import com.weicoder.web.annotation.Action;
 import com.weicoder.web.annotation.Cookies;
 import com.weicoder.web.annotation.Forward;
+import com.weicoder.web.annotation.Get;
+import com.weicoder.web.annotation.Post;
 import com.weicoder.web.annotation.Redirect;
 import com.weicoder.web.annotation.State;
 import com.weicoder.web.common.WebCommons;
@@ -52,10 +54,12 @@ public class BasicServlet extends HttpServlet {
 		String ip = RequestUtil.getIp(request);
 		// 获得callback
 		String callback = RequestUtil.getParameter(request, "callback");
+		// 提交方法
+		String m = request.getMethod();
 		// 获得path
 		String path = request.getPathInfo();
 		String queryString = request.getQueryString();
-		Logs.debug("request ip={},path={},queryString={}", ip, path, queryString);
+		Logs.debug("request ip={} path={} Method={} queryString={}", ip, path, m, queryString);
 		if (!EmptyUtil.isEmpty(path)) {
 			// 分解提交action 去处开头的/ 并且按/或者_分解出数组
 			String actionName = StringUtil.subString(path, 1, path.length());
@@ -119,7 +123,17 @@ public class BasicServlet extends HttpServlet {
 				ResponseUtil.json(response, callback, "no method");
 				return;
 			}
-//			Logs.debug("request ip={},name={}", ip, actionName);
+			// 判断提交方法
+			if (a.method()) {
+				if (method.isAnnotationPresent(Post.class) && !StringUtil.equals("POST", m.toUpperCase())) {
+					ResponseUtil.json(response, callback, "no method is " + m);
+					return;
+				} else if (method.isAnnotationPresent(Get.class) && !StringUtil.equals("GET", m.toUpperCase())) {
+					ResponseUtil.json(response, callback, "no method is " + m);
+					return;
+				}
+			}
+			// Logs.debug("request ip={},name={}", ip, actionName);
 			// 设置参数
 			Parameter[] pars = WebCommons.METHODS_PARAMES.get(method);
 			Object[] params = null;

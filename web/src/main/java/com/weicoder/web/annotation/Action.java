@@ -17,4 +17,9 @@ public @interface Action {
 	 * @return 是否验证
 	 */
 	boolean ips() default false;
+
+	/**
+	 * 是否验证提交方法
+	 */
+	boolean method() default false;
 }
