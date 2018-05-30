@@ -74,7 +74,6 @@ public final class HibernateDao implements Dao {
 
 	@Override
 	public <E> List<E> update(final List<E> entitys) {
-		Logs.debug("dao hibernate update size={} entitys={}", entitys.size(), entitys);
 		return execute(entitys.get(0).getClass(), (Session session) -> {
 			// 循环更新
 			for (E e : entitys) {
