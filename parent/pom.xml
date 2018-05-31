@@ -17,6 +17,8 @@
 		<module>../dao</module>
 		<module>../socket</module>
 		<module>../nosql</module>
+		<module>../frame</module>
+		<module>../outdated</module>
 	</modules>
 
 	<properties>
