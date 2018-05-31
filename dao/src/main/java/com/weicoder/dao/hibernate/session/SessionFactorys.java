@@ -55,6 +55,7 @@ public final class SessionFactorys {
 				try {
 					if (((SessionFactoryImplementor) sessionFactory).getMetamodel().entity(e) != null) {
 						entity_factorys.put(e, sessionFactory);
+						break;
 					}
 				} catch (Exception ex) {}
 			}
