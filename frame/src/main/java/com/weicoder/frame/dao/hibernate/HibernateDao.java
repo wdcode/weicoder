@@ -30,7 +30,7 @@ import com.weicoder.common.util.EmptyUtil;
 /**
  * Hibernate接口
  * @author WD
- * @since JDK7
+ * 
  * @version 1.0 2012-03-05
  */
 @Repository
@@ -773,7 +773,7 @@ public final class HibernateDao implements Dao {
 	/**
 	 * Hibernate回调方法
 	 * @author WD
-	 * @since JDK7
+	 * 
 	 * @version 1.0 2012-03-05
 	 */
 	interface Callback<T> {

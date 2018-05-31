@@ -25,7 +25,7 @@ import com.weicoder.common.util.EmptyUtil;
 /**
  * 超级通用业务hibernate实现
  * @author WD
- * @since JDK7
+ * 
  * @version 1.0 2012-07-02
  */
 @Service

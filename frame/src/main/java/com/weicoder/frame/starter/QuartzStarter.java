@@ -23,7 +23,7 @@ import com.weicoder.common.util.EmptyUtil;
 /**
  * quartz启动器
  * @author WD
- * @since JDK7
+ * 
  * @version 1.0 2013-12-27
  */
 @Component

@@ -8,7 +8,7 @@ import com.weicoder.frame.entity.Entity;
 /**
  * 所有缓存的基础接口
  * @author WD
- * @since JDK7
+ * 
  * @version 1.0 2012-07-13
  */
 public interface Cache<E extends Entity> {

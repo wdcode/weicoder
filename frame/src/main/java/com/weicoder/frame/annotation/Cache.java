@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 /**
  * 使用实体缓存
  * @author WD
- * @since JDK7
+ * 
  * @version 1.0 2014-1-4
  */
 @Target(TYPE)

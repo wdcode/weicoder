@@ -12,7 +12,7 @@ import com.weicoder.core.json.JsonEngine;
 /**
  * Entity接口基础实现
  * @author WD
- * @since JDK7
+ * 
  * @version 1.0 2010-12-28
  */
 @MappedSuperclass

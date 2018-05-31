@@ -7,7 +7,7 @@ import java.util.Map;
 /**
  * 通用Dao接口
  * @author WD
- * @since JDK7
+ * 
  * @version 1.0 2012-07-15
  */
 public interface Dao {

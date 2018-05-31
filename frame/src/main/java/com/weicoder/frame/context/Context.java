@@ -21,7 +21,7 @@ import com.weicoder.common.lang.Maps;
 /**
  * 全局Context控制
  * @author WD
- * @since JDK7
+ * 
  * @version 1.0 2012-09-01
  */
 @Component

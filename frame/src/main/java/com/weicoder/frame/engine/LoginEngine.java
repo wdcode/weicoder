@@ -8,14 +8,14 @@ import com.weicoder.frame.params.SiteParams;
 import com.weicoder.frame.util.AttributeUtil;
 import com.weicoder.frame.util.RequestUtil;
 import com.weicoder.common.lang.Conversion;
-import com.weicoder.common.token.Token;
+import com.weicoder.common.token.TokenBean;
 import com.weicoder.common.token.TokenEngine;
 import com.weicoder.common.util.EmptyUtil;
 
 /**
  * 登录信息Bean
  * @author WD
- * @since JDK7
+ * 
  * @version 1.0 2012-07-20
  */
 public final class LoginEngine {
@@ -40,9 +40,9 @@ public final class LoginEngine {
 	 * @param response HttpServletResponse
 	 * @param login 登录实体
 	 * @param maxAge 保存时间
-	 * @return Token
+	 * @return TokenBean
 	 */
-	public static Token addLogin(HttpServletRequest request, HttpServletResponse response, EntityUser login,
+	public static TokenBean addLogin(HttpServletRequest request, HttpServletResponse response, EntityUser login,
 			int maxAge) {
 		return setToken(request, response, login.getClass().getSimpleName(),
 				getLogin(login.getId(), RequestUtil.getIp(request)), maxAge);
@@ -54,7 +54,7 @@ public final class LoginEngine {
 	 * @param ip 用户IP
 	 * @return 获得登录状态
 	 */
-	public static Token getLogin(int id, String ip) {
+	public static TokenBean getLogin(int id, String ip) {
 		return TokenEngine.newToken(id, ip, SiteParams.LOGIN_MAX_AGE);
 	}
 
@@ -65,10 +65,10 @@ public final class LoginEngine {
 	 * @param key 登录标识
 	 * @param token 登录实体
 	 * @param maxAge 保存时间
-	 * @return Token
+	 * @return TokenBean
 	 */
-	public static Token setToken(HttpServletRequest request, HttpServletResponse response, String key, Token token,
-			int maxAge) {
+	public static TokenBean setToken(HttpServletRequest request, HttpServletResponse response, String key,
+			TokenBean token, int maxAge) {
 		// 保存登录信息
 		AttributeUtil.set(request, response, key + INFO, token.getToken(), maxAge);
 		// 返回token
@@ -81,7 +81,7 @@ public final class LoginEngine {
 	 * @param key 登录标识
 	 * @return 用户信息
 	 */
-	public static Token getLoginBean(HttpServletRequest request, String key) {
+	public static TokenBean getLoginBean(HttpServletRequest request, String key) {
 		// 读取用户信息
 		String info = Conversion.toString(AttributeUtil.get(request, key + INFO));
 		// 如果用户信息为空
@@ -120,7 +120,7 @@ public final class LoginEngine {
 	 * @param info 实体信息
 	 * @return 登录实体
 	 */
-	public static Token decrypt(String info) {
+	public static TokenBean decrypt(String info) {
 		return TokenEngine.decrypt(info);
 	}
 
@@ -129,15 +129,15 @@ public final class LoginEngine {
 	 * @param request HttpServletRequest
 	 * @param response HttpServletResponse
 	 * @param key Key
-	 * @return Token
+	 * @return TokenBean
 	 */
-	public static Token guest(HttpServletRequest request, HttpServletResponse response, String key) {
+	public static TokenBean guest(HttpServletRequest request, HttpServletResponse response, String key) {
 		// 如果游客ID已经分配到最大值 把游客ID重置
 		if (GUEST_ID == Integer.MIN_VALUE) {
 			GUEST_ID = 0;
 		}
 		// 获得游客凭证
-		Token token = TokenEngine.newToken(GUEST_ID--, RequestUtil.getIp(request), SiteParams.LOGIN_MAX_AGE);
+		TokenBean token = TokenEngine.newToken(GUEST_ID--, RequestUtil.getIp(request), SiteParams.LOGIN_MAX_AGE);
 		// 设置游客凭证
 		AttributeUtil.set(request, response, key + INFO, token.getToken(), -1);
 		// 返回游客凭证
@@ -147,9 +147,9 @@ public final class LoginEngine {
 	/**
 	 * 获得一样空登录信息
 	 * @param ip 客户端ip
-	 * @return Token
+	 * @return TokenBean
 	 */
-	public static Token guest(String ip) {
+	public static TokenBean guest(String ip) {
 		// 如果游客ID已经分配到最大值 把游客ID重置
 		if (GUEST_ID == Integer.MIN_VALUE) {
 			GUEST_ID = 0;
@@ -160,9 +160,9 @@ public final class LoginEngine {
 
 	/**
 	 * 获得一样空登录信息
-	 * @return Token
+	 * @return TokenBean
 	 */
-	public static Token empty() {
+	public static TokenBean empty() {
 		return TokenEngine.EMPTY;
 	}
 

@@ -572,15 +572,15 @@ public final class HibernateDao implements Dao {
 				t.toString();
 			}
 		} catch (Exception e) {
+			Logs.error(e,"hibernate dao class={} res={}",entity,t);
 			// 回滚事务
 			if (!EmptyUtil.isEmpty(tx)) {
 				tx.rollback();
 			}
 			if (!EmptyUtil.isEmpty(txl)) {
 				txl.rollback();
-			}
-			t = null;
-			Logs.error(e);
+			} 
+			t = null; 
 		} finally {
 			// 自己关闭session
 			if (isSession && session.isOpen() && session.isConnected()) {

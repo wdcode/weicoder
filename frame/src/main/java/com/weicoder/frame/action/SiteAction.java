@@ -9,10 +9,10 @@ import com.weicoder.frame.util.VerifyCodeUtil;
 import com.weicoder.common.crypto.Decrypts;
 import com.weicoder.common.crypto.Digest;
 import com.weicoder.common.lang.Conversion;
-import com.weicoder.common.lang.Validate;
-import com.weicoder.common.token.Token;
+import com.weicoder.common.token.TokenBean;
 import com.weicoder.common.util.DateUtil;
 import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.util.RegexUtil;
 
 /**
  * 登录Action
@@ -58,7 +58,7 @@ public class SiteAction<U extends EntityUser> extends StrutsAction {
 	 */
 	public void setToken(String token) {
 		// 解析登录凭证
-		Token login = LoginEngine.decrypt(token);
+		TokenBean login = LoginEngine.decrypt(token);
 		// 登录凭证不为空
 		if (!EmptyUtil.isEmpty(login)) {
 			this.token = login;
@@ -202,7 +202,7 @@ public class SiteAction<U extends EntityUser> extends StrutsAction {
 		}
 		// 登录IP
 		String ip = user.getLoginIp();
-		if (!Validate.isIp(ip)) {
+		if (!RegexUtil.isIp(ip)) {
 			ip = getIp();
 		}
 		// 查询获得用户实体
@@ -420,7 +420,7 @@ public class SiteAction<U extends EntityUser> extends StrutsAction {
 	}
 
 	@Override
-	protected Token auth() {
+	protected TokenBean auth() {
 		return LoginEngine.getLoginBean(request, getLoginKey());
 	}
 }

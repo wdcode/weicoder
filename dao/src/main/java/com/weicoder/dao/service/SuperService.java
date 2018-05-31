@@ -4,12 +4,12 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-import com.weicoder.dao.bean.Pagination;
 import com.weicoder.dao.factory.DaoFactory;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.core.bean.Pagination;
 import com.weicoder.dao.Dao;
 
 /**

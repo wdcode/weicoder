@@ -12,7 +12,7 @@ import com.weicoder.common.util.EmptyUtil;
 /**
  * 标准实体实现
  * @author WD
- * @since JDK7
+ * 
  * @version 1.0 2012-03-29
  */
 @MappedSuperclass

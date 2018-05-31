@@ -17,7 +17,7 @@ import com.weicoder.common.util.EmptyUtil;
 /**
  * 标准的缓存Map实现
  * @author WD
- * @since JDK7
+ * 
  * @version 1.0 2012-07-13
  */
 @Component

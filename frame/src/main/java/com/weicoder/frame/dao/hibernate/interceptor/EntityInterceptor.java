@@ -11,7 +11,7 @@ import com.weicoder.common.util.DateUtil;
 /**
  * hibernate 实体拦截器
  * @author WD
- * @since JDK7
+ * 
  * @version 1.0 2013-11-18
  */
 public class EntityInterceptor extends EmptyInterceptor {

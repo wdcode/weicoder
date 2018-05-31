@@ -8,7 +8,7 @@ import com.weicoder.common.util.EmptyUtil;
 /**
  * 读取Dao配置
  * @author WD
- * @since JDK7
+ * 
  * @version 1.0 2013-12-31
  */
 public final class DaoParams {

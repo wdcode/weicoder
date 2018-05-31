@@ -23,7 +23,7 @@ import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.log.Logs;
-import com.weicoder.common.token.Token;
+import com.weicoder.common.token.TokenBean;
 import com.weicoder.frame.bean.Pagination;
 import com.weicoder.frame.context.Context;
 import com.weicoder.common.util.BeanUtil;
@@ -35,7 +35,7 @@ import com.weicoder.core.json.JsonEngine;
 /**
  * 超级通用Action
  * @author WD
- * @since JDK7
+ * 
  * @version 1.0 2012-07-4
  */
 public class SuperAction extends BasicAction {
@@ -59,7 +59,7 @@ public class SuperAction extends BasicAction {
 	@Resource
 	protected QueryService			query;
 	// 验证登录标识
-	protected Token					token;
+	protected TokenBean				token;
 	// 通用实体
 	protected Entity				entity;
 	// 实体列表
@@ -599,7 +599,7 @@ public class SuperAction extends BasicAction {
 	 * 获得验证登录标识
 	 * @return 验证登录标识
 	 */
-	public Token getToken() {
+	public TokenBean getToken() {
 		return token;
 	}
 
@@ -819,7 +819,7 @@ public class SuperAction extends BasicAction {
 	 * 获得验证登录凭证
 	 * @return Token
 	 */
-	protected Token auth() {
+	protected TokenBean auth() {
 		return LoginEngine.getLoginBean(request, "user");
 	}
 }

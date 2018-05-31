@@ -10,7 +10,7 @@ import com.weicoder.common.lang.Lists;
 /***
  * 空缓存操作
  * @author WD
- * @since JDK7
+ * 
  * @version 1.0 2012-07-16
  */
 public final class CacheEmpty implements Cache<Entity> {

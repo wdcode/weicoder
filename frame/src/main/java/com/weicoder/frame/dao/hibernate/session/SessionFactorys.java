@@ -26,7 +26,7 @@ import com.weicoder.common.util.EmptyUtil;
 /**
  * SessionFactory包装类
  * @author WD
- * @since JDK7
+ * 
  * @version 1.0 2013-11-19
  */
 @Component

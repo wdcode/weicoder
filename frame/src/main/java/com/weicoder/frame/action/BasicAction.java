@@ -15,7 +15,7 @@ import com.weicoder.frame.util.ResponseUtil;
 /**
  * Struts2 Action 的抽象实现 其它Struts2 Action可继承此类
  * @author WD
- * @since JDK7
+ * 
  * @version 1.0 2009-08-26
  */
 public class BasicAction {

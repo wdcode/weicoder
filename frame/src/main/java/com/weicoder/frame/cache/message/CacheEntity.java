@@ -5,7 +5,7 @@ import com.weicoder.common.binary.Binary;
 /**
  * 缓存更新消息实体
  * @author WD
- * @since JDK7
+ * 
  * @version 1.0 2013-12-30
  */
 public final class CacheEntity implements Binary {

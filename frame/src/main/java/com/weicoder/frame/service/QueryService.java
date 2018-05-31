@@ -15,7 +15,7 @@ import com.weicoder.common.lang.Maps;
 /**
  * 基于Hibernate的查询器
  * @author WD
- * @since JDK7
+ * 
  * @version 1.0 2012-06-24
  */
 @Service

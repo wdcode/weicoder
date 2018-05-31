@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Entity接口
  * @author WD
- * @since JDK7
+ * 
  * @version 1.0 2009-11-23
  */
 public interface Entity extends Comparable<Entity> {

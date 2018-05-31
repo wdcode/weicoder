@@ -8,7 +8,7 @@ import com.weicoder.common.params.Params;
 /**
  * 安全配置
  * @author WD
- * @since JDK7
+ * 
  * @version 1.0 2013-12-25
  */
 public final class SecurityParams {

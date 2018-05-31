@@ -9,7 +9,7 @@ import com.weicoder.common.util.EmptyUtil;
 /**
  * 保存属性工具类
  * @author WD
- * @since JDK7
+ * 
  * @version 1.0 2010-03-07
  */
 public final class AttributeUtil {

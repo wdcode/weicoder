@@ -11,7 +11,7 @@ import com.weicoder.common.lang.Lists;
 /**
  * 基础缓存实体
  * @author WD
- * @since JDK7
+ * 
  * @version 1.0 2012-07-18
  */
 public abstract class BaseCache<E extends Entity> implements Cache<E> {

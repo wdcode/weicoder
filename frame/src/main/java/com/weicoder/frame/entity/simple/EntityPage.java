@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * 带页面关键字的实体
  * @author WD
- * @since JDK7
+ * 
  * @version 1.0 2012-05-09
  */
 public final class EntityPage implements Serializable {

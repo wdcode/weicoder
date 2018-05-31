@@ -20,7 +20,7 @@ import com.weicoder.core.json.JsonEngine;
 /**
  * Json保存数据类型
  * @author WD
- * @since JDK7
+ * 
  * @version 1.0 2012-05-16
  */
 public final class JsonType implements UserType, Serializable {
