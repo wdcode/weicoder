@@ -167,7 +167,7 @@ public final class Maps {
 	 * @return Map
 	 */
 	@SafeVarargs
-	public static <K, V> Map<K, V> newMap(Map<K, V>... maps) {
+	public static <K, V> Map<K, V> newMaps(Map<K, V>... maps) {
 		// 获得一个map
 		Map<K, V> map = newMap();
 		// 循环maps

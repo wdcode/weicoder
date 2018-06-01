@@ -19,6 +19,7 @@ import com.weicoder.common.token.TokenEngine;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.util.IpUtil;
 import com.weicoder.common.util.RegexUtil;
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.core.json.JsonEngine;
@@ -189,6 +190,9 @@ public final class Validators {
 			} else if (t.expire() > 0 && token.isExpire()) {
 				// 过期
 				return t.expire();
+			} else if (t.ip() > 0 && IpUtil.contains(ip, token.getIp())) {
+				// 客户端IP不符
+				return t.ip();
 			} else if (EmptyUtil.isNotEmpty(t.id()) && Conversion.toInt(ps.get(t.id())) != token.getId()) {
 				// 不是用户
 				return t.valid();

@@ -33,6 +33,12 @@ public @interface Token {
 	 * @return 错误码
 	 */
 	int expire() default 102;
+	
+	/**
+	 * 客户端ip不符的错误码
+	 * @return 错误码
+	 */
+	int ip() default 0;
 
 	/**
 	 * 验证id是否相同 验证用户token与用户id是否相同 不为0验证
