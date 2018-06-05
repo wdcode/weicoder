@@ -116,6 +116,9 @@ public final class Kafkas {
 					if (n > 0) {
 						Logs.info("kafka read consumer end name={} size={} time={} thread={}", name, n,
 								System.currentTimeMillis() - time, tid);
+					} else {
+						Logs.debug("kafka read consumer is empty name={} time={} thread={}", name,
+								System.currentTimeMillis() - time, tid);
 					}
 				});
 			}, 100L, 100L, TimeUnit.MICROSECONDS);
@@ -150,7 +153,11 @@ public final class Kafkas {
 								objs = new Object[params.length];
 								// 有参数 现在只支持 1-2位的参数，1个参数表示value,2个参数表示key,value
 								if (params.length == 1) {
-									objs[0] = toParam(record.value(), params[0].getType());
+									if (ConsumerRecord.class.equals(params[0].getType())) {
+										objs[0] = record;
+									} else {
+										objs[0] = toParam(record.value(), params[0].getType());
+									}
 								} else {
 									objs[0] = toParam(record.key(), params[0].getType());
 									objs[1] = toParam(record.value(), params[1].getType());

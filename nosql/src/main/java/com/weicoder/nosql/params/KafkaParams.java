@@ -55,9 +55,18 @@ public final class KafkaParams {
 	}
 
 	/**
-	 * 获得kafka服务器
+	 * 获得偏移量失效方案 earliest 从最早开始 latest 从最新开始
+	 * @param name
+	 * @return 偏移量失效方案
+	 */
+	public static String getOffsetReset(String name) {
+		return Params.getString(Params.getKey(PREFIX, name, "offset.reset"), "latest");
+	}
+
+	/**
+	 * 获得kafka间隔时间
 	 * @param name 名字
-	 * @return 服务器
+	 * @return 间隔时间
 	 */
 	public static int getInterval(String name) {
 		return Params.getInt(Params.getKey(PREFIX, name, "interval"), 1000);
