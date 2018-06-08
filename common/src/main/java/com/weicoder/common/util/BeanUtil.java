@@ -59,7 +59,8 @@ public final class BeanUtil {
 				if (!field.isSynthetic()) {
 					// 设置字段值
 					if (map == null) {
-						setFieldValue(target, getField(target, field.getName()), getFieldValue(source, field));
+						setFieldValue(target, getField(target, field.getName()),
+								getFieldValue(source, field));
 					} else {
 						map.put(field.getName(), getFieldValue(source, field));
 					}
@@ -80,9 +81,22 @@ public final class BeanUtil {
 	 * @return dest 目标对象
 	 */
 	public static <T> T copy(Map<?, ?> map, T dest) {
-		// 循环Map的实体
-		for (Map.Entry<?, ?> entry : map.entrySet()) {
-			setFieldValue(dest, Conversion.toString(entry.getKey()), entry.getValue());
+		// // 循环Map的实体
+		// for (Map.Entry<?, ?> entry : map.entrySet()) {
+		// Logs.debug("login/login copy dest={} key={} val={}",dest, entry.getKey(),entry.getValue());
+		// setFieldValue(dest, Conversion.toString(entry.getKey()),
+		// entry.getValue());
+		// }
+		// 循环字段
+		for (Field field : getFields(dest.getClass())) {
+			try {
+				// 不是复合字段
+				if (!field.isSynthetic()) {
+					// 设置字段值
+					String name = field.getName();
+					setFieldValue(dest, getField(dest, name), map.get(name));
+				}
+			} catch (Exception e) {}
 		}
 		// 返回对象
 		return dest;
@@ -199,7 +213,9 @@ public final class BeanUtil {
 	public static Object getFieldValue(Object object, String fieldName) {
 		// 如果有复杂字段
 		if (fieldName.indexOf(StringConstants.POINT) > -1) {
-			return getFieldValue(getFieldValue(object, StringUtil.subStringEnd(fieldName, StringConstants.POINT)),
+			return getFieldValue(
+					getFieldValue(object,
+							StringUtil.subStringEnd(fieldName, StringConstants.POINT)),
 					StringUtil.subString(fieldName, StringConstants.POINT));
 		}
 		// 获得字段
@@ -244,6 +260,7 @@ public final class BeanUtil {
 	 * @param value 值
 	 */
 	public static void setFieldValue(Object object, String fieldName, Object value) {
+		Logs.debug("login/login obj={} name={} val={}", object, fieldName, value);
 		setFieldValue(object, getField(object, fieldName), value);
 	}
 
@@ -273,12 +290,12 @@ public final class BeanUtil {
 	 */
 	public static Object invoke(Object obj, Method method, Object... args) {
 		try {
-			Logs.debug("invoke method={} args={} params={}", method.getName(), Arrays.toString(args),
-					Arrays.toString(method.getParameters()));
-			return makeAccessible(method).invoke(obj, args);
+			Logs.debug("invoke method={} args={} params={}", method.getName(),
+					Arrays.toString(args), Arrays.toString(method.getParameters()));
+			return makeAccessible(method).invoke(obj, EmptyUtil.isEmpty(args) ? null : args);
 		} catch (Exception e) {
-			Logs.error(e, "invoke method={} args={} params={}", method.getName(), Arrays.toString(args),
-					method.getParameters());
+			Logs.error(e, "invoke method={} args={} params={}", method.getName(),
+					Arrays.toString(args), Arrays.toString(method.getParameters()));
 			return null;
 		}
 	}
@@ -301,7 +318,8 @@ public final class BeanUtil {
 	 * @param parameters 参数
 	 * @return 方法返回值
 	 */
-	public static Object invoke(Object object, String name, Class<?>[] parameterTypes, Object[] parameters) {
+	public static Object invoke(Object object, String name, Class<?>[] parameterTypes,
+			Object[] parameters) {
 		// 声明Class
 		Class<?> c = null;
 		if (object instanceof Class<?>) {
@@ -399,8 +417,9 @@ public final class BeanUtil {
 		// 声明Method
 		Method method = null;
 		// 循环对象类
-		for (Class<?> superClass = obj instanceof Class<?> ? (Class<?>) obj : obj.getClass(); superClass != Object.class
-				&& method == null; superClass = superClass.getSuperclass()) {
+		for (Class<?> superClass = obj instanceof Class<?> ? (Class<?>) obj
+				: obj.getClass(); superClass != Object.class
+						&& method == null; superClass = superClass.getSuperclass()) {
 			try {
 				// 返回方法
 				method = superClass.getDeclaredMethod(name, parameterTypes);
@@ -417,7 +436,8 @@ public final class BeanUtil {
 	 */
 	private static Field makeAccessible(Field field) {
 		// 判断字段是否公有
-		if (!Modifier.isPublic(field.getModifiers()) || !Modifier.isPublic(field.getDeclaringClass().getModifiers())) {
+		if (!Modifier.isPublic(field.getModifiers())
+				|| !Modifier.isPublic(field.getDeclaringClass().getModifiers())) {
 			// 设置可访问
 			field.setAccessible(true);
 		}

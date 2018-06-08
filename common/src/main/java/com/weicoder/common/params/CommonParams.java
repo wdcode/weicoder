@@ -15,42 +15,56 @@ import com.weicoder.common.lang.Sets;
  */
 public final class CommonParams {
 	/** log实现 */
-	public final static String		LOG_CLASS				= Params.getString("log.class",
-			"com.weicoder.core.log.Log4j2");
+	public final static String		LOG_CLASS				= Params
+			.getString("log.class", "com.weicoder.core.log.Log4j2");
 	/** IO缓冲区大小 */
-	public final static int			IO_BUFFERSIZE			= Params.getInt("io.buffer", 8192);
+	public final static int			IO_BUFFERSIZE			= Params
+			.getInt("io.buffer", 8192);
 	/** IO模式 */
-	public final static String		IO_MODE					= Params.getString("io.mode", "nio");
+	public final static String		IO_MODE					= Params
+			.getString("io.mode", "nio");
 	/** 默认编码 */
-	public final static String		ENCODING				= Params.getString("encoding", "UTF-8");
+	public final static String		ENCODING				= Params
+			.getString("encoding", "UTF-8");
 	/** 日期格式 */
-	public final static String		DATE_FORMAT				= Params.getString("date.format",
-			DateConstants.FORMAT_Y_M_D_H_M_S);
+	public final static String		DATE_FORMAT				= Params
+			.getString("date.format", DateConstants.FORMAT_Y_M_D_H_M_S);
 	/** 转换字节数组算法 */
-	public final static String		BYTES					= Params.getString("bytes", "high");
+	public final static String		BYTES					= Params
+			.getString("bytes", "high");
 	/** 加密使用的密钥 字符串 */
-	public final static String		ENCRYPT_KEY				= Params.getString("encrypt.key", "www.weicoder.com");
+	public final static String		ENCRYPT_KEY				= Params
+			.getString("encrypt.key", "www.weicoder.com");
 	/** 加密使用的算法 */
-	public final static String		ENCRYPT_ALGO			= Params.getString("encrypt.algo",
-			EncryptConstants.ALGO_AES);
+	public final static String		ENCRYPT_ALGO			= Params
+			.getString("encrypt.algo", EncryptConstants.ALGO_AES);
 	/** 加密使用摘要算法 */
-	public final static String		ENCRYPT_DIGEST			= Params.getString("encrypt.digest",
-			EncryptConstants.ALGO_SHA_1);
+	public final static String		ENCRYPT_DIGEST			= Params
+			.getString("encrypt.digest", EncryptConstants.ALGO_SHA_1);
 	/** 包名 */
-	public final static String		PACKAGES				= Params.getString("packages");
+	public final static String		PACKAGES				= Params
+			.getString("packages");
 	/** 获得ips过滤组 */
-	public final static String[]	IPS						= Params.getStringArray("ips", ArrayConstants.STRING_EMPTY);
+	public final static String[]	IPS						= Params
+			.getStringArray("ips", ArrayConstants.STRING_EMPTY);
 	/** token 验证长度 */
-	public final static int			TOKEN_LENGHT			= Params.getInt("token.lenght", 8);
+	public final static int			TOKEN_LENGHT			= Params
+			.getInt("token.lenght", 8);
 	/** token 验证长度 */
-	public final static int			TOKEN_SIGN				= Params.getInt("token.sign", Byte.MIN_VALUE);
+	public final static int			TOKEN_SIGN				= Params
+			.getInt("token.sign", Byte.MIN_VALUE);
+	/** 截取日志长度 */
+	public final static int			LOGS_LEN				= Params
+			.getInt("logs.len", 100);
 	/** token 发放服务器 */
-	public final static Set<String>	TOKEN_SERVERS			= Sets
-			.newSet(Params.getStringArray("token.servers", ArrayConstants.STRING_EMPTY));
+	public final static Set<String>	TOKEN_SERVERS			= Sets.newSet(Params
+			.getStringArray("token.servers", ArrayConstants.STRING_EMPTY));
 	/** http连接超时时间 */
-	public final static int			HTTP_CONNECT_TIMEOUT	= Params.getInt("http.connect.timeout", 3000);
+	public final static int			HTTP_CONNECT_TIMEOUT	= Params
+			.getInt("http.connect.timeout", 3000);
 	/** http读取超时时间 */
-	public final static int			HTTP_READ_TIMEOUT		= Params.getInt("http.read.timeout", 10000);
+	public final static int			HTTP_READ_TIMEOUT		= Params
+			.getInt("http.read.timeout", 10000);
 
 	/**
 	 * 获得包名
@@ -58,7 +72,9 @@ public final class CommonParams {
 	 * @return 名称下的包名
 	 */
 	public static String getPackages(String name) {
-		return Params.getString(Params.getKey(StringConstants.EMPTY, name, "packages"), PACKAGES);
+		return Params.getString(
+				Params.getKey(StringConstants.EMPTY, name, "packages"),
+				PACKAGES);
 	}
 
 	/**
@@ -67,7 +83,8 @@ public final class CommonParams {
 	 * @return 数量
 	 */
 	public static int getScheduledPool(String name) {
-		return Params.getInt(Params.getKey("scheduled", name, "pool"), SystemConstants.CPU_NUM);
+		return Params.getInt(Params.getKey("scheduled", name, "pool"),
+				SystemConstants.CPU_NUM);
 	}
 
 	/**
@@ -76,7 +93,8 @@ public final class CommonParams {
 	 * @return 数量
 	 */
 	public static boolean getScheduledDaemon(String name) {
-		return Params.getBoolean(Params.getKey("scheduled", name, "daemon"), true);
+		return Params.getBoolean(Params.getKey("scheduled", name, "daemon"),
+				true);
 	}
 
 	/**
@@ -85,7 +103,8 @@ public final class CommonParams {
 	 * @return 数量
 	 */
 	public static int getExecutorPool(String name) {
-		return Params.getInt(Params.getKey("executor", name, "pool"), SystemConstants.CPU_NUM);
+		return Params.getInt(Params.getKey("executor", name, "pool"),
+				SystemConstants.CPU_NUM);
 	}
 
 	/**
@@ -94,7 +113,8 @@ public final class CommonParams {
 	 * @return 数量
 	 */
 	public static boolean getExecutorDaemon(String name) {
-		return Params.getBoolean(Params.getKey("executor", name, "daemon"), true);
+		return Params.getBoolean(Params.getKey("executor", name, "daemon"),
+				true);
 	}
 
 	private CommonParams() {}

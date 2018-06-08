@@ -1,7 +1,11 @@
 package com.weicoder.common.log;
 
+import java.util.Arrays;
+
+import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.util.ClassUtil;
+import com.weicoder.common.util.StringUtil;
 
 /**
  * 打印日志工具类
@@ -9,7 +13,8 @@ import com.weicoder.common.util.ClassUtil;
  */
 public final class Logs {
 	// loggin日志对象
-	private final static Log LOG = ClassUtil.newInstance(CommonParams.LOG_CLASS, new LogJdk());
+	private final static Log LOG = ClassUtil.newInstance(CommonParams.LOG_CLASS,
+			new LogJdk());
 
 	/**
 	 * 使用trace打印日志
@@ -18,7 +23,7 @@ public final class Logs {
 	 */
 	public static void trace(String msg, Object... params) {
 		if (LOG.isTrace())
-			LOG.trace(msg, params);
+			LOG.trace(msg, params(params));
 	}
 
 	/**
@@ -37,7 +42,7 @@ public final class Logs {
 	 */
 	public static void debug(String msg, Object... params) {
 		if (LOG.isDebug())
-			LOG.debug(msg, params);
+			LOG.debug(msg, params(params));
 	}
 
 	/**
@@ -56,7 +61,7 @@ public final class Logs {
 	 */
 	public static void info(String msg, Object... params) {
 		if (LOG.isInfo())
-			LOG.info(msg, params);
+			LOG.info(msg, params(params));
 	}
 
 	/**
@@ -75,7 +80,7 @@ public final class Logs {
 	 */
 	public static void warn(String msg, Object... params) {
 		if (LOG.isWarn())
-			LOG.warn(msg, params);
+			LOG.warn(msg, params(params));
 	}
 
 	/**
@@ -94,7 +99,7 @@ public final class Logs {
 	 */
 	public static void error(String msg, Object... params) {
 		if (LOG.isError())
-			LOG.error(msg, params);
+			LOG.error(msg, params(params));
 	}
 
 	/**
@@ -123,10 +128,38 @@ public final class Logs {
 	 * @param params 字符串格式化参数
 	 */
 	public static void error(Throwable t, String msg, Object... params) {
-		if (LOG.isError()) {
-			LOG.error(msg, params);
-			LOG.error(t);
+		if (LOG.isError())
+			LOG.error(String.format(StringUtil.replaceAll(msg, "\\{}", "%s"),
+					params(params)), t);
+	}
+
+	/**
+	 * 转换日志 1 把字符串长于一定程度的信息截取 2把数组变成字符串 并截取一定长度
+	 * @param params 写日志参数
+	 * @return 参数
+	 */
+	private static Object[] params(Object... params) {
+		// 开启日志截取
+		if (CommonParams.LOGS_LEN > 0) {
+			// 循环处理日志
+			for (int i = 0; i < params.length; i++) {
+				// 转换对象
+				Object obj = params[i];
+				// 判断类型 byte[]
+				if (obj instanceof byte[]) {
+					obj = Arrays.toString((byte[]) obj);
+				}
+				// 是String类型
+				if (obj instanceof String) {
+					obj = StringUtil.subString(Conversion.toString(obj), 0,
+							CommonParams.LOGS_LEN);
+				}
+				// 获得对象
+				params[i] = obj;
+			}
 		}
+		// 返回对象
+		return params;
 	}
 
 	private Logs() {}

@@ -1,9 +1,9 @@
 package com.weicoder.nosql.kafka.factory;
 
 import org.apache.kafka.clients.consumer.KafkaConsumer;
-import org.apache.kafka.clients.producer.Producer;
 
 import com.weicoder.common.constants.StringConstants;
+import com.weicoder.nosql.kafka.Producers;
 
 /**
  * kafka工厂
@@ -11,7 +11,7 @@ import com.weicoder.common.constants.StringConstants;
  */
 public final class KafkaFactory {
 	/**
-	 * 获得kafka消费者 
+	 * 获得kafka消费者
 	 * @return 消费者
 	 */
 	public static KafkaConsumer<byte[], byte[]> getConsumer() {
@@ -28,10 +28,10 @@ public final class KafkaFactory {
 	}
 
 	/**
-	 * 获得kafka生产者 
+	 * 获得kafka生产者
 	 * @return 生产者
 	 */
-	public static Producer<byte[], byte[]> getProducer() {
+	public static Producers getProducer() {
 		return getProducer(StringConstants.EMPTY);
 	}
 
@@ -40,7 +40,7 @@ public final class KafkaFactory {
 	 * @param name 名称
 	 * @return 生产者
 	 */
-	public static Producer<byte[], byte[]> getProducer(String name) {
+	public static Producers getProducer(String name) {
 		return KafkaProducerFactory.FACTORY.getInstance(name);
 	}
 

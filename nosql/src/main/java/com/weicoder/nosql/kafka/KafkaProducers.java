@@ -1,9 +1,10 @@
 package com.weicoder.nosql.kafka;
 
-import org.apache.kafka.clients.producer.Producer;
+import java.util.concurrent.Future;
 
-import com.weicoder.common.concurrent.ExecutorUtil;
-import com.weicoder.common.log.Logs;
+import org.apache.kafka.clients.producer.Producer;
+import org.apache.kafka.clients.producer.RecordMetadata;
+
 import com.weicoder.nosql.kafka.factory.KafkaFactory;
 
 /**
@@ -12,14 +13,14 @@ import com.weicoder.nosql.kafka.factory.KafkaFactory;
  */
 public final class KafkaProducers {
 	// 生产者
-	private final static Producer<byte[], byte[]> PRODUCER = KafkaFactory.getProducer();
+	private final static Producers PRODUCER = KafkaFactory.getProducer();
 
 	/**
 	 * 获得生产者
 	 * @return 生产者
 	 */
 	public static Producer<byte[], byte[]> getProducer() {
-		return PRODUCER;
+		return PRODUCER.getProducer();
 	}
 
 	/**
@@ -34,9 +35,8 @@ public final class KafkaProducers {
 	 * @param topic 节点
 	 * @param value 值
 	 */
-	public static void send(String topic, Object value) {
-		PRODUCER.send(Kafkas.newRecord(topic, value));
-		Logs.debug("kafka send producer topic={},value={}", topic, value);
+	public static Future<RecordMetadata> send(String topic, Object value) {
+		return PRODUCER.send(topic, value);
 	}
 
 	/**
@@ -45,9 +45,8 @@ public final class KafkaProducers {
 	 * @param key 键
 	 * @param value 值
 	 */
-	public static void send(String topic, Object key, Object value) {
-		PRODUCER.send(Kafkas.newRecord(topic, key, value));
-		Logs.debug("kafka send producer topic={},key={},value={}", topic, key, value);
+	public static Future<RecordMetadata> send(String topic, Object key, Object value) {
+		return PRODUCER.send(topic, key, value);
 	}
 
 	/**
@@ -56,9 +55,7 @@ public final class KafkaProducers {
 	 * @param value 值
 	 */
 	public static void asyn(String topic, Object value) {
-		ExecutorUtil.pool().execute(() -> {
-			send(topic, value);
-		});
+		PRODUCER.asyn(topic, value);
 	}
 
 	/**
@@ -68,9 +65,7 @@ public final class KafkaProducers {
 	 * @param value 值
 	 */
 	public static void asyn(String topic, Object key, Object value) {
-		ExecutorUtil.pool().execute(() -> {
-			send(topic, key, value);
-		});
+		PRODUCER.asyn(topic, key, value);
 	}
 
 	/**
@@ -78,7 +73,7 @@ public final class KafkaProducers {
 	 * @param name kafka名称
 	 */
 	public static void flush(String name) {
-		PRODUCER.flush();
+		KafkaFactory.getProducer(name).flush();
 	}
 
 	/**
@@ -87,9 +82,8 @@ public final class KafkaProducers {
 	 * @param topic 节点
 	 * @param value 值
 	 */
-	public static void sendN(String name, String topic, Object value) {
-		KafkaFactory.getProducer(name).send(Kafkas.newRecord(topic, value));
-		Logs.debug("kafka send producer name={} topic={},value={}", name, topic, value);
+	public static Future<RecordMetadata> sendN(String name, String topic, Object value) {
+		return KafkaFactory.getProducer(name).send(topic, value);
 	}
 
 	/**
@@ -99,9 +93,9 @@ public final class KafkaProducers {
 	 * @param key 键
 	 * @param value 值
 	 */
-	public static void sendN(String name, String topic, Object key, Object value) {
-		KafkaFactory.getProducer(name).send(Kafkas.newRecord(topic, key, value));
-		Logs.debug("kafka send producer name={} topic={} key={} value={}", name, topic, key, value);
+	public static Future<RecordMetadata> sendN(String name, String topic, Object key,
+			Object value) {
+		return KafkaFactory.getProducer(name).send(topic, key, value);
 	}
 
 	/**
@@ -111,9 +105,7 @@ public final class KafkaProducers {
 	 * @param value 值
 	 */
 	public static void asynN(String name, String topic, Object value) {
-		ExecutorUtil.pool().execute(() -> {
-			sendN(name, topic, value);
-		});
+		KafkaFactory.getProducer(name).asyn(topic, value);
 	}
 
 	/**
@@ -124,9 +116,7 @@ public final class KafkaProducers {
 	 * @param value 值
 	 */
 	public static void asynN(String name, String topic, Object key, Object value) {
-		ExecutorUtil.pool().execute(() -> {
-			sendN(name, topic, key, value);
-		});
+		KafkaFactory.getProducer(name).asyn(topic, key, value);
 	}
 
 	private KafkaProducers() {}
