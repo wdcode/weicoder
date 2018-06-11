@@ -13,8 +13,7 @@ import com.weicoder.common.util.StringUtil;
  */
 public final class Logs {
 	// loggin日志对象
-	private final static Log LOG = ClassUtil.newInstance(CommonParams.LOG_CLASS,
-			new LogJdk());
+	private final static Log LOG = ClassUtil.newInstance(CommonParams.LOG_CLASS, new LogJdk());
 
 	/**
 	 * 使用trace打印日志
@@ -129,8 +128,7 @@ public final class Logs {
 	 */
 	public static void error(Throwable t, String msg, Object... params) {
 		if (LOG.isError())
-			LOG.error(String.format(StringUtil.replaceAll(msg, "\\{}", "%s"),
-					params(params)), t);
+			LOG.error(String.format(StringUtil.replaceAll(msg, "\\{}", "%s"), params(params)), t);
 	}
 
 	/**
@@ -148,11 +146,12 @@ public final class Logs {
 				// 判断类型 byte[]
 				if (obj instanceof byte[]) {
 					obj = Arrays.toString((byte[]) obj);
+				} else if (obj instanceof String[]) {
+					obj = Arrays.toString((String[]) obj);
 				}
 				// 是String类型
 				if (obj instanceof String) {
-					obj = StringUtil.subString(Conversion.toString(obj), 0,
-							CommonParams.LOGS_LEN);
+					obj = StringUtil.subString(Conversion.toString(obj), 0, CommonParams.LOGS_LEN);
 				}
 				// 获得对象
 				params[i] = obj;

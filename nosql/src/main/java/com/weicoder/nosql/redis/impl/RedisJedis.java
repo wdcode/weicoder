@@ -1,5 +1,6 @@
 package com.weicoder.nosql.redis.impl;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -55,6 +56,7 @@ public final class RedisJedis extends BaseRedis {
 		try (Jedis jedis = pool.getResource()) {
 			return jedis.rpush(key, strings);
 		} catch (Exception e) {
+			Logs.error(e, "redis pool rpush key={} strings={}", key, strings);
 			return error;
 		}
 	}
@@ -64,6 +66,7 @@ public final class RedisJedis extends BaseRedis {
 		try (Jedis jedis = pool.getResource()) {
 			return Conversion.toLong(jedis.llen(key));
 		} catch (Exception e) {
+			Logs.error(e, "redis pool llen key={}", key);
 			return error;
 		}
 	}
@@ -73,6 +76,7 @@ public final class RedisJedis extends BaseRedis {
 		try (Jedis jedis = pool.getResource()) {
 			return jedis.lpop(key);
 		} catch (Exception e) {
+			Logs.error(e, "redis pool lpop key={}", key);
 			return StringConstants.EMPTY;
 		}
 	}
@@ -82,6 +86,7 @@ public final class RedisJedis extends BaseRedis {
 		try (Jedis jedis = pool.getResource()) {
 			return jedis.lpush(key, strings);
 		} catch (Exception e) {
+			Logs.error(e, "redis pool lpush key={} strings={}", key, strings);
 			return error;
 		}
 	}
@@ -91,6 +96,7 @@ public final class RedisJedis extends BaseRedis {
 		try (Jedis jedis = pool.getResource()) {
 			return jedis.set(key, value);
 		} catch (Exception e) {
+			Logs.error(e, "redis pool set key={} value={}", key, value);
 			return StringConstants.EMPTY;
 		}
 	}
@@ -100,6 +106,7 @@ public final class RedisJedis extends BaseRedis {
 		try (Jedis jedis = pool.getResource()) {
 			return jedis.hset(key, field, value);
 		} catch (Exception e) {
+			Logs.error(e, "redis pool hset key={} field={} value={}", key, field, value);
 			return error;
 		}
 	}
@@ -109,6 +116,7 @@ public final class RedisJedis extends BaseRedis {
 		try (Jedis jedis = pool.getResource()) {
 			return jedis.set(key, value);
 		} catch (Exception e) {
+			Logs.error(e, "redis pool set key={} strings={}", key, value);
 			return StringConstants.EMPTY;
 		}
 	}
@@ -118,6 +126,7 @@ public final class RedisJedis extends BaseRedis {
 		try (Jedis jedis = pool.getResource()) {
 			return jedis.setex(key, seconds, value);
 		} catch (Exception e) {
+			Logs.error(e, "redis pool setex key={} seconds={} value", key, seconds, value);
 			return StringConstants.EMPTY;
 		}
 	}
@@ -127,6 +136,7 @@ public final class RedisJedis extends BaseRedis {
 		try (Jedis jedis = pool.getResource()) {
 			return jedis.hsetnx(key, field, value);
 		} catch (Exception e) {
+			Logs.error(e, "redis pool hsetnx key={} field={} value={}", key, field, value);
 			return error;
 		}
 	}
@@ -136,6 +146,7 @@ public final class RedisJedis extends BaseRedis {
 		try (Jedis jedis = pool.getResource()) {
 			return jedis.get(key);
 		} catch (Exception e) {
+			Logs.error(e, "redis pool get key={}", key);
 			return StringConstants.EMPTY;
 		}
 	}
@@ -145,6 +156,7 @@ public final class RedisJedis extends BaseRedis {
 		try (Jedis jedis = pool.getResource()) {
 			return jedis.get(key);
 		} catch (Exception e) {
+			Logs.error(e, "redis pool get key={}", key);
 			return ArrayConstants.BYTES_EMPTY;
 		}
 	}
@@ -157,6 +169,7 @@ public final class RedisJedis extends BaseRedis {
 		try (Jedis jedis = pool.getResource()) {
 			return jedis.del(key);
 		} catch (Exception e) {
+			Logs.error(e, "redis pool del key={}", Arrays.toString(key));
 			return error;
 		}
 	}
@@ -170,6 +183,7 @@ public final class RedisJedis extends BaseRedis {
 		try (Jedis jedis = pool.getResource()) {
 			return jedis.exists(key);
 		} catch (Exception e) {
+			Logs.error(e, "redis pool exists key={}", key);
 			return false;
 		}
 	}
@@ -179,6 +193,7 @@ public final class RedisJedis extends BaseRedis {
 		try (Jedis jedis = pool.getResource()) {
 			return jedis.append(Bytes.toBytes(key), Bytes.toBytes(value));
 		} catch (Exception e) {
+			Logs.error(e, "redis pool append key={} value={}", key, value);
 			return error;
 		}
 	}
@@ -188,6 +203,7 @@ public final class RedisJedis extends BaseRedis {
 		try (Jedis jedis = pool.getResource()) {
 			return jedis.ttl(key);
 		} catch (Exception e) {
+			Logs.error(e, "redis pool ttl key={}", key);
 			return error;
 		}
 	}
@@ -197,6 +213,7 @@ public final class RedisJedis extends BaseRedis {
 		try (Jedis jedis = pool.getResource()) {
 			return jedis.hexists(key, field);
 		} catch (Exception e) {
+			Logs.error(e, "redis pool hexists key={} field={}", key, field);
 			return false;
 		}
 	}
@@ -206,6 +223,7 @@ public final class RedisJedis extends BaseRedis {
 		try (Jedis jedis = pool.getResource()) {
 			return jedis.hget(key, field);
 		} catch (Exception e) {
+			Logs.error(e, "redis pool hget key={} field={}", key, field);
 			return StringConstants.EMPTY;
 		}
 	}
@@ -215,6 +233,7 @@ public final class RedisJedis extends BaseRedis {
 		try (Jedis jedis = pool.getResource()) {
 			return jedis.hgetAll(key);
 		} catch (Exception e) {
+			Logs.error(e, "redis pool hgetAll key={} strings={}", key);
 			return Maps.emptyMap();
 		}
 	}
@@ -224,15 +243,9 @@ public final class RedisJedis extends BaseRedis {
 		try (Jedis jedis = pool.getResource()) {
 			return jedis.hdel(key, field);
 		} catch (Exception e) {
+			Logs.error(e, "redis pool hdel key={} field={}", key, field);
 			return error;
 		}
-	}
-
-	@Override
-	public void subscribe(final JedisPubSub jedisPubSub, final String... channels) {
-		try (Jedis jedis = pool.getResource()) {
-			jedis.subscribe(jedisPubSub, channels);
-		} catch (Exception e) {}
 	}
 
 	@Override
@@ -240,6 +253,7 @@ public final class RedisJedis extends BaseRedis {
 		try (Jedis jedis = pool.getResource()) {
 			return jedis.mget(key);
 		} catch (Exception e) {
+			Logs.error(e, "redis pool mget key={}", Arrays.toString(key));
 			return Lists.emptyList();
 		}
 	}
@@ -249,6 +263,7 @@ public final class RedisJedis extends BaseRedis {
 		try (Jedis jedis = pool.getResource()) {
 			return jedis.zcard(key);
 		} catch (Exception e) {
+			Logs.error(e, "redis pool zcard key={}", key);
 			return error;
 		}
 	}
@@ -258,6 +273,7 @@ public final class RedisJedis extends BaseRedis {
 		try (Jedis jedis = pool.getResource()) {
 			return jedis.zscore(key, member);
 		} catch (Exception e) {
+			Logs.error(e, "redis pool zscore key={} member={}", key, member);
 			return 0D;
 		}
 	}
@@ -267,7 +283,17 @@ public final class RedisJedis extends BaseRedis {
 		try (Jedis jedis = pool.getResource()) {
 			return jedis.hlen(key);
 		} catch (Exception e) {
+			Logs.error(e, "redis pool hlen key={}", key);
 			return error;
+		}
+	}
+
+	@Override
+	public void subscribe(final JedisPubSub jedisPubSub, final String... channels) {
+		try (Jedis jedis = pool.getResource()) {
+			jedis.subscribe(jedisPubSub, channels);
+		} catch (Exception e) {
+			Logs.error(e, "redis pool subscribe sub={} channels={}", jedisPubSub, channels);
 		}
 	}
 
@@ -276,6 +302,7 @@ public final class RedisJedis extends BaseRedis {
 		try (Jedis jedis = pool.getResource()) {
 			return jedis.publish(channel, message);
 		} catch (Exception e) {
+			Logs.error(e, "redis pool publish channel={} message={}", channel, message);
 			return error;
 		}
 	}
@@ -285,6 +312,7 @@ public final class RedisJedis extends BaseRedis {
 		try (Jedis jedis = pool.getResource()) {
 			return jedis.publish(channel, message);
 		} catch (Exception e) {
+			Logs.error(e, "redis pool publish channel={} message={}", channel, message);
 			return error;
 		}
 	}
@@ -294,6 +322,7 @@ public final class RedisJedis extends BaseRedis {
 		try (Jedis jedis = pool.getResource()) {
 			return jedis.zrevrange(key, start, end);
 		} catch (Exception e) {
+			Logs.error(e, "redis pool zrevrange key={} start={} end={}", key, start, end);
 			return Sets.emptySet();
 		}
 	}
@@ -303,6 +332,7 @@ public final class RedisJedis extends BaseRedis {
 		try (Jedis jedis = pool.getResource()) {
 			return jedis.zadd(key, score, member);
 		} catch (Exception e) {
+			Logs.error(e, "redis pool zadd key={} score={} member={}", key, score, member);
 			return error;
 		}
 	}
@@ -312,6 +342,7 @@ public final class RedisJedis extends BaseRedis {
 		try (Jedis jedis = pool.getResource()) {
 			return jedis.zrem(key, members);
 		} catch (Exception e) {
+			Logs.error(e, "redis pool hlen key={} members={}", key, members);
 			return error;
 		}
 	}

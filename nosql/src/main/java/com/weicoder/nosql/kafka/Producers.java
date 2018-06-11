@@ -57,6 +57,7 @@ public class Producers {
 	 * 发送数据
 	 * @param topic 节点
 	 * @param value 值
+	 * @return 信息
 	 */
 	public Future<RecordMetadata> send(String topic, Object value) {
 		Logs.debug("kafka send producer topic={} value={}", topic, value);
@@ -68,6 +69,7 @@ public class Producers {
 	 * @param topic 节点
 	 * @param key 键
 	 * @param value 值
+	 * @return 信息
 	 */
 	public Future<RecordMetadata> send(String topic, Object key, Object value) {
 		Logs.debug("kafka send producer topic={} key={} value={}", topic, key, value);

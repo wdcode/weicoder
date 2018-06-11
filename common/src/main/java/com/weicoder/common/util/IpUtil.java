@@ -9,6 +9,7 @@ import java.util.Set;
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.RegexConstants;
 import com.weicoder.common.constants.StringConstants;
+import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Sets;
@@ -73,7 +74,8 @@ public final class IpUtil {
 		String[] t = StringUtil.split(ip, RegexConstants.POINT);
 		// 判断解析处理的ip放在不同列表
 		return IPS_ALL.contains(ip) || IPS_THREE.contains(StringUtil.add(t[0], p, t[1], p, t[2], p))
-				|| IPS_TWO.contains(StringUtil.add(t[0], p, t[1], p)) || IPS_ONE.contains(StringUtil.add(t[0], p));
+				|| IPS_TWO.contains(StringUtil.add(t[0], p, t[1], p))
+				|| IPS_ONE.contains(StringUtil.add(t[0], p));
 	}
 
 	/**
@@ -84,6 +86,30 @@ public final class IpUtil {
 	 */
 	public static boolean contains(String regex, String ip) {
 		return RegexUtil.is(regex, ip);
+	}
+
+	/**
+	 * 校验ip是否相等 分4段检查 从左开始匹配几个段就返回几
+	 * @param ip1 ip1
+	 * @param ip2 ip2
+	 * @return 返回数字几
+	 */
+	public static int equals(String ip1, String ip2) {
+		// 返回结果
+		int res = 0;
+		// ip1的字段
+		byte[] b1 = Bytes.toBytes(encode(ip1));
+		// ip2的字段
+		byte[] b2 = Bytes.toBytes(encode(ip2));
+		// 对比ip段
+		for (int i = 0; i < 4; i++) {
+			if (b1[i] == b2[i])
+				res++;
+			else
+				break;
+		}
+		// 返回结果
+		return res;
 	}
 
 	/**
@@ -173,8 +199,8 @@ public final class IpUtil {
 			String[] t = ip.split("\\.");
 			// 判断数组长度为4
 			if (t.length == 4) {
-				return Conversion.toInt(t[0]) << 24 | Conversion.toInt(t[1]) << 16 | Conversion.toInt(t[2]) << 8
-						| Conversion.toInt(t[3]);
+				return Conversion.toInt(t[0]) << 24 | Conversion.toInt(t[1]) << 16
+						| Conversion.toInt(t[2]) << 8 | Conversion.toInt(t[3]);
 			}
 		}
 		// 失败返回0

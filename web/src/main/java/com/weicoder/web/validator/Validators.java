@@ -24,6 +24,7 @@ import com.weicoder.common.util.RegexUtil;
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.core.json.JsonEngine;
 import com.weicoder.web.common.WebCommons;
+import com.weicoder.web.params.ValidatorParams;
 import com.weicoder.web.params.WebParams;
 import com.weicoder.web.validator.annotation.Ip;
 import com.weicoder.web.validator.annotation.Max;
@@ -153,7 +154,8 @@ public final class Validators {
 					// 设置属性
 					params[i] = BeanUtil.copy(ps, cs);
 				}
-				Logs.debug("validator Parameter index={},name={},type={},value={}", i, p.getName(), cs, params[i]);
+				Logs.debug("validator Parameter index={},name={},type={},value={}", i, p.getName(),
+						cs, params[i]);
 			}
 			// 调用并返回验证结果
 			return Conversion.toInt(BeanUtil.invoke(obj, method, params));
@@ -190,10 +192,11 @@ public final class Validators {
 			} else if (t.expire() > 0 && token.isExpire()) {
 				// 过期
 				return t.expire();
-			} else if (t.ip() > 0 && IpUtil.contains(ip, token.getIp())) {
+			} else if (t.ip() > 0 && IpUtil.equals(ip, token.getIp()) > ValidatorParams.TOKEN_IP) {
 				// 客户端IP不符
 				return t.ip();
-			} else if (EmptyUtil.isNotEmpty(t.id()) && Conversion.toInt(ps.get(t.id())) != token.getId()) {
+			} else if (EmptyUtil.isNotEmpty(t.id())
+					&& Conversion.toInt(ps.get(t.id())) != token.getId()) {
 				// 不是用户
 				return t.valid();
 			}
@@ -240,9 +243,11 @@ public final class Validators {
 	 */
 	public static void init() {
 		// 循环所有验证类注解
-		for (Class<?> c : ClassUtil.getAnnotationClass(CommonParams.getPackages("validator"), ValidatorClass.class)) {
+		for (Class<?> c : ClassUtil.getAnnotationClass(CommonParams.getPackages("validator"),
+				ValidatorClass.class)) {
 			// 获得validator名结尾为validator去掉
-			String cname = StringUtil.convert(StringUtil.subStringLastEnd(c.getSimpleName(), "Validator"));
+			String cname = StringUtil
+					.convert(StringUtil.subStringLastEnd(c.getSimpleName(), "Validator"));
 			Logs.info("init validator sname={},cname={}", c.getSimpleName(), cname);
 			// 实例化Action并放在context中
 			Object validator = BeanUtil.newInstance(c);
@@ -263,7 +268,8 @@ public final class Validators {
 						Logs.info("validator add method={} to validator={}", mname, cname);
 						// 放入总方法池
 						if (WebCommons.METHODS_VALIDATORS.containsKey(mname)) {
-							Logs.warn("validator method name exist! name={} action={}", mname, cname);
+							Logs.warn("validator method name exist! name={} action={}", mname,
+									cname);
 						}
 						// 方法对应验证类
 						WebCommons.METHODS_VALIDATORS.put(mname, m);

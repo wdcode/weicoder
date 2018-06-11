@@ -34,6 +34,7 @@ public final class KafkaProducers {
 	 * 发送数据
 	 * @param topic 节点
 	 * @param value 值
+	 * @return 信息
 	 */
 	public static Future<RecordMetadata> send(String topic, Object value) {
 		return PRODUCER.send(topic, value);
@@ -44,6 +45,7 @@ public final class KafkaProducers {
 	 * @param topic 节点
 	 * @param key 键
 	 * @param value 值
+	 * @return 信息
 	 */
 	public static Future<RecordMetadata> send(String topic, Object key, Object value) {
 		return PRODUCER.send(topic, key, value);
@@ -81,6 +83,7 @@ public final class KafkaProducers {
 	 * @param name kafka名称
 	 * @param topic 节点
 	 * @param value 值
+	 * @return 信息
 	 */
 	public static Future<RecordMetadata> sendN(String name, String topic, Object value) {
 		return KafkaFactory.getProducer(name).send(topic, value);
@@ -92,6 +95,7 @@ public final class KafkaProducers {
 	 * @param topic 节点
 	 * @param key 键
 	 * @param value 值
+	 * @return 信息
 	 */
 	public static Future<RecordMetadata> sendN(String name, String topic, Object key,
 			Object value) {
