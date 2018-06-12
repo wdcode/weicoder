@@ -6,12 +6,9 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Parameter;
 import java.util.Map;
-import java.util.Set;
 
-import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.lang.Maps;
-import com.weicoder.common.lang.Sets;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.token.TokenBean;
@@ -219,10 +216,8 @@ public final class Validators {
 		// ip验证不为空
 		if (ipv != null) {
 			// 获得验证ip
-			Set<String> ips = Sets.newSet(StringUtil.split(ipv.value(), StringConstants.COMMA));
-			Logs.debug("action validator ips={}", ips);
 			// 判断是否在白名单
-			if (!ips.contains(ip)) {
+			if (!IpUtil.contains(ipv.value(), ip)) {
 				Logs.debug("action validator ips not contains ip={}", ip);
 				return ipv.error();
 			}

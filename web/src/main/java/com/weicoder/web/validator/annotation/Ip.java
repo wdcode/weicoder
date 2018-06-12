@@ -15,7 +15,7 @@ import java.lang.annotation.Target;
 @Retention(RUNTIME)
 public @interface Ip {
 	/**
-	 * 获得ip使用,号分割 暂时不支持ip段
+	 * 获得ip使用 支持*号
 	 * @return 验证ip值
 	 */
 	String value();
