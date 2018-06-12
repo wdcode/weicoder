@@ -55,8 +55,8 @@ public final class Kafkas {
 	 */
 	public static void consumers() {
 		// 获得所有kafka消费者
-		List<Class<Consumer>> consumers = ClassUtil.getAnnotationClass(CommonParams.getPackages("kafka"),
-				Consumer.class);
+		List<Class<Consumer>> consumers = ClassUtil
+				.getAnnotationClass(CommonParams.getPackages("kafka"), Consumer.class);
 		if (EmptyUtil.isNotEmpty(consumers)) {
 			// 循环处理kafka类
 			for (Class<Consumer> c : consumers) {
@@ -104,7 +104,8 @@ public final class Kafkas {
 					long time = System.currentTimeMillis();
 					int n = 0;
 					// 根据name获得kafka消费者列表
-					Map<String, Queue<ConsumerRecord<byte[], byte[]>>> map = TOPIC_RECORDS.get(name);
+					Map<String, Queue<ConsumerRecord<byte[], byte[]>>> map = TOPIC_RECORDS
+							.get(name);
 					// 获得消费数据
 					for (ConsumerRecord<byte[], byte[]> record : consumer.poll(1000)) {
 						// 获得消费对象类和方法
@@ -114,14 +115,14 @@ public final class Kafkas {
 					}
 					// 数量不为空
 					if (n > 0) {
-						Logs.info("kafka read consumer end name={} size={} time={} thread={}", name, n,
-								System.currentTimeMillis() - time, tid);
+						Logs.info("kafka read consumer end name={} size={} time={} thread={}", name,
+								n, System.currentTimeMillis() - time, tid);
 					} else {
 						Logs.debug("kafka read consumer is empty name={} time={} thread={}", name,
 								System.currentTimeMillis() - time, tid);
 					}
 				});
-			}, 100L, 100L, TimeUnit.MICROSECONDS);
+			}, 0L, 100L, TimeUnit.MICROSECONDS);
 			// 消费队列
 			// ScheduledExecutorService sesc = ScheduledUtil.newPool(KafkaParams.CONSUMER_POOL,
 			// KafkaParams.CONSUMER_DAEMON);
@@ -165,14 +166,16 @@ public final class Kafkas {
 								// 执行方法
 								BeanUtil.invoke(obj, method, objs);
 							}
-							Logs.debug("kafka consumer topic={} offset={} method={} args={} params={} thread={}", topic,
-									offset, method.getName(), objs, params, tid);
+							Logs.debug(
+									"kafka consumer topic={} offset={} method={} args={} params={} thread={}",
+									topic, offset, method.getName(), objs, params, tid);
 							n++;
 						}
 						// 数量不为空
 						if (n > 0) {
-							Logs.info("kafka consumer end topic={} offset={} size={} time={} thread={}", topic, offset,
-									n, System.currentTimeMillis() - time, tid);
+							Logs.info(
+									"kafka consumer end topic={} offset={} size={} time={} thread={}",
+									topic, offset, n, System.currentTimeMillis() - time, tid);
 						}
 					}, 100L);
 				});
