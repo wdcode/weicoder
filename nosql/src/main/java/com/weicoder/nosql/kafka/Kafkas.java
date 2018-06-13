@@ -26,6 +26,7 @@ import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.nosql.kafka.annotation.Consumer;
 import com.weicoder.nosql.kafka.annotation.Topic;
+import com.weicoder.nosql.kafka.consumer.Record;
 import com.weicoder.nosql.kafka.factory.KafkaFactory;
 import com.weicoder.nosql.params.KafkaParams;
 
@@ -156,6 +157,10 @@ public final class Kafkas {
 								if (params.length == 1) {
 									if (ConsumerRecord.class.equals(params[0].getType())) {
 										objs[0] = record;
+									} else if (Record.class.equals(params[0].getType())) {
+										objs[0] = new Record(record.topic(), record.key(),
+												record.value(), record.offset(),
+												record.timestamp());
 									} else {
 										objs[0] = toParam(record.value(), params[0].getType());
 									}
