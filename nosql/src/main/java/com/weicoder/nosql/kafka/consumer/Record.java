@@ -4,13 +4,13 @@ package com.weicoder.nosql.kafka.consumer;
  * kafka 消费记录
  * @author WD
  */
-public class Record {
+public class Record<K, V> {
 	// topic
 	private String	topic;
 	// key
-	private byte[]	key;
+	private K		key;
 	// value
-	private byte[]	value;
+	private V		value;
 	// offset
 	private long	offset;
 	// 时间戳
@@ -23,13 +23,13 @@ public class Record {
 
 	/**
 	 * 构造方法
-	 * @param topic topic
-	 * @param key key
-	 * @param value value
-	 * @param offset offset
-	 * @param time time
+	 * @param topic
+	 * @param key
+	 * @param value
+	 * @param offset
+	 * @param time
 	 */
-	public Record(String topic, byte[] key, byte[] value, long offset, long time) {
+	public Record(String topic, K key, V value, long offset, long time) {
 		super();
 		this.topic = topic;
 		this.key = key;
@@ -50,7 +50,7 @@ public class Record {
 	 * 获得key
 	 * @return key
 	 */
-	public byte[] getKey() {
+	public K getKey() {
 		return key;
 	}
 
@@ -58,7 +58,7 @@ public class Record {
 	 * 获得value
 	 * @return value
 	 */
-	public byte[] getValue() {
+	public V getValue() {
 		return value;
 	}
 

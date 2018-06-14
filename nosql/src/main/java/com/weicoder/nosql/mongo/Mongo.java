@@ -3,6 +3,10 @@ package com.weicoder.nosql.mongo;
 import java.util.List;
 import java.util.Map;
 
+import org.bson.Document;
+
+import com.mongodb.client.MongoCollection;
+
 /**
  * MongoDB Dao接口
  * @author WD
@@ -76,17 +80,23 @@ public interface Mongo {
 	/**
 	 * 插入数据
 	 * @param name 数据集合
-	 * @param data 数据对象
+	 * @param json json对象
 	 */
-	void insert(String name, Map<String, Object> data);
+	void insert(String name, Object data);
+
+	// /**
+	// * 插入数据
+	// * @param name 数据集合
+	// * @param data 数据对象
+	// */
+	// void insert(String name, Map<String, Object> data);
 
 	/**
 	 * 插入数据
 	 * @param name 数据集合
 	 * @param data 数据对象
 	 */
-	@SuppressWarnings("unchecked")
-	void insert(String name, Map<String, Object>... data);
+	void insert(String name, List<Object> data);
 
 	/**
 	 * 获得数据总数量
@@ -201,4 +211,11 @@ public interface Mongo {
 	 * @param name 数据集合
 	 */
 	void dropIndexes(String name);
+
+	/**
+	 * 获得MongoCollection
+	 * @param name Collection 名称
+	 * @return MongoCollection
+	 */
+	MongoCollection<Document> getCollection(String name);
 }

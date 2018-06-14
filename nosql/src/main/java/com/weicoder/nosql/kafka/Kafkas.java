@@ -2,6 +2,7 @@ package com.weicoder.nosql.kafka;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
@@ -118,10 +119,11 @@ public final class Kafkas {
 					if (n > 0) {
 						Logs.info("kafka read consumer end name={} size={} time={} thread={}", name,
 								n, System.currentTimeMillis() - time, tid);
-					} else {
-						Logs.debug("kafka read consumer is empty name={} time={} thread={}", name,
-								System.currentTimeMillis() - time, tid);
-					}
+					} 
+//					else {
+//						Logs.debug("kafka read consumer is empty name={} time={} thread={}", name,
+//								System.currentTimeMillis() - time, tid);
+//					}
 				});
 			}, 0L, 100L, TimeUnit.MICROSECONDS);
 			// 消费队列
@@ -154,18 +156,23 @@ public final class Kafkas {
 								// 参数
 								objs = new Object[params.length];
 								// 有参数 现在只支持 1-2位的参数，1个参数表示value,2个参数表示key,value
+								Parameter param = params[0];
+								Class<?> t = param.getType();
 								if (params.length == 1) {
-									if (ConsumerRecord.class.equals(params[0].getType())) {
+									if (ConsumerRecord.class.equals(t)) {
 										objs[0] = record;
-									} else if (Record.class.equals(params[0].getType())) {
-										objs[0] = new Record(record.topic(), record.key(),
-												record.value(), record.offset(),
+									} else if (Record.class.equals(t)) {
+										Type type = param.getParameterizedType();
+										Class<?>[] gc = ClassUtil.getGenericClass(type);
+										objs[0] = new Record<>(record.topic(),
+												toParam(record.key(), gc[0]),
+												toParam(record.value(), gc[1]), record.offset(),
 												record.timestamp());
 									} else {
-										objs[0] = toParam(record.value(), params[0].getType());
+										objs[0] = toParam(record.value(), t);
 									}
 								} else {
-									objs[0] = toParam(record.key(), params[0].getType());
+									objs[0] = toParam(record.key(), t);
 									objs[1] = toParam(record.value(), params[1].getType());
 								}
 								// 执行方法
@@ -217,7 +224,8 @@ public final class Kafkas {
 	 * @return 参数
 	 */
 	private static Object toParam(byte[] b, Class<?> c) {
-		return String.class.equals(c) ? StringUtil.toString(b) : Bytes.to(b, c);
+		return String.class.equals(c) ? StringUtil.toString(b)
+				: Object.class.equals(c) ? b : Bytes.to(b, c);
 	}
 
 	/**

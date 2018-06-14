@@ -59,9 +59,9 @@ public final class ClassUtil {
 	 * @param <T> 泛型
 	 * @return 这个类的泛型
 	 */
-	public static <T> Class<T> getGenericClass(Class<?> clazz) {
+	public static Class<?> getGenericClass(Class<?> clazz) {
 		// 查询父类是否有泛型
-		Class<T> gc = getGenericClass(clazz.getGenericSuperclass(), 0);
+		Class<?> gc = getGenericClass(clazz.getGenericSuperclass(), 0);
 		// 如果没找到
 		if (gc == null) {
 			// 获得所有接口
@@ -89,17 +89,22 @@ public final class ClassUtil {
 	 * @return 这个类的泛型
 	 */
 	public static Class<?>[] getGenericClass(Type type) {
-		// 获得类型类型数组
-		Type[] types = ((ParameterizedType) type).getActualTypeArguments();
-		// 声明Class数组
-		Class<?>[] clazzs = new Class<?>[types.length];
-		// 循环
-		for (int i = 0; i < types.length; i++) {
-			// 强制转换
-			clazzs[i] = (Class<?>) types[i];
+		// 类型不对
+		if (type instanceof ParameterizedType) {
+			// 获得类型类型数组
+			Type[] types = ((ParameterizedType) type).getActualTypeArguments();
+			// 声明Class数组
+			Class<?>[] clazzs = new Class<?>[types.length];
+			// 循环
+			for (int i = 0; i < types.length; i++) {
+				// 强制转换
+				clazzs[i] = (Class<?>) types[i];
+			}
+			// 返回数组
+			return clazzs;
+		} else {
+			return null;
 		}
-		// 返回数组
-		return clazzs;
 	}
 
 	/**
@@ -109,14 +114,10 @@ public final class ClassUtil {
 	 * @param <T> 泛型
 	 * @return 这个类型的泛型
 	 */
-	@SuppressWarnings("unchecked")
-	public static <T> Class<T> getGenericClass(Type type, int index) {
+	public static Class<?> getGenericClass(Type type, int index) {
 		try {
-			return type instanceof ParameterizedType
-					? (Class<T>) ((ParameterizedType) type).getActualTypeArguments()[index]
-					: null;
+			return getGenericClass(type)[index];
 		} catch (Exception e) {
-			Logs.error(e);
 			return null;
 		}
 	}
@@ -258,7 +259,8 @@ public final class ClassUtil {
 	 * @param <E> 泛型
 	 * @return 类列表
 	 */
-	public static <E extends Annotation> Class<E> getAnnotationClass(String packageName, Class<E> cls, int i) {
+	public static <E extends Annotation> Class<E> getAnnotationClass(String packageName,
+			Class<E> cls, int i) {
 		return Lists.get(getAnnotationClass(packageName, cls), i);
 	}
 
@@ -280,7 +282,8 @@ public final class ClassUtil {
 	 * @return 类列表
 	 */
 	@SuppressWarnings("unchecked")
-	public static <E extends Annotation> List<Class<E>> getAnnotationClass(String packageName, Class<E> cls) {
+	public static <E extends Annotation> List<Class<E>> getAnnotationClass(String packageName,
+			Class<E> cls) {
 		// 声明类列表
 		List<Class<E>> classes = Lists.newList();
 		// 循环包下所有类
@@ -319,8 +322,10 @@ public final class ClassUtil {
 				if (name.endsWith(".class")) {
 					try {
 						// 反射出类对象 并添加到列表中
-						name = path + StringConstants.POINT + StringUtil.subString(name, 0, name.length() - 6);
-						name = StringUtil.replace(name, StringConstants.BACKSLASH, StringConstants.POINT);
+						name = path + StringConstants.POINT
+								+ StringUtil.subString(name, 0, name.length() - 6);
+						name = StringUtil.replace(name, StringConstants.BACKSLASH,
+								StringConstants.POINT);
 						// 如果开始是.去掉
 						if (name.startsWith(StringConstants.POINT)) {
 							name = StringUtil.subString(name, 1);
@@ -331,8 +336,8 @@ public final class ClassUtil {
 					}
 				} else {
 					// 迭代调用本方法 获得类列表
-					classes.addAll(getPackageClasses(
-							EmptyUtil.isEmpty(path) ? name : path + StringConstants.BACKSLASH + name, cls));
+					classes.addAll(getPackageClasses(EmptyUtil.isEmpty(path) ? name
+							: path + StringConstants.BACKSLASH + name, cls));
 				}
 			}
 		}

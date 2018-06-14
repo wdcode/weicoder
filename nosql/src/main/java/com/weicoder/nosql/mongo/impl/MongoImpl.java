@@ -2,6 +2,8 @@ package com.weicoder.nosql.mongo.impl;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import org.bson.Document;
 
@@ -11,6 +13,7 @@ import com.weicoder.common.lang.Maps;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.zip.ZipEngine;
+import com.weicoder.core.json.JsonEngine;
 import com.weicoder.nosql.mongo.Mongo;
 import com.weicoder.nosql.params.MongoParams;
 
@@ -43,6 +46,8 @@ public final class MongoImpl implements Mongo {
 	private MongoCollection<Document>				dbc;
 	// 数据集合列表
 	private Map<String, MongoCollection<Document>>	dbcs;
+	// 读写锁
+	private Lock									lock	= new ReentrantLock(true);
 
 	/**
 	 * 构造方法
@@ -55,10 +60,14 @@ public final class MongoImpl implements Mongo {
 			builder.connectionsPerHost(100);
 			builder.threadsAllowedToBlockForConnectionMultiplier(100);
 			// 实例化客户端
-			client = new MongoClient(new ServerAddress(MongoParams.getHost(key), MongoParams.getPort(key)), builder.build());
+			client = new MongoClient(
+					new ServerAddress(MongoParams.getHost(key), MongoParams.getPort(key)),
+					builder.build());
 			// 如果库存在
 			db = client.getDatabase(MongoParams.getDB(key));
-			dbc = db.getCollection(MongoParams.getCollection(key));
+			if (EmptyUtil.isNotEmpty(MongoParams.getCollection(key))) {
+				dbc = db.getCollection(MongoParams.getCollection(key));
+			}
 			dbcs = Maps.newConcurrentMap();
 		} catch (Exception e) {
 			Logs.error(e);
@@ -66,27 +75,31 @@ public final class MongoImpl implements Mongo {
 		}
 	}
 
-	/**
-	 * 插入数据
-	 * @param maps 数据对象
-	 */
-	public void insert(String name, Map<String, Object> maps) {
-		getCollection(name).insertOne(new Document(maps));
+	// /**
+	// * 插入数据
+	// * @param maps 数据对象
+	// */
+	// public void insert(String name, Map<String, Object> maps) {
+	// getCollection(name).insertOne(new Document(maps));
+	// }
+
+	@Override
+	public void insert(String name, Object data) {
+		getCollection(name).insertOne(Document.parse(JsonEngine.toJson(data)));
 	}
 
 	/**
 	 * 插入数据
 	 * @param maps 数据对象
 	 */
-	@SuppressWarnings("unchecked")
-	public void insert(String name, Map<String, Object>... maps) {
+	public void insert(String name, List<Object> list) {
 		// 声明Document列表
-		List<Document> documents = Lists.newList(maps.length);
+		List<Document> documents = Lists.newList(list.size());
 		// 循环map数组
-		for (int i = 0; i < maps.length; i++) {
+		list.forEach((data) -> {
 			// 实例化新Document对象
-			documents.add(new Document(newMap(maps[i])));
-		}
+			documents.add(Document.parse(JsonEngine.toJson(data)));
+		});
 		// 插入数据
 		getCollection(name).insertMany(documents);
 	}
@@ -193,9 +206,11 @@ public final class MongoImpl implements Mongo {
 	 * @param end 结束条数
 	 * @return 数据列表
 	 */
-	public List<Map<String, Object>> query(String name, Map<String, Object> query, int start, int end) {
+	public List<Map<String, Object>> query(String name, Map<String, Object> query, int start,
+			int end) {
 		// 获得数据库游标
-		FindIterable<Document> iterable = getCollection(name).find(EmptyUtil.isEmpty(query) ? new BasicDBObject() : new BasicDBObject(query));
+		FindIterable<Document> iterable = getCollection(name)
+				.find(EmptyUtil.isEmpty(query) ? new BasicDBObject() : new BasicDBObject(query));
 		// 设置游标开始位置
 		iterable.skip(start);
 		// 设置限定数量
@@ -351,12 +366,21 @@ public final class MongoImpl implements Mongo {
 	 * @param name 集合名
 	 * @return 数据集合
 	 */
-	private MongoCollection<Document> getCollection(String name) {
+	public MongoCollection<Document> getCollection(String name) {
 		// 获得数据集合
 		MongoCollection<Document> dbc = EmptyUtil.isEmpty(name) ? this.dbc : dbcs.get(name);
 		// 如果数据集合为空
 		if (dbc == null) {
-			dbcs.put(name, dbc = db.getCollection(name));
+			lock.lock();
+			if (dbc == null) {
+				dbc = db.getCollection(name);
+				if (dbc == null) {
+					db.createCollection(name);
+					dbc = db.getCollection(name);
+				}
+				dbcs.put(name, dbc);
+			}
+			lock.unlock();
 		}
 		// 返回集合
 		return dbc;
