@@ -61,7 +61,7 @@ public final class HibernateDao implements Dao {
 			// 循环添加
 			for (E e : entitys) {
 				session.save(e);
-				session.flush();
+//				session.flush();
 			}
 			// 返回实体
 			return entitys;
