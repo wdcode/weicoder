@@ -186,14 +186,20 @@ public final class Validators {
 			if (t.valid() > 0 && !token.isValid()) {
 				// 无效
 				return t.valid();
-			} else if (t.expire() > 0 && token.isExpire()) {
+			}
+			if (t.expire() > 0 && token.isExpire()) {
 				// 过期
 				return t.expire();
-			} else if (t.ip() > 0 && IpUtil.equals(ip, token.getIp()) > ValidatorParams.TOKEN_IP) {
+			}
+			if (t.sign() > 0 && token.isSign()) {
+				// 是否服务器签发sign
+				return t.sign();
+			}
+			if (t.ip() > 0 && IpUtil.equals(ip, token.getIp()) > ValidatorParams.TOKEN_IP) {
 				// 客户端IP不符
 				return t.ip();
-			} else if (EmptyUtil.isNotEmpty(t.id())
-					&& Conversion.toInt(ps.get(t.id())) != token.getId()) {
+			}
+			if (EmptyUtil.isNotEmpty(t.id()) && Conversion.toInt(ps.get(t.id())) != token.getId()) {
 				// 不是用户
 				return t.valid();
 			}

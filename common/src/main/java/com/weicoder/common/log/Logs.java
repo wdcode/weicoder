@@ -149,12 +149,9 @@ public final class Logs {
 				} else if (obj instanceof String[]) {
 					obj = Arrays.toString((String[]) obj);
 				}
-				// 是String类型
-				if (obj instanceof String) {
-					obj = StringUtil.subString(Conversion.toString(obj), 0, CommonParams.LOGS_LEN);
-				}
 				// 获得对象
-				params[i] = obj;
+				params[i] = StringUtil.subString(Conversion.toString(obj), 0,
+						CommonParams.LOGS_LEN);
 			}
 		}
 		// 返回对象

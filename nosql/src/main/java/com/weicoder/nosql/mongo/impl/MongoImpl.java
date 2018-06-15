@@ -59,6 +59,9 @@ public final class MongoImpl implements Mongo {
 			Builder builder = MongoClientOptions.builder();
 			builder.connectionsPerHost(100);
 			builder.threadsAllowedToBlockForConnectionMultiplier(100);
+
+			// MongoCredential
+
 			// 实例化客户端
 			client = new MongoClient(
 					new ServerAddress(MongoParams.getHost(key), MongoParams.getPort(key)),
@@ -71,17 +74,8 @@ public final class MongoImpl implements Mongo {
 			dbcs = Maps.newConcurrentMap();
 		} catch (Exception e) {
 			Logs.error(e);
-			// throw new RuntimeException(e);
 		}
 	}
-
-	// /**
-	// * 插入数据
-	// * @param maps 数据对象
-	// */
-	// public void insert(String name, Map<String, Object> maps) {
-	// getCollection(name).insertOne(new Document(maps));
-	// }
 
 	@Override
 	public void insert(String name, Object data) {
