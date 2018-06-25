@@ -55,8 +55,7 @@ public final class ClassUtil {
 
 	/**
 	 * 获得指定类型的泛型
-	 * @param clazz 指定的类型
-	 * @param <T> 泛型
+	 * @param clazz 指定的类型 
 	 * @return 这个类的泛型
 	 */
 	public static Class<?> getGenericClass(Class<?> clazz) {
@@ -110,8 +109,7 @@ public final class ClassUtil {
 	/**
 	 * 获得指定类型的泛型
 	 * @param type 指定的类型
-	 * @param index 索引
-	 * @param <T> 泛型
+	 * @param index 索引 
 	 * @return 这个类型的泛型
 	 */
 	public static Class<?> getGenericClass(Type type, int index) {
