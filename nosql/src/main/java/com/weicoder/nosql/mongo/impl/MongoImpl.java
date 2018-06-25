@@ -82,10 +82,7 @@ public final class MongoImpl implements Mongo {
 		getCollection(name).insertOne(Document.parse(JsonEngine.toJson(data)));
 	}
 
-	/**
-	 * 插入数据
-	 * @param maps 数据对象
-	 */
+	@Override
 	public void insert(String name, List<Object> list) {
 		// 声明Document列表
 		List<Document> documents = Lists.newList(list.size());
@@ -98,57 +95,37 @@ public final class MongoImpl implements Mongo {
 		getCollection(name).insertMany(documents);
 	}
 
-	/**
-	 * 获得数据总数量
-	 * @return 数量
-	 */
+	@Override
 	public long count(String name) {
 		return getCollection(name).count();
 	}
 
-	/**
-	 * 根据查询条件获得数量
-	 * @param query 查询条件
-	 * @return 数量
-	 */
+	@Override
 	public long count(String name, Map<String, Object> query) {
 		return getCollection(name).count(new BasicDBObject(query));
 	}
 
-	/**
-	 * 创建索引
-	 * @param keys 索引键
-	 */
+	@Override
 	public void createIndex(String name, Map<String, Object> keys) {
 		getCollection(name).createIndex(new BasicDBObject(keys));
 	}
 
-	/**
-	 * 删除索引
-	 * @param name 索引名
-	 */
+	@Override
 	public void dropIndex(String name, String index) {
 		getCollection(name).dropIndex(index);
 	}
 
-	/**
-	 * 删除索引
-	 * @param keys 索引键
-	 */
+	@Override
 	public void dropIndex(String name, Map<String, Object> keys) {
 		getCollection(name).dropIndex(new BasicDBObject(keys));
 	}
 
-	/**
-	 * 删除所以索引
-	 */
+	@Override
 	public void dropIndexes(String name) {
 		getCollection(name).dropIndexes();
 	}
 
-	/**
-	 * 删除数据
-	 */
+	@Override
 	@SuppressWarnings("unchecked")
 	public void delete(String name, Map<String, Object>... maps) {
 		// 获得数据集合
@@ -160,46 +137,27 @@ public final class MongoImpl implements Mongo {
 		}
 	}
 
-	/**
-	 * 删除数据
-	 */
+	@Override
 	public void delete(String name, Map<String, Object> data) {
 		getCollection(name).deleteOne(new BasicDBObject(newMap(data)));
 	}
 
-	/**
-	 * 根据query参数,更新obj值
-	 * @param query 条件值
-	 * @param obj 要更新的值
-	 */
+	@Override
 	public void update(String name, Map<String, Object> query, Map<String, Object> obj) {
 		getCollection(name).updateOne(new BasicDBObject(query), new BasicDBObject(obj));
 	}
 
-	/**
-	 * 获得所有数据
-	 * @return 数据列表
-	 */
+	@Override
 	public List<Map<String, Object>> query(String name) {
 		return query(name, null);
 	}
 
-	/**
-	 * 根据条件获得数据
-	 * @param query 查询条件
-	 * @return 数据列表
-	 */
+	@Override
 	public List<Map<String, Object>> query(String name, Map<String, Object> query) {
 		return query(name, query, 0, 0);
 	}
 
-	/**
-	 * 根据条件获得 start到end的数据
-	 * @param query 查询条件
-	 * @param start 开始条数
-	 * @param end 结束条数
-	 * @return 数据列表
-	 */
+	@Override
 	public List<Map<String, Object>> query(String name, Map<String, Object> query, int start,
 			int end) {
 		// 获得数据库游标

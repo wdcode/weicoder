@@ -80,16 +80,9 @@ public interface Mongo {
 	/**
 	 * 插入数据
 	 * @param name 数据集合
-	 * @param json json对象
+	 * @param data json对象
 	 */
 	void insert(String name, Object data);
-
-	// /**
-	// * 插入数据
-	// * @param name 数据集合
-	// * @param data 数据对象
-	// */
-	// void insert(String name, Map<String, Object> data);
 
 	/**
 	 * 插入数据

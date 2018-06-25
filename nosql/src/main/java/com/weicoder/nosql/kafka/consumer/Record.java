@@ -23,11 +23,11 @@ public class Record<K, V> {
 
 	/**
 	 * 构造方法
-	 * @param topic
-	 * @param key
-	 * @param value
-	 * @param offset
-	 * @param time
+	 * @param topic topic
+	 * @param key key
+	 * @param value value
+	 * @param offset offset
+	 * @param time time
 	 */
 	public Record(String topic, K key, V value, long offset, long time) {
 		super();

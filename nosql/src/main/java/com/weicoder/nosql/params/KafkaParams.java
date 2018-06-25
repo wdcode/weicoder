@@ -56,7 +56,7 @@ public final class KafkaParams {
 
 	/**
 	 * 获得偏移量失效方案 earliest 从最早开始 latest 从最新开始
-	 * @param name
+	 * @param name 名称
 	 * @return 偏移量失效方案
 	 */
 	public static String getOffsetReset(String name) {
