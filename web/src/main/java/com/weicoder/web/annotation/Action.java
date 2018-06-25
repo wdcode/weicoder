@@ -20,6 +20,7 @@ public @interface Action {
 
 	/**
 	 * 是否验证提交方法
+	 * @return 是否验证
 	 */
 	boolean method() default false;
 }
