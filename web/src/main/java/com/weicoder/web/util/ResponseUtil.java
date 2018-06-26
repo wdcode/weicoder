@@ -54,7 +54,7 @@ public final class ResponseUtil {
 		try {
 			pw = response.getWriter();
 			pw.write(str);
-			Logs.debug("write to string={}", str);
+//			Logs.debug("write to string={}", str);
 		} catch (Exception e) {
 			Logs.error(e);
 		} finally {
