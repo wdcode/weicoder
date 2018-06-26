@@ -8,28 +8,20 @@ import java.sql.Types;
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
 
-import com.weicoder.common.lang.Lists;
-import com.weicoder.common.util.EmptyUtil;
-import com.weicoder.core.json.JsonEngine;
+import com.weicoder.common.codec.Base64;
+import com.weicoder.common.lang.Conversion;
 
 /**
  * Json保存数据类型
  * @author WD
  */
-public class JsonType extends BaseType {
+public class Base64Type extends BaseType {
 
 	@Override
 	public Object nullSafeGet(ResultSet rs, String[] names,
 			SharedSessionContractImplementor session, Object owner)
 			throws HibernateException, SQLException {
-		String json = rs.getString(names[0]);
-		// 判断json不为空
-		if (EmptyUtil.isEmpty(json)) {
-			return Lists.newList();
-		} else {
-			// 返回对象
-			return JsonEngine.toList(json, returnedClass());
-		}
+		return Base64.decodeString(rs.getString(names[0]));
 	}
 
 	@Override
@@ -38,7 +30,7 @@ public class JsonType extends BaseType {
 		if (value == null) {
 			st.setNull(index, Types.VARCHAR);
 		} else {
-			st.setString(index, JsonEngine.toJson(value));
+			st.setString(index, Base64.encode(Conversion.toString(value)));
 		}
 	}
 }

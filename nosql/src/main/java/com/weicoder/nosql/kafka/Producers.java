@@ -3,6 +3,7 @@ package com.weicoder.nosql.kafka;
 import java.util.Properties;
 import java.util.concurrent.Future;
 
+import org.apache.kafka.clients.producer.Callback;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -25,7 +26,7 @@ public class Producers {
 		Properties props = new Properties();
 		props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, KafkaParams.getServers(name));
 		props.put(ProducerConfig.ACKS_CONFIG, "all");
-		props.put(ProducerConfig.RETRIES_CONFIG, 0);
+		props.put(ProducerConfig.RETRIES_CONFIG, 3);
 		props.put(ProducerConfig.BATCH_SIZE_CONFIG, 16384);
 		props.put(ProducerConfig.LINGER_MS_CONFIG, 1);
 		props.put(ProducerConfig.BUFFER_MEMORY_CONFIG, 33554432);
@@ -60,8 +61,10 @@ public class Producers {
 	 * @return 信息
 	 */
 	public Future<RecordMetadata> send(String topic, Object value) {
-		Logs.debug("kafka send producer topic={} value={}", topic, value);
-		return producer.send(Kafkas.newRecord(topic, value));
+		return send(topic, value, (metadata, exception) -> {
+			Logs.debug("kafka send producer metadata={} exception={} value={}", metadata, exception,
+					value);
+		});
 	}
 
 	/**
@@ -72,8 +75,33 @@ public class Producers {
 	 * @return 信息
 	 */
 	public Future<RecordMetadata> send(String topic, Object key, Object value) {
-		Logs.debug("kafka send producer topic={} key={} value={}", topic, key, value);
-		return producer.send(Kafkas.newRecord(topic, key, value));
+		return send(topic, key, value, (metadata, exception) -> {
+			Logs.debug("kafka send producer metadata={} exception={} key={} value={}", metadata,
+					exception, key, value);
+		});
+	}
+
+	/**
+	 * 发送数据
+	 * @param topic 节点
+	 * @param value 值
+	 * @param callback 回调
+	 * @return 信息
+	 */
+	public Future<RecordMetadata> send(String topic, Object value, Callback callback) {
+		return producer.send(Kafkas.newRecord(topic, value), callback);
+	}
+
+	/**
+	 * 发送数据
+	 * @param topic 节点
+	 * @param key 键
+	 * @param value 值
+	 * @param callback 回调
+	 * @return 信息
+	 */
+	public Future<RecordMetadata> send(String topic, Object key, Object value, Callback callback) {
+		return producer.send(Kafkas.newRecord(topic, key, value), callback);
 	}
 
 	/**

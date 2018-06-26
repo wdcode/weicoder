@@ -2,6 +2,7 @@ package com.weicoder.nosql.kafka;
 
 import java.util.concurrent.Future;
 
+import org.apache.kafka.clients.producer.Callback;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.RecordMetadata;
 
@@ -38,6 +39,28 @@ public final class KafkaProducers {
 	 */
 	public static Future<RecordMetadata> send(String topic, Object value) {
 		return PRODUCER.send(topic, value);
+	}
+
+	/**
+	 * 发送数据
+	 * @param topic 节点
+	 * @param key 键
+	 * @param value 值
+	 * @return 信息
+	 */
+	public static Future<RecordMetadata> send(String topic, Object key, Object value,
+			Callback callback) {
+		return PRODUCER.send(topic, key, value, callback);
+	}
+
+	/**
+	 * 发送数据
+	 * @param topic 节点
+	 * @param value 值
+	 * @return 信息
+	 */
+	public static Future<RecordMetadata> send(String topic, Object value, Callback callback) {
+		return PRODUCER.send(topic, value, callback);
 	}
 
 	/**

@@ -81,53 +81,66 @@ public final class Base64 {
 	 * @param str 要解码的字符串
 	 * @return 解码后的字节数组
 	 */
+	public static String decodeString(String str) {
+		return StringUtil.toString(decode(str));
+	}
+
+	/**
+	 * 解码Hex
+	 * @param str 要解码的字符串
+	 * @return 解码后的字节数组
+	 */
 	public static byte[] decode(String str) {
-		// 要解码的字符串为空
-		if (EmptyUtil.isEmpty(str)) {
-			return ArrayConstants.BYTES_EMPTY;
-		}
-		// 变为char数组
-		char[] data = str.toCharArray();
-		// 获得长度
-		int tempLen = data.length;
-		// 获得长度
-		for (int ix = 0; ix < data.length; ix++) {
-			if ((data[ix] > 255) || CODES[data[ix]] < 0) {
-				--tempLen; // ignore non-valid chars and padding
+		try {
+			// 要解码的字符串为空
+			if (EmptyUtil.isEmpty(str)) {
+				return ArrayConstants.BYTES_EMPTY;
 			}
-		}
-		int len = (tempLen / 4) * 3;
-		if ((tempLen % 4) == 3) {
-			len += 2;
-		}
-		if ((tempLen % 4) == 2) {
-			len += 1;
-		}
-		// 输出数组
-		final byte[] out = new byte[len];
-
-		// 标记
-		int shift = 0; // # of excess bits stored in accum
-		int accum = 0; // excess bits
-		int index = 0;
-
-		// 解码
-		for (int ix = 0; ix < data.length; ix++) {
-			final int value = (data[ix] > 255) ? -1 : CODES[data[ix]];
-
-			if (value >= 0) { // skip over non-code
-				accum <<= 6; // bits shift up by 6 each time thru
-				shift += 6; // loop, with new bits being put in
-				accum |= value; // at the bottom.
-				if (shift >= 8) { // whenever there are 8 or more shifted in,
-					shift -= 8; // write them out (from the top, leaving any
-					out[index++] = // excess at the bottom for next iteration.
-							(byte) ((accum >> shift) & 0xff);
+			// 变为char数组
+			char[] data = str.toCharArray();
+			// 获得长度
+			int tempLen = data.length;
+			// 获得长度
+			for (int ix = 0; ix < data.length; ix++) {
+				if ((data[ix] > 255) || CODES[data[ix]] < 0) {
+					--tempLen; // ignore non-valid chars and padding
 				}
 			}
+			int len = (tempLen / 4) * 3;
+			if ((tempLen % 4) == 3) {
+				len += 2;
+			}
+			if ((tempLen % 4) == 2) {
+				len += 1;
+			}
+			// 输出数组
+			final byte[] out = new byte[len];
+
+			// 标记
+			int shift = 0; // # of excess bits stored in accum
+			int accum = 0; // excess bits
+			int index = 0;
+
+			// 解码
+			for (int ix = 0; ix < data.length; ix++) {
+				final int value = (data[ix] > 255) ? -1 : CODES[data[ix]];
+
+				if (value >= 0) { // skip over non-code
+					accum <<= 6; // bits shift up by 6 each time thru
+					shift += 6; // loop, with new bits being put in
+					accum |= value; // at the bottom.
+					if (shift >= 8) { // whenever there are 8 or more shifted in,
+						shift -= 8; // write them out (from the top, leaving any
+						out[index++] = // excess at the bottom for next iteration.
+								(byte) ((accum >> shift) & 0xff);
+					}
+				}
+			}
+			// 返回字节数组
+			return out;
+		} catch (Exception e) {
+			return StringUtil.toBytes(str);
 		}
-		// 返回字节数组
-		return out;
 	}
 
 	private Base64() {}
