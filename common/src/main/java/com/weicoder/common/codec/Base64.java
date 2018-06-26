@@ -81,11 +81,7 @@ public final class Base64 {
 	 * @return 解码后的字节数组
 	 */
 	public static String decodeString(String str) {
-		try {
-			return StringUtil.toString(decode(str));
-		} catch (Exception e) {
-			return str;
-		}
+		return StringUtil.toString(decode(str));
 	}
 
 	/**
@@ -94,7 +90,11 @@ public final class Base64 {
 	 * @return 解码后的字节数组
 	 */
 	public static byte[] decode(String str) {
-		return java.util.Base64.getDecoder().decode(str);
+		try {
+			return java.util.Base64.getDecoder().decode(str);
+		} catch (Exception e) {
+			return StringUtil.toBytes(str);
+		}
 		// try {
 		// // 要解码的字符串为空
 		// if (EmptyUtil.isEmpty(str)) {
