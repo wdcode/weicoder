@@ -9,8 +9,7 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
 import com.weicoder.common.constants.ArrayConstants;
-import com.weicoder.common.lang.Maps;
-import com.weicoder.common.log.Logs;
+import com.weicoder.common.lang.Maps; 
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
 
@@ -58,7 +57,7 @@ public abstract class BaseCrypt {
 			// 返回计算结果
 			return cipher.doFinal(b);
 		} catch (Exception e) {
-			Logs.error(e, "crypt data={} algorithm={} mode={}", b.length, algorithm, mode);
+//			Logs.error(e, "crypt data={} algorithm={} mode={}", b.length, algorithm, mode);
 			return ArrayConstants.BYTES_EMPTY;
 		}
 	}

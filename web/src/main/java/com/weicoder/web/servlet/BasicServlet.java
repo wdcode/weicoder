@@ -46,8 +46,8 @@ public class BasicServlet extends HttpServlet {
 	private static final long serialVersionUID = 3117468121294921856L;
 
 	@Override
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		long curr = System.currentTimeMillis();
 		// 获得客户端IP
 		String ip = RequestUtil.getIp(request);
@@ -58,17 +58,14 @@ public class BasicServlet extends HttpServlet {
 		// 获得path
 		String path = request.getPathInfo();
 		String queryString = request.getQueryString();
-		Logs.debug("request ip={} path={} Method={} scheme={} queryString={}",
-				ip, path, m, request.getScheme(), queryString);
+		Logs.debug("request ip={} path={} Method={} scheme={} queryString={}", ip, path, m,
+				request.getScheme(), queryString);
 		if (!EmptyUtil.isEmpty(path)) {
 			// 分解提交action 去处开头的/ 并且按/或者_分解出数组
 			String actionName = StringUtil.subString(path, 1, path.length());
-			String[] actions = StringUtil.contains(actionName,
-					StringConstants.BACKSLASH)
-							? StringUtil.split(actionName,
-									StringConstants.BACKSLASH)
-							: StringUtil.split(actionName,
-									StringConstants.UNDERLINE);
+			String[] actions = StringUtil.contains(actionName, StringConstants.BACKSLASH)
+					? StringUtil.split(actionName, StringConstants.BACKSLASH)
+					: StringUtil.split(actionName, StringConstants.UNDERLINE);
 			if (EmptyUtil.isEmpty(actions)) {
 				Logs.debug("this path={}", path);
 				ResponseUtil.json(response, callback, "action is null path");
@@ -100,8 +97,7 @@ public class BasicServlet extends HttpServlet {
 			// action为空
 			if (action == null) {
 				// 还是为空
-				Logs.warn(
-						"request ip={},path={},name={},actionName={},ma={},no action and method",
+				Logs.warn("request ip={},path={},name={},actionName={},ma={},no action and method",
 						ip, path, name, actionName, WebCommons.METHODS_ACTIONS);
 				ResponseUtil.json(response, callback, "no action and method");
 				return;
@@ -172,8 +168,8 @@ public class BasicServlet extends HttpServlet {
 							// if (StringUtil.equals(tname, p.getName())) {
 							// params[i] = token;
 							// } else {
-							params[i] = TokenEngine.decrypt(RequestUtil
-									.getParameter(request, p.getName()));
+							params[i] = TokenEngine
+									.decrypt(RequestUtil.getParameter(request, p.getName()));
 							// }
 						} else if (Map.class.equals(cs)) {
 							params[i] = ps;
@@ -192,11 +188,11 @@ public class BasicServlet extends HttpServlet {
 							// }
 						} else {
 							// 设置属性
-							Logs.debug("login/login ps={} cs={}", ps,cs);
+							Logs.debug("login/login ps={} cs={}", ps, cs);
 							params[i] = BeanUtil.copy(ps, cs);
 							// 验证参数
-							if ((code = Validators.validator(
-									params[i])) != WebParams.STATE_SUCCESS) {
+							if ((code = Validators
+									.validator(params[i])) != WebParams.STATE_SUCCESS) {
 								break;
 							}
 							// // 获得IP字段
@@ -225,9 +221,10 @@ public class BasicServlet extends HttpServlet {
 			boolean cookie = method.isAnnotationPresent(Cookies.class)
 					|| action.getClass().isAnnotationPresent(Cookies.class);
 			String[] names = null;
+			Cookies c = null;
 			if (cookie) {
 				// 获得Cookies注解
-				Cookies c = method.getAnnotation(Cookies.class);
+				c = method.getAnnotation(Cookies.class);
 				if (c == null) {
 					c = action.getClass().getAnnotation(Cookies.class);
 				}
@@ -251,8 +248,7 @@ public class BasicServlet extends HttpServlet {
 					ResponseUtil.json(response, callback, "Forward is null");
 				} else {
 					Logs.debug("forward url:{}", url);
-					request.getRequestDispatcher(url).forward(request,
-							response);
+					request.getRequestDispatcher(url).forward(request, response);
 					return;
 				}
 			} else if (method.isAnnotationPresent(State.class)
@@ -269,29 +265,27 @@ public class BasicServlet extends HttpServlet {
 				// 如果res为状态码
 				if (res == null) {
 					// 写空信息
-					ResponseUtil.json(response, callback, Maps.newMap(
-							new String[] { status, error },
-							new Object[] { WebParams.STATE_ERROR_NULL,
-									ErrorCodeParams.getMessage(
-											WebParams.STATE_ERROR_NULL) }));
+					ResponseUtil.json(response, callback,
+							Maps.newMap(new String[] { status, error }, new Object[] {
+									WebParams.STATE_ERROR_NULL,
+									ErrorCodeParams.getMessage(WebParams.STATE_ERROR_NULL) }));
 				} else if (res instanceof Integer) {
 					// 写错误信息
 					int errorcode = Conversion.toInt(res);
 					// 写入到前端
-					ResponseUtil.json(response, callback, Maps.newMap(
-							new String[] { status,
-									errorcode == WebParams.STATE_SUCCESS
-											? success
-											: error },
-							new Object[] { errorcode,
-									errorcode == WebParams.STATE_SUCCESS
-											? WebParams.STATE_SUCCESS_MSG
-											: ErrorCodeParams
-													.getMessage(errorcode) }));
+					ResponseUtil.json(response, callback,
+							Maps.newMap(
+									new String[] { status,
+											errorcode == WebParams.STATE_SUCCESS ? success
+													: error },
+									new Object[] { errorcode,
+											errorcode == WebParams.STATE_SUCCESS
+													? WebParams.STATE_SUCCESS_MSG
+													: ErrorCodeParams.getMessage(errorcode) }));
 				} else {
 					// 是否写cookie
 					if (cookie) {
-						CookieUtil.adds(response, res, names);
+						CookieUtil.adds(response, c.maxAge(), res, names);
 					}
 					// 写入到前端
 					res = Maps.newMap(new String[] { status, success },
@@ -305,27 +299,23 @@ public class BasicServlet extends HttpServlet {
 					res = Maps.emptyMap();
 				} else if (res instanceof Integer) {
 					// 写错误信息
-					String error = ErrorCodeParams
-							.getMessage(Conversion.toInt(res));
+					String error = ErrorCodeParams.getMessage(Conversion.toInt(res));
 					res = EmptyUtil.isEmpty(error) ? res : error;
 				} else if (cookie) {
 					// 写cookie
-					CookieUtil.adds(response, res, names);
+					CookieUtil.adds(response, c.maxAge(), res, names);
 				}
-				// Logs.debug("servlet method={} params={} end", method.getName(), params);
 			}
 			// 写到前端
-			Logs.info(
-					"request ip={} name={}  params={} pars={} time={} res={} end",
-					ip, actionName, params, pars,
-					System.currentTimeMillis() - curr,
+			Logs.info("request ip={} name={}  params={} pars={} time={} res={} end", ip, actionName,
+					params, pars, System.currentTimeMillis() - curr,
 					ResponseUtil.json(response, callback, res));
 		}
 	}
 
 	@Override
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		if (WebParams.GET) {
 			doPost(request, response);
 		} else {

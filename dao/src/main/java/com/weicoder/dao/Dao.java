@@ -26,6 +26,15 @@ public interface Dao {
 	<E> List<E> insert(List<E> entitys);
 
 	/**
+	 * 持久化对象，添加操作
+	 * @param entitys 对象实体
+	 * @param <E> 泛型
+	 * @param step 分步数量入库
+	 * @return 返回插入实体
+	 */
+	<E> List<E> insert(List<E> entitys, int step);
+
+	/**
 	 * 一个事务下插入多个对象
 	 * @param entitys 对象列表
 	 * @return 是否成功
@@ -51,6 +60,15 @@ public interface Dao {
 	 * 持久化数据，锁表 更新表中一行数据
 	 * @param entitys 对象实体
 	 * @param <E> 泛型
+	 * @param step 分步数量入库
+	 * @return 是否成功
+	 */
+	<E> List<E> update(List<E> entitys, int step);
+
+	/**
+	 * 持久化数据，锁表 更新表中一行数据
+	 * @param entitys 对象实体
+	 * @param <E> 泛型
 	 * @return 是否成功
 	 */
 	<E> List<E> update(List<E> entitys);
@@ -70,6 +88,15 @@ public interface Dao {
 	 * @return 列表对象
 	 */
 	<E> List<E> insertOrUpdate(List<E> entitys);
+
+	/**
+	 * 批量持久化对象 保存或更新，如果存在就更新，不存在就插入
+	 * @param entitys 需要持久化的对象
+	 * @param <E> 泛型
+	 * @param step 分步数量入库
+	 * @return 列表对象
+	 */
+	<E> List<E> insertOrUpdate(List<E> entitys, int step);
 
 	/**
 	 * 一个事务批量持久化对象 保存或更新，如果存在就更新，不存在就插入

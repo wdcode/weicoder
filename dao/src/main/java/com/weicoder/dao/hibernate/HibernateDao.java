@@ -57,15 +57,45 @@ public final class HibernateDao implements Dao {
 
 	@Override
 	public <E> List<E> insert(final List<E> entitys) {
-		return EmptyUtil.isEmpty(entitys) ? entitys : execute(entitys.get(0).getClass(), (Session session) -> {
-			// 循环添加
-			for (E e : entitys) {
-				session.save(e);
-//				session.flush();
-			}
-			// 返回实体
-			return entitys;
+		return EmptyUtil.isEmpty(entitys) ? entitys
+				: execute(entitys.get(0).getClass(), (Session session) -> {
+					// 循环添加
+					for (E e : entitys) {
+						session.save(e);
+						// session.flush();
+					}
+					// 返回实体
+					return entitys;
+				});
+	}
+
+	public static void main(String[] args) {
+		int num = 567;
+		List<Integer> list = Lists.newList();
+		for (int i = 0; i < num; i++) {
+			list.add(i);
+		}
+		Lists.slice(list, 100).forEach(ls -> {
+			System.out.println(ls.size());
 		});
+	}
+
+	@Override
+	public <E> List<E> insert(List<E> entitys, int step) {
+		// 分步更新
+		Lists.slice(entitys, step).forEach(ls -> {
+			insert(ls);
+		});
+		return entitys;
+	}
+
+	@Override
+	public <E> List<E> update(List<E> entitys, int step) {
+		// 分步更新
+		Lists.slice(entitys, step).forEach(ls -> {
+			update(ls);
+		});
+		return entitys;
 	}
 
 	@Override
@@ -83,6 +113,15 @@ public final class HibernateDao implements Dao {
 			// 返回实体
 			return entitys;
 		});
+	}
+
+	@Override
+	public <E> List<E> insertOrUpdate(List<E> entitys, int step) {
+		// 分步更新
+		Lists.slice(entitys, step).forEach(ls -> {
+			insertOrUpdate(ls);
+		});
+		return entitys;
 	}
 
 	@Override
@@ -171,7 +210,8 @@ public final class HibernateDao implements Dao {
 
 	@Override
 	public <E> E get(Class<E> entity, String property, Object value) {
-		return getCriteria(entity, DetachedCriteria.forClass(entity).add(Restrictions.eq(property, value)));
+		return getCriteria(entity,
+				DetachedCriteria.forClass(entity).add(Restrictions.eq(property, value)));
 	}
 
 	@Override
@@ -184,7 +224,8 @@ public final class HibernateDao implements Dao {
 	public <E> List<E> list(final E entity, final int firstResult, final int maxResults) {
 		return execute(entity.getClass(), (Session session) -> {
 			// 获得Criteria
-			Criteria criteria = DetachedCriteria.forClass(entity.getClass()).getExecutableCriteria(session);
+			Criteria criteria = DetachedCriteria.forClass(entity.getClass())
+					.getExecutableCriteria(session);
 			// 添加实体参数
 			criteria.add(Example.create(entity));
 			// 开始结果大于等于0
@@ -202,66 +243,83 @@ public final class HibernateDao implements Dao {
 
 	@Override
 	public <E> List<E> list(Class<E> entityClass, int firstResult, int maxResults) {
-		return queryCriteria(entityClass, DetachedCriteria.forClass(entityClass), firstResult, maxResults);
-	}
-
-	@Override
-	public <E> List<E> eq(Class<E> entityClass, String property, Object value, int firstResult, int maxResults) {
-		return queryCriteria(entityClass, DetachedCriteria.forClass(entityClass).add(Restrictions.eq(property, value)),
-				firstResult, maxResults);
-	}
-
-	@Override
-	public <E> List<E> gt(Class<E> entityClass, String property, Object value, int firstResult, int maxResults) {
-		return queryCriteria(entityClass, DetachedCriteria.forClass(entityClass).add(Restrictions.gt(property, value)),
-				firstResult, maxResults);
-	}
-
-	@Override
-	public <E> List<E> lt(Class<E> entityClass, String property, Object value, int firstResult, int maxResults) {
-		return queryCriteria(entityClass, DetachedCriteria.forClass(entityClass).add(Restrictions.lt(property, value)),
-				firstResult, maxResults);
-	}
-
-	@Override
-	public <E> List<E> eq(Class<E> entityClass, Map<String, Object> map, int firstResult, int maxResults) {
-		return queryCriteria(entityClass, DetachedCriteria.forClass(entityClass).add(Restrictions.allEq(map)),
-				firstResult, maxResults);
-	}
-
-	@Override
-	public <E> List<E> like(Class<E> entityClass, String property, Object value, int firstResult, int maxResults) {
-		return queryCriteria(entityClass,
-				DetachedCriteria.forClass(entityClass).add(Restrictions.like(property, value)), firstResult,
+		return queryCriteria(entityClass, DetachedCriteria.forClass(entityClass), firstResult,
 				maxResults);
 	}
 
 	@Override
-	public <E> List<E> order(E entity, Map<String, Object> orders, int firstResult, int maxResults) {
-		return queryCriteria(entity.getClass(), getOrder(entity.getClass(), orders).add(Example.create(entity)),
+	public <E> List<E> eq(Class<E> entityClass, String property, Object value, int firstResult,
+			int maxResults) {
+		return queryCriteria(entityClass,
+				DetachedCriteria.forClass(entityClass).add(Restrictions.eq(property, value)),
 				firstResult, maxResults);
 	}
 
 	@Override
-	public <E> List<E> order(Class<E> entityClass, Map<String, Object> orders, int firstResult, int maxResults) {
+	public <E> List<E> gt(Class<E> entityClass, String property, Object value, int firstResult,
+			int maxResults) {
+		return queryCriteria(entityClass,
+				DetachedCriteria.forClass(entityClass).add(Restrictions.gt(property, value)),
+				firstResult, maxResults);
+	}
+
+	@Override
+	public <E> List<E> lt(Class<E> entityClass, String property, Object value, int firstResult,
+			int maxResults) {
+		return queryCriteria(entityClass,
+				DetachedCriteria.forClass(entityClass).add(Restrictions.lt(property, value)),
+				firstResult, maxResults);
+	}
+
+	@Override
+	public <E> List<E> eq(Class<E> entityClass, Map<String, Object> map, int firstResult,
+			int maxResults) {
+		return queryCriteria(entityClass,
+				DetachedCriteria.forClass(entityClass).add(Restrictions.allEq(map)), firstResult,
+				maxResults);
+	}
+
+	@Override
+	public <E> List<E> like(Class<E> entityClass, String property, Object value, int firstResult,
+			int maxResults) {
+		return queryCriteria(entityClass,
+				DetachedCriteria.forClass(entityClass).add(Restrictions.like(property, value)),
+				firstResult, maxResults);
+	}
+
+	@Override
+	public <E> List<E> order(E entity, Map<String, Object> orders, int firstResult,
+			int maxResults) {
+		return queryCriteria(entity.getClass(),
+				getOrder(entity.getClass(), orders).add(Example.create(entity)), firstResult,
+				maxResults);
+	}
+
+	@Override
+	public <E> List<E> order(Class<E> entityClass, Map<String, Object> orders, int firstResult,
+			int maxResults) {
 		return queryCriteria(entityClass, getOrder(entityClass, orders), firstResult, maxResults);
 	}
 
 	@Override
-	public <E> List<E> in(Class<E> entityClass, String property, List<Object> values, int firstResult, int maxResults) {
-		return queryCriteria(entityClass, DetachedCriteria.forClass(entityClass).add(Restrictions.in(property, values)),
-				firstResult, maxResults);
-	}
-
-	@Override
-	public <E> List<E> in(Class<E> entityClass, String property, List<Object> values, Map<String, Object> orders,
+	public <E> List<E> in(Class<E> entityClass, String property, List<Object> values,
 			int firstResult, int maxResults) {
-		return queryCriteria(entityClass, getOrder(entityClass, orders).add(Restrictions.in(property, values)),
+		return queryCriteria(entityClass,
+				DetachedCriteria.forClass(entityClass).add(Restrictions.in(property, values)),
 				firstResult, maxResults);
 	}
 
 	@Override
-	public <E> List<E> in(Class<E> entityClass, Map<String, List<Object>> parames, int firstResult, int maxResults) {
+	public <E> List<E> in(Class<E> entityClass, String property, List<Object> values,
+			Map<String, Object> orders, int firstResult, int maxResults) {
+		return queryCriteria(entityClass,
+				getOrder(entityClass, orders).add(Restrictions.in(property, values)), firstResult,
+				maxResults);
+	}
+
+	@Override
+	public <E> List<E> in(Class<E> entityClass, Map<String, List<Object>> parames, int firstResult,
+			int maxResults) {
 		// 获得Conjunction AND 条件
 		Conjunction conj = Restrictions.conjunction();
 		// 循环赋值in
@@ -269,17 +327,20 @@ public final class HibernateDao implements Dao {
 			conj.add(Restrictions.in(e.getKey(), e.getValue()));
 		}
 		// 查询结果
-		return queryCriteria(entityClass, DetachedCriteria.forClass(entityClass).add(conj), firstResult, maxResults);
+		return queryCriteria(entityClass, DetachedCriteria.forClass(entityClass).add(conj),
+				firstResult, maxResults);
 	}
 
 	@Override
-	public <E> List<E> between(E entity, String property, Object lo, Object hi, int firstResult, int maxResults) {
-		return queryCriteria(entity.getClass(), getBetween(entity, property, lo, hi), firstResult, maxResults);
-	}
-
-	@Override
-	public <E> List<E> between(Class<E> entity, String property, Object lo, Object hi, int firstResult,
+	public <E> List<E> between(E entity, String property, Object lo, Object hi, int firstResult,
 			int maxResults) {
+		return queryCriteria(entity.getClass(), getBetween(entity, property, lo, hi), firstResult,
+				maxResults);
+	}
+
+	@Override
+	public <E> List<E> between(Class<E> entity, String property, Object lo, Object hi,
+			int firstResult, int maxResults) {
 		return queryCriteria(entity, getBetween(entity, property, lo, hi), firstResult, maxResults);
 	}
 
@@ -292,7 +353,8 @@ public final class HibernateDao implements Dao {
 	public int count(final Class<?> entityClass, final String property, final Object value) {
 		return execute(entityClass, (Session session) -> {
 			// 创建查询条件
-			Criteria criteria = DetachedCriteria.forClass(entityClass).getExecutableCriteria(session);
+			Criteria criteria = DetachedCriteria.forClass(entityClass)
+					.getExecutableCriteria(session);
 			// 设置参数
 			if (!EmptyUtil.isEmpty(property) && !EmptyUtil.isEmpty(value)) {
 				criteria.add(Restrictions.eq(property, value));
@@ -308,7 +370,8 @@ public final class HibernateDao implements Dao {
 	public int count(final Class<?> entityClass, final Map<String, Object> map) {
 		return execute(entityClass, (Session session) -> {
 			// 创建查询条件
-			Criteria criteria = DetachedCriteria.forClass(entityClass).getExecutableCriteria(session);
+			Criteria criteria = DetachedCriteria.forClass(entityClass)
+					.getExecutableCriteria(session);
 			// 判断属性名不为空
 			if (!EmptyUtil.isEmpty(map)) {
 				criteria.add(Restrictions.allEq(map));
@@ -324,7 +387,8 @@ public final class HibernateDao implements Dao {
 	public int count(final Object entity) {
 		return execute(entity.getClass(), (Session session) -> {
 			// 创建查询条件
-			Criteria criteria = DetachedCriteria.forClass(entity.getClass()).getExecutableCriteria(session);
+			Criteria criteria = DetachedCriteria.forClass(entity.getClass())
+					.getExecutableCriteria(session);
 			// 添加实体对象
 			criteria.add(Example.create(entity));
 			// 设置获得总行数
@@ -341,17 +405,18 @@ public final class HibernateDao implements Dao {
 
 	@Override
 	public int execute(Class<?> entityClass, final String sql, final Object... values) {
-		return execute(entityClass, (Session session) -> setParameter(session.createNativeQuery(sql, entityClass),
-				Lists.newList(values), -1, -1).executeUpdate());
+		return execute(entityClass,
+				(Session session) -> setParameter(session.createNativeQuery(sql, entityClass),
+						Lists.newList(values), -1, -1).executeUpdate());
 	}
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public <E> List<E> query(Class<?> entityClass, final String sql, final List<Object> values, final int firstResult,
-			final int maxResults) {
+	public <E> List<E> query(Class<?> entityClass, final String sql, final List<Object> values,
+			final int firstResult, final int maxResults) {
 		return execute(entityClass,
-				(Session session) -> setParameter(session.createNativeQuery(sql), values, firstResult, maxResults)
-						.getResultList());
+				(Session session) -> setParameter(session.createNativeQuery(sql), values,
+						firstResult, maxResults).getResultList());
 	}
 
 	@Override
@@ -399,7 +464,8 @@ public final class HibernateDao implements Dao {
 	 * @param <R> 泛型
 	 * @return Query
 	 */
-	private <R> Query<R> setParameter(Query<R> query, List<Object> values, int firstResult, int maxResults) {
+	private <R> Query<R> setParameter(Query<R> query, List<Object> values, int firstResult,
+			int maxResults) {
 		// 是否有参数
 		if (!EmptyUtil.isEmpty(values)) {
 			// 循环参数
@@ -444,8 +510,8 @@ public final class HibernateDao implements Dao {
 	 * @return 返回结果列表
 	 */
 	@SuppressWarnings("unchecked")
-	private <E> List<E> queryCriteria(Class<?> entityClass, final DetachedCriteria criteria, final int firstResult,
-			final int maxResults) {
+	private <E> List<E> queryCriteria(Class<?> entityClass, final DetachedCriteria criteria,
+			final int firstResult, final int maxResults) {
 		return execute(entityClass, (Session session) -> {
 			// 获得Criteria
 			Criteria executableCriteria = criteria.getExecutableCriteria(session);
@@ -469,8 +535,9 @@ public final class HibernateDao implements Dao {
 	 * @return 返回结果列表 异常返回0
 	 */
 	private int count(Class<?> entityClass, final DetachedCriteria criteria) {
-		return execute(entityClass, (Session session) -> Conversion
-				.toInt(criteria.getExecutableCriteria(session).setProjection(Projections.rowCount()).uniqueResult()));
+		return execute(entityClass,
+				(Session session) -> Conversion.toInt(criteria.getExecutableCriteria(session)
+						.setProjection(Projections.rowCount()).uniqueResult()));
 	}
 
 	/**
@@ -501,7 +568,8 @@ public final class HibernateDao implements Dao {
 	 * @param <E> 泛型
 	 * @return DetachedCriteria
 	 */
-	private <E> DetachedCriteria getBetween(Class<E> entity, String property, Object lo, Object hi) {
+	private <E> DetachedCriteria getBetween(Class<E> entity, String property, Object lo,
+			Object hi) {
 		// 获得criteria
 		DetachedCriteria criteria = DetachedCriteria.forClass(entity);
 		// 添加条件
@@ -521,7 +589,8 @@ public final class HibernateDao implements Dao {
 		DetachedCriteria criteria = DetachedCriteria.forClass(entityClass);
 		// 循环排序
 		for (Map.Entry<String, Object> e : orders.entrySet()) {
-			criteria.addOrder(Conversion.toBoolean(e.getValue()) ? Order.asc(e.getKey()) : Order.desc(e.getKey()));
+			criteria.addOrder(Conversion.toBoolean(e.getValue()) ? Order.asc(e.getKey())
+					: Order.desc(e.getKey()));
 		}
 		// 返回DetachedCriteria
 		return criteria;
@@ -572,16 +641,17 @@ public final class HibernateDao implements Dao {
 			if (!EmptyUtil.isEmpty(t)) {
 				t.toString();
 			}
+			Logs.debug("hibernate dao callback class={} res={}", entity, t);
 		} catch (Exception e) {
-			Logs.error(e,"hibernate dao class={} res={}",entity,t);
+			Logs.error(e, "hibernate dao class={} res={}", entity, t);
 			// 回滚事务
 			if (!EmptyUtil.isEmpty(tx)) {
 				tx.rollback();
 			}
 			if (!EmptyUtil.isEmpty(txl)) {
 				txl.rollback();
-			} 
-			t = null; 
+			}
+			t = null;
 		} finally {
 			// 自己关闭session
 			if (isSession && session.isOpen() && session.isConnected()) {

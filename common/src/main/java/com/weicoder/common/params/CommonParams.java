@@ -55,7 +55,7 @@ public final class CommonParams {
 			.getInt("token.sign", Byte.MIN_VALUE);
 	/** 截取日志长度 */
 	public final static int			LOGS_LEN				= Params
-			.getInt("logs.len", 100);
+			.getInt("logs.len", 200);
 	/** token 发放服务器 */
 	public final static Set<String>	TOKEN_SERVERS			= Sets.newSet(Params
 			.getStringArray("token.servers", ArrayConstants.STRING_EMPTY));

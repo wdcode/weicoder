@@ -20,6 +20,7 @@ import com.weicoder.web.params.WebParams;
  * @author WD
  */
 public final class CookieUtil {
+
 	/**
 	 * 把结果写cookie
 	 * @param response response
@@ -27,6 +28,17 @@ public final class CookieUtil {
 	 * @param names 要写cookie的键 如果为空就写全部属性
 	 */
 	public static void adds(HttpServletResponse response, Object res, String... names) {
+		adds(response, -1, res, names);
+	}
+
+	/**
+	 * 把结果写cookie
+	 * @param response response
+	 * @param maxAge 过期时间秒
+	 * @param res 返回结果
+	 * @param names 要写cookie的键 如果为空就写全部属性
+	 */
+	public static void adds(HttpServletResponse response, int maxAge, Object res, String... names) {
 		try {
 			// 如果返回结果是map
 			if (res instanceof Map<?, ?>) {
@@ -36,12 +48,13 @@ public final class CookieUtil {
 				if (EmptyUtil.isEmpty(names)) {
 					// 写全部属性
 					for (Map.Entry<?, ?> e : map.entrySet()) {
-						add(response, Conversion.toString(e.getKey()), Conversion.toString(e.getValue()));
+						add(response, Conversion.toString(e.getKey()),
+								Conversion.toString(e.getValue()), maxAge);
 					}
 				} else {
 					// 写指定属性
 					for (String name : names) {
-						add(response, name, Conversion.toString(name));
+						add(response, name, Conversion.toString(name), maxAge);
 					}
 				}
 			} else {
@@ -52,7 +65,7 @@ public final class CookieUtil {
 						// 值不为空 写cookie
 						String val = Conversion.toString(BeanUtil.getFieldValue(res, field));
 						if (!EmptyUtil.isEmpty(val)) {
-							add(response, field.getName(), val);
+							add(response, field.getName(), val, maxAge);
 						}
 					}
 				} else {
@@ -61,7 +74,7 @@ public final class CookieUtil {
 						// 值不为空 写cookie
 						String val = Conversion.toString(BeanUtil.getFieldValue(res, name));
 						if (!EmptyUtil.isEmpty(val)) {
-							add(response, name, val);
+							add(response, name, val, maxAge);
 						}
 					}
 				}
@@ -112,7 +125,8 @@ public final class CookieUtil {
 	 * @param domain 域名
 	 * @param maxAge 保存多少秒
 	 */
-	public static void add(HttpServletResponse response, String name, String value, String domain, int maxAge) {
+	public static void add(HttpServletResponse response, String name, String value, String domain,
+			int maxAge) {
 		try {
 			// 实例化Cookie
 			Cookie cookie = new Cookie(name, value);
@@ -124,14 +138,16 @@ public final class CookieUtil {
 			if (EmptyUtil.isEmpty(domain)) {
 				// 添加Cookie
 				response.addCookie(cookie);
-				Logs.debug("add cookie name={} value={} domain={} maxAge={}", name, value, domain, maxAge);
+				Logs.debug("add cookie name={} value={} domain={} maxAge={}", name, value, domain,
+						maxAge);
 			} else {
 				// 写不同的域
 				for (String d : StringUtil.split(domain, StringConstants.COMMA)) {
 					cookie.setDomain(d);
 					// 添加Cookie
 					response.addCookie(cookie);
-					Logs.debug("add cookie name={} value={} domain={} maxAge={}", name, value, d, maxAge);
+					Logs.debug("add cookie name={} value={} domain={} maxAge={}", name, value, d,
+							maxAge);
 				}
 			}
 		} catch (Exception e) {

@@ -97,7 +97,42 @@ public final class Lists {
 	}
 
 	/**
-	 * 返回列表从begin开始返回end个元素
+	 * 切片List 把list按slice数据切分
+	 * @param list 要分片的list
+	 * @param slice 每片的数量
+	 * @return 分片后的list 列表里为原有对象的list
+	 */
+	public static <E> List<List<E>> slice(List<E> list, int slice) {
+		// 声明返回结果
+		List<List<E>> res = Lists.newList();
+		// 对象为空或者分片小于1直接返回列表
+		if (EmptyUtil.isEmpty(list) || slice < 1 || list.size() <= slice) {
+			res.add(list);
+		} else {
+			// 开始数
+			int n = 0;
+			// 循环分解
+			while (true) {
+				// 分解成list
+				int start = n * slice;
+				List<E> ls = Lists.subList(list, start, start + slice);
+				n++;
+				// 不为空添加到列表
+				if (EmptyUtil.isNotEmpty(ls)) {
+					res.add(ls);
+				}
+				// 如果
+				if (ls.size() < slice) {
+					break;
+				}
+			}
+		}
+		// 返回结果
+		return res;
+	}
+
+	/**
+	 * 返回列表从begin开始返回end结束元素
 	 * @param list 元素列表
 	 * @param begin 开始包含
 	 * @param end 结束不包含

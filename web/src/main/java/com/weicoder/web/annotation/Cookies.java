@@ -17,4 +17,10 @@ public @interface Cookies {
 	 * @return 指定写入的属性
 	 */
 	String[] names() default {};
+
+	/**
+	 * 过期时间
+	 * @return 过期时间
+	 */
+	int maxAge() default -1;
 }
