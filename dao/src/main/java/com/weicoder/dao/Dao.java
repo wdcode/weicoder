@@ -411,6 +411,16 @@ public interface Dao {
 			int maxResults);
 
 	/**
+	 * 根据SQL查询语句查询
+	 * @param entityClass 实体类
+	 * @param sql SQL查询语句 参数为?的语句
+	 * @param values 参数值数组
+	 * @param <E> 泛型
+	 * @return 返回结果
+	 */
+	Object query(Class<?> entityClass, String sql, Object... values);
+
+	/**
 	 * 获得当前实体类所在事务
 	 * @param entityClass 实体类
 	 * @return 事务对象

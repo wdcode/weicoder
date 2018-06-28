@@ -419,6 +419,14 @@ public final class HibernateDao implements Dao {
 						firstResult, maxResults).getResultList());
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public Object query(Class<?> entityClass, String sql, Object... values) {
+		return execute(entityClass,
+				(Session session) -> setParameter(session.createNativeQuery(sql),
+						Lists.newList(values), -1, -1).getSingleResult());
+	}
+
 	@Override
 	public boolean inserts(Object... entitys) {
 		return execute(entitys[0].getClass(), (Session session) -> {
@@ -674,5 +682,4 @@ public final class HibernateDao implements Dao {
 		 */
 		T callback(Session session);
 	}
-
 }

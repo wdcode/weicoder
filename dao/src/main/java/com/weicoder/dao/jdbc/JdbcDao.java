@@ -335,4 +335,10 @@ public final class JdbcDao implements Dao {
 	public <E> List<E> insertOrUpdate(List<E> entitys, int step) {
 		return null;
 	}
+
+	@Override
+	public Object query(Class<?> entityClass, String sql, Object... values) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
