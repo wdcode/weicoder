@@ -77,4 +77,10 @@ public class Record<K, V> {
 	public long getTime() {
 		return time;
 	}
+
+	@Override
+	public String toString() {
+		return "Record [topic=" + topic + ", key=" + key + ", value=" + value + ", offset=" + offset
+				+ ", time=" + time + "]";
+	}
 }

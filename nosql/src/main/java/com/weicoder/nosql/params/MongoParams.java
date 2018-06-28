@@ -33,7 +33,7 @@ public final class MongoParams {
 	 * @return 用户
 	 */
 	public static String getUser(String name) {
-		return Params.getString(getKey(name, "user"), "wdcode");
+		return Params.getString(getKey(name, "user"));
 	}
 
 	/**
@@ -42,7 +42,7 @@ public final class MongoParams {
 	 * @return 密码
 	 */
 	public static String getPassword(String name) {
-		return Params.getString(getKey(name, "password"), "123456");
+		return Params.getString(getKey(name, "password"));
 	}
 
 	/**

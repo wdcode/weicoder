@@ -20,6 +20,7 @@ import com.weicoder.nosql.params.MongoParams;
 import com.mongodb.BasicDBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientOptions;
+import com.mongodb.MongoCredential;
 import com.mongodb.MongoClientOptions.Builder;
 import com.mongodb.ServerAddress;
 import com.mongodb.client.FindIterable;
@@ -61,17 +62,29 @@ public final class MongoImpl implements Mongo {
 			builder.threadsAllowedToBlockForConnectionMultiplier(100);
 
 			// MongoCredential
+			MongoCredential credential = null;
+			if (EmptyUtil.isNotEmpty(MongoParams.getUser(key))) {
+				credential = MongoCredential.createScramSha1Credential(MongoParams.getUser(key),
+						"admin", MongoParams.getPassword(key).toCharArray());
+			}
 
 			// 实例化客户端
-			client = new MongoClient(
-					new ServerAddress(MongoParams.getHost(key), MongoParams.getPort(key)),
-					builder.build());
+			if (credential == null) {
+				client = new MongoClient(
+						new ServerAddress(MongoParams.getHost(key), MongoParams.getPort(key)),
+						builder.build());
+			} else {
+				client = new MongoClient(
+						new ServerAddress(MongoParams.getHost(key), MongoParams.getPort(key)),
+						credential, builder.build());
+			}
+
 			// 如果库存在
 			db = client.getDatabase(MongoParams.getDB(key));
 			if (EmptyUtil.isNotEmpty(MongoParams.getCollection(key))) {
 				dbc = db.getCollection(MongoParams.getCollection(key));
 			}
-			dbcs = Maps.newConcurrentMap();
+			dbcs = Maps.newMap();
 		} catch (Exception e) {
 			Logs.error(e);
 		}
