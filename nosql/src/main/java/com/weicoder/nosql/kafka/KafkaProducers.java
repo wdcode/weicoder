@@ -46,6 +46,7 @@ public final class KafkaProducers {
 	 * @param topic 节点
 	 * @param key 键
 	 * @param value 值
+	 * @param callback 回调
 	 * @return 信息
 	 */
 	public static Future<RecordMetadata> send(String topic, Object key, Object value,
