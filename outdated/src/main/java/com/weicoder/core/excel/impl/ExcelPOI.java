@@ -1,14 +1,14 @@
 package com.weicoder.core.excel.impl;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
-
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+ 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.apache.poi.ss.usermodel.Workbook; 
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.weicoder.common.io.FileUtil;
 import com.weicoder.common.lang.Conversion;
@@ -17,9 +17,9 @@ import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.core.excel.base.BaseExcel;
 
 /**
- * 使用POI操作Excel 
- * @author WD 
- * @version 1.0 
+ * 使用POI操作Excel
+ * @author WD
+ * @version 1.0
  */
 public final class ExcelPOI extends BaseExcel {
 	// 工作薄 读
@@ -36,7 +36,7 @@ public final class ExcelPOI extends BaseExcel {
 		setIndex(0);
 		try {
 			// 如果文件存在
-			workbook = EmptyUtil.isEmpty(file) ? new HSSFWorkbook() : WorkbookFactory.create(file);
+			workbook = EmptyUtil.isEmpty(file) ? new XSSFWorkbook() : new XSSFWorkbook(FileUtil.getInputStream(file)); // WorkbookFactory.create(file);
 			// 获得输出流
 			this.file = file;
 		} catch (Exception e) {
@@ -143,9 +143,10 @@ public final class ExcelPOI extends BaseExcel {
 	 * 写Excel
 	 */
 	public void write() {
-		try {
+		try (FileOutputStream stream = new FileOutputStream(file)) {
 			// 写Excel
-			workbook.write(FileUtil.getOutputStream(file));
+			workbook.write(stream);
+			stream.flush();
 		} catch (IOException e) {
 			Logs.error(e);
 		}
