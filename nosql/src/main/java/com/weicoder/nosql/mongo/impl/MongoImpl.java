@@ -110,12 +110,12 @@ public final class MongoImpl implements Mongo {
 
 	@Override
 	public long count(String name) {
-		return getCollection(name).count();
+		return getCollection(name).countDocuments();
 	}
 
 	@Override
 	public long count(String name, Map<String, Object> query) {
-		return getCollection(name).count(new BasicDBObject(query));
+		return getCollection(name).countDocuments(new BasicDBObject(query));
 	}
 
 	@Override
@@ -268,7 +268,7 @@ public final class MongoImpl implements Mongo {
 
 	@Override
 	public boolean exists(String key) {
-		return getCollection(StringConstants.EMPTY).count(new BasicDBObject(ID, key)) > 0;
+		return getCollection(StringConstants.EMPTY).countDocuments(new BasicDBObject(ID, key)) > 0;
 	}
 
 	@Override
