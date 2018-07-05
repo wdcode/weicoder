@@ -135,7 +135,7 @@ public final class HttpClient {
 			// 获得HttpPost
 			post = new HttpPost(url);
 			// 如果参数列表为空 data为空map
-			if (!EmptyUtil.isEmpty(data)) {
+			if (EmptyUtil.isNotEmpty(data)) {
 				// 声明参数列表
 				List<NameValuePair> list = Lists.newList(data.size());
 				// 设置参数
