@@ -105,10 +105,11 @@ public interface RedisPool {
 	long hlen(String key);
 
 	/**
-	 * 根据哈希主键获得所有列表数据
+	 * 根据哈希主键获得所有列表数据 	性能超差慎用慎用
 	 * @param key 哈希主键
 	 * @return Map
 	 */
+	@Deprecated
 	Map<String, String> hgetAll(String key);
 
 	/**
