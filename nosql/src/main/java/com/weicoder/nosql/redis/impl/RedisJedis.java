@@ -233,7 +233,7 @@ public final class RedisJedis extends BaseRedis {
 		try (Jedis jedis = pool.getResource()) {
 			return jedis.hgetAll(key);
 		} catch (Exception e) {
-			Logs.error(e, "redis pool hgetAll key={} strings={}", key);
+			Logs.error(e, "redis pool hgetAll key={}", key);
 			return Maps.emptyMap();
 		}
 	}
@@ -321,6 +321,16 @@ public final class RedisJedis extends BaseRedis {
 	public Set<String> zrevrange(String key, long start, long end) {
 		try (Jedis jedis = pool.getResource()) {
 			return jedis.zrevrange(key, start, end);
+		} catch (Exception e) {
+			Logs.error(e, "redis pool zrevrange key={} start={} end={}", key, start, end);
+			return Sets.emptySet();
+		}
+	}
+
+	@Override
+	public Set<String> zrange(String key, long start, long end) {
+		try (Jedis jedis = pool.getResource()) {
+			return jedis.zrange(key, start, end);
 		} catch (Exception e) {
 			Logs.error(e, "redis pool zrevrange key={} start={} end={}", key, start, end);
 			return Sets.emptySet();

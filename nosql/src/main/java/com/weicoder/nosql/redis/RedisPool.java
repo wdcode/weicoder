@@ -105,7 +105,7 @@ public interface RedisPool {
 	long hlen(String key);
 
 	/**
-	 * 根据哈希主键获得所有列表数据 	性能超差慎用慎用
+	 * 根据哈希主键获得所有列表数据 性能超差慎用慎用
 	 * @param key 哈希主键
 	 * @return Map
 	 */
@@ -257,6 +257,15 @@ public interface RedisPool {
 	Set<String> zrevrange(String key, long start, long end);
 
 	/**
+	 * 获得redis list 数据
+	 * @param key 健
+	 * @param start 开始数
+	 * @param end 结束数
+	 * @return 值列表
+	 */
+	Set<String> zrange(String key, long start, long end);
+
+	/**
 	 * 添加列表数据
 	 * @param key 健
 	 * @param score 分值
@@ -267,7 +276,7 @@ public interface RedisPool {
 
 	/**
 	 * 删除列表数据
-	 * @param key 健 
+	 * @param key 健
 	 * @param members 成员
 	 * @return 数量
 	 */
