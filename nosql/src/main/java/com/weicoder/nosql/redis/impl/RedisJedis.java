@@ -13,6 +13,7 @@ import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.lang.Sets;
 import com.weicoder.common.log.Logs;
+import com.weicoder.core.json.JsonEngine;
 import com.weicoder.nosql.redis.base.BaseRedis;
 import com.weicoder.nosql.params.RedisParams;
 
@@ -40,7 +41,7 @@ public final class RedisJedis extends BaseRedis {
 		config.setMaxIdle(RedisParams.getMaxIdle(name));
 		config.setMaxWaitMillis(RedisParams.getMaxWait(name));
 		// 实例化连接池
-		Logs.info("redis init pool config={}", config);
+		Logs.info("redis init pool config={}",JsonEngine.toJson(config));
 		pool = new JedisPool(config, RedisParams.getHost(name), RedisParams.getPort(name),
 				Protocol.DEFAULT_TIMEOUT, RedisParams.getPassword(name),
 				RedisParams.getDatabase(name), null);

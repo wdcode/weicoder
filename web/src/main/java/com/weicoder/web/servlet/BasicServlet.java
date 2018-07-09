@@ -297,14 +297,15 @@ public class BasicServlet extends HttpServlet {
 				if (res == null) {
 					// 结果设置为空map
 					res = Maps.emptyMap();
-				} else if (res instanceof Integer) {
-					// 写错误信息
-					String error = ErrorCodeParams.getMessage(Conversion.toInt(res));
-					res = EmptyUtil.isEmpty(error) ? res : error;
 				} else if (cookie) {
 					// 写cookie
 					CookieUtil.adds(response, c.maxAge(), res, names);
-				}
+				} 
+//				else if (res instanceof Integer) {
+//					// 写错误信息
+//					String error = ErrorCodeParams.getMessage(Conversion.toInt(res));
+//					res = EmptyUtil.isEmpty(error) ? res : error;
+//				}
 			}
 			// 写到前端
 			Logs.info("request ip={} name={}  params={} pars={} time={} res={} end", ip, actionName,
