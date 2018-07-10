@@ -42,7 +42,7 @@ public final class RedisParams {
 	 * @return 服务器地址
 	 */
 	public static String getType(String name) {
-		return Params.getString(getKey(name, "type"), "cluster");
+		return Params.getString(getKey(name, "type"), "pool");
 	}
 
 	/**

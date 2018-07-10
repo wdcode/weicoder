@@ -51,4 +51,10 @@ public @interface Token {
 	 * @return 验证id
 	 */
 	String id() default StringConstants.EMPTY;
+	
+	/**
+	 * 如果不为空 强制赋值不管是否有用户传入
+	 * @return 强制参数
+	 */
+	String uid() default StringConstants.EMPTY;
 }

@@ -199,18 +199,25 @@ public final class Validators {
 				// 客户端IP不符
 				return t.ip();
 			}
-			if (EmptyUtil.isNotEmpty(t.id()) && Conversion.toInt(ps.get(t.id())) != token.getId()) {
+			//校验token与传入的用户ID是否相同
+			if (EmptyUtil.isNotEmpty(t.id()) && Conversion.toLong(ps.get(t.id())) != token.getId()) {
 				// 不是用户
 				return t.valid();
 			}
-			// 判断参数里没有id和uid
+			//用户id
 			String uid = Conversion.toString(token.getId());
-			if (!ps.containsKey("uid")) {
-				Logs.debug("action validator token add uid={} uid={}", ps.put("uid", uid), uid);
-			}
-			if (!ps.containsKey("id")) {
-				Logs.debug("action validator token add id={} id={}", ps.put("id", uid), uid);
-			}
+			//是否强制赋值参数
+			if(EmptyUtil.isNotEmpty(t.uid())) {
+				ps.put(t.uid(), uid);
+			}else {
+				//没有强制的话 替换空参数
+				if (!ps.containsKey("uid")) {
+					ps.put("uid", uid);
+				}
+				if (!ps.containsKey("id")) {
+					ps.put("id", uid);
+				}
+			}  
 		}
 
 		// 验证ip

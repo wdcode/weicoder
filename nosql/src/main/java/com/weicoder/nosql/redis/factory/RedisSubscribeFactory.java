@@ -18,10 +18,10 @@ final class RedisSubscribeFactory extends FactoryKey<String, Subscribe> {
 	public Subscribe newInstance(String name) {
 		// 判断类型
 		switch (RedisParams.getType(name)) {
-			case "pool":
-				return new RedisSubscribePool(name);
-			default:
+			case "cluster":
 				return new RedisSubscribeCluster(name);
+			default:
+				return new RedisSubscribePool(name);
 		}
 	}
 

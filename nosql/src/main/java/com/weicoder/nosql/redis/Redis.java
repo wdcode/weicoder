@@ -5,7 +5,7 @@ import java.lang.reflect.Parameter;
 import java.util.List;
 import java.util.Map;
 
-import com.weicoder.common.concurrent.ScheduledUtil;
+import com.weicoder.common.concurrent.ExecutorUtil; 
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.log.Logs;
@@ -39,10 +39,11 @@ public final class Redis {
 	 */
 	public static void subscribes() {
 		// 获得所有redis订阅者
-		List<Class<Subscribes>> subscribes = ClassUtil.getAnnotationClass(CommonParams.getPackages("redis"),
-				Subscribes.class);
+		List<Class<Subscribes>> subscribes = ClassUtil
+				.getAnnotationClass(CommonParams.getPackages("redis"), Subscribes.class);
 		if (EmptyUtil.isNotEmpty(subscribes)) {
 			// 循环处理所有redis订阅类
+			int n = 0;
 			for (Class<Subscribes> c : subscribes) {
 				// 执行对象
 				Object subscribe = BeanUtil.newInstance(c);
@@ -62,18 +63,21 @@ public final class Redis {
 						METHODS.put(val, m);
 						channels.add(val);
 						SUBSCRIBES.put(val, subscribe);
-						Logs.info("add redis subscribe={} channel={}", c.getSimpleName(), val);
+						Logs.debug("add redis name={} subscribe={} channel={}", name,
+								c.getSimpleName(), val);
 					}
 				}
+				n += channels.size();
 			}
-			Logs.info("add redis subscribe={} channels={}", subscribes.size());
+			Logs.info("add redis subscribe={} channels={}", subscribes.size(), n);
 			// 订阅相关消费数据
 			// ScheduledExecutorService ses = ScheduledUtil.newPool(RedisParams.SUBSCRIBE_POOL,
 			// RedisParams.SUBSCRIBE_DAEMON);
 			for (String key : CHANNELS.keySet()) {
 				List<String> channels = CHANNELS.get(key);
 				// 定时观察订阅信息
-				ScheduledUtil.delay(RedisParams.PREFIX, () -> {
+				ExecutorUtil.pool(RedisParams.PREFIX).execute(()->{ 
+//				ScheduledUtil.delay(RedisParams.PREFIX, () -> {
 					REDIS.get(key).subscribe(new JedisPubSub() {
 						@Override
 						public void onMessage(String channel, String message) {
@@ -92,7 +96,7 @@ public final class Redis {
 									BeanUtil.invoke(s, m);
 								} else {
 									objs = new Object[params.length];
-									// 有参数 现在只支持 1-2位的参数，1个参数表示message
+									// 有参数 现在只支持 1位的参数，1个参数表示message
 									if (params.length == 1) {
 										objs[0] = message;
 									}
@@ -100,13 +104,15 @@ public final class Redis {
 									BeanUtil.invoke(s, m, objs);
 								}
 							}
-							Logs.info("redis onMessage subscribe={} method={} channel={} message={} time={}  thread={}",
-									s, m, channel, message, System.currentTimeMillis() - time, tid);
+							Logs.debug(
+									"redis subscribe={} method={} channel={} message={} time={}  thread={}",
+									s.getClass().getSimpleName(), m.getName(), channel, message,
+									System.currentTimeMillis() - time, tid);
 						}
 					}, Lists.toArray(channels));
-				}, 100L);
+//				}, 100L);
+				});
 			}
-
 		}
 	}
 

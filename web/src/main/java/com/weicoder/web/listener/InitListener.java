@@ -32,10 +32,12 @@ public class InitListener implements ServletContextListener {
 		// 初始化验证类
 		Validators.init();
 		// 按包处理Action
-		for (Class<?> c : ClassUtil.getAnnotationClass(CommonParams.getPackages("action"), Action.class)) {
+		for (Class<?> c : ClassUtil.getAnnotationClass(CommonParams.getPackages("action"),
+				Action.class)) {
 			try {
 				// 获得action名结尾为action去掉
-				String cname = StringUtil.convert(StringUtil.subStringLastEnd(c.getSimpleName(), "Action"));
+				String cname = StringUtil
+						.convert(StringUtil.subStringLastEnd(c.getSimpleName(), "Action"));
 				Logs.info("init action sname={},cname={}", c.getSimpleName(), cname);
 				// 实例化Action并放在context中
 				Object action = BeanUtil.newInstance(c);
@@ -72,10 +74,12 @@ public class InitListener implements ServletContextListener {
 		}
 
 		// 按包处理WebSocket
-		for (Class<?> c : ClassUtil.getAnnotationClass(CommonParams.getPackages("websocket"), WebSocket.class)) {
+		for (Class<?> c : ClassUtil.getAnnotationClass(CommonParams.getPackages("websocket"),
+				WebSocket.class)) {
 			try {
 				// 获得action名结尾为action去掉
-				String cname = StringUtil.convert(StringUtil.subStringLastEnd(c.getSimpleName(), "Server"));
+				String cname = StringUtil
+						.convert(StringUtil.subStringLastEnd(c.getSimpleName(), "Server"));
 				Logs.debug("init websocket sname={},cname={}", c.getSimpleName(), cname);
 				// 实例化Action并放在context中
 				Object ws = BeanUtil.newInstance(c);
@@ -109,7 +113,4 @@ public class InitListener implements ServletContextListener {
 			}
 		}
 	}
-
-	@Override
-	public void contextDestroyed(ServletContextEvent arg0) {}
 }
