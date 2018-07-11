@@ -80,6 +80,7 @@ public final class HttpEngine {
 	/**
 	 * 使用get提交url
 	 * @param url 网址
+	 * @param header http头列表
 	 * @return 返回的结果
 	 */
 	public static String get(String url, Map<String, Object> header) {

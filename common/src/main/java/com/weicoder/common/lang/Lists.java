@@ -100,6 +100,7 @@ public final class Lists {
 	 * 切片List 把list按slice数据切分
 	 * @param list 要分片的list
 	 * @param slice 每片的数量
+	 * @param <E> 泛型
 	 * @return 分片后的list 列表里为原有对象的list
 	 */
 	public static <E> List<List<E>> slice(List<E> list, int slice) {
