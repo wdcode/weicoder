@@ -108,7 +108,7 @@ public interface RedisPool {
 	 * 根据哈希主键获得所有列表数据 性能超差慎用慎用
 	 * @param key 哈希主键
 	 * @return Map
-	 */ 
+	 */
 	Map<String, String> hgetAll(String key);
 
 	/**
@@ -272,6 +272,21 @@ public interface RedisPool {
 	 * @return 数量
 	 */
 	Long zadd(String key, double score, String member);
+
+	/**
+	 * 添加列表数据
+	 * @param key 健
+	 * @param members 成员
+	 * @return 数量
+	 */
+	Long sadd(String key, String... members);
+	
+	/**
+	 * 获得列表成员数
+	 * @param key 健
+	 * @return 数量
+	 */
+	long scard(String key);
 
 	/**
 	 * 删除列表数据

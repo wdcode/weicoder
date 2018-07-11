@@ -41,10 +41,9 @@ public final class RedisJedis extends BaseRedis {
 		config.setMaxIdle(RedisParams.getMaxIdle(name));
 		config.setMaxWaitMillis(RedisParams.getMaxWait(name));
 		// 实例化连接池
-		Logs.info("redis init pool config={}",JsonEngine.toJson(config));
-		pool = new JedisPool(config, RedisParams.getHost(name), RedisParams.getPort(name),
-				Protocol.DEFAULT_TIMEOUT, RedisParams.getPassword(name),
-				RedisParams.getDatabase(name), null);
+		Logs.info("redis init pool config={}", JsonEngine.toJson(config));
+		pool = new JedisPool(config, RedisParams.getHost(name), RedisParams.getPort(name), Protocol.DEFAULT_TIMEOUT,
+				RedisParams.getPassword(name), RedisParams.getDatabase(name), null);
 	}
 
 	@Override
@@ -354,6 +353,26 @@ public final class RedisJedis extends BaseRedis {
 			return jedis.zrem(key, members);
 		} catch (Exception e) {
 			Logs.error(e, "redis pool hlen key={} members={}", key, members);
+			return error;
+		}
+	}
+
+	@Override
+	public Long sadd(String key, String... members) {
+		try (Jedis jedis = pool.getResource()) {
+			return jedis.sadd(key, members);
+		} catch (Exception e) {
+			Logs.error(e, "redis pool sadd key={} members={}", key, members);
+			return error;
+		}
+	}
+
+	@Override
+	public long scard(String key) {
+		try (Jedis jedis = pool.getResource()) {
+			return jedis.scard(key);
+		} catch (Exception e) {
+			Logs.error(e, "redis pool scard key={}", key);
 			return error;
 		}
 	}

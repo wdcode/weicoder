@@ -73,8 +73,7 @@ public final class Redis {
 			// 订阅相关消费数据
 			// ScheduledExecutorService ses = ScheduledUtil.newPool(RedisParams.SUBSCRIBE_POOL,
 			// RedisParams.SUBSCRIBE_DAEMON);
-			for (String key : CHANNELS.keySet()) {
-				List<String> channels = CHANNELS.get(key);
+			CHANNELS.forEach((key,val)->{
 				// 定时观察订阅信息
 				ExecutorUtil.pool(RedisParams.PREFIX).execute(()->{ 
 //				ScheduledUtil.delay(RedisParams.PREFIX, () -> {
@@ -109,10 +108,14 @@ public final class Redis {
 									s.getClass().getSimpleName(), m.getName(), channel, message,
 									System.currentTimeMillis() - time, tid);
 						}
-					}, Lists.toArray(channels));
+					}, Lists.toArray(val));
 //				}, 100L);
 				});
-			}
+			});
+//			for (String key : CHANNELS.keySet()) {
+//				List<String> channels = CHANNELS.get(key);
+//				
+//			}
 		}
 	}
 
