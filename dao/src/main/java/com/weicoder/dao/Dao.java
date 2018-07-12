@@ -204,8 +204,7 @@ public interface Dao {
 	 * @param <E> 泛型
 	 * @return 数据列表
 	 */
-	<E> List<E> like(Class<E> entityClass, String property, Object value, int firstResult,
-			int maxResults);
+	<E> List<E> like(Class<E> entityClass, String property, Object value, int firstResult, int maxResults);
 
 	/**
 	 * 查询属性名等值的实体列表
@@ -217,8 +216,7 @@ public interface Dao {
 	 * @param <E> 泛型
 	 * @return 数据列表
 	 */
-	<E> List<E> eq(Class<E> entityClass, String property, Object value, int firstResult,
-			int maxResults);
+	<E> List<E> eq(Class<E> entityClass, String property, Object value, int firstResult, int maxResults);
 
 	/**
 	 * 查询属性名大于的实体列表
@@ -230,8 +228,7 @@ public interface Dao {
 	 * @param <E> 泛型
 	 * @return 数据列表
 	 */
-	<E> List<E> gt(Class<E> entityClass, String property, Object value, int firstResult,
-			int maxResults);
+	<E> List<E> gt(Class<E> entityClass, String property, Object value, int firstResult, int maxResults);
 
 	/**
 	 * 查询属性名小于的实体列表
@@ -243,8 +240,7 @@ public interface Dao {
 	 * @param <E> 泛型
 	 * @return 数据列表
 	 */
-	<E> List<E> lt(Class<E> entityClass, String property, Object value, int firstResult,
-			int maxResults);
+	<E> List<E> lt(Class<E> entityClass, String property, Object value, int firstResult, int maxResults);
 
 	/**
 	 * 查询属性名等值的实体列表
@@ -267,8 +263,7 @@ public interface Dao {
 	 * @param <E> 泛型
 	 * @return 数据列表
 	 */
-	<E> List<E> in(Class<E> entityClass, String property, List<Object> values, int firstResult,
-			int maxResults);
+	<E> List<E> in(Class<E> entityClass, String property, List<Object> values, int firstResult, int maxResults);
 
 	/**
 	 * 查询属性名含有列表的实体列表
@@ -281,8 +276,8 @@ public interface Dao {
 	 * @param <E> 泛型
 	 * @return 数据列表
 	 */
-	<E> List<E> in(Class<E> entityClass, String property, List<Object> values,
-			Map<String, Object> orders, int firstResult, int maxResults);
+	<E> List<E> in(Class<E> entityClass, String property, List<Object> values, Map<String, Object> orders,
+			int firstResult, int maxResults);
 
 	/**
 	 * 查询属性名含有列表的实体列表
@@ -293,8 +288,7 @@ public interface Dao {
 	 * @param <E> 泛型
 	 * @return 数据列表
 	 */
-	<E> List<E> in(Class<E> entityClass, Map<String, List<Object>> parames, int firstResult,
-			int maxResults);
+	<E> List<E> in(Class<E> entityClass, Map<String, List<Object>> parames, int firstResult, int maxResults);
 
 	/**
 	 * 查询字段在lo到hi之间的实体
@@ -307,8 +301,7 @@ public interface Dao {
 	 * @param <E> 泛型
 	 * @return 返回结果列表
 	 */
-	<E> List<E> between(E entity, String property, Object lo, Object hi, int firstResult,
-			int maxResults);
+	<E> List<E> between(E entity, String property, Object lo, Object hi, int firstResult, int maxResults);
 
 	/**
 	 * 查询字段在lo到hi之间的实体
@@ -321,8 +314,7 @@ public interface Dao {
 	 * @param <E> 泛型
 	 * @return 返回结果列表
 	 */
-	<E> List<E> between(Class<E> entity, String property, Object lo, Object hi, int firstResult,
-			int maxResults);
+	<E> List<E> between(Class<E> entity, String property, Object lo, Object hi, int firstResult, int maxResults);
 
 	/**
 	 * 查询属性名等值的实体列表
@@ -344,8 +336,7 @@ public interface Dao {
 	 * @param <E> 泛型
 	 * @return 数据列表
 	 */
-	<E> List<E> order(Class<E> entityClass, Map<String, Object> orders, int firstResult,
-			int maxResults);
+	<E> List<E> order(Class<E> entityClass, Map<String, Object> orders, int firstResult, int maxResults);
 
 	/**
 	 * 获得查询的对象实体总数
@@ -407,14 +398,13 @@ public interface Dao {
 	 * @param <E> 泛型
 	 * @return 返回结果列表
 	 */
-	<E> List<E> query(Class<?> entityClass, String sql, List<Object> values, int firstResult,
-			int maxResults);
+	<E> List<E> query(Class<E> entityClass, String sql, List<Object> values, int firstResult, int maxResults);
 
 	/**
 	 * 根据SQL查询语句查询
 	 * @param entityClass 实体类
 	 * @param sql SQL查询语句 参数为?的语句
-	 * @param values 参数值数组 
+	 * @param values 参数值数组
 	 * @return 返回结果
 	 */
 	Object query(Class<?> entityClass, String sql, Object... values);

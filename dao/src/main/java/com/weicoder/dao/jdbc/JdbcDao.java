@@ -251,7 +251,7 @@ public final class JdbcDao implements Dao {
 	}
 
 	@Override
-	public <E> List<E> query(Class<?> entityClass, String sql, List<Object> values, int firstResult,
+	public <E> List<E> query(Class<E> entityClass, String sql, List<Object> values, int firstResult,
 			int maxResults) {
 
 		return null;

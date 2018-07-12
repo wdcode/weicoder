@@ -8,7 +8,7 @@
 		<relativePath>../parent/pom.xml</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>core</artifactId> 
+	<artifactId>core</artifactId>
 	<packaging>jar</packaging>
 	<name>core</name>
 	<description>java core tools</description>
@@ -62,6 +62,11 @@
 		<dependency>
 			<groupId>com.google.protobuf</groupId>
 			<artifactId>protobuf-java</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
