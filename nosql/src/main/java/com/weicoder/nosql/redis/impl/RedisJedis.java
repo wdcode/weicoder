@@ -368,6 +368,16 @@ public final class RedisJedis extends BaseRedis {
 	}
 
 	@Override
+	public Set<String> smembers(String key) {
+		try (Jedis jedis = pool.getResource()) {
+			return jedis.smembers(key);
+		} catch (Exception e) {
+			Logs.error(e, "redis pool smembers key={}", key);
+			return Sets.emptySet();
+		}
+	}
+
+	@Override
 	public long scard(String key) {
 		try (Jedis jedis = pool.getResource()) {
 			return jedis.scard(key);

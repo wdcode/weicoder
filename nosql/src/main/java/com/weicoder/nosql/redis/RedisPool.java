@@ -280,7 +280,14 @@ public interface RedisPool {
 	 * @return 数量
 	 */
 	Long sadd(String key, String... members);
-	
+
+	/**
+	 * 获取sadd添加列表
+	 * @param key 键
+	 * @return 列表
+	 */
+	Set<String> smembers(String key);
+
 	/**
 	 * 获得列表成员数
 	 * @param key 健
