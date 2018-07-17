@@ -171,7 +171,9 @@ public final class Lists {
 	 * @param <E> 泛型
 	 * @return 排完序的List
 	 */
-	public static <E extends Comparable<? super E>> List<E> sort(List<E> list) {
+	public static <E extends Comparable<? super E>> List<E> sort(Collection<E> c) {
+		// 获得列表
+		List<E> list = newList(c);
 		// 排序
 		Collections.sort(list);
 		// 返回list
