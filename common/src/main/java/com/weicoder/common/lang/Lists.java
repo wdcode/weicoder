@@ -167,7 +167,7 @@ public final class Lists {
 
 	/**
 	 * 给List排序
-	 * @param list 要排序的List
+	 * @param c 要排序的List
 	 * @param <E> 泛型
 	 * @return 排完序的List
 	 */
