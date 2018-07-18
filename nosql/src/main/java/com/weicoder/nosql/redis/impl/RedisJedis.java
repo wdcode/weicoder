@@ -332,7 +332,17 @@ public final class RedisJedis extends BaseRedis {
 		try (Jedis jedis = pool.getResource()) {
 			return jedis.zrange(key, start, end);
 		} catch (Exception e) {
-			Logs.error(e, "redis pool zrevrange key={} start={} end={}", key, start, end);
+			Logs.error(e, "redis pool zrange key={} start={} end={}", key, start, end);
+			return Sets.emptySet();
+		}
+	}
+
+	@Override
+	public Set<String> zrangeByScore(String key, String min, String max) {
+		try (Jedis jedis = pool.getResource()) {
+			return jedis.zrangeByScore(key, min, max);
+		} catch (Exception e) {
+			Logs.error(e, "redis pool zrangeByScore key={} min={} max={}", key, min, max);
 			return Sets.emptySet();
 		}
 	}

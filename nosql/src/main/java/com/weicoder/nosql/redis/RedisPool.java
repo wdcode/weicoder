@@ -265,6 +265,15 @@ public interface RedisPool {
 	Set<String> zrange(String key, long start, long end);
 
 	/**
+	 * 获得redis list 数据
+	 * @param key 健
+	 * @param min 最小
+	 * @param max 最大
+	 * @return 结果
+	 */
+	Set<String> zrangeByScore(String key, String min, String max);
+
+	/**
 	 * 添加列表数据
 	 * @param key 健
 	 * @param score 分值

@@ -26,7 +26,7 @@ public final class Maps {
 	 */
 	public static <K, V> V get(Map<K, V> map, K key, Class<V> c) {
 		// 如果map和key val 为空
-		if (EmptyUtil.isEmpty(map) || key == null || c == null) {
+		if (map == null || key == null || c == null) {
 			return null;
 		}
 		// 获得值
