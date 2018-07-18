@@ -1,7 +1,6 @@
 package com.weicoder.core.cache;
 
 import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 import com.google.common.cache.CacheBuilder;
@@ -54,7 +53,7 @@ public class Cache<K, V> {
 	public V get(K key) {
 		try {
 			return cache.get(key);
-		} catch (ExecutionException e) {
+		} catch (Exception e) {
 			return null;
 		}
 	}
