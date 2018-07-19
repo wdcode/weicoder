@@ -75,6 +75,13 @@ public class Cache<K, V> {
 	}
 
 	/**
+	 * 清除缓存
+	 */
+	public void clean() {
+		cache.cleanUp();
+	}
+
+	/**
 	 * 缓存加载捷克
 	 * @author WD
 	 */
