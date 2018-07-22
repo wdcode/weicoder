@@ -11,7 +11,7 @@ import com.weicoder.common.constants.RegexConstants;
 
 import com.weicoder.common.constants.StringConstants;
 
-import com.weicoder.common.lang.Conversion; 
+import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
 
@@ -245,8 +245,7 @@ public final class DateUtil {
 	public static Date toDate(String dateString, String format) {
 		try {
 			// 格式化日期
-			DateFormat df = EmptyUtil.isEmpty(format) ? new SimpleDateFormat()
-					: new SimpleDateFormat(format);
+			DateFormat df = EmptyUtil.isEmpty(format) ? new SimpleDateFormat() : new SimpleDateFormat(format);
 			// 返回转换后的日期
 			return df.parse(dateString);
 		} catch (Exception e) {
@@ -419,6 +418,28 @@ public final class DateUtil {
 		String[] weekInfo = new String[7];
 		// 获得今天是星期几
 		int week = getDayOfWeek(date);
+		// 循环7天
+		for (int i = 1; i < 8; i++) {
+			// 设置相隔天数 并保存在数组中
+			weekInfo[i - 1] = getDate(date, -(week - i), format);
+		}
+		// 返回本周信息
+		return weekInfo;
+	}
+
+	/**
+	 * 根据日期取得当前自然星期7天日期
+	 * @param date 日期
+	 * @param format 返回的日期格式
+	 * @return 本周的日期
+	 */
+	public static String[] getDayOfNaturalWeeks(String date) {
+		// 声明一个数组 保存本周日期
+		String[] weekInfo = new String[7];
+		// 获得今天是星期几
+		int week = getDayOfWeek(date);
+		week = week == 0 ? 7 : week;
+		String format = getFormat(date);
 		// 循环7天
 		for (int i = 1; i < 8; i++) {
 			// 设置相隔天数 并保存在数组中
