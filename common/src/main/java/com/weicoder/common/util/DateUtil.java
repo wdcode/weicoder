@@ -430,7 +430,6 @@ public final class DateUtil {
 	/**
 	 * 根据日期取得当前自然星期7天日期
 	 * @param date 日期
-	 * @param format 返回的日期格式
 	 * @return 本周的日期
 	 */
 	public static String[] getDayOfNaturalWeeks(String date) {
