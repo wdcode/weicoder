@@ -150,8 +150,7 @@ public final class Logs {
 					obj = Arrays.toString((String[]) obj);
 				}
 				// 获得对象
-				params[i] = StringUtil.subString(Conversion.toString(obj), 0,
-						CommonParams.LOGS_LEN);
+				params[i] = StringUtil.subString(Conversion.toString(obj), 0, CommonParams.LOGS_LEN);
 			}
 		}
 		// 返回对象
