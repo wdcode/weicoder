@@ -229,6 +229,18 @@ public interface Dao {
 	 * @return 数据列表
 	 */
 	<E> List<E> gt(Class<E> entityClass, String property, Object value, int firstResult, int maxResults);
+	
+	/**
+	 * 查询属性名大于等于的实体列表
+	 * @param entityClass 实体类
+	 * @param property 属性名
+	 * @param value 属性值
+	 * @param firstResult 重第几条开始查询
+	 * @param maxResults 一共查回多少条
+	 * @param <E> 泛型
+	 * @return 数据列表
+	 */
+	<E> List<E> ge(Class<E> entityClass, String property, Object value, int firstResult, int maxResults);
 
 	/**
 	 * 查询属性名小于的实体列表
@@ -241,6 +253,18 @@ public interface Dao {
 	 * @return 数据列表
 	 */
 	<E> List<E> lt(Class<E> entityClass, String property, Object value, int firstResult, int maxResults);
+	
+	/**
+	 * 查询属性名小于等于的实体列表
+	 * @param entityClass 实体类
+	 * @param property 属性名
+	 * @param value 属性值
+	 * @param firstResult 重第几条开始查询
+	 * @param maxResults 一共查回多少条
+	 * @param <E> 泛型
+	 * @return 数据列表
+	 */
+	<E> List<E> le(Class<E> entityClass, String property, Object value, int firstResult, int maxResults);
 
 	/**
 	 * 查询属性名等值的实体列表

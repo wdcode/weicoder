@@ -256,8 +256,20 @@ public final class HibernateDao implements Dao {
 	}
 
 	@Override
+	public <E> List<E> ge(Class<E> entityClass, String property, Object value, int firstResult, int maxResults) {
+		return queryCriteria(entityClass, DetachedCriteria.forClass(entityClass).add(Restrictions.ge(property, value)),
+				firstResult, maxResults);
+	}
+
+	@Override
 	public <E> List<E> lt(Class<E> entityClass, String property, Object value, int firstResult, int maxResults) {
 		return queryCriteria(entityClass, DetachedCriteria.forClass(entityClass).add(Restrictions.lt(property, value)),
+				firstResult, maxResults);
+	}
+
+	@Override
+	public <E> List<E> le(Class<E> entityClass, String property, Object value, int firstResult, int maxResults) {
+		return queryCriteria(entityClass, DetachedCriteria.forClass(entityClass).add(Restrictions.le(property, value)),
 				firstResult, maxResults);
 	}
 

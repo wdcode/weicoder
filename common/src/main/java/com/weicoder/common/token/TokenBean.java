@@ -81,7 +81,7 @@ public final class TokenBean implements ByteArray {
 	}
 
 	/**
-	 * 验证是否服务器发放token 
+	 * 验证是否服务器发放token
 	 * @return 是否存在
 	 */
 	public boolean isServer() {
@@ -173,7 +173,7 @@ public final class TokenBean implements ByteArray {
 			this.ip = IpUtil.decode(Bytes.toInt(b, 12));
 			this.server = IpUtil.decode(Bytes.toInt(b, 16));
 			this.sign = Bytes.toInt(b, 20);
-			this.valid = true;
+			this.valid = id != 0;
 		} else {
 			Logs.debug("token decrypt fail data={} token={}", Arrays.toString(b), token);
 		}
