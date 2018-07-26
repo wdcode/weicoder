@@ -78,7 +78,15 @@ public class Cache<K, V> {
 	 * 清除缓存
 	 */
 	public void clean() {
+		cache.invalidateAll();
 		cache.cleanUp();
+	}
+
+	/**
+	 * 删除缓存
+	 */
+	public void remove(K key) {
+		cache.invalidate(key);
 	}
 
 	/**
