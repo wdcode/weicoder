@@ -22,19 +22,22 @@ import com.weicoder.common.io.IOUtil;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
-import com.weicoder.common.log.Logs;
+import com.weicoder.common.log.Log;
+import com.weicoder.common.log.LogFactory; 
 import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
-import com.weicoder.core.params.CoreParams;
+import com.weicoder.core.params.CoreParams; 
 
 /**
  * HTTP客户端工具类
  * @author WD
  */
 public final class HttpClient {
+	// 日志
+	private final static Log			LOG		= LogFactory.getLog(HttpClient.class);
 	// Http客户端
-	final static CloseableHttpClient CLIENT = init();
+	final static CloseableHttpClient	CLIENT	= init();
 
 	/**
 	 * 获得HttpClient
@@ -72,13 +75,13 @@ public final class HttpClient {
 		// 声明HttpGet对象
 		HttpGet get = null;
 		try {
-			Logs.debug("HttpClient get url={}", url);
+			LOG.debug("HttpClient get url={}", url);
 			// 获得HttpGet对象
 			get = new HttpGet(url);
 			// 获得HttpResponse 返回字节流
 			return IOUtil.read(CLIENT.execute(get).getEntity().getContent());
 		} catch (Exception e) {
-			Logs.error(e);
+			LOG.error(e);
 		} finally {
 			// 销毁get
 			if (get != null) {
@@ -150,11 +153,11 @@ public final class HttpClient {
 			for (Map.Entry<String, Object> h : header.entrySet()) {
 				post.addHeader(h.getKey(), Conversion.toString(h.getValue()));
 			}
-			Logs.debug("HttpClient post url={} data={} header={} charset={}", url, data, header, charset);
+			LOG.debug("HttpClient post url={} data={} header={} charset={}", url, data, header, charset);
 			// 返回结果
 			return IOUtil.readString(CLIENT.execute(post).getEntity().getContent());
 		} catch (Exception e) {
-			Logs.error(e);
+			LOG.error(e);
 		} finally {
 			// 销毁post
 			if (post != null) {

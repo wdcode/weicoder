@@ -25,7 +25,8 @@ import com.weicoder.common.constants.HttpConstants;
 import com.weicoder.common.constants.SystemConstants;
 import com.weicoder.common.io.IOUtil;
 import com.weicoder.common.lang.Lists;
-import com.weicoder.common.log.Logs;
+import com.weicoder.common.log.Log;
+import com.weicoder.common.log.LogFactory;
 import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
@@ -35,8 +36,10 @@ import com.weicoder.common.util.StringUtil;
  * @author WD
  */
 public final class HttpAsyncClient {
+	// 日志
+	private final static Log				LOG	= LogFactory.getLog(HttpAsyncClient.class);
 	// Http客户端
-	final static CloseableHttpAsyncClient CLIENT;
+	final static CloseableHttpAsyncClient	CLIENT;
 
 	static {
 		// Http连接池
@@ -44,7 +47,7 @@ public final class HttpAsyncClient {
 		try {
 			pool = new PoolingNHttpClientConnectionManager(new DefaultConnectingIOReactor());
 		} catch (IOReactorException e) {
-			Logs.error(e);
+			LOG.error(e);
 		}
 		pool.setDefaultMaxPerRoute(SystemConstants.CPU_NUM * 10);
 		pool.setMaxTotal(SystemConstants.CPU_NUM * 10);
@@ -62,14 +65,12 @@ public final class HttpAsyncClient {
 		List<BasicHeader> headers = Lists.newList();
 		headers.add(new BasicHeader(HttpConstants.USER_AGENT_KEY, HttpConstants.USER_AGENT_VAL));
 		headers.add(new BasicHeader(HttpConstants.ACCEPT_KEY, HttpConstants.ACCEPT_VAL));
-		headers.add(new BasicHeader(HttpConstants.ACCEPT_LANGUAGE_KEY,
-				HttpConstants.ACCEPT_LANGUAGE_VAL));
-		headers.add(new BasicHeader(HttpConstants.ACCEPT_CHARSET_KEY,
-				HttpConstants.ACCEPT_CHARSET_VAL));
+		headers.add(new BasicHeader(HttpConstants.ACCEPT_LANGUAGE_KEY, HttpConstants.ACCEPT_LANGUAGE_VAL));
+		headers.add(new BasicHeader(HttpConstants.ACCEPT_CHARSET_KEY, HttpConstants.ACCEPT_CHARSET_VAL));
 		builder.setDefaultHeaders(headers);
 		// 设置连接配置
-		builder.setDefaultConnectionConfig(ConnectionConfig.custom()
-				.setCharset(Charset.forName(CommonParams.ENCODING)).build());
+		builder.setDefaultConnectionConfig(
+				ConnectionConfig.custom().setCharset(Charset.forName(CommonParams.ENCODING)).build());
 		// 实例化客户端
 		CLIENT = builder.build();
 		// 启动
@@ -110,13 +111,12 @@ public final class HttpAsyncClient {
 		try {
 			// 获得HttpGet对象
 			get = new HttpGet(url);
-			get.addHeader(new BasicHeader(HttpConstants.CONTENT_TYPE_KEY,
-					HttpConstants.CONTENT_TYPE_VAL));
+			get.addHeader(new BasicHeader(HttpConstants.CONTENT_TYPE_KEY, HttpConstants.CONTENT_TYPE_VAL));
 			// 执行get
 			CLIENT.execute(get, new FutureCallback<HttpResponse>() {
 				@Override
 				public void failed(Exception ex) {
-					Logs.error(ex);
+					LOG.error(ex);
 				}
 
 				@Override
@@ -125,7 +125,7 @@ public final class HttpAsyncClient {
 						try (InputStream in = result.getEntity().getContent()) {
 							callback.callback(IOUtil.read(in));
 						} catch (Exception e) {
-							Logs.error(e);
+							LOG.error(e);
 						}
 					}
 				}
@@ -134,7 +134,7 @@ public final class HttpAsyncClient {
 				public void cancelled() {}
 			});
 		} catch (Exception e) {
-			Logs.error(e);
+			LOG.error(e);
 		} finally {
 			// 销毁get
 			if (get != null) {
@@ -160,15 +160,13 @@ public final class HttpAsyncClient {
 	 * @param callback 回调结果
 	 * @param charset 编码
 	 */
-	public static void post(String url, Map<String, String> data, Callback<String> callback,
-			String charset) {
+	public static void post(String url, Map<String, String> data, Callback<String> callback, String charset) {
 		// 声明HttpPost
 		HttpPost post = null;
 		try {
 			// 获得HttpPost
 			post = new HttpPost(url);
-			post.addHeader(new BasicHeader(HttpConstants.CONTENT_TYPE_KEY,
-					HttpConstants.CONTENT_TYPE_VAL));
+			post.addHeader(new BasicHeader(HttpConstants.CONTENT_TYPE_KEY, HttpConstants.CONTENT_TYPE_VAL));
 			// 如果参数列表为空 data为空map
 			if (!EmptyUtil.isEmpty(data)) {
 				// 声明参数列表
@@ -185,7 +183,7 @@ public final class HttpAsyncClient {
 			CLIENT.execute(post, new FutureCallback<HttpResponse>() {
 				@Override
 				public void failed(Exception ex) {
-					Logs.error(ex);
+					LOG.error(ex);
 				}
 
 				@Override
@@ -194,7 +192,7 @@ public final class HttpAsyncClient {
 						try (InputStream in = result.getEntity().getContent()) {
 							callback.callback(IOUtil.readString(in));
 						} catch (Exception e) {
-							Logs.error(e);
+							LOG.error(e);
 						}
 					}
 				}
@@ -203,7 +201,7 @@ public final class HttpAsyncClient {
 				public void cancelled() {}
 			});
 		} catch (Exception e) {
-			Logs.error(e);
+			LOG.error(e);
 		} finally {
 			// 销毁post
 			if (post != null) {

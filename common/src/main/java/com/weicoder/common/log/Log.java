@@ -6,6 +6,12 @@ package com.weicoder.common.log;
  */
 public interface Log {
 	/**
+	 * 设置类
+	 * @param c
+	 */
+	void setClass(Class<?> c);
+
+	/**
 	 * 使用trace打印日志
 	 * @param msg 信息 可以是字符串xxx%sxxx
 	 * @param params 字符串格式化参数
@@ -63,6 +69,14 @@ public interface Log {
 	 * @param params 字符串格式化参数
 	 */
 	void error(String msg, Object... params);
+
+	/**
+	 * 使用error打印日志
+	 * @param t 异常
+	 * @param msg 信息 可以是字符串xxx%sxxx
+	 * @param params 字符串格式化参数
+	 */
+	void error(Throwable t, String msg, Object... params);
 
 	/**
 	 * 使用error打印日志

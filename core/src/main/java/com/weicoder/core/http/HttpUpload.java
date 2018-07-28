@@ -1,6 +1,6 @@
 package com.weicoder.core.http;
 
-import java.io.File; 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 
@@ -18,7 +18,8 @@ import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.io.IOUtil;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.lang.Lists;
-import com.weicoder.common.log.Logs;
+import com.weicoder.common.log.Log;
+import com.weicoder.common.log.LogFactory;
 import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.util.EmptyUtil;
 
@@ -27,6 +28,9 @@ import com.weicoder.common.util.EmptyUtil;
  * @author WD
  */
 public class HttpUpload {
+	// 日志
+	private final static Log LOG = LogFactory.getLog(HttpUpload.class);
+
 	/**
 	 * 上传文件
 	 * @param url post提交地址
@@ -54,8 +58,7 @@ public class HttpUpload {
 		try {
 			// 获得HttpPost
 			post = new HttpPost(url);
-			post.addHeader(new BasicHeader(HttpConstants.CONTENT_TYPE_KEY,
-					HttpConstants.CONTENT_TYPE_VAL));
+			post.addHeader(new BasicHeader(HttpConstants.CONTENT_TYPE_KEY, HttpConstants.CONTENT_TYPE_VAL));
 			// 参数
 			if (EmptyUtil.isNotEmpty(data)) {
 				// 声明参数列表
@@ -83,7 +86,7 @@ public class HttpUpload {
 			// 返回结果
 			return IOUtil.readString(response.getEntity().getContent());
 		} catch (Exception e) {
-			Logs.error(e);
+			LOG.error(e);
 		} finally {
 			// 销毁post
 			if (post != null) {
@@ -143,7 +146,7 @@ public class HttpUpload {
 			// 返回结果
 			return IOUtil.readString(response.getEntity().getContent());
 		} catch (Exception e) {
-			Logs.error(e);
+			LOG.error(e);
 		} finally {
 			// 销毁post
 			if (post != null) {
@@ -152,60 +155,4 @@ public class HttpUpload {
 		}
 		return StringConstants.EMPTY;
 	}
-
-	// /**
-	// * 上传文件
-	// * @param url post提交地址
-	// * @param callback 回调结果
-	// * @param files 上传文件
-	// */
-	// public static void upload(String url, Callback<String> callback, File... files) {
-	// // 声明HttpPost
-	// HttpPost post = null;
-	// try {
-	// // 获得HttpPost
-	// post = new HttpPost(url);
-	// // post.addHeader(new BasicHeader(HttpConstants.CONTENT_TYPE_KEY, HttpConstants.CONTENT_TYPE_FILE + "; boundary=---123"));
-	// // 多提交实体构造器
-	// MultipartEntityBuilder builder = MultipartEntityBuilder.create();
-	// // 设置浏览器上传
-	// builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
-	// // 添加上传文件
-	// for (File file : files) {
-	// builder.addBinaryBody(file.getName(), file);
-	// // builder.addPart(file.getName(), new FileBody(file));
-	// // builder.addBinaryBody("file", file, ContentType.MULTIPART_FORM_DATA,file.getName());
-	// }
-	// // 设置提交文件参数
-	// post.setEntity(builder.build());
-	// // 执行post
-	// HttpAsyncClient.CLIENT.execute(post, new FutureCallback<HttpResponse>() {
-	// @Override
-	// public void failed(Exception ex) {
-	// Logs.error(ex);
-	// }
-	//
-	// @Override
-	// public void completed(HttpResponse result) {
-	// if (callback != null) {
-	// try (InputStream in = result.getEntity().getContent()) {
-	// callback.callback(IOUtil.readString(in));
-	// } catch (Exception e) {
-	// Logs.error(e);
-	// }
-	// }
-	// }
-	//
-	// @Override
-	// public void cancelled() {}
-	// });
-	// } catch (Exception e) {
-	// Logs.error(e);
-	// } finally {
-	// // 销毁post
-	// if (post != null) {
-	// post.abort();
-	// }
-	// }
-	// }
 }

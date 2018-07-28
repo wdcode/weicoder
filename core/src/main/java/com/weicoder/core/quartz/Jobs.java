@@ -9,8 +9,9 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.quartz.PersistJobDataAfterExecution;
 
-import com.weicoder.common.log.Logs;
-import com.weicoder.common.util.BeanUtil; 
+import com.weicoder.common.log.Log;
+import com.weicoder.common.log.LogFactory;
+import com.weicoder.common.util.BeanUtil;
 
 /**
  * Quartz任务类
@@ -19,6 +20,9 @@ import com.weicoder.common.util.BeanUtil;
 @DisallowConcurrentExecution
 @PersistJobDataAfterExecution
 public final class Jobs implements Job {
+	// 日志
+	private final static Log LOG = LogFactory.getLog(Jobs.class);
+
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {
 		// 开始时间
@@ -29,7 +33,7 @@ public final class Jobs implements Job {
 		Method method = (Method) map.get("method");
 		// 执行任务
 		BeanUtil.invoke(obj, method);
-		Logs.debug("job obj={} method={} end time={}", obj.getClass().getSimpleName(), method.getName(),
+		LOG.debug("job obj={} method={} end time={}", obj.getClass().getSimpleName(), method.getName(),
 				System.currentTimeMillis() - time);
 	}
 }

@@ -14,7 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.lang.Maps;
-import com.weicoder.common.log.Logs;
+import com.weicoder.common.log.Log;
+import com.weicoder.common.log.LogFactory;
 import com.weicoder.common.token.TokenBean;
 import com.weicoder.common.token.TokenEngine;
 import com.weicoder.common.util.BeanUtil;
@@ -43,7 +44,9 @@ import com.weicoder.web.validator.Validators;
  */
 @WebServlet("/*")
 public class BasicServlet extends HttpServlet {
-	private static final long serialVersionUID = 3117468121294921856L;
+	private static final long	serialVersionUID	= 3117468121294921856L;
+	// 日志
+	private final static Log	LOG					= LogFactory.getLog(BasicServlet.class);
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -58,7 +61,7 @@ public class BasicServlet extends HttpServlet {
 		// 获得path
 		String path = request.getPathInfo();
 		String queryString = request.getQueryString();
-		Logs.debug("request ip={} path={} Method={} scheme={} queryString={}", ip, path, m, request.getScheme(),
+		LOG.debug("request ip={} path={} Method={} scheme={} queryString={}", ip, path, m, request.getScheme(),
 				queryString);
 		if (!EmptyUtil.isEmpty(path)) {
 			// 分解提交action 去处开头的/ 并且按/或者_分解出数组
@@ -67,13 +70,11 @@ public class BasicServlet extends HttpServlet {
 					? StringUtil.split(actionName, StringConstants.BACKSLASH)
 					: StringUtil.split(actionName, StringConstants.UNDERLINE);
 			if (EmptyUtil.isEmpty(actions)) {
-				Logs.debug("this path={}", path);
+				LOG.debug("this path={}", path);
 				ResponseUtil.json(response, callback, "action is null path");
 				return;
 			}
 			// 获得Action
-			// String name = actions.length > 2 ? actions[actions.length - 2] : actions[actions.length - 1];
-			// Object action = WebCommons.ACTIONS.get(name);
 			String name = actions[actions.length - 1];
 			Object action = null;
 			for (int i = actions.length - 2; i >= 0; i--) {
@@ -87,7 +88,7 @@ public class BasicServlet extends HttpServlet {
 			if (action == null) {
 				// 如果使用action[_/]method模式 直接返回
 				if (actions.length == 2) {
-					Logs.debug("request ip={},path={},no action", ip, path);
+					LOG.debug("request ip={},path={},no action", ip, path);
 					ResponseUtil.json(response, callback, "no action");
 					return;
 				}
@@ -97,7 +98,7 @@ public class BasicServlet extends HttpServlet {
 			// action为空
 			if (action == null) {
 				// 还是为空
-				Logs.warn("request ip={},path={},name={},actionName={},ma={},no action and method", ip, path, name,
+				LOG.warn("request ip={},path={},name={},actionName={},ma={},no action and method", ip, path, name,
 						actionName, WebCommons.METHODS_ACTIONS);
 				ResponseUtil.json(response, callback, "no action and method");
 				return;
@@ -107,7 +108,7 @@ public class BasicServlet extends HttpServlet {
 			if (a.ips()) {
 				// 如果在允许列表继续 否则退出
 				if (!IpUtil.contains(ip)) {
-					Logs.debug("this ip={}", ip);
+					LOG.debug("this ip={}", ip);
 					ResponseUtil.json(response, callback, "not exist ip");
 					return;
 				}
@@ -119,7 +120,7 @@ public class BasicServlet extends HttpServlet {
 			}
 			Method method = methods.get(actions[actions.length - 1]);
 			if (method == null) {
-				Logs.debug("request ip={},path={},no method", ip, path);
+				LOG.debug("request ip={},path={},no method", ip, path);
 				ResponseUtil.json(response, callback, "no method");
 				return;
 			}
@@ -133,13 +134,12 @@ public class BasicServlet extends HttpServlet {
 					return;
 				}
 			}
-			// Logs.debug("request ip={},name={}", ip, actionName);
 			// 设置参数
 			Parameter[] pars = WebCommons.METHODS_PARAMES.get(method);
 			Object[] params = null;
 			// 所有提交的参数
 			Map<String, String> ps = RequestUtil.getAll(request);
-			Logs.debug("action={} params={}", actionName, pars);
+			LOG.debug("action={} params={}", actionName, pars);
 			// 验证
 			int code = Validators.validator(method, action, ps, ip);
 			if (!EmptyUtil.isEmpty(pars)) {
@@ -148,7 +148,7 @@ public class BasicServlet extends HttpServlet {
 				if (EmptyUtil.isEmpty(ps.get("ip"))) {
 					ps.put("ip", ip);
 				}
-				Logs.trace("request all ip={} params={}", ip, params);
+				LOG.trace("request all ip={} params={}", ip, params);
 				// token验证通过在执行
 				if (code == WebParams.STATE_SUCCESS) {
 					// action全部参数下标
@@ -164,11 +164,7 @@ public class BasicServlet extends HttpServlet {
 							params[i] = response;
 						} else if (TokenBean.class.equals(cs)) {
 							// 设置Token
-							// if (StringUtil.equals(tname, p.getName())) {
-							// params[i] = token;
-							// } else {
 							params[i] = TokenEngine.decrypt(ps.get(p.getName()));
-							// }
 						} else if (Map.class.equals(cs)) {
 							params[i] = ps;
 						} else if (ClassUtil.isBaseType(cs)) {
@@ -178,11 +174,6 @@ public class BasicServlet extends HttpServlet {
 							if ((code = Validators.validator(p, params[i])) != WebParams.STATE_SUCCESS) {
 								break;
 							}
-							// // 判断参数为空并且参数名为ip
-							// if (EmptyUtil.isEmpty(params[i]) && "ip".equals(p.getName())) {
-							// // 赋值为调用客户端IP
-							// params[i] = ip;
-							// }
 						} else {
 							// 设置属性
 							params[i] = BeanUtil.copy(ps, cs);
@@ -190,16 +181,7 @@ public class BasicServlet extends HttpServlet {
 							if ((code = Validators.validator(params[i])) != WebParams.STATE_SUCCESS) {
 								break;
 							}
-							// // 获得IP字段
-							// Field field = BeanUtil.getField(cs, "ip");
-							// // 判断字段不为空并且没有值
-							// if (field != null && !EmptyUtil.isEmpty(BeanUtil.getFieldValue(params[i], field))) {
-							// BeanUtil.setFieldValue(params[i], field, ip);
-							// }
-							// Logs.debug("request ip={},name={},params={}", ip, actionName, params[i]);
 						}
-						// Logs.debug("request ip={},name={}, index={},name={},type={},value={}", ip, actionName, i,
-						// p.getName(), cs, params[i]);
 					}
 				}
 			}
@@ -211,7 +193,6 @@ public class BasicServlet extends HttpServlet {
 			} else {
 				res = code;
 			}
-			// Logs.debug("invoke method={},params={},pars={} end", method.getName(), params, pars);
 			// 判断是否需要写cookie
 			boolean cookie = method.isAnnotationPresent(Cookies.class)
 					|| action.getClass().isAnnotationPresent(Cookies.class);
@@ -231,7 +212,7 @@ public class BasicServlet extends HttpServlet {
 				if (EmptyUtil.isEmpty(url)) {
 					ResponseUtil.json(response, callback, "Redirect is null");
 				} else {
-					Logs.debug("redirect url:{}", url);
+					LOG.debug("redirect url:{}", url);
 					response.sendRedirect(url);
 					return;
 				}
@@ -241,7 +222,7 @@ public class BasicServlet extends HttpServlet {
 				if (EmptyUtil.isEmpty(url)) {
 					ResponseUtil.json(response, callback, "Forward is null");
 				} else {
-					Logs.debug("forward url:{}", url);
+					LOG.debug("forward url:{}", url);
 					request.getRequestDispatcher(url).forward(request, response);
 					return;
 				}
@@ -277,7 +258,7 @@ public class BasicServlet extends HttpServlet {
 					// 写入到前端
 					res = Maps.newMap(new String[] { status, success }, new Object[] { WebParams.STATE_SUCCESS, res });
 				}
-				// Logs.debug("servlet state={} method={} params={} end", state, method.getName(), params);
+				// LOG.debug("servlet state={} method={} params={} end", state, method.getName(), params);
 			} else {
 				// 如果结果为空
 				if (res == null) {
@@ -287,14 +268,9 @@ public class BasicServlet extends HttpServlet {
 					// 写cookie
 					CookieUtil.adds(response, c.maxAge(), res, names);
 				}
-				// else if (res instanceof Integer) {
-				// // 写错误信息
-				// String error = ErrorCodeParams.getMessage(Conversion.toInt(res));
-				// res = EmptyUtil.isEmpty(error) ? res : error;
-				// }
 			}
 			// 写到前端
-			Logs.info("request ip={} name={}  params={} pars={} time={} res={} end", ip, actionName, params, pars,
+			LOG.info("request ip={} name={}  params={} pars={} time={} res={} end", ip, actionName, params, pars,
 					System.currentTimeMillis() - curr, ResponseUtil.json(response, callback, res));
 		}
 	}

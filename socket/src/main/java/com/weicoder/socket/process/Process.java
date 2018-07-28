@@ -20,7 +20,8 @@ import com.weicoder.common.util.StringUtil;
 import com.weicoder.common.zip.ZipEngine;
 import com.weicoder.core.protobuf.Protobuf;
 import com.weicoder.core.protobuf.ProtobufEngine;
-import com.weicoder.common.log.Logs;
+import com.weicoder.common.log.Log;
+import com.weicoder.common.log.LogFactory;
 import com.weicoder.common.params.CommonParams;
 import com.weicoder.socket.params.SocketParams;
 import com.weicoder.socket.Session;
@@ -36,6 +37,8 @@ import com.weicoder.socket.manager.Manager;
  * @author WD
  */
 public final class Process {
+	// 日志
+	private final static Log	LOG	= LogFactory.getLog(Process.class);
 	// Handler列表
 	private Map<Short, Object>	handlers;
 	// head 对应方法
@@ -67,8 +70,7 @@ public final class Process {
 		this.manager = Sockets.manager();
 
 		// 设置handler closed
-		for (Class<?> c : ClassUtil.getAnnotationClass(CommonParams.getPackages("socket"),
-				Handler.class)) {
+		for (Class<?> c : ClassUtil.getAnnotationClass(CommonParams.getPackages("socket"), Handler.class)) {
 			// 是本类使用
 			Object h = BeanUtil.newInstance(c);
 			if (name.equals(h.getClass().getAnnotation(Handler.class).value())) {
@@ -113,7 +115,7 @@ public final class Process {
 			}
 		}
 		// 日志
-		Logs.info("name={};socket conn={};ip={};", name, session.getId(), session.getIp());
+		LOG.info("name={};socket conn={};ip={};", name, session.getId(), session.getIp());
 	}
 
 	/**
@@ -134,7 +136,7 @@ public final class Process {
 		// 删除管理器注册Session
 		manager.remove(session.getId());
 		// 删除缓存
-		Logs.info("name={};socket close={};ip={}", name, session.getId(), session.getIp());
+		LOG.info("name={};socket close={};ip={}", name, session.getId(), session.getIp());
 	}
 
 	/**
@@ -145,8 +147,7 @@ public final class Process {
 	public void process(Session session, byte[] message) {
 		// 获得session id
 		long sid = session.getId();
-		Logs.debug("name={};socket={};len={};message={}", name, sid, message.length,
-				Arrays.toString(message));
+		LOG.debug("name={};socket={};len={};message={}", name, sid, message.length, Arrays.toString(message));
 		// 获得全局buffer
 		Buffer buff = session.buffer();
 		// 添加新消息到全局缓存中
@@ -163,7 +164,7 @@ public final class Process {
 			// 无长度 发送消息不符合 关掉连接
 			if (length < 2 || length > Short.MAX_VALUE) {
 				CloseUtil.close(session);
-				Logs.info("name={};error len close id={};len={}", name, session.getId(), length);
+				LOG.info("name={};error len close id={};len={}", name, session.getId(), length);
 				return;
 			}
 			// 剩余字节长度不足，等待下次信息
@@ -193,12 +194,11 @@ public final class Process {
 			// 如果处理器为空
 			if (m == null) {
 				// 抛弃这次消息
-				Logs.warn("name={};socket={};handler message discard id={};message len={}", name,
-						sid, id, len);
+				LOG.warn("name={};socket={};handler message discard id={};message len={}", name, sid, id, len);
 				return;
 			}
-			Logs.info("name={};socket={};receive len={};id={};method={};time={}", name, sid, length,
-					id, m, DateUtil.getTheDate());
+			LOG.info("name={};socket={};receive len={};id={};method={};time={}", name, sid, length, id, m,
+					DateUtil.getTheDate());
 			try {
 				// 当前时间
 				long curr = System.currentTimeMillis();
@@ -206,10 +206,9 @@ public final class Process {
 				m.invoke(handlers.get(id), getParames(m, data, session));
 				// 设置心跳时间
 				session.setHeart(DateUtil.getTime());
-				Logs.info("name={};socket={};handler end time={}", name, sid,
-						System.currentTimeMillis() - curr);
+				LOG.info("name={};socket={};handler end time={}", name, sid, System.currentTimeMillis() - curr);
 			} catch (Exception e) {
-				Logs.error(e);
+				LOG.error(e);
 			}
 			// 如果缓存区为空
 			if (buff.remaining() == 0) {
@@ -244,7 +243,7 @@ public final class Process {
 				} else if (Manager.class.equals(type)) {
 					// Manager
 					params[i] = Sockets.manager();
-				}  else if (type.isAnnotationPresent(Protobuf.class)) {
+				} else if (type.isAnnotationPresent(Protobuf.class)) {
 					// 字节流
 					params[i] = ProtobufEngine.toBean(data, type);
 				} else if (type.equals(String.class)) {
@@ -280,7 +279,7 @@ public final class Process {
 				} else if (type.equals(byte[].class)) {
 					// 字节流
 					params[i] = data;
-				}else {
+				} else {
 					params[i] = null;
 				}
 			}

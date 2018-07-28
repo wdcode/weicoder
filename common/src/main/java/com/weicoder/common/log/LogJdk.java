@@ -11,7 +11,12 @@ import com.weicoder.common.constants.StringConstants;
  */
 public class LogJdk implements Log {
 	// JDK日志
-	private Logger log = Logger.getLogger(StringConstants.EMPTY);
+	private Logger log;
+
+	@Override
+	public void setClass(Class<?> c) {
+		log = c == null ? Logger.getLogger(StringConstants.EMPTY) : Logger.getLogger(c.getSimpleName());
+	}
 
 	@Override
 	public void trace(String msg, Object... params) {
@@ -91,5 +96,11 @@ public class LogJdk implements Log {
 	@Override
 	public boolean isError() {
 		return log.isLoggable(Level.SEVERE);
+	}
+
+	@Override
+	public void error(Throwable t, String msg, Object... params) {
+		// TODO Auto-generated method stub
+
 	}
 }

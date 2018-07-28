@@ -10,7 +10,8 @@ import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.RecordMetadata;
 
 import com.weicoder.common.concurrent.ExecutorUtil;
-import com.weicoder.common.log.Logs;
+import com.weicoder.common.log.Log;
+import com.weicoder.common.log.LogFactory;
 import com.weicoder.nosql.params.KafkaParams;
 
 /**
@@ -18,8 +19,10 @@ import com.weicoder.nosql.params.KafkaParams;
  * @author WD
  */
 public class Producers {
+	// 日志
+	private final static Log			LOG	= LogFactory.getLog(Producers.class);
 	// 生产者
-	private Producer<byte[], byte[]> producer;
+	private Producer<byte[], byte[]>	producer;
 
 	public Producers(String name) {
 		// 设置属性
@@ -34,7 +37,7 @@ public class Producers {
 				"org.apache.kafka.common.serialization.ByteArraySerializer");
 		props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,
 				"org.apache.kafka.common.serialization.ByteArraySerializer");
-		Logs.info("KafkaProducers init complete props={}", props);
+		LOG.info("KafkaProducers init complete props={}", props);
 		// 实例化生产者
 		producer = new KafkaProducer<>(props);
 	}
@@ -62,8 +65,7 @@ public class Producers {
 	 */
 	public Future<RecordMetadata> send(String topic, Object value) {
 		return send(topic, value, (metadata, exception) -> {
-			Logs.debug("kafka send producer metadata={} exception={} value={}", metadata, exception,
-					value);
+			LOG.debug("kafka send producer metadata={} exception={} value={}", metadata, exception, value);
 		});
 	}
 
@@ -76,8 +78,7 @@ public class Producers {
 	 */
 	public Future<RecordMetadata> send(String topic, Object key, Object value) {
 		return send(topic, key, value, (metadata, exception) -> {
-			Logs.debug("kafka send producer metadata={} exception={} key={} value={}", metadata,
-					exception, key, value);
+			LOG.debug("kafka send producer metadata={} exception={} key={} value={}", metadata, exception, key, value);
 		});
 	}
 

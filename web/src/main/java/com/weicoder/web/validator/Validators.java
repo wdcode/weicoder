@@ -9,7 +9,8 @@ import java.util.Map;
 
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.lang.Maps;
-import com.weicoder.common.log.Logs;
+import com.weicoder.common.log.Log;
+import com.weicoder.common.log.LogFactory;
 import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.token.TokenBean;
 import com.weicoder.common.token.TokenEngine;
@@ -39,6 +40,9 @@ import com.weicoder.web.validator.annotation.ValidatorClass;
  * @author WD
  */
 public final class Validators {
+	// 日志
+	private final static Log LOG = LogFactory.getLog(Validators.class);
+
 	/**
 	 * 根据注解验证参数
 	 * @param par 参数类型
@@ -151,13 +155,12 @@ public final class Validators {
 					// 设置属性
 					params[i] = BeanUtil.copy(ps, cs);
 				}
-				Logs.debug("validator Parameter index={},name={},type={},value={}", i, p.getName(),
-						cs, params[i]);
+				LOG.debug("validator Parameter index={},name={},type={},value={}", i, p.getName(), cs, params[i]);
 			}
 			// 调用并返回验证结果
 			return Conversion.toInt(BeanUtil.invoke(obj, method, params));
 		} catch (Exception e) {
-			Logs.error(e);
+			LOG.error(e);
 			return -1;
 		}
 	}
@@ -181,7 +184,7 @@ public final class Validators {
 		if (t != null) {
 			// 验证token 获得Token
 			TokenBean token = TokenEngine.decrypt(ps.get(t.value()));
-			Logs.debug("action validator token={} t={}", JsonEngine.toJson(token));
+			LOG.debug("action validator token={} t={}", JsonEngine.toJson(token));
 			// 判断token
 			if (t.valid() > 0 && !token.isValid()) {
 				// 无效
@@ -199,25 +202,25 @@ public final class Validators {
 				// 客户端IP不符
 				return t.ip();
 			}
-			//校验token与传入的用户ID是否相同
+			// 校验token与传入的用户ID是否相同
 			if (EmptyUtil.isNotEmpty(t.id()) && Conversion.toLong(ps.get(t.id())) != token.getId()) {
 				// 不是用户
 				return t.valid();
 			}
-			//用户id
+			// 用户id
 			String uid = Conversion.toString(token.getId());
-			//是否强制赋值参数
-			if(EmptyUtil.isNotEmpty(t.uid())) {
+			// 是否强制赋值参数
+			if (EmptyUtil.isNotEmpty(t.uid())) {
 				ps.put(t.uid(), uid);
-			}else {
-				//没有强制的话 替换空参数
+			} else {
+				// 没有强制的话 替换空参数
 				if (!ps.containsKey("uid")) {
 					ps.put("uid", uid);
 				}
 				if (!ps.containsKey("id")) {
 					ps.put("id", uid);
 				}
-			}  
+			}
 		}
 
 		// 验证ip
@@ -231,7 +234,7 @@ public final class Validators {
 			// 获得验证ip
 			// 判断是否在白名单
 			if (!IpUtil.contains(ipv.value(), ip)) {
-				Logs.debug("action validator ips not contains ip={}", ip);
+				LOG.debug("action validator ips not contains ip={}", ip);
 				return ipv.error();
 			}
 		}
@@ -251,12 +254,10 @@ public final class Validators {
 	 */
 	public static void init() {
 		// 循环所有验证类注解
-		for (Class<?> c : ClassUtil.getAnnotationClass(CommonParams.getPackages("validator"),
-				ValidatorClass.class)) {
+		for (Class<?> c : ClassUtil.getAnnotationClass(CommonParams.getPackages("validator"), ValidatorClass.class)) {
 			// 获得validator名结尾为validator去掉
-			String cname = StringUtil
-					.convert(StringUtil.subStringLastEnd(c.getSimpleName(), "Validator"));
-			Logs.info("init validator sname={},cname={}", c.getSimpleName(), cname);
+			String cname = StringUtil.convert(StringUtil.subStringLastEnd(c.getSimpleName(), "Validator"));
+			LOG.info("init validator sname={},cname={}", c.getSimpleName(), cname);
 			// 实例化Action并放在context中
 			Object validator = BeanUtil.newInstance(c);
 			WebCommons.VALIDATORS.put(cname, validator);
@@ -273,11 +274,10 @@ public final class Validators {
 							WebCommons.VALIDATORS_METHODS.put(cname, map = Maps.newMap());
 						}
 						map.put(mname, m);
-						Logs.info("validator add method={} to validator={}", mname, cname);
+						LOG.info("validator add method={} to validator={}", mname, cname);
 						// 放入总方法池
 						if (WebCommons.METHODS_VALIDATORS.containsKey(mname)) {
-							Logs.warn("validator method name exist! name={} action={}", mname,
-									cname);
+							LOG.warn("validator method name exist! name={} action={}", mname, cname);
 						}
 						// 方法对应验证类
 						WebCommons.METHODS_VALIDATORS.put(mname, m);

@@ -5,10 +5,11 @@ import java.lang.reflect.Parameter;
 import java.util.List;
 import java.util.Map;
 
-import com.weicoder.common.concurrent.ExecutorUtil; 
+import com.weicoder.common.concurrent.ExecutorUtil;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
-import com.weicoder.common.log.Logs;
+import com.weicoder.common.log.Log;
+import com.weicoder.common.log.LogFactory;
 import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.ClassUtil;
@@ -25,6 +26,8 @@ import redis.clients.jedis.JedisPubSub;
  * @author WD
  */
 public final class Redis {
+	// 日志
+	private final static Log						LOG			= LogFactory.getLog(Redis.class);
 	// 保存Channel对应对象
 	private final static Map<String, Object>		SUBSCRIBES	= Maps.newMap();
 	// 保存Channel对应方法
@@ -39,8 +42,8 @@ public final class Redis {
 	 */
 	public static void subscribes() {
 		// 获得所有redis订阅者
-		List<Class<Subscribes>> subscribes = ClassUtil
-				.getAnnotationClass(CommonParams.getPackages("redis"), Subscribes.class);
+		List<Class<Subscribes>> subscribes = ClassUtil.getAnnotationClass(CommonParams.getPackages("redis"),
+				Subscribes.class);
 		if (EmptyUtil.isNotEmpty(subscribes)) {
 			// 循环处理所有redis订阅类
 			int n = 0;
@@ -63,20 +66,17 @@ public final class Redis {
 						METHODS.put(val, m);
 						channels.add(val);
 						SUBSCRIBES.put(val, subscribe);
-						Logs.debug("add redis name={} subscribe={} channel={}", name,
-								c.getSimpleName(), val);
+						LOG.debug("add redis name={} subscribe={} channel={}", name, c.getSimpleName(), val);
 					}
 				}
 				n += channels.size();
 			}
-			Logs.info("add redis subscribe={} channels={}", subscribes.size(), n);
+			LOG.info("add redis subscribe={} channels={}", subscribes.size(), n);
 			// 订阅相关消费数据
-			// ScheduledExecutorService ses = ScheduledUtil.newPool(RedisParams.SUBSCRIBE_POOL,
-			// RedisParams.SUBSCRIBE_DAEMON);
-			CHANNELS.forEach((key,val)->{
+			CHANNELS.forEach((key, val) -> {
 				// 定时观察订阅信息
-				ExecutorUtil.pool(RedisParams.PREFIX).execute(()->{ 
-//				ScheduledUtil.delay(RedisParams.PREFIX, () -> {
+				ExecutorUtil.pool(RedisParams.PREFIX).execute(() -> {
+					// ScheduledUtil.delay(RedisParams.PREFIX, () -> {
 					REDIS.get(key).subscribe(new JedisPubSub() {
 						@Override
 						public void onMessage(String channel, String message) {
@@ -103,19 +103,13 @@ public final class Redis {
 									BeanUtil.invoke(s, m, objs);
 								}
 							}
-							Logs.debug(
-									"redis subscribe={} method={} channel={} message={} time={}  thread={}",
+							LOG.debug("redis subscribe={} method={} channel={} message={} time={}  thread={}",
 									s.getClass().getSimpleName(), m.getName(), channel, message,
 									System.currentTimeMillis() - time, tid);
 						}
 					}, Lists.toArray(val));
-//				}, 100L);
 				});
 			});
-//			for (String key : CHANNELS.keySet()) {
-//				List<String> channels = CHANNELS.get(key);
-//				
-//			}
 		}
 	}
 

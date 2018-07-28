@@ -21,7 +21,8 @@ import com.weicoder.dao.hibernate.tx.HibernateTransactional;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
-import com.weicoder.common.log.Logs;
+import com.weicoder.common.log.Log;
+import com.weicoder.common.log.LogFactory;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.dao.Dao;
 import com.weicoder.dao.Transactional;
@@ -31,6 +32,8 @@ import com.weicoder.dao.Transactional;
  * @author WD
  */
 public final class HibernateDao implements Dao {
+	// 日志
+	private final static Log			LOG			= LogFactory.getLog(HibernateDao.class);
 	// Session工厂
 	private SessionFactorys				factorys	= new SessionFactorys();
 	// 事务保存列表
@@ -629,9 +632,9 @@ public final class HibernateDao implements Dao {
 			if (!EmptyUtil.isEmpty(t)) {
 				t.toString();
 			}
-			Logs.debug("hibernate dao callback class={} res={}", entity, t);
+			LOG.debug("hibernate dao callback class={} res={}", entity, t);
 		} catch (Exception e) {
-			Logs.error(e, "hibernate dao class={} res={}", entity, t);
+			LOG.error(e, "hibernate dao class={} res={}", entity, t);
 			// 回滚事务
 			if (!EmptyUtil.isEmpty(tx)) {
 				tx.rollback();
