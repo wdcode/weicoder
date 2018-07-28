@@ -21,7 +21,6 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 import redis.clients.jedis.JedisPubSub;
-import redis.clients.jedis.Protocol;
 
 /**
  * Redis客户端Jedis实现
@@ -42,7 +41,7 @@ public final class RedisJedis extends BaseRedis {
 		config.setMaxWaitMillis(RedisParams.getMaxWait(name));
 		// 实例化连接池
 		Logs.info("redis init pool config={}", JsonEngine.toJson(config));
-		pool = new JedisPool(config, RedisParams.getHost(name), RedisParams.getPort(name), Protocol.DEFAULT_TIMEOUT,
+		pool = new JedisPool(config, RedisParams.getHost(name), RedisParams.getPort(name), RedisParams.getTimeOut(name),
 				RedisParams.getPassword(name), RedisParams.getDatabase(name), null);
 	}
 

@@ -17,8 +17,10 @@
 		<module>../dao</module>
 		<module>../socket</module>
 		<module>../nosql</module>
+		<!-- 
 		<module>../frame</module>
 		<module>../outdated</module>
+		 -->
 	</modules>
 
 	<properties>
@@ -274,7 +276,7 @@
 			<dependency>
 				<groupId>io.netty</groupId>
 				<artifactId>netty-all</artifactId>
-				<version>4.1.27.Final</version>
+				<version>4.1.28.Final</version>
 			</dependency>
 			<dependency>
 				<groupId>org.mongodb</groupId>

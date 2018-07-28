@@ -26,6 +26,7 @@ import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
+import com.weicoder.core.params.CoreParams;
 
 /**
  * HTTP客户端工具类
@@ -171,11 +172,11 @@ public final class HttpClient {
 		// Http连接池
 		PoolingHttpClientConnectionManager pool = new PoolingHttpClientConnectionManager();
 		pool.setDefaultMaxPerRoute(SystemConstants.CPU_NUM);
-		pool.setMaxTotal(SystemConstants.CPU_NUM * 10);
+		pool.setMaxTotal(CoreParams.HTTP_MAX);
 		// 设置请求参数
 		RequestConfig.Builder config = RequestConfig.custom();
-		config.setSocketTimeout(5000);
-		config.setConnectTimeout(5000);
+		config.setSocketTimeout(CoreParams.HTTP_TIMEOUT);
+		config.setConnectTimeout(CoreParams.HTTP_TIMEOUT);
 		config.setCircularRedirectsAllowed(false);
 		// HttpClientBuilder
 		HttpClientBuilder builder = HttpClientBuilder.create();

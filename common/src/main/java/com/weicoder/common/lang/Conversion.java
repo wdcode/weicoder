@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 
 import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.MathUtil;
 
@@ -98,7 +97,6 @@ public final class Conversion {
 				return MathUtil.add(obj).intValue();
 			}
 		} catch (RuntimeException e) {
-			Logs.debug("Conversion toInt={}", obj);
 			return defaultValue;
 		}
 	}
@@ -135,7 +133,6 @@ public final class Conversion {
 				return MathUtil.add(obj).longValue();
 			}
 		} catch (RuntimeException e) {
-			Logs.debug("Conversion toLong={}", obj);
 			return defaultValue;
 		}
 	}
@@ -176,7 +173,6 @@ public final class Conversion {
 				return Float.parseFloat(toString(obj));
 			}
 		} catch (RuntimeException e) {
-			Logs.debug("Conversion toFloat={}", obj);
 			return defaultValue;
 		}
 	}
@@ -217,7 +213,6 @@ public final class Conversion {
 				return Double.parseDouble(toString(obj));
 			}
 		} catch (RuntimeException e) {
-			Logs.debug("Conversion toDouble={}", obj);
 			return defaultValue;
 		}
 	}
@@ -258,7 +253,6 @@ public final class Conversion {
 				return Short.parseShort(toString(obj));
 			}
 		} catch (RuntimeException e) {
-			Logs.debug("Conversion toShort={}", obj);
 			return defaultValue;
 		}
 	}
@@ -299,7 +293,6 @@ public final class Conversion {
 				return Byte.parseByte(toString(obj));
 			}
 		} catch (RuntimeException e) {
-			Logs.debug("Conversion toByte={}", obj);
 			return defaultValue;
 		}
 	}
@@ -346,7 +339,6 @@ public final class Conversion {
 				return new BigDecimal(toString(obj));
 			}
 		} catch (RuntimeException e) {
-			Logs.debug("Conversion toBigDecimal={}", obj);
 			return defaultValue;
 		}
 	}
@@ -387,7 +379,6 @@ public final class Conversion {
 				return Boolean.parseBoolean(toString(obj));
 			}
 		} catch (RuntimeException e) {
-			Logs.debug("Conversion toBoolean={}", obj);
 			return defaultValue;
 		}
 	}

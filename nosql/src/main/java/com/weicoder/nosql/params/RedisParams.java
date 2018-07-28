@@ -55,6 +55,15 @@ public final class RedisParams {
 	}
 
 	/**
+	 * Redis超时时间
+	 * @param name 名
+	 * @return 端口
+	 */
+	public static int getTimeOut(String name) {
+		return Params.getInt(getKey(name, "timeout"), Protocol.DEFAULT_TIMEOUT);
+	}
+
+	/**
 	 * Redis服务器端口
 	 * @param name 名
 	 * @return 端口

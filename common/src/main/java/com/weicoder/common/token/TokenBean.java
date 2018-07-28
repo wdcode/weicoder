@@ -1,13 +1,11 @@
 package com.weicoder.common.token;
 
-import java.util.Arrays;
 import java.util.Set;
 
 import com.weicoder.common.binary.ByteArray;
 import com.weicoder.common.crypto.Decrypts;
 import com.weicoder.common.crypto.Encrypts;
 import com.weicoder.common.lang.Bytes;
-import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.util.DateUtil;
 import com.weicoder.common.util.EmptyUtil;
@@ -174,8 +172,6 @@ public final class TokenBean implements ByteArray {
 			this.server = IpUtil.decode(Bytes.toInt(b, 16));
 			this.sign = Bytes.toInt(b, 20);
 			this.valid = id != 0;
-		} else {
-			Logs.debug("token decrypt fail data={} token={}", Arrays.toString(b), token);
 		}
 		// 返回自身
 		return this;
