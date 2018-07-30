@@ -155,6 +155,14 @@ public interface RedisPool {
 	boolean exists(String key);
 
 	/**
+	 * 验证集合是否存在值
+	 * @param key 键
+	 * @param value 值
+	 * @return true 存在 false 不存在
+	 */
+	boolean sexists(String key, String value);
+
+	/**
 	 * 根据哈希指定字段 验证是否存在
 	 * @param key 键
 	 * @param field 字段

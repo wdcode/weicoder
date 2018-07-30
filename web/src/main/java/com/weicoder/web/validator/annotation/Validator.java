@@ -25,5 +25,5 @@ public @interface Validator {
 	 * 验证类下的方法
 	 * @return 验证类下的方法
 	 */
-	String value();
+	String[] value();
 }

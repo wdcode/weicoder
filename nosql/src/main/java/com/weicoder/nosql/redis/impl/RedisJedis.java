@@ -395,4 +395,14 @@ public final class RedisJedis extends BaseRedis {
 			return error;
 		}
 	}
+
+	@Override
+	public boolean sexists(String key, String value) {
+		try (Jedis jedis = pool.getResource()) {
+			return jedis.sismember(key, value);
+		} catch (Exception e) {
+			Logs.error(e, "redis pool sexists key={}", key);
+			return false;
+		}
+	}
 }

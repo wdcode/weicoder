@@ -127,42 +127,51 @@ public final class Validators {
 	 * @return 是否成功
 	 */
 	public static int validator(Validator vali, Map<String, String> ps) {
+		// 返回错误码
+		int res = 0;
 		try {
 			// 获得验证类名
 			String name = vali.name();
 			// 获得验证方法
-			String val = vali.value();
-			// 获得验证类
-			Object obj = EmptyUtil.isEmpty(name) ? WebCommons.METHOD_VALIDATOR.get(val)
-					: WebCommons.VALIDATORS.get(name);
-			// 获得验证方法
-			Method method = EmptyUtil.isEmpty(name) ? WebCommons.METHODS_VALIDATORS.get(val)
-					: WebCommons.VALIDATORS_METHODS.get(name).get(val);
-			// 获得所有参数类型
-			Parameter[] pars = WebCommons.VALIDATORS_METHODS_PARAMES.get(method);
-			Object[] params = new Object[pars.length];
-			for (int i = 0; i < pars.length; i++) {
-				// 判断类型并设置
-				Parameter p = pars[i];
-				// 参数的类型
-				Class<?> cs = p.getType();
-				if (Map.class.equals(cs)) {
-					params[i] = ps;
-				} else if (ClassUtil.isBaseType(cs)) {
-					// 获得参数
-					params[i] = Conversion.to(ps.get(p.getName()), cs);
-				} else {
-					// 设置属性
-					params[i] = BeanUtil.copy(ps, cs);
+			for (String val : vali.value()) {
+				// 获得验证类
+				Object obj = EmptyUtil.isEmpty(name) ? WebCommons.METHOD_VALIDATOR.get(val)
+						: WebCommons.VALIDATORS.get(name);
+				// 获得验证方法
+				Method method = EmptyUtil.isEmpty(name) ? WebCommons.METHODS_VALIDATORS.get(val)
+						: WebCommons.VALIDATORS_METHODS.get(name).get(val);
+				// 获得所有参数类型
+				Parameter[] pars = WebCommons.VALIDATORS_METHODS_PARAMES.get(method);
+				Object[] params = new Object[pars.length];
+				for (int i = 0; i < pars.length; i++) {
+					// 判断类型并设置
+					Parameter p = pars[i];
+					// 参数的类型
+					Class<?> cs = p.getType();
+					if (Map.class.equals(cs)) {
+						params[i] = ps;
+					} else if (ClassUtil.isBaseType(cs)) {
+						// 获得参数
+						params[i] = Conversion.to(ps.get(p.getName()), cs);
+					} else {
+						// 设置属性
+						params[i] = BeanUtil.copy(ps, cs);
+					}
+					LOG.debug("validator Parameter index={},name={},type={},value={}", i, p.getName(), cs, params[i]);
 				}
-				LOG.debug("validator Parameter index={},name={},type={},value={}", i, p.getName(), cs, params[i]);
+				// 调用并返回验证结果
+				res = Conversion.toInt(BeanUtil.invoke(obj, method, params));
+				// 如果不是正确结果
+				if (res != WebParams.STATE_SUCCESS) {
+					break;
+				}
 			}
-			// 调用并返回验证结果
-			return Conversion.toInt(BeanUtil.invoke(obj, method, params));
 		} catch (Exception e) {
 			LOG.error(e);
-			return -1;
+			res = -1;
 		}
+		// 返回验证码
+		return res;
 	}
 
 	/**
