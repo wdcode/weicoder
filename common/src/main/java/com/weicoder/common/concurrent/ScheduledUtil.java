@@ -15,29 +15,12 @@ import com.weicoder.common.log.Logs;
 public final class ScheduledUtil {
 	// 定时线程工厂
 	private final static ScheduledFactory FACTORY = new ScheduledFactory();
-	// // 并发定时任务池
-	// private final static ScheduledExecutorService POOL = newPool(SystemConstants.CPU_NUM * 2, false);
-	// // 守护线程并发定时任务池
-	// private final static ScheduledExecutorService DAEMON_POOL = newPool(SystemConstants.CPU_NUM * 2, true);
-
-	// /**
-	// * 获得新的线程任务池
-	// * @param size 池数量
-	// * @param daemon 是否守护线程
-	// * @return 线程任务池
-	// */
-	// public static ScheduledExecutorService newPool(int size, boolean daemon) {
-	// // return daemon ? Executors.newScheduledThreadPool(size, DaemonThreadFactory.INSTANCE)
-	// // : Executors.newScheduledThreadPool(size);
-	// return FACTORY.newPool(size, daemon);
-	// }
 
 	/**
 	 * 获得定时任务池 此方法返回守护线程的池
 	 * @return 定时任务池
 	 */
 	public static ScheduledExecutorService pool() {
-		// return pool(true);
 		return pool(StringConstants.EMPTY);
 	}
 
@@ -49,15 +32,6 @@ public final class ScheduledUtil {
 	public static ScheduledExecutorService pool(String name) {
 		return FACTORY.getInstance(name);
 	}
-
-	// /**
-	// * 获得定时任务池
-	// * @param daemon 是否守护线程
-	// * @return 定时任务池
-	// */
-	// public static ScheduledExecutorService pool(boolean daemon) {
-	// return daemon ? DAEMON_POOL : POOL;
-	// }
 
 	/**
 	 * 执行定时任务 按初始时间间隔

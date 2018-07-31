@@ -13,32 +13,9 @@ import com.weicoder.common.params.Params;
  */
 public final class DataSourceParams {
 	// Properties配置
-	private final static Config		CONFIG				= ConfigFactory.getConfig("ds");
-	/* DataSource使用 */
-	private final static String		DRIVER				= "driver";							// 获得DataSource驱动类
-	private final static String		URL					= "url";							// 获得DataSourceUrl
-	private final static String		USER				= "user";							// 获得DataSourceUser
-	private final static String		PASSWORD			= "password";						// 获得DataSourcePassword
-	private final static String		INITIAL_POOL_SIZE	= "initialPoolSize";				// 获得初始化连接数
-	private final static String		MAX_POOL_SIZE		= "maxPoolSize";					// 连接池最大连接数
-	private final static String		MIN_POOL_SIZE		= "minPoolSize";					// 连接池最小连接数
-	private final static String		MAX_SIZE			= "maxSize";						// 最大连接数
-	private final static String		TIMEOUT				= "timeout";						// 超时等待时间
-	private final static String		MAXIDLETIME			= "maxIdleTime";					// 测试空闲连接时间超出时间回收
-	private final static String		IDLETIMEOUT			= "idleTimeout";					// 多长时间检查一次空闲连接
-
+	private final static Config		CONFIG	= ConfigFactory.getConfig("ds");
 	/** 执行任务名称数组 */
-	public final static String[]	NAMES				= CONFIG.getStringArray("ds.names",
-			ArrayConstants.STRING_EMPTY);
-
-	/* DataSource使用 */
-	private static int				initialPoolSize		= 20;								// 获得初始化连接数
-	private static int				maxPoolSize			= 50;								// 连接池最大连接数
-	private static int				minPoolSize			= 10;								// 连接池最小连接数
-	private static int				maxSize				= 100;								// 最大连接数
-	private static long				timeout				= DateConstants.TIME_MINUTE * 3;	// 超时等待时间
-	private static long				maxIdleTime			= DateConstants.TIME_MINUTE * 10;	// 测试空闲连接时间超出时间回收
-	private static long				idleTimeout			= DateConstants.TIME_HOUR * 2;		// 多长时间检查一次空闲连接
+	public final static String[]	NAMES	= CONFIG.getStringArray("ds.names", ArrayConstants.STRING_EMPTY);
 
 	/**
 	 * 最大连接数
@@ -46,7 +23,7 @@ public final class DataSourceParams {
 	 * @return 最大连接数
 	 */
 	public static int getMaxSize(String name) {
-		return CONFIG.getInt(getKey(name, MAX_SIZE), maxSize);
+		return CONFIG.getInt(getKey(name, "maxSize"), 100);
 	}
 
 	/**
@@ -55,7 +32,7 @@ public final class DataSourceParams {
 	 * @return 超时等待时间
 	 */
 	public static long getTimeout(String name) {
-		return CONFIG.getLong(getKey(name, TIMEOUT), timeout);
+		return CONFIG.getLong(getKey(name, "timeout"), DateConstants.TIME_MINUTE * 3);
 	}
 
 	/**
@@ -64,7 +41,7 @@ public final class DataSourceParams {
 	 * @return 测试空闲连接时间
 	 */
 	public static long getMaxIdleTime(String name) {
-		return CONFIG.getLong(getKey(name, MAXIDLETIME), maxIdleTime);
+		return CONFIG.getLong(getKey(name, "maxIdleTime"), DateConstants.TIME_MINUTE * 10);
 	}
 
 	/**
@@ -73,7 +50,7 @@ public final class DataSourceParams {
 	 * @return 多长时间检查一次空闲连接
 	 */
 	public static long getIdleTimeout(String name) {
-		return CONFIG.getLong(getKey(name, IDLETIMEOUT), idleTimeout);
+		return CONFIG.getLong(getKey(name, "idleTimeout"), DateConstants.TIME_HOUR * 2);
 	}
 
 	/**
@@ -82,7 +59,7 @@ public final class DataSourceParams {
 	 * @return 获得DataSource驱动类
 	 */
 	public static String getDriver(String name) {
-		return CONFIG.getString(getKey(name, DRIVER));
+		return CONFIG.getString(getKey(name, "driver"));
 	}
 
 	/**
@@ -91,7 +68,7 @@ public final class DataSourceParams {
 	 * @return 获得DataSourceUrl
 	 */
 	public static String getUrl(String name) {
-		return CONFIG.getString(getKey(name, URL));
+		return CONFIG.getString(getKey(name, "url"));
 	}
 
 	/**
@@ -100,7 +77,7 @@ public final class DataSourceParams {
 	 * @return 获得DataSourceUser
 	 */
 	public static String getUser(String name) {
-		return CONFIG.getString(getKey(name, USER));
+		return CONFIG.getString(getKey(name, "user"));
 	}
 
 	/**
@@ -109,7 +86,7 @@ public final class DataSourceParams {
 	 * @return 获得DataSourcePassword
 	 */
 	public static String getPassword(String name) {
-		return CONFIG.getString(getKey(name, PASSWORD));
+		return CONFIG.getString(getKey(name, "password"));
 	}
 
 	/**
@@ -118,7 +95,7 @@ public final class DataSourceParams {
 	 * @return 获得初始化连接数
 	 */
 	public static int getInitialPoolSize(String name) {
-		return CONFIG.getInt(getKey(name, INITIAL_POOL_SIZE), initialPoolSize);
+		return CONFIG.getInt(getKey(name, "initialPoolSize"), 20);
 	}
 
 	/**
@@ -127,7 +104,7 @@ public final class DataSourceParams {
 	 * @return 连接池最大连接数
 	 */
 	public static int getMaxPoolSize(String name) {
-		return CONFIG.getInt(getKey(name, MAX_POOL_SIZE), maxPoolSize);
+		return CONFIG.getInt(getKey(name, "maxPoolSize"), 50);
 	}
 
 	/**
@@ -136,7 +113,7 @@ public final class DataSourceParams {
 	 * @return 连接池最小连接数
 	 */
 	public static int getMinPoolSize(String name) {
-		return CONFIG.getInt(getKey(name, MIN_POOL_SIZE), minPoolSize);
+		return CONFIG.getInt(getKey(name, "minPoolSize"), 10);
 	}
 
 	/**

@@ -7,24 +7,13 @@ import com.weicoder.common.params.Params;
  * @author WD
  */
 public final class MongoParams {
-	/* Redis使用 */
-	private final static String	PREFIX		= "mongo";		// 前缀
-	private final static String	HOST		= "host";		// 服务器地址
-	private final static String	PORT		= "port";		// 服务器端口
-	private final static String	DB			= "db";			// 数据库名
-	private final static String	COLLECTION	= "collection";	// 集合
-
-	/* Redis使用 */
-	private static String		host		= "127.0.0.1";	// 服务器地址
-	private static int			port		= 27017;		// 服务器端口
-
 	/**
 	 * Mongo服务器地址
 	 * @param name 名称
 	 * @return 服务器地址
 	 */
 	public static String getHost(String name) {
-		return Params.getString(getKey(name, HOST), host);
+		return Params.getString(getKey(name, "host"), "127.0.0.1");
 	}
 
 	/**
@@ -51,7 +40,7 @@ public final class MongoParams {
 	 * @return 数据库名
 	 */
 	public static String getDB(String name) {
-		return Params.getString(getKey(name, DB), name);
+		return Params.getString(getKey(name, "db"), name);
 	}
 
 	/**
@@ -60,7 +49,7 @@ public final class MongoParams {
 	 * @return 集合
 	 */
 	public static String getCollection(String name) {
-		return Params.getString(getKey(name, COLLECTION), name);
+		return Params.getString(getKey(name, "collection"), name);
 	}
 
 	/**
@@ -69,7 +58,7 @@ public final class MongoParams {
 	 * @return 端口
 	 */
 	public static int getPort(String name) {
-		return Params.getInt(getKey(name, PORT), port);
+		return Params.getInt(getKey(name, "port"), 27017);
 	}
 
 	/**
@@ -79,7 +68,7 @@ public final class MongoParams {
 	 * @return 替换后的键
 	 */
 	private static String getKey(String name, String key) {
-		return Params.getKey(PREFIX, name, key);
+		return Params.getKey("mongo", name, key);
 	}
 
 	private MongoParams() {}

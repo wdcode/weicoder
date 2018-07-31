@@ -18,6 +18,6 @@ public final class DaoParams {
 	public final static String	DB_CONFIG	= CONFIG.getString("db.config", "db");
 	/** PO 扫描包名 */
 	public final static String	PACKAGES	= CONFIG.getString("packages");
-	
+
 	private DaoParams() {}
 }

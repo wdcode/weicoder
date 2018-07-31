@@ -19,10 +19,6 @@ import com.weicoder.common.util.EmptyUtil;
 public final class ExecutorUtil {
 	// 线程池
 	private final static ExecutorFactory		FACTORY		= new ExecutorFactory();
-	// // 并发线程池
-	// private final static ExecutorService POOL = newPool(false);
-	// // 守护线程并发线程池
-	// private final static ExecutorService DAEMON_POOL = newPool(true);
 	// 保存线程
 	private final static List<Runnable>			RUNNABLES	= Lists.newList();
 	private final static List<Callable<Object>>	CALLABLES	= Lists.newList();
@@ -34,7 +30,6 @@ public final class ExecutorUtil {
 	 * @return 缓存线程池
 	 */
 	public static ExecutorService newPool(int pool, boolean daemon) {
-		// return daemon ? Executors.newCachedThreadPool(DaemonThreadFactory.INSTANCE) : Executors.newCachedThreadPool();
 		return FACTORY.newPool(pool, daemon);
 	}
 
