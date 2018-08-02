@@ -18,6 +18,10 @@ public final class DaoParams {
 	public final static String	DB_CONFIG	= CONFIG.getString("db.config", "db");
 	/** PO 扫描包名 */
 	public final static String	PACKAGES	= CONFIG.getString("packages");
+	/** 队列更新时间 默认60秒 */
+	public final static int		QUEUE_TIME	= CONFIG.getInt("queue.time", 2);
+	/** 队列更新步长 默认500 */
+	public final static int		QUEUE_SETP	= CONFIG.getInt("queue.setp", 200);
 
 	private DaoParams() {}
 }

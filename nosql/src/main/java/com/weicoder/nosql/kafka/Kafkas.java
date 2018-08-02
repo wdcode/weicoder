@@ -26,6 +26,7 @@ import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
+import com.weicoder.core.json.JsonEngine;
 import com.weicoder.nosql.kafka.annotation.Consumer;
 import com.weicoder.nosql.kafka.annotation.Topic;
 import com.weicoder.nosql.kafka.consumer.Record;
@@ -211,13 +212,26 @@ public final class Kafkas {
 	}
 
 	/**
-	 * 转换成参数
+	 *  转换成参数
 	 * @param b 字节数组
 	 * @param c 类型
 	 * @return 参数
 	 */
 	private static Object toParam(byte[] b, Class<?> c) {
-		return String.class.equals(c) ? StringUtil.toString(b) : Object.class.equals(c) ? b : Bytes.to(b, c);
+		//字符串
+		if(String.class.equals(c))
+			return StringUtil.toString(b);
+		//普通对象
+		if(Object.class.equals(c))
+			return b;
+		//Map
+		if(Map.class.equals(c))
+			return JsonEngine.toMap(StringUtil.toString(b));
+		//List
+		if(List.class.equals(c))
+			return JsonEngine.toList(StringUtil.toString(b));
+		//序列化
+		return Bytes.to(b, c);
 	}
 
 	/**

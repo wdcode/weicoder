@@ -139,7 +139,7 @@ public class BasicServlet extends HttpServlet {
 			Object[] params = null;
 			// 所有提交的参数
 			Map<String, String> ps = RequestUtil.getAll(request);
-			LOG.debug("action={} params={}", actionName, pars);
+			LOG.debug("action={} params={}", actionName, ps);
 			// 验证
 			int code = Validators.validator(method, action, ps, ip);
 			if (!EmptyUtil.isEmpty(pars)) {
@@ -258,8 +258,7 @@ public class BasicServlet extends HttpServlet {
 					// 写入到前端
 					res = Maps.newMap(new String[] { status, success }, new Object[] { WebParams.STATE_SUCCESS, res });
 				}
-				// LOG.debug("servlet state={} method={} params={} end", state, method.getName(), params);
-			} else {
+ 			} else {
 				// 如果结果为空
 				if (res == null) {
 					// 结果设置为空map

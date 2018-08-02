@@ -1,12 +1,16 @@
 package com.weicoder.dao.service;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
 import com.weicoder.dao.factory.DaoFactory;
+import com.weicoder.dao.params.DaoParams;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
+import com.weicoder.common.lang.Queues;
+import com.weicoder.common.util.AsynQueueList;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.core.bean.Pagination;
@@ -18,7 +22,29 @@ import com.weicoder.dao.Dao;
  */
 public final class SuperService {
 	/** Dao 接口 */
-	public final static Dao DAO = DaoFactory.FACTORY.getInstance();
+	public final static Dao						DAO		= DaoFactory.FACTORY.getInstance();
+	// 更新队列
+	private final static AsynQueueList<Object>	QUEUE	= Queues.newAsynQueueList(
+			Queues.newOnlyQueue(), results -> DAO.insertOrUpdate(results, DaoParams.QUEUE_SETP),
+			DaoParams.QUEUE_TIME);
+
+	/**
+	 * 添加要更新的数据到队列 队列按定时执行insertOrUpdate 不要使用此方法保存重要数据
+	 * @param obj 数据库对象
+	 * @return 是否添加成功
+	 */
+	public static boolean add(Object obj) {
+		return QUEUE.add(obj);
+	}
+
+	/**
+	 * 添加要更新的数据到队列 队列按定时执行insertOrUpdate 不要使用此方法保存重要数据
+	 * @param objs 对象列表
+	 * @return 是否添加成功
+	 */
+	public static boolean adds(Collection<Object> objs) {
+		return QUEUE.addAll(objs);
+	}
 
 	/**
 	 * 删除
@@ -83,7 +109,7 @@ public final class SuperService {
 	/**
 	 * 获得查询的对象实体列表 分页功能
 	 * @param entity 需要获得的对象，会查询出实体中封装的相等的条件
-	 * @param page 分页Bean 
+	 * @param page 分页Bean
 	 * @return 返回这个对象的列表
 	 */
 	public static Map<String, Object> list(Object entity, Pagination page) {
@@ -110,9 +136,11 @@ public final class SuperService {
 	 * @param <E> 泛型
 	 * @return 数据列表
 	 */
-	public static <E> List<E> in(Class<E> entityClass, String property, List<Object> values, Pagination pager) {
+	public static <E> List<E> in(Class<E> entityClass, String property, List<Object> values,
+			Pagination pager) {
 		// 获得数据列表
-		List<E> list = DAO.in(entityClass, property, values, getFirstResult(pager), getMaxResults(pager));
+		List<E> list = DAO.in(entityClass, property, values, getFirstResult(pager),
+				getMaxResults(pager));
 		// 判断列表
 		if (EmptyUtil.isEmpty(list)) {
 			// 为空 设置总数为 0
@@ -170,9 +198,11 @@ public final class SuperService {
 	 * @param <E> 泛型
 	 * @return 数据列表
 	 */
-	public static <E> List<E> eq(Class<E> entityClass, String property, Object value, Pagination pager) {
+	public static <E> List<E> eq(Class<E> entityClass, String property, Object value,
+			Pagination pager) {
 		// 获得数据列表
-		List<E> list = DAO.eq(entityClass, property, value, getFirstResult(pager), getMaxResults(pager));
+		List<E> list = DAO.eq(entityClass, property, value, getFirstResult(pager),
+				getMaxResults(pager));
 		// 判断列表
 		if (EmptyUtil.isEmpty(list)) {
 			// 为空 设置总数为 0
@@ -195,10 +225,11 @@ public final class SuperService {
 	 * @param <E> 泛型
 	 * @return 数据列表
 	 */
-	public static <E> List<E> in(Class<E> entityClass, String property, List<Object> values, Map<String, Object> orders,
-			Pagination pager) {
+	public static <E> List<E> in(Class<E> entityClass, String property, List<Object> values,
+			Map<String, Object> orders, Pagination pager) {
 		// 获得数据列表
-		List<E> list = DAO.in(entityClass, property, values, orders, getFirstResult(pager), getMaxResults(pager));
+		List<E> list = DAO.in(entityClass, property, values, orders, getFirstResult(pager),
+				getMaxResults(pager));
 		// 判断列表
 		if (EmptyUtil.isEmpty(list)) {
 			// 为空 设置总数为 0
@@ -234,9 +265,11 @@ public final class SuperService {
 	 * @param <E> 泛型
 	 * @return 返回结果列表
 	 */
-	public static <E> List<E> between(E entity, String property, Object lo, Object hi, Pagination page) {
+	public static <E> List<E> between(E entity, String property, Object lo, Object hi,
+			Pagination page) {
 		// 获得数据列表
-		List<E> list = DAO.between(entity, property, lo, hi, getFirstResult(page), getMaxResults(page));
+		List<E> list = DAO.between(entity, property, lo, hi, getFirstResult(page),
+				getMaxResults(page));
 		// 判断列表
 		if (EmptyUtil.isEmpty(list)) {
 			// 为空 设置总数为 0
@@ -333,7 +366,8 @@ public final class SuperService {
 		E obj = DAO.get(entity, pk);
 		// 对象不为空
 		if (obj != null) {
-			list.addAll(prev(entity, property, (Serializable) BeanUtil.getFieldValue(obj, property)));
+			list.addAll(
+					prev(entity, property, (Serializable) BeanUtil.getFieldValue(obj, property)));
 			// 添加对象
 			list.add(obj);
 		}
