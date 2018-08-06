@@ -1,16 +1,12 @@
 package com.weicoder.dao.service;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
 import com.weicoder.dao.factory.DaoFactory;
-import com.weicoder.dao.params.DaoParams;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
-import com.weicoder.common.lang.Queues;
-import com.weicoder.common.util.AsynQueueList;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.core.bean.Pagination;
@@ -22,11 +18,13 @@ import com.weicoder.dao.Dao;
  */
 public final class SuperService {
 	/** Dao 接口 */
-	public final static Dao						DAO		= DaoFactory.FACTORY.getInstance();
-	// 更新队列
-	private final static AsynQueueList<Object>	QUEUE	= Queues.newAsynQueueList(
-			Queues.newOnlyQueue(), results -> DAO.insertOrUpdate(results, DaoParams.QUEUE_SETP),
-			DaoParams.QUEUE_TIME);
+	public final static Dao DAO = DaoFactory.FACTORY.getInstance();
+	// // 更新队列
+	// private final static Map<Class<? extends Entity>, AsynQueueList<? extends Entity>> QUEUES = Maps
+	// .newMap();
+	// // 队列锁
+	// private final static Lock LOCK = new ReentrantLock(
+	// true);
 
 	/**
 	 * 添加要更新的数据到队列 队列按定时执行insertOrUpdate 不要使用此方法保存重要数据
@@ -34,7 +32,7 @@ public final class SuperService {
 	 * @return 是否添加成功
 	 */
 	public static boolean add(Object obj) {
-		return QUEUE.add(obj);
+		return obj == null ? false : QueueFactory.get(obj.getClass()).add(obj);
 	}
 
 	/**
@@ -42,9 +40,19 @@ public final class SuperService {
 	 * @param objs 对象列表
 	 * @return 是否添加成功
 	 */
-	public static boolean adds(Collection<Object> objs) {
-		return QUEUE.addAll(objs);
+	public static boolean adds(List<Object> objs) {
+		return EmptyUtil.isEmpty(objs) ? false
+				: QueueFactory.get(objs.get(0).getClass()).addAll(objs);
 	}
+
+	// private static void getQueue(Class<? extends Entity> c) {
+	// // 获得队列
+	// AsynQueueList<? extends Entity> queue = QUEUES.get(c);
+	// //如果队列为空
+	// if() {}
+	// Queues.newAsynQueueList(Queues.newOnlyQueue(),
+	// results -> DAO.insertOrUpdate(results, DaoParams.QUEUE_SETP), DaoParams.QUEUE_TIME);
+	// }
 
 	/**
 	 * 删除
