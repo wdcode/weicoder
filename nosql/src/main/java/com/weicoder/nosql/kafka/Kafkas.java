@@ -3,6 +3,7 @@ package com.weicoder.nosql.kafka;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.lang.reflect.Type;
+import java.time.Duration;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
@@ -62,8 +63,8 @@ public final class Kafkas {
 	 */
 	public static void consumers() {
 		// 获得所有kafka消费者
-		List<Class<Consumer>> consumers = ClassUtil.getAnnotationClass(CommonParams.getPackages("kafka"),
-				Consumer.class);
+		List<Class<Consumer>> consumers = ClassUtil
+				.getAnnotationClass(CommonParams.getPackages("kafka"), Consumer.class);
 		if (EmptyUtil.isNotEmpty(consumers)) {
 			// 循环处理kafka类
 			for (Class<Consumer> c : consumers) {
@@ -111,9 +112,11 @@ public final class Kafkas {
 					long time = System.currentTimeMillis();
 					int n = 0;
 					// 根据name获得kafka消费者列表
-					Map<String, Queue<ConsumerRecord<byte[], byte[]>>> map = TOPIC_RECORDS.get(name);
+					Map<String, Queue<ConsumerRecord<byte[], byte[]>>> map = TOPIC_RECORDS
+							.get(name);
 					// 获得消费数据
-					for (ConsumerRecord<byte[], byte[]> record : consumer.poll(1000)) {
+					for (ConsumerRecord<byte[], byte[]> record : consumer
+							.poll(Duration.ofSeconds(1))) {// .poll(1000)
 						// 获得消费对象类和方法
 						LOG.debug("kafka read consumer thread={} record={}", tid, record);
 						map.get(record.topic()).add(record);
@@ -121,8 +124,8 @@ public final class Kafkas {
 					}
 					// 数量不为空
 					if (n > 0) {
-						LOG.info("kafka read consumer end name={} size={} time={} thread={}", name, n,
-								System.currentTimeMillis() - time, tid);
+						LOG.info("kafka read consumer end name={} size={} time={} thread={}", name,
+								n, System.currentTimeMillis() - time, tid);
 					}
 				});
 			}, 0L, 100L, TimeUnit.MICROSECONDS);
@@ -162,8 +165,10 @@ public final class Kafkas {
 									} else if (Record.class.equals(t)) {
 										Type type = param.getParameterizedType();
 										Class<?>[] gc = ClassUtil.getGenericClass(type);
-										objs[0] = new Record<>(record.topic(), toParam(record.key(), gc[0]),
-												toParam(record.value(), gc[1]), record.offset(), record.timestamp());
+										objs[0] = new Record<>(record.topic(),
+												toParam(record.key(), gc[0]),
+												toParam(record.value(), gc[1]), record.offset(),
+												record.timestamp());
 									} else {
 										objs[0] = toParam(record.value(), t);
 									}
@@ -174,14 +179,16 @@ public final class Kafkas {
 								// 执行方法
 								BeanUtil.invoke(obj, method, objs);
 							}
-							LOG.debug("kafka consumer topic={} offset={} method={} args={} params={} thread={}", topic,
-									offset, method.getName(), objs, params, tid);
+							LOG.debug(
+									"kafka consumer topic={} offset={} method={} args={} params={} thread={}",
+									topic, offset, method.getName(), objs, params, tid);
 							n++;
 						}
 						// 数量不为空
 						if (n > 0) {
-							LOG.info("kafka consumer end topic={} offset={} size={} time={} thread={}", topic, offset,
-									n, System.currentTimeMillis() - time, tid);
+							LOG.info(
+									"kafka consumer end topic={} offset={} size={} time={} thread={}",
+									topic, offset, n, System.currentTimeMillis() - time, tid);
 						}
 					}, 100L);
 				});
@@ -212,25 +219,25 @@ public final class Kafkas {
 	}
 
 	/**
-	 *  转换成参数
+	 * 转换成参数
 	 * @param b 字节数组
 	 * @param c 类型
 	 * @return 参数
 	 */
 	private static Object toParam(byte[] b, Class<?> c) {
-		//字符串
-		if(String.class.equals(c))
+		// 字符串
+		if (String.class.equals(c))
 			return StringUtil.toString(b);
-		//普通对象
-		if(Object.class.equals(c))
+		// 普通对象
+		if (Object.class.equals(c))
 			return b;
-		//Map
-		if(Map.class.equals(c))
+		// Map
+		if (Map.class.equals(c))
 			return JsonEngine.toMap(StringUtil.toString(b));
-		//List
-		if(List.class.equals(c))
+		// List
+		if (List.class.equals(c))
 			return JsonEngine.toList(StringUtil.toString(b));
-		//序列化
+		// 序列化
 		return Bytes.to(b, c);
 	}
 
