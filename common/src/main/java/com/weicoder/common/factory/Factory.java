@@ -23,10 +23,9 @@ public abstract class Factory<E> {
 			// 同步琐
 			lock.lock();
 			// 判断是否为空
-			if (e == null) {
+			if (e == null)
 				// 生成新的实例
 				e = newInstance();
-			}
 			// 解锁
 			lock.unlock();
 		}

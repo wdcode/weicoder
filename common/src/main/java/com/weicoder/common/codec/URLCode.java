@@ -3,7 +3,6 @@ package com.weicoder.common.codec;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 
-import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.util.EmptyUtil;
 
@@ -31,7 +30,6 @@ public final class URLCode {
 		try {
 			return EmptyUtil.isEmpty(url) ? url : URLEncoder.encode(url, encoding);
 		} catch (Exception e) {
-			Logs.error(e, "URLCode encode url={} encoding={}", url, encoding);
 			return url;
 		}
 	}
@@ -54,9 +52,9 @@ public final class URLCode {
 	public static String decode(String url, String encoding) {
 		try {
 			return EmptyUtil.isEmpty(url) ? url
-					: URLDecoder.decode(url, EmptyUtil.isEmpty(encoding) ? CommonParams.ENCODING : encoding);
+					: URLDecoder.decode(url,
+							EmptyUtil.isEmpty(encoding) ? CommonParams.ENCODING : encoding);
 		} catch (Exception e) {
-			Logs.error(e, "URLCode decode url={} encoding={}", url, encoding);
 			return url;
 		}
 	}

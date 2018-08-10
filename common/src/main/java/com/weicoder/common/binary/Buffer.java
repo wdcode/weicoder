@@ -79,9 +79,8 @@ public final class Buffer implements ByteArray {
 		offset = index;
 		this.sync = sync;
 		// 线程安全 初始化锁
-		if (sync) {
+		if (sync)
 			lock = new ReentrantLock(true);
-		}
 	}
 
 	/**
@@ -90,13 +89,11 @@ public final class Buffer implements ByteArray {
 	 */
 	public void capacity(int len) {
 		// 要扩展的容量小于原长度 放弃修改
-		if (len <= data.length) {
+		if (len <= data.length)
 			return;
-		}
 		// 如果同步 加锁
-		if (sync) {
+		if (sync)
 			lock.lock();
-		}
 		// 声明个新长度临时数组
 		byte[] temp = new byte[len < CommonParams.IO_BUFFERSIZE ? CommonParams.IO_BUFFERSIZE : len];
 		// 读取原有数据
@@ -104,9 +101,8 @@ public final class Buffer implements ByteArray {
 		// 复制到新数组
 		data = temp;
 		// 如果同步 解锁
-		if (sync) {
+		if (sync)
 			lock.unlock();
-		}
 	}
 
 	/**
@@ -198,16 +194,14 @@ public final class Buffer implements ByteArray {
 	 */
 	public byte[] read(byte[] data, int pos, int len) {
 		// 如果同步 加锁
-		if (sync) {
+		if (sync)
 			lock.lock();
-		}
 		// 复制原数组
 		System.arraycopy(this.data, offset, data, pos, len);
 		offset += len;
 		// 如果同步 解锁
-		if (sync) {
+		if (sync)
 			lock.unlock();
-		}
 		// 返回数据
 		return data;
 	}
@@ -311,20 +305,17 @@ public final class Buffer implements ByteArray {
 	 */
 	public byte[] write(byte[] data, int pos, int len) {
 		// 容量不足扩容
-		if (data.length < top + len) {
+		if (data.length < top + len)
 			capacity(top + len);
-		}
 		// 如果同步 加锁
-		if (sync) {
+		if (sync)
 			lock.lock();
-		}
 		// 复制原数组
 		System.arraycopy(data, pos, this.data, top, len);
 		top += len;
 		// 如果同步 解锁
-		if (sync) {
+		if (sync)
 			lock.unlock();
-		}
 		// 返回数组
 		return data;
 	}
@@ -433,9 +424,9 @@ public final class Buffer implements ByteArray {
 	 * @param s 字符串
 	 */
 	public void writeString(String s) {
-		if (EmptyUtil.isEmpty(s)) {
+		if (EmptyUtil.isEmpty(s))
 			writeShort(0);
-		} else {
+		else {
 			byte[] temp = StringUtil.toBytes(s);
 			writeShort(temp.length);
 			write(temp, 0, temp.length);
@@ -449,18 +440,16 @@ public final class Buffer implements ByteArray {
 		// 读位置不为0时才需要压缩
 		if (offset > 0) {
 			// 如果同步 加锁
-			if (sync) {
+			if (sync)
 				lock.lock();
-			}
 			// 移动数据
 			System.arraycopy(data, offset, data, 0, remaining());
 			// 重置下标
 			top -= offset;
 			offset = 0;
 			// 如果同步 解锁
-			if (sync) {
+			if (sync)
 				lock.unlock();
-			}
 		}
 	}
 
@@ -476,9 +465,8 @@ public final class Buffer implements ByteArray {
 	 */
 	public void clear() {
 		// 如果数组长度小于默认缓存长度 重新生成数组
-		if (length() < CommonParams.IO_BUFFERSIZE) {
+		if (length() < CommonParams.IO_BUFFERSIZE)
 			data = new byte[CommonParams.IO_BUFFERSIZE];
-		}
 		top = 0;
 		offset = 0;
 	}

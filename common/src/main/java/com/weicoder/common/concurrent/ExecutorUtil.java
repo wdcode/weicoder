@@ -99,16 +99,15 @@ public final class ExecutorUtil {
 		// 声明结果列表
 		List<Future<?>> list = Lists.newList(tasks.size());
 		// 执行任务
-		for (Runnable task : tasks) {
+		tasks.forEach(task -> {
 			list.add(pool().submit(task));
-		}
+		});
 		// 循环等待
 		while (pool().isTerminated()) {
 			// 是否全部完成
 			for (Iterator<Future<?>> it = list.iterator(); it.hasNext();) {
-				if (it.next().isDone()) {
+				if (it.next().isDone())
 					it.remove();
-				}
 			}
 			// 如果列表为空
 			if (EmptyUtil.isEmpty(list)) {
@@ -142,21 +141,20 @@ public final class ExecutorUtil {
 		// 声明返回列表
 		List<T> ls = Lists.newList(len);
 		// 执行任务
-		for (Callable<T> task : tasks) {
+		tasks.forEach(task -> {
 			list.add(pool().submit(task));
-		}
+		});
 		// 循环获得结果
-		for (Future<T> f : list) {
+		list.forEach(f -> {
 			try {
-				if (timeout > 0) {
+				if (timeout > 0)
 					ls.add(f.get(timeout, TimeUnit.MILLISECONDS));
-				} else {
+				else
 					ls.add(f.get());
-				}
 			} catch (Exception e) {
 				Logs.warn(e);
 			}
-		}
+		});
 		// 返回列表
 		return ls;
 	}

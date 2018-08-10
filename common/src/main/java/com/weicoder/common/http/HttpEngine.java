@@ -43,11 +43,10 @@ public final class HttpEngine {
 			// 获得连接
 			conn = getConnection(url);
 			// 头不为空，添加头
-			if (EmptyUtil.isNotEmpty(header)) {
-				for (Map.Entry<String, Object> h : header.entrySet()) {
+			if (EmptyUtil.isNotEmpty(header))
+				for (Map.Entry<String, Object> h : header.entrySet())
 					conn.setRequestProperty(h.getKey(), Conversion.toString(h.getValue()));
-				}
-			}
+
 			// 设置为post方式
 			conn.setRequestMethod(HttpConstants.METHOD_GET);
 			// 连接
@@ -114,11 +113,10 @@ public final class HttpEngine {
 			// 获得连接
 			conn = getConnection(url);
 			// 头不为空，添加头
-			if (EmptyUtil.isNotEmpty(header)) {
-				for (Map.Entry<String, Object> h : header.entrySet()) {
+			if (EmptyUtil.isNotEmpty(header))
+				for (Map.Entry<String, Object> h : header.entrySet())
 					conn.setRequestProperty(h.getKey(), Conversion.toString(h.getValue()));
-				}
-			}
+
 			// 设置为post方式
 			conn.setRequestMethod(HttpConstants.METHOD_POST);
 			// 设置允许Input
@@ -128,14 +126,14 @@ public final class HttpEngine {
 			// 连接
 			conn.connect();
 			// 判断有参数提交
-			if (!EmptyUtil.isEmpty(data)) {
+			if (EmptyUtil.isNotEmpty(data)) {
 				// 声明字符串缓存
 				StringBuilder sb = new StringBuilder();
 				// 循环参数
-				for (Map.Entry<String, Object> e : data.entrySet()) {
+				data.entrySet().forEach(e -> {
 					// 添加条件与分隔符
 					sb.append(e.getKey()).append("=").append(e.getValue()).append("&");
-				}
+				});
 				// 写数据流
 				IOUtil.write(conn.getOutputStream(), sb.substring(0, sb.length() - 1));
 			}

@@ -1,17 +1,11 @@
 package com.weicoder.common.crypto;
 
-import java.util.Map;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
 import com.weicoder.common.codec.Hex;
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.EncryptConstants;
-import com.weicoder.common.lang.Maps;
-import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
@@ -21,11 +15,6 @@ import com.weicoder.common.util.StringUtil;
  * @author WD
  */
 public final class HMac {
-	// hmac算法使用
-	private final static Map<String, Mac>	MACS	= Maps.newMap();
-	// 锁
-	private final static Lock				LOCK	= new ReentrantLock();
-
 	/**
 	 * 使用HMAC-SHA1进行消息签名, 返回字节数组,长度为20字节.
 	 * @param text 原始输入字符串
@@ -118,12 +107,10 @@ public final class HMac {
 	private static byte[] doFinal(byte[] b, String algorithm, String keys) {
 		try {
 			// 参数为空时
-			if (EmptyUtil.isEmptys(b, algorithm, keys)) {
+			if (EmptyUtil.isEmptys(b, algorithm, keys))
 				return ArrayConstants.BYTES_EMPTY;
-			}
 			return getMac(algorithm, keys).doFinal(b);
 		} catch (Exception e) {
-			Logs.error(e, "hmac data={} algorithm={}", b.length, algorithm);
 			return ArrayConstants.BYTES_EMPTY;
 		}
 	}
@@ -135,23 +122,13 @@ public final class HMac {
 	 * @return Mac
 	 */
 	private static Mac getMac(String algorithm, String keys) {
-		// 获得Mac
-		Mac mac = MACS.get(algorithm + keys);
-		// mac为空
-		if (mac == null) {
-			try {
-				LOCK.lock();
-				// 获得Mac
-				MACS.put(algorithm + keys, mac = Mac.getInstance(algorithm));
-				// 初始化算法
-				mac.init(new SecretKeySpec(StringUtil.toBytes(keys), algorithm));
-			} catch (Exception e) {
-				Logs.error(e, "getMac algorithm={}", algorithm);
-			} finally {
-				LOCK.unlock();
-			}
-		}
-		// 返回Mac
+		// 声明Mac
+		Mac mac = null;
+		try {
+			// 初始化算法
+			mac = Mac.getInstance(algorithm);
+			mac.init(new SecretKeySpec(StringUtil.toBytes(keys), algorithm));
+		} catch (Exception e) {}
 		return mac;
 	}
 

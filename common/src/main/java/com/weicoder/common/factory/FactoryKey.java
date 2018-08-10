@@ -25,10 +25,9 @@ public abstract class FactoryKey<K, E> extends Factory<E> {
 			// 同步琐
 			lock.lock();
 			// 判断是否为空
-			if (e == null) {
+			if (e == null)
 				// 生成新的实例 添加到仓库中
 				map.put(key, e = newInstance(key));
-			}
 			// 解锁
 			lock.unlock();
 		}

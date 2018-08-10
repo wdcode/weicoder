@@ -25,20 +25,19 @@ public final class Decrypts extends BaseCrypt {
 		// 验证去掉"""
 		String token = StringUtil.replace(StringUtil.trim(info), "\"", StringConstants.EMPTY);
 		// 判断验证串是否符合标准
-		if (!EmptyUtil.isEmpty(token) && token.length() > CommonParams.TOKEN_LENGHT) {
+		if (EmptyUtil.isNotEmpty(token) && token.length() > CommonParams.TOKEN_LENGHT) {
 			// 变为小写
 			String t = token.toLowerCase();
 			// 拆分字符串
 			String[] temp = StringUtil.separate(t, t.length() / CommonParams.TOKEN_LENGHT);
-			if (!EmptyUtil.isEmpty(temp) && temp.length == 2) {
+			if (EmptyUtil.isNotEmpty(temp) && temp.length == 2) {
 				// 验证串
 				String ver = temp[0];
 				// 信息串
 				String user = temp[1];
 				// 判断校验串是否合法
-				if (ver.equals(Digest.absolute(user, CommonParams.TOKEN_LENGHT))) {
+				if (ver.equals(Digest.absolute(user, CommonParams.TOKEN_LENGHT)))
 					return Decrypts.rc4(Hex.decode(user));
-				}
 			}
 		}
 		return ArrayConstants.BYTES_EMPTY;

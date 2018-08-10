@@ -128,7 +128,7 @@ public final class Kafkas {
 								n, System.currentTimeMillis() - time, tid);
 					}
 				});
-			}, 0L, 100L, TimeUnit.MICROSECONDS);
+			}, 0L, 10L, TimeUnit.MICROSECONDS);
 			// 消费队列
 			TOPIC_RECORDS.values().forEach(map -> {
 				map.values().forEach((records) -> {
@@ -190,7 +190,7 @@ public final class Kafkas {
 									"kafka consumer end topic={} offset={} size={} time={} thread={}",
 									topic, offset, n, System.currentTimeMillis() - time, tid);
 						}
-					}, 100L);
+					}, 10L);
 				});
 			});
 		}

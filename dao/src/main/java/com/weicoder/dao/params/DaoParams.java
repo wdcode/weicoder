@@ -22,6 +22,8 @@ public final class DaoParams {
 	public final static int		QUEUE_TIME	= CONFIG.getInt("queue.time", 2);
 	/** 队列更新步长 默认500 */
 	public final static int		QUEUE_SETP	= CONFIG.getInt("queue.setp", 200);
+	/** dao分步更新间隔时间 */
+	public final static long	SETP_SLEEP	= CONFIG.getLong("setp.sleep", 100);
 
 	private DaoParams() {}
 }

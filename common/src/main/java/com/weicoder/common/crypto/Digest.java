@@ -7,7 +7,6 @@ import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.EncryptConstants;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Bytes;
-import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
@@ -179,14 +178,12 @@ public final class Digest {
 	 */
 	public static byte[] getMessageDigest(byte[] b, String algorithm) {
 		// 参数为空 返回 空数组
-		if (EmptyUtil.isEmptys(b, algorithm)) {
+		if (EmptyUtil.isEmptys(b, algorithm))
 			return ArrayConstants.BYTES_EMPTY;
-		}
 		// 声明新摘要
 		try {
 			return MessageDigest.getInstance(algorithm).digest(b);
 		} catch (Exception e) {
-			Logs.error(e, "digest data={} algorithm={}", b.length, algorithm);
 			return b;
 		}
 	}

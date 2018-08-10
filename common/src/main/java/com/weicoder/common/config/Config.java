@@ -47,8 +47,9 @@ public final class Config {
 	 * @return value
 	 */
 	public List<String> getList(String key, List<String> defaultValue) {
-		return Lists.newList(getStringArray(key,
-				EmptyUtil.isEmpty(defaultValue) ? ArrayConstants.STRING_EMPTY : Lists.toArray(defaultValue)));
+		return Lists.newList(
+				getStringArray(key, EmptyUtil.isEmpty(defaultValue) ? ArrayConstants.STRING_EMPTY
+						: Lists.toArray(defaultValue)));
 	}
 
 	/**
@@ -70,11 +71,10 @@ public final class Config {
 		// 获得字符串
 		String s = getString(key);
 		// 如果为空返回默认值 不为空以,拆分
-		if (EmptyUtil.isEmpty(s)) {
+		if (EmptyUtil.isEmpty(s))
 			return defaultValue;
-		} else {
+		else
 			return s.split(StringConstants.COMMA);
-		}
 	}
 
 	/**
