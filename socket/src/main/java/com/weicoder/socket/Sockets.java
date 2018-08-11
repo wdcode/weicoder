@@ -33,9 +33,8 @@ public final class Sockets {
 		// 获得是否压缩
 		zip = SocketParams.ZIP;
 		// 初始化 客户端
-		if (SocketParams.CONFIG.exists("client.host")) {
+		if (SocketParams.CONFIG.exists("client.host"))
 			client = new NettyClient("client");
-		}
 		// 初始化 服务端
 		if (SocketParams.CONFIG.exists("server.port")) {
 			server = new NettyServer("server");
@@ -43,13 +42,11 @@ public final class Sockets {
 			manager = new Manager();
 		}
 		// 启动服务器
-		if (server != null) {
+		if (server != null)
 			server.bind();
-		}
 		// 启动客户端
-		if (client != null) {
+		if (client != null)
 			client.connect();
-		}
 	}
 
 	/**
@@ -110,19 +107,18 @@ public final class Sockets {
 		// 声明字节数组
 		byte[] data = null;
 		// 判断类型
-		if (message == null) {
+		if (message == null)
 			// 空
 			data = ArrayConstants.BYTES_EMPTY;
-		} else if (message instanceof String) {
+		else if (message instanceof String)
 			// 字符串
 			data = StringUtil.toBytes(Conversion.toString(message));
-		} else if (message.getClass().isAnnotationPresent(Protobuf.class)) {
+		else if (message.getClass().isAnnotationPresent(Protobuf.class))
 			// 字符串
 			data = ProtobufEngine.toBytes(message);
-		} else {
+		else
 			// 不知道的类型 以字节数组发送
 			data = Bytes.toBytes(message);
-		}
 		// 使用压缩并且长度大于一个字节长度返回压缩 不使用直接返回字节数组
 		return zip && data.length > Byte.MAX_VALUE ? ZipEngine.compress(data) : data;
 	}

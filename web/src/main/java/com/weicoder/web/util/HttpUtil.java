@@ -52,13 +52,13 @@ public final class HttpUtil {
 		sb.append(url);
 		sb.append("\" method=\"POST\">");
 		// 设置参数
-		for (Map.Entry<String, String> e : parameters.entrySet()) {
+		parameters.forEach((k, v) -> {
 			sb.append("<input type=\"hidden\" name=\"");
-			sb.append(e.getKey());
+			sb.append(k);
 			sb.append("\" value=\"");
-			sb.append(e.getValue());
+			sb.append(v);
 			sb.append("\"/>");
-		}
+		});
 		// submit按钮控件请不要含有name属性
 		sb.append("<input type=\"submit\" value=\"确认\" style=\"display:none;\"></form>");
 		sb.append("<script>document.forms['paysubmit'].submit();</script>");
@@ -83,9 +83,8 @@ public final class HttpUtil {
 	 */
 	public static String toParameters(Map<String, String> map) {
 		// 如果Map为空 返回空串
-		if (EmptyUtil.isEmpty(map)) {
+		if (EmptyUtil.isEmpty(map))
 			return StringConstants.EMPTY;
-		}
 		// 声明字符串缓存
 		StringBuilder sb = new StringBuilder();
 		// 获得Key列表并排序
@@ -97,7 +96,7 @@ public final class HttpUtil {
 			// 获得值
 			String val = map.get(key);
 			// 判断值不为空
-			if (!EmptyUtil.isEmpty(val)) {
+			if (EmptyUtil.isNotEmpty(val)) {
 				sb.append(key).append("=");
 				sb.append(val).append("&");
 			}
@@ -113,8 +112,7 @@ public final class HttpUtil {
 	 */
 	public static void setExpiresHeader(HttpServletResponse response, long expiresSeconds) {
 		// Http 1.0 header
-		response.setDateHeader(HttpConstants.HEADER_KEY_EXPIRES,
-				System.currentTimeMillis() + expiresSeconds * DateConstants.TIME_SECOND);
+		response.setDateHeader(HttpConstants.HEADER_KEY_EXPIRES, System.currentTimeMillis() + expiresSeconds * DateConstants.TIME_SECOND);
 		// Http 1.1 header
 		response.setHeader(HttpConstants.HEADER_KEY_CACHE_CONTROL, "max-age=" + expiresSeconds);
 	}
@@ -155,8 +153,7 @@ public final class HttpUtil {
 	 * @param lastModified 内容的最后修改时间.
 	 * @return true false
 	 */
-	public static boolean checkIfModifiedSince(HttpServletRequest request, HttpServletResponse response,
-			long lastModified) {
+	public static boolean checkIfModifiedSince(HttpServletRequest request, HttpServletResponse response, long lastModified) {
 		// 获得 If-Modified-Since时间
 		long ifModifiedSince = request.getDateHeader("If-Modified-Since");
 		// 判断时间
@@ -180,7 +177,7 @@ public final class HttpUtil {
 	public static boolean checkIfNoneMatchEtag(HttpServletRequest request, HttpServletResponse response, String etag) {
 		// 获得If-None-Match
 		String headerValue = request.getHeader("If-None-Match");
-		if (!EmptyUtil.isEmpty(headerValue)) {
+		if (EmptyUtil.isNotEmpty(headerValue)) {
 			// 声明Boolean变量
 			boolean conditionSatisfied = false;
 			// 判断headerValue不等于 *
@@ -192,15 +189,13 @@ public final class HttpUtil {
 					// 获得Token
 					String currentToken = commaTokenizer.nextToken();
 					// 判断Token
-					if (currentToken.trim().equals(etag)) {
+					if (currentToken.trim().equals(etag))
 						// 返回true
 						conditionSatisfied = true;
-					}
 				}
-			} else {
+			} else
 				// 返回true
 				conditionSatisfied = true;
-			}
 			// 判断
 			if (conditionSatisfied) {
 				// 设置无修改

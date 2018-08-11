@@ -41,9 +41,8 @@ public class ImprovedNamingStrategy implements PhysicalNamingStrategy {
 	}
 
 	private Identifier convert(Identifier name) {
-		if (name == null || EmptyUtil.isEmpty(name.getText())) {
+		if (name == null || EmptyUtil.isEmpty(name.getText()))
 			return name;
-		}
 		return Identifier.toIdentifier(name.getText().replaceAll(regex, replacement).toLowerCase());
 	}
 }

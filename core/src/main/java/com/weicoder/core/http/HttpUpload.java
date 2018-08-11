@@ -50,9 +50,8 @@ public class HttpUpload {
 	 */
 	public static String upload(String url, Map<String, Object> data, File... files) {
 		// 如果文件为空
-		if (EmptyUtil.isEmpty(url) || EmptyUtil.isEmpty(files)) {
+		if (EmptyUtil.isEmpty(url) || EmptyUtil.isEmpty(files))
 			return StringConstants.EMPTY;
-		}
 		// 声明HttpPost
 		HttpPost post = null;
 		try {
@@ -64,10 +63,7 @@ public class HttpUpload {
 				// 声明参数列表
 				List<NameValuePair> list = Lists.newList(data.size());
 				// 设置参数
-				data.forEach((k, v) -> {
-					// 添加参数
-					list.add(new BasicNameValuePair(k, Conversion.toString(v)));
-				});
+				data.forEach((k, v) -> list.add(new BasicNameValuePair(k, Conversion.toString(v))));
 				// 设置参数与 编码格式
 				post.setEntity(new UrlEncodedFormEntity(list, CommonParams.ENCODING));
 			}
@@ -76,9 +72,8 @@ public class HttpUpload {
 			// 设置浏览器上传
 			builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
 			// 添加上传文件
-			for (File file : files) {
+			for (File file : files)
 				builder.addBinaryBody(file.getName(), file);
-			}
 			// 设置提交文件参数
 			post.setEntity(builder.build());
 			// 获得HttpResponse参数
@@ -117,9 +112,8 @@ public class HttpUpload {
 	 */
 	public static String upload(String url, Map<String, Object> data, String name, byte[] b) {
 		// 如果文件为空
-		if (EmptyUtil.isEmpty(url) || EmptyUtil.isEmpty(b)) {
+		if (EmptyUtil.isEmpty(url) || EmptyUtil.isEmpty(b))
 			return StringConstants.EMPTY;
-		}
 		// 声明HttpPost
 		HttpPost post = null;
 		try {
@@ -133,12 +127,9 @@ public class HttpUpload {
 			// 添加上传文件
 			builder.addBinaryBody(name, b);
 			// 参数
-			if (EmptyUtil.isNotEmpty(data)) {
+			if (EmptyUtil.isNotEmpty(data))
 				// 设置参数
-				data.forEach((k, v) -> {
-					builder.addTextBody(k, Conversion.toString(v));
-				});
-			}
+				data.forEach((k, v) -> builder.addTextBody(k, Conversion.toString(v)));
 			// 设置提交文件参数
 			post.setEntity(builder.build());
 			// 获得HttpResponse参数

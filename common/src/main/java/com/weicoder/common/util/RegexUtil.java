@@ -69,8 +69,7 @@ public final class RegexUtil {
 	 * @return true false
 	 */
 	public static boolean isDate(String str) {
-		return is(new String[] { RegexConstants.DATE_YYYYMMDD, RegexConstants.DATE_YYYY_MM_DD,
-				RegexConstants.DATE_Y_M_D_H_M_S, RegexConstants.DATE_Y_M_D_H_M, RegexConstants.DATE_YMD_H_M_S,
+		return is(new String[] { RegexConstants.DATE_YYYYMMDD, RegexConstants.DATE_YYYY_MM_DD, RegexConstants.DATE_Y_M_D_H_M_S, RegexConstants.DATE_Y_M_D_H_M, RegexConstants.DATE_YMD_H_M_S,
 				RegexConstants.DATE_HH_MM_SS }, str);
 	}
 
@@ -198,8 +197,7 @@ public final class RegexUtil {
 	 * @return true false
 	 */
 	public static boolean is(String regex, String str) {
-		return EmptyUtil.isEmpty(regex) || EmptyUtil.isEmpty(str) ? false
-				: Pattern.compile(regex).matcher(str).matches();
+		return EmptyUtil.isEmpty(regex) || EmptyUtil.isEmpty(str) ? false : Pattern.compile(regex).matcher(str).matches();
 	}
 
 	/**
@@ -210,16 +208,13 @@ public final class RegexUtil {
 	 */
 	public static boolean is(String[] regexs, String str) {
 		// 如果为空返回false
-		if (EmptyUtil.isEmpty(regexs) || EmptyUtil.isEmpty(str)) {
+		if (EmptyUtil.isEmpty(regexs) || EmptyUtil.isEmpty(str))
 			return false;
-		} else {
+		else
 			// 循环判断正则 只要有一个符合就返回true
-			for (String regex : regexs) {
-				if (is(regex, str)) {
+			for (String regex : regexs)
+				if (is(regex, str))
 					return true;
-				}
-			}
-		}
 		return false;
 	}
 

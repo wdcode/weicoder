@@ -26,8 +26,7 @@ final class JedisPoolFactory extends FactoryKey<String, JedisPool> {
 		config.setMaxWaitMillis(RedisParams.getMaxWait(name));
 		// 实例化连接池
 		Logs.info("redis init pool config={}", config);
-		return new JedisPool(config, RedisParams.getHost(name), RedisParams.getPort(name), Protocol.DEFAULT_TIMEOUT,
-				RedisParams.getPassword(name), RedisParams.getDatabase(name), null);
+		return new JedisPool(config, RedisParams.getHost(name), RedisParams.getPort(name), Protocol.DEFAULT_TIMEOUT, RedisParams.getPassword(name), RedisParams.getDatabase(name), null);
 	}
 
 	private JedisPoolFactory() {}

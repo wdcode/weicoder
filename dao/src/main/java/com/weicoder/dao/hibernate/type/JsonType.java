@@ -19,26 +19,20 @@ import com.weicoder.core.json.JsonEngine;
 public class JsonType extends BaseType {
 
 	@Override
-	public Object nullSafeGet(ResultSet rs, String[] names,
-			SharedSessionContractImplementor session, Object owner)
-			throws HibernateException, SQLException {
+	public Object nullSafeGet(ResultSet rs, String[] names, SharedSessionContractImplementor session, Object owner) throws HibernateException, SQLException {
 		String json = rs.getString(names[0]);
 		// 判断json不为空
-		if (EmptyUtil.isEmpty(json)) {
+		if (EmptyUtil.isEmpty(json))
 			return Lists.newList();
-		} else {
-			// 返回对象
-			return JsonEngine.toList(json, returnedClass());
-		}
+		// 返回对象
+		return JsonEngine.toList(json, returnedClass());
 	}
 
 	@Override
-	public void nullSafeSet(PreparedStatement st, Object value, int index,
-			SharedSessionContractImplementor session) throws HibernateException, SQLException {
-		if (value == null) {
+	public void nullSafeSet(PreparedStatement st, Object value, int index, SharedSessionContractImplementor session) throws HibernateException, SQLException {
+		if (value == null)
 			st.setNull(index, Types.VARCHAR);
-		} else {
-			st.setString(index, JsonEngine.toJson(value));
-		}
+		st.setString(index, JsonEngine.toJson(value));
+
 	}
 }

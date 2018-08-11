@@ -6,13 +6,14 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
+import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.io.IOUtil;
 import com.weicoder.common.zip.base.BaseZip;
 
 /**
  * ZIP压缩
- * @author WD  
+ * @author WD
  */
 public final class ZipImpl extends BaseZip {
 
@@ -27,6 +28,8 @@ public final class ZipImpl extends BaseZip {
 			zip.finish();
 			// 返回字节数组
 			return baos.toByteArray();
+		} catch (Exception e) {
+			return ArrayConstants.BYTES_EMPTY;
 		}
 	}
 
@@ -40,6 +43,8 @@ public final class ZipImpl extends BaseZip {
 			}
 			// 返回字节数组
 			return baos.toByteArray();
+		} catch (Exception e) {
+			return ArrayConstants.BYTES_EMPTY;
 		}
 	}
 }

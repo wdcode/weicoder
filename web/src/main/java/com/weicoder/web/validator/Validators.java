@@ -63,9 +63,8 @@ public final class Validators {
 		for (Field field : BeanUtil.getFields(bean.getClass())) {
 			// 对字段走验证
 			int code = validator(field.getAnnotations(), BeanUtil.getFieldValue(bean, field));
-			if (code != WebParams.STATE_SUCCESS) {
+			if (code != WebParams.STATE_SUCCESS)
 				return code;
-			}
 		}
 		// 返回成功码
 		return WebParams.STATE_SUCCESS;
@@ -84,36 +83,30 @@ public final class Validators {
 			if (a instanceof Number) {
 				// 是数字并且在可用范围内
 				long i = Conversion.toLong(value, Long.MIN_VALUE);
-				if (i < ((Number) a).min() || i > ((Number) a).max()) {
+				if (i < ((Number) a).min() || i > ((Number) a).max())
 					return ((Number) a).error();
-				}
 			} else if (a instanceof Max) {
 				// 是数字并且小于最大值
 				long i = Conversion.toLong(value, Long.MAX_VALUE);
-				if (i > ((Max) a).value()) {
+				if (i > ((Max) a).value())
 					return ((Max) a).error();
-				}
 			} else if (a instanceof Min) {
 				// 是数字并且大于最小值
 				long i = Conversion.toLong(value, Long.MIN_VALUE);
-				if (i < ((Min) a).value()) {
+				if (i < ((Min) a).value())
 					return ((Min) a).error();
-				}
 			} else if (a instanceof NotEmpty) {
 				// 不为空
-				if (EmptyUtil.isEmpty(value)) {
+				if (EmptyUtil.isEmpty(value))
 					return ((NotEmpty) a).error();
-				}
 			} else if (a instanceof NotNull) {
 				// 不为null
-				if (value == null) {
+				if (value == null)
 					return ((NotNull) a).error();
-				}
 			} else if (a instanceof Regex) {
 				// 判断正则
-				if (!RegexUtil.is(((Regex) a).value(), Conversion.toString(value))) {
+				if (!RegexUtil.is(((Regex) a).value(), Conversion.toString(value)))
 					return ((Regex) a).error();
-				}
 			}
 		}
 		// 返回成功码
@@ -135,11 +128,9 @@ public final class Validators {
 			// 获得验证方法
 			for (String val : vali.value()) {
 				// 获得验证类
-				Object obj = EmptyUtil.isEmpty(name) ? WebCommons.METHOD_VALIDATOR.get(val)
-						: WebCommons.VALIDATORS.get(name);
+				Object obj = EmptyUtil.isEmpty(name) ? WebCommons.METHOD_VALIDATOR.get(val) : WebCommons.VALIDATORS.get(name);
 				// 获得验证方法
-				Method method = EmptyUtil.isEmpty(name) ? WebCommons.METHODS_VALIDATORS.get(val)
-						: WebCommons.VALIDATORS_METHODS.get(name).get(val);
+				Method method = EmptyUtil.isEmpty(name) ? WebCommons.METHODS_VALIDATORS.get(val) : WebCommons.VALIDATORS_METHODS.get(name).get(val);
 				// 获得所有参数类型
 				Parameter[] pars = WebCommons.VALIDATORS_METHODS_PARAMES.get(method);
 				Object[] params = new Object[pars.length];
@@ -148,15 +139,14 @@ public final class Validators {
 					Parameter p = pars[i];
 					// 参数的类型
 					Class<?> cs = p.getType();
-					if (Map.class.equals(cs)) {
+					if (Map.class.equals(cs))
 						params[i] = ps;
-					} else if (ClassUtil.isBaseType(cs)) {
+					else if (ClassUtil.isBaseType(cs))
 						// 获得参数
 						params[i] = Conversion.to(ps.get(p.getName()), cs);
-					} else {
+					else
 						// 设置属性
 						params[i] = BeanUtil.copy(ps, cs);
-					}
 					LOG.debug("validator Parameter index={},name={},type={},value={}", i, p.getName(), cs, params[i]);
 				}
 				// 调用并返回验证结果
@@ -186,74 +176,60 @@ public final class Validators {
 		// 获得是否验证Token注解
 		Token t = method.getAnnotation(Token.class);
 		// 方法上没有 检查类上
-		if (t == null) {
+		if (t == null)
 			t = action.getClass().getAnnotation(Token.class);
-		}
 		// 验证token不为空
 		if (t != null) {
 			// 验证token 获得Token
 			TokenBean token = TokenEngine.decrypt(ps.get(t.value()));
 			LOG.debug("action validator token={} t={}", JsonEngine.toJson(token));
 			// 判断token
-			if (t.valid() > 0 && !token.isValid()) {
+			if (t.valid() > 0 && !token.isValid())
 				// 无效
 				return t.valid();
-			}
-			if (t.expire() > 0 && token.isExpire()) {
+			if (t.expire() > 0 && token.isExpire())
 				// 过期
 				return t.expire();
-			}
-			if (t.sign() > 0 && token.isSign()) {
+			if (t.sign() > 0 && token.isSign())
 				// 是否服务器签发sign
 				return t.sign();
-			}
-			if (t.ip() > 0 && IpUtil.equals(ip, token.getIp()) > ValidatorParams.TOKEN_IP) {
+			if (t.ip() > 0 && IpUtil.equals(ip, token.getIp()) > ValidatorParams.TOKEN_IP)
 				// 客户端IP不符
 				return t.ip();
-			}
 			// 校验token与传入的用户ID是否相同
-			if (EmptyUtil.isNotEmpty(t.id()) && Conversion.toLong(ps.get(t.id())) != token.getId()) {
+			if (EmptyUtil.isNotEmpty(t.id()) && Conversion.toLong(ps.get(t.id())) != token.getId())
 				// 不是用户
 				return t.valid();
-			}
 			// 用户id
 			String uid = Conversion.toString(token.getId());
 			// 是否强制赋值参数
-			if (EmptyUtil.isNotEmpty(t.uid())) {
+			if (EmptyUtil.isNotEmpty(t.uid()))
 				ps.put(t.uid(), uid);
-			} else {
+			else {
 				// 没有强制的话 替换空参数
-				if (!ps.containsKey("uid")) {
+				if (!ps.containsKey("uid"))
 					ps.put("uid", uid);
-				}
-				if (!ps.containsKey("id")) {
+				if (!ps.containsKey("id"))
 					ps.put("id", uid);
-				}
 			}
 		}
 
 		// 验证ip
 		Ip ipv = method.getAnnotation(Ip.class);
 		// 方法上没有 检查类上
-		if (ipv == null) {
+		if (ipv == null)
 			ipv = action.getClass().getAnnotation(Ip.class);
-		}
 		// ip验证不为空
-		if (ipv != null) {
-			// 获得验证ip
-			// 判断是否在白名单
+		if (ipv != null)
+			// 获得验证ip 判断是否在白名单
 			if (!IpUtil.contains(ipv.value(), ip)) {
 				LOG.debug("action validator ips not contains ip={}", ip);
 				return ipv.error();
 			}
-		}
-
 		// 验证类
 		Validator vali = method.getAnnotation(Validator.class);
-		if (vali != null) {
+		if (vali != null)
 			return Validators.validator(vali, ps);
-		}
-
 		// 返回成功
 		return WebParams.STATE_SUCCESS;
 	}
@@ -263,7 +239,7 @@ public final class Validators {
 	 */
 	public static void init() {
 		// 循环所有验证类注解
-		for (Class<?> c : ClassUtil.getAnnotationClass(CommonParams.getPackages("validator"), ValidatorClass.class)) {
+		ClassUtil.getAnnotationClass(CommonParams.getPackages("validator"), ValidatorClass.class).forEach(c -> {
 			// 获得validator名结尾为validator去掉
 			String cname = StringUtil.convert(StringUtil.subStringLastEnd(c.getSimpleName(), "Validator"));
 			LOG.info("init validator sname={},cname={}", c.getSimpleName(), cname);
@@ -279,15 +255,13 @@ public final class Validators {
 						String mname = m.getName();
 						// 放入validator里方法
 						Map<String, Method> map = WebCommons.VALIDATORS_METHODS.get(cname);
-						if (map == null) {
+						if (map == null)
 							WebCommons.VALIDATORS_METHODS.put(cname, map = Maps.newMap());
-						}
 						map.put(mname, m);
 						LOG.info("validator add method={} to validator={}", mname, cname);
 						// 放入总方法池
-						if (WebCommons.METHODS_VALIDATORS.containsKey(mname)) {
+						if (WebCommons.METHODS_VALIDATORS.containsKey(mname))
 							LOG.warn("validator method name exist! name={} action={}", mname, cname);
-						}
 						// 方法对应验证类
 						WebCommons.METHODS_VALIDATORS.put(mname, m);
 						// 方法对应METHOD_VALIDATOR
@@ -297,7 +271,7 @@ public final class Validators {
 					}
 				}
 			}
-		}
+		});
 	}
 
 	private Validators() {}

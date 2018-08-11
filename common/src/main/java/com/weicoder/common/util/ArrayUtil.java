@@ -19,7 +19,7 @@ public final class ArrayUtil {
 	 * @return 是否数组
 	 */
 	public static boolean isArray(Object obj) {
-		return !EmptyUtil.isEmpty(obj) && (obj.getClass().isArray());
+		return EmptyUtil.isNotEmpty(obj) && (obj.getClass().isArray());
 	}
 
 	/**
@@ -76,10 +76,8 @@ public final class ArrayUtil {
 		// 声明Integer数组
 		Integer[] t = new Integer[n.length];
 		// 循环int数组
-		for (int i = 0; i < n.length; i++) {
-			// 辅值
+		for (int i = 0; i < n.length; i++)
 			t[i] = n[i];
-		}
 		// 返回Integer数组
 		return t;
 	}
@@ -93,10 +91,8 @@ public final class ArrayUtil {
 		// 声明Integer数组
 		Integer[] t = new Integer[s.length];
 		// 循环int数组
-		for (int i = 0; i < s.length; i++) {
-			// 辅值
+		for (int i = 0; i < s.length; i++)
 			t[i] = Conversion.toInt(s[i]);
-		}
 		// 返回Integer数组
 		return t;
 	}
@@ -110,10 +106,8 @@ public final class ArrayUtil {
 		// 声明Integer数组
 		int[] t = new int[n.length];
 		// 循环int数组
-		for (int i = 0; i < n.length; i++) {
-			// 辅值
+		for (int i = 0; i < n.length; i++)
 			t[i] = n[i];
-		}
 		// 返回Integer数组
 		return t;
 	}
@@ -127,10 +121,8 @@ public final class ArrayUtil {
 		// 声明Integer数组
 		String[] t = new String[n.length];
 		// 循环int数组
-		for (int i = 0; i < n.length; i++) {
-			// 辅值
+		for (int i = 0; i < n.length; i++)
 			t[i] = Conversion.toString(n[i]);
-		}
 		// 返回Integer数组
 		return t;
 	}
@@ -144,10 +136,8 @@ public final class ArrayUtil {
 		// 声明Integer数组
 		String[] t = new String[a.length];
 		// 循环序列化数组
-		for (int i = 0; i < a.length; i++) {
-			// 辅值
+		for (int i = 0; i < a.length; i++)
 			t[i] = Conversion.toString(a[i]);
-		}
 		// 返回String数组
 		return t;
 	}
@@ -161,10 +151,8 @@ public final class ArrayUtil {
 		// 声明Integer数组
 		String[] t = new String[a.length];
 		// 循环序列化数组
-		for (int i = 0; i < a.length; i++) {
-			// 辅值
+		for (int i = 0; i < a.length; i++)
 			t[i] = Conversion.toString(a[i]);
-		}
 		// 返回String数组
 		return t;
 	}

@@ -12,7 +12,7 @@ import com.weicoder.common.io.IOUtil;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.util.CloseUtil;
-import com.weicoder.common.util.EmptyUtil; 
+import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.core.json.JsonEngine;
 import com.weicoder.common.log.Logs;
 
@@ -44,8 +44,7 @@ public final class ResponseUtil {
 		// 设置头
 		setContentType(response, HttpConstants.CONTENT_TYPE_JSON);
 		// "CP='IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT'"
-		response.setHeader("P3P",
-				"CP='CURa ADMa DEVa PSAo PSDo OUR BUS UNI PUR INT DEM STA PRE COM NAV OTC NOI DSP COR'");
+		response.setHeader("P3P", "CP='CURa ADMa DEVa PSAo PSDo OUR BUS UNI PUR INT DEM STA PRE COM NAV OTC NOI DSP COR'");
 		// 设置编码
 		response.setCharacterEncoding(charsetName);
 		// 声明PrintWriter
@@ -54,7 +53,6 @@ public final class ResponseUtil {
 		try {
 			pw = response.getWriter();
 			pw.write(str);
-//			Logs.debug("write to string={}", str);
 		} catch (Exception e) {
 			Logs.error(e);
 		} finally {
@@ -106,22 +104,18 @@ public final class ResponseUtil {
 	 */
 	public static String json(HttpServletResponse response, String callback, Object data) {
 		// 返回数据为空
-		if (data == null) {
+		if (data == null)
 			return StringConstants.EMPTY;
-		}
 		// 声明返回字符串
 		StringBuilder s = new StringBuilder();
 		// 如果callback不为空 填补左括号
-		if (!EmptyUtil.isEmpty(callback)) {
+		if (EmptyUtil.isNotEmpty(callback))
 			s.append(callback).append("(");
-		}
 		// 添加json数据
-		s.append(data instanceof String || data instanceof Number ? Conversion.toString(data)
-				: JsonEngine.toJson(data));
+		s.append(data instanceof String || data instanceof Number ? Conversion.toString(data) : JsonEngine.toJson(data));
 		// 如果callback不为空 填补右括号
-		if (!EmptyUtil.isEmpty(callback)) {
+		if (EmptyUtil.isNotEmpty(callback))
 			s.append(")");
-		}
 		// 写入前端
 		return write(response, s.toString());
 	}
@@ -131,10 +125,9 @@ public final class ResponseUtil {
 	 * @param response Response
 	 */
 	public static void noCache(HttpServletResponse response) {
-		if (!EmptyUtil.isEmpty(response)) {
+		if (EmptyUtil.isNotEmpty(response)) {
 			response.setHeader("Pragma", HttpConstants.HEADER_VAL_NO_CACHE);
-			response.setHeader(HttpConstants.HEADER_KEY_CACHE_CONTROL,
-					HttpConstants.HEADER_VAL_NO_CACHE);
+			response.setHeader(HttpConstants.HEADER_KEY_CACHE_CONTROL, HttpConstants.HEADER_VAL_NO_CACHE);
 			response.setDateHeader("Expires", 0);
 		}
 	}
@@ -145,9 +138,8 @@ public final class ResponseUtil {
 	 * @param type ContentType
 	 */
 	public static void setContentType(ServletResponse response, String type) {
-		if (!EmptyUtil.isEmpty(response) && !EmptyUtil.isEmpty(type)) {
+		if (EmptyUtil.isNotEmpty(response) && EmptyUtil.isNotEmpty(type))
 			response.setContentType(type);
-		}
 	}
 
 	private ResponseUtil() {}

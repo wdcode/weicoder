@@ -25,11 +25,9 @@ public final class EmptyUtil {
 	 */
 	public static boolean isEmptys(Object... objs) {
 		// 循环判断 如果有一个对象为空 返回 true
-		for (Object o : objs) {
-			if (isEmpty(o)) {
+		for (Object o : objs)
+			if (isEmpty(o))
 				return true;
-			}
-		}
 		// 全部通过返回 false
 		return false;
 	}
@@ -59,25 +57,23 @@ public final class EmptyUtil {
 	 */
 	public static boolean isEmpty(Object obj) {
 		// 判断对象类型
-		if (obj == null) {
+		if (obj == null)
 			return true;
-		} else if (obj instanceof String) {
+		if (obj instanceof String)
 			return isEmpty((String) obj);
-		} else if (obj instanceof byte[]) {
+		if (obj instanceof byte[])
 			return isEmpty((byte[]) obj);
-		} else if (obj instanceof Collection<?>) {
+		if (obj instanceof Collection<?>)
 			return isEmpty((Collection<?>) obj);
-		} else if (obj instanceof Map<?, ?>) {
+		if (obj instanceof Map<?, ?>)
 			return isEmpty((Map<?, ?>) obj);
-		} else if (obj instanceof Object[]) {
+		if (obj instanceof Object[])
 			return isEmpty((Object[]) obj);
-		} else if (obj instanceof int[]) {
+		if (obj instanceof int[])
 			return isEmpty((int[]) obj);
-		} else if (obj instanceof CharSequence) {
+		if (obj instanceof CharSequence)
 			return isEmpty((CharSequence) obj);
-		} else {
-			return false;
-		}
+		return false;
 	}
 
 	/**

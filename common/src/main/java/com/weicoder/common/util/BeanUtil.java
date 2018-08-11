@@ -40,35 +40,28 @@ public final class BeanUtil {
 	@SuppressWarnings("unchecked")
 	public static <T> T copy(Object source, T target) {
 		// 判读对象为空
-		if (source == null || target == null) {
+		if (source == null || target == null)
 			return target;
-		}
 		// 如果源为Map
-		if (source instanceof Map<?, ?>) {
+		if (source instanceof Map<?, ?>)
 			return copy((Map<?, ?>) source, target);
-		}
 		// 如果目标为Map
 		Map<String, Object> map = null;
-		if (target instanceof Map<?, ?>) {
+		if (target instanceof Map<?, ?>)
 			map = (Map<String, Object>) target;
-		}
 		// 循环字段
-		for (Field field : getFields(source.getClass())) {
+		for (Field field : getFields(source.getClass()))
 			try {
 				// 不是符合字段
-				if (!field.isSynthetic()) {
+				if (!field.isSynthetic())
 					// 设置字段值
-					if (map == null) {
-						setFieldValue(target, getField(target, field.getName()),
-								getFieldValue(source, field));
-					} else {
+					if (map == null)
+						setFieldValue(target, getField(target, field.getName()), getFieldValue(source, field));
+					else
 						map.put(field.getName(), getFieldValue(source, field));
-					}
-				}
 			} catch (Exception e) {
 				Logs.error(e);
 			}
-		}
 		// 返回对象
 		return target;
 	}
@@ -81,14 +74,8 @@ public final class BeanUtil {
 	 * @return dest 目标对象
 	 */
 	public static <T> T copy(Map<?, ?> map, T dest) {
-		// // 循环Map的实体
-		// for (Map.Entry<?, ?> entry : map.entrySet()) {
-		// Logs.debug("login/login copy dest={} key={} val={}",dest, entry.getKey(),entry.getValue());
-		// setFieldValue(dest, Conversion.toString(entry.getKey()),
-		// entry.getValue());
-		// }
 		// 循环字段
-		for (Field field : getFields(dest.getClass())) {
+		getFields(dest.getClass()).forEach(field -> {
 			try {
 				// 不是复合字段
 				if (!field.isSynthetic()) {
@@ -97,7 +84,7 @@ public final class BeanUtil {
 					setFieldValue(dest, getField(dest, name), map.get(name));
 				}
 			} catch (Exception e) {}
-		}
+		});
 		// 返回对象
 		return dest;
 	}
@@ -127,9 +114,8 @@ public final class BeanUtil {
 		// 获得列表
 		List<T> ls = Lists.newList(size);
 		// 是 ArrayList
-		for (int i = 0; i < size; i++) {
+		for (int i = 0; i < size; i++)
 			ls.add(copy(list.get(i), dest));
-		}
 		// 返回列表
 		return ls;
 	}
@@ -166,22 +152,20 @@ public final class BeanUtil {
 	 */
 	public static List<Object> getFieldValues(Collection<?> list, String fieldName) {
 		// 对象为空
-		if (EmptyUtil.isEmpty(list)) {
+		if (EmptyUtil.isEmpty(list))
 			return Lists.emptyList();
-		}
 		// 声明返回列表
 		List<Object> ls = Lists.newList(list.size());
 		// 循环添加
-		for (Object e : list) {
+		list.forEach(e -> {
 			// 获得值
 			Object val = getFieldValue(e, fieldName);
 			// 判断值是否为集合
-			if (val instanceof Collection<?>) {
+			if (val instanceof Collection<?>)
 				ls.addAll((Collection<?>) val);
-			} else {
+			else
 				ls.add(val);
-			}
-		}
+		});
 		// 返回列表
 		return ls;
 	}
@@ -197,9 +181,7 @@ public final class BeanUtil {
 		// 声明值列表
 		List<Object> values = Lists.newList(fields.size());
 		// 循环赋值
-		for (Field field : fields) {
-			values.add(getFieldValue(obj, field.getName()));
-		}
+		fields.forEach(field -> values.add(getFieldValue(obj, field.getName())));
 		// 返回值列表
 		return values;
 	}
@@ -212,18 +194,13 @@ public final class BeanUtil {
 	 */
 	public static Object getFieldValue(Object object, String fieldName) {
 		// 如果有复杂字段
-		if (fieldName.indexOf(StringConstants.POINT) > -1) {
-			return getFieldValue(
-					getFieldValue(object,
-							StringUtil.subStringEnd(fieldName, StringConstants.POINT)),
-					StringUtil.subString(fieldName, StringConstants.POINT));
-		}
+		if (fieldName.indexOf(StringConstants.POINT) > -1)
+			return getFieldValue(getFieldValue(object, StringUtil.subStringEnd(fieldName, StringConstants.POINT)), StringUtil.subString(fieldName, StringConstants.POINT));
 		// 获得字段
 		Field field = getField(object, fieldName);
 		// 判断字段为空 返回null
-		if (EmptyUtil.isEmpty(field)) {
+		if (EmptyUtil.isEmpty(field))
 			return null;
-		}
 		try {
 			// 获得字段值
 			return makeAccessible(field).get(object);
@@ -241,9 +218,8 @@ public final class BeanUtil {
 	 */
 	public static Object getFieldValue(Object object, Field field) {
 		// 判断字段为空 返回null
-		if (object == null || field == null) {
+		if (object == null || field == null)
 			return null;
-		}
 		try {
 			// 获得字段值
 			return makeAccessible(field).get(object);
@@ -260,7 +236,6 @@ public final class BeanUtil {
 	 * @param value 值
 	 */
 	public static void setFieldValue(Object object, String fieldName, Object value) {
-		Logs.debug("login/login obj={} name={} val={}", object, fieldName, value);
 		setFieldValue(object, getField(object, fieldName), value);
 	}
 
@@ -272,9 +247,8 @@ public final class BeanUtil {
 	 */
 	public static void setFieldValue(Object object, Field field, Object value) {
 		// 判断字段为空 返回
-		if (object == null || field == null || value == null) {
+		if (object == null || field == null || value == null)
 			return;
-		}
 		// 设置字段值
 		try {
 			makeAccessible(field).set(object, Conversion.to(value, field.getType()));
@@ -290,12 +264,9 @@ public final class BeanUtil {
 	 */
 	public static Object invoke(Object obj, Method method, Object... args) {
 		try {
-			// Logs.debug("invoke method={} args={} params={}", method.getName(),
-			// Arrays.toString(args), Arrays.toString(method.getParameters()));
 			return makeAccessible(method).invoke(obj, EmptyUtil.isEmpty(args) ? null : args);
 		} catch (Exception e) {
-			Logs.error(e, "invoke method={} args={} params={}", method.getName(),
-					Arrays.toString(args), Arrays.toString(method.getParameters()));
+			Logs.error(e, "invoke method={} args={} params={}", method.getName(), Arrays.toString(args), Arrays.toString(method.getParameters()));
 			return null;
 		}
 	}
@@ -318,26 +289,23 @@ public final class BeanUtil {
 	 * @param parameters 参数
 	 * @return 方法返回值
 	 */
-	public static Object invoke(Object object, String name, Class<?>[] parameterTypes,
-			Object[] parameters) {
+	public static Object invoke(Object object, String name, Class<?>[] parameterTypes, Object[] parameters) {
 		// 声明Class
 		Class<?> c = null;
-		if (object instanceof Class<?>) {
+		if (object instanceof Class<?>)
 			c = (Class<?>) object;
-		} else {
+		else
 			c = object.getClass();
-		}
 		// Class不为空
-		if (c == null) {
+		if (c == null)
 			return null;
-		} else {
+		else
 			try {
 				return getMethod(c, name, parameterTypes).invoke(object, parameters);
 			} catch (Exception e) {
 				Logs.error(e);
 				return null;
 			}
-		}
 	}
 
 	/**
@@ -358,23 +326,19 @@ public final class BeanUtil {
 	 */
 	public static Field getField(Class<?> clazz, String name) {
 		// 判断对象和字段名是否为空
-		if (clazz == null || EmptyUtil.isEmpty(name)) {
+		if (clazz == null || EmptyUtil.isEmpty(name))
 			return null;
-		}
 		// 如果有复杂字段
-		if (name.indexOf(StringConstants.POINT) > -1) {
-			return getField(getField(clazz, StringUtil.subStringEnd(name, StringConstants.POINT)),
-					StringUtil.subString(name, StringConstants.POINT));
-		}
+		if (name.indexOf(StringConstants.POINT) > -1)
+			return getField(getField(clazz, StringUtil.subStringEnd(name, StringConstants.POINT)), StringUtil.subString(name, StringConstants.POINT));
 		// 声明字段
 		Field f = null;
 		// 循环对象类
-		for (; clazz != Object.class && f == null; clazz = clazz.getSuperclass()) {
+		for (; clazz != Object.class && f == null; clazz = clazz.getSuperclass())
 			try {
 				// 获得字段
 				f = clazz.getDeclaredField(name);
 			} catch (Exception e) {}
-		}
 		// 返回null
 		return f;
 	}
@@ -386,18 +350,16 @@ public final class BeanUtil {
 	 */
 	public static List<Field> getFields(Class<?> clazz) {
 		// 判断对象和字段名是否为空
-		if (EmptyUtil.isEmpty(clazz)) {
+		if (EmptyUtil.isEmpty(clazz))
 			return Lists.emptyList();
-		}
 		// 声明列表
 		List<Field> fields = Lists.newList();
 		// 循环对象类
-		for (; clazz != Object.class; clazz = clazz.getSuperclass()) {
+		for (; clazz != Object.class; clazz = clazz.getSuperclass())
 			try {
 				// 添加字段列表
 				fields.addAll(Lists.newList(clazz.getDeclaredFields()));
 			} catch (Exception e) {}
-		}
 		// 没有找到返回null
 		return fields;
 	}
@@ -411,20 +373,16 @@ public final class BeanUtil {
 	 */
 	public static Method getMethod(Object obj, String name, Class<?>... parameterTypes) {
 		// 判断对象和字段名是否为空
-		if (obj == null || EmptyUtil.isEmpty(name)) {
+		if (obj == null || EmptyUtil.isEmpty(name))
 			return null;
-		}
 		// 声明Method
 		Method method = null;
 		// 循环对象类
-		for (Class<?> superClass = obj instanceof Class<?> ? (Class<?>) obj
-				: obj.getClass(); superClass != Object.class
-						&& method == null; superClass = superClass.getSuperclass()) {
+		for (Class<?> superClass = obj instanceof Class<?> ? (Class<?>) obj : obj.getClass(); superClass != Object.class && method == null; superClass = superClass.getSuperclass())
 			try {
 				// 返回方法
 				method = superClass.getDeclaredMethod(name, parameterTypes);
 			} catch (Exception e) {}
-		}
 		// 返回方法
 		return method;
 	}
@@ -436,11 +394,9 @@ public final class BeanUtil {
 	 */
 	private static Field makeAccessible(Field field) {
 		// 判断字段是否公有
-		if (!Modifier.isPublic(field.getModifiers())
-				|| !Modifier.isPublic(field.getDeclaringClass().getModifiers())) {
+		if (!Modifier.isPublic(field.getModifiers()) || !Modifier.isPublic(field.getDeclaringClass().getModifiers()))
 			// 设置可访问
 			field.setAccessible(true);
-		}
 		// 返回字段
 		return field;
 	}
@@ -452,11 +408,9 @@ public final class BeanUtil {
 	 */
 	private static Method makeAccessible(Method method) {
 		// 判断字段是否公有
-		if (!Modifier.isPublic(method.getModifiers())
-				|| !Modifier.isPublic(method.getDeclaringClass().getModifiers())) {
+		if (!Modifier.isPublic(method.getModifiers()) || !Modifier.isPublic(method.getDeclaringClass().getModifiers()))
 			// 设置可访问
 			method.setAccessible(true);
-		}
 		// 返回方法
 		return method;
 	}

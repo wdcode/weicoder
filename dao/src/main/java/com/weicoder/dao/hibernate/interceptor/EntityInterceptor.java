@@ -26,15 +26,13 @@ public class EntityInterceptor extends EmptyInterceptor {
 	@Override
 	public String onPrepareStatement(String sql) {
 		// 分表列表为空
-		if (EmptyUtil.isEmpty(names)) {
+		if (EmptyUtil.isEmpty(names))
 			return sql;
-		}
 		// 查找表名
 		String name = SqlUtil.getTable(sql);
 		String table = names.get(name);
-		if (!EmptyUtil.isEmptys(name, table) && !name.equals(table)) {
+		if (EmptyUtil.isNotEmptys(name, table) && !name.equals(table))
 			sql = StringUtil.replace(sql, name, table);
-		}
 		return super.onPrepareStatement(sql);
 	}
 
@@ -43,10 +41,9 @@ public class EntityInterceptor extends EmptyInterceptor {
 		// 获得表名
 		String name = StringUtil.convert(entity.getClass().getSimpleName());
 		// 是否切片实体
-		if (entity instanceof Shards) {
+		if (entity instanceof Shards)
 			// 切片
 			names.put(name, StringUtil.add(name, ((Shards) entity).shard()));
-		}
 		// 返回实体名
 		return super.getEntityName(entity);
 	}

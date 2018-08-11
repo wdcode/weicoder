@@ -44,13 +44,12 @@ public final class SqlUtil {
 	public static String getTable(String sql) {
 		// 查找表名
 		String name = StringConstants.EMPTY;
-		if (sql.startsWith("insert")) {
+		if (sql.startsWith("insert"))
 			name = StringUtil.subString(sql, "into ", StringConstants.BLANK);
-		} else if (sql.startsWith("update")) {
+		else if (sql.startsWith("update"))
 			name = StringUtil.subString(sql, "update ", StringConstants.BLANK);
-		} else if (sql.startsWith("select")) {
+		else if (sql.startsWith("select"))
 			name = StringUtil.subString(sql, "from ", StringConstants.BLANK);
-		}
 		return name;
 	}
 

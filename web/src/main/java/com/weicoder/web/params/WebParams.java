@@ -10,8 +10,7 @@ public final class WebParams {
 	/** 是否支持get */
 	public final static boolean	GET					= Params.getBoolean("servlet.get", true);
 	/** 验证码出现的字符集 */
-	public final static char[]	VERIFY_CODE			= Params
-			.getString("verify.code", "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ").toCharArray();
+	public final static char[]	VERIFY_CODE			= Params.getString("verify.code", "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ").toCharArray();
 	/** 验证码长度 */
 	public final static int		VERIFY_LENGTH		= Params.getInt("verify.length", 4);
 	/** 域名 */

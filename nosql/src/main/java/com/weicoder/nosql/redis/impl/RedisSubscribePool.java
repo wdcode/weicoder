@@ -1,5 +1,8 @@
 package com.weicoder.nosql.redis.impl;
 
+import java.util.Arrays;
+
+import com.weicoder.common.log.Logs;
 import com.weicoder.nosql.redis.Subscribe;
 import com.weicoder.nosql.redis.factory.RedisFactory;
 
@@ -23,6 +26,8 @@ public class RedisSubscribePool implements Subscribe {
 	public void subscribe(JedisPubSub jedisPubSub, String... channels) {
 		try (Jedis jedis = pool.getResource()) {
 			jedis.subscribe(jedisPubSub, channels);
+		} catch (Exception e) {
+			Logs.error(e, "redis subscribe channels={}", Arrays.toString(channels));
 		}
 	}
 }

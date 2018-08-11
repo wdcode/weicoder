@@ -74,8 +74,7 @@ public final class VerifyCodeUtil {
 			for (int i = 0; i < len; i++) {
 				// 将认证码显示到图象中
 				// 设置颜色
-				g.setColor(new Color(20 + RandomUtil.nextInt(110), 20 + RandomUtil.nextInt(110),
-						20 + RandomUtil.nextInt(110)));
+				g.setColor(new Color(20 + RandomUtil.nextInt(110), 20 + RandomUtil.nextInt(110), 20 + RandomUtil.nextInt(110)));
 				// 写文字
 				g.drawString(rand.substring(i, i + 1), charWidth * i + 10, charHeight);
 			}
@@ -101,10 +100,9 @@ public final class VerifyCodeUtil {
 		// 获得验证码数组
 		char[] code = WebParams.VERIFY_CODE;
 		// 循环获得字符
-		for (int i = 0; i < WebParams.VERIFY_LENGTH; i++) {
+		for (int i = 0; i < WebParams.VERIFY_LENGTH; i++)
 			// 添件字符
 			buf[i] = code[RandomUtil.nextInt(WebParams.VERIFY_LENGTH)];
-		}
 		// 获得字符串
 		return String.valueOf(buf);
 	}
@@ -117,13 +115,11 @@ public final class VerifyCodeUtil {
 	 */
 	private static Color getRandColor(int fc, int bc) {
 		// fc不能大于255
-		if (fc > 255) {
+		if (fc > 255)
 			fc = 255;
-		}
 		// bc不能大于255
-		if (bc > 255) {
+		if (bc > 255)
 			bc = 255;
-		}
 		// 获得R
 		int r = fc + RandomUtil.nextInt(bc - fc);
 		// 获得G

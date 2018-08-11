@@ -100,7 +100,7 @@ public class LogJdk implements Log {
 
 	@Override
 	public void error(Throwable t, String msg, Object... params) {
-		// TODO Auto-generated method stub
-
+		error(t);
+		error(msg, params);
 	}
 }

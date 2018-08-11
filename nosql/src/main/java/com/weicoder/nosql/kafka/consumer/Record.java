@@ -80,7 +80,6 @@ public class Record<K, V> {
 
 	@Override
 	public String toString() {
-		return "Record [topic=" + topic + ", key=" + key + ", value=" + value + ", offset=" + offset
-				+ ", time=" + time + "]";
+		return "Record [topic=" + topic + ", key=" + key + ", value=" + value + ", offset=" + offset + ", time=" + time + "]";
 	}
 }

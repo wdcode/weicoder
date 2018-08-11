@@ -42,8 +42,7 @@ public final class Redis {
 	 */
 	public static void subscribes() {
 		// 获得所有redis订阅者
-		List<Class<Subscribes>> subscribes = ClassUtil.getAnnotationClass(CommonParams.getPackages("redis"),
-				Subscribes.class);
+		List<Class<Subscribes>> subscribes = ClassUtil.getAnnotationClass(CommonParams.getPackages("redis"), Subscribes.class);
 		if (EmptyUtil.isNotEmpty(subscribes)) {
 			// 循环处理所有redis订阅类
 			int n = 0;
@@ -52,9 +51,8 @@ public final class Redis {
 				Object subscribe = BeanUtil.newInstance(c);
 				Subscribes a = subscribe.getClass().getAnnotation(Subscribes.class);
 				String name = a.value();
-				if (!REDIS.containsKey(name)) {
+				if (!REDIS.containsKey(name))
 					REDIS.put(name, RedisFactory.getSubscribe(name));
-				}
 				// 获得channels列表
 				List<String> channels = Maps.getList(CHANNELS, name, String.class);
 				// 处理所有方法
@@ -90,21 +88,19 @@ public final class Redis {
 								// 获得所有参数
 								Parameter[] params = m.getParameters();
 								Object[] objs = null;
-								if (EmptyUtil.isEmpty(params)) {
+								if (EmptyUtil.isEmpty(params))
 									// 参数为空直接执行方法
 									BeanUtil.invoke(s, m);
-								} else {
+								else {
 									objs = new Object[params.length];
 									// 有参数 现在只支持 1位的参数，1个参数表示message
-									if (params.length == 1) {
+									if (params.length == 1)
 										objs[0] = message;
-									}
 									// 执行方法
 									BeanUtil.invoke(s, m, objs);
 								}
 							}
-							LOG.debug("redis subscribe={} method={} channel={} message={} time={}  thread={}",
-									s.getClass().getSimpleName(), m.getName(), channel, message,
+							LOG.debug("redis subscribe={} method={} channel={} message={} time={}  thread={}", s.getClass().getSimpleName(), m.getName(), channel, message,
 									System.currentTimeMillis() - time, tid);
 						}
 					}, Lists.toArray(val));

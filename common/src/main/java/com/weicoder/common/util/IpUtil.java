@@ -54,10 +54,9 @@ public final class IpUtil {
 				} else if (t.length == 1) {
 					IPS_ONE.add(s);
 				}
-			} else {
+			} else
 				// 没有*匹配直接添加到列表
 				IPS_ALL.add(ip);
-			}
 			Logs.debug("add ips ip={}", ip);
 		}
 		Logs.info("add ips all={} one={} two={} three={}", IPS_ALL, IPS_ONE, IPS_TWO, IPS_THREE);
@@ -73,9 +72,7 @@ public final class IpUtil {
 		String p = StringConstants.POINT;
 		String[] t = StringUtil.split(ip, RegexConstants.POINT);
 		// 判断解析处理的ip放在不同列表
-		return IPS_ALL.contains(ip) || IPS_THREE.contains(StringUtil.add(t[0], p, t[1], p, t[2], p))
-				|| IPS_TWO.contains(StringUtil.add(t[0], p, t[1], p))
-				|| IPS_ONE.contains(StringUtil.add(t[0], p));
+		return IPS_ALL.contains(ip) || IPS_THREE.contains(StringUtil.add(t[0], p, t[1], p, t[2], p)) || IPS_TWO.contains(StringUtil.add(t[0], p, t[1], p)) || IPS_ONE.contains(StringUtil.add(t[0], p));
 	}
 
 	/**
@@ -102,12 +99,11 @@ public final class IpUtil {
 		// ip2的字段
 		byte[] b2 = Bytes.toBytes(encode(ip2));
 		// 对比ip段
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < 4; i++)
 			if (b1[i] == b2[i])
 				res++;
 			else
 				break;
-		}
 		// 返回结果
 		return res;
 	}
@@ -135,9 +131,8 @@ public final class IpUtil {
 			// 获得ip列表
 			String[] ips = getIps();
 			// 如果为空
-			if (EmptyUtil.isEmpty(ips)) {
+			if (EmptyUtil.isEmpty(ips))
 				return StringConstants.EMPTY;
-			}
 			// 获得第一个IP
 			String ip = ips[0];
 			// 循环全部IP
@@ -175,9 +170,8 @@ public final class IpUtil {
 					// 获得IP
 					String ip = ips.nextElement().getHostAddress();
 					// 判断不是IP和本机IP
-					if (RegexUtil.isIp(ip) && !LOCAL_IP.equals(ip)) {
+					if (RegexUtil.isIp(ip) && !LOCAL_IP.equals(ip))
 						list.add(ip);
-					}
 				}
 			}
 			// 返回IP数组
@@ -198,10 +192,8 @@ public final class IpUtil {
 			// 拆分IP
 			String[] t = ip.split("\\.");
 			// 判断数组长度为4
-			if (t.length == 4) {
-				return Conversion.toInt(t[0]) << 24 | Conversion.toInt(t[1]) << 16
-						| Conversion.toInt(t[2]) << 8 | Conversion.toInt(t[3]);
-			}
+			if (t.length == 4)
+				return Conversion.toInt(t[0]) << 24 | Conversion.toInt(t[1]) << 16 | Conversion.toInt(t[2]) << 8 | Conversion.toInt(t[3]);
 		}
 		// 失败返回0
 		return 0;

@@ -81,7 +81,7 @@ public class Log4j2 implements Log {
 
 	@Override
 	public void error(Throwable t, String msg, Object... params) {
-		log.error(String.format(StringUtil.replaceAll(msg, "\\{}", "%s"), params(params)), t);
+		error(String.format(StringUtil.replaceAll(msg, "\\{}", "%s"), params(params)), t);
 	}
 
 	@Override
@@ -116,21 +116,19 @@ public class Log4j2 implements Log {
 	 */
 	private static Object[] params(Object... params) {
 		// 开启日志截取
-		if (CommonParams.LOGS_LEN > 0) {
+		if (CommonParams.LOGS_LEN > 0)
 			// 循环处理日志
 			for (int i = 0; i < params.length; i++) {
 				// 转换对象
 				Object obj = params[i];
 				// 判断类型 byte[]
-				if (obj instanceof byte[]) {
+				if (obj instanceof byte[])
 					obj = Arrays.toString((byte[]) obj);
-				} else if (obj instanceof String[]) {
+				else if (obj instanceof String[])
 					obj = Arrays.toString((String[]) obj);
-				}
 				// 获得对象
 				params[i] = StringUtil.subString(Conversion.toString(obj), 0, CommonParams.LOGS_LEN);
 			}
-		}
 		// 返回对象
 		return params;
 	}

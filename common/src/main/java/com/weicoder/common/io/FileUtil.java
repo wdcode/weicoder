@@ -110,7 +110,7 @@ public final class FileUtil {
 	 * @return 字节数组
 	 */
 	public static byte[] read(String fileName, long pos) {
-		if (IO) {
+		if (IO)
 			// 获得随机读写文件
 			try (RandomAccessFile file = getRandomAccessFile(fileName, "rw", pos);) {
 				// 声明字节数组
@@ -122,7 +122,7 @@ public final class FileUtil {
 			} catch (IOException e) {
 				Logs.error(e);
 			}
-		} else if (AIO) {
+		else if (AIO)
 			// 获得文件通道
 			try (AsynchronousFileChannel channel = AsynchronousFileChannel.open(Paths.get(fileName));) {
 				// 声明字节数组
@@ -134,7 +134,7 @@ public final class FileUtil {
 			} catch (Exception e) {
 				Logs.error(e);
 			}
-		} else {
+		else
 			// 获得文件通道
 			try (FileChannel channel = FileChannel.open(Paths.get(fileName));) {
 				// 声明字节数组
@@ -146,7 +146,6 @@ public final class FileUtil {
 			} catch (Exception e) {
 				Logs.error(e);
 			}
-		}
 		// 返回空字节数组
 		return ArrayConstants.BYTES_EMPTY;
 	}
@@ -217,7 +216,7 @@ public final class FileUtil {
 	 * @param pos 偏移
 	 */
 	public static void write(String fileName, byte[] b, long pos) {
-		if (IO) {
+		if (IO)
 			// 获得随机读写文件
 			try (RandomAccessFile file = getRandomAccessFile(fileName, "rw", pos);) {
 				// 写字节数组
@@ -225,7 +224,7 @@ public final class FileUtil {
 			} catch (IOException e) {
 				Logs.error(e);
 			}
-		} else if (AIO) {
+		else if (AIO)
 			// 获得文件通道
 			try (AsynchronousFileChannel channel = AsynchronousFileChannel.open(Paths.get(fileName));) {
 				// 写字节数组
@@ -233,7 +232,7 @@ public final class FileUtil {
 			} catch (Exception e) {
 				Logs.error(e);
 			}
-		} else {
+		else
 			// 获得文件通道
 			try (FileChannel channel = FileChannel.open(Paths.get(fileName));) {
 				// 写字节数组
@@ -241,7 +240,6 @@ public final class FileUtil {
 			} catch (Exception e) {
 				Logs.error(e);
 			}
-		}
 	}
 
 	/**
@@ -320,7 +318,6 @@ public final class FileUtil {
 			file.seek(pos);
 		} catch (Exception e) {
 			Logs.error(e);
-			// Logs.debug("FileUtil getRandomAccessFile=" + e.toString());
 		}
 		// 返回RandomAccessFile
 		return file;
@@ -364,7 +361,6 @@ public final class FileUtil {
 			return file == null ? null : file.exists() ? new FileInputStream(file) : null;
 		} catch (Exception e) {
 			Logs.error(e);
-			// Logs.debug("FileUtil getInputStream=" + e.toString());
 			return null;
 		}
 	}

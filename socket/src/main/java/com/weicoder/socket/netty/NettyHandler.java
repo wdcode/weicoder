@@ -37,11 +37,10 @@ public final class NettyHandler extends SimpleChannelInboundHandler<ByteBuf> {
 	@Override
 	public void channelInactive(ChannelHandlerContext ctx) throws Exception {
 		Session s = getSesson(ctx.channel());
-		if (s == null) {
+		if (s == null)
 			Logs.debug("channel session is null = {}", ctx);
-		} else {
+		else
 			Logs.debug("channel is inactive = {}", ctx);
-		}
 	}
 
 	@Override

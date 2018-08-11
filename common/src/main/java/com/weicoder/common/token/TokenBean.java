@@ -157,6 +157,11 @@ public final class TokenBean implements ByteArray {
 		return token;
 	}
 
+	// @Override
+	// public String toString() {
+	// return "TokenBean [id=" + id + ", time=" + time + ", ip=" + ip + ", server=" + server + ", sign=" + sign + ", valid=" + valid + ", token=" + token + "]";
+	// }
+
 	@Override
 	public byte[] array() {
 		return Bytes.toBytes(id, time, IpUtil.encode(ip), IpUtil.encode(server), sign);

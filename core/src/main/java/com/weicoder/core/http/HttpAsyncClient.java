@@ -23,6 +23,7 @@ import org.apache.http.nio.reactor.IOReactorException;
 
 import com.weicoder.common.constants.HttpConstants;
 import com.weicoder.common.constants.SystemConstants;
+import com.weicoder.common.interfaces.Callback;
 import com.weicoder.common.io.IOUtil;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.log.Log;
@@ -69,8 +70,7 @@ public final class HttpAsyncClient {
 		headers.add(new BasicHeader(HttpConstants.ACCEPT_CHARSET_KEY, HttpConstants.ACCEPT_CHARSET_VAL));
 		builder.setDefaultHeaders(headers);
 		// 设置连接配置
-		builder.setDefaultConnectionConfig(
-				ConnectionConfig.custom().setCharset(Charset.forName(CommonParams.ENCODING)).build());
+		builder.setDefaultConnectionConfig(ConnectionConfig.custom().setCharset(Charset.forName(CommonParams.ENCODING)).build());
 		// 实例化客户端
 		CLIENT = builder.build();
 		// 启动
@@ -168,14 +168,11 @@ public final class HttpAsyncClient {
 			post = new HttpPost(url);
 			post.addHeader(new BasicHeader(HttpConstants.CONTENT_TYPE_KEY, HttpConstants.CONTENT_TYPE_VAL));
 			// 如果参数列表为空 data为空map
-			if (!EmptyUtil.isEmpty(data)) {
+			if (EmptyUtil.isNotEmpty(data)) {
 				// 声明参数列表
 				List<NameValuePair> list = Lists.newList(data.size());
 				// 设置参数
-				for (Map.Entry<String, String> entry : data.entrySet()) {
-					// 添加参数
-					list.add(new BasicNameValuePair(entry.getKey(), entry.getValue()));
-				}
+				data.forEach((k, v) -> list.add(new BasicNameValuePair(k, v)));
 				// 设置参数与 编码格式
 				post.setEntity(new UrlEncodedFormEntity(list, charset));
 			}
@@ -211,16 +208,4 @@ public final class HttpAsyncClient {
 	}
 
 	private HttpAsyncClient() {}
-
-	/**
-	 * HTTP 异步回调
-	 * @author WD
-	 */
-	public interface Callback<T> {
-		/**
-		 * http请求成功后返回
-		 * @param result 返回结果
-		 */
-		void callback(T result);
-	}
 }

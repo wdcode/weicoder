@@ -31,7 +31,7 @@ public final class JdbcDao implements Dao {
 		db = DataBaseFactory.getDataBase();
 		insert = Maps.newMap();
 		// 加载所有类对应的SQL语句
-		for (Class<Table> c : ClassUtil.getAnnotationClass(CommonParams.getPackages("jdbc"), Table.class)) {
+		ClassUtil.getAnnotationClass(CommonParams.getPackages("jdbc"), Table.class).forEach(c -> {
 			// 声明SQL INSERT INTO t(f1,f2,...) VALUES(?,?)
 			StringBuilder sql = new StringBuilder("insert into ");
 			// 反射类名为表名
@@ -49,7 +49,7 @@ public final class JdbcDao implements Dao {
 			// 添加值
 			insert.put(c, sql.append(")").append(value).append(")").toString());
 			Logs.debug("sql={}", sql);
-		}
+		});
 		Logs.info("insert={}", insert);
 	}
 
@@ -67,183 +67,151 @@ public final class JdbcDao implements Dao {
 
 	@Override
 	public <E> E update(E entity) {
-
 		return null;
 	}
 
 	@Override
 	public <E> List<E> update(List<E> entitys) {
-
 		return null;
 	}
 
 	@Override
 	public <E> E insertOrUpdate(E entity) {
-
 		return null;
 	}
 
 	@Override
 	public <E> List<E> insertOrUpdate(List<E> entitys) {
-
 		return null;
 	}
 
 	@Override
 	public <E> E delete(E entity) {
-
 		return null;
 	}
 
 	@Override
 	public <E> List<E> delete(List<E> entitys) {
-
 		return null;
 	}
 
 	@Override
 	public <E> E get(Class<E> entityClass, Serializable pk) {
-
 		return null;
 	}
 
 	@Override
 	public <E> List<E> gets(Class<E> entityClass, Serializable... pks) {
-
 		return null;
 	}
 
 	@Override
 	public <E> E get(E entity) {
-
 		return null;
 	}
 
 	@Override
 	public <E> E get(Class<E> entityClass, String property, Object value) {
-
 		return null;
 	}
 
 	@Override
 	public <E> E get(Class<E> entity, Map<String, Object> map) {
-
 		return null;
 	}
 
 	@Override
 	public <E> List<E> list(E entity, int firstResult, int maxResults) {
-
 		return null;
 	}
 
 	@Override
 	public <E> List<E> list(Class<E> entityClass, int firstResult, int maxResults) {
-
 		return null;
 	}
 
 	@Override
 	public <E> List<E> like(Class<E> entityClass, String property, Object value, int firstResult, int maxResults) {
-
 		return null;
 	}
 
 	@Override
 	public <E> List<E> eq(Class<E> entityClass, String property, Object value, int firstResult, int maxResults) {
-
 		return null;
 	}
 
 	@Override
 	public <E> List<E> eq(Class<E> entityClass, Map<String, Object> map, int firstResult, int maxResults) {
-
 		return null;
 	}
 
 	@Override
 	public <E> List<E> in(Class<E> entityClass, String property, List<Object> values, int firstResult, int maxResults) {
-
 		return null;
 	}
 
 	@Override
-	public <E> List<E> in(Class<E> entityClass, String property, List<Object> values, Map<String, Object> orders,
-			int firstResult, int maxResults) {
-
+	public <E> List<E> in(Class<E> entityClass, String property, List<Object> values, Map<String, Object> orders, int firstResult, int maxResults) {
 		return null;
 	}
 
 	@Override
 	public <E> List<E> in(Class<E> entityClass, Map<String, List<Object>> parames, int firstResult, int maxResults) {
-
 		return null;
 	}
 
 	@Override
 	public <E> List<E> between(E entity, String property, Object lo, Object hi, int firstResult, int maxResults) {
-
 		return null;
 	}
 
 	@Override
-	public <E> List<E> between(Class<E> entity, String property, Object lo, Object hi, int firstResult,
-			int maxResults) {
-
+	public <E> List<E> between(Class<E> entity, String property, Object lo, Object hi, int firstResult, int maxResults) {
 		return null;
 	}
 
 	@Override
 	public <E> List<E> order(E entity, Map<String, Object> orders, int firstResult, int maxResults) {
-
 		return null;
 	}
 
 	@Override
 	public <E> List<E> order(Class<E> entityClass, Map<String, Object> orders, int firstResult, int maxResults) {
-
 		return null;
 	}
 
 	@Override
 	public int count(Class<?> entityClass) {
-
 		return 0;
 	}
 
 	@Override
 	public int count(Object entity, String property, Object lo, Object hi) {
-
 		return 0;
 	}
 
 	@Override
 	public int count(Class<?> entityClass, Map<String, Object> map) {
-
 		return 0;
 	}
 
 	@Override
 	public int count(Object entity) {
-
 		return 0;
 	}
 
 	@Override
 	public int count(Class<?> entityClass, String property, Object value) {
-
 		return 0;
 	}
 
 	@Override
 	public int execute(Class<?> entityClass, String sql, Object... values) {
-
 		return 0;
 	}
 
 	@Override
 	public <E> List<E> query(Class<E> entityClass, String sql, List<Object> values, int firstResult, int maxResults) {
-
 		return null;
 	}
 
@@ -255,9 +223,8 @@ public final class JdbcDao implements Dao {
 	private <E> Object[] getParame(E e) {
 		Field[] f = e.getClass().getDeclaredFields();
 		Object[] o = new Object[f.length];
-		for (int i = 0; i < f.length; i++) {
+		for (int i = 0; i < f.length; i++)
 			o[i] = BeanUtil.getFieldValue(e, f[i]);
-		}
 		return o;
 	}
 
@@ -268,9 +235,8 @@ public final class JdbcDao implements Dao {
 	 */
 	private <E> Object[][] getParames(List<E> e) {
 		Object[][] o = new Object[e.size()][];
-		for (int i = 0; i < e.size(); i++) {
+		for (int i = 0; i < e.size(); i++)
 			o[i] = getParame(e.get(i));
-		}
 		return o;
 	}
 
@@ -326,19 +292,16 @@ public final class JdbcDao implements Dao {
 
 	@Override
 	public Object query(Class<?> entityClass, String sql, Object... values) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public <E> List<E> ge(Class<E> entityClass, String property, Object value, int firstResult, int maxResults) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public <E> List<E> le(Class<E> entityClass, String property, Object value, int firstResult, int maxResults) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }

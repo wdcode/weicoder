@@ -5,12 +5,13 @@ import java.io.ByteArrayOutputStream;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
+import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.io.IOUtil;
 import com.weicoder.common.zip.base.BaseZip;
 
 /**
  * GZIP压缩
- * @author WD  
+ * @author WD
  */
 public final class GzipImpl extends BaseZip {
 
@@ -23,6 +24,8 @@ public final class GzipImpl extends BaseZip {
 			gzip.finish();
 			// 返回字节数组
 			return baos.toByteArray();
+		} catch (Exception e) {
+			return ArrayConstants.BYTES_EMPTY;
 		}
 	}
 
@@ -30,6 +33,8 @@ public final class GzipImpl extends BaseZip {
 	protected byte[] extract0(byte[] b) throws Exception {
 		try (GZIPInputStream gzip = new GZIPInputStream(new ByteArrayInputStream(b))) {
 			return IOUtil.read(gzip, false);
+		} catch (Exception e) {
+			return ArrayConstants.BYTES_EMPTY;
 		}
 	}
 }

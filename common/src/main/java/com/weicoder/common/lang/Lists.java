@@ -22,8 +22,7 @@ public final class Lists {
 	 * @return 处理后的元素
 	 */
 	public static <E> E get(List<E> list, int i) {
-		return EmptyUtil.isEmpty(list) ? null
-				: i < 0 ? list.get(0) : i >= list.size() ? list.get(list.size() - 1) : list.get(i);
+		return EmptyUtil.isEmpty(list) ? null : i < 0 ? list.get(0) : i >= list.size() ? list.get(list.size() - 1) : list.get(i);
 	}
 
 	/**
@@ -32,7 +31,7 @@ public final class Lists {
 	 * @return 是否列表
 	 */
 	public static boolean isList(Object obj) {
-		return !EmptyUtil.isEmpty(obj) && obj instanceof List<?>;
+		return EmptyUtil.isNotEmpty(obj) && obj instanceof List<?>;
 	}
 
 	/**
@@ -41,7 +40,7 @@ public final class Lists {
 	 * @return List
 	 */
 	public static <E> List<E> newList() {
-		return new ArrayList<E>();
+		return new ArrayList<>();
 	}
 
 	/**
@@ -51,7 +50,7 @@ public final class Lists {
 	 * @return List
 	 */
 	public static <E> List<E> newList(int size) {
-		return new ArrayList<E>(size < 1 ? 1 : size);
+		return new ArrayList<>(size < 1 ? 1 : size);
 	}
 
 	/**
@@ -72,7 +71,7 @@ public final class Lists {
 	 * @return List
 	 */
 	public static <E> List<E> newList(Collection<E> c) {
-		return c == null ? new ArrayList<E>() : new ArrayList<E>(c);
+		return c == null ? new ArrayList<>() : new ArrayList<>(c);
 	}
 
 	/**
@@ -86,12 +85,10 @@ public final class Lists {
 		// 获得一个列表
 		List<E> list = newList();
 		// 循环集合
-		for (int i = 0; i < c.length; i++) {
+		for (int i = 0; i < c.length; i++)
 			// 添加到列表中
-			if (!EmptyUtil.isEmpty(c[i])) {
+			if (EmptyUtil.isNotEmpty(c[i]))
 				list.addAll(c[i]);
-			}
-		}
 		// 返回列表
 		return list;
 	}
@@ -107,9 +104,9 @@ public final class Lists {
 		// 声明返回结果
 		List<List<E>> res = Lists.newList();
 		// 对象为空或者分片小于1直接返回列表
-		if (EmptyUtil.isEmpty(list) || slice < 1 || list.size() <= slice) {
+		if (EmptyUtil.isEmpty(list) || slice < 1 || list.size() <= slice)
 			res.add(list);
-		} else {
+		else {
 			// 开始数
 			int n = 0;
 			// 循环分解
@@ -119,13 +116,11 @@ public final class Lists {
 				List<E> ls = Lists.subList(list, start, start + slice);
 				n++;
 				// 不为空添加到列表
-				if (EmptyUtil.isNotEmpty(ls)) {
+				if (EmptyUtil.isNotEmpty(ls))
 					res.add(ls);
-				}
 				// 如果
-				if (ls.size() < slice) {
+				if (ls.size() < slice)
 					break;
-				}
 			}
 		}
 		// 返回结果
@@ -142,19 +137,16 @@ public final class Lists {
 	 */
 	public static <E> List<E> subList(List<E> list, int begin, int end) {
 		// 如果列表为空返回一个空列表
-		if (EmptyUtil.isEmpty(list)) {
+		if (EmptyUtil.isEmpty(list))
 			return list;
-		}
 		// 获得元列表大小
 		int size = list.size();
 		// 如果开始为小于1 介绍大于列表长度
-		if (begin < 1 && end >= size) {
+		if (begin < 1 && end >= size)
 			return list;
-		}
 		// 判断如果begin大于等于元素列表大小 返回原列表
-		if (begin > size) {
+		if (begin > size)
 			return emptyList();
-		}
 		// 判断begin
 		begin = begin < 0 ? 0 : begin;
 		// 如果begin>end
@@ -198,9 +190,8 @@ public final class Lists {
 	@SuppressWarnings("unchecked")
 	public static <E> E[] toArray(List<E> list) {
 		// 判断列表不为空
-		if (EmptyUtil.isEmpty(list)) {
+		if (EmptyUtil.isEmpty(list))
 			return ArrayUtil.getArray();
-		}
 		// 返回数组
 		return (E[]) list.toArray(ArrayUtil.getArray(list.get(0).getClass(), list.size()));
 	}
@@ -214,9 +205,8 @@ public final class Lists {
 	 */
 	public static <E> E[] toArray(List<Object> list, Class<E> clazz) {
 		// 判断列表不为空
-		if (EmptyUtil.isEmpty(list)) {
+		if (EmptyUtil.isEmpty(list))
 			return ArrayUtil.getArray(clazz, 0);
-		}
 		// 返回数组
 		return list.toArray(ArrayUtil.getArray(clazz, list.size()));
 	}
@@ -238,14 +228,10 @@ public final class Lists {
 	 */
 	public static boolean contains(List<Object> list, Object o) {
 		// 判断不为空
-		if (!EmptyUtil.isEmpty(list) && o != null) {
-			for (Object obj : list) {
-				if (o.getClass().equals(obj.getClass()) ? o.equals(obj)
-						: Conversion.toString(o).equals(Conversion.toString(obj))) {
+		if (EmptyUtil.isNotEmpty(list) && o != null)
+			for (Object obj : list)
+				if (o.getClass().equals(obj.getClass()) ? o.equals(obj) : Conversion.toString(o).equals(Conversion.toString(obj)))
 					return true;
-				}
-			}
-		}
 		// 返回false
 		return false;
 	}

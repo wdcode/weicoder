@@ -38,16 +38,12 @@ public final class ResourceUtil {
 		// 获得资源URL 使用当前线程
 		URL url = Thread.currentThread().getContextClassLoader().getResource(resourceName);
 		// 如果获得的资源为null
-		if (url == null) {
-			// 使用本类加载
-			url = ClassLoader.getSystemClassLoader().getResource(resourceName);
-			// 如果为空
-			if (url == null) {
+		if (url == null)
+			// 使用本类加载 如果为空
+			if ((url = ClassLoader.getSystemClassLoader().getResource(resourceName)) == null)
 				url = ClassLoader.getSystemResource(resourceName);
-			}
-		}
 		// 如果url还为空 做资源的名的判断重新调用方法
-		if (url == null && !EmptyUtil.isEmpty(resourceName) && (!resourceName.startsWith(StringConstants.BACKSLASH))) {
+		if (url == null && EmptyUtil.isNotEmpty(resourceName) && (!resourceName.startsWith(StringConstants.BACKSLASH))) {
 			return getResource(StringConstants.BACKSLASH + resourceName);
 		}
 		// 返回资源
@@ -64,29 +60,21 @@ public final class ResourceUtil {
 		List<URL> urls = Lists.newList();
 		try {
 			// 获得资源URL 使用当前线程
-			for (Enumeration<URL> u = Thread.currentThread().getContextClassLoader().getResources(resourceName); u
-					.hasMoreElements();) {
+			for (Enumeration<URL> u = Thread.currentThread().getContextClassLoader().getResources(resourceName); u.hasMoreElements();)
 				urls.add(u.nextElement());
-			}
 			// 如果获得的资源为null
 			if (EmptyUtil.isEmpty(urls)) {
 				// 使用本类加载
-				for (Enumeration<URL> u = ClassLoader.getSystemClassLoader().getResources(resourceName); u
-						.hasMoreElements();) {
+				for (Enumeration<URL> u = ClassLoader.getSystemClassLoader().getResources(resourceName); u.hasMoreElements();)
 					urls.add(u.nextElement());
-				}
 				// 如果为空
-				if (EmptyUtil.isEmpty(urls)) {
-					for (Enumeration<URL> u = ClassLoader.getSystemResources(resourceName); u.hasMoreElements();) {
+				if (EmptyUtil.isEmpty(urls))
+					for (Enumeration<URL> u = ClassLoader.getSystemResources(resourceName); u.hasMoreElements();)
 						urls.add(u.nextElement());
-					}
-				}
 			}
 			// 如果url还为空 做资源的名的判断重新调用方法
-			if (EmptyUtil.isEmpty(urls) && !EmptyUtil.isEmpty(resourceName)
-					&& (!resourceName.startsWith(StringConstants.BACKSLASH))) {
+			if (EmptyUtil.isEmpty(urls) && !EmptyUtil.isEmpty(resourceName) && (!resourceName.startsWith(StringConstants.BACKSLASH)))
 				return getResources(StringConstants.BACKSLASH + resourceName);
-			}
 		} catch (Exception e) {}
 		// 返回资源
 		return urls;
@@ -101,15 +89,11 @@ public final class ResourceUtil {
 		// 声明流
 		InputStream in = ClassLoader.getSystemResourceAsStream(name);
 		// 判断流为空
-		if (in == null) {
-			// 使用当前线程来加载资源
-			in = Thread.currentThread().getContextClassLoader().getResourceAsStream(name);
-			// 判断流为空
-			if (in == null) {
+		if (in == null)
+			// 使用当前线程来加载资源 判断流为空
+			if ((in = Thread.currentThread().getContextClassLoader().getResourceAsStream(name)) == null)
 				// 使用当前类来加载资源
 				in = ClassLoader.getSystemClassLoader().getResourceAsStream(name);
-			}
-		}
 		// 返回流
 		return in;
 	}

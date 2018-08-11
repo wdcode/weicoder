@@ -20,27 +20,26 @@ public final class Conversion {
 	 */
 	public static Object to(Object obj, Class<?> c) {
 		// 判断类型
-		if (c == null) {
+		if (c == null)
 			return obj;
-		} else if (String.class == c) {
+		if (String.class == c)
 			return toString(obj);
-		} else if (Integer.class == c || int.class == c) {
+		if (Integer.class == c || int.class == c)
 			return toInt(obj);
-		} else if (Long.class == c || long.class == c) {
+		if (Long.class == c || long.class == c)
 			return toLong(obj);
-		} else if (Float.class == c || float.class == c) {
+		if (Float.class == c || float.class == c)
 			return toFloat(obj);
-		} else if (Double.class == c || double.class == c) {
+		if (Double.class == c || double.class == c)
 			return toDouble(obj);
-		} else if (Short.class == c || short.class == c) {
+		if (Short.class == c || short.class == c)
 			return toShort(obj);
-		} else if (Byte.class == c || byte.class == c) {
+		if (Byte.class == c || byte.class == c)
 			return toByte(obj);
-		} else if (BigDecimal.class == c) {
+		if (BigDecimal.class == c)
 			return toBigDecimal(obj);
-		} else if (Boolean.class == c || boolean.class == c) {
+		if (Boolean.class == c || boolean.class == c)
 			return toBoolean(obj);
-		}
 		// 返回原类型
 		return obj;
 	}
@@ -61,8 +60,7 @@ public final class Conversion {
 	 * @return 转换后的字符串
 	 */
 	public static String toString(Object obj, String defaultValue) {
-		return EmptyUtil.isEmpty(obj) ? defaultValue
-				: obj instanceof Object[] ? Arrays.toString(((Object[]) obj)).trim() : obj.toString().trim();
+		return EmptyUtil.isEmpty(obj) ? defaultValue : obj instanceof Object[] ? Arrays.toString(((Object[]) obj)).trim() : obj.toString().trim();
 	}
 
 	/**
@@ -83,19 +81,17 @@ public final class Conversion {
 	public static int toInt(Object obj, int defaultValue) {
 		try {
 			// 判断对象类型
-			if (EmptyUtil.isEmpty(obj)) {
+			if (EmptyUtil.isEmpty(obj))
 				return defaultValue;
-			} else if (obj.getClass().isArray()) {
+			if (obj.getClass().isArray())
 				return toInt(((Object[]) obj)[0], defaultValue);
-			} else if (obj instanceof Number) {
+			if (obj instanceof Number)
 				return ((Number) obj).intValue();
-			} else if (obj instanceof Boolean) {
+			if (obj instanceof Boolean)
 				return ((Boolean) obj).booleanValue() ? 1 : 0;
-			} else if (obj instanceof Character) {
+			if (obj instanceof Character)
 				return ((Character) obj).charValue();
-			} else {
-				return MathUtil.add(obj).intValue();
-			}
+			return MathUtil.add(obj).intValue();
 		} catch (RuntimeException e) {
 			return defaultValue;
 		}
@@ -119,19 +115,17 @@ public final class Conversion {
 	public static long toLong(Object obj, long defaultValue) {
 		try {
 			// 判断对象类型
-			if (EmptyUtil.isEmpty(obj)) {
+			if (EmptyUtil.isEmpty(obj))
 				return defaultValue;
-			} else if (obj instanceof Number) {
+			if (obj instanceof Number)
 				// Number
 				return ((Number) obj).longValue();
-			} else if (obj instanceof Boolean) {
+			if (obj instanceof Boolean)
 				// Boolean
 				return ((Boolean) obj).booleanValue() ? 1 : 0;
-			} else if (obj instanceof Character) {
+			if (obj instanceof Character)
 				return ((Character) obj).charValue();
-			} else {
-				return MathUtil.add(obj).longValue();
-			}
+			return MathUtil.add(obj).longValue();
 		} catch (RuntimeException e) {
 			return defaultValue;
 		}
@@ -155,23 +149,21 @@ public final class Conversion {
 	public static float toFloat(Object obj, float defaultValue) {
 		try {
 			// 判断对象类型
-			if (EmptyUtil.isEmpty(obj)) {
+			if (EmptyUtil.isEmpty(obj))
 				return defaultValue;
-			} else if (obj instanceof Number) {
+			if (obj instanceof Number)
 				// Number
 				return ((Number) obj).floatValue();
-			} else if (obj instanceof String) {
+			if (obj instanceof String)
 				// String
 				return Float.parseFloat(obj.toString());
-			} else if (obj instanceof Boolean) {
+			if (obj instanceof Boolean)
 				// Boolean
 				return ((Boolean) obj).booleanValue() ? 1 : 0;
-			} else if (obj instanceof Character) {
+			if (obj instanceof Character)
 				return ((Character) obj).charValue();
-			} else {
-				// 普通对象 转换成String 在返回
-				return Float.parseFloat(toString(obj));
-			}
+			// 普通对象 转换成String 在返回
+			return Float.parseFloat(toString(obj));
 		} catch (RuntimeException e) {
 			return defaultValue;
 		}
@@ -195,23 +187,21 @@ public final class Conversion {
 	public static double toDouble(Object obj, double defaultValue) {
 		try {
 			// 判断对象类型
-			if (EmptyUtil.isEmpty(obj)) {
+			if (EmptyUtil.isEmpty(obj))
 				return defaultValue;
-			} else if (obj instanceof Number) {
+			if (obj instanceof Number)
 				// Number
 				return ((Number) obj).doubleValue();
-			} else if (obj instanceof String) {
+			if (obj instanceof String)
 				// String
 				return Double.parseDouble(obj.toString());
-			} else if (obj instanceof Boolean) {
+			if (obj instanceof Boolean)
 				// Boolean
 				return ((Boolean) obj).booleanValue() ? 1 : 0;
-			} else if (obj instanceof Character) {
+			if (obj instanceof Character)
 				return ((Character) obj).charValue();
-			} else {
-				// 普通对象 转换成String 在返回
-				return Double.parseDouble(toString(obj));
-			}
+			// 普通对象 转换成String 在返回
+			return Double.parseDouble(toString(obj));
 		} catch (RuntimeException e) {
 			return defaultValue;
 		}
@@ -235,23 +225,21 @@ public final class Conversion {
 	public static short toShort(Object obj, short defaultValue) {
 		try {
 			// 判断对象类型
-			if (EmptyUtil.isEmpty(obj)) {
+			if (EmptyUtil.isEmpty(obj))
 				return defaultValue;
-			} else if (obj instanceof Number) {
+			if (obj instanceof Number)
 				// Number
 				return ((Number) obj).shortValue();
-			} else if (obj instanceof String) {
+			if (obj instanceof String)
 				// String
 				return Short.parseShort(obj.toString());
-			} else if (obj instanceof Boolean) {
+			if (obj instanceof Boolean)
 				// Boolean
 				return (short) (((Boolean) obj).booleanValue() ? 1 : 0);
-			} else if (obj instanceof Character) {
+			if (obj instanceof Character)
 				return (short) (((Character) obj).charValue());
-			} else {
-				// 普通对象 转换成String 在返回
-				return Short.parseShort(toString(obj));
-			}
+			// 普通对象 转换成String 在返回
+			return Short.parseShort(toString(obj));
 		} catch (RuntimeException e) {
 			return defaultValue;
 		}
@@ -275,23 +263,21 @@ public final class Conversion {
 	public static byte toByte(Object obj, byte defaultValue) {
 		try {
 			// 判断对象类型
-			if (EmptyUtil.isEmpty(obj)) {
+			if (EmptyUtil.isEmpty(obj))
 				return defaultValue;
-			} else if (obj instanceof Number) {
+			if (obj instanceof Number)
 				// Number
 				return ((Number) obj).byteValue();
-			} else if (obj instanceof String) {
+			if (obj instanceof String)
 				// String
 				return Byte.parseByte(obj.toString());
-			} else if (obj instanceof Boolean) {
+			if (obj instanceof Boolean)
 				// Boolean
 				return (byte) (((Boolean) obj).booleanValue() ? 1 : 0);
-			} else if (obj instanceof Character) {
+			if (obj instanceof Character)
 				return (byte) (((Character) obj).charValue());
-			} else {
-				// 普通对象 转换成String 在返回
-				return Byte.parseByte(toString(obj));
-			}
+			// 普通对象 转换成String 在返回
+			return Byte.parseByte(toString(obj));
 		} catch (RuntimeException e) {
 			return defaultValue;
 		}
@@ -315,29 +301,27 @@ public final class Conversion {
 	public static BigDecimal toBigDecimal(Object obj, BigDecimal defaultValue) {
 		try {
 			// 判断对象类型
-			if (EmptyUtil.isEmpty(obj)) {
+			if (EmptyUtil.isEmpty(obj))
 				return defaultValue;
-			} else if (obj instanceof BigDecimal) {
+			if (obj instanceof BigDecimal)
 				// String
 				return (BigDecimal) obj;
-			} else if (obj instanceof Long || obj instanceof Integer) {
+			if (obj instanceof Long || obj instanceof Integer)
 				// Long Integer
 				return BigDecimal.valueOf(toLong(obj));
-			} else if (obj instanceof Double || obj instanceof Float) {
+			if (obj instanceof Double || obj instanceof Float)
 				// Double Float
 				return BigDecimal.valueOf(toDouble(obj));
-			} else if (obj instanceof String) {
+			if (obj instanceof String)
 				// String
 				return new BigDecimal(obj.toString());
-			} else if (obj instanceof Boolean) {
+			if (obj instanceof Boolean)
 				// Boolean
 				return ((Boolean) obj).booleanValue() ? BigDecimal.ONE : BigDecimal.ZERO;
-			} else if (obj instanceof Character) {
+			if (obj instanceof Character)
 				return new BigDecimal(((Character) obj).charValue());
-			} else {
-				// 普通对象 转换成String 在返回
-				return new BigDecimal(toString(obj));
-			}
+			// 普通对象 转换成String 在返回
+			return new BigDecimal(toString(obj));
 		} catch (RuntimeException e) {
 			return defaultValue;
 		}
@@ -361,23 +345,21 @@ public final class Conversion {
 	public static boolean toBoolean(Object obj, boolean defaultValue) {
 		try {
 			// 判断类型
-			if (EmptyUtil.isEmpty(obj)) {
+			if (EmptyUtil.isEmpty(obj))
 				return defaultValue;
-			} else if (obj instanceof Boolean) {
+			if (obj instanceof Boolean)
 				// Boolean
 				return ((Boolean) obj).booleanValue();
-			} else if (obj instanceof String) {
+			if (obj instanceof String) {
 				// String
 				String is = obj.toString().trim();
-				return obj == null ? defaultValue
-						: "true".equalsIgnoreCase(is) || "yes".equalsIgnoreCase(is) || "ok".equalsIgnoreCase(is);
-			} else if (obj instanceof Number) {
+				return obj == null ? defaultValue : "true".equalsIgnoreCase(is) || "yes".equalsIgnoreCase(is) || "ok".equalsIgnoreCase(is);
+			}
+			if (obj instanceof Number)
 				// Number
 				return ((Number) obj).intValue() > 0 ? true : false;
-			} else {
-				// 其它类型先转换成String 在转成Boolean
-				return Boolean.parseBoolean(toString(obj));
-			}
+			// 其它类型先转换成String 在转成Boolean
+			return Boolean.parseBoolean(toString(obj));
 		} catch (RuntimeException e) {
 			return defaultValue;
 		}

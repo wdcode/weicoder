@@ -36,29 +36,27 @@ public final class Bytes {
 	 */
 	public static Object to(byte[] b, Class<?> c) {
 		// 判断类型
-		if (c == null) {
+		if (c == null)
 			return b;
-		} else if (String.class == c) {
+		if (String.class == c)
 			return toString(b);
-		} else if (Integer.class == c || int.class == c) {
+		if (Integer.class == c || int.class == c)
 			return toInt(b);
-		} else if (Long.class == c || long.class == c) {
+		if (Long.class == c || long.class == c)
 			return toLong(b);
-		} else if (Float.class == c || float.class == c) {
+		if (Float.class == c || float.class == c)
 			return toFloat(b);
-		} else if (Double.class == c || double.class == c) {
+		if (Double.class == c || double.class == c)
 			return toDouble(b);
-		} else if (Short.class == c || short.class == c) {
+		if (Short.class == c || short.class == c)
 			return toShort(b);
-		} else if (Byte.class == c || byte.class == c) {
+		if (Byte.class == c || byte.class == c)
 			return toByte(b);
-		} else if (Boolean.class == c || boolean.class == c) {
+		if (Boolean.class == c || boolean.class == c)
 			return toBoolean(b);
-		} else if (c.isAssignableFrom(ByteArray.class)) {
+		if (c.isAssignableFrom(ByteArray.class))
 			return toBean((ByteArray) BeanUtil.newInstance(c), b);
-		} else {
-			return toBinary(c, b);
-		}
+		return toBinary(c, b);
 	}
 
 	/**
@@ -72,9 +70,8 @@ public final class Bytes {
 		// 声明字节数组
 		byte[][] bs = new byte[len][];
 		// 循环数组
-		for (int i = 0; i < len; i++) {
+		for (int i = 0; i < len; i++)
 			bs[i] = toBytes(objs[i]);
-		}
 		// 返回字节数组
 		return add(bs);
 	}
@@ -106,71 +103,65 @@ public final class Bytes {
 	 * @return 字节数组
 	 */
 	public static byte[] toBytes(Object obj) {
-		// 声明字节数组
-		byte[] b = ArrayConstants.BYTES_EMPTY;
 		// 判断类型
-		if (obj == null) {
-			return b;
-		} else if (obj instanceof byte[]) {
+		if (obj == null)
+			return ArrayConstants.BYTES_EMPTY;
+		if (obj instanceof byte[])
 			// byte[]
-			b = (byte[]) obj;
-		} else if (obj instanceof Object[]) {
+			return (byte[]) obj;
+		if (obj instanceof Object[])
 			// Byte
-			b = toBytes((Object[]) obj);
-		} else if (obj instanceof Collection<?>) {
+			return toBytes((Object[]) obj);
+		if (obj instanceof Collection<?>)
 			// Byte
-			b = toBytes((Collection<?>) obj);
-		} else if (obj instanceof Byte) {
+			return toBytes((Collection<?>) obj);
+		if (obj instanceof Byte)
 			// Byte
-			b = new byte[] { (Byte) obj };
-		} else if (obj instanceof Integer) {
+			return new byte[] { (Byte) obj };
+		if (obj instanceof Integer)
 			// int
-			b = toBytes(Conversion.toInt(obj));
-		} else if (obj instanceof Long) {
+			return toBytes(Conversion.toInt(obj));
+		if (obj instanceof Long)
 			// Long
-			b = toBytes(Conversion.toLong(obj));
-		} else if (obj instanceof Float) {
+			return toBytes(Conversion.toLong(obj));
+		if (obj instanceof Float)
 			// float
-			b = toBytes(Conversion.toFloat(obj));
-		} else if (obj instanceof Double) {
+			return toBytes(Conversion.toFloat(obj));
+		if (obj instanceof Double)
 			// Double
-			b = toBytes(Conversion.toDouble(obj));
-		} else if (obj instanceof Short) {
+			return toBytes(Conversion.toDouble(obj));
+		if (obj instanceof Short)
 			// Short
-			b = toBytes(Conversion.toShort(obj));
-		} else if (obj instanceof Byte) {
+			return toBytes(Conversion.toShort(obj));
+		if (obj instanceof Byte)
 			// Short
-			b = new byte[] { (byte) (obj) };
-		} else if (obj instanceof Boolean) {
+			return new byte[] { (byte) (obj) };
+		if (obj instanceof Boolean)
 			// Short
-			b = toBytes(Conversion.toBoolean(obj));
-		} else if (obj instanceof String) {
+			return toBytes(Conversion.toBoolean(obj));
+		if (obj instanceof String)
 			// String
-			b = toBytes(Conversion.toString(obj));
-		} else if (obj instanceof ByteBuffer) {
+			return toBytes(Conversion.toString(obj));
+		if (obj instanceof ByteBuffer)
 			// String
-			b = toBytes((ByteBuffer) obj);
-		} else if (obj instanceof ByteArray) {
+			return toBytes((ByteBuffer) obj);
+		if (obj instanceof ByteArray)
 			// File
-			b = toBytes((ByteArray) obj);
-		} else if (obj instanceof Binary) {
+			return toBytes((ByteArray) obj);
+		if (obj instanceof Binary)
 			// File
-			b = toBytes((Binary) obj);
-		} else if (obj instanceof File) {
+			return toBytes((Binary) obj);
+		if (obj instanceof File)
 			// File
-			b = FileUtil.read((File) obj);
-		} else if (obj instanceof InputStream) {
+			return FileUtil.read((File) obj);
+		if (obj instanceof InputStream)
 			// File
-			b = IOUtil.read((InputStream) obj, false);
-		} else if (obj instanceof ReadableByteChannel) {
+			return IOUtil.read((InputStream) obj, false);
+		if (obj instanceof ReadableByteChannel)
 			// File
-			b = ChannelUtil.read((ReadableByteChannel) obj, false);
-		} else {
-			// Object调用toString()然后转换成byte[]
-			b = StringUtil.toBytes(obj.toString());
-		}
-		// 返回字节数组
-		return b;
+			return ChannelUtil.read((ReadableByteChannel) obj, false);
+		// Object调用toString()然后转换成byte[]
+		return StringUtil.toBytes(obj.toString());
 	}
 
 	/**
@@ -180,17 +171,14 @@ public final class Bytes {
 	 */
 	public static byte[] toBytes(Binary binary) {
 		// 对象为空
-		if (EmptyUtil.isEmpty(binary)) {
+		if (EmptyUtil.isEmpty(binary))
 			return ArrayConstants.BYTES_EMPTY;
-		}
 		// 字段值
 		List<Object> values = Lists.newList();
 		// 获得字段赋值
-		for (Field field : BeanUtil.getFields(binary.getClass())) {
-			if (!field.isSynthetic()) {
+		for (Field field : BeanUtil.getFields(binary.getClass()))
+			if (!field.isSynthetic())
 				values.add(BeanUtil.getFieldValue(binary, field));
-			}
-		}
 		// 返回字节数组
 		return Bytes.toBytes(values.toArray());
 	}
@@ -211,13 +199,11 @@ public final class Bytes {
 	 */
 	public static byte[] toBytes(ByteBuffer buff) {
 		// 如果为null
-		if (buff == null) {
+		if (buff == null)
 			return ArrayConstants.BYTES_EMPTY;
-		}
 		// 如果可以直接访问数组
-		if (buff.hasArray()) {
+		if (buff.hasArray())
 			return buff.array();
-		}
 		// 如果读取长度大于0
 		int len = buff.limit();
 		if (len > 0) {
@@ -660,9 +646,8 @@ public final class Bytes {
 		// 循环设置字段值
 		for (Field field : fields) {
 			// 如果偏移与字节长度相同 没有数据 跳出
-			if (b.length <= offset) {
+			if (b.length <= offset)
 				break;
-			}
 			if (!field.isSynthetic()) {
 				// 获得字段类型
 				Class<?> type = field.getType();
@@ -717,12 +702,11 @@ public final class Bytes {
 	 */
 	public static byte[] add(byte[]... bs) {
 		// 判断字节数组是否为空
-		if (!EmptyUtil.isEmpty(bs)) {
+		if (EmptyUtil.isNotEmpty(bs)) {
 			// 获得所有字节数组长度
 			int len = 0;
-			for (int i = 0; i < bs.length; i++) {
+			for (int i = 0; i < bs.length; i++)
 				len += bs[i].length;
-			}
 			// 声明需要的字节数组
 			byte[] b = new byte[len];
 			// 声明字节数组用于循环

@@ -60,30 +60,19 @@ public final class MongoImpl implements Mongo {
 			Builder builder = MongoClientOptions.builder();
 			builder.connectionsPerHost(100);
 			builder.threadsAllowedToBlockForConnectionMultiplier(100);
-
 			// MongoCredential
 			MongoCredential credential = null;
-			if (EmptyUtil.isNotEmpty(MongoParams.getUser(key))) {
-				credential = MongoCredential.createScramSha1Credential(MongoParams.getUser(key),
-						"admin", MongoParams.getPassword(key).toCharArray());
-			}
-
+			if (EmptyUtil.isNotEmpty(MongoParams.getUser(key)))
+				credential = MongoCredential.createScramSha1Credential(MongoParams.getUser(key), "admin", MongoParams.getPassword(key).toCharArray());
 			// 实例化客户端
-			if (credential == null) {
-				client = new MongoClient(
-						new ServerAddress(MongoParams.getHost(key), MongoParams.getPort(key)),
-						builder.build());
-			} else {
-				client = new MongoClient(
-						new ServerAddress(MongoParams.getHost(key), MongoParams.getPort(key)),
-						credential, builder.build());
-			}
-
+			if (credential == null)
+				client = new MongoClient(new ServerAddress(MongoParams.getHost(key), MongoParams.getPort(key)), builder.build());
+			else
+				client = new MongoClient(new ServerAddress(MongoParams.getHost(key), MongoParams.getPort(key)), credential, builder.build());
 			// 如果库存在
 			db = client.getDatabase(MongoParams.getDB(key));
-			if (EmptyUtil.isNotEmpty(MongoParams.getCollection(key))) {
+			if (EmptyUtil.isNotEmpty(MongoParams.getCollection(key)))
 				dbc = db.getCollection(MongoParams.getCollection(key));
-			}
 			dbcs = Maps.newMap();
 		} catch (Exception e) {
 			Logs.error(e);
@@ -100,10 +89,7 @@ public final class MongoImpl implements Mongo {
 		// 声明Document列表
 		List<Document> documents = Lists.newList(list.size());
 		// 循环map数组
-		list.forEach((data) -> {
-			// 实例化新Document对象
-			documents.add(Document.parse(JsonEngine.toJson(data)));
-		});
+		list.forEach(data -> documents.add(Document.parse(JsonEngine.toJson(data))));
 		// 插入数据
 		getCollection(name).insertMany(documents);
 	}
@@ -144,10 +130,9 @@ public final class MongoImpl implements Mongo {
 		// 获得数据集合
 		MongoCollection<Document> dbc = getCollection(name);
 		// 循环map数组
-		for (int i = 0; i < maps.length; i++) {
+		for (int i = 0; i < maps.length; i++)
 			// 删除对象
 			dbc.deleteOne(new BasicDBObject(newMap(maps[i])));
-		}
 	}
 
 	@Override
@@ -171,25 +156,20 @@ public final class MongoImpl implements Mongo {
 	}
 
 	@Override
-	public List<Map<String, Object>> query(String name, Map<String, Object> query, int start,
-			int end) {
+	public List<Map<String, Object>> query(String name, Map<String, Object> query, int start, int end) {
 		// 获得数据库游标
-		FindIterable<Document> iterable = getCollection(name)
-				.find(EmptyUtil.isEmpty(query) ? new BasicDBObject() : new BasicDBObject(query));
+		FindIterable<Document> iterable = getCollection(name).find(EmptyUtil.isEmpty(query) ? new BasicDBObject() : new BasicDBObject(query));
 		// 设置游标开始位置
 		iterable.skip(start);
 		// 设置限定数量
 		iterable.limit(end - start);
 		// 获得列表
 		List<Map<String, Object>> list = Lists.newList();
-		// 设置游标开始位置
-
 		// 循环游标
 		MongoCursor<Document> cursor = iterable.iterator();
-		while (cursor.hasNext()) {
+		while (cursor.hasNext())
 			// 添加到列表中
 			list.add(toMap(cursor.next()));
-		}
 		// 返回列表
 		return list;
 	}
@@ -211,7 +191,7 @@ public final class MongoImpl implements Mongo {
 	 */
 	private Map<String, Object> newMap(Map<String, Object> map) {
 		// 判断_id为空 赋值
-		if (!EmptyUtil.isEmpty(map)) {
+		if (EmptyUtil.isNotEmpty(map)) {
 			// 获得ID
 			Object key = map.get(ID);
 			// 判断如果为空获得 id键
@@ -246,9 +226,8 @@ public final class MongoImpl implements Mongo {
 		// 获得数据集合
 		MongoCollection<Document> dbc = getCollection(StringConstants.EMPTY);
 		// 循环删除
-		for (String k : key) {
+		for (String k : key)
 			dbc.deleteOne(new BasicDBObject(ID, k));
-		}
 	}
 
 	@Override
@@ -303,9 +282,8 @@ public final class MongoImpl implements Mongo {
 		// 声明列表
 		Object[] objs = new Object[keys.length];
 		// 循环解压数据
-		for (int i = 0; i < keys.length; i++) {
+		for (int i = 0; i < keys.length; i++)
 			objs[i] = get(keys[i]);
-		}
 		// 返回列表
 		return objs;
 	}
@@ -319,9 +297,8 @@ public final class MongoImpl implements Mongo {
 		// 声明列表
 		List<byte[]> list = Lists.newList(keys.length);
 		// 循环解压数据
-		for (Object o : get(keys)) {
+		for (Object o : get(keys))
 			list.add(ZipEngine.extract(o));
-		}
 		// 返回列表
 		return list;
 	}

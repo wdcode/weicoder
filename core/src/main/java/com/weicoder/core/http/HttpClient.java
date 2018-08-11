@@ -23,11 +23,11 @@ import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.log.Log;
-import com.weicoder.common.log.LogFactory; 
+import com.weicoder.common.log.LogFactory;
 import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
-import com.weicoder.core.params.CoreParams; 
+import com.weicoder.core.params.CoreParams;
 
 /**
  * HTTP客户端工具类
@@ -142,10 +142,7 @@ public final class HttpClient {
 				// 声明参数列表
 				List<NameValuePair> list = Lists.newList(data.size());
 				// 设置参数
-				for (Map.Entry<String, Object> entry : data.entrySet()) {
-					// 添加参数
-					list.add(new BasicNameValuePair(entry.getKey(), Conversion.toString(entry.getValue())));
-				}
+				data.forEach((k, v) -> list.add(new BasicNameValuePair(k, Conversion.toString(v))));
 				// 设置参数与 编码格式
 				post.setEntity(new UrlEncodedFormEntity(list, charset));
 			}

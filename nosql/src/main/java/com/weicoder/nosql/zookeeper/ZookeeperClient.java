@@ -3,13 +3,13 @@ package com.weicoder.nosql.zookeeper;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.framework.api.BackgroundCallback;
-import org.apache.curator.framework.api.CuratorEvent;
 import org.apache.curator.retry.ExponentialBackoffRetry;
 import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.Watcher;
 
 import com.weicoder.common.constants.ArrayConstants;
+import com.weicoder.common.interfaces.Callback;
 import com.weicoder.common.log.Logs;
 import com.weicoder.nosql.params.ZookeeperParams;
 
@@ -22,8 +22,7 @@ public final class ZookeeperClient {
 	private final static CuratorFramework curatorFramework;
 	static {
 		// 初始化CuratorFramework
-		curatorFramework = CuratorFrameworkFactory.builder().connectString(ZookeeperParams.CONNECT)
-				.connectionTimeoutMs(30000).sessionTimeoutMs(30000).canBeReadOnly(false)
+		curatorFramework = CuratorFrameworkFactory.builder().connectString(ZookeeperParams.CONNECT).connectionTimeoutMs(30000).sessionTimeoutMs(30000).canBeReadOnly(false)
 				.retryPolicy(new ExponentialBackoffRetry(1000, 3)).defaultData(null).build();
 		// 启动
 		curatorFramework.start();
@@ -44,11 +43,10 @@ public final class ZookeeperClient {
 	 */
 	public static void set(String path, byte[] bytes) {
 		try {
-			if (curatorFramework.checkExists().forPath(path) == null) {
+			if (curatorFramework.checkExists().forPath(path) == null)
 				create(path, bytes);
-			} else {
+			else
 				curatorFramework.setData().forPath(path, bytes);
-			}
 		} catch (Exception e) {
 			Logs.error(e);
 		}
@@ -61,11 +59,10 @@ public final class ZookeeperClient {
 	 */
 	public static void setWithPersistent(String path, byte[] bytes) {
 		try {
-			if (curatorFramework.checkExists().forPath(path) == null) {
+			if (curatorFramework.checkExists().forPath(path) == null)
 				createWithPersistent(path, bytes);
-			} else {
+			else
 				curatorFramework.setData().forPath(path, bytes);
-			}
 		} catch (Exception e) {
 			Logs.error(e);
 		}
@@ -77,9 +74,8 @@ public final class ZookeeperClient {
 	 */
 	public static void delete(String path) {
 		try {
-			if (curatorFramework.checkExists().forPath(path) != null) {
+			if (curatorFramework.checkExists().forPath(path) != null)
 				curatorFramework.delete().forPath(path);
-			}
 		} catch (Exception e) {
 			Logs.error(e);
 		}
@@ -129,17 +125,11 @@ public final class ZookeeperClient {
 	 * @param path 路径
 	 * @param callback 回调
 	 */
-	public static void getDataAsync(final String path, final Callback callback) {
+	public static void getDataAsync(final String path, Callback<byte[]> callback) {
 		// 异步读取数据回调
-		final BackgroundCallback background = (CuratorFramework client, CuratorEvent event) -> {
-			try {
-				callback.callBack(event.getData());
-			} catch (Exception e) {
-				Logs.error(e);
-			}
-		};
+		BackgroundCallback background = (client, event) -> callback.callback(event.getData());
 		// 每次接收ZK事件都要重新注册Watcher，然后才异步读数据
-		final Watcher watcher = new Watcher() {
+		Watcher watcher = new Watcher() {
 			@Override
 			public void process(WatchedEvent event) {
 				if (event.getType() == Event.EventType.NodeDataChanged) {
@@ -151,20 +141,11 @@ public final class ZookeeperClient {
 				}
 			}
 		};
-
 		// 这里首次注册Watcher并异步读数据
 		try {
 			curatorFramework.getData().usingWatcher(watcher).inBackground(background).forPath(path);
 		} catch (Exception e) {
 			Logs.error(e);
 		}
-	}
-
-	/**
-	 * 异步回调接口
-	 * @author WD
-	 */
-	public interface Callback {
-		void callBack(byte[] obj);
 	}
 }

@@ -27,35 +27,33 @@ public final class ClassUtil {
 	 * @return 是否基础类型
 	 */
 	public static boolean isBaseType(Class<?> clazz) {
-		if (clazz == null) {
-			return true;
-		}
-		if (clazz.equals(Integer.class) || clazz.equals(int.class)) {
-			return true;
-		} else if (clazz.equals(Long.class) || clazz.equals(long.class)) {
-			return true;
-		} else if (clazz.equals(Double.class) || clazz.equals(double.class)) {
-			return true;
-		} else if (clazz.equals(Float.class) || clazz.equals(float.class)) {
-			return true;
-		} else if (clazz.equals(Short.class) || clazz.equals(short.class)) {
-			return true;
-		} else if (clazz.equals(Byte.class) || clazz.equals(byte.class)) {
-			return true;
-		} else if (clazz.equals(Boolean.class) || clazz.equals(boolean.class)) {
-			return true;
-		} else if (clazz.equals(Character.class) || clazz.equals(char.class)) {
-			return true;
-		} else if (clazz.equals(String.class) || clazz.equals(BigDecimal.class)) {
-			return true;
-		} else {
+		if (clazz == null)
 			return false;
-		}
+		if (clazz.equals(Integer.class) || clazz.equals(int.class))
+			return true;
+		if (clazz.equals(Long.class) || clazz.equals(long.class))
+			return true;
+		if (clazz.equals(Double.class) || clazz.equals(double.class))
+			return true;
+		if (clazz.equals(Float.class) || clazz.equals(float.class))
+			return true;
+		if (clazz.equals(Short.class) || clazz.equals(short.class))
+			return true;
+		if (clazz.equals(Byte.class) || clazz.equals(byte.class))
+			return true;
+		if (clazz.equals(Boolean.class) || clazz.equals(boolean.class))
+			return true;
+		if (clazz.equals(Character.class) || clazz.equals(char.class))
+			return true;
+		if (clazz.equals(String.class) || clazz.equals(BigDecimal.class))
+			return true;
+		return false;
+
 	}
 
 	/**
 	 * 获得指定类型的泛型
-	 * @param clazz 指定的类型 
+	 * @param clazz 指定的类型
 	 * @return 这个类的泛型
 	 */
 	public static Class<?> getGenericClass(Class<?> clazz) {
@@ -66,15 +64,14 @@ public final class ClassUtil {
 			// 获得所有接口
 			Type[] type = clazz.getGenericInterfaces();
 			// 接口不为空
-			if (!EmptyUtil.isEmpty(type)) {
+			if (EmptyUtil.isNotEmpty(type)) {
 				// 循环接口
 				for (Type t : type) {
 					// 获得泛型
 					gc = getGenericClass(t, 0);
 					// 泛型不为空 跳出循环
-					if (gc != null) {
+					if (gc != null)
 						break;
-					}
 				}
 			}
 		}
@@ -95,10 +92,9 @@ public final class ClassUtil {
 			// 声明Class数组
 			Class<?>[] clazzs = new Class<?>[types.length];
 			// 循环
-			for (int i = 0; i < types.length; i++) {
+			for (int i = 0; i < types.length; i++)
 				// 强制转换
 				clazzs[i] = (Class<?>) types[i];
-			}
 			// 返回数组
 			return clazzs;
 		} else {
@@ -109,7 +105,7 @@ public final class ClassUtil {
 	/**
 	 * 获得指定类型的泛型
 	 * @param type 指定的类型
-	 * @param index 索引 
+	 * @param index 索引
 	 * @return 这个类型的泛型
 	 */
 	public static Class<?> getGenericClass(Type type, int index) {
@@ -168,9 +164,8 @@ public final class ClassUtil {
 	 */
 	public static Object newInstance(String className) {
 		try {
-			if (EmptyUtil.isEmpty(className)) {
+			if (EmptyUtil.isEmpty(className))
 				return null;
-			}
 			Class<?> c = forName(className);
 			return c == null ? null : c.newInstance();
 		} catch (Exception e) {
@@ -218,16 +213,6 @@ public final class ClassUtil {
 		return Lists.get(getAssignedClass(StringConstants.EMPTY, cls), i);
 	}
 
-	// /**
-	// * 指定包下 指定类的实现
-	// * @param cls 指定类
-	// * @param <E> 泛型
-	// * @return 类列表
-	// */
-	// public static <E> List<Class<E>> getAssignedClass(Class<E> cls) {
-	// return getAssignedClass(CommonParams.PACKAGES, cls);
-	// }
-
 	/**
 	 * 指定包下 指定类的实现
 	 * @param packageName 包名
@@ -239,12 +224,10 @@ public final class ClassUtil {
 		// 声明类列表
 		List<Class<E>> classes = Lists.newList();
 		// 循环包下所有类
-		for (Class<E> c : getPackageClasses(packageName, cls)) {
+		for (Class<E> c : getPackageClasses(packageName, cls))
 			// 是本类实现 并且不是本类
-			if (cls.isAssignableFrom(c) && !cls.equals(c)) {
+			if (cls.isAssignableFrom(c) && !cls.equals(c))
 				classes.add(c);
-			}
-		}
 		// 返回列表
 		return classes;
 	}
@@ -257,20 +240,9 @@ public final class ClassUtil {
 	 * @param <E> 泛型
 	 * @return 类列表
 	 */
-	public static <E extends Annotation> Class<E> getAnnotationClass(String packageName,
-			Class<E> cls, int i) {
+	public static <E extends Annotation> Class<E> getAnnotationClass(String packageName, Class<E> cls, int i) {
 		return Lists.get(getAnnotationClass(packageName, cls), i);
 	}
-
-	// /**
-	// * 指定包下 指定类的实现
-	// * @param cls 指定类
-	// * @param <E> 泛型
-	// * @return 类列表
-	// */
-	// public static <E extends Annotation> List<Class<E>> getAnnotationClass(Class<E> cls) {
-	// return getAnnotationClass(CommonParams.PACKAGES, cls);
-	// }
 
 	/**
 	 * 指定包下 指定类的实现
@@ -280,17 +252,14 @@ public final class ClassUtil {
 	 * @return 类列表
 	 */
 	@SuppressWarnings("unchecked")
-	public static <E extends Annotation> List<Class<E>> getAnnotationClass(String packageName,
-			Class<E> cls) {
+	public static <E extends Annotation> List<Class<E>> getAnnotationClass(String packageName, Class<E> cls) {
 		// 声明类列表
 		List<Class<E>> classes = Lists.newList();
 		// 循环包下所有类
-		for (Class<?> c : getPackageClasses(packageName, cls)) {
+		for (Class<?> c : getPackageClasses(packageName, cls))
 			// 是本类实现 并且不是本类
-			if (c.isAnnotationPresent(cls) && !cls.equals(c)) {
+			if (c.isAnnotationPresent(cls) && !cls.equals(c))
 				classes.add((Class<E>) c);
-			}
-		}
 		// 返回列表
 		return classes;
 	}
@@ -311,32 +280,26 @@ public final class ClassUtil {
 			path = StringUtil.replace(path, StringConstants.POINT, StringConstants.BACKSLASH);
 			// 获得目录资源
 			URL url = ResourceUtil.getResource(path);
-			if (url == null) {
+			if (url == null)
 				return classes;
-			}
 			// 循环目录下的所有文件与目录
 			for (String name : getClasses(url.getPath(), path)) {
 				// 如果是class文件
 				if (name.endsWith(".class")) {
 					try {
 						// 反射出类对象 并添加到列表中
-						name = path + StringConstants.POINT
-								+ StringUtil.subString(name, 0, name.length() - 6);
-						name = StringUtil.replace(name, StringConstants.BACKSLASH,
-								StringConstants.POINT);
+						name = path + StringConstants.POINT + StringUtil.subString(name, 0, name.length() - 6);
+						name = StringUtil.replace(name, StringConstants.BACKSLASH, StringConstants.POINT);
 						// 如果开始是.去掉
-						if (name.startsWith(StringConstants.POINT)) {
+						if (name.startsWith(StringConstants.POINT))
 							name = StringUtil.subString(name, 1);
-						}
 						classes.add((Class<E>) Class.forName(name));
 					} catch (ClassNotFoundException e) {
 						Logs.error(e);
 					}
-				} else {
+				} else
 					// 迭代调用本方法 获得类列表
-					classes.addAll(getPackageClasses(EmptyUtil.isEmpty(path) ? name
-							: path + StringConstants.BACKSLASH + name, cls));
-				}
+					classes.addAll(getPackageClasses(EmptyUtil.isEmpty(path) ? name : path + StringConstants.BACKSLASH + name, cls));
 			}
 		}
 		// 返回类列表
@@ -347,23 +310,20 @@ public final class ClassUtil {
 		// 获得文件名
 		File path = new File(name);
 		// 判断是否目录
-		if (path.isDirectory()) {
+		if (path.isDirectory())
 			// 如果是目录
 			return Lists.newList(path.list());
-		} else if (name.indexOf(".jar!") > -1) {
+		if (name.indexOf(".jar!") > -1)
 			// 是否jar文件内
-			return getClassesFromJARFile(StringUtil.subString(name, "file:/", "!"),
-					packageName + StringConstants.BACKSLASH);
-		}
+			return getClassesFromJARFile(StringUtil.subString(name, "file:/", "!"), packageName + StringConstants.BACKSLASH);
 		// 返回空列表
 		return Lists.emptyList();
 	}
 
 	private static List<String> getClassesFromJARFile(String jar, String name) {
 		// 判断jar第二位是否: 不为:默认linux前面加上/
-		if (jar.indexOf(StringConstants.COLON) == -1) {
+		if (jar.indexOf(StringConstants.COLON) == -1)
 			jar = StringConstants.BACKSLASH + jar;
-		}
 		// 声明返回列表
 		List<String> list = Lists.newList();
 		// 获得jar流
@@ -373,9 +333,8 @@ public final class ClassUtil {
 			while ((jarEntry = jarFile.getNextJarEntry()) != null) {
 				// 判断是否包内class
 				String className = jarEntry.getName();
-				if (className.indexOf(name) > -1 && !className.equals(name)) {
+				if (className.indexOf(name) > -1 && !className.equals(name))
 					list.add(StringUtil.subString(className, name));
-				}
 			}
 		} catch (IOException e) {
 			Logs.error(e);

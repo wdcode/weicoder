@@ -18,12 +18,10 @@ public abstract class BaseType implements UserType {
 
 	@Override
 	public boolean equals(Object o, Object o1) throws HibernateException {
-		if (o == o1) {
+		if (o == o1)
 			return true;
-		}
-		if (o == null || o == null) {
+		if (o == null || o == null)
 			return false;
-		}
 		return o.equals(o1);
 	}
 

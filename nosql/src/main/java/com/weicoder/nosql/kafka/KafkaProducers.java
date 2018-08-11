@@ -49,8 +49,7 @@ public final class KafkaProducers {
 	 * @param callback 回调
 	 * @return 信息
 	 */
-	public static Future<RecordMetadata> send(String topic, Object key, Object value,
-			Callback callback) {
+	public static Future<RecordMetadata> send(String topic, Object key, Object value, Callback callback) {
 		return PRODUCER.send(topic, key, value, callback);
 	}
 
@@ -121,8 +120,7 @@ public final class KafkaProducers {
 	 * @param value 值
 	 * @return 信息
 	 */
-	public static Future<RecordMetadata> sendN(String name, String topic, Object key,
-			Object value) {
+	public static Future<RecordMetadata> sendN(String name, String topic, Object key, Object value) {
 		return KafkaFactory.getProducer(name).send(topic, key, value);
 	}
 

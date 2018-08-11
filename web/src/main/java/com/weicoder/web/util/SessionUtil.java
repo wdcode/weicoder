@@ -19,22 +19,19 @@ public final class SessionUtil {
 	 */
 	public static void close(HttpSession session) {
 		// 判断不为空
-		if (!EmptyUtil.isEmpty(session)) {
+		if (EmptyUtil.isNotEmpty(session))
 			try {
 				// 获得session中的所有属性集合
 				Enumeration<?> e = session.getAttributeNames();
 				// 判断属性集合不为空
-				if (!EmptyUtil.isEmpty(e)) {
+				if (EmptyUtil.isNotEmpty(e))
 					// 循环删除属性
-					while (e.hasMoreElements()) {
+					while (e.hasMoreElements())
 						// 删除
 						session.removeAttribute(Conversion.toString(e.nextElement()));
-					}
-				}
 				// 销毁Session
 				session.invalidate();
 			} catch (Exception e) {}
-		}
 	}
 
 	/**
@@ -68,7 +65,7 @@ public final class SessionUtil {
 	 * @param maxAge 保存多少秒
 	 */
 	public static void setAttribute(HttpSession session, String key, Object value, int maxAge) {
-		if (!EmptyUtil.isEmpty(session)) {
+		if (EmptyUtil.isNotEmpty(session)) {
 			session.setMaxInactiveInterval(maxAge);
 			session.setAttribute(key, value);
 		}
@@ -80,9 +77,8 @@ public final class SessionUtil {
 	 * @param key 属性值
 	 */
 	public static void removeAttribute(HttpSession session, String key) {
-		if (!EmptyUtil.isEmpty(session)) {
+		if (EmptyUtil.isNotEmpty(session))
 			session.removeAttribute(key);
-		}
 	}
 
 	/**

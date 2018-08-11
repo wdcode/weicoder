@@ -69,43 +69,40 @@ public final class ProtobufEngine {
 			// 循环所有属性 字段标示从1开始 所以i从1 开始
 			for (int i = 1; i < fields.size(); i++) {
 				// 读取标签为0时跳出循环
-				if (tag == 0) {
+				if (tag == 0)
 					break;
-				}
 				// 如果字段位置大于当前，跳过本次循环
-				if (num > i) {
+				if (num > i)
 					continue;
-				}
 				// 获得本字段
 				Field field = fields.get(i - 1);
 				// 获得字段类型
 				Class<?> type = field.getType();
 				// 判断字段类型 根据字段类型赋值
-				if (type.equals(String.class)) {
+				if (type.equals(String.class))
 					// 字符串
 					BeanUtil.setFieldValue(bean, field, input.readStringRequireUtf8());
-				} else if (type.equals(int.class) || type.equals(Integer.class)) {
+				else if (type.equals(int.class) || type.equals(Integer.class))
 					// 整型
 					BeanUtil.setFieldValue(bean, field, input.readInt32());
-				} else if (type.equals(long.class) || type.equals(Long.class)) {
+				else if (type.equals(long.class) || type.equals(Long.class))
 					// 长整型
 					BeanUtil.setFieldValue(bean, field, input.readInt64());
-				} else if (type.equals(boolean.class) || type.equals(Boolean.class)) {
+				else if (type.equals(boolean.class) || type.equals(Boolean.class))
 					// 布尔
 					BeanUtil.setFieldValue(bean, field, input.readBool());
-				} else if (type.equals(float.class) || type.equals(Float.class)) {
+				else if (type.equals(float.class) || type.equals(Float.class))
 					// float型
 					BeanUtil.setFieldValue(bean, field, input.readFloat());
-				} else if (type.equals(double.class) || type.equals(Double.class)) {
+				else if (type.equals(double.class) || type.equals(Double.class))
 					// Double型
 					BeanUtil.setFieldValue(bean, field, input.readDouble());
-				} else if (type.equals(ByteString.class)) {
+				else if (type.equals(ByteString.class))
 					// 字节字符串
 					BeanUtil.setFieldValue(bean, field, input.readBytes());
-				} else if (type.equals(byte[].class)) {
+				else if (type.equals(byte[].class))
 					// 字节流
 					BeanUtil.setFieldValue(bean, field, input.readByteArray());
-				}
 				// 重新读取标签和字段位置
 				tag = input.readTag();
 				num = WireFormat.getTagFieldNumber(tag);
@@ -135,60 +132,51 @@ public final class ProtobufEngine {
 			Field field = fields.get(i);
 			// 获得当前字段的值 如果值为null 跳过循环
 			Object val = BeanUtil.getFieldValue(obj, field);
-			if (val == null) {
+			if (val == null)
 				continue;
-			}
 			// 获得字段类型
 			Class<?> type = field.getType();
 			// 判断字段类型并累加大小
 			if (type.equals(String.class)) {
 				// 字符串
 				String s = Conversion.toString(val);
-				if (!EmptyUtil.isEmpty(s)) {
+				if (EmptyUtil.isNotEmpty(s))
 					size += CodedOutputStream.computeStringSize(i, s);
-				}
 			} else if (type.equals(int.class) || type.equals(Integer.class)) {
 				// 整型
 				int n = Conversion.toInt(val);
-				if (n != 0) {
+				if (n != 0)
 					size += CodedOutputStream.computeInt32Size(i, n);
-				}
 			} else if (type.equals(long.class) || type.equals(Long.class)) {
 				// 长整型
 				long n = Conversion.toLong(val);
-				if (n != 0L) {
+				if (n != 0L)
 					size += CodedOutputStream.computeInt64Size(i, n);
-				}
 			} else if (type.equals(boolean.class) || type.equals(Boolean.class)) {
 				// 布尔
 				boolean n = Conversion.toBoolean(val);
-				if (n != false) {
+				if (n != false)
 					size += CodedOutputStream.computeBoolSize(i, n);
-				}
 			} else if (type.equals(float.class) || type.equals(Float.class)) {
 				// float型
 				float n = Conversion.toFloat(val);
-				if (n != 0F) {
+				if (n != 0F)
 					size += CodedOutputStream.computeFloatSize(i, n);
-				}
 			} else if (type.equals(double.class) || type.equals(Double.class)) {
 				// Double型
 				double n = Conversion.toDouble(val);
-				if (n != 0D) {
+				if (n != 0D)
 					size += CodedOutputStream.computeDoubleSize(i, n);
-				}
 			} else if (type.equals(ByteString.class)) {
 				// 字节字符串
 				ByteString n = (ByteString) val;
-				if (!n.isEmpty()) {
+				if (!n.isEmpty())
 					size += CodedOutputStream.computeBytesSize(i, n);
-				}
 			} else if (type.equals(byte[].class)) {
 				// 字节流
 				byte[] n = (byte[]) val;
-				if (!EmptyUtil.isEmpty(n)) {
+				if (EmptyUtil.isNotEmpty(n))
 					size += CodedOutputStream.computeByteArraySize(i, n);
-				}
 			}
 		}
 		// 返回数量
@@ -202,64 +190,53 @@ public final class ProtobufEngine {
 	 * @param fields 字段列表
 	 * @throws IOException IO异常
 	 */
-	private static void writeTo(CodedOutputStream output, Object obj, List<Field> fields)
-			throws IOException {
+	private static void writeTo(CodedOutputStream output, Object obj, List<Field> fields) throws IOException {
 		for (int i = 1; i <= fields.size(); i++) {
 			Field field = fields.get(i - 1);
 			Object val = BeanUtil.getFieldValue(obj, field);
-			if (val == null) {
+			if (val == null)
 				continue;
-			}
 			Class<?> type = field.getType();
 			if (type.equals(String.class)) {
 				// 字符串
 				String s = Conversion.toString(val);
-				if (!EmptyUtil.isEmpty(s)) {
+				if (EmptyUtil.isNotEmpty(s))
 					output.writeString(i, s);
-				}
-				// b = Bytes.add(b,);
 			} else if (type.equals(int.class) || type.equals(Integer.class)) {
 				// 整型
 				int n = Conversion.toInt(val);
-				if (n != 0) {
+				if (n != 0)
 					output.writeInt32(i, n);
-				}
 			} else if (type.equals(long.class) || type.equals(Long.class)) {
 				// 长整型
 				long n = Conversion.toLong(val);
-				if (n != 0L) {
+				if (n != 0L)
 					output.writeInt64(i, n);
-				}
 			} else if (type.equals(boolean.class) || type.equals(Boolean.class)) {
 				// 布尔
 				boolean n = Conversion.toBoolean(val);
-				if (n != false) {
+				if (n != false)
 					output.writeBool(i, n);
-				}
 			} else if (type.equals(float.class) || type.equals(Float.class)) {
 				// float型
 				float n = Conversion.toFloat(val);
-				if (n != 0F) {
+				if (n != 0F)
 					output.writeFloat(i, n);
-				}
 			} else if (type.equals(double.class) || type.equals(Double.class)) {
 				// Double型
 				double n = Conversion.toDouble(val);
-				if (n != 0D) {
+				if (n != 0D)
 					output.writeDouble(i, n);
-				}
 			} else if (type.equals(ByteString.class)) {
 				// 字节字符串
 				ByteString n = (ByteString) val;
-				if (!n.isEmpty()) {
+				if (!n.isEmpty())
 					output.writeBytes(i, n);
-				}
 			} else if (type.equals(byte[].class)) {
 				// 字节流
 				byte[] n = (byte[]) val;
-				if (!EmptyUtil.isEmpty(n)) {
+				if (EmptyUtil.isNotEmpty(n))
 					output.writeByteArray(i, n);
-				}
 			}
 		}
 	}

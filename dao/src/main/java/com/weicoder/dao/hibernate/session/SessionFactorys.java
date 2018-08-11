@@ -45,21 +45,18 @@ public final class SessionFactorys {
 		// 初始化SessionFactory
 		initSessionFactory();
 		// 如果只有一个SessionFactory
-		if (factorys.size() == 1) {
+		if (factorys.size() == 1)
 			factory = factorys.get(0);
-		}
 		// 循环获得表名
-		for (Class<?> e : ClassUtil.getAnnotationClass(CommonParams.getPackages("entity"), Entity.class)) {
+		for (Class<?> e : ClassUtil.getAnnotationClass(CommonParams.getPackages("entity"), Entity.class))
 			// 循环获得SessionFactory
-			for (SessionFactory sessionFactory : factorys) {
+			for (SessionFactory sessionFactory : factorys)
 				try {
 					if (((SessionFactoryImplementor) sessionFactory).getMetamodel().entity(e) != null) {
 						entity_factorys.put(e, sessionFactory);
 						break;
 					}
 				} catch (Exception ex) {}
-			}
-		}
 	}
 
 	/**

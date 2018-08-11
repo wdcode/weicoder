@@ -22,9 +22,8 @@ public final class MathUtil {
 		// 声明结果
 		BigDecimal result = BigDecimal.ZERO;
 		// 循环相加
-		for (int i = 0; i < values.length; i++) {
+		for (int i = 0; i < values.length; i++)
 			result = result.add(Conversion.toBigDecimal(values[i]));
-		}
 		// 返回结果
 		return result;
 
@@ -62,9 +61,8 @@ public final class MathUtil {
 		// 声明结果
 		BigDecimal result = BigDecimal.ONE;
 		// 循环相乘
-		for (int i = 0; i < values.length; i++) {
+		for (int i = 0; i < values.length; i++)
 			result = result.multiply(Conversion.toBigDecimal(values[i]));
-		}
 		// 返回结果
 		return result;
 	}

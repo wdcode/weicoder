@@ -70,31 +70,28 @@ public final class Process {
 		this.manager = Sockets.manager();
 
 		// 设置handler closed
-		for (Class<?> c : ClassUtil.getAnnotationClass(CommonParams.getPackages("socket"), Handler.class)) {
+		ClassUtil.getAnnotationClass(CommonParams.getPackages("socket"), Handler.class).forEach(c -> {
 			// 是本类使用
 			Object h = BeanUtil.newInstance(c);
 			if (name.equals(h.getClass().getAnnotation(Handler.class).value())) {
 				// 所有方法
-				for (Method m : c.getDeclaredMethods()) {
+				for (Method m : c.getDeclaredMethods())
 					// 判断是公有方法
-					if (Modifier.isPublic(m.getModifiers())) {
+					if (Modifier.isPublic(m.getModifiers()))
 						// 是head 头的
 						if (m.isAnnotationPresent(Head.class)) {
 							// 添加到map中
 							short id = m.getAnnotation(Head.class).id();
 							methods.put(id, m);
 							handlers.put(id, h);
-						} else if (m.isAnnotationPresent(Closed.class)) {
+						} else if (m.isAnnotationPresent(Closed.class))
 							// Closed 头
 							closeds.put(h, m);
-						} else if (m.isAnnotationPresent(Connected.class)) {
+						else if (m.isAnnotationPresent(Connected.class))
 							// Closed 头
 							connected.put(h, m);
-						}
-					}
-				}
 			}
-		}
+		});
 	}
 
 	/**
@@ -108,11 +105,10 @@ public final class Process {
 		for (Map.Entry<Object, Method> e : connected.entrySet()) {
 			// 获得关闭方法
 			Method m = e.getValue();
-			if (m.getParameterCount() == 1) {
+			if (m.getParameterCount() == 1)
 				BeanUtil.invoke(e.getKey(), m, session);
-			} else {
+			else
 				BeanUtil.invoke(e.getKey(), m);
-			}
 		}
 		// 日志
 		LOG.info("name={};socket conn={};ip={};", name, session.getId(), session.getIp());
@@ -127,11 +123,10 @@ public final class Process {
 		for (Map.Entry<Object, Method> e : closeds.entrySet()) {
 			// 获得关闭方法
 			Method m = e.getValue();
-			if (m.getParameterCount() == 1) {
+			if (m.getParameterCount() == 1)
 				BeanUtil.invoke(e.getKey(), m, session);
-			} else {
+			else
 				BeanUtil.invoke(e.getKey(), m);
-			}
 		}
 		// 删除管理器注册Session
 		manager.remove(session.getId());
@@ -155,10 +150,9 @@ public final class Process {
 		// 循环读取数据
 		while (true) {
 			// 剩余字节长度不足，等待下次信息
-			if (buff.remaining() < 4) {
+			if (buff.remaining() < 4)
 				// 压缩并跳出循环
 				break;
-			}
 			// 获得信息长度
 			short length = buff.readShort();
 			// 无长度 发送消息不符合 关掉连接
@@ -184,10 +178,9 @@ public final class Process {
 				// 读取字节数组
 				buff.read(data);
 				// 启用压缩
-				if (zip) {
+				if (zip)
 					// 解压缩
 					data = ZipEngine.extract(data);
-				}
 			}
 			// 获得相应的方法
 			Method m = methods.get(id);
@@ -197,8 +190,7 @@ public final class Process {
 				LOG.warn("name={};socket={};handler message discard id={};message len={}", name, sid, id, len);
 				return;
 			}
-			LOG.info("name={};socket={};receive len={};id={};method={};time={}", name, sid, length, id, m,
-					DateUtil.getTheDate());
+			LOG.info("name={};socket={};receive len={};id={};method={};time={}", name, sid, length, id, m, DateUtil.getTheDate());
 			try {
 				// 当前时间
 				long curr = System.currentTimeMillis();
@@ -221,13 +213,12 @@ public final class Process {
 
 	private Object[] getParames(Method m, byte[] data, Session session) {
 		// 如果数据为空
-		if (EmptyUtil.isEmpty(data)) {
+		if (EmptyUtil.isEmpty(data))
 			return null;
-		}
 		// 设置参数
 		Parameter[] pars = m.getParameters();
 		Object[] params = null;
-		if (!EmptyUtil.isEmpty(pars)) {
+		if (EmptyUtil.isNotEmpty(pars)) {
 			// 参数不为空 设置参数
 			params = new Object[pars.length];
 			// action全部参数下标
@@ -237,51 +228,50 @@ public final class Process {
 				Parameter p = pars[i];
 				// 参数的类型
 				Class<?> type = p.getType();
-				if (Session.class.isAssignableFrom(type)) {
+				if (Session.class.isAssignableFrom(type))
 					// Session
 					params[i] = session;
-				} else if (Manager.class.equals(type)) {
+				else if (Manager.class.equals(type))
 					// Manager
 					params[i] = Sockets.manager();
-				} else if (type.isAnnotationPresent(Protobuf.class)) {
+				else if (type.isAnnotationPresent(Protobuf.class))
 					// 字节流
 					params[i] = ProtobufEngine.toBean(data, type);
-				} else if (type.equals(String.class)) {
+				else if (type.equals(String.class))
 					// 字符串
 					params[i] = StringUtil.toString(data);
-				} else if (Binary.class.isAssignableFrom(type)) {
+				else if (Binary.class.isAssignableFrom(type))
 					// 字节流
 					params[i] = Bytes.toBinary(type, data);
-				} else if (ByteArray.class.isAssignableFrom(type)) {
+				else if (ByteArray.class.isAssignableFrom(type))
 					// 字节流
 					params[i] = ((ByteArray) ClassUtil.newInstance(type)).array(data);
-				} else if (type.equals(Buffer.class)) {
+				else if (type.equals(Buffer.class))
 					// 字节流
 					params[i] = new Buffer(data);
-				} else if (type.equals(int.class) || type.equals(Integer.class)) {
+				else if (type.equals(int.class) || type.equals(Integer.class))
 					// 整型
 					params[i] = Bytes.toInt(data);
-				} else if (type.equals(long.class) || type.equals(Long.class)) {
+				else if (type.equals(long.class) || type.equals(Long.class))
 					// 长整型
 					params[i] = Bytes.toLong(data);
-				} else if (type.equals(boolean.class) || type.equals(Boolean.class)) {
+				else if (type.equals(boolean.class) || type.equals(Boolean.class))
 					// 布尔
 					params[i] = Bytes.toBoolean(data);
-				} else if (type.equals(float.class) || type.equals(Float.class)) {
+				else if (type.equals(float.class) || type.equals(Float.class))
 					// float型
 					params[i] = Bytes.toFloat(data);
-				} else if (type.equals(double.class) || type.equals(Double.class)) {
+				else if (type.equals(double.class) || type.equals(Double.class))
 					// Double型
 					params[i] = Bytes.toDouble(data);
-				} else if (type.equals(byte.class) || type.equals(Byte.class)) {
+				else if (type.equals(byte.class) || type.equals(Byte.class))
 					// 字节流
 					params[i] = data[0];
-				} else if (type.equals(byte[].class)) {
+				else if (type.equals(byte[].class))
 					// 字节流
 					params[i] = data;
-				} else {
+				else
 					params[i] = null;
-				}
 			}
 		}
 		// 返回参数

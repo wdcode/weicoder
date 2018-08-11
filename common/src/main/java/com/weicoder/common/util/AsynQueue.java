@@ -31,10 +31,11 @@ public class AsynQueue<E> {
 			int n = 0;
 			long c = System.currentTimeMillis();
 			// 队列不为空
-			while (!queue.isEmpty()) {
+			while (EmptyUtil.isNotEmpty(queue)) {
 				E e = queue.poll();
 				callback.callback(e);
-				LOG.debug("AsynQueue run obj={}", e);
+				n++;
+				LOG.debug("AsynQueue run i={} obj={}", n, e);
 			}
 			LOG.info("AsynQueue run size={} time={}", n, System.currentTimeMillis() - c);
 		}, time);

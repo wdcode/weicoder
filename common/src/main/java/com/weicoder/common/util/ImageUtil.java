@@ -163,15 +163,13 @@ public final class ImageUtil {
 		// 设置颜色
 		g.setColor(COLOR);
 		// 如果x==-1
-		if (x == -1) {
+		if (x == -1)
 			// 把X设置为图片中央
 			x = (image.getWidth(null) - getStringWidth(text, g.getFontMetrics())) / 2;
-		}
 		// 如果y==-1
-		if (y == -1) {
+		if (y == -1)
 			// 把X设置为图片中央
 			y = (image.getHeight(null) + FONT.getSize()) / 2;
-		}
 		// 写内容
 		g.drawString(text, x, y);
 		// 释放资源使图片生效
@@ -243,15 +241,13 @@ public final class ImageUtil {
 		// 设置颜色
 		g.setColor(COLOR);
 		// 如果x==-1
-		if (x == -1) {
+		if (x == -1)
 			// 把X设置为图片中央
 			x = (image.getWidth(null) - draw.getWidth(null)) / 2;
-		}
 		// 如果y==-1
-		if (y == -1) {
+		if (y == -1)
 			// 把X设置为图片中央
 			y = (image.getHeight(null) - draw.getHeight(null)) / 2;
-		}
 		// 写内容
 		g.drawImage(draw, x, y, null);
 		// 释放资源使图片生效
@@ -272,10 +268,9 @@ public final class ImageUtil {
 		// 获得文字的字节
 		char[] chars = text.toCharArray();
 		// 循环字节
-		for (int i = 0; i < chars.length; i++) {
+		for (int i = 0; i < chars.length; i++)
 			// 添加到宽度中
 			intReturn += fm.charWidth(chars[i]);
-		}
 		// 返回宽度
 		return intReturn;
 	}

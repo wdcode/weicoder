@@ -33,7 +33,6 @@ public final class Jobs implements Job {
 		Method method = (Method) map.get("method");
 		// 执行任务
 		BeanUtil.invoke(obj, method);
-		LOG.debug("job obj={} method={} end time={}", obj.getClass().getSimpleName(), method.getName(),
-				System.currentTimeMillis() - time);
+		LOG.debug("job obj={} method={} end time={}", obj.getClass().getSimpleName(), method.getName(), System.currentTimeMillis() - time);
 	}
 }

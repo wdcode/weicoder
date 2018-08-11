@@ -18,7 +18,7 @@ public final class Sets {
 	 * @return 是否Set
 	 */
 	public static boolean isSet(Object obj) {
-		return !EmptyUtil.isEmpty(obj) && obj instanceof Set<?>;
+		return EmptyUtil.isNotEmpty(obj) && obj instanceof Set<?>;
 	}
 
 	/**
@@ -27,7 +27,7 @@ public final class Sets {
 	 * @return Set
 	 */
 	public static <E> HashSet<E> newSet() {
-		return new HashSet<E>();
+		return new HashSet<>();
 	}
 
 	/**
@@ -37,7 +37,7 @@ public final class Sets {
 	 * @return Set
 	 */
 	public static <E> HashSet<E> newSet(int size) {
-		return new HashSet<E>(size);
+		return new HashSet<>(size);
 	}
 
 	/**
@@ -58,7 +58,7 @@ public final class Sets {
 	 * @return Set
 	 */
 	public static <E> HashSet<E> newSet(Collection<E> c) {
-		return new HashSet<E>(c);
+		return new HashSet<>(c);
 	}
 
 	/**

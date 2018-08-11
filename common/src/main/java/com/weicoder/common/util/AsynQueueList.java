@@ -37,7 +37,7 @@ public class AsynQueueList<E> {
 			long c = System.currentTimeMillis();
 			List<E> result = Lists.newList();
 			// 队列不为空
-			while (!queue.isEmpty()) {
+			while (EmptyUtil.isNotEmpty(queue)) {
 				E e = queue.poll();
 				result.add(e);
 				n++;

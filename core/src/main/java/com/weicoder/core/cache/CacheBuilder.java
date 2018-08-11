@@ -14,8 +14,7 @@ public final class CacheBuilder {
 	 * @return 缓存
 	 */
 	public static <K, V> Cache<K, V> builder(CacheLoad<K, V> load) {
-		return builder(CacheParams.MAX, CacheParams.INIT, CacheParams.LEVEL, CacheParams.REFRESH, CacheParams.EXPIRE,
-				load);
+		return builder(CacheParams.MAX, CacheParams.INIT, CacheParams.LEVEL, CacheParams.REFRESH, CacheParams.EXPIRE, load);
 	}
 
 	/**
@@ -27,8 +26,7 @@ public final class CacheBuilder {
 	 * @return 缓存
 	 */
 	public static <K, V> Cache<K, V> builder(long max, long refresh, long expire, CacheLoad<K, V> load) {
-		return builder(CacheParams.MAX, CacheParams.INIT, CacheParams.LEVEL, CacheParams.REFRESH, CacheParams.EXPIRE,
-				load);
+		return builder(CacheParams.MAX, CacheParams.INIT, CacheParams.LEVEL, CacheParams.REFRESH, CacheParams.EXPIRE, load);
 	}
 
 	/**
@@ -41,8 +39,7 @@ public final class CacheBuilder {
 	 * @param load 加载缓存
 	 * @return 缓存
 	 */
-	public static <K, V> Cache<K, V> builder(long max, int init, int level, long refresh, long expire,
-			CacheLoad<K, V> load) {
+	public static <K, V> Cache<K, V> builder(long max, int init, int level, long refresh, long expire, CacheLoad<K, V> load) {
 		return new Cache<K, V>(max, init, level, refresh, expire, load);
 	}
 

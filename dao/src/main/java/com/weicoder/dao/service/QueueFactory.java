@@ -24,9 +24,7 @@ final class QueueFactory extends FactoryKey<Class<?>, AsynQueueList<Object>> {
 
 	@Override
 	public AsynQueueList<Object> newInstance(Class<?> key) {
-		return Queues.newAsynQueueList(Queues.newOnlyQueue(),
-				results -> SuperService.DAO.insertOrUpdate(results, DaoParams.QUEUE_SETP),
-				DaoParams.QUEUE_TIME);
+		return Queues.newAsynQueueList(Queues.newOnlyQueue(), results -> SuperService.DAO.insertOrUpdate(results, DaoParams.QUEUE_SETP), DaoParams.QUEUE_TIME);
 	}
 
 	private QueueFactory() {}

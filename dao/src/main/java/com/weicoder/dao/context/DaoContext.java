@@ -22,10 +22,7 @@ public final class DaoContext {
 	 */
 	public static void init() {
 		// 获得所有实体并保存
-		for (Class<Entity> c : ClassUtil.getPackageClasses(DaoParams.PACKAGES, Entity.class)) {
-			// 保存到列表
-			ENTITYS.put(StringUtil.convert(c.getSimpleName()), c);
-		}
+		ClassUtil.getPackageClasses(DaoParams.PACKAGES, Entity.class).forEach(c -> ENTITYS.put(StringUtil.convert(c.getSimpleName()), c));
 	}
 
 	/**

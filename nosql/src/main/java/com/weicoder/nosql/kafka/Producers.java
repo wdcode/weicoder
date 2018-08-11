@@ -33,10 +33,8 @@ public class Producers {
 		props.put(ProducerConfig.BATCH_SIZE_CONFIG, 16384);
 		props.put(ProducerConfig.LINGER_MS_CONFIG, 1);
 		props.put(ProducerConfig.BUFFER_MEMORY_CONFIG, 33554432);
-		props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,
-				"org.apache.kafka.common.serialization.ByteArraySerializer");
-		props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,
-				"org.apache.kafka.common.serialization.ByteArraySerializer");
+		props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.ByteArraySerializer");
+		props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.ByteArraySerializer");
 		LOG.info("KafkaProducers init complete props={}", props);
 		// 实例化生产者
 		producer = new KafkaProducer<>(props);
@@ -64,9 +62,7 @@ public class Producers {
 	 * @return 信息
 	 */
 	public Future<RecordMetadata> send(String topic, Object value) {
-		return send(topic, value, (metadata, exception) -> {
-			LOG.debug("kafka send producer metadata={} exception={} value={}", metadata, exception, value);
-		});
+		return send(topic, value, (metadata, exception) -> LOG.debug("kafka send producer metadata={} exception={} value={}", metadata, exception, value));
 	}
 
 	/**
@@ -77,9 +73,7 @@ public class Producers {
 	 * @return 信息
 	 */
 	public Future<RecordMetadata> send(String topic, Object key, Object value) {
-		return send(topic, key, value, (metadata, exception) -> {
-			LOG.debug("kafka send producer metadata={} exception={} key={} value={}", metadata, exception, key, value);
-		});
+		return send(topic, key, value, (metadata, exception) -> LOG.debug("kafka send producer metadata={} exception={} key={} value={}", metadata, exception, key, value));
 	}
 
 	/**
@@ -111,9 +105,7 @@ public class Producers {
 	 * @param value 值
 	 */
 	public void asyn(String topic, Object value) {
-		ExecutorUtil.pool().execute(() -> {
-			send(topic, value);
-		});
+		ExecutorUtil.pool().execute(() -> send(topic, value));
 	}
 
 	/**
@@ -123,8 +115,6 @@ public class Producers {
 	 * @param value 值
 	 */
 	public void asyn(String topic, Object key, Object value) {
-		ExecutorUtil.pool().execute(() -> {
-			send(topic, key, value);
-		});
+		ExecutorUtil.pool().execute(() -> send(topic, key, value));
 	}
 }

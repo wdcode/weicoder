@@ -32,12 +32,10 @@ public class InitListener implements ServletContextListener {
 		// 初始化验证类
 		Validators.init();
 		// 按包处理Action
-		for (Class<?> c : ClassUtil.getAnnotationClass(CommonParams.getPackages("action"),
-				Action.class)) {
+		ClassUtil.getAnnotationClass(CommonParams.getPackages("action"), Action.class).forEach(c -> {
 			try {
 				// 获得action名结尾为action去掉
-				String cname = StringUtil
-						.convert(StringUtil.subStringLastEnd(c.getSimpleName(), "Action"));
+				String cname = StringUtil.convert(StringUtil.subStringLastEnd(c.getSimpleName(), "Action"));
 				Logs.info("init action sname={},cname={}", c.getSimpleName(), cname);
 				// 实例化Action并放在context中
 				Object action = BeanUtil.newInstance(c);
@@ -51,15 +49,13 @@ public class InitListener implements ServletContextListener {
 							String mname = m.getName();
 							// 放入action里方法
 							Map<String, Method> map = WebCommons.ACTIONS_METHODS.get(cname);
-							if (map == null) {
+							if (map == null)
 								WebCommons.ACTIONS_METHODS.put(cname, map = Maps.newMap());
-							}
 							map.put(mname, m);
 							Logs.info("add method={} to action={}", mname, cname);
 							// 放入总方法池
-							if (WebCommons.METHODS.containsKey(mname)) {
+							if (WebCommons.METHODS.containsKey(mname))
 								Logs.warn("method name exist! name={} action={}", mname, cname);
-							}
 							WebCommons.METHODS.put(mname, m);
 							// 方法对应action
 							WebCommons.METHODS_ACTIONS.put(mname, action);
@@ -71,15 +67,13 @@ public class InitListener implements ServletContextListener {
 			} catch (Exception ex) {
 				Logs.error(ex);
 			}
-		}
+		});
 
 		// 按包处理WebSocket
-		for (Class<?> c : ClassUtil.getAnnotationClass(CommonParams.getPackages("websocket"),
-				WebSocket.class)) {
+		ClassUtil.getAnnotationClass(CommonParams.getPackages("websocket"), WebSocket.class).forEach(c -> {
 			try {
 				// 获得action名结尾为action去掉
-				String cname = StringUtil
-						.convert(StringUtil.subStringLastEnd(c.getSimpleName(), "Server"));
+				String cname = StringUtil.convert(StringUtil.subStringLastEnd(c.getSimpleName(), "Server"));
 				Logs.debug("init websocket sname={},cname={}", c.getSimpleName(), cname);
 				// 实例化Action并放在context中
 				Object ws = BeanUtil.newInstance(c);
@@ -93,15 +87,13 @@ public class InitListener implements ServletContextListener {
 							String mname = m.getName();
 							// 放入action里方法
 							Map<String, Method> map = WebCommons.WEBSOCKES_METHODS.get(cname);
-							if (map == null) {
+							if (map == null)
 								WebCommons.WEBSOCKES_METHODS.put(cname, map = Maps.newMap());
-							}
 							map.put(mname, m);
 							Logs.debug("add method={} to websocket={}", mname, cname);
 							// 放入总方法池
-							if (WebCommons.WS_METHODS.containsKey(mname)) {
+							if (WebCommons.WS_METHODS.containsKey(mname))
 								Logs.warn("method name exist! name={} websocket={}", mname, cname);
-							}
 							WebCommons.WS_METHODS.put(mname, m);
 							// 方法对应action
 							WebCommons.METHODS_WEBSOCKES.put(mname, ws);
@@ -111,6 +103,6 @@ public class InitListener implements ServletContextListener {
 			} catch (Exception ex) {
 				Logs.error(ex);
 			}
-		}
+		});
 	}
 }

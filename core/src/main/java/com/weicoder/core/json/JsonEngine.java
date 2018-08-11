@@ -25,17 +25,14 @@ public final class JsonEngine {
 	 */
 	public static boolean isJson(String json) {
 		// 字符串为空
-		if (EmptyUtil.isEmpty(json)) {
+		if (EmptyUtil.isEmpty(json))
 			return false;
-		}
 		// 是数组格式
-		if (isObject(json)) {
+		if (isObject(json))
 			return true;
-		}
 		// 是数组格式
-		if (isArray(json)) {
+		if (isArray(json))
 			return true;
-		}
 		// 返回false
 		return false;
 	}
@@ -47,17 +44,14 @@ public final class JsonEngine {
 	 */
 	public static boolean isObject(String json) {
 		// 字符串为空
-		if (EmptyUtil.isEmpty(json)) {
+		if (EmptyUtil.isEmpty(json))
 			return false;
-		}
 		// {开头 }结尾
-		if (json.startsWith("{") && json.endsWith("}")) {
+		if (json.startsWith("{") && json.endsWith("}"))
 			return true;
-		}
 		// 空json
-		if (json.equals("{}")) {
+		if (json.equals("{}"))
 			return true;
-		}
 		// 返回false
 		return false;
 	}
@@ -69,17 +63,14 @@ public final class JsonEngine {
 	 */
 	public static boolean isArray(String json) {
 		// 字符串为空
-		if (EmptyUtil.isEmpty(json)) {
+		if (EmptyUtil.isEmpty(json))
 			return false;
-		}
 		// [开头 ]结尾
-		if (json.startsWith("[{") && json.endsWith("}]")) {
+		if (json.startsWith("[{") && json.endsWith("}]"))
 			return true;
-		}
 		// 空json
-		if (json.equals("[]")) {
+		if (json.equals("[]"))
 			return true;
-		}
 		// 返回false
 		return false;
 	}
@@ -155,24 +146,22 @@ public final class JsonEngine {
 		// 获得Map
 		Map<String, Object> map = toBean(json, Map.class);
 		// 如果map为空
-		if (EmptyUtil.isEmpty(map)) {
+		if (EmptyUtil.isEmpty(map))
 			return Maps.newMap();
-		}
 		// 声明返回map
 		Map<String, E> data = Maps.newMap(map.size());
 		// 循环生成类
-		for (Map.Entry<String, Object> e : map.entrySet()) {
+		map.forEach((k, v) -> {
 			// 声明值
 			E val = null;
 			// 是一个类型
-			if (e.getValue().equals(value)) {
-				val = (E) e.getValue();
-			} else {
-				val = BeanUtil.copy(e.getValue(), value);
-			}
+			if (v.equals(value))
+				val = (E) v;
+			else
+				val = BeanUtil.copy(v, value);
 			// 添加到列表
-			data.put(e.getKey(), val);
-		}
+			data.put(k, val);
+		});
 		// 返回数据
 		return data;
 	}

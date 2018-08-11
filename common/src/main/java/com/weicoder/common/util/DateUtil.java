@@ -1,6 +1,5 @@
 package com.weicoder.common.util;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Calendar;
@@ -30,21 +29,20 @@ public final class DateUtil {
 	 */
 	public static String getFormat(String date) {
 		// 开始判断格式
-		if (RegexUtil.is(RegexConstants.DATE_YYYYMMDD, date)) {
+		if (RegexUtil.is(RegexConstants.DATE_YYYYMMDD, date))
 			return DateConstants.FORMAT_YYYYMMDD;
-		} else if (RegexUtil.is(RegexConstants.DATE_YYYY_MM_DD, date)) {
+		if (RegexUtil.is(RegexConstants.DATE_YYYY_MM_DD, date))
 			return DateConstants.FORMAT_YYYY_MM_DD;
-		} else if (RegexUtil.is(RegexConstants.DATE_Y_M_D_H_M_S, date)) {
+		if (RegexUtil.is(RegexConstants.DATE_Y_M_D_H_M_S, date))
 			return DateConstants.FORMAT_Y_M_D_H_M_S;
-		} else if (RegexUtil.is(RegexConstants.DATE_Y_M_D_H_M, date)) {
+		if (RegexUtil.is(RegexConstants.DATE_Y_M_D_H_M, date))
 			return DateConstants.FORMAT_Y_M_D_H_M;
-		} else if (RegexUtil.is(RegexConstants.DATE_YMD_H_M_S, date)) {
+		if (RegexUtil.is(RegexConstants.DATE_YMD_H_M_S, date))
 			return DateConstants.FORMAT_YMD_H_M_S;
-		} else if (RegexUtil.is(RegexConstants.DATE_HH_MM_SS, date)) {
+		if (RegexUtil.is(RegexConstants.DATE_HH_MM_SS, date))
 			return DateConstants.FORMAT_HH_MM_SS;
-		} else if (RegexUtil.is(RegexConstants.DATE_YYYYMM, date)) {
+		if (RegexUtil.is(RegexConstants.DATE_YYYYMM, date))
 			return DateConstants.FORMAT_YYYYMM;
-		}
 		return null;
 	}
 
@@ -244,10 +242,8 @@ public final class DateUtil {
 	 */
 	public static Date toDate(String dateString, String format) {
 		try {
-			// 格式化日期
-			DateFormat df = EmptyUtil.isEmpty(format) ? new SimpleDateFormat() : new SimpleDateFormat(format);
 			// 返回转换后的日期
-			return df.parse(dateString);
+			return (EmptyUtil.isEmpty(format) ? new SimpleDateFormat() : new SimpleDateFormat(format)).parse(dateString);
 		} catch (Exception e) {
 			Logs.warn(e);
 			return null;
@@ -419,10 +415,9 @@ public final class DateUtil {
 		// 获得今天是星期几
 		int week = getDayOfWeek(date);
 		// 循环7天
-		for (int i = 1; i < 8; i++) {
+		for (int i = 1; i < 8; i++)
 			// 设置相隔天数 并保存在数组中
 			weekInfo[i - 1] = getDate(date, -(week - i), format);
-		}
 		// 返回本周信息
 		return weekInfo;
 	}
@@ -440,10 +435,9 @@ public final class DateUtil {
 		week = week == 0 ? 7 : week;
 		String format = getFormat(date);
 		// 循环7天
-		for (int i = 1; i < 8; i++) {
+		for (int i = 1; i < 8; i++)
 			// 设置相隔天数 并保存在数组中
 			weekInfo[i - 1] = getDate(date, -(week - i), format);
-		}
 		// 返回本周信息
 		return weekInfo;
 	}
@@ -713,10 +707,9 @@ public final class DateUtil {
 		// 声明数组 保存本月日期格式
 		String[] monthInfo = new String[maxDay];
 		// 循环最大日子
-		for (int i = 1; i <= maxDay; i++) {
+		for (int i = 1; i <= maxDay; i++)
 			// 设置相隔天数 并保存在数组中
 			monthInfo[i - 1] = getDate(date, -(day - i), format);
-		}
 		// 返回月份信息
 		return monthInfo;
 	}
@@ -972,19 +965,16 @@ public final class DateUtil {
 			second = time;
 		}
 		// 连成时间字符串 不足10的补0
-		if (hour < 10) {
+		if (hour < 10)
 			timeString.append("0");
-		}
 		timeString.append(hour);
 		timeString.append(StringConstants.COLON);
-		if (minute < 10) {
+		if (minute < 10)
 			timeString.append("0");
-		}
 		timeString.append(minute);
 		timeString.append(StringConstants.COLON);
-		if (second < 10) {
+		if (second < 10)
 			timeString.append("0");
-		}
 		if (isNegative) {
 			time *= -1;
 			timeString.append("-");

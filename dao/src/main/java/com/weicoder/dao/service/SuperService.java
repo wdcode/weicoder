@@ -19,12 +19,6 @@ import com.weicoder.dao.Dao;
 public final class SuperService {
 	/** Dao 接口 */
 	public final static Dao DAO = DaoFactory.FACTORY.getInstance();
-	// // 更新队列
-	// private final static Map<Class<? extends Entity>, AsynQueueList<? extends Entity>> QUEUES = Maps
-	// .newMap();
-	// // 队列锁
-	// private final static Lock LOCK = new ReentrantLock(
-	// true);
 
 	/**
 	 * 添加要更新的数据到队列 队列按定时执行insertOrUpdate 不要使用此方法保存重要数据
@@ -41,18 +35,8 @@ public final class SuperService {
 	 * @return 是否添加成功
 	 */
 	public static boolean adds(List<Object> objs) {
-		return EmptyUtil.isEmpty(objs) ? false
-				: QueueFactory.get(objs.get(0).getClass()).addAll(objs);
+		return EmptyUtil.isEmpty(objs) ? false : QueueFactory.get(objs.get(0).getClass()).addAll(objs);
 	}
-
-	// private static void getQueue(Class<? extends Entity> c) {
-	// // 获得队列
-	// AsynQueueList<? extends Entity> queue = QUEUES.get(c);
-	// //如果队列为空
-	// if() {}
-	// Queues.newAsynQueueList(Queues.newOnlyQueue(),
-	// results -> DAO.insertOrUpdate(results, DaoParams.QUEUE_SETP), DaoParams.QUEUE_TIME);
-	// }
 
 	/**
 	 * 删除
@@ -64,9 +48,8 @@ public final class SuperService {
 		// 查询出符合删除实体列表
 		List<E> list = DAO.list(entity, -1, -1);
 		// 删除列表为空
-		if (EmptyUtil.isEmpty(list)) {
+		if (EmptyUtil.isEmpty(list))
 			return Lists.emptyList();
-		}
 		// 删除
 		return DAO.delete(list);
 	}
@@ -103,13 +86,12 @@ public final class SuperService {
 		// 获得数据列表
 		List<E> list = DAO.list(entityClass, getFirstResult(page), getMaxResults(page));
 		// 判断列表
-		if (EmptyUtil.isEmpty(list)) {
+		if (EmptyUtil.isEmpty(list))
 			// 为空 设置总数为 0
 			page.setTotal(0);
-		} else {
+		else
 			// 不为空 查询出总数
 			page.setTotal(DAO.count(entityClass));
-		}
 		// 返回列表
 		return list;
 	}
@@ -124,13 +106,12 @@ public final class SuperService {
 		// 获得数据列表
 		List<Object> list = DAO.list(entity, getFirstResult(page), getMaxResults(page));
 		// 判断列表
-		if (EmptyUtil.isEmpty(list)) {
+		if (EmptyUtil.isEmpty(list))
 			// 为空 设置总数为 0
 			page.setTotal(0);
-		} else {
+		else
 			// 不为空 查询出总数
 			page.setTotal(DAO.count(entity));
-		}
 		// 返回列表
 		return Maps.newMap(new String[] { "list", "pager" }, new Object[] { list, page });
 	}
@@ -144,19 +125,16 @@ public final class SuperService {
 	 * @param <E> 泛型
 	 * @return 数据列表
 	 */
-	public static <E> List<E> in(Class<E> entityClass, String property, List<Object> values,
-			Pagination pager) {
+	public static <E> List<E> in(Class<E> entityClass, String property, List<Object> values, Pagination pager) {
 		// 获得数据列表
-		List<E> list = DAO.in(entityClass, property, values, getFirstResult(pager),
-				getMaxResults(pager));
+		List<E> list = DAO.in(entityClass, property, values, getFirstResult(pager), getMaxResults(pager));
 		// 判断列表
-		if (EmptyUtil.isEmpty(list)) {
+		if (EmptyUtil.isEmpty(list))
 			// 为空 设置总数为 0
 			pager.setTotal(0);
-		} else {
+		else
 			// 不为空 查询出总数
 			pager.setTotal(DAO.count(entityClass, property, values));
-		}
 		// 返回列表
 		return list;
 	}
@@ -206,19 +184,16 @@ public final class SuperService {
 	 * @param <E> 泛型
 	 * @return 数据列表
 	 */
-	public static <E> List<E> eq(Class<E> entityClass, String property, Object value,
-			Pagination pager) {
+	public static <E> List<E> eq(Class<E> entityClass, String property, Object value, Pagination pager) {
 		// 获得数据列表
-		List<E> list = DAO.eq(entityClass, property, value, getFirstResult(pager),
-				getMaxResults(pager));
+		List<E> list = DAO.eq(entityClass, property, value, getFirstResult(pager), getMaxResults(pager));
 		// 判断列表
-		if (EmptyUtil.isEmpty(list)) {
+		if (EmptyUtil.isEmpty(list))
 			// 为空 设置总数为 0
 			pager.setTotal(0);
-		} else {
+		else
 			// 不为空 查询出总数
 			pager.setTotal(DAO.count(entityClass, property, value));
-		}
 		// 返回列表
 		return list;
 	}
@@ -233,19 +208,16 @@ public final class SuperService {
 	 * @param <E> 泛型
 	 * @return 数据列表
 	 */
-	public static <E> List<E> in(Class<E> entityClass, String property, List<Object> values,
-			Map<String, Object> orders, Pagination pager) {
+	public static <E> List<E> in(Class<E> entityClass, String property, List<Object> values, Map<String, Object> orders, Pagination pager) {
 		// 获得数据列表
-		List<E> list = DAO.in(entityClass, property, values, orders, getFirstResult(pager),
-				getMaxResults(pager));
+		List<E> list = DAO.in(entityClass, property, values, orders, getFirstResult(pager), getMaxResults(pager));
 		// 判断列表
-		if (EmptyUtil.isEmpty(list)) {
+		if (EmptyUtil.isEmpty(list))
 			// 为空 设置总数为 0
 			pager.setTotal(0);
-		} else {
+		else
 			// 不为空 查询出总数
 			pager.setTotal(DAO.count(entityClass, property, values));
-		}
 		// 返回列表
 		return list;
 	}
@@ -273,19 +245,16 @@ public final class SuperService {
 	 * @param <E> 泛型
 	 * @return 返回结果列表
 	 */
-	public static <E> List<E> between(E entity, String property, Object lo, Object hi,
-			Pagination page) {
+	public static <E> List<E> between(E entity, String property, Object lo, Object hi, Pagination page) {
 		// 获得数据列表
-		List<E> list = DAO.between(entity, property, lo, hi, getFirstResult(page),
-				getMaxResults(page));
+		List<E> list = DAO.between(entity, property, lo, hi, getFirstResult(page), getMaxResults(page));
 		// 判断列表
-		if (EmptyUtil.isEmpty(list)) {
+		if (EmptyUtil.isEmpty(list))
 			// 为空 设置总数为 0
 			page.setTotal(0);
-		} else {
+		else
 			// 不为空 查询出总数
 			page.setTotal(DAO.count(entity, property, lo, hi));
-		}
 		// 返回列表
 		return list;
 	}
@@ -302,13 +271,12 @@ public final class SuperService {
 		// 获得数据列表
 		List<E> list = DAO.order(entity, orders, getFirstResult(page), getMaxResults(page));
 		// 判断列表
-		if (EmptyUtil.isEmpty(list)) {
+		if (EmptyUtil.isEmpty(list))
 			// 为空 设置总数为 0
 			page.setTotal(0);
-		} else {
+		else
 			// 不为空 查询出总数
 			page.setTotal(DAO.count(entity));
-		}
 		// 返回列表
 		return list;
 	}
@@ -325,13 +293,12 @@ public final class SuperService {
 		// 获得数据列表
 		List<E> list = DAO.order(entity, orders, getFirstResult(page), getMaxResults(page));
 		// 判断列表
-		if (EmptyUtil.isEmpty(list)) {
+		if (EmptyUtil.isEmpty(list))
 			// 为空 设置总数为 0
 			page.setTotal(0);
-		} else {
+		else
 			// 不为空 查询出总数
 			page.setTotal(DAO.count(entity));
-		}
 		// 返回列表
 		return list;
 	}
@@ -352,9 +319,7 @@ public final class SuperService {
 		// 添加指定实体
 		ls.add(DAO.get(entity, (Serializable) value));
 		// 循环添加
-		for (E obj : Lists.newList(list)) {
-			ls.addAll(next(entity, property, BeanUtil.getFieldValue(obj, property)));
-		}
+		Lists.newList(list).forEach(obj -> ls.addAll(next(entity, property, BeanUtil.getFieldValue(obj, property))));
 		// 返回列表
 		return ls;
 	}
@@ -374,8 +339,7 @@ public final class SuperService {
 		E obj = DAO.get(entity, pk);
 		// 对象不为空
 		if (obj != null) {
-			list.addAll(
-					prev(entity, property, (Serializable) BeanUtil.getFieldValue(obj, property)));
+			list.addAll(prev(entity, property, (Serializable) BeanUtil.getFieldValue(obj, property)));
 			// 添加对象
 			list.add(obj);
 		}

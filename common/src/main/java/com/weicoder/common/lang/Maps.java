@@ -26,16 +26,14 @@ public final class Maps {
 	 */
 	public static <K, V> V get(Map<K, V> map, K key, Class<V> c) {
 		// 如果map和key val 为空
-		if (map == null || key == null || c == null) {
+		if (map == null || key == null || c == null)
 			return null;
-		}
 		// 获得值
 		V val = map.get(key);
 		// 如果值为空
-		if (val == null) {
+		if (val == null)
 			// 实例化并保存
 			map.put(key, val = BeanUtil.newInstance(c));
-		}
 		// 返回值
 		return val;
 	}
@@ -51,16 +49,14 @@ public final class Maps {
 	 */
 	public static <K, V> List<V> getList(Map<K, List<V>> map, K key, Class<V> c) {
 		// 如果map和key val 为空
-		if (map == null || key == null || c == null) {
+		if (map == null || key == null || c == null)
 			return null;
-		}
 		// 获得值
 		List<V> val = map.get(key);
 		// 如果值为空
-		if (val == null) {
+		if (val == null)
 			// 实例化并保存
 			map.put(key, val = Lists.newList());
-		}
 		// 返回值
 		return val;
 	}
@@ -71,7 +67,7 @@ public final class Maps {
 	 * @return 是否Map
 	 */
 	public static boolean isMap(Object obj) {
-		return !EmptyUtil.isEmpty(obj) && obj instanceof Map<?, ?>;
+		return EmptyUtil.isNotEmpty(obj) && obj instanceof Map<?, ?>;
 	}
 
 	/**
@@ -113,16 +109,14 @@ public final class Maps {
 	 */
 	public static <K, V> Map<K, V> newMap(List<K> keys, List<V> values) {
 		// 判断key和value为空或则键值数量不同 返回空Map
-		if (EmptyUtil.isEmpty(keys) || EmptyUtil.isEmpty(values) || keys.size() != values.size()) {
+		if (EmptyUtil.isEmpty(keys) || EmptyUtil.isEmpty(values) || keys.size() != values.size())
 			return emptyMap();
-		}
 		// 获得Map
 		Map<K, V> map = newMap();
 		// 循环填充map
-		for (int i = 0; i < keys.size(); i++) {
+		for (int i = 0; i < keys.size(); i++)
 			// 设置键值
 			map.put(keys.get(i), values.get(i));
-		}
 		// 返回Map
 		return map;
 	}
@@ -134,7 +128,7 @@ public final class Maps {
 	 * @return Map
 	 */
 	public static <K, V> Map<K, V> newMap() {
-		return new HashMap<K, V>();
+		return new HashMap<>();
 	}
 
 	/**
@@ -145,7 +139,7 @@ public final class Maps {
 	 * @return Map
 	 */
 	public static <K, V> Map<K, V> newMap(int size) {
-		return new HashMap<K, V>(size < 1 ? 1 : size);
+		return new HashMap<>(size < 1 ? 1 : size);
 	}
 
 	/**
@@ -156,7 +150,7 @@ public final class Maps {
 	 * @return Map
 	 */
 	public static <K, V> Map<K, V> newMap(Map<K, V> map) {
-		return map == null ? new HashMap<K, V>() : new HashMap<K, V>(map);
+		return map == null ? new HashMap<>() : new HashMap<>(map);
 	}
 
 	/**
@@ -171,10 +165,9 @@ public final class Maps {
 		// 获得一个map
 		Map<K, V> map = newMap();
 		// 循环maps
-		for (int i = 0; i < maps.length; i++) {
+		for (int i = 0; i < maps.length; i++)
 			// 添加到map
 			map.putAll(maps[i]);
-		}
 		// 返回map
 		return map;
 	}
@@ -186,7 +179,7 @@ public final class Maps {
 	 * @return Map
 	 */
 	public static <K, V> ConcurrentMap<K, V> newConcurrentMap() {
-		return new ConcurrentHashMap<K, V>();
+		return new ConcurrentHashMap<>();
 	}
 
 	/**
@@ -197,7 +190,7 @@ public final class Maps {
 	 * @return Map
 	 */
 	public static <K, V> ConcurrentMap<K, V> newConcurrentMap(int size) {
-		return new ConcurrentHashMap<K, V>(size);
+		return new ConcurrentHashMap<>(size);
 	}
 
 	/**
@@ -208,7 +201,7 @@ public final class Maps {
 	 * @return Map
 	 */
 	public static <K, V> ConcurrentMap<K, V> newConcurrentMap(Map<K, V> map) {
-		return new ConcurrentHashMap<K, V>(map);
+		return new ConcurrentHashMap<>(map);
 	}
 
 	/**

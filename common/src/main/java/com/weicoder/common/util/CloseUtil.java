@@ -20,9 +20,8 @@ public final class CloseUtil {
 				// 判断不为空
 				if (!EmptyUtil.isEmpty(c)) {
 					// 是输出流
-					if (c instanceof OutputStream) {
+					if (c instanceof OutputStream)
 						((OutputStream) c).flush();
-					}
 					// 关闭
 					c.close();
 				}

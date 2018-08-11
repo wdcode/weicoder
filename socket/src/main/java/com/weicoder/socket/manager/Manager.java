@@ -88,9 +88,7 @@ public final class Manager {
 	 */
 	public List<Session> gets(List<Long> ids) {
 		List<Session> list = Lists.newList(ids.size());
-		for (long id : ids) {
-			list.add(registers.get(id));
-		}
+		ids.forEach(id -> list.add(registers.get(id)));
 		return list;
 	}
 
@@ -146,12 +144,10 @@ public final class Manager {
 	 */
 	private void broad0(List<Session> sessions, short id, Object message) {
 		// 列表为空
-		if (EmptyUtil.isEmpty(sessions)) {
+		if (EmptyUtil.isEmpty(sessions))
 			return;
-		}
 		// 日志
-		Logs.info("manager broad num={};id={};time={}", sessions.size(), id,
-				DateUtil.getTheDate());
+		Logs.info("manager broad num={};id={};time={}", sessions.size(), id, DateUtil.getTheDate());
 		// 直接广播数据
 		broad(sessions, Sockets.pack(id, message));
 	}
@@ -164,13 +160,9 @@ public final class Manager {
 	private void broad(List<Session> sessions, byte[] data) {
 		// 日志
 		long curr = System.currentTimeMillis();
-		Logs.debug("manager pool broad start size={};time=", sessions.size(),
-				DateUtil.getTheDate());
+		Logs.debug("manager pool broad start size={};time=", sessions.size(), DateUtil.getTheDate());
 		// 广播消息
-		for (Session session : sessions) {
-			session.send(data);
-		}
-		Logs.debug("manager pool broad end size={};time={}", sessions.size(),
-				(System.currentTimeMillis() - curr));
+		sessions.forEach(session -> session.send(data));
+		Logs.debug("manager pool broad end size={};time={}", sessions.size(), (System.currentTimeMillis() - curr));
 	}
 }

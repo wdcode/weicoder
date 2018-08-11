@@ -4,7 +4,7 @@ import java.util.Random;
 
 /**
  * 随机数工具类
- * @author WD  
+ * @author WD
  */
 public final class RandomUtil {
 	// 声明随机数对象
@@ -82,9 +82,8 @@ public final class RandomUtil {
 			// 随机获得整数
 			int n = nextInt(48, 123);
 			// 判断不在a-z A-Z中
-			if ((n > 91 && n < 97) || (n > 57 && n < 65)) {
+			if ((n > 91 && n < 97) || (n > 57 && n < 65))
 				n += nextInt(7, 16);
-			}
 			// 添加到字符缓存中
 			veryfy.append((char) n);
 		}

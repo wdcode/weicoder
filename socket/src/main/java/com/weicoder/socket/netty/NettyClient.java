@@ -21,7 +21,7 @@ public final class NettyClient implements Client {
 	// 保存Netty服务器 ChannelFuture
 	private ChannelFuture	future;
 	// NettyHandler
-	private NettyHandler		handler;
+	private NettyHandler	handler;
 	// Session
 	private Session			session;
 	// 名称
@@ -63,10 +63,9 @@ public final class NettyClient implements Client {
 	@Override
 	public Session session() {
 		// 如果session为空 或 未连接
-		if (session == null) {
+		if (session == null)
 			// 连接
 			connect();
-		}
 		// 返回session
 		return session;
 	}

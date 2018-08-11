@@ -30,30 +30,24 @@ public final class StringUtil {
 				if (source.length() > 1) {
 					char ls = source.charAt(i + 1);
 					int uc = ((hs - 0xd800) * 0x400) + (ls - 0xdc00) + 0x10000;
-					if (0x1d000 <= uc && uc <= 0x1f77f) {
+					if (0x1d000 <= uc && uc <= 0x1f77f)
 						return true;
-					}
 				}
 			} else {
 				// non surrogate
-				if (0x2100 <= hs && hs <= 0x27ff && hs != 0x263b) {
+				if (0x2100 <= hs && hs <= 0x27ff && hs != 0x263b)
 					return true;
-				} else if (0x2B05 <= hs && hs <= 0x2b07) {
+				if (0x2B05 <= hs && hs <= 0x2b07)
 					return true;
-				} else if (0x2934 <= hs && hs <= 0x2935) {
+				if (0x2934 <= hs && hs <= 0x2935)
 					return true;
-				} else if (0x3297 <= hs && hs <= 0x3299) {
+				if (0x3297 <= hs && hs <= 0x3299)
 					return true;
-				} else if (hs == 0xa9 || hs == 0xae || hs == 0x303d || hs == 0x3030 || hs == 0x2b55
-						|| hs == 0x2b1c || hs == 0x2b1b || hs == 0x2b50 || hs == 0x231a) {
+				if (hs == 0xa9 || hs == 0xae || hs == 0x303d || hs == 0x3030 || hs == 0x2b55 || hs == 0x2b1c || hs == 0x2b1b || hs == 0x2b50 || hs == 0x231a)
 					return true;
-				}
-				if (!isEmoji && source.length() > 1 && i < source.length() - 1) {
-					char ls = source.charAt(i + 1);
-					if (ls == 0x20e3) {
+				if (!isEmoji && source.length() > 1 && i < source.length() - 1)
+					if (source.charAt(i + 1) == 0x20e3)
 						return true;
-					}
-				}
 			}
 		}
 		return isEmoji;
@@ -65,29 +59,26 @@ public final class StringUtil {
 	 * @return 过滤后的字符串
 	 */
 	public static String filterEmoji(String source) {
-		if (EmptyUtil.isEmpty(source)) {
+		if (EmptyUtil.isEmpty(source))
 			return source;
-		}
 		StringBuilder buf = null;
 		int len = source.length();
 		for (int i = 0; i < len; i++) {
 			char codePoint = source.charAt(i);
 			if (isEmojiCharacter(codePoint)) {
-				if (buf == null) {
+				if (buf == null)
 					buf = new StringBuilder(source.length());
-				}
 				buf.append(codePoint);
 			}
 		}
-		if (buf == null) {
+		if (buf == null)
 			return source;
-		} else {
+		else {
 			if (buf.length() == len) {
 				buf = null;
 				return source;
-			} else {
+			} else
 				return buf.toString();
-			}
 		}
 	}
 
@@ -97,10 +88,8 @@ public final class StringUtil {
 	 * @return 是否Emoji表情
 	 */
 	public static boolean isEmojiCharacter(char codePoint) {
-		return (codePoint == 0x0) || (codePoint == 0x9) || (codePoint == 0xA) || (codePoint == 0xD)
-				|| ((codePoint >= 0x20) && (codePoint <= 0xD7FF))
-				|| ((codePoint >= 0xE000) && (codePoint <= 0xFFFD))
-				|| ((codePoint >= 0x10000) && (codePoint <= 0x10FFFF));
+		return (codePoint == 0x0) || (codePoint == 0x9) || (codePoint == 0xA) || (codePoint == 0xD) || ((codePoint >= 0x20) && (codePoint <= 0xD7FF))
+				|| ((codePoint >= 0xE000) && (codePoint <= 0xFFFD)) || ((codePoint >= 0x10000) && (codePoint <= 0x10FFFF));
 	}
 
 	/**
@@ -120,9 +109,8 @@ public final class StringUtil {
 	 */
 	public static String add(Object... os) {
 		StringBuilder sb = new StringBuilder();
-		for (Object o : os) {
+		for (Object o : os)
 			sb.append(Conversion.toString(o));
-		}
 		return sb.toString();
 	}
 
@@ -143,24 +131,21 @@ public final class StringUtil {
 	 */
 	public static int getLength(String str) {
 		// 如果为空返回0
-		if (EmptyUtil.isEmpty(str)) {
+		if (EmptyUtil.isEmpty(str))
 			return 0;
-		}
 		// 初始化长度
 		int length = 0;
 		// 获得字符串的字符数组
 		char[] temp = str.toCharArray();
 		// 循环字符数组
-		for (int i = 0; i < temp.length; i++) {
+		for (int i = 0; i < temp.length; i++)
 			// 判断是否中文
-			if (RegexUtil.isChinese(String.valueOf(temp[i]))) {
+			if (RegexUtil.isChinese(String.valueOf(temp[i])))
 				// 中文长度加2
 				length += 2;
-			} else {
+			else
 				// 不是中文长度加1
 				length++;
-			}
-		}
 		// 返回长度
 		return length;
 	}
@@ -201,10 +186,9 @@ public final class StringUtil {
 		// 声明字符串
 		String[] sub = new String[matcher.end()];
 		// 循环获得字符串
-		for (int i = 0; i < sub.length; i++) {
+		for (int i = 0; i < sub.length; i++)
 			// 添加匹配的字符串
 			sub[i] = matcher.group(i + 1);
-		}
 		// 返回字符串数组
 		return sub;
 	}
@@ -220,9 +204,8 @@ public final class StringUtil {
 	 */
 	public static String subString(String str, String start, String end) {
 		// 字符串为空返回原串
-		if (EmptyUtil.isEmpty(str)) {
+		if (EmptyUtil.isEmpty(str))
 			return str;
-		}
 		// 开始位置
 		int i = str.indexOf(start) == -1 ? 0 : str.indexOf(start) + start.length();
 		// 结束位置
@@ -255,9 +238,8 @@ public final class StringUtil {
 	 */
 	public static String subString(String str, int start, int end) {
 		// 字符串为空返回原串
-		if (EmptyUtil.isEmpty(str)) {
+		if (EmptyUtil.isEmpty(str))
 			return str;
-		}
 		// 字符串长度
 		int len = str.length();
 		// 开始位置
@@ -283,9 +265,8 @@ public final class StringUtil {
 	 */
 	public static String subStringLast(String str, String start, String end) {
 		// 字符串为空返回""
-		if (EmptyUtil.isEmpty(str)) {
+		if (EmptyUtil.isEmpty(str))
 			return str;
-		}
 		// 开始位置
 		int i = str.lastIndexOf(start) == -1 ? 0 : str.lastIndexOf(start) + start.length();
 		// 结束位置
@@ -303,15 +284,13 @@ public final class StringUtil {
 	 */
 	public static String subString(String str, String start) {
 		// 字符串为空返回""
-		if (EmptyUtil.isEmpty(str)) {
+		if (EmptyUtil.isEmpty(str))
 			return str;
-		}
 		// 开始位置
 		int i = str.indexOf(start) == -1 ? 0 : str.indexOf(start) + start.length();
 		// 如果开始长度为0 返回原串
-		if (i == 0) {
+		if (i == 0)
 			return str;
-		}
 		// 返回截取的字符串
 		return str.substring(i, str.length());
 	}
@@ -325,15 +304,13 @@ public final class StringUtil {
 	 */
 	public static String subStringLast(String str, String start) {
 		// 字符串为空返回原串
-		if (EmptyUtil.isEmpty(str)) {
+		if (EmptyUtil.isEmpty(str))
 			return str;
-		}
 		// 开始位置
 		int i = str.lastIndexOf(start) == -1 ? 0 : str.lastIndexOf(start) + start.length();
 		// 如果开始长度为0 返回原串
-		if (i == 0) {
+		if (i == 0)
 			return str;
-		}
 		// 返回截取的字符串
 		return str.substring(i, str.length());
 	}
@@ -347,15 +324,13 @@ public final class StringUtil {
 	 */
 	public static String subStringEnd(String str, String end) {
 		// 字符串为空返回""
-		if (EmptyUtil.isEmpty(str)) {
+		if (EmptyUtil.isEmpty(str))
 			return str;
-		}
 		// 开始位置
 		int i = str.indexOf(end) == -1 ? 0 : str.indexOf(end);
 		// 如果开始长度为0 返回原串
-		if (i == 0) {
+		if (i == 0)
 			return str;
-		}
 		// 返回截取的字符串
 		return str.substring(0, i);
 	}
@@ -369,15 +344,13 @@ public final class StringUtil {
 	 */
 	public static String subStringLastEnd(String str, String end) {
 		// 字符串为空返回""
-		if (EmptyUtil.isEmpty(str)) {
+		if (EmptyUtil.isEmpty(str))
 			return str;
-		}
 		// 开始位置
 		int i = str.lastIndexOf(end) == -1 ? 0 : str.lastIndexOf(end);
 		// 如果开始长度为0 返回原串
-		if (i == 0) {
+		if (i == 0)
 			return str;
-		}
 		// 返回截取的字符串
 		return str.substring(0, i);
 	}
@@ -419,9 +392,8 @@ public final class StringUtil {
 	 */
 	public static String convert(String name) {
 		// 如果为空返回原串
-		if (EmptyUtil.isEmpty(name)) {
+		if (EmptyUtil.isEmpty(name))
 			return name;
-		}
 		// 分解_个字段
 		String[] strs = name.split(StringConstants.UNDERLINE);
 		// 实例一个字符串缓存
@@ -431,12 +403,11 @@ public final class StringUtil {
 			// 获得新字符串
 			String s = strs[i];
 			// 添加字符串
-			if (!EmptyUtil.isEmpty(s)) {
-				if (i == 0) {
+			if (EmptyUtil.isNotEmpty(s)) {
+				if (i == 0)
 					buf.append(s.substring(0, 1).toLowerCase());
-				} else {
+				else
 					buf.append(s.substring(0, 1).toUpperCase());
-				}
 				buf.append(s.substring(1, s.length()));
 			}
 		}
@@ -451,9 +422,8 @@ public final class StringUtil {
 	 */
 	public static String toDbName(String name) {
 		// 如果为空返回原串
-		if (EmptyUtil.isEmpty(name)) {
+		if (EmptyUtil.isEmpty(name))
 			return name;
-		}
 		// 分解成字符
 		char[] cs = name.toCharArray();
 		// 实例一个字符串缓存
@@ -463,18 +433,16 @@ public final class StringUtil {
 			// 获取字符
 			char c = cs[i];
 			// 第一个字符
-			if (i == 0) {
+			if (i == 0)
 				// 转换成小写
 				buf.append(Character.toLowerCase(c));
-			} else {
-				// 判断是否大写
-				if (Character.isUpperCase(c)) {
-					// 是大写加 _ 然后变成小写
-					buf.append(StringConstants.UNDERLINE).append(Character.toLowerCase(c));
-				} else {
-					buf.append(c);
-				}
-			}
+			else
+			// 判断是否大写
+			if (Character.isUpperCase(c))
+				// 是大写加 _ 然后变成小写
+				buf.append(StringConstants.UNDERLINE).append(Character.toLowerCase(c));
+			else
+				buf.append(c);
 		}
 		// 返回新的字符串
 		return buf.toString();
@@ -536,9 +504,8 @@ public final class StringUtil {
 	 */
 	public static boolean contains(String str, String searchStr) {
 		// 如果一个串为空 返回false
-		if (EmptyUtil.isEmpty(str) || EmptyUtil.isEmpty(searchStr)) {
+		if (EmptyUtil.isEmpty(str) || EmptyUtil.isEmpty(searchStr))
 			return false;
-		}
 		// 判断是否包含
 		return str.indexOf(searchStr) >= 0;
 	}
@@ -602,9 +569,8 @@ public final class StringUtil {
 	 */
 	public static String resolve(String text, int len) {
 		// 字符串为空
-		if (EmptyUtil.isEmpty(text)) {
+		if (EmptyUtil.isEmpty(text))
 			return text;
-		}
 		// 如果字符串长度大于要返回的长度
 		if (text.length() > len) {
 			// 声明字符串缓存
@@ -612,9 +578,8 @@ public final class StringUtil {
 			// 获得分解份数
 			int size = text.length() / len;
 			// 循环累加字符串
-			for (int i = 0; i < len; i++) {
+			for (int i = 0; i < len; i++)
 				sb.append(text.charAt(i * size));
-			}
 			// 赋值
 			text = sb.toString();
 		}
@@ -629,8 +594,7 @@ public final class StringUtil {
 	 * @return 返回聚合后字符串
 	 */
 	public static String combine(String s1, String s2) {
-		return EmptyUtil.isEmpty(s1) || EmptyUtil.isEmpty(s2) ? StringConstants.EMPTY
-				: combine(s1, s2, (s1.length() + s2.length()) / s1.length());
+		return EmptyUtil.isEmpty(s1) || EmptyUtil.isEmpty(s2) ? StringConstants.EMPTY : combine(s1, s2, (s1.length() + s2.length()) / s1.length());
 	}
 
 	/**
@@ -650,18 +614,13 @@ public final class StringUtil {
 		int i1 = 0;
 		int i2 = 0;
 		// 合并到字符里
-		for (int i = 0; i < c.length; i++) {
-			if (i % len == 0) {
+		for (int i = 0; i < c.length; i++)
+			if (i % len == 0)
 				c[i] = c1[i1++];
-			} else {
+			else
 				c[i] = c2[i2++];
-			}
-		}
 		// 返回字符数组
 		return new String(c);
-		// } catch (Exception e) {
-		// return StringConstants.EMPTY;
-		// }
 	}
 
 	/**
@@ -673,9 +632,8 @@ public final class StringUtil {
 	public static String[] separate(String s, int len) {
 		try {
 			// 如果字符为空返回空
-			if (EmptyUtil.isEmpty(s)) {
+			if (EmptyUtil.isEmpty(s))
 				return ArrayConstants.STRING_EMPTY;
-			}
 			// 声明字符数组
 			char[] c = s.toCharArray();
 			char[] c1 = new char[c.length / len];
@@ -684,13 +642,11 @@ public final class StringUtil {
 			int i1 = 0;
 			int i2 = 0;
 			// 拆分数组
-			for (int i = 0; i < c.length; i++) {
-				if (i % len == 0) {
+			for (int i = 0; i < c.length; i++)
+				if (i % len == 0)
 					c1[i1++] = c[i];
-				} else {
+				else
 					c2[i2++] = c[i];
-				}
-			}
 			// 返回字符串数组
 			return new String[] { new String(c1), new String(c2) };
 		} catch (Exception e) {

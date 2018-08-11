@@ -99,9 +99,6 @@ public abstract class BaseSession implements Session {
 		write(data);
 		flush();
 		Logs.info("name={};socket={};send len={};id={}", name, id, data.length, Bytes.toShort(data, 4));
-		// }
-		// 返回原始数据
-		// return data;
 	}
 
 	@Override

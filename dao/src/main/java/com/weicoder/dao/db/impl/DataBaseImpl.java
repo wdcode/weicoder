@@ -107,10 +107,9 @@ public final class DataBaseImpl implements DataBase {
 		// 声明一个列表 长度为1
 		List<Object[][]> list = Lists.newList(parame.length);
 		// 循环参数
-		for (int i = 0; i < parame.length; i++) {
+		for (int i = 0; i < parame.length; i++)
 			// 添加二唯数组
 			list.add(new Object[][] { parame[i] });
-		}
 		// 调用方法
 		return execute(sql, list);
 	}
@@ -168,19 +167,16 @@ public final class DataBaseImpl implements DataBase {
 			// 获得连接
 			conn = getConnection();
 			// 设置不自动提交
-			if (conn.getAutoCommit()) {
+			if (conn.getAutoCommit())
 				conn.setAutoCommit(false);
-			}
 			// 获得CallableStatement
 			cstmt = conn.prepareCall(call);
 			// 判断参数不为空
-			if (parame != null) {
+			if (parame != null)
 				// 循环参数
-				for (int i = 0; i < parame.length; i++) {
+				for (int i = 0; i < parame.length; i++)
 					// 设置参数
 					setParame(cstmt, i + 1, parame[i]);
-				}
-			}
 			// 提交
 			conn.commit();
 			// 执行Call返回影响行数
@@ -215,18 +211,16 @@ public final class DataBaseImpl implements DataBase {
 			// 获得连接
 			conn = getConnection();
 			// 设置不自动提交
-			if (conn.getAutoCommit()) {
+			if (conn.getAutoCommit())
 				conn.setAutoCommit(false);
-			}
 			// 获得CallableStatement
 			cstmt = conn.prepareCall(call);
 			// 判断参数不为空
-			if (!EmptyUtil.isEmpty(parame)) {
+			if (EmptyUtil.isNotEmpty(parame)) {
 				// 循环参数
-				for (int i = 0; i < parame.length; i++) {
+				for (int i = 0; i < parame.length; i++)
 					// 设置参数
 					setParame(cstmt, i + 1, parame[i]);
-				}
 			}
 			// 获得结果集
 			rs = cstmt.executeQuery();
@@ -235,10 +229,9 @@ public final class DataBaseImpl implements DataBase {
 			// 声明List用于保存结果集
 			List<Map<String, Object>> list = Lists.newList();
 			// 循环结果集
-			while (rs.next()) {
+			while (rs.next())
 				// 添加行记录
 				list.add(getRowValue(colName, rs));
-			}
 			// 提交
 			conn.commit();
 			// 返回数据列表
@@ -288,10 +281,9 @@ public final class DataBaseImpl implements DataBase {
 			// 获得ResultSet
 			rs = pstmt.executeQuery();
 			// 判断有结果
-			if (rs.next()) {
+			if (rs.next())
 				// 返回值
 				return rs.getString(1);
-			}
 		} catch (SQLException e) {
 			// 记录日志
 			Logs.error(e);
@@ -328,10 +320,9 @@ public final class DataBaseImpl implements DataBase {
 			// 获得列名的名称
 			String[] colName = getColName(rs);
 			// 判断结果集不为空
-			if (rs.next()) {
+			if (rs.next())
 				// 返回行数据
 				return getRowValue(colName, rs);
-			}
 		} catch (SQLException e) {
 			// 记录日志
 			Logs.error(e);
@@ -368,10 +359,9 @@ public final class DataBaseImpl implements DataBase {
 			// 实例化列表
 			List<Object> list = Lists.newList();
 			// 循环结果集
-			while (rs.next()) {
+			while (rs.next())
 				// 添加结果
 				list.add(rs.getObject(1));
-			}
 			// 返回结果
 			return list;
 		} catch (SQLException e) {
@@ -410,10 +400,9 @@ public final class DataBaseImpl implements DataBase {
 			// 声明列表
 			List<Map<String, Object>> list = Lists.newList();
 			// 循环结果集
-			while (rs.next()) {
+			while (rs.next())
 				// 添加行数据
 				list.add(getRowValue(colName, rs));
-			}
 			// 返回结果集
 			return list;
 		} catch (SQLException e) {
@@ -485,10 +474,9 @@ public final class DataBaseImpl implements DataBase {
 		// 执行批
 		int[] count = pstmt.executeBatch();
 		// 循环批结果获得 影响行数
-		for (int i = 0; i < count.length; i++) {
+		for (int i = 0; i < count.length; i++)
 			// 累加影响行数
 			result += count[i];
-		}
 		// 提交事务
 		conn.commit();
 		// 返回结果数
@@ -505,16 +493,15 @@ public final class DataBaseImpl implements DataBase {
 	 */
 	private PreparedStatement getStatement(Connection conn, String sql, Object[][] parame) throws SQLException {
 		// 设置不自动提交
-		if (conn.getAutoCommit()) {
+		if (conn.getAutoCommit())
 			conn.setAutoCommit(false);
-		}
 		// 获得PreparedStatement实例
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		// 判断参数不为空
-		if (EmptyUtil.isEmpty(parame)) {
+		if (EmptyUtil.isEmpty(parame))
 			// 添加到批里
 			pstmt.addBatch();
-		} else {
+		else {
 			// 声明字符串数组 给sql每条的条件预备
 			Object[] objs = null;
 			// 循环外围数组,表示多少条的条件
@@ -522,10 +509,9 @@ public final class DataBaseImpl implements DataBase {
 				// 获得每条的条件
 				objs = parame[i];
 				// 循环设置每条条件
-				for (int j = 0; j < objs.length; j++) {
+				for (int j = 0; j < objs.length; j++)
 					// 设置参数
 					setParame(pstmt, j + 1, objs[j]);
-				}
 				// 添加到批里
 				pstmt.addBatch();
 			}
@@ -546,12 +532,11 @@ public final class DataBaseImpl implements DataBase {
 		// 获得PreparedStatement实例
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		// 判断参数不为空F
-		if (!EmptyUtil.isEmpty(parame)) {
+		if (EmptyUtil.isNotEmpty(parame)) {
 			// 循环设置每条条件
-			for (int i = 0; i < parame.length; i++) {
+			for (int i = 0; i < parame.length; i++)
 				// 设置参数
 				setParame(pstmt, i + 1, parame[i]);
-			}
 		}
 		// 返回PreparedStatement实例
 		return pstmt;
@@ -568,10 +553,9 @@ public final class DataBaseImpl implements DataBase {
 		Map<String, Object> map = Maps.newMap();
 		try {
 			// 循环列
-			for (int i = 0; i < colName.length; i++) {
+			for (int i = 0; i < colName.length; i++)
 				// 保存列数据
 				map.put(colName[i], rs.getObject(i + 1));
-			}
 		} catch (SQLException e) {
 			// 记录异常
 			Logs.error(e);
@@ -596,10 +580,9 @@ public final class DataBaseImpl implements DataBase {
 			// 实例化String[]
 			String[] colName = new String[colCount];
 			// 循环列
-			for (int i = 0; i < colCount; i++) {
+			for (int i = 0; i < colCount; i++)
 				// 获得列名
 				colName[i] = StringUtil.convert(rsmd.getColumnName(i + 1));
-			}
 			// 返回列名
 			return colName;
 		} catch (SQLException e) {
@@ -619,51 +602,50 @@ public final class DataBaseImpl implements DataBase {
 	 */
 	private void setParame(PreparedStatement pstmt, int index, Object parame) throws SQLException {
 		// 判断参数类型
-		if (parame == null) {
+		if (parame == null)
 			// null
 			pstmt.setNull(index, java.sql.Types.NULL);
-		} else if (parame instanceof String) {
+		else if (parame instanceof String)
 			// String
 			pstmt.setString(index, Conversion.toString(parame));
-		} else if (parame instanceof Integer) {
+		else if (parame instanceof Integer)
 			// Integer
 			pstmt.setInt(index, Conversion.toInt(parame));
-		} else if (parame instanceof Long) {
+		else if (parame instanceof Long)
 			// Long
 			pstmt.setLong(index, Conversion.toLong(parame));
-		} else if (parame instanceof Double) {
+		else if (parame instanceof Double)
 			// Double
 			pstmt.setDouble(index, Conversion.toDouble(parame));
-		} else if (parame instanceof Float) {
+		else if (parame instanceof Float)
 			// Float
 			pstmt.setFloat(index, Conversion.toFloat(parame));
-		} else if (parame instanceof Short) {
+		else if (parame instanceof Short)
 			// Short
 			pstmt.setShort(index, Conversion.toShort(parame));
-		} else if (parame instanceof Byte) {
+		else if (parame instanceof Byte)
 			// Byte
 			pstmt.setByte(index, Conversion.toByte(parame));
-		} else if (parame instanceof Boolean) {
+		else if (parame instanceof Boolean)
 			// Boolean
 			pstmt.setBoolean(index, Conversion.toBoolean(parame));
-		} else if (parame instanceof BigDecimal) {
+		else if (parame instanceof BigDecimal)
 			// BigDecimal
 			pstmt.setBigDecimal(index, Conversion.toBigDecimal(parame));
-		} else if (parame instanceof Blob) {
+		else if (parame instanceof Blob)
 			// Blob
 			pstmt.setBlob(index, (Blob) parame);
-		} else if (parame instanceof Clob) {
+		else if (parame instanceof Clob)
 			// Clob
 			pstmt.setClob(index, (Clob) parame);
-		} else if (parame instanceof Date) {
+		else if (parame instanceof Date)
 			// Date
 			pstmt.setDate(index, (Date) parame);
-		} else if (parame instanceof Array) {
+		else if (parame instanceof Array)
 			// Array
 			pstmt.setArray(index, (Array) parame);
-		} else {
+		else
 			// Object
 			pstmt.setObject(index, parame);
-		}
 	}
 }

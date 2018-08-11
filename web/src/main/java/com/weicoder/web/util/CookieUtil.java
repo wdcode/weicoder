@@ -1,6 +1,5 @@
 package com.weicoder.web.util;
 
-import java.lang.reflect.Field;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
@@ -45,37 +44,30 @@ public final class CookieUtil {
 				// 转成map
 				Map<?, ?> map = (Map<?, ?>) res;
 				// 如果键为空
-				if (EmptyUtil.isEmpty(names)) {
+				if (EmptyUtil.isEmpty(names))
 					// 写全部属性
-					for (Map.Entry<?, ?> e : map.entrySet()) {
-						add(response, Conversion.toString(e.getKey()),
-								Conversion.toString(e.getValue()), maxAge);
-					}
-				} else {
+					map.forEach((k, v) -> add(response, Conversion.toString(k), Conversion.toString(v), maxAge));
+				else
 					// 写指定属性
-					for (String name : names) {
+					for (String name : names)
 						add(response, name, Conversion.toString(name), maxAge);
-					}
-				}
 			} else {
 				// 普通实体按字段返回 如果键为空
-				if (EmptyUtil.isEmpty(names)) {
+				if (EmptyUtil.isEmpty(names))
 					// 写全部属性
-					for (Field field : BeanUtil.getFields(res.getClass())) {
+					BeanUtil.getFields(res.getClass()).forEach(field -> {
 						// 值不为空 写cookie
 						String val = Conversion.toString(BeanUtil.getFieldValue(res, field));
-						if (!EmptyUtil.isEmpty(val)) {
+						if (EmptyUtil.isNotEmpty(val))
 							add(response, field.getName(), val, maxAge);
-						}
-					}
-				} else {
+					});
+				else {
 					// 写指定属性
 					for (String name : names) {
 						// 值不为空 写cookie
 						String val = Conversion.toString(BeanUtil.getFieldValue(res, name));
-						if (!EmptyUtil.isEmpty(val)) {
+						if (EmptyUtil.isNotEmpty(val))
 							add(response, name, val, maxAge);
-						}
 					}
 				}
 			}
@@ -125,8 +117,7 @@ public final class CookieUtil {
 	 * @param domain 域名
 	 * @param maxAge 保存多少秒
 	 */
-	public static void add(HttpServletResponse response, String name, String value, String domain,
-			int maxAge) {
+	public static void add(HttpServletResponse response, String name, String value, String domain, int maxAge) {
 		try {
 			// 实例化Cookie
 			Cookie cookie = new Cookie(name, value);
@@ -138,16 +129,14 @@ public final class CookieUtil {
 			if (EmptyUtil.isEmpty(domain)) {
 				// 添加Cookie
 				response.addCookie(cookie);
-				Logs.debug("add cookie name={} value={} domain={} maxAge={}", name, value, domain,
-						maxAge);
+				Logs.debug("add cookie name={} value={} domain={} maxAge={}", name, value, domain, maxAge);
 			} else {
 				// 写不同的域
 				for (String d : StringUtil.split(domain, StringConstants.COMMA)) {
 					cookie.setDomain(d);
 					// 添加Cookie
 					response.addCookie(cookie);
-					Logs.debug("add cookie name={} value={} domain={} maxAge={}", name, value, d,
-							maxAge);
+					Logs.debug("add cookie name={} value={} domain={} maxAge={}", name, value, d, maxAge);
 				}
 			}
 		} catch (Exception e) {
@@ -184,9 +173,8 @@ public final class CookieUtil {
 		// 获得所有Cookie
 		Cookie[] cookies = request.getCookies();
 		// 判断有Cookie
-		if (EmptyUtil.isEmpty(cookies)) {
+		if (EmptyUtil.isEmpty(cookies))
 			return null;
-		}
 		// 声明一个Cookie,用户保存临时Cookie
 		Cookie cookie = null;
 		// 循环Cookie
@@ -194,9 +182,8 @@ public final class CookieUtil {
 			// 获得Cookie
 			cookie = cookies[i];
 			// 判断Cookie
-			if (name.equals(cookie.getName())) {
+			if (name.equals(cookie.getName()))
 				return cookie;
-			}
 		}
 		// 返回Cookie
 		return null;

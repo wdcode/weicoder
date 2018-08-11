@@ -112,7 +112,7 @@ public final class RedisParams {
 	 * @return 替换后的键
 	 */
 	private static String getKey(String name, String key) {
-		return Params.getKey(PREFIX, name, key);
+		return Params.getKey("redis", name, key);
 	}
 
 	private RedisParams() {}

@@ -26,8 +26,7 @@ public class Cache<K, V> {
 	 */
 	public Cache(long max, int init, int level, long refresh, long expire, CacheLoad<K, V> load) {
 		// 初始化取缓存
-		cache = CacheBuilder.newBuilder().maximumSize(max).initialCapacity(init).concurrencyLevel(level)
-				.refreshAfterWrite(refresh, TimeUnit.SECONDS).expireAfterAccess(expire, TimeUnit.SECONDS)
+		cache = CacheBuilder.newBuilder().maximumSize(max).initialCapacity(init).concurrencyLevel(level).refreshAfterWrite(refresh, TimeUnit.SECONDS).expireAfterAccess(expire, TimeUnit.SECONDS)
 				.build(new CacheLoader<K, V>() {
 					// 读取缓存
 					public V load(K key) throws Exception {

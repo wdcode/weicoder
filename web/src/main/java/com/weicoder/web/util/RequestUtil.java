@@ -39,22 +39,19 @@ public final class RequestUtil {
 	 */
 	public static String[] getIps(HttpServletRequest request) {
 		// 判断不为空
-		if (!EmptyUtil.isEmpty(request)) {
+		if (EmptyUtil.isNotEmpty(request)) {
 			// 获得IP
 			String ip = request.getHeader("X-Forwarded-For");
 			// 判断如果为空继续获得
-			if (EmptyUtil.isEmpty(ip)) {
+			if (EmptyUtil.isEmpty(ip))
 				// 为空换方法获得
 				ip = request.getHeader("X-Real-IP");
-			}
 			// 判断如果为空继续获得
-			if (EmptyUtil.isEmpty(ip)) {
+			if (EmptyUtil.isEmpty(ip))
 				// 为空换方法获得
 				ip = request.getRemoteAddr();
-			}
 			// 返回IP
-			return EmptyUtil.isEmpty(ip) ? ArrayConstants.STRING_EMPTY
-					: ip.indexOf(StringConstants.COMMA) == -1 ? new String[] { ip } : ip.split(StringConstants.COMMA);
+			return EmptyUtil.isEmpty(ip) ? ArrayConstants.STRING_EMPTY : ip.indexOf(StringConstants.COMMA) == -1 ? new String[] { ip } : ip.split(StringConstants.COMMA);
 		}
 		// 返回""
 		return ArrayConstants.STRING_EMPTY;
@@ -151,10 +148,9 @@ public final class RequestUtil {
 		Map<String, String> map = Maps.newMap();
 		try {
 			// 获得提交的所以参数名
-			for (Cookie c : request.getCookies()) {
+			for (Cookie c : request.getCookies())
 				// 获得参数值并添加到Map中
 				map.put(c.getName(), c.getValue());
-			}
 		} catch (Exception e) {}
 		// 返回Map
 		return map;
@@ -264,9 +260,8 @@ public final class RequestUtil {
 	 * @param value 属性值
 	 */
 	public static void setAttribute(ServletRequest request, String key, Object value) {
-		if (!EmptyUtil.isEmpty(request)) {
+		if (EmptyUtil.isNotEmpty(request))
 			request.setAttribute(key, value);
-		}
 	}
 
 	/**
