@@ -119,15 +119,18 @@ public class BasicServlet extends HttpServlet {
 				return;
 			}
 			// 判断提交方法
-			if (a.method()) {
-				if (method.isAnnotationPresent(Post.class) && !StringUtil.equals("POST", m.toUpperCase())) {
-					ResponseUtil.json(response, callback, "no method is " + m);
-					return;
-				} else if (method.isAnnotationPresent(Get.class) && !StringUtil.equals("GET", m.toUpperCase())) {
-					ResponseUtil.json(response, callback, "no method is " + m);
-					return;
-				}
+			// if (a.method()) {
+			// 校验是否只使用post方法提交
+			if (method.isAnnotationPresent(Post.class) && !StringUtil.equals("POST", m.toUpperCase())) {
+				ResponseUtil.json(response, callback, "no method is " + m);
+				return;
 			}
+			// 校验是否只使用get方法提交
+			if (method.isAnnotationPresent(Get.class) && !StringUtil.equals("GET", m.toUpperCase())) {
+				ResponseUtil.json(response, callback, "no method is " + m);
+				return;
+			}
+			// }
 			// 设置参数
 			Parameter[] pars = WebCommons.METHODS_PARAMES.get(method);
 			Object[] params = null;
