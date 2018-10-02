@@ -11,16 +11,18 @@ import com.weicoder.common.params.Params;
  * @author WD
  */
 public final class SocketParams {
+	// 前缀
+	private final static String	PREFIX	= "socket";
 	/** socket配置文件 */
-	public final static Config	CONFIG	= ConfigFactory.getConfig("socket");
+	public final static Config	CONFIG	= ConfigFactory.getConfig(PREFIX);
 	/** 获得Socket检测时间 单位秒 */
 	public final static int		TIME	= CONFIG.getInt("time", 10);
 	/** 获得Socket超时时间 单位秒 */
-	public final static int		TIMEOUT	= CONFIG.getInt("timeout", 60);
+	public final static int		TIMEOUT	= CONFIG.getInt("timeout", Params.getInt(Params.getKey(PREFIX, StringConstants.EMPTY, "timeout"), 60));
 	/** 设置socket连接池大小 */
-	public final static int		POOL	= CONFIG.getInt("pool", SystemConstants.CPU_NUM * 2);
+	public final static int		POOL	= CONFIG.getInt("pool", Params.getInt(Params.getKey(PREFIX, StringConstants.EMPTY, "pool"), SystemConstants.CPU_NUM * 2));
 	/** 分组广播数 */
-	public final static Boolean	ZIP		= CONFIG.getBoolean("zip", false);
+	public final static Boolean	ZIP		= CONFIG.getBoolean("zip", Params.getBoolean(Params.getKey(PREFIX, StringConstants.EMPTY, "zip"), false));
 
 	/**
 	 * 获得Socket连接服务器
@@ -28,7 +30,7 @@ public final class SocketParams {
 	 * @return 服务器
 	 */
 	public static String getHost(String name) {
-		return CONFIG.getString(getKey(name, "host"));
+		return CONFIG.getString(getKey(name, "host"), Params.getString(Params.getKey(PREFIX, name, "host")));
 	}
 
 	/**
@@ -37,7 +39,7 @@ public final class SocketParams {
 	 * @return 端口
 	 */
 	public static int getPort(String name) {
-		return CONFIG.getInt(getKey(name, "port"));
+		return CONFIG.getInt(getKey(name, "port"), Params.getInt(Params.getKey(PREFIX, name, "port")));
 	}
 
 	/**
@@ -46,7 +48,7 @@ public final class SocketParams {
 	 * @return 是否
 	 */
 	public static boolean isZip(String name) {
-		return CONFIG.getBoolean(getKey(name, "zip"), false);
+		return CONFIG.getBoolean(getKey(name, "zip"), Params.getBoolean(Params.getKey(PREFIX, name, "zip"), false));
 	}
 
 	/**

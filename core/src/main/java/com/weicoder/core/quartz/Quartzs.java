@@ -13,10 +13,10 @@ import org.quartz.impl.StdSchedulerFactory;
 
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
-import com.weicoder.common.params.Params;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.core.params.QuartzParams;
 
 /**
  * Quartz任务初始化类
@@ -52,7 +52,7 @@ public final class Quartzs {
 								map.put("obj", obj);
 								// 设置任务执行类
 								scheduler.scheduleJob(job, builder.withIdentity(m.getName(), obj.getClass().getSimpleName())
-										.withSchedule(CronScheduleBuilder.cronSchedule(Params.getString("job.trigger." + m.getName(), t.value()))).build());
+										.withSchedule(CronScheduleBuilder.cronSchedule(QuartzParams.getTrigger(m.getName(), t.value()))).build());
 								Logs.info("add quartz job={}", job);
 							}
 						}

@@ -1,7 +1,5 @@
 package com.weicoder.frame.action;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.weicoder.frame.engine.LoginEngine;
 import com.weicoder.frame.entity.EntityUser;
 import com.weicoder.frame.params.SiteParams;

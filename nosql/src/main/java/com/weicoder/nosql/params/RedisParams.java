@@ -1,5 +1,7 @@
 package com.weicoder.nosql.params;
 
+import com.weicoder.common.config.Config;
+import com.weicoder.common.config.ConfigFactory;
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.params.Params;
 import com.weicoder.common.util.EmptyUtil;
@@ -12,7 +14,9 @@ import redis.clients.jedis.Protocol;
  */
 public final class RedisParams {
 	/** redis前缀 */
-	public final static String PREFIX = "redis";
+	public final static String	PREFIX	= "redis";
+	// Properties配置
+	private final static Config	CONFIG	= ConfigFactory.getConfig(PREFIX);
 
 	/**
 	 * Redis集群地址
@@ -20,7 +24,7 @@ public final class RedisParams {
 	 * @return 集群地址
 	 */
 	public static String[] getCluster(String name) {
-		return Params.getStringArray(getKey(name, "cluster"), ArrayConstants.STRING_EMPTY);
+		return CONFIG.getStringArray(name, Params.getStringArray(getKey(name, "cluster"), ArrayConstants.STRING_EMPTY));
 	}
 
 	/**
@@ -29,7 +33,7 @@ public final class RedisParams {
 	 * @return 服务器地址
 	 */
 	public static String getType(String name) {
-		return Params.getString(getKey(name, "type"), "pool");
+		return CONFIG.getString(name, Params.getString(getKey(name, "type"), "pool"));
 	}
 
 	/**
@@ -38,7 +42,7 @@ public final class RedisParams {
 	 * @return 服务器地址
 	 */
 	public static String getHost(String name) {
-		return Params.getString(getKey(name, "host"), "127.0.0.1");
+		return CONFIG.getString(name, Params.getString(getKey(name, "host"), "127.0.0.1"));
 	}
 
 	/**
@@ -47,7 +51,7 @@ public final class RedisParams {
 	 * @return 端口
 	 */
 	public static int getTimeOut(String name) {
-		return Params.getInt(getKey(name, "timeout"), Protocol.DEFAULT_TIMEOUT);
+		return CONFIG.getInt(name, Params.getInt(getKey(name, "timeout"), Protocol.DEFAULT_TIMEOUT));
 	}
 
 	/**
@@ -56,7 +60,7 @@ public final class RedisParams {
 	 * @return 端口
 	 */
 	public static int getPort(String name) {
-		return Params.getInt(getKey(name, "port"), 6379);
+		return CONFIG.getInt(name, Params.getInt(getKey(name, "port"), 6379));
 	}
 
 	/**
@@ -65,7 +69,7 @@ public final class RedisParams {
 	 * @return int
 	 */
 	public static int getMaxTotal(String name) {
-		return Params.getInt(getKey(name, "maxTotal"), 100);
+		return CONFIG.getInt(name, Params.getInt(getKey(name, "maxTotal"), 100));
 	}
 
 	/**
@@ -74,16 +78,16 @@ public final class RedisParams {
 	 * @return int
 	 */
 	public static int getMaxIdle(String name) {
-		return Params.getInt(getKey(name, "maxIdle"), 30);
+		return CONFIG.getInt(name, Params.getInt(getKey(name, "maxIdle"), 30));
 	}
 
 	/**
-	 * Redis最大等待时间
+	 * Redis密码
 	 * @param name 名
 	 * @return long
 	 */
 	public static String getPassword(String name) {
-		String password = Params.getString(getKey(name, "password"));
+		String password = CONFIG.getString(name, Params.getString(getKey(name, "password")));
 		return EmptyUtil.isEmpty(password) ? null : password;
 	}
 
@@ -93,7 +97,7 @@ public final class RedisParams {
 	 * @return 默认数据库
 	 */
 	public static int getDatabase(String name) {
-		return Params.getInt(getKey(name, "database"), Protocol.DEFAULT_DATABASE);
+		return CONFIG.getInt(name, Params.getInt(getKey(name, "database"), Protocol.DEFAULT_DATABASE));
 	}
 
 	/**
@@ -102,7 +106,7 @@ public final class RedisParams {
 	 * @return long
 	 */
 	public static long getMaxWait(String name) {
-		return Params.getLong(getKey(name, "maxWait"), 1000);
+		return CONFIG.getLong(name, Params.getLong(getKey(name, "maxWait"), 1000));
 	}
 
 	/**
@@ -112,7 +116,7 @@ public final class RedisParams {
 	 * @return 替换后的键
 	 */
 	private static String getKey(String name, String key) {
-		return Params.getKey("redis", name, key);
+		return Params.getKey(PREFIX, name, key);
 	}
 
 	private RedisParams() {}
