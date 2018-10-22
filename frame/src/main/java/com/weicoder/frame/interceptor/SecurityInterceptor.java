@@ -18,11 +18,9 @@ import com.weicoder.common.util.EmptyUtil;
  * @version 1.0 2013-12-25
  */
 public final class SecurityInterceptor extends BasicInterceptor<StrutsAction> {
-	private static final long			serialVersionUID	= -7879736892830147087L;
 	// 方法对应实体Map
-	private Map<String, List<String>>	methods;
+	private Map<String, List<String>> methods;
 
-	@Override
 	public void init() {
 		// 实例化Map
 		methods = Maps.newMap();
@@ -32,7 +30,6 @@ public final class SecurityInterceptor extends BasicInterceptor<StrutsAction> {
 		}
 	}
 
-	@Override
 	protected boolean before(StrutsAction action, HttpServletRequest request) {
 		// 过滤IP
 		if (SecurityParams.SECURITY_POWER_IP) {

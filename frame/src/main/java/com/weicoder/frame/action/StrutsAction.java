@@ -5,14 +5,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
-import com.opensymphony.xwork2.Action;
-import com.opensymphony.xwork2.ActionContext;
-import com.opensymphony.xwork2.ActionInvocation;
-import com.opensymphony.xwork2.util.ValueStack;
-
-import org.apache.struts2.ServletActionContext;
-import org.apache.struts2.util.TextProviderHelper;
-
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.EmptyUtil;
@@ -36,52 +28,52 @@ public class StrutsAction extends SuperAction {
 	 * 初始化Action
 	 */
 	protected void init() {
-		init(ServletActionContext.getRequest(), ServletActionContext.getResponse(), getActionName());
+//		init(ServletActionContext.getRequest(), ServletActionContext.getResponse(), getActionName());
 	}
 
-	/**
-	 * 获得国际化值
-	 * @param name 名称
-	 * @return 国际化
-	 */
-	public String getText(String name) {
-		// 获得数组
-		String[] val = name.split(StringConstants.COMMA);
-		// 设置字符串缓存类
-		StringBuilder sb = new StringBuilder();
-		// 获得栈值
-		ValueStack vs = ActionContext.getContext().getValueStack();
-		// 循环
-		for (int i = 0; i < val.length; i++) {
-			// 添加内容
-			sb.append(TextProviderHelper.getText(val[i], val[i], vs));
-		}
-		return sb.toString();
-	}
+//	/**
+//	 * 获得国际化值
+//	 * @param name 名称
+//	 * @return 国际化
+//	 */
+//	public String getText(String name) {
+//		// 获得数组
+//		String[] val = name.split(StringConstants.COMMA);
+//		// 设置字符串缓存类
+//		StringBuilder sb = new StringBuilder();
+//		// 获得栈值
+//		ValueStack vs = ActionContext.getContext().getValueStack();
+//		// 循环
+//		for (int i = 0; i < val.length; i++) {
+//			// 添加内容
+//			sb.append(TextProviderHelper.getText(val[i], val[i], vs));
+//		}
+//		return sb.toString();
+//	}
 
-	/**
-	 * 获得当前Action
-	 * @param <E> 泛型
-	 * @return Action
-	 */
-	@SuppressWarnings("unchecked")
-	public <E extends Action> E getAction() {
-		// 获得值栈里的对象
-		Object action = ActionContext.getContext().getValueStack().peek();
-		// 判断对象是Action类型的
-		if (action instanceof Action) {
-			// 返回Action
-			return (E) action;
-		}
-		// 获得Action拦截器
-		ActionInvocation ai = ActionContext.getContext().getActionInvocation();
-		// 如果拦截器不为空
-		if (ai != null) {
-			return (E) ai.getAction();
-		}
-		// 如果都不符合返回null
-		return null;
-	}
+//	/**
+//	 * 获得当前Action
+//	 * @param <E> 泛型
+//	 * @return Action
+//	 */
+//	@SuppressWarnings("unchecked")
+//	public <E extends Action> E getAction() {
+//		// 获得值栈里的对象
+//		Object action = ActionContext.getContext().getValueStack().peek();
+//		// 判断对象是Action类型的
+//		if (action instanceof Action) {
+//			// 返回Action
+//			return (E) action;
+//		}
+//		// 获得Action拦截器
+//		ActionInvocation ai = ActionContext.getContext().getActionInvocation();
+//		// 如果拦截器不为空
+//		if (ai != null) {
+//			return (E) ai.getAction();
+//		}
+//		// 如果都不符合返回null
+//		return null;
+//	}
 
 	/**
 	 * 以ajax模式输出数据到客户端方法
@@ -89,8 +81,7 @@ public class StrutsAction extends SuperAction {
 	 * @param obj 对象
 	 */
 	public String ajax(HttpServletResponse response, Object obj) {
-		return super.ajax(response, obj == null ? StringConstants.EMPTY
-				: !EmptyUtil.isEmpty(field) ? BeanUtil.getFieldValue(obj, field) : obj);
+		return super.ajax(response, obj == null ? StringConstants.EMPTY : !EmptyUtil.isEmpty(field) ? BeanUtil.getFieldValue(obj, field) : obj);
 	}
 
 	/**
@@ -149,12 +140,13 @@ public class StrutsAction extends SuperAction {
 	 * @return Action方法名
 	 */
 	public String getActionName() {
-		String path = ServletActionContext.getRequest().getServletPath();
-		// 分解提交action 去处开头的/和结尾的.htm
-		path = StringUtil.subString(path, 1, path.length() - 4);
-		// 去掉前缀的命名空间并返回
-		return StringUtil.subString(path, StringConstants.BACKSLASH);
+//		String path = ServletActionContext.getRequest().getServletPath();
+//		// 分解提交action 去处开头的/和结尾的.htm
+//		path = StringUtil.subString(path, 1, path.length() - 4);
+//		// 去掉前缀的命名空间并返回
+//		return StringUtil.subString(path, StringConstants.BACKSLASH);
 		// return ServletActionContext.getContext().getName();//.getActionMapping().getName();
+		return "";
 	}
 
 	/**

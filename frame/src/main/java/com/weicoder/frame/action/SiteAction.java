@@ -11,6 +11,7 @@ import com.weicoder.common.token.TokenBean;
 import com.weicoder.common.util.DateUtil;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.RegexUtil;
+import com.weicoder.dao.service.SuperService;
 
 /**
  * 登录Action
@@ -82,13 +83,13 @@ public class SiteAction<U extends EntityUser> extends StrutsAction {
 	public String changePwd() {
 		if (newPwd.equals(echoPwd)) {
 			// 获得原Bean
-			EntityUser u = service.get(user.getClass(), key);
+			EntityUser u = SuperService.DAO.get(user.getClass(), key);
 			// 判断是否原始密码
 			if (password(oldPwd).equals(u.getPassword())) {
 				// 设置新密码
 				u.setPassword(newPwd);
 				// 返回成功
-				return callback(response, service.update(u));
+				return callback(response, SuperService.DAO.update(u));
 			}
 		}
 		// 返回失败
@@ -119,7 +120,7 @@ public class SiteAction<U extends EntityUser> extends StrutsAction {
 			user.setState(STATE_AVAIL);
 		}
 		// 添加
-		service.insert(user);
+		SuperService.DAO.insert(user);
 		// 获得用户ID
 		// int id = user.getId();
 		// // 注册成功
@@ -168,7 +169,7 @@ public class SiteAction<U extends EntityUser> extends StrutsAction {
 			// 设置状态为有效
 			user.setState(STATE_AVAIL);
 			// 修改用户实体
-			return callback(EmptyUtil.isEmpty(service.update(user)) ? SUCCESS : ERROR);
+			return callback(EmptyUtil.isEmpty(SuperService.DAO.update(user)) ? SUCCESS : ERROR);
 		} else {
 			// 验证码错误 返回到错误页
 			return callback(ERROR);
@@ -204,7 +205,7 @@ public class SiteAction<U extends EntityUser> extends StrutsAction {
 			ip = getIp();
 		}
 		// 查询获得用户实体
-		U bean = service.get(user);
+		U bean = SuperService.DAO.get(user);
 		// 登录标识
 		boolean is = false;
 		// 获得用户ID
@@ -232,7 +233,7 @@ public class SiteAction<U extends EntityUser> extends StrutsAction {
 			// 添加登录信息
 			bean.setLoginIp(ip);
 			bean.setLoginTime(DateUtil.getTime());
-			service.update(bean);
+			SuperService.DAO.update(bean);
 			// 登录成功
 			return callback(user = bean);
 		} else {
@@ -387,7 +388,6 @@ public class SiteAction<U extends EntityUser> extends StrutsAction {
 	 * 设置登录实体
 	 * @param user 登录实体
 	 */
-	@Autowired
 	public void setUser(U user) {
 		this.user = user;
 	}
