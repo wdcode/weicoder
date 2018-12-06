@@ -58,9 +58,8 @@ public class BasicServlet extends HttpServlet {
 		// 提交方法
 		String m = request.getMethod();
 		// 获得path
-		String path = request.getPathInfo();
-		String queryString = request.getQueryString();
-		LOG.debug("request ip={} path={} Method={} scheme={} queryString={}", ip, path, m, request.getScheme(), queryString);
+		String path = request.getPathInfo(); 
+		LOG.debug("request ip={} path={} Method={} scheme={} queryString={}", ip, path, m, request.getScheme(), request.getQueryString());
 		if (EmptyUtil.isNotEmpty(path)) {
 			// 分解提交action 去处开头的/ 并且按/或者_分解出数组
 			String actionName = StringUtil.subString(path, 1, path.length());
