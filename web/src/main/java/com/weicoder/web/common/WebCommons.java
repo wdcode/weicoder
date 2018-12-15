@@ -20,15 +20,7 @@ public final class WebCommons {
 	/** 回调方法对应参数 */
 	public final static Map<Method, Parameter[]>			METHODS_PARAMES				= Maps.newMap();
 	/** 回调方法处理 */
-	public final static Map<String, Method>					METHODS						= Maps.newMap();
-	/** WebSocket列表 */
-	public final static Map<String, Object>					WEBSOCKES					= Maps.newMap();
-	/** 回调方法处理 */
-	public final static Map<String, Map<String, Method>>	WEBSOCKES_METHODS			= Maps.newMap();
-	/** 回调方法处理 */
-	public final static Map<String, Object>					METHODS_WEBSOCKES			= Maps.newMap();
-	/** 回调方法处理 */
-	public final static Map<String, Method>					WS_METHODS					= Maps.newMap();
+	public final static Map<String, Method>					METHODS						= Maps.newMap(); 
 	/** 验证类列表 */
 	public final static Map<String, Object>					VALIDATORS					= Maps.newMap();
 	/** 验证类方法处理 */

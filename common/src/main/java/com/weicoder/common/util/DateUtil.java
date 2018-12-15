@@ -16,6 +16,7 @@ import com.weicoder.common.params.CommonParams;
 
 /**
  * 获得日期,日期类型和字符串类型之间的转化
+ * 
  * @author WD
  */
 public final class DateUtil {
@@ -24,6 +25,7 @@ public final class DateUtil {
 
 	/**
 	 * 根据给定的日期字符串返回它的日期Format
+	 * 
 	 * @param date 日期
 	 * @return Format
 	 */
@@ -48,6 +50,7 @@ public final class DateUtil {
 
 	/**
 	 * 获得Calendar
+	 * 
 	 * @return Calendar
 	 */
 	public static Calendar getCalendar() {
@@ -56,6 +59,7 @@ public final class DateUtil {
 
 	/**
 	 * 取得格式为默认格式的系统日期 返回的日期是字符串格式
+	 * 
 	 * @return String 当前日期
 	 */
 	public static String getDate() {
@@ -64,6 +68,7 @@ public final class DateUtil {
 
 	/**
 	 * 取得格式为yyyy-MM-dd HH:mm:ss 的系统日期 返回的日期是字符串格式
+	 * 
 	 * @return String 当前日期
 	 */
 	public static String getLongDate() {
@@ -72,6 +77,7 @@ public final class DateUtil {
 
 	/**
 	 * 取得格式为yyyy-MM-dd 的系统日期 返回的日期是字符串格式
+	 * 
 	 * @return String 当前日期
 	 */
 	public static String getShortDate() {
@@ -80,6 +86,7 @@ public final class DateUtil {
 
 	/**
 	 * 取得格式为yyyyMMdd 的系统日期 返回的日期是字符串格式
+	 * 
 	 * @return String 当前日期
 	 */
 	public static String getTinyDate() {
@@ -88,6 +95,7 @@ public final class DateUtil {
 
 	/**
 	 * 取得格式为HH:mm:ss 的系统日期 返回的日期是字符串格式
+	 * 
 	 * @return String 当前日期
 	 */
 	public static String getTheDate() {
@@ -96,6 +104,7 @@ public final class DateUtil {
 
 	/**
 	 * 取得指定格式的系统日期 返回的日期是字符串格式
+	 * 
 	 * @param format 日期格式，如 "yyyy-MM-dd HH:mm:sss"
 	 * @return String 当前日期
 	 */
@@ -105,6 +114,7 @@ public final class DateUtil {
 
 	/**
 	 * 取得当前时间 返回的是Date类型
+	 * 
 	 * @return Date 当前日期
 	 */
 	public static Date getCurrentDate() {
@@ -113,6 +123,7 @@ public final class DateUtil {
 
 	/**
 	 * 取得当前时间的秒数 返回的是int类型
+	 * 
 	 * @return int
 	 */
 	public static int getTime() {
@@ -121,6 +132,7 @@ public final class DateUtil {
 
 	/**
 	 * 获得现在时间毫秒数
+	 * 
 	 * @param date 要取的时间
 	 * @return int
 	 */
@@ -130,6 +142,7 @@ public final class DateUtil {
 
 	/**
 	 * 获得现在时间毫秒数
+	 * 
 	 * @param date 要取的时间
 	 * @return int
 	 */
@@ -139,7 +152,8 @@ public final class DateUtil {
 
 	/**
 	 * 获得现在时间毫秒数
-	 * @param date 要取的时间
+	 * 
+	 * @param date   要取的时间
 	 * @param format 时间字符串样式
 	 * @return int
 	 */
@@ -149,7 +163,8 @@ public final class DateUtil {
 
 	/**
 	 * 取得当前日期的N天后的日期(如果想获得前几天的日期用-number) 默认格式
-	 * @param time 时间
+	 * 
+	 * @param time   时间
 	 * @param number N天
 	 * @return N天的日期
 	 */
@@ -159,7 +174,8 @@ public final class DateUtil {
 
 	/**
 	 * 取得当前日期的N天后的日期(如果想获得前几天的日期用-number)
-	 * @param time 时间
+	 * 
+	 * @param time   时间
 	 * @param number N天
 	 * @param format 日期格式
 	 * @return N天的日期
@@ -170,7 +186,8 @@ public final class DateUtil {
 
 	/**
 	 * 根据时间变量返回时间字符串
-	 * @param date 时间变量
+	 * 
+	 * @param date   时间变量
 	 * @param format 时间字符串样式
 	 * @return 返回时间字符串
 	 */
@@ -180,6 +197,7 @@ public final class DateUtil {
 
 	/**
 	 * 根据给定的时间返回相对的字符串 默认格式
+	 * 
 	 * @param date 日期
 	 * @return String 转换后的日期
 	 */
@@ -189,6 +207,7 @@ public final class DateUtil {
 
 	/**
 	 * 取得time的日期
+	 * 
 	 * @param time 毫秒
 	 * @return String time的日期
 	 */
@@ -198,7 +217,8 @@ public final class DateUtil {
 
 	/**
 	 * 取得time的日期
-	 * @param time 毫秒
+	 * 
+	 * @param time   毫秒
 	 * @param format 日期显示格式
 	 * @return String time的日期
 	 */
@@ -208,6 +228,7 @@ public final class DateUtil {
 
 	/**
 	 * 取得time的日期
+	 * 
 	 * @param time 毫秒
 	 * @return String time的日期
 	 */
@@ -217,7 +238,8 @@ public final class DateUtil {
 
 	/**
 	 * 取得time的日期
-	 * @param time 毫秒
+	 * 
+	 * @param time   毫秒
 	 * @param format 日期显示格式
 	 * @return String time的日期
 	 */
@@ -227,6 +249,7 @@ public final class DateUtil {
 
 	/**
 	 * 字符串转换为日期 默认格式
+	 * 
 	 * @param dateString 字符串
 	 * @return Date 转换后的日期
 	 */
@@ -236,14 +259,16 @@ public final class DateUtil {
 
 	/**
 	 * 字符串转换为日期 dateString为空或异常返回当前时间
+	 * 
 	 * @param dateString 字符串
-	 * @param format 日期格式
+	 * @param format     日期格式
 	 * @return Date 转换后的日期
 	 */
 	public static Date toDate(String dateString, String format) {
 		try {
 			// 返回转换后的日期
-			return (EmptyUtil.isEmpty(format) ? new SimpleDateFormat() : new SimpleDateFormat(format)).parse(dateString);
+			return (EmptyUtil.isEmpty(format) ? new SimpleDateFormat() : new SimpleDateFormat(format))
+					.parse(dateString);
 		} catch (Exception e) {
 			Logs.warn(e);
 			return null;
@@ -252,6 +277,7 @@ public final class DateUtil {
 
 	/**
 	 * 计算两个日期相差的天数 传入的日期格式是 默认格式
+	 * 
 	 * @param oneDate 开始日期
 	 * @param twoDate 结束日期
 	 * @return 返回两个日期相差的天数
@@ -262,9 +288,10 @@ public final class DateUtil {
 
 	/**
 	 * 计算两个日期相差的天数
+	 * 
 	 * @param oneDate 开始日期
 	 * @param twoDate 结束日期
-	 * @param format 日期格式
+	 * @param format  日期格式
 	 * @return 返回两个日期相差的天数
 	 */
 	public static int marginDay(String oneDate, String twoDate, String format) {
@@ -273,6 +300,7 @@ public final class DateUtil {
 
 	/**
 	 * 计算两个日期相差的天数
+	 * 
 	 * @param oneDate 日期
 	 * @param twoDate 日期
 	 * @return 返回两个日期相差的天数
@@ -283,6 +311,7 @@ public final class DateUtil {
 
 	/**
 	 * 两个日期相隔几个月 默认日期格式
+	 * 
 	 * @param oneDate 日期
 	 * @param twoDate 日期
 	 * @return 返回两个日期相隔几个月
@@ -293,9 +322,10 @@ public final class DateUtil {
 
 	/**
 	 * 两个日期相隔几个月
+	 * 
 	 * @param oneDate 日期
 	 * @param twoDate 日期
-	 * @param format 日期格式
+	 * @param format  日期格式
 	 * @return 返回两个日期相隔几个月
 	 */
 	public static int marginMonth(String oneDate, String twoDate, String format) {
@@ -304,6 +334,7 @@ public final class DateUtil {
 
 	/**
 	 * 两个日期相隔几个月
+	 * 
 	 * @param oneDate 日期
 	 * @param twoDate 日期
 	 * @return 返回两个日期相隔几个月
@@ -333,6 +364,7 @@ public final class DateUtil {
 
 	/**
 	 * 根据日期取得星期几 周日返回的是0
+	 * 
 	 * @return 返回星期几
 	 */
 	public static int getDayOfWeek() {
@@ -341,6 +373,7 @@ public final class DateUtil {
 
 	/**
 	 * 根据日期取得星期几 默认格式 周日返回的是0
+	 * 
 	 * @param date 日期字符串
 	 * @return 返回星期几
 	 */
@@ -350,7 +383,8 @@ public final class DateUtil {
 
 	/**
 	 * 根据日期取得星期几 周日返回的是0
-	 * @param date 日期字符串
+	 * 
+	 * @param date   日期字符串
 	 * @param format 日期格式
 	 * @return 返回星期几
 	 */
@@ -360,6 +394,7 @@ public final class DateUtil {
 
 	/**
 	 * 根据日期取得星期几 周日返回的是0
+	 * 
 	 * @param date 日期
 	 * @return 返回星期几
 	 */
@@ -369,6 +404,7 @@ public final class DateUtil {
 
 	/**
 	 * 根据本周的的日期
+	 * 
 	 * @return 本周的日期
 	 */
 	public static String[] getDayOfWeeks() {
@@ -377,6 +413,7 @@ public final class DateUtil {
 
 	/**
 	 * 根据日期取得当前星期7天的日期 默认格式
+	 * 
 	 * @param date 日期字符串
 	 * @return 本周的日期
 	 */
@@ -386,7 +423,8 @@ public final class DateUtil {
 
 	/**
 	 * 根据日期取得当前星期7天的日期 默认格式
-	 * @param date 日期字符串
+	 * 
+	 * @param date   日期字符串
 	 * @param format 日期格式
 	 * @return 本周的日期
 	 */
@@ -396,6 +434,7 @@ public final class DateUtil {
 
 	/**
 	 * 根据日期取得当前星期7天日期
+	 * 
 	 * @param date 日期
 	 * @return 本周的日期
 	 */
@@ -405,7 +444,8 @@ public final class DateUtil {
 
 	/**
 	 * 根据日期取得当前星期7天日期
-	 * @param date 日期
+	 * 
+	 * @param date   日期
 	 * @param format 返回的日期格式
 	 * @return 本周的日期
 	 */
@@ -424,6 +464,7 @@ public final class DateUtil {
 
 	/**
 	 * 根据日期取得当前自然星期7天日期
+	 * 
 	 * @param date 日期
 	 * @return 本周的日期
 	 */
@@ -444,6 +485,7 @@ public final class DateUtil {
 
 	/**
 	 * 根据日期取得一年的第N周
+	 * 
 	 * @return 返回第N周
 	 */
 	public static int getWeek() {
@@ -452,6 +494,7 @@ public final class DateUtil {
 
 	/**
 	 * 根据日期取得一年的第N周 默认格式
+	 * 
 	 * @param date 日期字符串
 	 * @return 返回第N周
 	 */
@@ -461,7 +504,8 @@ public final class DateUtil {
 
 	/**
 	 * 根据日期取得一年的第N周
-	 * @param date 日期字符串
+	 * 
+	 * @param date   日期字符串
 	 * @param format 日期格式
 	 * @return 返回第N周
 	 */
@@ -471,6 +515,7 @@ public final class DateUtil {
 
 	/**
 	 * 根据日期取得一年的第N周
+	 * 
 	 * @param date 日期
 	 * @return 返回第N周
 	 */
@@ -480,6 +525,7 @@ public final class DateUtil {
 
 	/**
 	 * 根据日期取得一年的第N天
+	 * 
 	 * @return 返回第N天
 	 */
 	public static int getDayOfYear() {
@@ -488,6 +534,7 @@ public final class DateUtil {
 
 	/**
 	 * 根据日期取得一年的第N天
+	 * 
 	 * @param date 日期字符串
 	 * @return 返回第N天
 	 */
@@ -497,7 +544,8 @@ public final class DateUtil {
 
 	/**
 	 * 根据日期取得一年的第N天
-	 * @param date 日期字符串
+	 * 
+	 * @param date   日期字符串
 	 * @param format 日期格式
 	 * @return 返回第N天
 	 */
@@ -507,6 +555,7 @@ public final class DateUtil {
 
 	/**
 	 * 根据日期取得一年的第N天
+	 * 
 	 * @param date 日期
 	 * @return 返回第N天
 	 */
@@ -516,6 +565,7 @@ public final class DateUtil {
 
 	/**
 	 * 取得当前日期的N天后的日期(如果想获得前几天的日期用-number) 默认格式
+	 * 
 	 * @param number N天
 	 * @return N天的日期
 	 */
@@ -525,6 +575,7 @@ public final class DateUtil {
 
 	/**
 	 * 取得当前日期的N天后的日期(如果想获得前几天的日期用-number)
+	 * 
 	 * @param number N天
 	 * @param format 日期格式
 	 * @return N天的日期
@@ -535,7 +586,8 @@ public final class DateUtil {
 
 	/**
 	 * 取得当前日期的N天后的日期(如果想获得前几天的日期用-number) 默认格式
-	 * @param time 时间
+	 * 
+	 * @param time   时间
 	 * @param number N天
 	 * @return N天的日期
 	 */
@@ -545,7 +597,8 @@ public final class DateUtil {
 
 	/**
 	 * 取得当前日期的N天后的日期(如果想获得前几天的日期用-number)
-	 * @param time 时间
+	 * 
+	 * @param time   时间
 	 * @param number N天
 	 * @param format 日期格式
 	 * @return N天的日期
@@ -556,7 +609,8 @@ public final class DateUtil {
 
 	/**
 	 * 取得当前日期的N天后的日期(如果想获得前几天的日期用-number)
-	 * @param date 日期字符串
+	 * 
+	 * @param date   日期字符串
 	 * @param number N天
 	 * @return N天的日期
 	 */
@@ -566,7 +620,8 @@ public final class DateUtil {
 
 	/**
 	 * 取得当前日期的N天后的日期(如果想获得前几天的日期用-number)
-	 * @param date 日期字符串
+	 * 
+	 * @param date   日期字符串
 	 * @param number N天
 	 * @param format 日期格式
 	 * @return N天的日期
@@ -577,7 +632,8 @@ public final class DateUtil {
 
 	/**
 	 * 取得当前日期的N天后的日期(如果想获得前几天的日期用-number)
-	 * @param date 日期
+	 * 
+	 * @param date   日期
 	 * @param number N天
 	 * @return N天的日期
 	 */
@@ -587,7 +643,8 @@ public final class DateUtil {
 
 	/**
 	 * 取得当前日期的N天后的日期(如果想获得前几天的日期用-number)
-	 * @param date 日期
+	 * 
+	 * @param date   日期
 	 * @param number N天
 	 * @param format 日期格式
 	 * @return N天的日期
@@ -598,6 +655,7 @@ public final class DateUtil {
 
 	/**
 	 * 取得当前日期的N月后的日期(如果想获得前几月的日期用-number) 默认格式
+	 * 
 	 * @param number N月
 	 * @return N月的日期
 	 */
@@ -607,6 +665,7 @@ public final class DateUtil {
 
 	/**
 	 * 取得当前日期的N月后的日期(如果想获得前几月的日期用-number)
+	 * 
 	 * @param number N月
 	 * @param format 日期格式
 	 * @return N月的日期
@@ -617,7 +676,8 @@ public final class DateUtil {
 
 	/**
 	 * 取得当前日期的N月后的日期(如果想获得前几月的日期用-number)
-	 * @param date 日期字符串
+	 * 
+	 * @param date   日期字符串
 	 * @param number N月
 	 * @return N月的日期
 	 */
@@ -627,7 +687,8 @@ public final class DateUtil {
 
 	/**
 	 * 取得当前日期的N月后的日期(如果想获得前几月的日期用-number)
-	 * @param date 日期字符串
+	 * 
+	 * @param date   日期字符串
 	 * @param number N天
 	 * @param format 日期格式
 	 * @return N天的日期
@@ -638,7 +699,8 @@ public final class DateUtil {
 
 	/**
 	 * 取得当前日期的N月后的日期(如果想获得前几月的日期用-number)
-	 * @param date 日期
+	 * 
+	 * @param date   日期
 	 * @param number N月
 	 * @return N月的日期
 	 */
@@ -648,7 +710,8 @@ public final class DateUtil {
 
 	/**
 	 * 取得当前日期的N月后的日期(如果想获得前几月的日期用-number)
-	 * @param date 日期
+	 * 
+	 * @param date   日期
 	 * @param number N月
 	 * @param format 日期格式
 	 * @return N月的日期
@@ -659,6 +722,7 @@ public final class DateUtil {
 
 	/**
 	 * 获得当前日期的月份所有日期
+	 * 
 	 * @return 返回本月的所有日期
 	 */
 	public static String[] getMonths() {
@@ -667,6 +731,7 @@ public final class DateUtil {
 
 	/**
 	 * 根据指定日期的月份所有日期
+	 * 
 	 * @param date 日期字符串
 	 * @return 返回本月的所有日期
 	 */
@@ -676,7 +741,8 @@ public final class DateUtil {
 
 	/**
 	 * 根据指定日期的月份所有日期
-	 * @param date 日期字符串
+	 * 
+	 * @param date   日期字符串
 	 * @param format 日期格式
 	 * @return 返回本月的所有日期
 	 */
@@ -686,6 +752,7 @@ public final class DateUtil {
 
 	/**
 	 * 根据指定日期的月份所有日期
+	 * 
 	 * @param date 日期
 	 * @return 回本月的所有日期 默认格式
 	 */
@@ -695,7 +762,8 @@ public final class DateUtil {
 
 	/**
 	 * 根据指定日期的月份所有日期
-	 * @param date 日期
+	 * 
+	 * @param date   日期
 	 * @param format 日期格式
 	 * @return 回本月的所有日期
 	 */
@@ -716,6 +784,7 @@ public final class DateUtil {
 
 	/**
 	 * 取得当前日期的N年后的日期(如果想获得前几年的日期用-number) 默认格式
+	 * 
 	 * @param number N年
 	 * @return N年的日期
 	 */
@@ -725,6 +794,7 @@ public final class DateUtil {
 
 	/**
 	 * 取得当前日期的N年后的日期(如果想获得前几年的日期用-number)
+	 * 
 	 * @param number N年
 	 * @param format 日期格式
 	 * @return N年的日期
@@ -735,7 +805,8 @@ public final class DateUtil {
 
 	/**
 	 * 取得当前日期的N年后的日期(如果想获得前几年的日期用-number)
-	 * @param date 日期字符串
+	 * 
+	 * @param date   日期字符串
 	 * @param number N年
 	 * @return N年的日期
 	 */
@@ -745,7 +816,8 @@ public final class DateUtil {
 
 	/**
 	 * 取得当前日期的N年后的日期(如果想获得前几年的日期用-number)
-	 * @param date 日期字符串
+	 * 
+	 * @param date   日期字符串
 	 * @param number N天
 	 * @param format 日期格式
 	 * @return N天的日期
@@ -756,7 +828,8 @@ public final class DateUtil {
 
 	/**
 	 * 取得当前日期的N年后的日期(如果想获得前几年的日期用-number)
-	 * @param date 日期
+	 * 
+	 * @param date   日期
 	 * @param number N年
 	 * @return N年的日期
 	 */
@@ -766,7 +839,8 @@ public final class DateUtil {
 
 	/**
 	 * 取得当前日期的N年后的日期(如果想获得前几年的日期用-number)
-	 * @param date 日期
+	 * 
+	 * @param date   日期
 	 * @param number N年
 	 * @param format 日期格式
 	 * @return N年的日期
@@ -777,7 +851,8 @@ public final class DateUtil {
 
 	/**
 	 * 日期字符串格式转换
-	 * @param src 日期字符串
+	 * 
+	 * @param src    日期字符串
 	 * @param srcfmt 源日期格式
 	 * @param desfmt 目标日期格式
 	 * @return 转换后的日期
@@ -788,6 +863,7 @@ public final class DateUtil {
 
 	/**
 	 * 取指定日期的年份
+	 * 
 	 * @param date 日期
 	 * @return 年
 	 */
@@ -797,6 +873,7 @@ public final class DateUtil {
 
 	/**
 	 * 取指定日期的月份
+	 * 
 	 * @param date 日期
 	 * @return 月
 	 */
@@ -806,6 +883,7 @@ public final class DateUtil {
 
 	/**
 	 * 取指定日期月份的日
+	 * 
 	 * @param date 日期
 	 * @return 日
 	 */
@@ -815,6 +893,7 @@ public final class DateUtil {
 
 	/**
 	 * 获取当前 时
+	 * 
 	 * @param date 日期
 	 * @return 时
 	 */
@@ -824,6 +903,7 @@ public final class DateUtil {
 
 	/**
 	 * 获取当前 分
+	 * 
 	 * @param date 日期
 	 * @return 分
 	 */
@@ -833,6 +913,7 @@ public final class DateUtil {
 
 	/**
 	 * 获取当前 秒
+	 * 
 	 * @param date 日期
 	 * @return 秒
 	 */
@@ -842,6 +923,7 @@ public final class DateUtil {
 
 	/**
 	 * 获取当前 年
+	 * 
 	 * @return 年
 	 */
 	public static int getYear() {
@@ -850,6 +932,7 @@ public final class DateUtil {
 
 	/**
 	 * 获取当前 月
+	 * 
 	 * @return 月
 	 */
 	public static int getMonth() {
@@ -858,6 +941,7 @@ public final class DateUtil {
 
 	/**
 	 * 获取当前月份的 日
+	 * 
 	 * @return 日
 	 */
 	public static int getDay() {
@@ -866,6 +950,7 @@ public final class DateUtil {
 
 	/**
 	 * 获取当前 时
+	 * 
 	 * @return 时
 	 */
 	public static int getHour() {
@@ -874,6 +959,7 @@ public final class DateUtil {
 
 	/**
 	 * 获取当前 分
+	 * 
 	 * @return 分
 	 */
 	public static int getMinute() {
@@ -882,6 +968,7 @@ public final class DateUtil {
 
 	/**
 	 * 获取当前 秒
+	 * 
 	 * @return 秒
 	 */
 	public static int getSecond() {
@@ -890,6 +977,7 @@ public final class DateUtil {
 
 	/**
 	 * 获得当前月份有几天
+	 * 
 	 * @return 几天
 	 */
 	public static int getMonthHaveDay() {
@@ -898,6 +986,7 @@ public final class DateUtil {
 
 	/**
 	 * 获得增加指定月份有几天
+	 * 
 	 * @param month 增加的月份 本月填0 上个月填 -1 下个月填1
 	 * @return 几天
 	 */
@@ -907,6 +996,7 @@ public final class DateUtil {
 
 	/**
 	 * 获得指定月份有几天
+	 * 
 	 * @param date 日期
 	 * @return 几天
 	 */
@@ -916,6 +1006,7 @@ public final class DateUtil {
 
 	/**
 	 * 获得当前年份有几天
+	 * 
 	 * @return 几天
 	 */
 	public static int getYearHaveDay() {
@@ -924,6 +1015,7 @@ public final class DateUtil {
 
 	/**
 	 * 获得指定年份有几天
+	 * 
 	 * @param date 日期
 	 * @return 几天
 	 */
@@ -932,7 +1024,18 @@ public final class DateUtil {
 	}
 
 	/**
+	 * 根据传进来的时间算出与现在时间的差值
+	 * 
+	 * @param time 传入的时间
+	 * @return 与当前时间差
+	 */
+	public static long diff(long time) {
+		return System.currentTimeMillis() - time;
+	}
+
+	/**
 	 * 转换时间到字符串格式 例如 输入300 转成00:05:00
+	 * 
 	 * @param time 要转换的时间 单位秒
 	 * @return 转换完格式的字符串
 	 */
@@ -985,6 +1088,7 @@ public final class DateUtil {
 
 	/**
 	 * 根据字段返回结果
+	 * 
 	 * @param date
 	 * @param field
 	 * @return
@@ -998,6 +1102,7 @@ public final class DateUtil {
 
 	/**
 	 * 返回相差数
+	 * 
 	 * @param date
 	 * @param number
 	 * @param format
@@ -1015,6 +1120,7 @@ public final class DateUtil {
 
 	/**
 	 * 根据字断获得最大日子
+	 * 
 	 * @param date
 	 * @param field
 	 * @return
@@ -1026,5 +1132,6 @@ public final class DateUtil {
 		return getCalendar().getActualMaximum(field);
 	}
 
-	private DateUtil() {}
+	private DateUtil() {
+	}
 }

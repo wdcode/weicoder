@@ -14,8 +14,7 @@ import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.web.annotation.Action;
 import com.weicoder.web.common.WebCommons;
-import com.weicoder.web.validator.Validators;
-import com.weicoder.web.websocket.annotation.WebSocket;
+import com.weicoder.web.validator.Validators; 
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
 
@@ -67,42 +66,6 @@ public class InitListener implements ServletContextListener {
 			} catch (Exception ex) {
 				Logs.error(ex);
 			}
-		});
-
-		// 按包处理WebSocket
-		ClassUtil.getAnnotationClass(CommonParams.getPackages("websocket"), WebSocket.class).forEach(c -> {
-			try {
-				// 获得action名结尾为action去掉
-				String cname = StringUtil.convert(StringUtil.subStringLastEnd(c.getSimpleName(), "Server"));
-				Logs.debug("init websocket sname={},cname={}", c.getSimpleName(), cname);
-				// 实例化Action并放在context中
-				Object ws = BeanUtil.newInstance(c);
-				WebCommons.WEBSOCKES.put(cname, ws);
-				if (ws != null) {
-					// 循环判断方法
-					for (Method m : c.getDeclaredMethods()) {
-						// 判断是公有方法
-						if (Modifier.isPublic(m.getModifiers())) {
-							// 获得方法名
-							String mname = m.getName();
-							// 放入action里方法
-							Map<String, Method> map = WebCommons.WEBSOCKES_METHODS.get(cname);
-							if (map == null)
-								WebCommons.WEBSOCKES_METHODS.put(cname, map = Maps.newMap());
-							map.put(mname, m);
-							Logs.debug("add method={} to websocket={}", mname, cname);
-							// 放入总方法池
-							if (WebCommons.WS_METHODS.containsKey(mname))
-								Logs.warn("method name exist! name={} websocket={}", mname, cname);
-							WebCommons.WS_METHODS.put(mname, m);
-							// 方法对应action
-							WebCommons.METHODS_WEBSOCKES.put(mname, ws);
-						}
-					}
-				}
-			} catch (Exception ex) {
-				Logs.error(ex);
-			}
-		});
+		}); 
 	}
 }

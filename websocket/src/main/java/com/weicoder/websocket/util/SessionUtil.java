@@ -1,4 +1,4 @@
-package com.weicoder.web.websocket.util;
+package com.weicoder.websocket.util;
 
 import java.io.IOException;
 

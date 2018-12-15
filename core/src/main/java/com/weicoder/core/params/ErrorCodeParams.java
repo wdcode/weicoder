@@ -1,4 +1,4 @@
-package com.weicoder.web.params;
+package com.weicoder.core.params;
 
 import com.weicoder.common.config.Config;
 import com.weicoder.common.config.ConfigFactory;

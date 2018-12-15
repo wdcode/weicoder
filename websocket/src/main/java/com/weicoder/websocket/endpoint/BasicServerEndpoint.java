@@ -1,4 +1,4 @@
-package com.weicoder.web.websocket;
+package com.weicoder.websocket.endpoint;
 
 import java.util.Map;
 

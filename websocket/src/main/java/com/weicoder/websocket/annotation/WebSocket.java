@@ -1,4 +1,4 @@
-package com.weicoder.web.websocket.annotation;
+package com.weicoder.websocket.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
