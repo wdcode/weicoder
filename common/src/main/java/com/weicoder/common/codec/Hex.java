@@ -7,6 +7,7 @@ import com.weicoder.common.util.EmptyUtil;
 
 /**
  * Hex 编码解码
+ * 
  * @author WD
  */
 public final class Hex {
@@ -15,6 +16,7 @@ public final class Hex {
 
 	/**
 	 * Hex 编码
+	 * 
 	 * @param data 要编码的对象 此对象要能转换成字节数组
 	 * @return 编码后的字符串
 	 */
@@ -24,6 +26,7 @@ public final class Hex {
 
 	/**
 	 * Hex 编码
+	 * 
 	 * @param data 要编码的字节数组
 	 * @return 编码后的字符串
 	 */
@@ -46,14 +49,14 @@ public final class Hex {
 
 	/**
 	 * 解码Hex
+	 * 
 	 * @param str 要解码的字符串
 	 * @return 解码后的字节数组
 	 */
 	public static byte[] decode(String str) {
 		// 如果要解码的字符串为空 返回字节数组
-		if (EmptyUtil.isEmpty(str)) {
+		if (EmptyUtil.isEmpty(str))
 			return ArrayConstants.BYTES_EMPTY;
-		}
 		// 声明字节数组
 		char[] data = str.toCharArray();
 		int len = data.length;
@@ -68,5 +71,6 @@ public final class Hex {
 		return out;
 	}
 
-	private Hex() {}
+	private Hex() {
+	}
 }
