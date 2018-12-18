@@ -181,7 +181,7 @@ public final class RequestUtil {
 	 * @return Map参数
 	 */
 	public static Map<String, String> getAll(HttpServletRequest request) {
-		return Maps.newMaps(getAttributes(request), getCookies(request), getHeaders(request), getParameters(request));
+		return Maps.newMaps(getAttributes(request), getParameters(request), getCookies(request), getHeaders(request));
 	}
 
 	/**
