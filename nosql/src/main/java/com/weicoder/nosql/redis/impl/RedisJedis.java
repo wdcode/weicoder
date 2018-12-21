@@ -360,7 +360,17 @@ public final class RedisJedis extends BaseRedis {
 		try (Jedis jedis = pool.getResource()) {
 			return jedis.zrem(key, members);
 		} catch (Exception e) {
-			Logs.error(e, "redis pool hlen key={} members={}", key, members);
+			Logs.error(e, "redis pool zrem key={} members={}", key, members);
+			return error;
+		}
+	}
+	
+	@Override
+	public Long srem(String key, String... members) {
+		try (Jedis jedis = pool.getResource()) {
+			return jedis.srem(key, members);
+		} catch (Exception e) {
+			Logs.error(e, "redis pool srem key={} members={}", key, members);
 			return error;
 		}
 	}

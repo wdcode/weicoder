@@ -19,6 +19,7 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 import com.weicoder.common.concurrent.ScheduledUtil;
 import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.lang.Conversion;
+import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.log.Log;
 import com.weicoder.common.log.LogFactory;
@@ -28,6 +29,7 @@ import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.core.json.JsonEngine;
+import com.weicoder.nosql.kafka.annotation.AllTopic;
 import com.weicoder.nosql.kafka.annotation.Consumer;
 import com.weicoder.nosql.kafka.annotation.Topic;
 import com.weicoder.nosql.kafka.consumer.Record;
@@ -36,28 +38,33 @@ import com.weicoder.nosql.params.KafkaParams;
 
 /**
  * kafka生成器
+ * 
  * @author WD
  */
 public final class Kafkas {
 	// 日志
-	private final static Log																LOG				= LogFactory.getLog(Kafkas.class);
+	private final static Log LOG = LogFactory.getLog(Kafkas.class);
 	// 保存Topic对应对象
-	private final static Map<String, Object>												CONSUMERS		= Maps.newMap();
+	private final static Map<String, Object> CONSUMERS = Maps.newMap();
 	// 保存Topic对应方法
-	private final static Map<String, Method>												METHODS			= Maps.newMap();
+	private final static Map<String, Method> METHODS = Maps.newMap();
+	// 保存所有topic对应方法
+	private final static Map<String, List<Method>> ALL_TOPICS = Maps.newMap();
 	// 保存kafka消费
-	private final static Map<String, KafkaConsumer<byte[], byte[]>>							KAFKA_CONSUMERS	= Maps.newMap();
+	private final static Map<String, KafkaConsumer<byte[], byte[]>> KAFKA_CONSUMERS = Maps.newMap();
 	// 保存kafka对应消费的topic
-	private final static Map<String, List<String>>											TOPICS			= Maps.newMap();
+	private final static Map<String, List<String>> TOPICS = Maps.newMap();
 	// 保存Topic队列
-	private final static Map<String, Map<String, Queue<ConsumerRecord<byte[], byte[]>>>>	TOPIC_RECORDS	= Maps.newConcurrentMap();
+	private final static Map<String, Map<String, Queue<ConsumerRecord<byte[], byte[]>>>> TOPIC_RECORDS = Maps
+			.newConcurrentMap();
 
 	/**
 	 * 初始化消费者
 	 */
 	public static void consumers() {
 		// 获得所有kafka消费者
-		List<Class<Consumer>> consumers = ClassUtil.getAnnotationClass(CommonParams.getPackages("kafka"), Consumer.class);
+		List<Class<Consumer>> consumers = ClassUtil.getAnnotationClass(CommonParams.getPackages("kafka"),
+				Consumer.class);
 		if (EmptyUtil.isNotEmpty(consumers)) {
 			// 循环处理kafka类
 			consumers.forEach(c -> {
@@ -77,7 +84,19 @@ public final class Kafkas {
 				for (Method m : c.getDeclaredMethods()) {
 					// 方法有执行时间注解
 					Topic topic = m.getAnnotation(Topic.class);
-					if (topic != null) {
+					if (topic == null) {
+						// 获得所有topic标记
+						AllTopic all = m.getAnnotation(AllTopic.class);
+						if (all != null) {
+							// 声明列表
+							List<Method> list = ALL_TOPICS.get(name);
+							if (list == null) {
+								ALL_TOPICS.put(name, list = Lists.newList());
+							}
+							// 添加到列表
+							list.add(m);
+						}
+					} else {
 						String val = topic.value();
 						METHODS.put(val, m);
 						CONSUMERS.put(val, consumer);
@@ -115,12 +134,13 @@ public final class Kafkas {
 					}
 					// 数量不为空
 					if (n > 0) {
-						LOG.info("kafka read consumer end name={} size={} time={} thread={}", name, n, System.currentTimeMillis() - time, tid);
+						LOG.info("kafka read consumer end name={} size={} time={} thread={}", name, n,
+								System.currentTimeMillis() - time, tid);
 					}
 				});
 			}, 0L, 10L, TimeUnit.MICROSECONDS);
 			// 消费队列
-			TOPIC_RECORDS.values().forEach(map -> {
+			TOPIC_RECORDS.forEach((name, map) -> {
 				map.values().forEach((records) -> {
 					ScheduledUtil.delay(KafkaParams.PREFIX, () -> {
 						// 线程池id
@@ -155,7 +175,15 @@ public final class Kafkas {
 									else if (Record.class.equals(t)) {
 										Type type = param.getParameterizedType();
 										Class<?>[] gc = ClassUtil.getGenericClass(type);
-										objs[0] = new Record<>(record.topic(), toParam(record.key(), gc[0]), toParam(record.value(), gc[1]), record.offset(), record.timestamp());
+										objs[0] = new Record<>(record.topic(), toParam(record.key(), gc[0]),
+												toParam(record.value(), gc[1]), record.offset(), record.timestamp());
+										// 执行所有topic方法
+										List<Method> all = ALL_TOPICS.get(name);
+										if (EmptyUtil.isEmpty(all)) {
+											for (Method m : all) {
+												BeanUtil.invoke(obj, m, objs);
+											}
+										}
 									} else
 										objs[0] = toParam(record.value(), t);
 								} else {
@@ -165,12 +193,14 @@ public final class Kafkas {
 								// 执行方法
 								BeanUtil.invoke(obj, method, objs);
 							}
-							LOG.debug("kafka consumer topic={} offset={} method={} args={} params={} thread={}", topic, offset, method.getName(), objs, params, tid);
+							LOG.debug("kafka consumer topic={} offset={} method={} args={} params={} thread={}", topic,
+									offset, method.getName(), objs, params, tid);
 							n++;
 						}
 						// 数量不为空
 						if (n > 0) {
-							LOG.info("kafka consumer end topic={} offset={} size={} time={} thread={}", topic, offset, n, System.currentTimeMillis() - time, tid);
+							LOG.info("kafka consumer end topic={} offset={} size={} time={} thread={}", topic, offset,
+									n, System.currentTimeMillis() - time, tid);
 						}
 					}, 10L);
 				});
@@ -181,6 +211,7 @@ public final class Kafkas {
 
 	/**
 	 * 实例化一个消费数据
+	 * 
 	 * @param topic topic
 	 * @param value value
 	 * @return ProducerRecord
@@ -191,8 +222,9 @@ public final class Kafkas {
 
 	/**
 	 * 实例化一个消费数据
+	 * 
 	 * @param topic topic
-	 * @param key key
+	 * @param key   key
 	 * @param value value
 	 * @return ProducerRecord
 	 */
@@ -202,6 +234,7 @@ public final class Kafkas {
 
 	/**
 	 * 转换成参数
+	 * 
 	 * @param b 字节数组
 	 * @param c 类型
 	 * @return 参数
@@ -225,6 +258,7 @@ public final class Kafkas {
 
 	/**
 	 * 序列号对象为自己数组
+	 * 
 	 * @param obj 对象
 	 * @return 自己数组
 	 */
@@ -232,5 +266,6 @@ public final class Kafkas {
 		return obj instanceof String ? Conversion.toString(obj).getBytes() : Bytes.toBytes(obj);
 	}
 
-	private Kafkas() {}
+	private Kafkas() {
+	}
 }

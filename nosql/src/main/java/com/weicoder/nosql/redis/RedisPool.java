@@ -319,4 +319,12 @@ public interface RedisPool {
 	 * @return 数量
 	 */
 	Long zrem(String key, String... members);
+	
+	/**
+	 * 删除列表数据
+	 * @param key 健
+	 * @param members 成员
+	 * @return 数量
+	 */
+	Long srem(String key, String... members);
 }

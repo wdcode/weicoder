@@ -1,11 +1,15 @@
 package com.weicoder.nosql.redis.factory;
 
 import com.weicoder.common.factory.FactoryKey;
+import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.nosql.params.RedisParams;
 import com.weicoder.nosql.redis.RedisPool;
+import com.weicoder.nosql.redis.impl.RedisCluster;
 import com.weicoder.nosql.redis.impl.RedisJedis;
 
 /**
  * Redis工厂
+ * 
  * @author WD
  */
 final class RedisJedisFactory extends FactoryKey<String, RedisPool> {
@@ -14,8 +18,9 @@ final class RedisJedisFactory extends FactoryKey<String, RedisPool> {
 
 	@Override
 	public RedisPool newInstance(String name) {
-		return new RedisJedis(name);
+		return EmptyUtil.isEmpty(RedisParams.getCluster(name)) ? new RedisJedis(name) : new RedisCluster(name);
 	}
 
-	private RedisJedisFactory() {}
+	private RedisJedisFactory() {
+	}
 }
