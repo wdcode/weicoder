@@ -263,4 +263,53 @@ public class BasicServlet extends HttpServlet {
 		else
 			ResponseUtil.json(response, "not supported get");
 	}
+	
+//	/**
+//	 * 获得Action
+//	 * 
+//	 * @param path       提交路经
+//	 * @param actionName action名称
+//	 * @param actions    action数组
+//	 * @param callback   回调属性
+//	 * @param ip         用户ip
+//	 * @param response   HttpServletResponse
+//	 * @return 相关action
+//	 */
+//	private Object getAction(String path, String actionName, String[] actions, String callback, String ip,
+//			HttpServletResponse response) {
+//		// 声明action
+//		Object action = null;
+//		if (EmptyUtil.isEmpty(actions)) {
+//			LOG.debug("this path={}", path);
+//			ResponseUtil.json(response, callback, "action is null path");
+//			return null;
+//		}
+//		// 获得Action
+//		String name = actions[actions.length - 1];
+//		for (int i = actions.length - 2; i >= 0; i--) {
+//			name = actions[i];
+//			action = WebCommons.ACTIONS.get(name);
+//			if (action != null)
+//				break;
+//		}
+//		// action为空
+//		if (action == null) {
+//			// 如果使用action[_/]method模式 直接返回
+//			if (actions.length == 2) {
+//				LOG.debug("request ip={},path={},no action", ip, path);
+//				ResponseUtil.json(response, callback, "no action");
+//				return null;
+//			}
+//			// 查找方法对应action
+//			action = WebCommons.METHODS_ACTIONS.get(name);
+//			// 判断是否为空
+//			if (action == null) {
+//				LOG.warn("request ip={},path={},name={},actionName={},ma={},no action and method", ip, path, name,
+//						actionName, WebCommons.METHODS_ACTIONS);
+//				return null;
+//			}
+//		}
+//		// 返回action
+//		return action;
+//	}
 }

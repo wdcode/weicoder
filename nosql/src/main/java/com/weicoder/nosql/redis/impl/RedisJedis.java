@@ -13,35 +13,27 @@ import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.lang.Sets;
 import com.weicoder.common.log.Logs;
-import com.weicoder.core.json.JsonEngine;
+import com.weicoder.nosql.redis.Subscribe;
 import com.weicoder.nosql.redis.base.BaseRedis;
-import com.weicoder.nosql.params.RedisParams;
+import com.weicoder.nosql.redis.builder.JedisBuilder; 
 
 import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.JedisPoolConfig;
+import redis.clients.jedis.JedisPool; 
 import redis.clients.jedis.JedisPubSub;
 
 /**
  * Redis客户端Jedis实现
+ * 
  * @author WD
  */
-public final class RedisJedis extends BaseRedis {
+public final class RedisJedis extends BaseRedis implements Subscribe{
 	// Jedis连接池
-	private JedisPool	pool;
+	private JedisPool pool;
 	// 默认异常返回long
-	private long		error	= -1L;
+	private long error = -1L;
 
 	public RedisJedis(String name) {
-		// 实例化Jedis配置
-		JedisPoolConfig config = new JedisPoolConfig();
-		// 设置属性
-		config.setMaxTotal(RedisParams.getMaxTotal(name));
-		config.setMaxIdle(RedisParams.getMaxIdle(name));
-		config.setMaxWaitMillis(RedisParams.getMaxWait(name));
-		// 实例化连接池
-		Logs.info("redis init pool config={}", JsonEngine.toJson(config));
-		pool = new JedisPool(config, RedisParams.getHost(name), RedisParams.getPort(name), RedisParams.getTimeOut(name), RedisParams.getPassword(name), RedisParams.getDatabase(name), null);
+		pool = JedisBuilder.buildPool(name);
 	}
 
 	@Override
@@ -161,6 +153,7 @@ public final class RedisJedis extends BaseRedis {
 
 	/**
 	 * 删除键值
+	 * 
 	 * @param key 键
 	 */
 	public long del(String... key) {
@@ -174,6 +167,7 @@ public final class RedisJedis extends BaseRedis {
 
 	/**
 	 * 验证键是否存在
+	 * 
 	 * @param key 键
 	 * @return true 存在 false 不存在
 	 */
@@ -364,7 +358,7 @@ public final class RedisJedis extends BaseRedis {
 			return error;
 		}
 	}
-	
+
 	@Override
 	public Long srem(String key, String... members) {
 		try (Jedis jedis = pool.getResource()) {

@@ -4,11 +4,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
-import org.redisson.config.Config;
 
 import com.weicoder.nosql.redis.base.BaseRedis;
+import com.weicoder.nosql.redis.builder.RedissonBuilder;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPubSub;
@@ -23,73 +22,33 @@ public final class RedisRedisson extends BaseRedis {
 	private RedissonClient redisson;
 
 	public RedisRedisson(String name) {
-		// 创建配置
-		Config config = new Config();
-		// 设置编码
-		config.setCodec(new org.redisson.client.codec.StringCodec());
-
-		// 设置单机模式
-		config.useSingleServer().setAddress("redis://127.0.0.1:6379");
-////config.setPassword("password")//设置密码
-//		config.useSingleServer().setConnectionPoolSize(500);// 设置对于master节点的连接池中连接数最大为500
-//		config.useSingleServer().setIdleConnectionTimeout(10000);// 如果当前连接池里的连接数量超过了最小空闲连接数，而同时有连接空闲时间超过了该数值，那么这些连接将会自动被关闭，并从连接池里去掉。时间单位是毫秒。
-//		config.useSingleServer().setConnectTimeout(30000);// 同任何节点建立连接时的等待超时。时间单位是毫秒。
-//		config.useSingleServer().setTimeout(3000);// 等待节点回复命令的时间。该时间从命令发送成功时开始计时。
-//		config.useSingleServer().setPingTimeout(30000);
-////		config.useSingleServer().setReconnectionTimeout(3000);// 当与某个节点的连接断开时，等待与其重新建立连接的时间间隔。时间单位是毫秒。
-//		
-//		config.useClusterServers()
-//		// 集群状态扫描间隔时间，单位是毫秒
-//	    .setScanInterval(2000) 
-//	    //cluster方式至少6个节点(3主3从，3主做sharding，3从用来保证主宕机后可以高可用)
-//	    .addNodeAddress("redis://127.0.0.1:6379" )
-//	    .addNodeAddress("redis://127.0.0.1:6380")
-//	    .addNodeAddress("redis://127.0.0.1:6381")
-//	    .addNodeAddress("redis://127.0.0.1:6382")
-//	    .addNodeAddress("redis://127.0.0.1:6383")
-//	    .addNodeAddress("redis://127.0.0.1:6384")
-//
-//	//config.setPassword("password")//设置密码
-//	config.setMasterConnectionPoolSize(500)//设置对于master节点的连接池中连接数最大为500
-//	config.setSlaveConnectionPoolSize(500)//设置对于slave节点的连接池中连接数最大为500
-//	config.setIdleConnectionTimeout(10000)//如果当前连接池里的连接数量超过了最小空闲连接数，而同时有连接空闲时间超过了该数值，那么这些连接将会自动被关闭，并从连接池里去掉。时间单位是毫秒。
-//	config.setConnectTimeout(30000)//同任何节点建立连接时的等待超时。时间单位是毫秒。
-//	config.setTimeout(3000)//等待节点回复命令的时间。该时间从命令发送成功时开始计时。
-//	config.setPingTimeout(30000)
-//	config.setReconnectionTimeout(3000)//当与某个节点的连接断开时，等待与其重新建立连接的时间间隔。时间单位是毫秒。
- 
- 
-		//声明RedissonClient
-		redisson = Redisson.create(config);
+		redisson = RedissonBuilder.newBuilder(name);
 	}
 
 	@Override
 	public Jedis getResource() {
-
 		return null;
 	}
 
 	@Override
 	public long append(String key, Object value) {
-
 		return 0;
 	}
 
 	@Override
 	public String set(String key, String value) {
-
-		return null;
+		redisson.getBucket(key).set(value);
+		return value;
 	}
 
 	@Override
 	public long hset(String key, String field, String value) {
-
-		return 0;
+		redisson.getMap(key).put(field, value);
+		return 1;
 	}
 
 	@Override
-	public String set(byte[] key, byte[] value) {
-
+	public String set(byte[] key, byte[] value) { 
 		return null;
 	}
 
@@ -283,5 +242,4 @@ public final class RedisRedisson extends BaseRedis {
 
 		return null;
 	}
-
 }

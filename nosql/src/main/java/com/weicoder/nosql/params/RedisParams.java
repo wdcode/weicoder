@@ -10,16 +10,18 @@ import redis.clients.jedis.Protocol;
 
 /**
  * Redis配置读取
+ * 
  * @author WD
  */
 public final class RedisParams {
 	/** redis前缀 */
-	public final static String	PREFIX	= "redis";
+	public final static String PREFIX = "redis";
 	// Properties配置
-	private final static Config	CONFIG	= ConfigFactory.getConfig(PREFIX);
+	private final static Config CONFIG = ConfigFactory.getConfig(PREFIX);
 
 	/**
 	 * Redis集群地址
+	 * 
 	 * @param name 名
 	 * @return 集群地址
 	 */
@@ -28,7 +30,35 @@ public final class RedisParams {
 	}
 
 	/**
+	 * 获得Redisson 单机地址
+	 * @param name 名
+	 * @return 单机地址
+	 */
+	public static String getAddress(String name) {
+		return CONFIG.getString(name);
+	}
+
+	/**
+	 * 获得Redisson 集群地址
+	 * @param name 名
+	 * @return 集群地址
+	 */
+	public static String[] getNodes(String name) {
+		return CONFIG.getStringArray(name);
+	}
+	
+	/**
+	 * 获得lettuce uri地址
+	 * @param name 名
+	 * @return uri地址
+	 */
+	public static String[] getUri(String name) {
+		return CONFIG.getStringArray(name);
+	}
+
+	/**
 	 * Redis 解析类型 默认 cluster 可选项 cluster 集群 pool池 redisson
+	 * 
 	 * @param name 名
 	 * @return 服务器地址
 	 */
@@ -38,6 +68,7 @@ public final class RedisParams {
 
 	/**
 	 * Redis服务器地址
+	 * 
 	 * @param name 名
 	 * @return 服务器地址
 	 */
@@ -47,6 +78,7 @@ public final class RedisParams {
 
 	/**
 	 * Redis超时时间
+	 * 
 	 * @param name 名
 	 * @return 端口
 	 */
@@ -56,6 +88,7 @@ public final class RedisParams {
 
 	/**
 	 * Redis服务器端口
+	 * 
 	 * @param name 名
 	 * @return 端口
 	 */
@@ -65,6 +98,7 @@ public final class RedisParams {
 
 	/**
 	 * Redis最大活动数
+	 * 
 	 * @param name 名
 	 * @return int
 	 */
@@ -74,6 +108,7 @@ public final class RedisParams {
 
 	/**
 	 * Redis最大空闲数
+	 * 
 	 * @param name 名
 	 * @return int
 	 */
@@ -83,6 +118,7 @@ public final class RedisParams {
 
 	/**
 	 * Redis密码
+	 * 
 	 * @param name 名
 	 * @return long
 	 */
@@ -93,6 +129,7 @@ public final class RedisParams {
 
 	/**
 	 * redis数据库
+	 * 
 	 * @param name 数据库名
 	 * @return 默认数据库
 	 */
@@ -102,6 +139,7 @@ public final class RedisParams {
 
 	/**
 	 * Redis最大等待时间
+	 * 
 	 * @param name 名
 	 * @return long
 	 */
@@ -111,13 +149,15 @@ public final class RedisParams {
 
 	/**
 	 * 用name替换键
+	 * 
 	 * @param name 名称
-	 * @param key 键
+	 * @param key  键
 	 * @return 替换后的键
 	 */
 	private static String getKey(String name, String key) {
 		return Params.getKey(PREFIX, name, key);
 	}
 
-	private RedisParams() {}
+	private RedisParams() {
+	}
 }

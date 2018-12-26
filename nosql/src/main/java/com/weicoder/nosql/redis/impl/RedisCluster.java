@@ -3,20 +3,14 @@ package com.weicoder.nosql.redis.impl;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import com.weicoder.common.constants.StringConstants;
+ 
 import com.weicoder.common.lang.Bytes;
-import com.weicoder.common.lang.Conversion;
-import com.weicoder.common.lang.Sets;
-import com.weicoder.common.log.Logs;
-import com.weicoder.common.util.StringUtil;
-import com.weicoder.nosql.params.RedisParams;
+import com.weicoder.nosql.redis.Subscribe;
 import com.weicoder.nosql.redis.base.BaseRedis;
-
-import redis.clients.jedis.HostAndPort;
+import com.weicoder.nosql.redis.builder.JedisBuilder;
+ 
 import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisCluster;
-import redis.clients.jedis.JedisPoolConfig;
+import redis.clients.jedis.JedisCluster; 
 import redis.clients.jedis.JedisPubSub;
 
 /**
@@ -24,7 +18,7 @@ import redis.clients.jedis.JedisPubSub;
  * 
  * @author wudi
  */
-public final class RedisCluster extends BaseRedis {
+public final class RedisCluster extends BaseRedis implements Subscribe{
 	// 声明JedisCluster
 	private JedisCluster cluster;
 
@@ -33,22 +27,8 @@ public final class RedisCluster extends BaseRedis {
 	 * 
 	 * @param name 名称
 	 */
-	public RedisCluster(String name) {
-		// 实例化Jedis配置
-		JedisPoolConfig config = new JedisPoolConfig();
-		// 设置属性
-		config.setMaxTotal(RedisParams.getMaxTotal(name));
-		config.setMaxIdle(RedisParams.getMaxIdle(name));
-		config.setMaxWaitMillis(RedisParams.getMaxWait(name));
-		// 服务器节点
-		Set<HostAndPort> nodes = Sets.newSet();
-		for (String server : RedisParams.getCluster(name)) {
-			String[] s = StringUtil.split(server, StringConstants.COLON);
-			nodes.add(new HostAndPort(s[0], Conversion.toInt(s[1])));
-		}
-		// 生成JedisCluster
-		Logs.info("redis init cluster nodes={}", nodes);
-		cluster = new JedisCluster(nodes, 3000, 3000, 5, RedisParams.getPassword(name), config);
+	public RedisCluster(String name) { 
+		cluster = JedisBuilder.buildCluster(name);
 	}
 
 	@Override
