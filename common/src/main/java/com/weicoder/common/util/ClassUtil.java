@@ -160,14 +160,15 @@ public final class ClassUtil {
 	/**
 	 * 实例化对象
 	 * @param className 类名
+	 * @param parameterTypes 参数类型
 	 * @return 实例化对象
 	 */
-	public static Object newInstance(String className) {
+	public static Object newInstance(String className,Class<?>... parameterTypes) {
 		try {
 			if (EmptyUtil.isEmpty(className))
 				return null;
 			Class<?> c = forName(className);
-			return c == null ? null : c.newInstance();
+			return c == null ? null : c.getDeclaredConstructor(parameterTypes).newInstance();
 		} catch (Exception e) {
 			return null;
 		}
@@ -192,11 +193,12 @@ public final class ClassUtil {
 	 * 实例化对象
 	 * @param clazz 类
 	 * @param <T> 泛型
+	 * @param parameterTypes 参数类型
 	 * @return 实例化对象
 	 */
-	public static <T> T newInstance(Class<T> clazz) {
+	public static <T> T newInstance(Class<T> clazz,Class<?>... parameterTypes) {
 		try {
-			return clazz == null ? null : clazz.newInstance();
+			return clazz == null ? null : clazz.getConstructor(parameterTypes).newInstance();
 		} catch (Exception e) {
 			return null;
 		}

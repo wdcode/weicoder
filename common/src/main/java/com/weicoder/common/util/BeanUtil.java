@@ -123,12 +123,13 @@ public final class BeanUtil {
 	/**
 	 * 使用Class的newInstance()方法实例一个对象 封装异常为运行时异常
 	 * @param entity 对象的类
+	 * @param parameterTypes 参数类型
 	 * @param <T> 泛型
 	 * @return 实例的对象
 	 */
-	public static <T> T newInstance(Class<T> entity) {
+	public static <T> T newInstance(Class<T> entity,Class<?>... parameterTypes) {
 		try {
-			return entity == null ? null : entity.newInstance();
+			return entity == null ? null : entity.getDeclaredConstructor(parameterTypes).newInstance();
 		} catch (Exception e) {
 			Logs.error(e);
 			return null;

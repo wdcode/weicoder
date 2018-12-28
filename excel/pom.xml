@@ -1,0 +1,31 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<parent>
+		<groupId>com.weicoder</groupId>
+		<artifactId>parent</artifactId>
+		<version>3.0.0</version>
+		<relativePath>../parent/pom.xml</relativePath>
+	</parent>
+	<modelVersion>4.0.0</modelVersion> 
+	<artifactId>excel</artifactId>
+	<packaging>jar</packaging> 
+	<name>excel</name>
+	<description>java excel</description>
+	<url>https://github.com/wdcode/weicoder</url>
+
+	 
+	<dependencies>
+		<dependency>
+			<groupId>com.weicoder</groupId>
+			<artifactId>core</artifactId> 
+		</dependency>   
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId> 
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId> 
+		</dependency>  
+	</dependencies> 
+</project>

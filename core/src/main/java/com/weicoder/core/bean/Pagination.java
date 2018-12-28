@@ -1,21 +1,23 @@
 package com.weicoder.core.bean;
 
-import com.weicoder.core.params.CoreParams;
+import com.weicoder.common.params.Params; 
 
 /**
  * 分页信息保存的实体Bean 在分页Dao和Tag之间传递值用
+ * 
  * @author WD
  */
 public final class Pagination {
 	// 总数量
-	private int	total;
+	private int total;
 	// 当前页
-	private int	page;
+	private int page;
 	// 每页显示数量
-	private int	size	= CoreParams.PAGE_SIZE;
+	private int size = Params.getInt("page.size", 20);
 
 	/**
 	 * 获得总页数
+	 * 
 	 * @return 总页数
 	 */
 	public int getTotalPage() {
@@ -24,6 +26,7 @@ public final class Pagination {
 
 	/**
 	 * 获得每页显示数量
+	 * 
 	 * @return 每页显示数量
 	 */
 	public int getSize() {
@@ -32,6 +35,7 @@ public final class Pagination {
 
 	/**
 	 * 设置每页显示数量
+	 * 
 	 * @param size 每页显示数量
 	 */
 	public void setSize(int size) {
@@ -40,6 +44,7 @@ public final class Pagination {
 
 	/**
 	 * 获得总数量
+	 * 
 	 * @return 总数量
 	 */
 	public int getTotal() {
@@ -48,6 +53,7 @@ public final class Pagination {
 
 	/**
 	 * 设置总数量
+	 * 
 	 * @param total 总数量
 	 */
 	public void setTotal(int total) {
@@ -56,6 +62,7 @@ public final class Pagination {
 
 	/**
 	 * 获得当前显示页
+	 * 
 	 * @return 当前显示页
 	 */
 	public int getPage() {
@@ -64,6 +71,7 @@ public final class Pagination {
 
 	/**
 	 * 设置当前显示页
+	 * 
 	 * @param page 当前显示页
 	 */
 	public void setPage(int page) {
@@ -72,6 +80,7 @@ public final class Pagination {
 
 	/**
 	 * 获得开始页码
+	 * 
 	 * @return 开始页码
 	 */
 	public int getStartPage() {
@@ -80,6 +89,7 @@ public final class Pagination {
 
 	/**
 	 * 获得结束页码
+	 * 
 	 * @return 结束页码
 	 */
 	public int getEndPage() {
@@ -93,6 +103,7 @@ public final class Pagination {
 
 	/**
 	 * 获得最大结果数
+	 * 
 	 * @return 最大结果数
 	 */
 	public int getMaxResults() {
@@ -101,6 +112,7 @@ public final class Pagination {
 
 	/**
 	 * 获得从第N条开始返回结果
+	 * 
 	 * @return 从第N条开始返回结果
 	 */
 	public int getFirstResult() {

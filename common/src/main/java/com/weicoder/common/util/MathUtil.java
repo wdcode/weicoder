@@ -1,6 +1,7 @@
 package com.weicoder.common.util;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Conversion;
@@ -11,7 +12,7 @@ import com.weicoder.common.lang.Conversion;
  */
 public final class MathUtil {
 	// 取舍方式
-	public final static int ROUND = BigDecimal.ROUND_HALF_UP;
+	public final static RoundingMode ROUND = RoundingMode.HALF_UP;
 
 	/**
 	 * 提供精确的加法运算。

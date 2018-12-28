@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.weicoder</groupId>
 	<artifactId>parent</artifactId>
-	<version>2.3.8</version>
+	<version>3.0.0</version>
 	<packaging>pom</packaging>
 	<name>parent</name>
 	<description>java tools</description>
@@ -13,19 +13,26 @@
 	<modules>
 		<module>../common</module>
 		<module>../core</module>
-		<module>../web</module>
 		<module>../dao</module>
+		<module>../email</module>
+		<module>../excel</module> 
+		<module>../http</module>
+		<module>../kafka</module>
+		<module>../memcache</module>
+		<module>../mongo</module>
+		<module>../protobuf</module>
+		<module>../quartz</module>
+		<module>../redis</module>
 		<module>../socket</module>
+		<module>../web</module>
 		<module>../websocket</module>
-		<module>../nosql</module>
-		<module>../frame</module>
-		<module>../outdated</module>
+		<module>../xml</module>
 	</modules>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<parent.version>2.3.8</parent.version>
+		<parent.version>3.0.0</parent.version>
 	</properties>
 
 	<licenses>
@@ -55,8 +62,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.8.0</version>
 				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
+					<source>11</source>
+					<target>11</target>
 					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
@@ -65,8 +72,8 @@
 				<artifactId>maven-source-plugin</artifactId>
 				<version>3.0.1</version>
 				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
+					<source>11</source>
+					<target>11</target>
 					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
@@ -93,8 +100,8 @@
 						<artifactId>maven-compiler-plugin</artifactId>
 						<version>3.8.0</version>
 						<configuration>
-							<source>1.8</source>
-							<target>1.8</target>
+							<source>11</source>
+							<target>11</target>
 							<encoding>UTF-8</encoding>
 						</configuration>
 					</plugin>
@@ -172,18 +179,48 @@
 			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
-				<artifactId>nosql</artifactId>
+				<artifactId>socket</artifactId>
 				<version>${parent.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
-				<artifactId>socket</artifactId>
+				<artifactId>websocket</artifactId>
+				<version>${parent.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.weicoder</groupId>
+				<artifactId>protobuf</artifactId>
+				<version>${parent.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.weicoder</groupId>
+				<artifactId>redis</artifactId>
+				<version>${parent.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.weicoder</groupId>
+				<artifactId>kafka</artifactId>
+				<version>${parent.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.weicoder</groupId>
+				<artifactId>mongo</artifactId>
 				<version>${parent.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.logging.log4j</groupId>
 				<artifactId>log4j-api</artifactId>
 				<version>2.11.1</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.logging.log4j</groupId>
+				<artifactId>log4j-core</artifactId>
+				<version>2.11.1</version>
+			</dependency>
+			<dependency>
+				<groupId>com.lmax</groupId>
+				<artifactId>disruptor</artifactId>
+				<version>3.4.2</version>
 			</dependency>
 			<dependency>
 				<groupId>com.alibaba</groupId>
@@ -253,12 +290,12 @@
 			<dependency>
 				<groupId>org.apache.curator</groupId>
 				<artifactId>curator-framework</artifactId>
-				<version>4.0.1</version>
+				<version>4.1.0</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.curator</groupId>
 				<artifactId>curator-recipes</artifactId>
-				<version>4.0.1</version>
+				<version>4.1.0</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.kafka</groupId>
@@ -278,7 +315,37 @@
 			<dependency>
 				<groupId>org.redisson</groupId>
 				<artifactId>redisson</artifactId>
-				<version>3.9.1</version>
+				<version>3.10.0</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-email</artifactId>
+				<version>1.5</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.poi</groupId>
+				<artifactId>poi</artifactId>
+				<version>3.17</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.poi</groupId>
+				<artifactId>poi-ooxml</artifactId>
+				<version>3.17</version>
+			</dependency>
+			<dependency>
+				<groupId>org.jdom</groupId>
+				<artifactId>jdom2</artifactId>
+				<version>2.0.6</version>
+			</dependency>
+			<dependency>
+				<groupId>com.thoughtworks.xstream</groupId>
+				<artifactId>xstream</artifactId>
+				<version>1.4.10-java7</version>
+			</dependency>
+			<dependency>
+				<groupId>com.whalin</groupId>
+				<artifactId>Memcached-Java-Client</artifactId>
+				<version>3.0.2</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
