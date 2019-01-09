@@ -9,6 +9,7 @@ import java.util.Map;
 import com.weicoder.common.binary.Binary;
 import com.weicoder.common.binary.Buffer;
 import com.weicoder.common.binary.ByteArray;
+import com.weicoder.common.concurrent.ExecutorUtil;
 import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.util.BeanUtil;
@@ -17,15 +18,14 @@ import com.weicoder.common.util.CloseUtil;
 import com.weicoder.common.util.DateUtil;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
-import com.weicoder.common.zip.ZipEngine;
 import com.weicoder.protobuf.Protobuf;
 import com.weicoder.protobuf.ProtobufEngine;
 import com.weicoder.common.log.Log;
 import com.weicoder.common.log.LogFactory;
 import com.weicoder.common.params.CommonParams;
-import com.weicoder.socket.params.SocketParams;
 import com.weicoder.socket.Session;
 import com.weicoder.socket.Sockets;
+import com.weicoder.socket.annotation.AllHead;
 import com.weicoder.socket.annotation.Closed;
 import com.weicoder.socket.annotation.Connected;
 import com.weicoder.socket.annotation.Handler;
@@ -38,21 +38,21 @@ import com.weicoder.socket.manager.Manager;
  */
 public final class Process {
 	// 日志
-	private final static Log	LOG	= LogFactory.getLog(Process.class);
+	private final static Log	LOG			= LogFactory.getLog(Process.class);
 	// Handler列表
-	private Map<Short, Object>	handlers;
+	private Map<Short, Object>	handlers	= Maps.newMap();
 	// head 对应方法
-	private Map<Short, Method>	methods;
+	private Map<Short, Method>	methods		= Maps.newMap();
+	// 所有Handler列表
+	private Map<Object, Method>	all			= Maps.newMap();
 	// 关闭处理器
-	private Map<Object, Method>	closeds;
+	private Map<Object, Method>	closeds		= Maps.newMap();
 	// 连接处理器
-	private Map<Object, Method>	connected;
+	private Map<Object, Method>	connected	= Maps.newMap();
 	// 管理器
-	private Manager				manager;
+	private Manager				manager		= Sockets.manager();
 	// 处理器名字
 	private String				name;
-	// 是否使用压缩
-	private boolean				zip;
 
 	/**
 	 * 构造
@@ -60,15 +60,7 @@ public final class Process {
 	 */
 	public Process(String name) {
 		// 设置属性
-		handlers = Maps.newMap();
-		methods = Maps.newMap();
-		closeds = Maps.newMap();
 		this.name = name;
-		// 获得是否压缩
-		this.zip = SocketParams.isZip(name);
-		// 获得管理器
-		this.manager = Sockets.manager();
-
 		// 设置handler closed
 		ClassUtil.getAnnotationClass(CommonParams.getPackages("socket"), Handler.class).forEach(c -> {
 			// 是本类使用
@@ -90,6 +82,8 @@ public final class Process {
 						else if (m.isAnnotationPresent(Connected.class))
 							// Closed 头
 							connected.put(h, m);
+						else if (m.isAnnotationPresent(AllHead.class))
+							all.put(h, m);
 			}
 		});
 	}
@@ -172,16 +166,20 @@ public final class Process {
 			// 消息长度
 			int len = length - 2;
 			// 读取指定长度的字节数
-			byte[] data = new byte[len];
+			final byte[] data = new byte[len];
 			// 读取指定长度字节数组
 			if (len > 0) {
 				// 读取字节数组
 				buff.read(data);
-				// 启用压缩
-				if (zip)
-					// 解压缩
-					data = ZipEngine.extract(data);
+//				// 启用压缩
+//				if (zip)
+//					// 解压缩
+//					data = ZipEngine.extract(data);
 			}
+			// 如果有接受所有头方法 使用异步方式执行
+			if (EmptyUtil.isNotEmpty(all))
+				ExecutorUtil.pool().execute(() -> all.forEach((h, m) -> BeanUtil.invoke(h, m, getParames(m, data, session))));
+
 			// 获得相应的方法
 			Method m = methods.get(id);
 			// 如果处理器为空
@@ -233,7 +231,7 @@ public final class Process {
 					params[i] = session;
 				else if (Manager.class.equals(type))
 					// Manager
-					params[i] = Sockets.manager();
+					params[i] = manager;
 				else if (type.isAnnotationPresent(Protobuf.class))
 					// 字节流
 					params[i] = ProtobufEngine.toBean(data, type);

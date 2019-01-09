@@ -26,24 +26,26 @@ public final class Manager {
 	public Manager() {
 		registers = Maps.newConcurrentMap();
 		// 定时检测
-		Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> {
-			// 检测连接超时
-			// try {
-			// 获得当前时间
-			int curr = DateUtil.getTime();
-			int n = 0;
-			for (Session s : sessions()) {
-				// 超时
-				if (curr - s.getHeart() >= SocketParams.TIMEOUT) {
-					// 关闭Session
-					Logs.info("heart close session={}", s.getId());
-					registers.remove(s.getId());
-					CloseUtil.close(s);
+		if (SocketParams.HEART) {
+			Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> {
+				// 检测连接超时
+				// try {
+				// 获得当前时间
+				int curr = DateUtil.getTime();
+				int n = 0;
+				for (Session s : sessions()) {
+					// 超时
+					if (curr - s.getHeart() >= SocketParams.TIMEOUT) {
+						// 关闭Session
+						Logs.info("heart close session={}", s.getId());
+						registers.remove(s.getId());
+						CloseUtil.close(s);
+					}
+					n++;
 				}
-				n++;
-			}
-			Logs.debug("testing heart num={}", n);
-		}, 0, SocketParams.TIME, TimeUnit.SECONDS);
+				Logs.debug("testing heart num={}", n);
+			}, 0, SocketParams.TIME, TimeUnit.SECONDS);
+		}
 	}
 
 	/**

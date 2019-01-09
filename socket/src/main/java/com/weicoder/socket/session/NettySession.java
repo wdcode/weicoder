@@ -1,4 +1,4 @@
-package com.weicoder.socket.netty;
+package com.weicoder.socket.session;
 
 import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.channel.Channel;

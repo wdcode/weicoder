@@ -1,4 +1,4 @@
-package com.weicoder.socket.netty;
+package com.weicoder.socket.client;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
@@ -7,9 +7,11 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 
 import com.weicoder.socket.params.SocketParams;
+import com.weicoder.socket.session.NettySession;
 import com.weicoder.common.util.CloseUtil;
 import com.weicoder.socket.Client;
 import com.weicoder.socket.Session;
+import com.weicoder.socket.handler.NettyHandler;
 
 /**
  * netty客户端
@@ -51,7 +53,7 @@ public final class NettyClient implements Client {
 		// 设置初始化 handler
 		bootstrap.handler(handler);
 		// 设置监听端口
-		bootstrap.remoteAddress(SocketParams.getHost(name), SocketParams.getPort(name));
+		bootstrap.remoteAddress(SocketParams.CLINET_HOST, SocketParams.CLINET_PORT);
 	}
 
 	@Override

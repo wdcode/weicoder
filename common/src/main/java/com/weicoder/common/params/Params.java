@@ -141,8 +141,11 @@ public final class Params {
 		// 声明字符串缓存
 		StringBuilder sb = new StringBuilder(prefix);
 		// 前缀不为空添加.
+		if (EmptyUtil.isNotEmpty(prefix))
+			sb.append(StringConstants.POINT);
+		//名称不为空
 		if (EmptyUtil.isNotEmpty(name))
-			sb.append(StringConstants.POINT).append(name);
+			sb.append(name);
 		// 后缀不为空添加.
 		if (EmptyUtil.isNotEmpty(suffix))
 			sb.append(StringConstants.POINT).append(suffix);

@@ -48,10 +48,18 @@ public class BasicServerEndpoint {
 	 * @param session 客户端的连接会话
 	 */
 	@OnMessage
-	public void onMessage(String message, Session session) {
-		// 获得session id
-		String sid = session.getId();
-		Logs.debug("websocket={};len={};message={}", sid, message.length(), message);
+	public void onMessage(byte[] b, boolean last, Session session) { 
+		Logs.debug("websocket={};len={};last={}", session.getId(), b.length, last);
+	}
+	
+	/**
+	 * 收到客户端消息后调用的方法
+	 * @param message 客户端发送过来的消息
+	 * @param session 客户端的连接会话
+	 */
+	@OnMessage
+	public void onMessage(String message, Session session) {  
+		Logs.debug("websocket={};message={}", session.getId(),message);  
 	}
 
 	/**

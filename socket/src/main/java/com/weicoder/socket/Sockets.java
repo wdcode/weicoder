@@ -4,65 +4,42 @@ import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.util.StringUtil;
-import com.weicoder.common.zip.ZipEngine;
 import com.weicoder.protobuf.Protobuf;
 import com.weicoder.protobuf.ProtobufEngine;
+import com.weicoder.socket.client.NettyClient;
 import com.weicoder.socket.manager.Manager;
-import com.weicoder.socket.netty.NettyClient;
-import com.weicoder.socket.netty.NettyServer;
 import com.weicoder.socket.params.SocketParams;
+import com.weicoder.socket.server.TcpServer;
+import com.weicoder.socket.server.WebSocketServer;
 
 /**
  * Socket 相关类
  * @author WD
  */
 public final class Sockets {
-	// Socket Server 模式
-	private static Server	server;
 	// Socket Client 模式
 	private static Client	client;
 	// Manager Session管理器 一般给Server使用
 	private static Manager	manager;
-	// 是否使用压缩
-	private static boolean	zip;
 
 	/**
 	 * 初始化Mina
 	 */
 	public static void init() {
-		// 获得是否压缩
-		zip = SocketParams.ZIP;
+		// 初始化管理器
+		manager = new Manager();
 		// 初始化 客户端
-		if (SocketParams.CONFIG.exists("client.host"))
+		if (SocketParams.CLINET_PORT > 0) {
 			client = new NettyClient("client");
-		// 初始化 服务端
-		if (SocketParams.CONFIG.exists("server.port")) {
-			server = new NettyServer("server");
-			// 设置管理器
-			manager = new Manager();
-		}
-		// 启动服务器
-		if (server != null)
-			server.bind();
-		// 启动客户端
-		if (client != null)
 			client.connect();
-	}
+		}
+		// 初始化 tcp服务端
+		if (SocketParams.SERVER_PORT > 0)
+			new TcpServer().bind();
+		// 初始化 websocket服务端
+		if (SocketParams.WEBSOCKET_PORT > 0)
+			new WebSocketServer().bind();
 
-	/**
-	 * 获得服务器
-	 * @return 服务器
-	 */
-	public static Server server() {
-		return server;
-	}
-
-	/**
-	 * 获得服务器
-	 * @return Manager
-	 */
-	public static Manager manager() {
-		return manager;
 	}
 
 	/**
@@ -71,6 +48,14 @@ public final class Sockets {
 	 */
 	public static Client client() {
 		return client;
+	}
+
+	/**
+	 * 获得客户端
+	 * @return Client
+	 */
+	public static Manager manager() {
+		return manager;
 	}
 
 	/**
@@ -104,24 +89,21 @@ public final class Sockets {
 	 * @return 字节数组
 	 */
 	public static byte[] toBytes(Object message) {
-		// 声明字节数组
-		byte[] data = null;
 		// 判断类型
 		if (message == null)
 			// 空
-			data = ArrayConstants.BYTES_EMPTY;
+			return ArrayConstants.BYTES_EMPTY;
 		else if (message instanceof String)
 			// 字符串
-			data = StringUtil.toBytes(Conversion.toString(message));
+			return StringUtil.toBytes(Conversion.toString(message));
 		else if (message.getClass().isAnnotationPresent(Protobuf.class))
 			// 字符串
-			data = ProtobufEngine.toBytes(message);
+			return ProtobufEngine.toBytes(message);
 		else
 			// 不知道的类型 以字节数组发送
-			data = Bytes.toBytes(message);
-		// 使用压缩并且长度大于一个字节长度返回压缩 不使用直接返回字节数组
-		return zip && data.length > Byte.MAX_VALUE ? ZipEngine.compress(data) : data;
+			return Bytes.toBytes(message);
 	}
 
-	private Sockets() {}
+	private Sockets() {
+	}
 }

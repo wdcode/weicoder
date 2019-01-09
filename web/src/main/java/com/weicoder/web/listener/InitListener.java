@@ -14,12 +14,13 @@ import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.web.annotation.Action;
 import com.weicoder.web.common.WebCommons;
-import com.weicoder.web.validator.Validators; 
+import com.weicoder.web.validator.Validators;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
 
 /**
  * 初始化监听器
+ * 
  * @author WD
  */
 @WebListener
@@ -38,8 +39,8 @@ public class InitListener implements ServletContextListener {
 				Logs.info("init action sname={},cname={}", c.getSimpleName(), cname);
 				// 实例化Action并放在context中
 				Object action = BeanUtil.newInstance(c);
-				WebCommons.ACTIONS.put(cname, action);
 				if (action != null) {
+					WebCommons.ACTIONS.put(cname, action);
 					// 循环判断方法
 					for (Method m : c.getDeclaredMethods()) {
 						// 判断是公有方法
@@ -66,6 +67,6 @@ public class InitListener implements ServletContextListener {
 			} catch (Exception ex) {
 				Logs.error(ex);
 			}
-		}); 
+		});
 	}
 }

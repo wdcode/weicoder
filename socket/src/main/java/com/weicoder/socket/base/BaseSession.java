@@ -4,8 +4,7 @@ import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 
 import com.weicoder.common.binary.Buffer;
-import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.lang.Bytes;
+import com.weicoder.common.constants.StringConstants; 
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.common.log.Logs;
@@ -98,7 +97,7 @@ public abstract class BaseSession implements Session {
 		// 发送数据
 		write(data);
 		flush();
-		Logs.info("name={};socket={};send len={};id={}", name, id, data.length, Bytes.toShort(data, 4));
+		Logs.info("name={};socket={};send len={}", name, id, data.length);
 	}
 
 	@Override

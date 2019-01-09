@@ -1,8 +1,9 @@
-package com.weicoder.socket.netty;
+package com.weicoder.socket.handler;
 
 import com.weicoder.common.log.Logs;
 import com.weicoder.socket.Session;
 import com.weicoder.socket.process.Process;
+import com.weicoder.socket.session.NettySession;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
@@ -13,19 +14,21 @@ import io.netty.util.AttributeKey;
 
 /**
  * Netty 处理器
+ * 
  * @author WD
  */
 @Sharable
-public final class NettyHandler extends SimpleChannelInboundHandler<ByteBuf> {
+public class NettyHandler extends SimpleChannelInboundHandler<ByteBuf> {
 	// 名称
-	private String					name;
+	private String name;
 	// 消息处理器
-	private Process					process;
+	private Process process;
 	// 保存Session连接
-	private AttributeKey<Session>	sessionKey;
+	private AttributeKey<Session> sessionKey;
 
 	/**
 	 * 构造
+	 * 
 	 * @param name 名称
 	 */
 	public NettyHandler(String name) {
@@ -60,6 +63,17 @@ public final class NettyHandler extends SimpleChannelInboundHandler<ByteBuf> {
 
 	@Override
 	protected void channelRead0(ChannelHandlerContext ctx, ByteBuf msg) throws Exception {
+		read(ctx, msg);
+	}
+
+	/**
+	 * 读取数据流
+	 * 
+	 * @param ctx
+	 * @param msg
+	 * @throws Exception
+	 */
+	protected void read(ChannelHandlerContext ctx, ByteBuf msg) {
 		// 声明字节流
 		byte[] data = new byte[msg.readableBytes()];
 		// 读取字节流
@@ -70,6 +84,7 @@ public final class NettyHandler extends SimpleChannelInboundHandler<ByteBuf> {
 
 	/**
 	 * 获得包装Session
+	 * 
 	 * @param channel netty channel
 	 * @return Session
 	 */

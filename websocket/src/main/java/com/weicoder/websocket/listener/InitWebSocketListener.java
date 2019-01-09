@@ -11,7 +11,7 @@ import javax.servlet.annotation.WebListener;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.ClassUtil;
-import com.weicoder.common.util.StringUtil; 
+import com.weicoder.common.util.StringUtil;
 import com.weicoder.websocket.annotation.WebSocket;
 import com.weicoder.websocket.common.WebSocketCommons;
 import com.weicoder.common.log.Logs;
@@ -19,6 +19,7 @@ import com.weicoder.common.params.CommonParams;
 
 /**
  * 初始化监听器
+ * 
  * @author WD
  */
 @WebListener
@@ -26,7 +27,7 @@ public class InitWebSocketListener implements ServletContextListener {
 	/**
 	 * 初始化资源
 	 */
-	public void contextInitialized(ServletContextEvent event) { 
+	public void contextInitialized(ServletContextEvent event) {
 		// 按包处理WebSocket
 		ClassUtil.getAnnotationClass(CommonParams.getPackages("websocket"), WebSocket.class).forEach(c -> {
 			try {
@@ -35,8 +36,8 @@ public class InitWebSocketListener implements ServletContextListener {
 				Logs.debug("init websocket sname={},cname={}", c.getSimpleName(), cname);
 				// 实例化Action并放在context中
 				Object ws = BeanUtil.newInstance(c);
-				WebSocketCommons.WEBSOCKES.put(cname, ws);
 				if (ws != null) {
+					WebSocketCommons.WEBSOCKES.put(cname, ws);
 					// 循环判断方法
 					for (Method m : c.getDeclaredMethods()) {
 						// 判断是公有方法
