@@ -1,8 +1,9 @@
 package com.weicoder.socket.base;
 
-import io.netty.bootstrap.ServerBootstrap;
+import io.netty.bootstrap.ServerBootstrap; 
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelOption;
+import io.netty.channel.ServerChannel;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
@@ -44,7 +45,7 @@ public abstract class BaseServer implements Server {
 		bootstrap.childOption(ChannelOption.SO_RCVBUF, 1024 * 8);
 
 		// 设置channel
-		bootstrap.channel(NioServerSocketChannel.class);
+		bootstrap.channel(channel());
 		// 设置初始化 handler
 		bootstrap.childHandler(handler());
 		// 设置监听端口
@@ -67,4 +68,12 @@ public abstract class BaseServer implements Server {
 	 * @return 端口
 	 */
 	protected abstract int port();
+
+	/**
+	 * 获得server处理Channel
+	 * @return Channel
+	 */
+	protected Class<? extends ServerChannel> channel() {
+		return NioServerSocketChannel.class;
+	}
 }
