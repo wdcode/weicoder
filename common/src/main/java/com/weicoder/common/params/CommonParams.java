@@ -33,7 +33,7 @@ public final class CommonParams {
 	/** 加密使用摘要算法 */
 	public final static String		ENCRYPT_DIGEST			= Params.getString("encrypt.digest", EncryptConstants.ALGO_SHA_1);
 	/** 包名 */
-	public final static String		PACKAGES				= Params.getString("packages");
+	public final static String		PACKAGES				= Params.getString("packages", "com.weicoder");
 	/** 获得ips过滤组 */
 	public final static String[]	IPS						= Params.getStringArray("ips", ArrayConstants.STRING_EMPTY);
 	/** token 验证长度 */
@@ -94,5 +94,6 @@ public final class CommonParams {
 		return Params.getBoolean(Params.getKey("executor", name, "daemon"), true);
 	}
 
-	private CommonParams() {}
+	private CommonParams() {
+	}
 }

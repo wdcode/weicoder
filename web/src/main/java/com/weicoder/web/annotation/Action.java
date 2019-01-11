@@ -18,9 +18,9 @@ public @interface Action {
 	 */
 	boolean ips() default false;
 
-//	/**
-//	 * 是否验证提交方法
-//	 * @return 是否验证
-//	 */
-//	boolean method() default false;
+	/**
+	 * 是否使用异步模式 为true时本注解下的所有方法都为异步
+	 * @return 是否异步
+	 */
+	boolean async() default false;
 }

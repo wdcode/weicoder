@@ -5,17 +5,20 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.Map;
 
+import javax.servlet.AsyncContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.weicoder.common.concurrent.ExecutorUtil;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.log.Log;
 import com.weicoder.common.log.LogFactory;
+import com.weicoder.common.log.Logs;
 import com.weicoder.common.token.TokenBean;
 import com.weicoder.common.token.TokenEngine;
 import com.weicoder.common.util.BeanUtil;
@@ -25,6 +28,7 @@ import com.weicoder.common.util.IpUtil;
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.core.params.ErrorCodeParams;
 import com.weicoder.web.annotation.Action;
+import com.weicoder.web.annotation.Async;
 import com.weicoder.web.annotation.Cookies;
 import com.weicoder.web.annotation.Forward;
 import com.weicoder.web.annotation.Get;
@@ -42,7 +46,7 @@ import com.weicoder.web.validator.Validators;
  * 基础Servlet 3
  * @author WD
  */
-@WebServlet("/*")
+@WebServlet(value = "/*", asyncSupported = true)
 public class BasicServlet extends HttpServlet {
 	private static final long	serialVersionUID	= 3117468121294921856L;
 	// 日志
@@ -58,7 +62,7 @@ public class BasicServlet extends HttpServlet {
 		// 提交方法
 		String m = request.getMethod();
 		// 获得path
-		String path = request.getPathInfo(); 
+		String path = request.getPathInfo();
 		LOG.debug("request ip={} path={} Method={} scheme={} queryString={}", ip, path, m, request.getScheme(), request.getQueryString());
 		if (EmptyUtil.isNotEmpty(path)) {
 			// 分解提交action 去处开头的/ 并且按/或者_分解出数组
@@ -180,79 +184,95 @@ public class BasicServlet extends HttpServlet {
 			}
 			// 调用方法
 			// try {
-			Object res = null;
-			if (code == WebParams.STATE_SUCCESS)
-				res = BeanUtil.invoke(action, method, params);
-			else
-				res = code;
-			// 判断是否需要写cookie
-			boolean cookie = method.isAnnotationPresent(Cookies.class) || action.getClass().isAnnotationPresent(Cookies.class);
-			String[] names = null;
-			Cookies c = null;
-			if (cookie) {
-				// 获得Cookies注解
-				c = method.getAnnotation(Cookies.class);
-				if (c == null)
-					c = action.getClass().getAnnotation(Cookies.class);
-				names = c.names();
-			}
-			// 判断是否跳转url
-			if (method.isAnnotationPresent(Redirect.class) || action.getClass().isAnnotationPresent(Redirect.class)) {
-				String url = Conversion.toString(res);
-				if (EmptyUtil.isEmpty(url))
-					ResponseUtil.json(response, callback, "Redirect is null");
-				else {
-					LOG.debug("redirect url:{}", url);
-					response.sendRedirect(url);
-					return;
-				}
-			} else if (method.isAnnotationPresent(Forward.class) || action.getClass().isAnnotationPresent(Forward.class)) {
-				String url = Conversion.toString(res);
-				if (EmptyUtil.isEmpty(url))
-					ResponseUtil.json(response, callback, "Forward is null");
-				else {
-					LOG.debug("forward url:{}", url);
-					request.getRequestDispatcher(url).forward(request, response);
-					return;
-				}
-			} else if (method.isAnnotationPresent(State.class) || action.getClass().isAnnotationPresent(State.class)) {
-				// 状态码对象
-				State state = method.getAnnotation(State.class);
-				if (state == null)
-					state = action.getClass().getAnnotation(State.class);
-				// 字段名
-				String status = state.state();
-				String success = state.success();
-				String error = state.error();
-				// 如果res为状态码
-				if (res == null)
-					// 写空信息
-					ResponseUtil.json(response, callback,
-							Maps.newMap(new String[] { status, error }, new Object[] { WebParams.STATE_ERROR_NULL, ErrorCodeParams.getMessage(WebParams.STATE_ERROR_NULL) }));
-				else if (res instanceof Integer) {
-					// 写错误信息
-					int errorcode = Conversion.toInt(res);
-					// 写入到前端
-					ResponseUtil.json(response, callback, Maps.newMap(new String[] { status, errorcode == WebParams.STATE_SUCCESS ? success : error },
-							new Object[] { errorcode, errorcode == WebParams.STATE_SUCCESS ? WebParams.STATE_SUCCESS_MSG : ErrorCodeParams.getMessage(errorcode) }));
-				} else {
-					// 是否写cookie
-					if (cookie)
-						CookieUtil.adds(response, c.maxAge(), res, names);
-					// 写入到前端
-					res = Maps.newMap(new String[] { status, success }, new Object[] { WebParams.STATE_SUCCESS, res });
-				}
-			} else {
-				// 如果结果为空
-				if (res == null)
-					// 结果设置为空map
-					res = Maps.emptyMap();
-				else if (cookie)
-					// 写cookie
-					CookieUtil.adds(response, c.maxAge(), res, names);
-			}
-			// 写到前端
-			LOG.info("request ip={} name={}  params={} pars={} time={} res={} end", ip, actionName, params, pars, System.currentTimeMillis() - curr, ResponseUtil.json(response, callback, res));
+			if (code == WebParams.STATE_SUCCESS) {
+				// 判断是否异步
+				if (a.async() || method.isAnnotationPresent(Async.class)) {
+					// 获得异步全局
+					AsyncContext async = request.startAsync();
+					Object ac = action;
+					Object[] p = params;
+					// 异步处理
+					ExecutorUtil.pool("async").execute(() -> {
+						// 执行方法并返回结果
+						try {
+							result(method, ac, BeanUtil.invoke(ac, method, p), callback, request, response, ip, actionName, p, pars, curr);
+						} catch (Exception e) {
+							Logs.error(e);
+						}
+						// 通知主线程完成
+						async.complete();
+					});
+				} else
+					result(method, action, BeanUtil.invoke(action, method, params), callback, request, response, ip, actionName, params, pars, curr);
+			} else
+				result(method, action, code, callback, request, response, ip, actionName, params, pars, curr);
+
+//			// 判断是否需要写cookie
+//			boolean cookie = method.isAnnotationPresent(Cookies.class) || action.getClass().isAnnotationPresent(Cookies.class);
+//			String[] names = null;
+//			Cookies c = null;
+//			if (cookie) {
+//				// 获得Cookies注解
+//				c = method.getAnnotation(Cookies.class);
+//				if (c == null)
+//					c = action.getClass().getAnnotation(Cookies.class);
+//				names = c.names();
+//			}
+//			// 判断是否跳转url
+//			if (method.isAnnotationPresent(Redirect.class) || action.getClass().isAnnotationPresent(Redirect.class)) {
+//				String url = Conversion.toString(res);
+//				if (EmptyUtil.isEmpty(url))
+//					ResponseUtil.json(response, callback, "Redirect is null");
+//				else {
+//					LOG.debug("redirect url:{}", url);
+//					response.sendRedirect(url);
+//					return;
+//				}
+//			} else if (method.isAnnotationPresent(Forward.class) || action.getClass().isAnnotationPresent(Forward.class)) {
+//				String url = Conversion.toString(res);
+//				if (EmptyUtil.isEmpty(url))
+//					ResponseUtil.json(response, callback, "Forward is null");
+//				else {
+//					LOG.debug("forward url:{}", url);
+//					request.getRequestDispatcher(url).forward(request, response);
+//					return;
+//				}
+//			} else if (method.isAnnotationPresent(State.class) || action.getClass().isAnnotationPresent(State.class)) {
+//				// 状态码对象
+//				State state = method.getAnnotation(State.class);
+//				if (state == null)
+//					state = action.getClass().getAnnotation(State.class);
+//				// 字段名
+//				String status = state.state();
+//				String success = state.success();
+//				String error = state.error();
+//				// 如果res为状态码
+//				if (res == null)
+//					// 写空信息
+//					ResponseUtil.json(response, callback,
+//							Maps.newMap(new String[] { status, error }, new Object[] { WebParams.STATE_ERROR_NULL, ErrorCodeParams.getMessage(WebParams.STATE_ERROR_NULL) }));
+//				else if (res instanceof Integer) {
+//					// 写错误信息
+//					int errorcode = Conversion.toInt(res);
+//					// 写入到前端
+//					ResponseUtil.json(response, callback, Maps.newMap(new String[] { status, errorcode == WebParams.STATE_SUCCESS ? success : error },
+//							new Object[] { errorcode, errorcode == WebParams.STATE_SUCCESS ? WebParams.STATE_SUCCESS_MSG : ErrorCodeParams.getMessage(errorcode) }));
+//				} else {
+//					// 是否写cookie
+//					if (cookie)
+//						CookieUtil.adds(response, c.maxAge(), res, names);
+//					// 写入到前端
+//					res = Maps.newMap(new String[] { status, success }, new Object[] { WebParams.STATE_SUCCESS, res });
+//				}
+//			} else {
+//				// 如果结果为空
+//				if (res == null)
+//					// 结果设置为空map
+//					res = Maps.emptyMap();
+//				else if (cookie)
+//					// 写cookie
+//					CookieUtil.adds(response, c.maxAge(), res, names);
+//			} 
 		}
 	}
 
@@ -263,7 +283,80 @@ public class BasicServlet extends HttpServlet {
 		else
 			ResponseUtil.json(response, "not supported get");
 	}
-	
+
+	private void result(Method method, Object action, Object res, String callback, HttpServletRequest request, HttpServletResponse response, String ip, String actionName,
+			Object[] params, Parameter[] pars, long curr) throws ServletException, IOException {
+		// 判断是否需要写cookie
+		boolean cookie = method.isAnnotationPresent(Cookies.class) || action.getClass().isAnnotationPresent(Cookies.class);
+		String[] names = null;
+		Cookies c = null;
+		if (cookie) {
+			// 获得Cookies注解
+			c = method.getAnnotation(Cookies.class);
+			if (c == null)
+				c = action.getClass().getAnnotation(Cookies.class);
+			names = c.names();
+		}
+		// 判断是否跳转url
+		if (method.isAnnotationPresent(Redirect.class) || action.getClass().isAnnotationPresent(Redirect.class)) {
+			String url = Conversion.toString(res);
+			if (EmptyUtil.isEmpty(url)) {
+				ResponseUtil.json(response, callback, "Redirect is null");
+				return;
+			} else {
+				LOG.debug("redirect url:{}", url);
+				response.sendRedirect(url);
+				return;
+			}
+		} else if (method.isAnnotationPresent(Forward.class) || action.getClass().isAnnotationPresent(Forward.class)) {
+			String url = Conversion.toString(res);
+			if (EmptyUtil.isEmpty(url)) {
+				ResponseUtil.json(response, callback, "Forward is null");
+				return;
+			} else {
+				LOG.debug("forward url:{}", url);
+				request.getRequestDispatcher(url).forward(request, response);
+				return;
+			}
+		} else if (method.isAnnotationPresent(State.class) || action.getClass().isAnnotationPresent(State.class)) {
+			// 状态码对象
+			State state = method.getAnnotation(State.class);
+			if (state == null)
+				state = action.getClass().getAnnotation(State.class);
+			// 字段名
+			String status = state.state();
+			String success = state.success();
+			String error = state.error();
+			// 如果res为状态码
+			if (res == null)
+				// 写空信息
+				res = Maps.newMap(new String[] { status, error }, new Object[] { WebParams.STATE_ERROR_NULL, ErrorCodeParams.getMessage(WebParams.STATE_ERROR_NULL) });
+			else if (res instanceof Integer) {
+				// 写错误信息
+				int errorcode = Conversion.toInt(res);
+				res = Maps.newMap(new String[] { status, errorcode == WebParams.STATE_SUCCESS ? success : error },
+						new Object[] { errorcode, errorcode == WebParams.STATE_SUCCESS ? WebParams.STATE_SUCCESS_MSG : ErrorCodeParams.getMessage(errorcode) });
+			} else {
+				// 是否写cookie
+				if (cookie)
+					CookieUtil.adds(response, c.maxAge(), res, names);
+				// 写入到前端
+				res = Maps.newMap(new String[] { status, success }, new Object[] { WebParams.STATE_SUCCESS, res });
+			}
+		} else {
+			// 如果结果为空
+			if (res == null)
+				// 结果设置为空map
+				res = Maps.emptyMap();
+			else if (cookie)
+				// 写cookie
+				CookieUtil.adds(response, c.maxAge(), res, names);
+		}
+		// 写到前端
+		LOG.info("request ip={} name={}  params={} pars={} time={} res={} end", ip, actionName, params, pars, System.currentTimeMillis() - curr,
+				ResponseUtil.json(response, callback, res));
+	}
+
 //	/**
 //	 * 获得Action
 //	 * 
