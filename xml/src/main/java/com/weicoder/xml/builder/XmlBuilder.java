@@ -2,10 +2,16 @@ package com.weicoder.xml.builder;
 
 import java.io.File;
 import java.io.InputStream;
- 
+
 import com.weicoder.xml.Attribute;
 import com.weicoder.xml.Document;
 import com.weicoder.xml.Element;
+import com.weicoder.xml.dom4j.AttributeDom4J;
+import com.weicoder.xml.dom4j.DocumentDom4J;
+import com.weicoder.xml.dom4j.ElementDom4J;
+import com.weicoder.xml.dom4j.input.XMLReadDom4J;
+import com.weicoder.xml.dom4j.output.FormatDom4J;
+import com.weicoder.xml.dom4j.output.XMLWriteDom4J;
 import com.weicoder.xml.input.XMLRead;
 import com.weicoder.xml.jdom2.AttributeJDom2;
 import com.weicoder.xml.jdom2.DocumentJDom2;
@@ -38,7 +44,12 @@ public final class XmlBuilder {
 	 * @return Format
 	 */
 	public static Format createFormat(String encoding) {
-		return new FormatJDom2(encoding);
+		switch (XmlParams.PARSE) {
+		case "jdom2":
+			return new FormatJDom2(encoding);
+		default:
+			return new FormatDom4J(encoding);
+		}
 	}
 
 	/**
@@ -46,7 +57,12 @@ public final class XmlBuilder {
 	 * @return Document
 	 */
 	public static Document createDocument() {
-		return new DocumentJDom2();
+		switch (XmlParams.PARSE) {
+		case "jdom2":
+			return new DocumentJDom2();
+		default:
+			return new DocumentDom4J();
+		}
 	}
 
 	/**
@@ -64,7 +80,12 @@ public final class XmlBuilder {
 	 * @return Document
 	 */
 	public static Document createDocument(Element e) {
-		return new DocumentJDom2(e);
+		switch (XmlParams.PARSE) {
+		case "jdom2":
+			return new DocumentJDom2(e);
+		default:
+			return new DocumentDom4J(e);
+		}
 	}
 
 	/**
@@ -81,7 +102,12 @@ public final class XmlBuilder {
 	 * @return Element
 	 */
 	public static Element createElement(String name) {
-		return new ElementJDom2(name);
+		switch (XmlParams.PARSE) {
+		case "jdom2":
+			return new ElementJDom2(name);
+		default:
+			return new ElementDom4J(name);
+		}
 	}
 
 	/**
@@ -91,7 +117,12 @@ public final class XmlBuilder {
 	 * @return Attribute
 	 */
 	public static Attribute createAttribute(String name, String value) {
-		return new AttributeJDom2(name, value);
+		switch (XmlParams.PARSE) {
+		case "jdom2":
+			return new AttributeJDom2(name, value);
+		default:
+			return new AttributeDom4J(name, value);
+		}
 	}
 
 	/**
@@ -108,7 +139,12 @@ public final class XmlBuilder {
 	 * @return XMLOutput @ 没有解析包
 	 */
 	public static XMLWrite createXMLOutput(Format format) {
-		return new XMLWriteJDom2(format);
+		switch (XmlParams.PARSE) {
+		case "jdom2":
+			return new XMLWriteJDom2(format);
+		default:
+			return new XMLWriteDom4J(format);
+		}
 	}
 
 	/**
@@ -116,7 +152,12 @@ public final class XmlBuilder {
 	 * @return XMLRead
 	 */
 	public static XMLRead createXMLRead() {
-		return new XMLReadJDom2();
+		switch (XmlParams.PARSE) {
+		case "jdom2":
+			return new XMLReadJDom2();
+		default:
+			return new XMLReadDom4J();
+		}
 	}
 
 	/**
@@ -146,5 +187,6 @@ public final class XmlBuilder {
 		return createXMLRead().build(in);
 	}
 
-	private XmlBuilder() {}
+	private XmlBuilder() {
+	}
 }

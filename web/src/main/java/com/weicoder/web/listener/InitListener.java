@@ -13,6 +13,8 @@ import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.web.annotation.Action;
+import com.weicoder.web.aop.AopAll;
+import com.weicoder.web.aop.Aops;
 import com.weicoder.web.common.WebCommons;
 import com.weicoder.web.validator.Validators;
 import com.weicoder.common.log.Logs;
@@ -20,7 +22,6 @@ import com.weicoder.common.params.CommonParams;
 
 /**
  * 初始化监听器
- * 
  * @author WD
  */
 @WebListener
@@ -67,6 +68,25 @@ public class InitListener implements ServletContextListener {
 			} catch (Exception ex) {
 				Logs.error(ex);
 			}
+		});
+
+		// 处理aop
+		ClassUtil.getAssignedClass(CommonParams.getPackages("aop"), Aops.class).forEach(c -> {
+			// 获得action名结尾为aop去掉
+			String cname = StringUtil.convert(StringUtil.subStringLastEnd(c.getSimpleName(), "Aop"));
+			Logs.info("init aop sname={},cname={}", c.getSimpleName(), cname);
+			// 实例化Action并放在context中
+			Aops aop = BeanUtil.newInstance(c);
+			if (aop != null)
+				WebCommons.AOPS.put(cname, aop);
+		});
+
+		// 处理aop全部拦截
+		ClassUtil.getAssignedClass(CommonParams.getPackages("aop"), AopAll.class).forEach(c -> {
+			// 初始化aopall
+			Logs.info("init aopall name={}", c.getSimpleName());
+			// 放到列表中
+			WebCommons.AOP_ALL.add(BeanUtil.newInstance(c));
 		});
 	}
 }

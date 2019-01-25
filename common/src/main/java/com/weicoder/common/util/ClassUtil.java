@@ -163,7 +163,7 @@ public final class ClassUtil {
 	 * @param parameterTypes 参数类型
 	 * @return 实例化对象
 	 */
-	public static Object newInstance(String className,Class<?>... parameterTypes) {
+	public static Object newInstance(String className, Class<?>... parameterTypes) {
 		try {
 			if (EmptyUtil.isEmpty(className))
 				return null;
@@ -196,7 +196,7 @@ public final class ClassUtil {
 	 * @param parameterTypes 参数类型
 	 * @return 实例化对象
 	 */
-	public static <T> T newInstance(Class<T> clazz,Class<?>... parameterTypes) {
+	public static <T> T newInstance(Class<T> clazz, Class<?>... parameterTypes) {
 		try {
 			return clazz == null ? null : clazz.getConstructor(parameterTypes).newInstance();
 		} catch (Exception e) {
@@ -222,14 +222,15 @@ public final class ClassUtil {
 	 * @param <E> 泛型
 	 * @return 类列表
 	 */
+	@SuppressWarnings("unchecked")
 	public static <E> List<Class<E>> getAssignedClass(String packageName, Class<E> cls) {
 		// 声明类列表
 		List<Class<E>> classes = Lists.newList();
 		// 循环包下所有类
-		for (Class<E> c : getPackageClasses(packageName, cls))
+		for (Class<?> c : getPackageClasses(packageName))
 			// 是本类实现 并且不是本类
 			if (cls.isAssignableFrom(c) && !cls.equals(c))
-				classes.add(c);
+				classes.add((Class<E>) c);
 		// 返回列表
 		return classes;
 	}
@@ -258,7 +259,7 @@ public final class ClassUtil {
 		// 声明类列表
 		List<Class<E>> classes = Lists.newList();
 		// 循环包下所有类
-		for (Class<?> c : getPackageClasses(packageName, cls))
+		for (Class<?> c : getPackageClasses(packageName))
 			// 是本类实现 并且不是本类
 			if (c.isAnnotationPresent(cls) && !cls.equals(c))
 				classes.add((Class<E>) c);
@@ -273,10 +274,9 @@ public final class ClassUtil {
 	 * @param <E> 泛型
 	 * @return 类列表
 	 */
-	@SuppressWarnings("unchecked")
-	public static <E> List<Class<E>> getPackageClasses(String packageName, Class<E> cls) {
+	public static List<Class<?>> getPackageClasses(String packageName) {
 		// 声明返回类列表
-		List<Class<E>> classes = Lists.newList();
+		List<Class<?>> classes = Lists.newList();
 		// 转换报名为路径格式
 		for (String path : StringUtil.split(packageName, StringConstants.COMMA)) {
 			path = StringUtil.replace(path, StringConstants.POINT, StringConstants.BACKSLASH);
@@ -295,13 +295,13 @@ public final class ClassUtil {
 						// 如果开始是.去掉
 						if (name.startsWith(StringConstants.POINT))
 							name = StringUtil.subString(name, 1);
-						classes.add((Class<E>) Class.forName(name));
+						classes.add(Class.forName(name));
 					} catch (ClassNotFoundException e) {
 						Logs.error(e);
 					}
 				} else
 					// 迭代调用本方法 获得类列表
-					classes.addAll(getPackageClasses(EmptyUtil.isEmpty(path) ? name : path + StringConstants.BACKSLASH + name, cls));
+					classes.addAll(getPackageClasses(EmptyUtil.isEmpty(path) ? name : path + StringConstants.BACKSLASH + name));
 			}
 		}
 		// 返回类列表
@@ -345,5 +345,6 @@ public final class ClassUtil {
 		return list;
 	}
 
-	private ClassUtil() {}
+	private ClassUtil() {
+	}
 }

@@ -3,6 +3,8 @@ package com.weicoder.web.servlet;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.AsyncContext;
@@ -15,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.weicoder.common.concurrent.ExecutorUtil;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Conversion;
+import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.log.Log;
 import com.weicoder.common.log.LogFactory;
@@ -35,6 +38,8 @@ import com.weicoder.web.annotation.Get;
 import com.weicoder.web.annotation.Post;
 import com.weicoder.web.annotation.Redirect;
 import com.weicoder.web.annotation.State;
+import com.weicoder.web.aop.Aop;
+import com.weicoder.web.aop.Aops;
 import com.weicoder.web.common.WebCommons;
 import com.weicoder.web.params.WebParams;
 import com.weicoder.web.util.CookieUtil;
@@ -195,7 +200,7 @@ public class BasicServlet extends HttpServlet {
 					ExecutorUtil.pool("async").execute(() -> {
 						// 执行方法并返回结果
 						try {
-							result(method, ac, BeanUtil.invoke(ac, method, p), callback, request, response, ip, actionName, p, pars, curr);
+							result(method, ac, invoke(ac, method, p, request, response), callback, request, response, ip, actionName, p, pars, curr);
 						} catch (Exception e) {
 							Logs.error(e);
 						}
@@ -203,76 +208,9 @@ public class BasicServlet extends HttpServlet {
 						async.complete();
 					});
 				} else
-					result(method, action, BeanUtil.invoke(action, method, params), callback, request, response, ip, actionName, params, pars, curr);
+					result(method, action, invoke(action, method, params, request, response), callback, request, response, ip, actionName, params, pars, curr);
 			} else
 				result(method, action, code, callback, request, response, ip, actionName, params, pars, curr);
-
-//			// 判断是否需要写cookie
-//			boolean cookie = method.isAnnotationPresent(Cookies.class) || action.getClass().isAnnotationPresent(Cookies.class);
-//			String[] names = null;
-//			Cookies c = null;
-//			if (cookie) {
-//				// 获得Cookies注解
-//				c = method.getAnnotation(Cookies.class);
-//				if (c == null)
-//					c = action.getClass().getAnnotation(Cookies.class);
-//				names = c.names();
-//			}
-//			// 判断是否跳转url
-//			if (method.isAnnotationPresent(Redirect.class) || action.getClass().isAnnotationPresent(Redirect.class)) {
-//				String url = Conversion.toString(res);
-//				if (EmptyUtil.isEmpty(url))
-//					ResponseUtil.json(response, callback, "Redirect is null");
-//				else {
-//					LOG.debug("redirect url:{}", url);
-//					response.sendRedirect(url);
-//					return;
-//				}
-//			} else if (method.isAnnotationPresent(Forward.class) || action.getClass().isAnnotationPresent(Forward.class)) {
-//				String url = Conversion.toString(res);
-//				if (EmptyUtil.isEmpty(url))
-//					ResponseUtil.json(response, callback, "Forward is null");
-//				else {
-//					LOG.debug("forward url:{}", url);
-//					request.getRequestDispatcher(url).forward(request, response);
-//					return;
-//				}
-//			} else if (method.isAnnotationPresent(State.class) || action.getClass().isAnnotationPresent(State.class)) {
-//				// 状态码对象
-//				State state = method.getAnnotation(State.class);
-//				if (state == null)
-//					state = action.getClass().getAnnotation(State.class);
-//				// 字段名
-//				String status = state.state();
-//				String success = state.success();
-//				String error = state.error();
-//				// 如果res为状态码
-//				if (res == null)
-//					// 写空信息
-//					ResponseUtil.json(response, callback,
-//							Maps.newMap(new String[] { status, error }, new Object[] { WebParams.STATE_ERROR_NULL, ErrorCodeParams.getMessage(WebParams.STATE_ERROR_NULL) }));
-//				else if (res instanceof Integer) {
-//					// 写错误信息
-//					int errorcode = Conversion.toInt(res);
-//					// 写入到前端
-//					ResponseUtil.json(response, callback, Maps.newMap(new String[] { status, errorcode == WebParams.STATE_SUCCESS ? success : error },
-//							new Object[] { errorcode, errorcode == WebParams.STATE_SUCCESS ? WebParams.STATE_SUCCESS_MSG : ErrorCodeParams.getMessage(errorcode) }));
-//				} else {
-//					// 是否写cookie
-//					if (cookie)
-//						CookieUtil.adds(response, c.maxAge(), res, names);
-//					// 写入到前端
-//					res = Maps.newMap(new String[] { status, success }, new Object[] { WebParams.STATE_SUCCESS, res });
-//				}
-//			} else {
-//				// 如果结果为空
-//				if (res == null)
-//					// 结果设置为空map
-//					res = Maps.emptyMap();
-//				else if (cookie)
-//					// 写cookie
-//					CookieUtil.adds(response, c.maxAge(), res, names);
-//			} 
 		}
 	}
 
@@ -355,6 +293,45 @@ public class BasicServlet extends HttpServlet {
 		// 写到前端
 		LOG.info("request ip={} name={}  params={} pars={} time={} res={} end", ip, actionName, params, pars, System.currentTimeMillis() - curr,
 				ResponseUtil.json(response, callback, res));
+	}
+
+	private Object invoke(Object action, Method method, Object[] params, HttpServletRequest request, HttpServletResponse response) {
+		// 获得所有aop
+		List<Aops> aops = aops(action, method);
+		try {
+			// 前置执行
+			aops.forEach(aop -> aop.before(action, params, request, response));
+			// 执行方法返回结果
+			Object result = method.invoke(action, EmptyUtil.isEmpty(params) ? null : params);
+			// 后置执行
+			aops.forEach(aop -> aop.after(action, params, result, request, response));
+			// 返回结果
+			return result;
+		} catch (Exception e) {
+			Logs.error(e, "action invoke method={} args={} params={}", method.getName(), Arrays.toString(params), Arrays.toString(method.getParameters()));
+			// 异常执行
+			aops.forEach(aop -> aop.exception(e, action, params, request, response));
+			return null;
+		}
+	}
+
+	private List<Aops> aops(Object obj, Method method) {
+		// 声明aop列表
+		List<Aops> aops = Lists.newList(WebCommons.AOP_ALL);
+		// 检查action是否有aop
+		if (obj.getClass().isAnnotationPresent(Aop.class)) {
+			Aop aop = obj.getClass().getAnnotation(Aop.class);
+			if (aop != null)
+				aops.add(WebCommons.AOPS.get(aop.value()));
+		}
+		// 检查method是否有aop
+		if (method.isAnnotationPresent(Aop.class)) {
+			Aop aop = method.getClass().getAnnotation(Aop.class);
+			if (aop != null)
+				aops.add(WebCommons.AOPS.get(aop.value()));
+		}
+		// 返回列表
+		return aops;
 	}
 
 //	/**

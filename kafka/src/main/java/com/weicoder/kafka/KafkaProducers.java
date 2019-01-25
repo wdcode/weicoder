@@ -75,25 +75,6 @@ public final class KafkaProducers {
 	}
 
 	/**
-	 * 异步发送数据
-	 * @param topic 节点
-	 * @param value 值
-	 */
-	public static void asyn(String topic, Object value) {
-		PRODUCER.asyn(topic, value);
-	}
-
-	/**
-	 * 异步发送数据
-	 * @param topic 节点
-	 * @param key 键
-	 * @param value 值
-	 */
-	public static void asyn(String topic, Object key, Object value) {
-		PRODUCER.asyn(topic, key, value);
-	}
-
-	/**
 	 * 刷新缓存
 	 * @param name kafka名称
 	 */
@@ -124,26 +105,6 @@ public final class KafkaProducers {
 		return KafkaFactory.getProducer(name).send(topic, key, value);
 	}
 
-	/**
-	 * 按kafka名称选择服务器 异步发送数据
-	 * @param name kafka名称
-	 * @param topic 节点
-	 * @param value 值
-	 */
-	public static void asynN(String name, String topic, Object value) {
-		KafkaFactory.getProducer(name).asyn(topic, value);
+	private KafkaProducers() {
 	}
-
-	/**
-	 * 按kafka名称选择服务器 异步发送数据
-	 * @param name kafka名称
-	 * @param topic 节点
-	 * @param key 键
-	 * @param value 值
-	 */
-	public static void asynN(String name, String topic, Object key, Object value) {
-		KafkaFactory.getProducer(name).asyn(topic, key, value);
-	}
-
-	private KafkaProducers() {}
 }
