@@ -20,13 +20,14 @@
 		<module>../kafka</module>
 		<module>../memcache</module>
 		<module>../mongo</module>
+		<module>../oauth</module>
 		<module>../protobuf</module>
 		<module>../quartz</module>
 		<module>../redis</module>
 		<module>../socket</module>
 		<module>../web</module>
 		<module>../websocket</module>
-		<module>../xml</module>
+		<module>../xml</module> 
 	</modules>
 
 	<properties>
@@ -208,6 +209,11 @@
 				<version>${parent.version}</version>
 			</dependency>
 			<dependency>
+				<groupId>com.weicoder</groupId>
+				<artifactId>http</artifactId>
+				<version>${parent.version}</version>
+			</dependency>
+			<dependency>
 				<groupId>org.apache.logging.log4j</groupId>
 				<artifactId>log4j-core</artifactId>
 				<version>2.11.1</version>
@@ -220,7 +226,7 @@
 			<dependency>
 				<groupId>com.alibaba</groupId>
 				<artifactId>fastjson</artifactId>
-				<version>1.2.55</version>
+				<version>1.2.56</version>
 			</dependency>
 			<dependency>
 				<groupId>org.quartz-scheduler</groupId>
