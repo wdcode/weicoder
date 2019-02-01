@@ -55,7 +55,8 @@ public class BasicServerEndpoint {
 
 	/**
 	 * 收到客户端消息后调用的方法
-	 * @param message 客户端发送过来的消息
+	 * @param b 数据
+	 * @param last 客户端发送过来的消息
 	 * @param session 客户端的连接会话
 	 */
 	@OnMessage

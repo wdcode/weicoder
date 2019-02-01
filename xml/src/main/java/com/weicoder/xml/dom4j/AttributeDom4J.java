@@ -24,8 +24,7 @@ public final class AttributeDom4J implements Attribute {
 
 	/**
 	 * 构造方法
-	 * @param name 元素名
-	 * @param value 元素值
+ 	 * @param a Attribute
 	 */
 	public AttributeDom4J(org.dom4j.Attribute a) {
 		attribute = a;

@@ -269,9 +269,7 @@ public final class ClassUtil {
 
 	/**
 	 * 获得指定包下的所有Class
-	 * @param packageName 报名
-	 * @param cls 类
-	 * @param <E> 泛型
+	 * @param packageName 报名  
 	 * @return 类列表
 	 */
 	public static List<Class<?>> getPackageClasses(String packageName) {

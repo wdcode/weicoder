@@ -43,7 +43,7 @@ public final class Manager {
 					}
 					n++;
 				}
-				Logs.debug("testing heart num={}", n);
+				Logs.trace("testing heart num={}", n);
 			}, 0, SocketParams.TIME, TimeUnit.SECONDS);
 		}
 	}

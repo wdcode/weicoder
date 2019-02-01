@@ -32,7 +32,7 @@ public final class ElementDom4J implements Element {
 
 	/**
 	 * 构造方法
-	 * @param e
+	 * @param e Element
 	 */
 	public ElementDom4J(org.dom4j.Element e) {
 		element = e;

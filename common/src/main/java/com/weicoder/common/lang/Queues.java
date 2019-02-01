@@ -19,7 +19,7 @@ public class Queues {
 	/**
 	 * 生成新的队列
 	 * @return 并发列表队列
-	 */
+	 */ 
 	public static <E> ConcurrentLinkedQueue<E> newConcurrentQueue() {
 		return new ConcurrentLinkedQueue<E>();
 	}

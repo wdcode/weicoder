@@ -14,21 +14,19 @@ import io.netty.util.AttributeKey;
 
 /**
  * Netty 处理器
- * 
  * @author WD
  */
 @Sharable
 public class NettyHandler extends SimpleChannelInboundHandler<ByteBuf> {
 	// 名称
-	private String name;
+	private String					name;
 	// 消息处理器
-	private Process process;
+	private Process					process;
 	// 保存Session连接
-	private AttributeKey<Session> sessionKey;
+	private AttributeKey<Session>	sessionKey;
 
 	/**
 	 * 构造
-	 * 
 	 * @param name 名称
 	 */
 	public NettyHandler(String name) {
@@ -68,10 +66,8 @@ public class NettyHandler extends SimpleChannelInboundHandler<ByteBuf> {
 
 	/**
 	 * 读取数据流
-	 * 
-	 * @param ctx
-	 * @param msg
-	 * @throws Exception
+	 * @param ctx ChannelHandlerContext
+	 * @param msg 消息
 	 */
 	protected void read(ChannelHandlerContext ctx, ByteBuf msg) {
 		// 声明字节流
@@ -84,7 +80,6 @@ public class NettyHandler extends SimpleChannelInboundHandler<ByteBuf> {
 
 	/**
 	 * 获得包装Session
-	 * 
 	 * @param channel netty channel
 	 * @return Session
 	 */

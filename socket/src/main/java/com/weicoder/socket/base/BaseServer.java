@@ -19,8 +19,7 @@ public abstract class BaseServer implements Server {
 	private ServerBootstrap bootstrap;
 
 	/**
-	 * 构造函数
-	 * @param name 名称
+	 * 构造函数 
 	 */
 	public BaseServer() {
 		// 实例化ServerBootstrap
