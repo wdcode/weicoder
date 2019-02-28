@@ -8,6 +8,11 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 
 import com.weicoder.socket.params.SocketParams;
 import com.weicoder.socket.session.NettySession;
+
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+
+import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.CloseUtil;
 import com.weicoder.socket.Client;
 import com.weicoder.socket.Session;
@@ -60,6 +65,14 @@ public final class NettyClient implements Client {
 	public void connect() {
 		future = bootstrap.connect().awaitUninterruptibly();
 		session = new NettySession(name, future.channel());
+		// 定时检测
+		if (SocketParams.HEART) {
+			Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> {
+				// 发送心跳
+				session.send(SocketParams.HEART_ID, null);
+				Logs.trace("testing heart client");
+			}, 0, SocketParams.TIME / 2, TimeUnit.SECONDS);
+		}
 	}
 
 	@Override

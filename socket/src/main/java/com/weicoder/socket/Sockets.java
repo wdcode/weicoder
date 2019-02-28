@@ -21,25 +21,30 @@ public final class Sockets {
 	private static Client	client;
 	// Manager Session管理器 一般给Server使用
 	private static Manager	manager;
+	// 是否已经初始化
+	private static boolean	init;
 
 	/**
 	 * 初始化Mina
 	 */
-	public static void init() {
-		// 初始化管理器
-		manager = new Manager();
-		// 初始化 客户端
-		if (SocketParams.CLINET_PORT > 0) {
-			client = new NettyClient("client");
-			client.connect();
+	public synchronized static void init() {
+		if (!init) {
+			// 初始化管理器
+			manager = new Manager();
+			// 初始化 客户端
+			if (SocketParams.CLINET_PORT > 0) {
+				client = new NettyClient("client");
+				client.connect();
+			}
+			// 初始化 tcp服务端
+			if (SocketParams.SERVER_PORT > 0)
+				new TcpServer().bind();
+			// 初始化 websocket服务端
+			if (SocketParams.WEBSOCKET_PORT > 0)
+				new WebSocketServer().bind();
+			// 初始化成功
+			init = true;
 		}
-		// 初始化 tcp服务端
-		if (SocketParams.SERVER_PORT > 0)
-			new TcpServer().bind();
-		// 初始化 websocket服务端
-		if (SocketParams.WEBSOCKET_PORT > 0)
-			new WebSocketServer().bind();
-
 	}
 
 	/**
@@ -47,6 +52,9 @@ public final class Sockets {
 	 * @return Client
 	 */
 	public static Client client() {
+		// 如果客户端为空 初始化
+		if (client == null)
+			init();
 		return client;
 	}
 

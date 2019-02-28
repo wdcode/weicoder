@@ -31,6 +31,7 @@ import com.weicoder.socket.annotation.Connected;
 import com.weicoder.socket.annotation.Handler;
 import com.weicoder.socket.annotation.Head;
 import com.weicoder.socket.manager.Manager;
+import com.weicoder.socket.params.SocketParams;
 
 /**
  * Socket 数据处理器实现
@@ -175,6 +176,12 @@ public final class Process {
 //				if (zip)
 //					// 解压缩
 //					data = ZipEngine.extract(data);
+			}
+			// 检测是否是心跳检测
+			if (id == SocketParams.HEART_ID) {
+				// 设置心跳时间
+				session.setHeart(DateUtil.getTime());
+				continue;
 			}
 			// 如果有接受所有头方法 使用异步方式执行
 			if (EmptyUtil.isNotEmpty(all))

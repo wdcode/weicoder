@@ -59,7 +59,7 @@ public final class ProtobufEngine {
 		E bean = BeanUtil.newInstance(c);
 		try {
 			// 声明编码输入流 用于读取字段数据
-			CodedInputStream input = CodedInputStream.newInstance(b, 0, b.length);
+			CodedInputStream input = CodedInputStream.newInstance(b);
 			// 获得所有字段
 			List<Field> fields = BeanUtil.getFields(c);
 			// 读取标签
@@ -67,7 +67,7 @@ public final class ProtobufEngine {
 			// 根据标签获得第几个属性
 			int num = WireFormat.getTagFieldNumber(tag);
 			// 循环所有属性 字段标示从1开始 所以i从1 开始
-			for (int i = 1; i < fields.size(); i++) {
+			for (int i = 1; i <= fields.size(); i++) {
 				// 读取标签为0时跳出循环
 				if (tag == 0)
 					break;

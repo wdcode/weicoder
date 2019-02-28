@@ -31,7 +31,7 @@ public abstract class BaseServer implements Server {
 		// bootstrap.option(ChannelOption.TCP_NODELAY, true);
 		// bootstrap.option(ChannelOption.SO_KEEPALIVE, false);
 		// bootstrap.option(ChannelOption.SO_LINGER, 0);
-		bootstrap.option(ChannelOption.SO_BACKLOG, 1024);
+//		bootstrap.option(ChannelOption.SO_BACKLOG, 1024);
 		// bootstrap.option(ChannelOption.SO_SNDBUF, 1024 * 32);
 		bootstrap.option(ChannelOption.SO_RCVBUF, 1024 * 8);
 

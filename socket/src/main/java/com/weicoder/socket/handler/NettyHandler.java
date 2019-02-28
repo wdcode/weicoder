@@ -1,5 +1,8 @@
 package com.weicoder.socket.handler;
 
+import java.util.Map;
+
+import com.weicoder.common.lang.Maps;
 import com.weicoder.common.log.Logs;
 import com.weicoder.socket.Session;
 import com.weicoder.socket.process.Process;
@@ -8,9 +11,9 @@ import com.weicoder.socket.session.NettySession;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.ChannelId;
 import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.channel.ChannelHandler.Sharable;
-import io.netty.util.AttributeKey;
+import io.netty.channel.ChannelHandler.Sharable; 
 
 /**
  * Netty 处理器
@@ -22,8 +25,10 @@ public class NettyHandler extends SimpleChannelInboundHandler<ByteBuf> {
 	private String					name;
 	// 消息处理器
 	private Process					process;
+	// 保存session
+	private Map<ChannelId, Session>	sessions;
 	// 保存Session连接
-	private AttributeKey<Session>	sessionKey;
+//	private AttributeKey<Session>	sessionKey;
 
 	/**
 	 * 构造
@@ -32,7 +37,8 @@ public class NettyHandler extends SimpleChannelInboundHandler<ByteBuf> {
 	public NettyHandler(String name) {
 		this.name = name;
 		this.process = new Process(name);
-		this.sessionKey = AttributeKey.valueOf("session");
+		this.sessions = Maps.newConcurrentMap();
+//		this.sessionKey = AttributeKey.valueOf("session");
 	}
 
 	@Override
@@ -47,8 +53,10 @@ public class NettyHandler extends SimpleChannelInboundHandler<ByteBuf> {
 	@Override
 	public void channelActive(ChannelHandlerContext ctx) throws Exception {
 		// 设置session
-		Session s = null;
-		ctx.channel().attr(sessionKey).set(s = new NettySession(name, ctx.channel()));
+		Channel c = ctx.channel();
+		Session s = new NettySession(name, c);
+		sessions.put(c.id(), s);
+//		ctx.channel().attr(sessionKey).set(s);
 		// 调用连接
 		process.connected(s);
 		Logs.debug("channel is active = {}", ctx);
@@ -85,7 +93,7 @@ public class NettyHandler extends SimpleChannelInboundHandler<ByteBuf> {
 	 */
 	private Session getSesson(Channel channel) {
 		// 获得Session
-		Session s = channel.attr(sessionKey).get();
+		Session s = sessions.get(channel.id()); // channel.attr(sessionKey).get();
 		// Session为空直接断开连接
 		if (s == null) {
 			Logs.warn("channel to session is null channel", channel);

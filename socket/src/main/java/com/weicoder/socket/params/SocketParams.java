@@ -3,6 +3,7 @@ package com.weicoder.socket.params;
 import com.weicoder.common.config.Config;
 import com.weicoder.common.config.ConfigFactory;
 import com.weicoder.common.constants.SystemConstants;
+import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.params.Params;
 
 /**
@@ -18,8 +19,10 @@ public final class SocketParams {
 	public final static int		TIMEOUT			= CONFIG.getInt("timeout", Params.getInt("socket.timeout", 60));
 	/** 设置socket连接池大小 */
 	public final static int		POOL			= CONFIG.getInt("pool", Params.getInt("socket.pool", SystemConstants.CPU_NUM * 2));
-	/** 是否支持websocket */
+	/** 是否支持心跳检测 */
 	public final static boolean	HEART			= CONFIG.getBoolean("heart", true);
+	/** 心跳检测id */
+	public final static short	HEART_ID		= CONFIG.getShort("heart.id", Conversion.toShort(0));
 	/** 获得Socket服务器监听端口号 */
 	public final static int		SERVER_PORT		= CONFIG.getInt("server.port", Params.getInt("socket.server.port"));
 	/** 获得WebSocket服务器监听端口号 */
