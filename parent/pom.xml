@@ -276,7 +276,7 @@
 			<dependency>
 				<groupId>io.netty</groupId>
 				<artifactId>netty-all</artifactId>
-				<version>4.1.38.Final</version>
+				<version>4.1.43.Final</version>
 			</dependency>
 			<dependency>
 				<groupId>org.mongodb</groupId>
@@ -306,7 +306,7 @@
 			<dependency>
 				<groupId>org.redisson</groupId>
 				<artifactId>redisson</artifactId>
-				<version>3.11.1</version>
+				<version>3.11.5</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.commons</groupId>
