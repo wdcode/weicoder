@@ -20,11 +20,11 @@ public final class OAuthQQWeb extends BaseOAuth {
 	// 获得openid url地址
 	private final static String	OPEN_ID_URL		= "https://graph.qq.com/oauth2.0/me?access_token=%s&unionid=1";
 	// 获得用户信息
-	private final static String	GET_USER_URL	= "https://graph.qq.com/user/get_user_info?access_token=%s&oauth_consumer_key=%s&openid=%s";
+	private final static String	GET_USER_URL	= "https://graph.qq.com/user/get_user_info?access_token=%s&consumer_key=%s&openid=%s";
 
 	@Override
 	protected String redirect() {
-		return OAuthParams.OAUTH_QQ_WEB_REDIRECT;
+		return OAuthParams.QQ_WEB_REDIRECT;
 	}
 
 	@Override
@@ -34,12 +34,12 @@ public final class OAuthQQWeb extends BaseOAuth {
 
 	@Override
 	protected String appid() {
-		return OAuthParams.OAUTH_QQ_WEB_APPID;
+		return OAuthParams.QQ_WEB_APPID;
 	}
 
 	@Override
 	protected String appsecret() {
-		return OAuthParams.OAUTH_QQ_WEB_APPSECRET;
+		return OAuthParams.QQ_WEB_APPSECRET;
 	}
 
 	@Override

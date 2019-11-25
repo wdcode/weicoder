@@ -21,7 +21,7 @@ public class OAuthWeChatWeb extends BaseOAuth {
 
 	@Override
 	protected String redirect() {
-		return OAuthParams.OAUTH_WECHAT_WEB_REDIRECT;
+		return OAuthParams.WECHAT_WEB_REDIRECT;
 	}
 
 	@Override
@@ -31,12 +31,12 @@ public class OAuthWeChatWeb extends BaseOAuth {
 
 	@Override
 	protected String appid() {
-		return OAuthParams.OAUTH_WECHAT_WEB_APPID;
+		return OAuthParams.WECHAT_WEB_APPID;
 	}
 
 	@Override
 	protected String appsecret() {
-		return OAuthParams.OAUTH_WECHAT_WEB_APPSECRET;
+		return OAuthParams.WECHAT_WEB_APPSECRET;
 	}
 
 	@Override

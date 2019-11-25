@@ -20,7 +20,7 @@ public final class OAuth360Web extends BaseOAuth {
 
 	@Override
 	protected String redirect() {
-		return OAuthParams.OAUTH_360_WEB_REDIRECT;
+		return OAuthParams._360_WEB_REDIRECT;
 	}
 
 	@Override
@@ -30,12 +30,12 @@ public final class OAuth360Web extends BaseOAuth {
 
 	@Override
 	protected String appid() {
-		return OAuthParams.OAUTH_360_WEB_APPKEY;
+		return OAuthParams._360_WEB_APPKEY;
 	}
 
 	@Override
 	protected String appsecret() {
-		return OAuthParams.OAUTH_360_WEB_APPSECRET;
+		return OAuthParams._360_WEB_APPSECRET;
 	}
 
 	@Override

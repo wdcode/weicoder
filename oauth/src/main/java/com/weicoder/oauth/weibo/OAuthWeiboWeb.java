@@ -19,7 +19,7 @@ import com.weicoder.oauth.params.OAuthParams;
 public class OAuthWeiboWeb extends BaseOAuth {
 	@Override
 	protected String redirect() {
-		return OAuthParams.OAUTH_WEIBO_WEB_REDIRECT;
+		return OAuthParams.WEIBO_WEB_REDIRECT;
 	}
 
 	@Override
@@ -34,12 +34,12 @@ public class OAuthWeiboWeb extends BaseOAuth {
 
 	@Override
 	protected String appid() {
-		return OAuthParams.OAUTH_WEIBO_WEB_APPID;
+		return OAuthParams.WEIBO_WEB_APPID;
 	}
 
 	@Override
 	protected String appsecret() {
-		return OAuthParams.OAUTH_WEIBO_WEB_APPSECRET;
+		return OAuthParams.WEIBO_WEB_APPSECRET;
 	}
 
 	@Override

@@ -19,7 +19,7 @@ public abstract class BaseOAuth implements OAuth {
 	@Override
 	public String getAuthorize(Map<String, String> params) {
 		return String.format(url(), appid(),
-				URLCode.encode(StringUtil.add(redirect(), "&", HttpUtil.toParameters(params))), OAuthParams.OAUTH_STATE);
+				URLCode.encode(StringUtil.add(redirect(), "&", HttpUtil.toParameters(params))), OAuthParams.STATE);
 	}
 
 	@Override
