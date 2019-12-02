@@ -3,37 +3,68 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.weicoder</groupId>
-	<artifactId>parent</artifactId>
-	<version>3.0.3</version>
+	<artifactId>weicoder</artifactId>
+	<version>3.0.4</version>
 	<packaging>pom</packaging>
-	<name>parent</name>
+	<name>weicoder</name>
 	<description>java tools</description>
 	<url>https://github.com/wdcode/weicoder</url>
 
 	<modules>
-		<module>../common</module>
-		<module>../core</module>
-		<module>../dao</module>
-		<module>../email</module>
-		<module>../excel</module>
-		<module>../http</module>
-		<module>../kafka</module>
-		<module>../memcache</module>
-		<module>../mongo</module>
-		<module>../oauth</module>
-		<module>../protobuf</module>
-		<module>../quartz</module>
-		<module>../redis</module>
-		<module>../socket</module>
-		<module>../web</module>
-		<module>../websocket</module>
-		<module>../xml</module> 
+		<module>common</module>
+		<module>core</module>
+		<module>dao</module>
+		<module>email</module>
+		<module>excel</module>
+		<module>http</module>
+		<module>kafka</module>
+		<module>memcache</module>
+		<module>mongo</module>
+		<module>oauth</module>
+		<module>protobuf</module>
+		<module>quartz</module>
+		<module>redis</module>
+		<module>socket</module>
+		<module>web</module>
+		<module>websocket</module>
+		<module>xml</module>
 	</modules>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<parent.version>3.0.3</parent.version>
+		<parent.version>3.0.4</parent.version>
+		<maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+		<maven-source-plugin.version>3.2.0</maven-source-plugin.version>
+		<maven-javadoc-plugin.version>3.1.1</maven-javadoc-plugin.version>
+		<maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
+		<javaee-api.version>8.0.1</javaee-api.version>
+		<log4j-core.version>2.12.1</log4j-core.version>
+		<disruptor.version>3.4.2</disruptor.version>
+		<fastjson.version>1.2.62</fastjson.version>
+		<artifactId></artifactId>
+		<quartz.version>2.3.2</quartz.version>
+		<httpclient.version>4.5.10</httpclient.version>
+		<httpmime.version>4.5.10</httpmime.version>
+		<httpcore.version>4.4.12</httpcore.version>
+		<httpcore-nio.version>4.4.12</httpcore-nio.version>
+		<httpasyncclient.version>4.1.4</httpasyncclient.version>
+		<protobuf-java.version>3.10.0</protobuf-java.version>
+		<hibernate-core.version>5.4.9.Final</hibernate-core.version>
+		<druid.version>1.1.21</druid.version>
+		<netty-all.version>4.1.43.Final</netty-all.version>
+		<mongo-java-driver.version>3.11.2</mongo-java-driver.version>
+		<jedis.version>3.1.0</jedis.version>
+		<kafka-clients.version>2.3.1</kafka-clients.version>
+		<guava.version>28.1-jre</guava.version>
+		<lettuce-core.version>5.2.1.RELEASE</lettuce-core.version>
+		<redisson.version>3.11.6</redisson.version>
+		<commons-email.version>1.5</commons-email.version>
+		<poi.version>4.1.1</poi.version>
+		<jdom2.version>2.0.6</jdom2.version>
+		<dom4j.version>2.1.1</dom4j.version>
+		<xstream.version>1.4.11.1</xstream.version>
+		<Memcached-Java-Client.version>3.0.2</Memcached-Java-Client.version>
 	</properties>
 
 	<licenses>
@@ -56,13 +87,39 @@
 		<url>git@github.com:wdcode/weicoder.git</url>
 	</scm>
 
+	<repositories>
+		<repository>
+			<id>public</id>
+			<name>aliyun nexus</name>
+			<url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</repository>
+	</repositories>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>public</id>
+			<name>aliyun nexus</name>
+			<url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
+
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.8.1</version>
+				<version>${maven-compiler-plugin.version}</version>
 				<configuration>
+					<compilerArgument>-parameters</compilerArgument>
 					<source>11</source>
 					<target>11</target>
 					<encoding>UTF-8</encoding>
@@ -71,7 +128,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
-				<version>3.2.0</version>
+				<version>${maven-source-plugin.version}</version>
 				<configuration>
 					<source>11</source>
 					<target>11</target>
@@ -99,8 +156,9 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-compiler-plugin</artifactId>
-						<version>3.8.1</version>
+						<version>${maven-compiler-plugin.version}</version>
 						<configuration>
+							<compilerArgument>-parameters</compilerArgument>
 							<source>11</source>
 							<target>11</target>
 							<encoding>UTF-8</encoding>
@@ -109,7 +167,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-source-plugin</artifactId>
-						<version>3.2.0</version>
+						<version>${maven-source-plugin.version}</version>
 						<executions>
 							<execution>
 								<phase>package</phase>
@@ -122,7 +180,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-javadoc-plugin</artifactId>
-						<version>3.1.1</version>
+						<version>${maven-javadoc-plugin.version}</version>
 						<executions>
 							<execution>
 								<phase>package</phase>
@@ -135,7 +193,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-gpg-plugin</artifactId>
-						<version>1.6</version>
+						<version>${maven-gpg-plugin.version}</version>
 						<executions>
 							<execution>
 								<id>sign-artifacts</id>
@@ -156,7 +214,7 @@
 			<dependency>
 				<groupId>javax</groupId>
 				<artifactId>javaee-api</artifactId>
-				<version>8.0.1</version>
+				<version>${javaee-api.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
@@ -170,32 +228,22 @@
 			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
-				<artifactId>web</artifactId>
-				<version>${parent.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.weicoder</groupId>
 				<artifactId>dao</artifactId>
 				<version>${parent.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
-				<artifactId>socket</artifactId>
+				<artifactId>email</artifactId>
 				<version>${parent.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
-				<artifactId>websocket</artifactId>
+				<artifactId>excel</artifactId>
 				<version>${parent.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
-				<artifactId>protobuf</artifactId>
-				<version>${parent.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.weicoder</groupId>
-				<artifactId>redis</artifactId>
+				<artifactId>http</artifactId>
 				<version>${parent.version}</version>
 			</dependency>
 			<dependency>
@@ -205,143 +253,183 @@
 			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
+				<artifactId>memcache</artifactId>
+				<version>${parent.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.weicoder</groupId>
 				<artifactId>mongo</artifactId>
 				<version>${parent.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
-				<artifactId>http</artifactId>
+				<artifactId>oauth</artifactId>
+				<version>${parent.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.weicoder</groupId>
+				<artifactId>protobuf</artifactId>
+				<version>${parent.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.weicoder</groupId>
+				<artifactId>quartz</artifactId>
+				<version>${parent.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.weicoder</groupId>
+				<artifactId>redis</artifactId>
+				<version>${parent.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.weicoder</groupId>
+				<artifactId>socket</artifactId>
+				<version>${parent.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.weicoder</groupId>
+				<artifactId>web</artifactId>
+				<version>${parent.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.weicoder</groupId>
+				<artifactId>websocket</artifactId>
+				<version>${parent.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.weicoder</groupId>
+				<artifactId>xml</artifactId>
 				<version>${parent.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.logging.log4j</groupId>
 				<artifactId>log4j-core</artifactId>
-				<version>2.12.1</version>
+				<version>${log4j-core.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.lmax</groupId>
 				<artifactId>disruptor</artifactId>
-				<version>3.4.2</version>
+				<version>${disruptor.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.alibaba</groupId>
 				<artifactId>fastjson</artifactId>
-				<version>1.2.62</version>
+				<version>${fastjson.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.quartz-scheduler</groupId>
 				<artifactId>quartz</artifactId>
-				<version>2.3.2</version>
+				<version>${quartz.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.httpcomponents</groupId>
 				<artifactId>httpclient</artifactId>
-				<version>4.5.10</version>
+				<version>${httpclient.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.httpcomponents</groupId>
 				<artifactId>httpmime</artifactId>
-				<version>4.5.10</version>
+				<version>${httpmime.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.httpcomponents</groupId>
 				<artifactId>httpcore</artifactId>
-				<version>4.4.12</version>
+				<version>${httpcore.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.httpcomponents</groupId>
 				<artifactId>httpcore-nio</artifactId>
-				<version>4.4.12</version>
+				<version>${httpcore-nio.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.httpcomponents</groupId>
 				<artifactId>httpasyncclient</artifactId>
-				<version>4.1.4</version>
+				<version>${httpasyncclient.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.google.protobuf</groupId>
 				<artifactId>protobuf-java</artifactId>
-				<version>3.10.0</version>
+				<version>${protobuf-java.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-core</artifactId>
-				<version>5.4.9.Final</version>
+				<version>${hibernate-core.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.alibaba</groupId>
 				<artifactId>druid</artifactId>
-				<version>1.1.21</version>
+				<version>${druid.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>io.netty</groupId>
 				<artifactId>netty-all</artifactId>
-				<version>4.1.43.Final</version>
+				<version>${netty-all.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.mongodb</groupId>
 				<artifactId>mongo-java-driver</artifactId>
-				<version>3.11.2</version>
+				<version>${mongo-java-driver.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>redis.clients</groupId>
 				<artifactId>jedis</artifactId>
-				<version>3.1.0</version>
+				<version>${jedis.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.kafka</groupId>
 				<artifactId>kafka-clients</artifactId>
-				<version>2.3.1</version>
+				<version>${kafka-clients.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.google.guava</groupId>
 				<artifactId>guava</artifactId>
-				<version>28.1-jre</version>
+				<version>${guava.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>io.lettuce</groupId>
 				<artifactId>lettuce-core</artifactId>
-				<version>5.2.1.RELEASE</version>
+				<version>${lettuce-core.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.redisson</groupId>
 				<artifactId>redisson</artifactId>
-				<version>3.11.5</version>
+				<version>${redisson.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.commons</groupId>
 				<artifactId>commons-email</artifactId>
-				<version>1.5</version>
+				<version>${commons-email.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.poi</groupId>
 				<artifactId>poi</artifactId>
-				<version>4.1.1</version>
+				<version>${poi.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.poi</groupId>
 				<artifactId>poi-ooxml</artifactId>
-				<version>4.1.1</version>
+				<version>${poi.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.jdom</groupId>
 				<artifactId>jdom2</artifactId>
-				<version>2.0.6</version>
+				<version>${jdom2.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.dom4j</groupId>
 				<artifactId>dom4j</artifactId>
-				<version>2.1.1</version>
+				<version>${dom4j.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.thoughtworks.xstream</groupId>
 				<artifactId>xstream</artifactId>
-				<version>1.4.11.1</version>
+				<version>${xstream.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.whalin</groupId>
 				<artifactId>Memcached-Java-Client</artifactId>
-				<version>3.0.2</version>
+				<version>${Memcached-Java-Client.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

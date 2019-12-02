@@ -145,10 +145,10 @@ public final class Params {
 			sb.append(StringConstants.POINT);
 		//名称不为空
 		if (EmptyUtil.isNotEmpty(name))
-			sb.append(name);
+			sb.append(name).append(StringConstants.POINT);
 		// 后缀不为空添加.
 		if (EmptyUtil.isNotEmpty(suffix))
-			sb.append(StringConstants.POINT).append(suffix);
+			sb.append(suffix);
 		// 返回替换后的键
 		return sb.toString();
 	}

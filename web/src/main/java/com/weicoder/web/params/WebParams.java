@@ -14,13 +14,7 @@ public final class WebParams {
 	/** 验证码长度 */
 	public final static int		VERIFY_LENGTH		= Params.getInt("verify.length", 4);
 	/** 域名 */
-	public final static String	DOMAIN				= Params.getString("domain");
-	/** 状态码 空状态 */
-	public final static int		STATE_ERROR_NULL	= Params.getInt("state.error.null", 100);
-	/** 状态码 成功 */
-	public final static int		STATE_SUCCESS		= Params.getInt("state.success", 0);
-	/** 状态码成功信息 */
-	public final static String	STATE_SUCCESS_MSG	= Params.getString("state.success.msg", "success");
+	public final static String	DOMAIN				= Params.getString("domain"); 
 
 	private WebParams() {}
 }

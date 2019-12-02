@@ -21,9 +21,9 @@ import com.weicoder.common.util.IpUtil;
 import com.weicoder.common.util.RegexUtil;
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.core.json.JsonEngine;
+import com.weicoder.core.params.ErrorCodeParams;
 import com.weicoder.web.common.WebCommons;
-import com.weicoder.web.params.ValidatorParams;
-import com.weicoder.web.params.WebParams;
+import com.weicoder.web.params.ValidatorParams; 
 import com.weicoder.web.validator.annotation.Ip;
 import com.weicoder.web.validator.annotation.Max;
 import com.weicoder.web.validator.annotation.Min;
@@ -37,6 +37,7 @@ import com.weicoder.web.validator.annotation.ValidatorClass;
 
 /**
  * 验证框架使用 根据条件验证
+ * 
  * @author WD
  */
 public final class Validators {
@@ -45,7 +46,8 @@ public final class Validators {
 
 	/**
 	 * 根据注解验证参数
-	 * @param par 参数类型
+	 * 
+	 * @param par   参数类型
 	 * @param value 参数值
 	 * @return 验证码
 	 */
@@ -55,6 +57,7 @@ public final class Validators {
 
 	/**
 	 * 根据注解验证参数
+	 * 
 	 * @param bean 验证bean
 	 * @return 验证码
 	 */
@@ -63,16 +66,17 @@ public final class Validators {
 		for (Field field : BeanUtil.getFields(bean.getClass())) {
 			// 对字段走验证
 			int code = validator(field.getAnnotations(), BeanUtil.getFieldValue(bean, field));
-			if (code != WebParams.STATE_SUCCESS)
+			if (code != ErrorCodeParams.SUCCESS)
 				return code;
 		}
 		// 返回成功码
-		return WebParams.STATE_SUCCESS;
+		return ErrorCodeParams.SUCCESS;
 	}
 
 	/**
 	 * 根据注解验证参数
-	 * @param as 注解
+	 * 
+	 * @param as    注解
 	 * @param value 参数值
 	 * @return 校验值
 	 */
@@ -110,13 +114,14 @@ public final class Validators {
 			}
 		}
 		// 返回成功码
-		return WebParams.STATE_SUCCESS;
+		return ErrorCodeParams.SUCCESS;
 	}
 
 	/**
 	 * 调用验证方法
+	 * 
 	 * @param vali 验证类
-	 * @param ps 提交参数
+	 * @param ps   提交参数
 	 * @return 是否成功
 	 */
 	public static int validator(Validator vali, Map<String, String> ps) {
@@ -152,7 +157,7 @@ public final class Validators {
 				// 调用并返回验证结果
 				res = Conversion.toInt(BeanUtil.invoke(obj, method, params));
 				// 如果不是正确结果
-				if (res != WebParams.STATE_SUCCESS) {
+				if (res != ErrorCodeParams.SUCCESS) {
 					break;
 				}
 			}
@@ -166,10 +171,11 @@ public final class Validators {
 
 	/**
 	 * 验证方法与对象
+	 * 
 	 * @param method 要验证方法
 	 * @param action 要验证对象
-	 * @param ps 参数
-	 * @param ip 用户ip
+	 * @param ps     参数
+	 * @param ip     用户ip
 	 * @return 验证码
 	 */
 	public static int validator(Method method, Object action, Map<String, String> ps, String ip) {
@@ -231,7 +237,7 @@ public final class Validators {
 		if (vali != null)
 			return Validators.validator(vali, ps);
 		// 返回成功
-		return WebParams.STATE_SUCCESS;
+		return ErrorCodeParams.SUCCESS;
 	}
 
 	/**
@@ -274,5 +280,6 @@ public final class Validators {
 		});
 	}
 
-	private Validators() {}
+	private Validators() {
+	}
 }

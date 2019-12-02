@@ -49,13 +49,14 @@ import com.weicoder.web.validator.Validators;
 
 /**
  * 基础Servlet 3
+ * 
  * @author WD
  */
 @WebServlet(value = "/*", asyncSupported = true)
 public class BasicServlet extends HttpServlet {
-	private static final long	serialVersionUID	= 3117468121294921856L;
+	private static final long serialVersionUID = 3117468121294921856L;
 	// 日志
-	private final static Log	LOG					= LogFactory.getLog(BasicServlet.class);
+	private final static Log LOG = LogFactory.getLog(BasicServlet.class);
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -154,7 +155,7 @@ public class BasicServlet extends HttpServlet {
 					ps.put("ip", ip);
 				LOG.trace("request all ip={} params={}", ip, params);
 				// token验证通过在执行
-				if (code == WebParams.STATE_SUCCESS) {
+				if (code == ErrorCodeParams.SUCCESS) {
 					// action全部参数下标
 					int i = 0;
 					for (; i < pars.length; i++) {
@@ -175,13 +176,13 @@ public class BasicServlet extends HttpServlet {
 							// 获得参数
 							params[i] = Conversion.to(ps.get(p.getName()), cs);
 							// 验证参数
-							if ((code = Validators.validator(p, params[i])) != WebParams.STATE_SUCCESS)
+							if ((code = Validators.validator(p, params[i])) != ErrorCodeParams.SUCCESS)
 								break;
 						} else {
 							// 设置属性
 							params[i] = BeanUtil.copy(ps, cs);
 							// 验证参数
-							if ((code = Validators.validator(params[i])) != WebParams.STATE_SUCCESS)
+							if ((code = Validators.validator(params[i])) != ErrorCodeParams.SUCCESS)
 								break;
 						}
 					}
@@ -189,7 +190,7 @@ public class BasicServlet extends HttpServlet {
 			}
 			// 调用方法
 			// try {
-			if (code == WebParams.STATE_SUCCESS) {
+			if (code == ErrorCodeParams.SUCCESS) {
 				// 判断是否异步
 				if (a.async() || method.isAnnotationPresent(Async.class)) {
 					// 获得异步全局
@@ -222,8 +223,8 @@ public class BasicServlet extends HttpServlet {
 			ResponseUtil.json(response, "not supported get");
 	}
 
-	private void result(Method method, Object action, Object res, String callback, HttpServletRequest request, HttpServletResponse response, String ip, String actionName,
-			Object[] params, Parameter[] pars, long curr) throws ServletException, IOException {
+	private void result(Method method, Object action, Object res, String callback, HttpServletRequest request, HttpServletResponse response, String ip, String actionName, Object[] params,
+			Parameter[] pars, long curr) throws ServletException, IOException {
 		// 判断是否需要写cookie
 		boolean cookie = method.isAnnotationPresent(Cookies.class) || action.getClass().isAnnotationPresent(Cookies.class);
 		String[] names = null;
@@ -268,18 +269,18 @@ public class BasicServlet extends HttpServlet {
 			// 如果res为状态码
 			if (res == null)
 				// 写空信息
-				res = Maps.newMap(new String[] { status, error }, new Object[] { WebParams.STATE_ERROR_NULL, ErrorCodeParams.getMessage(WebParams.STATE_ERROR_NULL) });
+				res = Maps.newMap(new String[]{status, error}, new Object[]{ErrorCodeParams.NULL, ErrorCodeParams.getMessage(ErrorCodeParams.NULL)});
 			else if (res instanceof Integer) {
 				// 写错误信息
 				int errorcode = Conversion.toInt(res);
-				res = Maps.newMap(new String[] { status, errorcode == WebParams.STATE_SUCCESS ? success : error },
-						new Object[] { errorcode, errorcode == WebParams.STATE_SUCCESS ? WebParams.STATE_SUCCESS_MSG : ErrorCodeParams.getMessage(errorcode) });
+				res = Maps.newMap(new String[]{status, errorcode == ErrorCodeParams.SUCCESS ? success : error},
+						new Object[]{errorcode, errorcode == ErrorCodeParams.SUCCESS ? ErrorCodeParams.SUCCESS_MSG : ErrorCodeParams.getMessage(errorcode)});
 			} else {
 				// 是否写cookie
 				if (cookie)
 					CookieUtil.adds(response, c.maxAge(), res, names);
 				// 写入到前端
-				res = Maps.newMap(new String[] { status, success }, new Object[] { WebParams.STATE_SUCCESS, res });
+				res = Maps.newMap(new String[]{status, success}, new Object[]{ErrorCodeParams.SUCCESS, res});
 			}
 		} else {
 			// 如果结果为空
@@ -291,8 +292,7 @@ public class BasicServlet extends HttpServlet {
 				CookieUtil.adds(response, c.maxAge(), res, names);
 		}
 		// 写到前端
-		LOG.info("request ip={} name={}  params={} pars={} time={} res={} end", ip, actionName, params, pars, System.currentTimeMillis() - curr,
-				ResponseUtil.json(response, callback, res));
+		LOG.info("request ip={} name={}  params={} pars={} time={} res={} end", ip, actionName, params, pars, System.currentTimeMillis() - curr, ResponseUtil.json(response, callback, res));
 	}
 
 	private Object invoke(Object action, Method method, Object[] params, HttpServletRequest request, HttpServletResponse response) {
@@ -311,7 +311,7 @@ public class BasicServlet extends HttpServlet {
 			Logs.error(e, "action invoke method={} args={} params={}", method.getName(), Arrays.toString(params), Arrays.toString(method.getParameters()));
 			// 异常执行
 			aops.forEach(aop -> aop.exception(e, action, params, request, response));
-			return null;
+			return ErrorCodeParams.ERROR;
 		}
 	}
 

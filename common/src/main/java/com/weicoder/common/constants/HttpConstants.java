@@ -33,6 +33,8 @@ public final class HttpConstants {
 	public final static String	CONTENT_TYPE_VAL			= "application/x-www-form-urlencoded";
 	/** 头Content-Type信息 json */
 	public final static String	CONTENT_TYPE_JSON			= "application/json;charset=utf-8";
+	/** 头Content-Type信息 上传 */
+	public final static String	CONTENT_TYPE_UPLOAD			= "multipart/form-data"; 
 	/** http提交方法get */
 	public final static String	METHOD_GET					= "GET";
 	/** http提交方法post */

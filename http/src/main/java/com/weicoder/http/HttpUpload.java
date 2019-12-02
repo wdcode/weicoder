@@ -57,7 +57,7 @@ public class HttpUpload {
 		try {
 			// 获得HttpPost
 			post = new HttpPost(url);
-			post.addHeader(new BasicHeader(HttpConstants.CONTENT_TYPE_KEY, HttpConstants.CONTENT_TYPE_VAL));
+//			post.addHeader(new BasicHeader(HttpConstants.CONTENT_TYPE_KEY, HttpConstants.CONTENT_TYPE_UPLOAD));
 			// 参数
 			if (EmptyUtil.isNotEmpty(data)) {
 				// 声明参数列表
