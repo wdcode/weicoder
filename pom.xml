@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.weicoder</groupId>
 	<artifactId>weicoder</artifactId>
-	<version>3.0.4</version>
+	<version>3.1.0</version>
 	<packaging>pom</packaging>
 	<name>weicoder</name>
 	<description>java tools</description>
@@ -33,38 +33,37 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<parent.version>3.0.4</parent.version>
-		<maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
-		<maven-source-plugin.version>3.2.0</maven-source-plugin.version>
-		<maven-javadoc-plugin.version>3.1.1</maven-javadoc-plugin.version>
-		<maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
-		<javaee-api.version>8.0.1</javaee-api.version>
-		<log4j-core.version>2.12.1</log4j-core.version>
-		<disruptor.version>3.4.2</disruptor.version>
-		<fastjson.version>1.2.62</fastjson.version>
-		<artifactId></artifactId>
-		<quartz.version>2.3.2</quartz.version>
-		<httpclient.version>4.5.10</httpclient.version>
-		<httpmime.version>4.5.10</httpmime.version>
-		<httpcore.version>4.4.12</httpcore.version>
-		<httpcore-nio.version>4.4.12</httpcore-nio.version>
-		<httpasyncclient.version>4.1.4</httpasyncclient.version>
-		<protobuf-java.version>3.10.0</protobuf-java.version>
-		<hibernate-core.version>5.4.9.Final</hibernate-core.version>
-		<druid.version>1.1.21</druid.version>
-		<netty-all.version>4.1.43.Final</netty-all.version>
-		<mongo-java-driver.version>3.11.2</mongo-java-driver.version>
-		<jedis.version>3.1.0</jedis.version>
-		<kafka-clients.version>2.3.1</kafka-clients.version>
-		<guava.version>28.1-jre</guava.version>
-		<lettuce-core.version>5.2.1.RELEASE</lettuce-core.version>
-		<redisson.version>3.11.6</redisson.version>
-		<commons-email.version>1.5</commons-email.version>
-		<poi.version>4.1.1</poi.version>
-		<jdom2.version>2.0.6</jdom2.version>
-		<dom4j.version>2.1.1</dom4j.version>
-		<xstream.version>1.4.11.1</xstream.version>
-		<Memcached-Java-Client.version>3.0.2</Memcached-Java-Client.version>
+		<parent>3.1.0</parent>
+		<maven-compiler-plugin>3.8.1</maven-compiler-plugin>
+		<maven-source-plugin>3.2.0</maven-source-plugin>
+		<maven-javadoc-plugin>3.1.1</maven-javadoc-plugin>
+		<maven-gpg-plugin>1.6</maven-gpg-plugin>
+		<javaee-api>8.0.1</javaee-api>
+		<log4j-core>2.12.1</log4j-core>
+		<disruptor>3.4.2</disruptor>
+		<fastjson>1.2.62</fastjson> 
+		<quartz>2.3.2</quartz>
+		<httpclient>4.5.10</httpclient>
+		<httpmime>4.5.10</httpmime>
+		<httpcore>4.4.12</httpcore>
+		<httpcore-nio>4.4.12</httpcore-nio>
+		<httpasyncclient>4.1.4</httpasyncclient>
+		<protobuf-java>3.11.1</protobuf-java>
+		<hibernate-core>5.4.9.Final</hibernate-core>
+		<druid>1.1.21</druid>
+		<netty-all>4.1.43.Final</netty-all>
+		<mongo-java-driver>3.11.2</mongo-java-driver>
+		<jedis>3.1.0</jedis>
+		<kafka-clients>2.3.1</kafka-clients>
+		<guava>28.1-jre</guava>
+		<lettuce-core>5.2.1.RELEASE</lettuce-core>
+		<redisson>3.11.6</redisson>
+		<commons-email>1.5</commons-email>
+		<poi>4.1.1</poi>
+		<jdom2>2.0.6</jdom2>
+		<dom4j>2.1.1</dom4j>
+		<xstream>1.4.11.1</xstream>
+		<Memcached-Java-Client>3.0.2</Memcached-Java-Client>
 	</properties>
 
 	<licenses>
@@ -117,7 +116,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>${maven-compiler-plugin.version}</version>
+				<version>${maven-compiler-plugin}</version>
 				<configuration>
 					<compilerArgument>-parameters</compilerArgument>
 					<source>11</source>
@@ -128,7 +127,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
-				<version>${maven-source-plugin.version}</version>
+				<version>${maven-source-plugin}</version>
 				<configuration>
 					<source>11</source>
 					<target>11</target>
@@ -156,7 +155,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-compiler-plugin</artifactId>
-						<version>${maven-compiler-plugin.version}</version>
+						<version>${maven-compiler-plugin}</version>
 						<configuration>
 							<compilerArgument>-parameters</compilerArgument>
 							<source>11</source>
@@ -167,7 +166,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-source-plugin</artifactId>
-						<version>${maven-source-plugin.version}</version>
+						<version>${maven-source-plugin}</version>
 						<executions>
 							<execution>
 								<phase>package</phase>
@@ -180,7 +179,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-javadoc-plugin</artifactId>
-						<version>${maven-javadoc-plugin.version}</version>
+						<version>${maven-javadoc-plugin}</version>
 						<executions>
 							<execution>
 								<phase>package</phase>
@@ -193,7 +192,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-gpg-plugin</artifactId>
-						<version>${maven-gpg-plugin.version}</version>
+						<version>${maven-gpg-plugin}</version>
 						<executions>
 							<execution>
 								<id>sign-artifacts</id>
@@ -214,222 +213,222 @@
 			<dependency>
 				<groupId>javax</groupId>
 				<artifactId>javaee-api</artifactId>
-				<version>${javaee-api.version}</version>
+				<version>${javaee-api}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
 				<artifactId>common</artifactId>
-				<version>${parent.version}</version>
+				<version>${parent}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
 				<artifactId>core</artifactId>
-				<version>${parent.version}</version>
+				<version>${parent}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
 				<artifactId>dao</artifactId>
-				<version>${parent.version}</version>
+				<version>${parent}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
 				<artifactId>email</artifactId>
-				<version>${parent.version}</version>
+				<version>${parent}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
 				<artifactId>excel</artifactId>
-				<version>${parent.version}</version>
+				<version>${parent}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
 				<artifactId>http</artifactId>
-				<version>${parent.version}</version>
+				<version>${parent}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
 				<artifactId>kafka</artifactId>
-				<version>${parent.version}</version>
+				<version>${parent}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
 				<artifactId>memcache</artifactId>
-				<version>${parent.version}</version>
+				<version>${parent}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
 				<artifactId>mongo</artifactId>
-				<version>${parent.version}</version>
+				<version>${parent}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
 				<artifactId>oauth</artifactId>
-				<version>${parent.version}</version>
+				<version>${parent}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
 				<artifactId>protobuf</artifactId>
-				<version>${parent.version}</version>
+				<version>${parent}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
 				<artifactId>quartz</artifactId>
-				<version>${parent.version}</version>
+				<version>${parent}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
 				<artifactId>redis</artifactId>
-				<version>${parent.version}</version>
+				<version>${parent}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
 				<artifactId>socket</artifactId>
-				<version>${parent.version}</version>
+				<version>${parent}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
 				<artifactId>web</artifactId>
-				<version>${parent.version}</version>
+				<version>${parent}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
 				<artifactId>websocket</artifactId>
-				<version>${parent.version}</version>
+				<version>${parent}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
 				<artifactId>xml</artifactId>
-				<version>${parent.version}</version>
+				<version>${parent}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.logging.log4j</groupId>
 				<artifactId>log4j-core</artifactId>
-				<version>${log4j-core.version}</version>
+				<version>${log4j-core}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.lmax</groupId>
 				<artifactId>disruptor</artifactId>
-				<version>${disruptor.version}</version>
+				<version>${disruptor}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.alibaba</groupId>
 				<artifactId>fastjson</artifactId>
-				<version>${fastjson.version}</version>
+				<version>${fastjson}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.quartz-scheduler</groupId>
 				<artifactId>quartz</artifactId>
-				<version>${quartz.version}</version>
+				<version>${quartz}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.httpcomponents</groupId>
 				<artifactId>httpclient</artifactId>
-				<version>${httpclient.version}</version>
+				<version>${httpclient}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.httpcomponents</groupId>
 				<artifactId>httpmime</artifactId>
-				<version>${httpmime.version}</version>
+				<version>${httpmime}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.httpcomponents</groupId>
 				<artifactId>httpcore</artifactId>
-				<version>${httpcore.version}</version>
+				<version>${httpcore}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.httpcomponents</groupId>
 				<artifactId>httpcore-nio</artifactId>
-				<version>${httpcore-nio.version}</version>
+				<version>${httpcore-nio}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.httpcomponents</groupId>
 				<artifactId>httpasyncclient</artifactId>
-				<version>${httpasyncclient.version}</version>
+				<version>${httpasyncclient}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.google.protobuf</groupId>
 				<artifactId>protobuf-java</artifactId>
-				<version>${protobuf-java.version}</version>
+				<version>${protobuf-java}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-core</artifactId>
-				<version>${hibernate-core.version}</version>
+				<version>${hibernate-core}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.alibaba</groupId>
 				<artifactId>druid</artifactId>
-				<version>${druid.version}</version>
+				<version>${druid}</version>
 			</dependency>
 			<dependency>
 				<groupId>io.netty</groupId>
 				<artifactId>netty-all</artifactId>
-				<version>${netty-all.version}</version>
+				<version>${netty-all}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.mongodb</groupId>
 				<artifactId>mongo-java-driver</artifactId>
-				<version>${mongo-java-driver.version}</version>
+				<version>${mongo-java-driver}</version>
 			</dependency>
 			<dependency>
 				<groupId>redis.clients</groupId>
 				<artifactId>jedis</artifactId>
-				<version>${jedis.version}</version>
+				<version>${jedis}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.kafka</groupId>
 				<artifactId>kafka-clients</artifactId>
-				<version>${kafka-clients.version}</version>
+				<version>${kafka-clients}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.google.guava</groupId>
 				<artifactId>guava</artifactId>
-				<version>${guava.version}</version>
+				<version>${guava}</version>
 			</dependency>
 			<dependency>
 				<groupId>io.lettuce</groupId>
 				<artifactId>lettuce-core</artifactId>
-				<version>${lettuce-core.version}</version>
+				<version>${lettuce-core}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.redisson</groupId>
 				<artifactId>redisson</artifactId>
-				<version>${redisson.version}</version>
+				<version>${redisson}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.commons</groupId>
 				<artifactId>commons-email</artifactId>
-				<version>${commons-email.version}</version>
+				<version>${commons-email}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.poi</groupId>
 				<artifactId>poi</artifactId>
-				<version>${poi.version}</version>
+				<version>${poi}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.poi</groupId>
 				<artifactId>poi-ooxml</artifactId>
-				<version>${poi.version}</version>
+				<version>${poi}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.jdom</groupId>
 				<artifactId>jdom2</artifactId>
-				<version>${jdom2.version}</version>
+				<version>${jdom2}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.dom4j</groupId>
 				<artifactId>dom4j</artifactId>
-				<version>${dom4j.version}</version>
+				<version>${dom4j}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.thoughtworks.xstream</groupId>
 				<artifactId>xstream</artifactId>
-				<version>${xstream.version}</version>
+				<version>${xstream}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.whalin</groupId>
 				<artifactId>Memcached-Java-Client</artifactId>
-				<version>${Memcached-Java-Client.version}</version>
+				<version>${Memcached-Java-Client}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

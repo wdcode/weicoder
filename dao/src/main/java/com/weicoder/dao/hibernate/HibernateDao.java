@@ -580,9 +580,9 @@ public final class HibernateDao implements Dao {
 				txl.rollback();
 			t = null;
 		} finally {
-			// 自己关闭session
-			if (isSession && session.isOpen() && session.isConnected())
-				session.close();
+//			// 自己关闭session
+//			if (isSession && session.isOpen() && session.isConnected())
+//				session.close();
 		}
 		// 返回对象
 		return t;
