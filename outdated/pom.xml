@@ -2,9 +2,9 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<parent>
 		<groupId>com.weicoder</groupId>
-		<artifactId>parent</artifactId>
-		<version>2.3.9</version>
-		<relativePath>../parent/pom.xml</relativePath>
+		<artifactId>weicoder</artifactId>
+		<version>2.5.0</version>
+		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion> 
 	<artifactId>outdated</artifactId>
@@ -21,38 +21,32 @@
 		</dependency> 
 		<dependency>
 			<groupId>org.jdom</groupId>
-			<artifactId>jdom2</artifactId>
-			<version>2.0.6</version>
+			<artifactId>jdom2</artifactId> 
 			<scope>provided</scope>
 		</dependency>  
 		<dependency>
 				<groupId>com.whalin</groupId>
-				<artifactId>Memcached-Java-Client</artifactId>
-				<version>3.0.2</version>
+				<artifactId>Memcached-Java-Client</artifactId> 
 				<scope>provided</scope>
 			</dependency>
 		<dependency>
 			<groupId>org.apache.poi</groupId>
-			<artifactId>poi</artifactId>
-			<version>3.17</version>
+			<artifactId>poi</artifactId> 
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.poi</groupId>
-			<artifactId>poi-ooxml</artifactId>
-			<version>3.17</version>
+			<artifactId>poi-ooxml</artifactId> 
 			<scope>provided</scope>
 		</dependency> 
 		<dependency>
 			<groupId>com.thoughtworks.xstream</groupId>
-			<artifactId>xstream</artifactId>
-			<version>1.4.10-java7</version>
+			<artifactId>xstream</artifactId> 
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-email</artifactId>
-			<version>1.5</version>
+			<artifactId>commons-email</artifactId> 
 			<scope>provided</scope>
 		</dependency> 
 	</dependencies> 

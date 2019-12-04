@@ -6,7 +6,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.util.EmptyUtil; 
 import com.weicoder.core.json.JsonEngine;
-import com.weicoder.http.HttpClient;
+import com.weicoder.core.http.HttpClient;
 import com.weicoder.oauth.OAuthInfo;
 import com.weicoder.oauth.base.BaseOAuth;
 import com.weicoder.oauth.params.OAuthParams; 

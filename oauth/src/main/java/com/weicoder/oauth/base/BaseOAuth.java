@@ -4,7 +4,7 @@ import java.util.Map;
 
 import com.weicoder.common.codec.URLCode;
 import com.weicoder.common.util.StringUtil;
-import com.weicoder.http.HttpClient;
+import com.weicoder.core.http.HttpClient;
 import com.weicoder.web.util.HttpUtil;
 
 import com.weicoder.oauth.OAuth;
