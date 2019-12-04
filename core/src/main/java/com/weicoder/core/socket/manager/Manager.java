@@ -17,16 +17,17 @@ import com.weicoder.core.socket.empty.SessionEmpty;
 
 /**
  * Session管理类
- * @author WD 
- * @version 1.0  
+ * 
+ * @author WD
+ * @version 1.0
  */
 public final class Manager {
 	// 保存注册的Session
-	private Map<String, Map<Long, Session>>	registers;
+	private Map<String, Map<Long, Session>> registers;
 	// 保存Session对应所在列表
-	private Map<Long, String>				keys;
+	private Map<Integer, String> keys;
 	// 保存Session对应注册ID
-	private Map<Long, Long>					ids;
+	private Map<Integer, Long> ids;
 
 	/**
 	 * 构造方法
@@ -44,7 +45,8 @@ public final class Manager {
 
 	/**
 	 * 注册到列表
-	 * @param key 注册键 
+	 * 
+	 * @param key     注册键
 	 * @param session Socket Session
 	 * @return true 注册成功 false 注册失败
 	 */
@@ -54,8 +56,9 @@ public final class Manager {
 
 	/**
 	 * 注册到列表
-	 * @param key 注册键
-	 * @param id 注册ID
+	 * 
+	 * @param key     注册键
+	 * @param id      注册ID
 	 * @param session Socket Session
 	 * @return true 注册成功 false 注册失败
 	 */
@@ -63,11 +66,13 @@ public final class Manager {
 		// 获得注册列表
 		Map<Long, Session> register = registers.get(key);
 		// 列表为null
-		if (register == null) { return false; }
+		if (register == null) {
+			return false;
+		}
 		// 添加到列表
 		register.put(id, session);
 		// session id
-		long sid = session.id();
+		int sid = session.id();
 		// 记录索引
 		keys.put(sid, key);
 		// 记录ID
@@ -78,25 +83,29 @@ public final class Manager {
 
 	/**
 	 * 从列表删除Session
+	 * 
 	 * @param key 注册键
-	 * @param id 注册ID
+	 * @param id  注册ID
 	 * @return true 删除成功 false 删除成功
 	 */
 	public Session remove(String key, long id) {
 		// 获得注册列表
 		Map<Long, Session> register = registers.get(key);
 		// 列表为null
-		if (register == null) { return SessionEmpty.EMPTY; }
+		if (register == null) {
+			return SessionEmpty.EMPTY;
+		}
 		// 删除列表
 		return register.remove(id);
 	}
 
 	/**
 	 * 从列表删除Session 根据ID删除 循环所有服务器列表删除
+	 * 
 	 * @param id 注册ID
 	 * @return true 删除成功 false 删除成功
 	 */
-	public Session remove(long id) {
+	public Session remove(int id) {
 		// 如果存在
 		if (keys.containsKey(id) && ids.containsKey(id)) {
 			// 删除Session
@@ -108,6 +117,7 @@ public final class Manager {
 
 	/**
 	 * 从列表删除Session 根据Session删除 循环所有服务器列表删除
+	 * 
 	 * @param Session session
 	 * @return true 删除成功 false 删除成功
 	 */
@@ -117,8 +127,9 @@ public final class Manager {
 
 	/**
 	 * 根据注册ID获得Session
+	 * 
 	 * @param key 注册键
-	 * @param id 注册ID
+	 * @param id  注册ID
 	 * @return true 删除成功 false 删除成功
 	 */
 	public Session get(String key, long id) {
@@ -130,6 +141,7 @@ public final class Manager {
 
 	/**
 	 * 根据SessionID获得Session
+	 * 
 	 * @param id 注册ID
 	 * @return true 删除成功 false 删除成功
 	 */
@@ -139,6 +151,7 @@ public final class Manager {
 
 	/**
 	 * 验证Session是否注册
+	 * 
 	 * @param session Session
 	 * @return true 以注册 false 未注册
 	 */
@@ -148,6 +161,7 @@ public final class Manager {
 
 	/**
 	 * 根据键获得注册Session列表
+	 * 
 	 * @param key 注册键
 	 * @return Session列表
 	 */
@@ -157,6 +171,7 @@ public final class Manager {
 
 	/**
 	 * 获得全部注册Session列表
+	 * 
 	 * @return Session列表
 	 */
 	public List<Session> sessions() {
@@ -173,6 +188,7 @@ public final class Manager {
 
 	/**
 	 * 获得所有Key
+	 * 
 	 * @return key列表
 	 */
 	public Set<String> keys() {
@@ -181,6 +197,7 @@ public final class Manager {
 
 	/**
 	 * 获得所有注册Session数量
+	 * 
 	 * @return 数量
 	 */
 	public int size() {
@@ -197,6 +214,7 @@ public final class Manager {
 
 	/**
 	 * 根据Key获得注册Session数量
+	 * 
 	 * @param key 注册键
 	 * @return 数量
 	 */
@@ -206,7 +224,8 @@ public final class Manager {
 
 	/**
 	 * 广播数据 发送给管理器下所有的session
-	 * @param id 指令
+	 * 
+	 * @param id      指令
 	 * @param message 消息
 	 */
 	public void broad(short id, Object message) {
@@ -222,8 +241,9 @@ public final class Manager {
 
 	/**
 	 * 广播数据 发送给管理器指定KEY下所有的session
-	 * @param key 注册KEY
-	 * @param id 指令
+	 * 
+	 * @param key     注册KEY
+	 * @param id      指令
 	 * @param message 消息
 	 */
 	public void broad(String key, short id, Object message) {
@@ -232,9 +252,10 @@ public final class Manager {
 
 	/**
 	 * 广播数据 发送给管理器指定KEY下所有的session
-	 * @param key 注册KEY
-	 * @param ids 注册的ID
-	 * @param id 指令
+	 * 
+	 * @param key     注册KEY
+	 * @param ids     注册的ID
+	 * @param id      指令
 	 * @param message 消息
 	 */
 	public void broad(String key, List<Long> ids, short id, Object message) {
@@ -263,13 +284,16 @@ public final class Manager {
 
 	/**
 	 * 广播
+	 * 
 	 * @param sessions
 	 * @param id
 	 * @param message
 	 */
 	private void broad(List<Session> sessions, short id, Object message) {
 		// 列表为空
-		if (EmptyUtil.isEmpty(sessions)) { return; }
+		if (EmptyUtil.isEmpty(sessions)) {
+			return;
+		}
 		// 获得列表长度
 		int size = sessions.size();
 		// 如果线程池乘2倍
@@ -295,6 +319,7 @@ public final class Manager {
 
 	/**
 	 * 广播
+	 * 
 	 * @param sessions
 	 * @param data
 	 */

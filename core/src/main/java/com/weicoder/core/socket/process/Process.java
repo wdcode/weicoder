@@ -245,10 +245,10 @@ public final class Process {
 			if (times.containsKey(sid)) {
 				times.remove(sid);
 			}
-			// 是否存在
-			if (limits.containsKey(sid)) {
-				limits.remove(sid);
-			}
+//			// 是否存在
+//			if (limits.containsKey(sid)) {
+//				limits.remove(sid);
+//			}
 			// 获得信息长度
 			// int length = Integer.reverseBytes(buff.getInt());
 			//			int length = buff.readInt();

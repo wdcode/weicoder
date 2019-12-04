@@ -8,8 +8,7 @@ import org.apache.hadoop.hbase.HColumnDescriptor;
 import org.apache.hadoop.hbase.HTableDescriptor;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.Admin;
-import org.apache.hadoop.hbase.client.ConnectionFactory;
-import org.apache.hadoop.hbase.protobuf.generated.HBaseProtos.TableSchema;
+import org.apache.hadoop.hbase.client.ConnectionFactory; 
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.log.Logs;
@@ -67,9 +66,10 @@ final class HBaseImpl extends FactoryKey<String, HBaseDao> implements HBase {
 	public HBaseDao createTable(String tableName, String... cols) {
 		try {
 			// 表不存在
-			if (!admin.tableExists(TableName.valueOf(tableName))) {
+			TableName tn = TableName.valueOf(tableName);
+			if (!admin.tableExists(tn)) {
 				// 声明表对象
-				HTableDescriptor tableDesc = HTableDescriptor.convert(TableSchema.getDefaultInstance());
+				HTableDescriptor tableDesc = new HTableDescriptor(tn);
 				// 添加列
 				for (int i = 0; i < cols.length; i++) {
 					tableDesc.addFamily(new HColumnDescriptor(cols[i]));
