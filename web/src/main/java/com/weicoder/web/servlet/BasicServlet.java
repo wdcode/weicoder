@@ -42,6 +42,7 @@ import com.weicoder.web.aop.Aop;
 import com.weicoder.web.aop.Aops;
 import com.weicoder.web.common.WebCommons;
 import com.weicoder.web.params.WebParams;
+import com.weicoder.web.state.StateCode;
 import com.weicoder.web.util.CookieUtil;
 import com.weicoder.web.util.RequestUtil;
 import com.weicoder.web.util.ResponseUtil;
@@ -275,6 +276,10 @@ public class BasicServlet extends HttpServlet {
 				int errorcode = Conversion.toInt(res);
 				res = Maps.newMap(new String[]{status, errorcode == ErrorCodeParams.SUCCESS ? success : error},
 						new Object[]{errorcode, errorcode == ErrorCodeParams.SUCCESS ? ErrorCodeParams.SUCCESS_MSG : ErrorCodeParams.getMessage(errorcode)});
+			} else if (res instanceof StateCode) {
+				// 写错误信息
+				StateCode code = (StateCode) res;
+				res = Maps.newMap(new String[]{status, error}, new Object[]{code, code.getMessage()});
 			} else {
 				// 是否写cookie
 				if (cookie)

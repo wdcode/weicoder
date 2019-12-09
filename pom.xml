@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.weicoder</groupId>
 	<artifactId>weicoder</artifactId>
-	<version>3.1.0</version>
+	<version>3.1.1</version>
 	<packaging>pom</packaging>
 	<name>weicoder</name>
 	<description>java tools</description>
@@ -37,7 +37,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<parent>3.1.0</parent>
+		<parent>3.1.1</parent>
 		<maven-compiler-plugin>3.8.1</maven-compiler-plugin>
 		<maven-source-plugin>3.2.0</maven-source-plugin>
 		<maven-javadoc-plugin>3.1.1</maven-javadoc-plugin>

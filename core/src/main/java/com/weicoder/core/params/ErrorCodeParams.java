@@ -20,7 +20,7 @@ public final class ErrorCodeParams {
 	/** 状态码 100=空 */
 	public final static int     NULL        = Params.getInt("null", 100);
 	/** 状态码成功信息 */
-	public final static String  SUCCESS_MSG = Params.getString("state.success.msg", "success");
+	public final static String  SUCCESS_MSG = Params.getString("success.msg", "success");
 
 	/**
 	 * 根据错误码获取错误信息
