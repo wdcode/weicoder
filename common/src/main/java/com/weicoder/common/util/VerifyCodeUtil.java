@@ -1,4 +1,4 @@
-package com.weicoder.web.util;
+package com.weicoder.common.util;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -7,9 +7,7 @@ import java.awt.image.BufferedImage;
 import java.io.OutputStream;
 
 import com.weicoder.common.log.Logs;
-import com.weicoder.web.params.WebParams;
-import com.weicoder.common.util.ImageUtil;
-import com.weicoder.common.util.RandomUtil;
+import com.weicoder.common.params.CommonParams; 
 
 /**
  * 生成验证图片,并把验证码保存到sessin中
@@ -28,7 +26,7 @@ public final class VerifyCodeUtil {
 	 * @return 验证码
 	 */
 	public static String make(OutputStream out) {
-		return make(out, WebParams.VERIFY_LENGTH);
+		return make(out, CommonParams.VERIFY_LENGTH);
 	}
 
 	/**
@@ -96,13 +94,13 @@ public final class VerifyCodeUtil {
 	 */
 	private static String randString() {
 		// 声明字符数组
-		char[] buf = new char[WebParams.VERIFY_LENGTH];
+		char[] buf = new char[CommonParams.VERIFY_LENGTH];
 		// 获得验证码数组
-		char[] code = WebParams.VERIFY_CODE;
+		char[] code = CommonParams.VERIFY_CODE;
 		// 循环获得字符
-		for (int i = 0; i < WebParams.VERIFY_LENGTH; i++)
+		for (int i = 0; i < CommonParams.VERIFY_LENGTH; i++)
 			// 添件字符
-			buf[i] = code[RandomUtil.nextInt(WebParams.VERIFY_LENGTH)];
+			buf[i] = code[RandomUtil.nextInt(CommonParams.VERIFY_LENGTH)];
 		// 获得字符串
 		return String.valueOf(buf);
 	}

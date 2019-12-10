@@ -1,6 +1,6 @@
-package com.weicoder.web.state;
+package com.weicoder.common.bean;
 
-import com.weicoder.core.params.ErrorCodeParams;
+import com.weicoder.common.params.StateParams;
 
 /**
  * 注解State返回状态码使用
@@ -9,9 +9,11 @@ import com.weicoder.core.params.ErrorCodeParams;
  */
 public final class StateCode {
 	/** 状态码成功 */
-	public final static StateCode SUCCESS = new StateCode(ErrorCodeParams.SUCCESS, ErrorCodeParams.getMessage(ErrorCodeParams.SUCCESS));
+	public final static StateCode SUCCESS = new StateCode(StateParams.SUCCESS, StateParams.getMessage(StateParams.SUCCESS));
 	/** 状态码失败 */
-	public final static StateCode ERROR   = new StateCode(ErrorCodeParams.ERROR, ErrorCodeParams.getMessage(ErrorCodeParams.ERROR));
+	public final static StateCode ERROR   = new StateCode(StateParams.ERROR, StateParams.getMessage(StateParams.ERROR));
+	/** 状态码失败 */
+	public final static StateCode NULL    = new StateCode(StateParams.NULL, StateParams.getMessage(StateParams.NULL));
 
 	// 状态码
 	private int code;
@@ -25,7 +27,7 @@ public final class StateCode {
 	 * @return      StateCode
 	 */
 	public static StateCode build(int code) {
-		return build(code, ErrorCodeParams.getMessage(code));
+		return build(code, StateParams.getMessage(code));
 	}
 
 	/**
@@ -37,6 +39,24 @@ public final class StateCode {
 	 */
 	public static StateCode build(int code, String message) {
 		return new StateCode(code, message);
+	}
+
+	/**
+	 * 判断是否成功状态
+	 * 
+	 * @return 是否成功状态
+	 */
+	public boolean isSuccess() {
+		return this.equals(SUCCESS);
+	}
+
+	/**
+	 * 转换成对象数组 表示 code,message
+	 * 
+	 * @return new Object[]{code, message}
+	 */
+	public Object[] to() {
+		return new Object[]{code, message};
 	}
 
 	/**
@@ -73,6 +93,28 @@ public final class StateCode {
 	 */
 	public void setMessage(String message) {
 		this.message = message;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + code;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		StateCode other = (StateCode) obj;
+		if (code != other.code)
+			return false;
+		return true;
 	}
 
 	/**

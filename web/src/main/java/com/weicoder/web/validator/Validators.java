@@ -7,11 +7,13 @@ import java.lang.reflect.Modifier;
 import java.lang.reflect.Parameter;
 import java.util.Map;
 
+import com.weicoder.common.bean.StateCode;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.log.Log;
 import com.weicoder.common.log.LogFactory;
 import com.weicoder.common.params.CommonParams;
+import com.weicoder.common.params.StateParams;
 import com.weicoder.common.token.TokenBean;
 import com.weicoder.common.token.TokenEngine;
 import com.weicoder.common.util.BeanUtil;
@@ -21,9 +23,8 @@ import com.weicoder.common.util.IpUtil;
 import com.weicoder.common.util.RegexUtil;
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.core.json.JsonEngine;
-import com.weicoder.core.params.ErrorCodeParams;
 import com.weicoder.web.common.WebCommons;
-import com.weicoder.web.params.ValidatorParams; 
+import com.weicoder.web.params.ValidatorParams;
 import com.weicoder.web.validator.annotation.Ip;
 import com.weicoder.web.validator.annotation.Max;
 import com.weicoder.web.validator.annotation.Min;
@@ -47,9 +48,9 @@ public final class Validators {
 	/**
 	 * 根据注解验证参数
 	 * 
-	 * @param par   参数类型
-	 * @param value 参数值
-	 * @return 验证码
+	 * @param  par   参数类型
+	 * @param  value 参数值
+	 * @return       验证码
 	 */
 	public static int validator(Parameter par, Object value) {
 		return validator(par.getAnnotations(), value);
@@ -58,27 +59,27 @@ public final class Validators {
 	/**
 	 * 根据注解验证参数
 	 * 
-	 * @param bean 验证bean
-	 * @return 验证码
+	 * @param  bean 验证bean
+	 * @return      验证码
 	 */
 	public static int validator(Object bean) {
 		// 获得所有字段
 		for (Field field : BeanUtil.getFields(bean.getClass())) {
 			// 对字段走验证
 			int code = validator(field.getAnnotations(), BeanUtil.getFieldValue(bean, field));
-			if (code != ErrorCodeParams.SUCCESS)
+			if (code != StateParams.SUCCESS)
 				return code;
 		}
 		// 返回成功码
-		return ErrorCodeParams.SUCCESS;
+		return StateParams.SUCCESS;
 	}
 
 	/**
 	 * 根据注解验证参数
 	 * 
-	 * @param as    注解
-	 * @param value 参数值
-	 * @return 校验值
+	 * @param  as    注解
+	 * @param  value 参数值
+	 * @return       校验值
 	 */
 	private static int validator(Annotation[] as, Object value) {
 		// 如果是基本类型
@@ -114,15 +115,15 @@ public final class Validators {
 			}
 		}
 		// 返回成功码
-		return ErrorCodeParams.SUCCESS;
+		return StateParams.SUCCESS;
 	}
 
 	/**
 	 * 调用验证方法
 	 * 
-	 * @param vali 验证类
-	 * @param ps   提交参数
-	 * @return 是否成功
+	 * @param  vali 验证类
+	 * @param  ps   提交参数
+	 * @return      是否成功
 	 */
 	public static int validator(Validator vali, Map<String, String> ps) {
 		// 返回错误码
@@ -155,11 +156,14 @@ public final class Validators {
 					LOG.debug("validator Parameter index={},name={},type={},value={}", i, p.getName(), cs, params[i]);
 				}
 				// 调用并返回验证结果
-				res = Conversion.toInt(BeanUtil.invoke(obj, method, params));
+				Object rs = BeanUtil.invoke(obj, method, params);
 				// 如果不是正确结果
-				if (res != ErrorCodeParams.SUCCESS) {
+				// 判断状态码对象
+				if (rs instanceof StateCode && (res = ((StateCode) rs).getCode()) != StateParams.SUCCESS)
 					break;
-				}
+				// 判断状态码 int 类型
+				if (rs instanceof Integer && (res = Conversion.toInt(rs)) != StateParams.SUCCESS)
+					break;
 			}
 		} catch (Exception e) {
 			LOG.error(e);
@@ -172,11 +176,11 @@ public final class Validators {
 	/**
 	 * 验证方法与对象
 	 * 
-	 * @param method 要验证方法
-	 * @param action 要验证对象
-	 * @param ps     参数
-	 * @param ip     用户ip
-	 * @return 验证码
+	 * @param  method 要验证方法
+	 * @param  action 要验证对象
+	 * @param  ps     参数
+	 * @param  ip     用户ip
+	 * @return        验证码
 	 */
 	public static int validator(Method method, Object action, Map<String, String> ps, String ip) {
 		// 获得是否验证Token注解
@@ -237,7 +241,7 @@ public final class Validators {
 		if (vali != null)
 			return Validators.validator(vali, ps);
 		// 返回成功
-		return ErrorCodeParams.SUCCESS;
+		return StateParams.SUCCESS;
 	}
 
 	/**

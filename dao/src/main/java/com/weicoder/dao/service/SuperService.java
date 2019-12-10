@@ -5,11 +5,11 @@ import java.util.List;
 import java.util.Map;
 
 import com.weicoder.dao.factory.DaoFactory;
+import com.weicoder.common.bean.PageBean;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.EmptyUtil;
-import com.weicoder.core.bean.Pagination;
 import com.weicoder.dao.Dao;
 
 /**
@@ -82,7 +82,7 @@ public final class SuperService {
 	 * @param <E> 泛型
 	 * @return 返回这个对象的列表
 	 */
-	public static <E> List<E> list(Class<E> entityClass, Pagination page) {
+	public static <E> List<E> list(Class<E> entityClass, PageBean page) {
 		// 获得数据列表
 		List<E> list = DAO.list(entityClass, getFirstResult(page), getMaxResults(page));
 		// 判断列表
@@ -102,7 +102,7 @@ public final class SuperService {
 	 * @param page 分页Bean
 	 * @return 返回这个对象的列表
 	 */
-	public static Map<String, Object> list(Object entity, Pagination page) {
+	public static Map<String, Object> list(Object entity, PageBean page) {
 		// 获得数据列表
 		List<Object> list = DAO.list(entity, getFirstResult(page), getMaxResults(page));
 		// 判断列表
@@ -125,7 +125,7 @@ public final class SuperService {
 	 * @param <E> 泛型
 	 * @return 数据列表
 	 */
-	public static <E> List<E> in(Class<E> entityClass, String property, List<Object> values, Pagination pager) {
+	public static <E> List<E> in(Class<E> entityClass, String property, List<Object> values, PageBean pager) {
 		// 获得数据列表
 		List<E> list = DAO.in(entityClass, property, values, getFirstResult(pager), getMaxResults(pager));
 		// 判断列表
@@ -184,7 +184,7 @@ public final class SuperService {
 	 * @param <E> 泛型
 	 * @return 数据列表
 	 */
-	public static <E> List<E> eq(Class<E> entityClass, String property, Object value, Pagination pager) {
+	public static <E> List<E> eq(Class<E> entityClass, String property, Object value, PageBean pager) {
 		// 获得数据列表
 		List<E> list = DAO.eq(entityClass, property, value, getFirstResult(pager), getMaxResults(pager));
 		// 判断列表
@@ -208,7 +208,7 @@ public final class SuperService {
 	 * @param <E> 泛型
 	 * @return 数据列表
 	 */
-	public static <E> List<E> in(Class<E> entityClass, String property, List<Object> values, Map<String, Object> orders, Pagination pager) {
+	public static <E> List<E> in(Class<E> entityClass, String property, List<Object> values, Map<String, Object> orders, PageBean pager) {
 		// 获得数据列表
 		List<E> list = DAO.in(entityClass, property, values, orders, getFirstResult(pager), getMaxResults(pager));
 		// 判断列表
@@ -245,7 +245,7 @@ public final class SuperService {
 	 * @param <E> 泛型
 	 * @return 返回结果列表
 	 */
-	public static <E> List<E> between(E entity, String property, Object lo, Object hi, Pagination page) {
+	public static <E> List<E> between(E entity, String property, Object lo, Object hi, PageBean page) {
 		// 获得数据列表
 		List<E> list = DAO.between(entity, property, lo, hi, getFirstResult(page), getMaxResults(page));
 		// 判断列表
@@ -267,7 +267,7 @@ public final class SuperService {
 	 * @param <E> 泛型
 	 * @return 返回结果列表
 	 */
-	public static <E> List<E> order(E entity, Map<String, Object> orders, Pagination page) {
+	public static <E> List<E> order(E entity, Map<String, Object> orders, PageBean page) {
 		// 获得数据列表
 		List<E> list = DAO.order(entity, orders, getFirstResult(page), getMaxResults(page));
 		// 判断列表
@@ -289,7 +289,7 @@ public final class SuperService {
 	 * @param <E> 泛型
 	 * @return 返回结果列表
 	 */
-	public static <E> List<E> order(Class<E> entity, Map<String, Object> orders, Pagination page) {
+	public static <E> List<E> order(Class<E> entity, Map<String, Object> orders, PageBean page) {
 		// 获得数据列表
 		List<E> list = DAO.order(entity, orders, getFirstResult(page), getMaxResults(page));
 		// 判断列表
@@ -352,7 +352,7 @@ public final class SuperService {
 	 * @param page 分页Bean
 	 * @return 最大结果数
 	 */
-	private static int getMaxResults(Pagination page) {
+	private static int getMaxResults(PageBean page) {
 		return EmptyUtil.isEmpty(page) ? -1 : page.getSize();
 	}
 
@@ -361,7 +361,7 @@ public final class SuperService {
 	 * @param page 分页Bean
 	 * @return 从第N条开始返回结果
 	 */
-	private static int getFirstResult(Pagination page) {
+	private static int getFirstResult(PageBean page) {
 		return EmptyUtil.isEmpty(page) ? -1 : (page.getPage() - 1) * page.getSize();
 	}
 }

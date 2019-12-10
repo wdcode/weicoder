@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.weicoder.common.bean.StateCode;
 import com.weicoder.common.concurrent.ExecutorUtil;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Conversion;
@@ -22,6 +23,7 @@ import com.weicoder.common.lang.Maps;
 import com.weicoder.common.log.Log;
 import com.weicoder.common.log.LogFactory;
 import com.weicoder.common.log.Logs;
+import com.weicoder.common.params.StateParams;
 import com.weicoder.common.token.TokenBean;
 import com.weicoder.common.token.TokenEngine;
 import com.weicoder.common.util.BeanUtil;
@@ -29,7 +31,6 @@ import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.IpUtil;
 import com.weicoder.common.util.StringUtil;
-import com.weicoder.core.params.ErrorCodeParams;
 import com.weicoder.web.annotation.Action;
 import com.weicoder.web.annotation.Async;
 import com.weicoder.web.annotation.Cookies;
@@ -42,7 +43,6 @@ import com.weicoder.web.aop.Aop;
 import com.weicoder.web.aop.Aops;
 import com.weicoder.web.common.WebCommons;
 import com.weicoder.web.params.WebParams;
-import com.weicoder.web.state.StateCode;
 import com.weicoder.web.util.CookieUtil;
 import com.weicoder.web.util.RequestUtil;
 import com.weicoder.web.util.ResponseUtil;
@@ -156,7 +156,7 @@ public class BasicServlet extends HttpServlet {
 					ps.put("ip", ip);
 				LOG.trace("request all ip={} params={}", ip, params);
 				// token验证通过在执行
-				if (code == ErrorCodeParams.SUCCESS) {
+				if (code == StateParams.SUCCESS) {
 					// action全部参数下标
 					int i = 0;
 					for (; i < pars.length; i++) {
@@ -177,13 +177,13 @@ public class BasicServlet extends HttpServlet {
 							// 获得参数
 							params[i] = Conversion.to(ps.get(p.getName()), cs);
 							// 验证参数
-							if ((code = Validators.validator(p, params[i])) != ErrorCodeParams.SUCCESS)
+							if ((code = Validators.validator(p, params[i])) != StateParams.SUCCESS)
 								break;
 						} else {
 							// 设置属性
 							params[i] = BeanUtil.copy(ps, cs);
 							// 验证参数
-							if ((code = Validators.validator(params[i])) != ErrorCodeParams.SUCCESS)
+							if ((code = Validators.validator(params[i])) != StateParams.SUCCESS)
 								break;
 						}
 					}
@@ -191,7 +191,7 @@ public class BasicServlet extends HttpServlet {
 			}
 			// 调用方法
 			// try {
-			if (code == ErrorCodeParams.SUCCESS) {
+			if (code == StateParams.SUCCESS) {
 				// 判断是否异步
 				if (a.async() || method.isAnnotationPresent(Async.class)) {
 					// 获得异步全局
@@ -270,22 +270,22 @@ public class BasicServlet extends HttpServlet {
 			// 如果res为状态码
 			if (res == null)
 				// 写空信息
-				res = Maps.newMap(new String[]{status, error}, new Object[]{ErrorCodeParams.NULL, ErrorCodeParams.getMessage(ErrorCodeParams.NULL)});
-			else if (res instanceof Integer) {
+				res = Maps.newMap(new String[]{status, error}, new Object[]{StateParams.NULL, StateParams.getMessage(StateParams.NULL)});
+//			else if (res instanceof Integer) {
+//				// 写错误信息
+//				int errorcode = Conversion.toInt(res);
+//				res = Maps.newMap(new String[]{status, errorcode == StateParams.SUCCESS ? success : error},
+//						new Object[]{errorcode, errorcode == StateParams.SUCCESS ? StateParams.SUCCESS_MSG : StateParams.getMessage(errorcode)});
+//			} 
+			else if (res instanceof StateCode)
 				// 写错误信息
-				int errorcode = Conversion.toInt(res);
-				res = Maps.newMap(new String[]{status, errorcode == ErrorCodeParams.SUCCESS ? success : error},
-						new Object[]{errorcode, errorcode == ErrorCodeParams.SUCCESS ? ErrorCodeParams.SUCCESS_MSG : ErrorCodeParams.getMessage(errorcode)});
-			} else if (res instanceof StateCode) {
-				// 写错误信息
-				StateCode code = (StateCode) res;
-				res = Maps.newMap(new String[]{status, error}, new Object[]{code, code.getMessage()});
-			} else {
+				res = Maps.newMap(new String[]{status, error}, ((StateCode) res).to());
+			else {
 				// 是否写cookie
 				if (cookie)
 					CookieUtil.adds(response, c.maxAge(), res, names);
 				// 写入到前端
-				res = Maps.newMap(new String[]{status, success}, new Object[]{ErrorCodeParams.SUCCESS, res});
+				res = Maps.newMap(new String[]{status, success}, new Object[]{StateCode.SUCCESS.getCode(), res});
 			}
 		} else {
 			// 如果结果为空
@@ -316,7 +316,7 @@ public class BasicServlet extends HttpServlet {
 			Logs.error(e, "action invoke method={} args={} params={}", method.getName(), Arrays.toString(params), Arrays.toString(method.getParameters()));
 			// 异常执行
 			aops.forEach(aop -> aop.exception(e, action, params, request, response));
-			return ErrorCodeParams.ERROR;
+			return StateParams.ERROR;
 		}
 	}
 

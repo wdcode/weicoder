@@ -1,19 +1,19 @@
-package com.weicoder.core.bean;
+package com.weicoder.common.bean;
 
-import com.weicoder.common.params.Params; 
+import com.weicoder.common.params.CommonParams;
 
 /**
- * 分页信息保存的实体Bean 在分页Dao和Tag之间传递值用
+ * 分页信息保存的实体Bean
  * 
  * @author WD
  */
-public final class Pagination {
+public final class PageBean {
 	// 总数量
 	private int total;
 	// 当前页
 	private int page;
 	// 每页显示数量
-	private int size = Params.getInt("page.size", 20);
+	private int size = CommonParams.PAGE_SIZE;
 
 	/**
 	 * 获得总页数
