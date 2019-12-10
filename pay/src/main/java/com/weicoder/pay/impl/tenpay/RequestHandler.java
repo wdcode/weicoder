@@ -127,8 +127,7 @@ public class RequestHandler {
 
 	/**
 	 * 获取带参数的请求URL
-	 * @return String
-	 * @throws UnsupportedEncodingException
+	 * @return String 
 	 */
 	public String getRequestURL() {
 

@@ -29,20 +29,20 @@ import javax.net.ssl.TrustManagerFactory;
 /**
  * Http客户端工具类<br/>
  * 这是内部调用类，请不要在外部调用。
+ * 
  * @author miklchen
  */
 public class HttpClientUtil {
 
-	public static final String	SunX509	= "SunX509";
-	public static final String	JKS		= "JKS";
-	public static final String	PKCS12	= "PKCS12";
-	public static final String	TLS		= "TLS";
+	public static final String SunX509 = "SunX509";
+	public static final String JKS     = "JKS";
+	public static final String PKCS12  = "PKCS12";
+	public static final String TLS     = "TLS";
 
 	/**
 	 * get HttpURLConnection
+	 * 
 	 * @param strUrl url地址
-	 * @return HttpURLConnection
-	 * @throws IOException
 	 */
 	public static HttpURLConnection getHttpURLConnection(String strUrl) throws IOException {
 		URL url = new URL(strUrl);
@@ -52,9 +52,8 @@ public class HttpClientUtil {
 
 	/**
 	 * get HttpsURLConnection
+	 * 
 	 * @param strUrl url地址
-	 * @return HttpsURLConnection
-	 * @throws IOException
 	 */
 	public static HttpsURLConnection getHttpsURLConnection(String strUrl) throws IOException {
 		URL url = new URL(strUrl);
@@ -64,8 +63,9 @@ public class HttpClientUtil {
 
 	/**
 	 * 获取不带查询串的url
-	 * @param strUrl
-	 * @return String
+	 * 
+	 * @param  strUrl
+	 * @return        String
 	 */
 	public static String getURL(String strUrl) {
 
@@ -84,8 +84,9 @@ public class HttpClientUtil {
 
 	/**
 	 * 获取查询串
-	 * @param strUrl
-	 * @return String
+	 * 
+	 * @param  strUrl
+	 * @return        String
 	 */
 	public static String getQueryString(String strUrl) {
 
@@ -104,7 +105,8 @@ public class HttpClientUtil {
 	/**
 	 * 查询字符串转换成Map<br/>
 	 * name1=key1&name2=key2&...
-	 * @param queryString
+	 * 
+	 * @param  queryString
 	 * @return
 	 */
 	public static Map<String, String> queryString2Map(String queryString) {
@@ -126,6 +128,7 @@ public class HttpClientUtil {
 	/**
 	 * 把键值添加至Map<br/>
 	 * pair:name=value
+	 * 
 	 * @param pair name=value
 	 * @param m
 	 */
@@ -150,9 +153,9 @@ public class HttpClientUtil {
 	/**
 	 * BufferedReader转换成String<br/>
 	 * 注意:流关闭需要自行处理
-	 * @param reader
-	 * @return String
-	 * @throws IOException
+	 * 
+	 * @param  reader
+	 * @return        String
 	 */
 	public static String bufferedReader2String(BufferedReader reader) throws IOException {
 		StringBuffer buf = new StringBuffer();
@@ -168,10 +171,10 @@ public class HttpClientUtil {
 	/**
 	 * 处理输出<br/>
 	 * 注意:流关闭需要自行处理
+	 * 
 	 * @param out
 	 * @param data
 	 * @param len
-	 * @throws IOException
 	 */
 	public static void doOutput(OutputStream out, byte[] data, int len) throws IOException {
 		int dataLen = data.length;
@@ -195,19 +198,15 @@ public class HttpClientUtil {
 
 	/**
 	 * 获取SSLContext
-	 * @param trustFile
-	 * @param trustPasswd
-	 * @param keyFile
-	 * @param keyPasswd
+	 * 
+	 * @param  trustFile
+	 * @param  trustPasswd
+	 * @param  keyFile
+	 * @param  keyPasswd
 	 * @return
-	 * @throws NoSuchAlgorithmException
-	 * @throws KeyStoreException
-	 * @throws IOException
-	 * @throws CertificateException
-	 * @throws UnrecoverableKeyException
-	 * @throws KeyManagementException
 	 */
-	public static SSLContext getSSLContext(FileInputStream trustFileInputStream, String trustPasswd, FileInputStream keyFileInputStream, String keyPasswd) throws NoSuchAlgorithmException, KeyStoreException, CertificateException, IOException, UnrecoverableKeyException, KeyManagementException {
+	public static SSLContext getSSLContext(FileInputStream trustFileInputStream, String trustPasswd, FileInputStream keyFileInputStream, String keyPasswd)
+			throws NoSuchAlgorithmException, KeyStoreException, CertificateException, IOException, UnrecoverableKeyException, KeyManagementException {
 
 		// ca
 		TrustManagerFactory tmf = TrustManagerFactory.getInstance(HttpClientUtil.SunX509);
@@ -230,10 +229,9 @@ public class HttpClientUtil {
 
 	/**
 	 * 获取CA证书信息
-	 * @param cafile CA证书文件
-	 * @return Certificate
-	 * @throws CertificateException
-	 * @throws IOException
+	 * 
+	 * @param  cafile CA证书文件
+	 * @return        Certificate
 	 */
 	public static Certificate getCertificate(File cafile) throws CertificateException, IOException {
 		CertificateFactory cf = CertificateFactory.getInstance("X.509");
@@ -245,8 +243,9 @@ public class HttpClientUtil {
 
 	/**
 	 * 字符串转换成char数组
-	 * @param str
-	 * @return char[]
+	 * 
+	 * @param  str
+	 * @return     char[]
 	 */
 	public static char[] str2CharArray(String str) {
 		if (null == str)
@@ -257,25 +256,24 @@ public class HttpClientUtil {
 
 	/**
 	 * 存储ca证书成JKS格式
+	 * 
 	 * @param cert
 	 * @param alias
 	 * @param password
 	 * @param out
-	 * @throws KeyStoreException
-	 * @throws NoSuchAlgorithmException
-	 * @throws CertificateException
-	 * @throws IOException
 	 */
-	public static void storeCACert(Certificate cert, String alias, String password, OutputStream out) throws KeyStoreException, NoSuchAlgorithmException, CertificateException, IOException {
-		KeyStore ks = KeyStore.getInstance("JKS");
+	public static void storeCACert(Certificate cert, String alias, String password, OutputStream out) {
+		try {
+			KeyStore ks = KeyStore.getInstance("JKS");
 
-		ks.load(null, null);
+			ks.load(null, null);
 
-		ks.setCertificateEntry(alias, cert);
+			ks.setCertificateEntry(alias, cert);
 
-		// store keystore
-		ks.store(out, HttpClientUtil.str2CharArray(password));
-
+			// store keystore
+			ks.store(out, HttpClientUtil.str2CharArray(password));
+		} catch (Exception e) {
+		}
 	}
 
 	public static InputStream String2Inputstream(String str) {

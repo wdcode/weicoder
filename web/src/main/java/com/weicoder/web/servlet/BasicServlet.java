@@ -270,7 +270,7 @@ public class BasicServlet extends HttpServlet {
 			// 如果res为状态码
 			if (res == null)
 				// 写空信息
-				res = Maps.newMap(new String[]{status, error}, new Object[]{StateParams.NULL, StateParams.getMessage(StateParams.NULL)});
+				res = Maps.newMap(new String[]{status, error}, StateCode.NULL.to());
 //			else if (res instanceof Integer) {
 //				// 写错误信息
 //				int errorcode = Conversion.toInt(res);

@@ -30,6 +30,10 @@ public final class StringConstants {
 	public final static String SEPA      = "`";
 	/** 常量字符串 "success" */
 	public final static String SUCCESS   = "success";
+	/** 常量字符串 "fail" */
+	public final static String FAIL      = "fail";
+	/** 常量字符串 "error" */
+	public final static String ERROR     = "error";
 
 	private StringConstants() {
 	}

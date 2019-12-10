@@ -134,8 +134,7 @@ public class ResponseHandler {
 
 	/**
 	 * 返回处理结果给财付通服务器。
-	 * @param msg: Success or fail。
-	 * @throws IOException
+	 * @param msg: Success or fail。 
 	 */
 	public void sendToCFT(String msg) throws IOException {
 		String strHtml = msg;
@@ -155,8 +154,7 @@ public class ResponseHandler {
 
 	/**
 	 * 设置uri编码
-	 * @param uriEncoding
-	 * @throws UnsupportedEncodingException
+	 * @param uriEncoding 
 	 */
 	public void setUriEncoding(String uriEncoding) throws UnsupportedEncodingException {
 		if (!"".equals(uriEncoding.trim())) {

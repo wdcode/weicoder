@@ -129,8 +129,7 @@ public class TenpayHttpClient {
 	
 	/**
 	 * 获取结果内容
-	 * @return String
-	 * @throws IOException 
+	 * @return String 
 	 */
 	public String getResContent() {
 		try {
@@ -280,8 +279,7 @@ public class TenpayHttpClient {
 	/**
 	 * 以http post方式通信
 	 * @param url
-	 * @param postData
-	 * @throws IOException
+	 * @param postData 
 	 */
 	protected void httpPostMethod(String url, byte[] postData)
 			throws IOException {
@@ -294,8 +292,7 @@ public class TenpayHttpClient {
 	/**
 	 * 以http get方式通信
 	 * 
-	 * @param url
-	 * @throws IOException
+	 * @param url 
 	 */
 	protected void httpGetMethod(String url) throws IOException {
 		
@@ -315,8 +312,7 @@ public class TenpayHttpClient {
 	/**
 	 * 以https get方式通信
 	 * @param url
-	 * @param sslContext
-	 * @throws IOException
+	 * @param sslContext 
 	 */
 	protected void httpsGetMethod(String url, SSLContext sslContext)
 			throws IOException {
@@ -367,8 +363,7 @@ public class TenpayHttpClient {
 	}
 	
 	/**
-	 * 处理应答
-	 * @throws IOException
+	 * 处理应答 
 	 */
 	protected void doResponse() throws IOException {
 		
@@ -393,8 +388,7 @@ public class TenpayHttpClient {
 	/**
 	 * post方式处理
 	 * @param conn
-	 * @param postData
-	 * @throws IOException
+	 * @param postData 
 	 */
 	protected void doPost(HttpURLConnection conn, byte[] postData)
 			throws IOException {
@@ -428,8 +422,7 @@ public class TenpayHttpClient {
 	
 	/**
 	 * get方式处理
-	 * @param conn
-	 * @throws IOException
+	 * @param conn 
 	 */
 	protected void doGet(HttpURLConnection conn) throws IOException {
 		
