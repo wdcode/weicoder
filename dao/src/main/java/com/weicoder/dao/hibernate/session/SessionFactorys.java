@@ -1,6 +1,6 @@
 package com.weicoder.dao.hibernate.session;
 
-import java.io.File;
+import java.io.File; 
 import java.util.List;
 import java.util.Map;
 
@@ -15,7 +15,7 @@ import org.hibernate.engine.spi.SessionFactoryImplementor;
 import com.weicoder.dao.hibernate.interceptor.EntityInterceptor;
 import com.weicoder.dao.hibernate.naming.ImprovedNamingStrategy;
 import com.weicoder.dao.params.DaoParams;
-import com.weicoder.common.constants.StringConstants;
+import com.weicoder.common.constants.StringConstants; 
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.log.Logs;
@@ -87,18 +87,40 @@ public final class SessionFactorys {
 	 * 初始化SessionFactory
 	 */
 	private void initSessionFactory() {
-		// 优先加载测试文件夹
-		String path = DaoParams.DB_CONFIG + "-test/";
-		// 获得数据库配置文件
+//		// 优先加载测试文件夹
+//		String path = DaoParams.DB_CONFIG + "-test/";
+//		// 获得数据库配置文件
+//		File file = ResourceUtil.newFile(path);
+//		Logs.debug("hibernate initSessionFactory test={}", file);
+//		// 为空设置为正式
+//		if (file == null || !file.exists() || !file.isDirectory()) {
+		String path = DaoParams.DB_CONFIG + StringConstants.BACKSLASH;
 		File file = ResourceUtil.newFile(path);
-		Logs.debug("hibernate initSessionFactory test={}", file);
-		// 为空设置为正式
-		if (file == null || !file.exists() || !file.isDirectory()) {
-			path = DaoParams.DB_CONFIG + StringConstants.BACKSLASH;
-			file = ResourceUtil.newFile(path);
-		}
+//		}
 		Logs.debug("hibernate initSessionFactory config={}", file);
-		// 不为
+		
+//		URL url = ResourceUtil.getResource("hibernate.xml");
+//		InputStream in = ResourceUtil.loadResource("hibernate.xml");
+//		String c = IOUtil.readString(in);
+//		System.out.println(c);
+//		System.out.println(c = c.replace("${url}", "r0"));
+//		System.out.println(c = c.replace("${username}", "r1"));
+//		System.out.println(c = c.replace("${password}", "r2"));
+//		System.out.println(c = c.replace("${package}", "r3")); 
+//		try {
+//			File f = new File
+//			
+//			URL url = URI.create(c).toURL();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		System.out.println(url);
+//		System.out.println(url.getFile());
+//		Configuration c =new Configuration().configure(url);
+//		System.out.println(c);
+//		System.out.println(c.buildSessionFactory());
+		
+		// 不为空
 		if (file != null) {
 			// 循环生成
 			for (String name : file.list()) {

@@ -4,17 +4,17 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.weicoder</groupId>
 	<artifactId>weicoder</artifactId>
-	<version>3.1.1</version>
+	<version>3.1.2</version>
 	<packaging>pom</packaging>
 	<name>weicoder</name>
 	<description>java tools</description>
 	<url>https://github.com/wdcode/weicoder</url>
 
 	<modules>
-		<!-- 
+		<!--  -->
 		<module>boot</module>
 		<module>cloud</module>
-		 -->
+		
 		<module>common</module>
 		<module>core</module>
 		<module>dao</module>
@@ -25,16 +25,16 @@
 		<module>memcache</module>
 		<module>mongo</module>
 		<module>oauth</module>
-		<!-- 
+		<!--  -->
 		<module>pay</module>
-		 -->
+		
 		<module>protobuf</module>
 		<module>quartz</module>
 		<module>redis</module>
 		<module>socket</module>
-		<!-- 
+		<!--  -->
 		<module>ssh</module>
-		 -->
+		
 		<module>web</module>
 		<module>websocket</module>
 		<module>xml</module>
@@ -43,7 +43,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<parent>3.1.1</parent>
+		<parent>3.1.2</parent>
 		<maven-compiler-plugin>3.8.1</maven-compiler-plugin>
 		<maven-source-plugin>3.2.0</maven-source-plugin>
 		<maven-javadoc-plugin>3.1.1</maven-javadoc-plugin>

@@ -4,6 +4,7 @@ import com.weicoder.common.factory.FactoryKey;
 
 /**
  * 读取配置工厂类
+ * 
  * @author WD
  */
 public final class ConfigFactory extends FactoryKey<String, Config> {
@@ -12,8 +13,9 @@ public final class ConfigFactory extends FactoryKey<String, Config> {
 
 	/**
 	 * 获得配置
-	 * @param key 键
-	 * @return Config
+	 * 
+	 * @param  key 键
+	 * @return     Config
 	 */
 	public static Config getConfig(String key) {
 		return FACTORY.getInstance(key);
@@ -21,8 +23,9 @@ public final class ConfigFactory extends FactoryKey<String, Config> {
 
 	@Override
 	public Config newInstance(String key) {
-		return new Config("%s-test.properties,%s.properties".replaceAll("%s", key));
+		return new Config(key + ".properties");
 	}
 
-	private ConfigFactory() {}
+	private ConfigFactory() {
+	}
 }

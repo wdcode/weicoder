@@ -7,7 +7,7 @@ import com.weicoder.common.params.CommonParams;
  * 
  * @author WD
  */
-public final class PageBean {
+public final class Pages {
 	// 总数量
 	private int total;
 	// 当前页
@@ -117,5 +117,10 @@ public final class PageBean {
 	 */
 	public int getFirstResult() {
 		return getPage() * getSize();
+	}
+
+	@Override
+	public String toString() {
+		return "Pages [page=" + page + ", size=" + size + "]";
 	}
 }

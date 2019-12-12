@@ -4,17 +4,12 @@
 	<parent>
 		<groupId>com.weicoder</groupId>
 		<artifactId>weicoder</artifactId> 
-		<version>3.1.1</version>
+		<version>3.1.2</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>memcache</artifactId>
-	<packaging>jar</packaging>
-	<name>memcache</name>
-	<description>java memcache</description>
-	<url>https://github.com/wdcode/weicoder</url>
-
-
+	<artifactId>memcache</artifactId> 
+ 
 	<dependencies>
 		<dependency>
 			<groupId>com.weicoder</groupId>

@@ -167,7 +167,7 @@ public final class Validators {
 			}
 		} catch (Exception e) {
 			LOG.error(e);
-			res = -1;
+			res = StateParams.ERROR;
 		}
 		// 返回验证码
 		return res;

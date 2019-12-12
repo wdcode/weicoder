@@ -4,13 +4,21 @@
 	<parent>
 		<groupId>com.weicoder</groupId>
 		<artifactId>weicoder</artifactId>
-		<version>3.1.1</version>
+		<version>3.1.2</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
-	<modelVersion>4.0.0</modelVersion> 
+	<modelVersion>4.0.0</modelVersion>
 	<artifactId>boot</artifactId> 
-	<packaging>jar</packaging> 
-	<name>cloud</name>
-	<description>java tools</description>
-	<url>https://github.com/wdcode/weicoder</url>
+
+	<dependencies>
+		<dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.weicoder</groupId>
+			<artifactId>core</artifactId>
+		</dependency>
+	</dependencies>
 </project>

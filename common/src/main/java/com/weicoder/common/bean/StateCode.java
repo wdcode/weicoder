@@ -9,7 +9,7 @@ import com.weicoder.common.params.StateParams;
  */
 public final class StateCode {
 	/** 状态码成功 */
-	public final static StateCode SUCCESS = new StateCode(StateParams.SUCCESS, StateParams.getMessage(StateParams.SUCCESS));
+	public final static StateCode SUCCESS = new StateCode(StateParams.SUCCESS, StateParams.SUCCESS_MSG);
 	/** 状态码失败 */
 	public final static StateCode ERROR   = new StateCode(StateParams.ERROR, StateParams.getMessage(StateParams.ERROR));
 	/** 状态码失败 */

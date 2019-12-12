@@ -212,7 +212,7 @@ public class BasicServlet extends HttpServlet {
 				} else
 					result(method, action, invoke(action, method, params, request, response), callback, request, response, ip, actionName, params, pars, curr);
 			} else
-				result(method, action, code, callback, request, response, ip, actionName, params, pars, curr);
+				result(method, action, StateCode.build(code), callback, request, response, ip, actionName, params, pars, curr);
 		}
 	}
 
@@ -276,7 +276,7 @@ public class BasicServlet extends HttpServlet {
 //				int errorcode = Conversion.toInt(res);
 //				res = Maps.newMap(new String[]{status, errorcode == StateParams.SUCCESS ? success : error},
 //						new Object[]{errorcode, errorcode == StateParams.SUCCESS ? StateParams.SUCCESS_MSG : StateParams.getMessage(errorcode)});
-//			} 
+//			}
 			else if (res instanceof StateCode)
 				// 写错误信息
 				res = Maps.newMap(new String[]{status, error}, ((StateCode) res).to());
@@ -316,7 +316,8 @@ public class BasicServlet extends HttpServlet {
 			Logs.error(e, "action invoke method={} args={} params={}", method.getName(), Arrays.toString(params), Arrays.toString(method.getParameters()));
 			// 异常执行
 			aops.forEach(aop -> aop.exception(e, action, params, request, response));
-			return StateParams.ERROR;
+			// 返回错误
+			return StateCode.ERROR;
 		}
 	}
 

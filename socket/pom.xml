@@ -4,15 +4,11 @@
 	<parent>
 		<groupId>com.weicoder</groupId>
 		<artifactId>weicoder</artifactId> 
-		<version>3.1.1</version>
+		<version>3.1.2</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>socket</artifactId>
-	<packaging>jar</packaging>
-	<name>socket</name>
-	<description>java socket</description>
-	<url>https://github.com/wdcode/weicoder</url>
+	<artifactId>socket</artifactId> 
 
 	<dependencies> 
 		<dependency>
