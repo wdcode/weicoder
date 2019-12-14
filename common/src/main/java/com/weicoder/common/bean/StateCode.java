@@ -17,6 +17,8 @@ public final class StateCode {
 
 	// 状态码
 	private int code;
+	// 内容
+	private String content;
 	// 状态码对应信息
 	private String message;
 
@@ -57,6 +59,24 @@ public final class StateCode {
 	 */
 	public Object[] to() {
 		return new Object[]{code, message};
+	}
+
+	/**
+	 * 获得内容
+	 * 
+	 * @return 内容
+	 */
+	public String getContent() {
+		return content;
+	}
+
+	/**
+	 * 设置内容
+	 * 
+	 * @param content 内容
+	 */
+	public void setContent(String content) {
+		this.content = content;
 	}
 
 	/**
@@ -117,6 +137,11 @@ public final class StateCode {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return "StateCode [code=" + code + ", content=" + content + ", message=" + message + "]";
+	}
+
 	/**
 	 * 构造方法
 	 * 
@@ -126,5 +151,8 @@ public final class StateCode {
 	private StateCode(int code, String message) {
 		this.code = code;
 		this.message = message;
+	}
+
+	private StateCode() {
 	}
 }

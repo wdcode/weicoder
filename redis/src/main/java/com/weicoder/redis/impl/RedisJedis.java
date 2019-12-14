@@ -18,7 +18,7 @@ import com.weicoder.redis.base.BaseRedis;
 import com.weicoder.redis.builder.JedisBuilder;
 
 import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool; 
+import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPubSub;
 
 /**
@@ -26,7 +26,7 @@ import redis.clients.jedis.JedisPubSub;
  * 
  * @author WD
  */
-public final class RedisJedis extends BaseRedis implements Subscribe{
+public final class RedisJedis extends BaseRedis implements Subscribe {
 	// Jedis连接池
 	private JedisPool pool;
 	// 默认异常返回long
@@ -168,8 +168,8 @@ public final class RedisJedis extends BaseRedis implements Subscribe{
 	/**
 	 * 验证键是否存在
 	 * 
-	 * @param key 键
-	 * @return true 存在 false 不存在
+	 * @param  key 键
+	 * @return     true 存在 false 不存在
 	 */
 	public boolean exists(String key) {
 		try (Jedis jedis = pool.getResource()) {
@@ -346,6 +346,16 @@ public final class RedisJedis extends BaseRedis implements Subscribe{
 		} catch (Exception e) {
 			Logs.error(e, "redis pool zadd key={} score={} member={}", key, score, member);
 			return error;
+		}
+	}
+
+	@Override
+	public Double zincrby(String key, double increment, String member) {
+		try (Jedis jedis = pool.getResource()) {
+			return jedis.zincrby(key, increment, member);
+		} catch (Exception e) {
+			Logs.error(e, "redis pool zadd key={} score={} member={}", key, increment, member);
+			return -1D;
 		}
 	}
 

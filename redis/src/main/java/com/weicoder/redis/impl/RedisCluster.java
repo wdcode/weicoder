@@ -214,5 +214,10 @@ public final class RedisCluster extends BaseRedis implements Subscribe{
 	@Override
 	public Long srem(String key, String... members) { 
 		return cluster.srem(key, members);
+	}
+
+	@Override
+	public Double zincrby(String key, double increment, String member) { 
+		return cluster.zincrby(key, increment, member);
 	} 
 }

@@ -170,7 +170,7 @@ public final class HttpEngine {
 			conn.setRequestProperty("Accept-Encoding", "gzip,deflate");
 			conn.setRequestProperty(HttpConstants.ACCEPT_CHARSET_KEY,
 					HttpConstants.ACCEPT_CHARSET_VAL);
-			// conn.addRequestProperty(HttpConstants.CONTENT_TYPE_KEY, HttpConstants.CONTENT_TYPE_VAL);
+//			 conn.addRequestProperty(HttpConstants.CONTENT_TYPE_KEY, HttpConstants.CONTENT_TYPE_JSON);
 			conn.setRequestProperty("Connection", "Keep-Alive");
 			// 设置超时
 			conn.setConnectTimeout(CommonParams.HTTP_CONNECT_TIMEOUT);

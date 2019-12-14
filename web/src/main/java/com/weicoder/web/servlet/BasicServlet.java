@@ -297,7 +297,8 @@ public class BasicServlet extends HttpServlet {
 				CookieUtil.adds(response, c.maxAge(), res, names);
 		}
 		// 写到前端
-		LOG.info("request ip={} name={}  params={} pars={} time={} res={} end", ip, actionName, params, pars, System.currentTimeMillis() - curr, ResponseUtil.json(response, callback, res));
+		LOG.info("request ip={} name={}  params={} pars={} time={} method={} type={} res={} end", ip, actionName, params, pars, System.currentTimeMillis() - curr, request.getMethod(),
+				request.getContentType(), ResponseUtil.json(response, callback, res));
 	}
 
 	private Object invoke(Object action, Method method, Object[] params, HttpServletRequest request, HttpServletResponse response) {

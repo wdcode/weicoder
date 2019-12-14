@@ -59,7 +59,7 @@ public final class MongoImpl implements Mongo {
 			// Mongo 客户端
 			Builder builder = MongoClientOptions.builder();
 			builder.connectionsPerHost(100);
-			builder.threadsAllowedToBlockForConnectionMultiplier(100);
+//			builder.threadsAllowedToBlockForConnectionMultiplier(100);
 			// MongoCredential
 			MongoCredential credential = null;
 			if (EmptyUtil.isNotEmpty(MongoParams.getUser(key)))

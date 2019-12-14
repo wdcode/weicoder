@@ -242,4 +242,10 @@ public final class RedisRedisson extends BaseRedis {
 
 		return null;
 	}
+
+	@Override
+	public Double zincrby(String key, double increment, String member) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

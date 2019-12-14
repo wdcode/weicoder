@@ -14,6 +14,7 @@ import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicNameValuePair;
 
+import com.weicoder.common.bean.StateCode;
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.HttpConstants;
 import com.weicoder.common.constants.StringConstants;
@@ -25,22 +26,26 @@ import com.weicoder.common.lang.Maps;
 import com.weicoder.common.log.Log;
 import com.weicoder.common.log.LogFactory;
 import com.weicoder.common.params.CommonParams;
+import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
-import com.weicoder.http.params.HttpParams; 
+import com.weicoder.core.json.JsonEngine;
+import com.weicoder.http.params.HttpParams;
 
 /**
  * HTTP客户端工具类
+ * 
  * @author WD
  */
 public final class HttpClient {
 	// 日志
-	private final static Log			LOG		= LogFactory.getLog(HttpClient.class);
+	private final static Log LOG = LogFactory.getLog(HttpClient.class);
 	// Http客户端
-	final static CloseableHttpClient	CLIENT	= init();
+	final static CloseableHttpClient CLIENT = init();
 
 	/**
 	 * 获得HttpClient
+	 * 
 	 * @return HttpClient
 	 */
 	public static CloseableHttpClient getClient() {
@@ -49,18 +54,44 @@ public final class HttpClient {
 
 	/**
 	 * 模拟get提交
-	 * @param url get提交地址
-	 * @return 返回结果
+	 * 
+	 * @param  url get提交地址
+	 * @return     返回结果
 	 */
 	public static String get(String url) {
 		return get(url, CommonParams.ENCODING);
 	}
 
 	/**
+	 * 模拟get提交 定制提交 参数对象与提交参数相同 返回结果为json对象
+	 * 
+	 * @param  url  get提交地址
+	 * @param  data 提交参数
+	 * @return      提交结果
+	 */
+	public static StateCode getToState(String url) {
+		// 返回json转换成对象
+		return JsonEngine.toBean(get(url, CommonParams.ENCODING), StateCode.class);
+	}
+
+	/**
+	 * 模拟get提交 定制提交 参数对象与提交参数相同 返回结果为json对象
+	 * 
+	 * @param  url  get提交地址
+	 * @param  data 提交参数
+	 * @return      提交结果
+	 */
+	public static <E> E get(String url, Class<E> c) {
+		// 返回json转换成对象
+		return JsonEngine.toBean(get(url, CommonParams.ENCODING), c);
+	}
+
+	/**
 	 * 模拟get提交
-	 * @param url get提交地址
-	 * @param charset 编码
-	 * @return 返回结果
+	 * 
+	 * @param  url     get提交地址
+	 * @param  charset 编码
+	 * @return         返回结果
 	 */
 	public static String get(String url, String charset) {
 		return StringUtil.toString(download(url), charset);
@@ -68,8 +99,9 @@ public final class HttpClient {
 
 	/**
 	 * 下载文件
-	 * @param url get提交地址
-	 * @return 返回流
+	 * 
+	 * @param  url get提交地址
+	 * @return     返回流
 	 */
 	public static byte[] download(String url) {
 		// 声明HttpGet对象
@@ -92,10 +124,37 @@ public final class HttpClient {
 	}
 
 	/**
+	 * 模拟post提交 定制提交 参数对象与提交参数相同 返回结果为json对象
+	 * 
+	 * @param  url  post提交地址
+	 * @param  data 提交参数
+	 * @return      提交结果
+	 */
+	public static StateCode post(String url, Object data) {
+		return post(url, data, StateCode.class);
+	}
+
+	/**
+	 * 模拟post提交 定制提交 参数对象与提交参数相同 返回结果为json对象
+	 * 
+	 * @param  url  post提交地址
+	 * @param  data 提交参数
+	 * @return      提交结果
+	 */
+	public static <E> E post(String url, Object data, Class<E> c) {
+		// 设置参数
+		Map<String, Object> params = Maps.newMap();
+		BeanUtil.copy(data, params);
+		// 返回json转换成对象
+		return JsonEngine.toBean(post(url, params, CommonParams.ENCODING), c);
+	}
+
+	/**
 	 * 模拟post提交
-	 * @param url post提交地址
-	 * @param data 提交参数
-	 * @return 提交结果
+	 * 
+	 * @param  url  post提交地址
+	 * @param  data 提交参数
+	 * @return      提交结果
 	 */
 	public static String post(String url, Map<String, Object> data) {
 		return post(url, data, CommonParams.ENCODING);
@@ -103,10 +162,11 @@ public final class HttpClient {
 
 	/**
 	 * 模拟post提交
-	 * @param url post提交地址
-	 * @param data 提交参数
-	 * @param header http头
-	 * @return 提交结果
+	 * 
+	 * @param  url    post提交地址
+	 * @param  data   提交参数
+	 * @param  header http头
+	 * @return        提交结果
 	 */
 	public static String post(String url, Map<String, Object> data, Map<String, Object> header) {
 		return post(url, data, header, CommonParams.ENCODING);
@@ -114,10 +174,11 @@ public final class HttpClient {
 
 	/**
 	 * 模拟post提交
-	 * @param url post提交地址
-	 * @param data 提交参数
-	 * @param charset 编码
-	 * @return 提交结果
+	 * 
+	 * @param  url     post提交地址
+	 * @param  data    提交参数
+	 * @param  charset 编码
+	 * @return         提交结果
 	 */
 	public static String post(String url, Map<String, Object> data, String charset) {
 		return post(url, data, Maps.emptyMap(), charset);
@@ -125,11 +186,12 @@ public final class HttpClient {
 
 	/**
 	 * 模拟post提交
-	 * @param url post提交地址
-	 * @param data 提交参数
-	 * @param header http头
-	 * @param charset 编码
-	 * @return 提交结果
+	 * 
+	 * @param  url     post提交地址
+	 * @param  data    提交参数
+	 * @param  header  http头
+	 * @param  charset 编码
+	 * @return         提交结果
 	 */
 	public static String post(String url, Map<String, Object> data, Map<String, Object> header, String charset) {
 		// 声明HttpPost
@@ -166,6 +228,7 @@ public final class HttpClient {
 
 	/**
 	 * 初始化httpclient
+	 * 
 	 * @return CloseableHttpClient
 	 */
 	private static CloseableHttpClient init() {
@@ -193,5 +256,6 @@ public final class HttpClient {
 		return builder.build();
 	}
 
-	private HttpClient() {}
+	private HttpClient() {
+	}
 }

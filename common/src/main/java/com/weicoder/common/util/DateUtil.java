@@ -401,6 +401,46 @@ public final class DateUtil {
 	public static int getDayOfWeek(Date date) {
 		return get(date, Calendar.DAY_OF_WEEK) - 1;
 	}
+	
+	/**
+	 * 根据日期取得星期几 周日返回的是0
+	 * 
+	 * @return 返回星期几
+	 */
+	public static int getDayOfMonth() {
+		return getDayOfMonth(getCurrentDate());
+	}
+
+	/**
+	 * 根据日期取得星期几 默认格式 周日返回的是0
+	 * 
+	 * @param date 日期字符串
+	 * @return 返回星期几
+	 */
+	public static int getDayOfMonth(String date) {
+		return getDayOfMonth(date, getFormat(date));
+	}
+
+	/**
+	 * 根据日期取得星期几 周日返回的是0
+	 * 
+	 * @param date   日期字符串
+	 * @param format 日期格式
+	 * @return 返回星期几
+	 */
+	public static int getDayOfMonth(String date, String format) {
+		return getDayOfMonth(toDate(date, format));
+	}
+	
+	/**
+	 * 根据日期取得星期几 周日返回的是0
+	 * 
+	 * @param date 日期
+	 * @return 返回星期几
+	 */
+	public static int getDayOfMonth(Date date) {
+		return get(date, Calendar.DAY_OF_MONTH);
+	}
 
 	/**
 	 * 根据本周的的日期
