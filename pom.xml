@@ -11,10 +11,10 @@
 	<url>https://github.com/wdcode/weicoder</url>
 
 	<modules>
-		<!--  -->
+		<!-- 
 		<module>boot</module>
 		<module>cloud</module>
-		
+		 -->
 		<module>common</module>
 		<module>core</module>
 		<module>dao</module>
@@ -25,16 +25,16 @@
 		<module>memcache</module>
 		<module>mongo</module>
 		<module>oauth</module>
-		<!--  -->
+		<!-- 
 		<module>pay</module>
-		
+		 -->
 		<module>protobuf</module>
 		<module>quartz</module>
 		<module>redis</module>
 		<module>socket</module>
-		<!--  -->
+		<!-- 
 		<module>ssh</module>
-		
+		 -->
 		<module>web</module>
 		<module>websocket</module>
 		<module>xml</module>

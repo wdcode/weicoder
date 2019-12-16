@@ -35,6 +35,8 @@ import com.weicoder.kafka.annotation.Topic;
 import com.weicoder.kafka.consumer.Record;
 import com.weicoder.kafka.factory.KafkaFactory;
 import com.weicoder.kafka.params.KafkaParams;
+import com.weicoder.protobuf.Protobuf;
+import com.weicoder.protobuf.ProtobufEngine;
 
 /**
  * kafka生成器
@@ -55,16 +57,14 @@ public final class Kafkas {
 	// 保存kafka对应消费的topic
 	private final static Map<String, List<String>> TOPICS = Maps.newMap();
 	// 保存Topic队列
-	private final static Map<String, Map<String, Queue<ConsumerRecord<byte[], byte[]>>>> TOPIC_RECORDS = Maps
-			.newConcurrentMap();
+	private final static Map<String, Map<String, Queue<ConsumerRecord<byte[], byte[]>>>> TOPIC_RECORDS = Maps.newConcurrentMap();
 
 	/**
 	 * 初始化消费者
 	 */
 	public static void consumers() {
 		// 获得所有kafka消费者
-		List<Class<Consumer>> consumers = ClassUtil.getAnnotationClass(CommonParams.getPackages("kafka"),
-				Consumer.class);
+		List<Class<Consumer>> consumers = ClassUtil.getAnnotationClass(CommonParams.getPackages("kafka"), Consumer.class);
 		if (EmptyUtil.isNotEmpty(consumers)) {
 			// 循环处理kafka类
 			consumers.forEach(c -> {
@@ -134,8 +134,7 @@ public final class Kafkas {
 					}
 					// 数量不为空
 					if (n > 0) {
-						LOG.info("kafka read consumer end name={} size={} time={} thread={}", name, n,
-								System.currentTimeMillis() - time, tid);
+						LOG.info("kafka read consumer end name={} size={} time={} thread={}", name, n, System.currentTimeMillis() - time, tid);
 					}
 				});
 			}, 0L, 10L, TimeUnit.MICROSECONDS);
@@ -175,8 +174,7 @@ public final class Kafkas {
 									else if (Record.class.equals(t)) {
 										Type type = param.getParameterizedType();
 										Class<?>[] gc = ClassUtil.getGenericClass(type);
-										objs[0] = new Record<>(record.topic(), toParam(record.key(), gc[0]),
-												toParam(record.value(), gc[1]), record.offset(), record.timestamp());
+										objs[0] = new Record<>(record.topic(), toParam(record.key(), gc[0]), toParam(record.value(), gc[1]), record.offset(), record.timestamp());
 										// 执行所有topic方法
 										List<Method> all = ALL_TOPICS.get(name);
 										if (EmptyUtil.isEmpty(all)) {
@@ -193,14 +191,12 @@ public final class Kafkas {
 								// 执行方法
 								BeanUtil.invoke(obj, method, objs);
 							}
-							LOG.debug("kafka consumer topic={} offset={} method={} args={} params={} thread={}", topic,
-									offset, method.getName(), objs, params, tid);
+							LOG.debug("kafka consumer topic={} offset={} method={} args={} params={} thread={}", topic, offset, method.getName(), objs, params, tid);
 							n++;
 						}
 						// 数量不为空
 						if (n > 0) {
-							LOG.info("kafka consumer end topic={} offset={} size={} time={} thread={}", topic, offset,
-									n, System.currentTimeMillis() - time, tid);
+							LOG.info("kafka consumer end topic={} offset={} size={} time={} thread={}", topic, offset, n, System.currentTimeMillis() - time, tid);
 						}
 					}, 10L);
 				});
@@ -212,9 +208,9 @@ public final class Kafkas {
 	/**
 	 * 实例化一个消费数据
 	 * 
-	 * @param topic topic
-	 * @param value value
-	 * @return ProducerRecord
+	 * @param  topic topic
+	 * @param  value value
+	 * @return       ProducerRecord
 	 */
 	public static ProducerRecord<byte[], byte[]> newRecord(String topic, Object value) {
 		return new ProducerRecord<byte[], byte[]>(topic, toBytes(value));
@@ -223,10 +219,10 @@ public final class Kafkas {
 	/**
 	 * 实例化一个消费数据
 	 * 
-	 * @param topic topic
-	 * @param key   key
-	 * @param value value
-	 * @return ProducerRecord
+	 * @param  topic topic
+	 * @param  key   key
+	 * @param  value value
+	 * @return       ProducerRecord
 	 */
 	public static ProducerRecord<byte[], byte[]> newRecord(String topic, Object key, Object value) {
 		return new ProducerRecord<byte[], byte[]>(topic, toBytes(key), toBytes(value));
@@ -235,9 +231,9 @@ public final class Kafkas {
 	/**
 	 * 转换成参数
 	 * 
-	 * @param b 字节数组
-	 * @param c 类型
-	 * @return 参数
+	 * @param  b 字节数组
+	 * @param  c 类型
+	 * @return   参数
 	 */
 	private static Object toParam(byte[] b, Class<?> c) {
 		// 字符串
@@ -259,11 +255,17 @@ public final class Kafkas {
 	/**
 	 * 序列号对象为自己数组
 	 * 
-	 * @param obj 对象
-	 * @return 自己数组
+	 * @param  obj 对象
+	 * @return     自己数组
 	 */
 	private static byte[] toBytes(Object obj) {
-		return obj instanceof String ? Conversion.toString(obj).getBytes() : Bytes.toBytes(obj);
+		// 根据不同类型序列化
+		if (obj instanceof String)
+			return Conversion.toString(obj).getBytes();
+		else if (obj.getClass().isAnnotationPresent(Protobuf.class))
+			return ProtobufEngine.toBytes(obj);
+		else
+			return Bytes.toBytes(obj);
 	}
 
 	private Kafkas() {

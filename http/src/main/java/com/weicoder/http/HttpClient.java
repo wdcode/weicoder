@@ -65,8 +65,7 @@ public final class HttpClient {
 	/**
 	 * 模拟get提交 定制提交 参数对象与提交参数相同 返回结果为json对象
 	 * 
-	 * @param  url  get提交地址
-	 * @param  data 提交参数
+	 * @param  url  get提交地址 
 	 * @return      提交结果
 	 */
 	public static StateCode getToState(String url) {
@@ -77,9 +76,9 @@ public final class HttpClient {
 	/**
 	 * 模拟get提交 定制提交 参数对象与提交参数相同 返回结果为json对象
 	 * 
-	 * @param  url  get提交地址
-	 * @param  data 提交参数
-	 * @return      提交结果
+	 * @param  url get提交地址
+	 * @param  c   返回类类型
+	 * @return     提交结果
 	 */
 	public static <E> E get(String url, Class<E> c) {
 		// 返回json转换成对象
@@ -139,6 +138,7 @@ public final class HttpClient {
 	 * 
 	 * @param  url  post提交地址
 	 * @param  data 提交参数
+	 * @param  c   返回类类型
 	 * @return      提交结果
 	 */
 	public static <E> E post(String url, Object data, Class<E> c) {
