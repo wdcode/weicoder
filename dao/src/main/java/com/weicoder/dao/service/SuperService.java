@@ -6,12 +6,12 @@ import java.util.Map;
 
 import com.weicoder.dao.factory.DaoFactory;
 import com.weicoder.common.bean.Pages;
-import com.weicoder.common.lang.Lists;
-import com.weicoder.common.lang.Maps;
+import com.weicoder.common.lang.Lists; 
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.DateUtil;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.dao.Dao;
+import com.weicoder.dao.bean.PageResult;
 
 /**
  * 超级通用业务hibernate实现
@@ -149,7 +149,7 @@ public final class SuperService {
 	 * @param  page   分页Bean
 	 * @return        返回这个对象的列表
 	 */
-	public static Map<String, Object> list(Object entity, Pages page) {
+	public static PageResult list(Object entity, Pages page) {
 		// 获得数据列表
 		List<Object> list = DAO.list(entity, getFirstResult(page), getMaxResults(page));
 		// 判断列表
@@ -160,7 +160,7 @@ public final class SuperService {
 			// 不为空 查询出总数
 			page.setTotal(DAO.count(entity));
 		// 返回列表
-		return Maps.newMap(new String[]{"list", "pager"}, new Object[]{list, page});
+		return new PageResult(list, page);
 	}
 
 	/**

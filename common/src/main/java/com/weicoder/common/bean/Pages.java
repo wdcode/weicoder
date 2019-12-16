@@ -15,14 +15,14 @@ public final class Pages {
 	// 每页显示数量
 	private int size = CommonParams.PAGE_SIZE;
 
-	/**
-	 * 获得总页数
-	 * 
-	 * @return 总页数
-	 */
-	public int getTotalPage() {
-		return total < size ? 0 : total % size == 0 ? total / size : total / size + 1;
-	}
+//	/**
+//	 * 获得总页数
+//	 * 
+//	 * @return 总页数
+//	 */
+//	public int getTotalPage() {
+//		return total < size ? 0 : total % size == 0 ? total / size : total / size + 1;
+//	}
 
 	/**
 	 * 获得每页显示数量
@@ -78,46 +78,46 @@ public final class Pages {
 		this.page = page;
 	}
 
-	/**
-	 * 获得开始页码
-	 * 
-	 * @return 开始页码
-	 */
-	public int getStartPage() {
-		return page - 5 > 0 ? page - 5 : 0;
-	}
+//	/**
+//	 * 获得开始页码
+//	 * 
+//	 * @return 开始页码
+//	 */
+//	public int getStartPage() {
+//		return page - 5 > 0 ? page - 5 : 0;
+//	}
 
-	/**
-	 * 获得结束页码
-	 * 
-	 * @return 结束页码
-	 */
-	public int getEndPage() {
-		// 开始页
-		int current = getPage();
-		// 总页数
-		int total = getTotalPage();
-		// 返回结束页
-		return (current == 1 || current < 6) ? (total > 10 ? 10 : total) : (current + 5 <= total ? current + 5 : total);
-	}
+//	/**
+//	 * 获得结束页码
+//	 * 
+//	 * @return 结束页码
+//	 */
+//	public int getEndPage() {
+//		// 开始页
+//		int current = getPage();
+//		// 总页数
+//		int total = getTotalPage();
+//		// 返回结束页
+//		return (current == 1 || current < 6) ? (total > 10 ? 10 : total) : (current + 5 <= total ? current + 5 : total);
+//	}
 
-	/**
-	 * 获得最大结果数
-	 * 
-	 * @return 最大结果数
-	 */
-	public int getMaxResults() {
-		return (getPage() + 1) * getSize();
-	}
-
-	/**
-	 * 获得从第N条开始返回结果
-	 * 
-	 * @return 从第N条开始返回结果
-	 */
-	public int getFirstResult() {
-		return getPage() * getSize();
-	}
+//	/**
+//	 * 获得最大结果数
+//	 * 
+//	 * @return 最大结果数
+//	 */
+//	public int getMaxResults() {
+//		return (getPage() + 1) * getSize();
+//	}
+//
+//	/**
+//	 * 获得从第N条开始返回结果
+//	 * 
+//	 * @return 从第N条开始返回结果
+//	 */
+//	public int getFirstResult() {
+//		return getPage() * getSize();
+//	}
 
 	@Override
 	public String toString() {

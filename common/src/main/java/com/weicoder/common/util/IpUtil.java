@@ -18,19 +18,19 @@ import com.weicoder.common.params.CommonParams;
 
 /**
  * IP工具集
- * @author WD
  * 
+ * @author WD
  */
 public final class IpUtil {
 	/** 本机IP 127.0.0.1 */
-	public final static String			LOCAL_IP;
+	public final static String LOCAL_IP;
 	/** 本服务器IP */
-	public final static String			SERVER_IP;
+	public final static String SERVER_IP;
 	// 过滤ip列表
-	private final static Set<String>	IPS_ALL;
-	private final static Set<String>	IPS_ONE;
-	private final static Set<String>	IPS_TWO;
-	private final static Set<String>	IPS_THREE;
+	private final static Set<String> IPS_ALL;
+	private final static Set<String> IPS_ONE;
+	private final static Set<String> IPS_TWO;
+	private final static Set<String> IPS_THREE;
 
 	static {
 		LOCAL_IP = "127.0.0.1";
@@ -64,10 +64,14 @@ public final class IpUtil {
 
 	/**
 	 * 校验ip是否在列表里 一般用在过滤ip白名单 支持泛*等操作
-	 * @param ip 查询ip是否存在过滤列表
-	 * @return true 存在 false 不存在
+	 * 
+	 * @param  ip 查询ip是否存在过滤列表
+	 * @return    true 存在 false 不存在
 	 */
 	public static boolean contains(String ip) {
+		// 本地IP放行
+		if (LOCAL_IP.equals(ip))
+			return true;
 		// 分解ip段
 		String p = StringConstants.POINT;
 		String[] t = StringUtil.split(ip, RegexConstants.POINT);
@@ -77,9 +81,10 @@ public final class IpUtil {
 
 	/**
 	 * 校验ip是否相等 支持*段
-	 * @param regex ip正则
-	 * @param ip ip
-	 * @return 是否相等
+	 * 
+	 * @param  regex ip正则
+	 * @param  ip    ip
+	 * @return       是否相等
 	 */
 	public static boolean contains(String regex, String ip) {
 		return RegexUtil.is(regex, ip);
@@ -87,9 +92,10 @@ public final class IpUtil {
 
 	/**
 	 * 校验ip是否相等 分4段检查 从左开始匹配几个段就返回几
-	 * @param ip1 ip1
-	 * @param ip2 ip2
-	 * @return 返回数字几
+	 * 
+	 * @param  ip1 ip1
+	 * @param  ip2 ip2
+	 * @return     返回数字几
 	 */
 	public static int equals(String ip1, String ip2) {
 		// 返回结果
@@ -110,6 +116,7 @@ public final class IpUtil {
 
 	/**
 	 * 设置代理
+	 * 
 	 * @param host 代理服务器
 	 * @param port 代理端口
 	 */
@@ -124,6 +131,7 @@ public final class IpUtil {
 
 	/**
 	 * 获得本机IP
+	 * 
 	 * @return 本机IP
 	 */
 	public static String getIp() {
@@ -153,6 +161,7 @@ public final class IpUtil {
 
 	/**
 	 * 获得本机IP数组
+	 * 
 	 * @return 客户端IP组
 	 */
 	public static String[] getIps() {
@@ -183,8 +192,9 @@ public final class IpUtil {
 
 	/**
 	 * 编码IP为int
-	 * @param ip 要编码的IP
-	 * @return 返回编码后的int
+	 * 
+	 * @param  ip 要编码的IP
+	 * @return    返回编码后的int
 	 */
 	public static int encode(String ip) {
 		// 判断是IP
@@ -201,8 +211,9 @@ public final class IpUtil {
 
 	/**
 	 * 编码IP为int
-	 * @param ip 要编码的IP
-	 * @return 返回编码后的int
+	 * 
+	 * @param  ip 要编码的IP
+	 * @return    返回编码后的int
 	 */
 	public static String decode(int ip) {
 		// 声明IP字符串缓存
@@ -218,5 +229,6 @@ public final class IpUtil {
 		return sb.toString();
 	}
 
-	private IpUtil() {}
+	private IpUtil() {
+	}
 }
