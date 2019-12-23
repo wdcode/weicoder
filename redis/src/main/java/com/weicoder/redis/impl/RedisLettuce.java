@@ -258,4 +258,16 @@ public final class RedisLettuce extends BaseRedis {
 		return null;
 	}
 
+	@Override
+	public void exec(Callback callback) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<String> lrange(String key, long start, long stop) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

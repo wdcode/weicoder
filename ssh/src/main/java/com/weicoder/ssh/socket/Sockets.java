@@ -12,9 +12,7 @@ import com.weicoder.ssh.params.SocketParams;
 import com.weicoder.ssh.socket.impl.mina.MinaClient;
 import com.weicoder.ssh.socket.impl.mina.MinaServer;
 import com.weicoder.ssh.socket.impl.netty.NettyClient;
-import com.weicoder.ssh.socket.impl.netty.NettyServer;
-import com.weicoder.ssh.socket.impl.netty3.Netty3Client;
-import com.weicoder.ssh.socket.impl.netty3.Netty3Server;
+import com.weicoder.ssh.socket.impl.netty.NettyServer; 
 import com.weicoder.ssh.socket.manager.Manager;
 
 /**
@@ -283,9 +281,7 @@ public final class Sockets {
 	private static Server getServer(String name) {
 		switch (SocketParams.getParse(name)) {
 		case "netty":
-			return new NettyServer(name);
-		case "netty3":
-			return new Netty3Server(name);
+			return new NettyServer(name); 
 		default:
 			// 默认mina
 			return new MinaServer(name);
@@ -300,9 +296,7 @@ public final class Sockets {
 	private static Client getClient(String name) {
 		switch (SocketParams.getParse(name)) {
 		case "netty":
-			return new NettyClient(name);
-		case "netty3":
-			return new Netty3Client(name);
+			return new NettyClient(name); 
 		default:
 			// 默认mina
 			return new MinaClient(name);

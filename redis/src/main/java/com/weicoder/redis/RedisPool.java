@@ -21,6 +21,13 @@ public interface RedisPool {
 	Jedis getResource();
 
 	/**
+	 * 执行Redis 回调使用 内部处理jedis的关闭问题
+	 * 
+	 * @param callback
+	 */
+	void exec(Callback callback);
+
+	/**
 	 * 压缩值 当值能压缩时才压缩
 	 * 
 	 * @param  key   键
@@ -263,6 +270,16 @@ public interface RedisPool {
 	Long lpush(String key, String... strings);
 
 	/**
+	 * 获得列表
+	 * 
+	 * @param  key   键
+	 * @param  start 开始 位置
+	 * @param  stop  结束位置
+	 * @return       列表
+	 */
+	List<String> lrange(final String key, final long start, final long stop);
+
+	/**
 	 * 读取队列数量
 	 * 
 	 * @param  key 健
@@ -330,9 +347,9 @@ public interface RedisPool {
 	/**
 	 * 增量添加到列表数据 如果存在成员加法 不存在添加
 	 * 
-	 * @param  key    键
-	 * @param  increment  分数
-	 * @param  member 成员
+	 * @param  key       键
+	 * @param  increment 分数
+	 * @param  member    成员
 	 * @return
 	 */
 	Double zincrby(String key, double increment, String member);
@@ -379,4 +396,13 @@ public interface RedisPool {
 	 * @return         数量
 	 */
 	Long srem(String key, String... members);
+
+	/**
+	 * redis回调
+	 * 
+	 * @author wudi
+	 */
+	interface Callback {
+		void callback(Jedis jedis);
+	}
 }

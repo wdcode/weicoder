@@ -7,8 +7,10 @@ import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
 import javax.activation.URLDataSource;
+import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.Multipart;
+import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
@@ -24,17 +26,19 @@ import com.weicoder.email.base.BaseEmail;
 
 /**
  * EmailUtil JavaMail实现
- * @author WD
+ * 
+ * @author  WD
  * @version 1.0
  */
 public final class EmailJava extends BaseEmail {
 	/**
 	 * 构造方法
-	 * @param host smtp地址
-	 * @param from 发送Email服务器
+	 * 
+	 * @param host     smtp地址
+	 * @param from     发送Email服务器
 	 * @param password 邮箱密码
-	 * @param auth 是否验证
-	 * @param charset 邮件编码
+	 * @param auth     是否验证
+	 * @param charset  邮件编码
 	 */
 	public EmailJava(String host, String from, String password, boolean auth, String charset) {
 		super(host, from, password, auth, charset);
@@ -42,9 +46,10 @@ public final class EmailJava extends BaseEmail {
 
 	/**
 	 * 发送简单文本邮件
-	 * @param to 发送地址
+	 * 
+	 * @param to      发送地址
 	 * @param subject 邮件标题
-	 * @param msg 邮件内容
+	 * @param msg     邮件内容
 	 */
 	protected void sendSimpleEmail(String[] to, String subject, String msg) {
 		sendEmail(to, subject, msg, null, false);
@@ -52,10 +57,11 @@ public final class EmailJava extends BaseEmail {
 
 	/**
 	 * 发送带附件的邮件
-	 * @param to 发送地址
+	 * 
+	 * @param to      发送地址
 	 * @param subject 邮件标题
-	 * @param msg 邮件内容
-	 * @param attach 附件
+	 * @param msg     邮件内容
+	 * @param attach  附件
 	 */
 	protected void sendMultiPartEmail(String[] to, String subject, String msg, String attach) {
 		sendEmail(to, subject, msg, attach, false);
@@ -63,9 +69,10 @@ public final class EmailJava extends BaseEmail {
 
 	/**
 	 * 发送HTML格式邮件
-	 * @param to 发送地址
+	 * 
+	 * @param to      发送地址
 	 * @param subject 邮件标题
-	 * @param msg 邮件内容 
+	 * @param msg     邮件内容
 	 */
 	protected void sendHtmlEmail(String[] to, String subject, String msg) {
 		sendEmail(to, subject, msg, null, true);
@@ -73,10 +80,11 @@ public final class EmailJava extends BaseEmail {
 
 	/**
 	 * 发送HTML格式带附件的邮件
-	 * @param to 发送地址
+	 * 
+	 * @param to      发送地址
 	 * @param subject 邮件标题
-	 * @param msg 邮件内容
-	 * @param attach 附件
+	 * @param msg     邮件内容
+	 * @param attach  附件
 	 */
 	protected void sendHtmlEmail(String[] to, String subject, String msg, String attach) {
 		sendEmail(to, subject, msg, attach, true);
@@ -84,22 +92,30 @@ public final class EmailJava extends BaseEmail {
 
 	/**
 	 * 发送Email
-	 * @param to 发送地址
+	 * 
+	 * @param to      发送地址
 	 * @param subject 邮件标题
-	 * @param msg 邮件内容
-	 * @param attach 附件
-	 * @param flag 是否html
+	 * @param msg     邮件内容
+	 * @param attach  附件
+	 * @param flag    是否html
 	 */
 	private void sendEmail(String[] to, String subject, String msg, String attach, boolean flag) {
 		try {
 			// 参数设置
 			Properties props = new Properties();
 			// 指定SMTP服务器
-			props.put("mail.smtp.host", getHost());
+			props.put("mail.host", getHost());
 			// 是否需要SMTP验证
 			props.put("mail.smtp.auth", isAuth());
+			if (isAuth())
+				props.put("mail.smtp.password", getPassword());
 			// 获得Session
-			Session mailSession = Session.getDefaultInstance(props);
+			Session mailSession = Session.getDefaultInstance(props, isAuth() ? new Authenticator() {
+				@Override
+				protected PasswordAuthentication getPasswordAuthentication() {
+					return new PasswordAuthentication(from, password);
+				}
+			} : null);
 			// 创建细信息类
 			Message message = new MimeMessage(mailSession);
 			// 设置邮件服务器
@@ -134,8 +150,7 @@ public final class EmailJava extends BaseEmail {
 
 				messageBodyPart.setDataHandler(new DataHandler(source));
 				// 设置描述名字等
-				String name = StringUtil.subStringLast(attach, StringConstants.BACKSLASH,
-						StringConstants.POINT);
+				String name = StringUtil.subStringLast(attach, StringConstants.BACKSLASH, StringConstants.POINT);
 				// 添加文件名和描述
 				messageBodyPart.setText(name);
 				messageBodyPart.setFileName(name);

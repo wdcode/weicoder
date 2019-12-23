@@ -101,23 +101,23 @@ public final class Pages {
 //		return (current == 1 || current < 6) ? (total > 10 ? 10 : total) : (current + 5 <= total ? current + 5 : total);
 //	}
 
-//	/**
-//	 * 获得最大结果数
-//	 * 
-//	 * @return 最大结果数
-//	 */
-//	public int getMaxResults() {
-//		return (getPage() + 1) * getSize();
-//	}
-//
-//	/**
-//	 * 获得从第N条开始返回结果
-//	 * 
-//	 * @return 从第N条开始返回结果
-//	 */
-//	public int getFirstResult() {
-//		return getPage() * getSize();
-//	}
+	/**
+	 * 获得最大结果数
+	 * 
+	 * @return 最大结果数
+	 */
+	public int getMaxResults() {
+		return (getPage() + 1) * getSize();
+	}
+
+	/**
+	 * 获得从第N条开始返回结果
+	 * 
+	 * @return 从第N条开始返回结果
+	 */
+	public int getFirstResult() {
+		return getPage() * getSize();
+	}
 
 	@Override
 	public String toString() {

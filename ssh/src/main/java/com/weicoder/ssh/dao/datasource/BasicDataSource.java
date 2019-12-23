@@ -5,13 +5,10 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.SQLFeatureNotSupportedException;
 import java.util.logging.Logger;
-
-import com.weicoder.ssh.dao.datasource.impl.Bonecp;
-import com.weicoder.ssh.dao.datasource.impl.C3P0;
-import com.weicoder.ssh.dao.datasource.impl.DBCP;
+ 
+import com.weicoder.ssh.dao.datasource.impl.C3P0; 
 import com.weicoder.ssh.dao.datasource.impl.DBCP2;
-import com.weicoder.ssh.dao.datasource.impl.Druid;
-import com.weicoder.ssh.dao.datasource.impl.Proxool;
+import com.weicoder.ssh.dao.datasource.impl.Druid; 
 
 /**
  * 封装 DataSource类 主要给Spring注入用
@@ -30,22 +27,13 @@ public final class BasicDataSource implements DataSource {
 	 */
 	public void setParse(String parse) {
 		// 判断数据源
-		switch (parse) {
-			case "dbcp":
-				ds = new DBCP();
-				break;
+		switch (parse) { 
 			case "dbcp2":
 				ds = new DBCP2();
 				break;
 			case "c3p0":
 				ds = new C3P0();
-				break;
-			case "proxool":
-				ds = new Proxool();
-				break;
-			case "bonecp":
-				ds = new Bonecp();
-				break;
+				break;  
 			case "druid":
 				ds = new Druid();
 				break;

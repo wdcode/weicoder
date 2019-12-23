@@ -418,4 +418,23 @@ public final class RedisJedis extends BaseRedis implements Subscribe {
 			return false;
 		}
 	}
+
+	@Override
+	public void exec(Callback callback) {
+		try (Jedis jedis = pool.getResource()) {
+			callback.callback(jedis);
+		} catch (Exception e) {
+			Logs.error(e, "redis pool exec callback={}", callback);
+		}
+	}
+
+	@Override
+	public List<String> lrange(String key, long start, long stop) {
+		try (Jedis jedis = pool.getResource()) {
+			return jedis.lrange(key, start, stop);
+		} catch (Exception e) {
+			Logs.error(e, "redis pool lrange key={}", key);
+			return Lists.emptyList();
+		}
+	}
 }

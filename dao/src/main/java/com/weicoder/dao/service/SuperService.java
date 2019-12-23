@@ -6,7 +6,7 @@ import java.util.Map;
 
 import com.weicoder.dao.factory.DaoFactory;
 import com.weicoder.common.bean.Pages;
-import com.weicoder.common.lang.Lists; 
+import com.weicoder.common.lang.Lists;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.DateUtil;
 import com.weicoder.common.util.EmptyUtil;
@@ -90,7 +90,7 @@ public final class SuperService {
 	 * @param  <E>         泛型
 	 * @return             返回这个对象的列表
 	 */
-	public static <E> List<E> list(Class<E> entityClass, Pages page) {
+	public static <E> PageResult list(Class<E> entityClass, Pages page) {
 		// 获得数据列表
 		List<E> list = DAO.list(entityClass, getFirstResult(page), getMaxResults(page));
 		// 判断列表
@@ -101,7 +101,7 @@ public final class SuperService {
 			// 不为空 查询出总数
 			page.setTotal(DAO.count(entityClass));
 		// 返回列表
-		return list;
+		return new PageResult(list, page);
 	}
 
 	/**

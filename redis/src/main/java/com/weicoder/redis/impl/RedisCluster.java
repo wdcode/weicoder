@@ -219,5 +219,15 @@ public final class RedisCluster extends BaseRedis implements Subscribe{
 	@Override
 	public Double zincrby(String key, double increment, String member) { 
 		return cluster.zincrby(key, increment, member);
+	}
+
+	@Override
+	public void exec(Callback callback) {
+		callback.callback(getResource());
+	}
+
+	@Override
+	public List<String> lrange(String key, long start, long stop) {
+		return cluster.lrange(key, start,  stop);
 	} 
 }

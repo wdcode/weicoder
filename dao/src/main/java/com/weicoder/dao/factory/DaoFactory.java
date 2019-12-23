@@ -8,6 +8,7 @@ import com.weicoder.dao.params.DaoParams;
 
 /**
  * Dao工厂
+ * 
  * @author WD
  */
 public final class DaoFactory extends Factory<Dao> {
@@ -19,5 +20,6 @@ public final class DaoFactory extends Factory<Dao> {
 		return DaoParams.JDBC ? new JdbcDao() : new HibernateDao();
 	}
 
-	private DaoFactory() {}
+	private DaoFactory() {
+	}
 }
