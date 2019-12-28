@@ -106,16 +106,16 @@ public final class Paging {
 	 * 
 	 * @return 最大结果数
 	 */
-	public int getMaxResults() {
+	public int getEnd() {
 		return (getPage() + 1) * getSize();
 	}
 
 	/**
-	 * 获得从第N条开始返回结果
+	 * 获得从第N条开始
 	 * 
 	 * @return 从第N条开始返回结果
 	 */
-	public int getFirstResult() {
+	public int getStart() {
 		return getPage() * getSize();
 	}
 

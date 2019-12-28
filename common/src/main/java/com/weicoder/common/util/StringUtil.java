@@ -12,14 +12,16 @@ import com.weicoder.common.params.CommonParams;
 
 /**
  * 对字符串进行一些处理。
+ * 
  * @author WD
  */
 public final class StringUtil {
 
 	/**
 	 * 是否包含Emoji表情
-	 * @param source 字符串
-	 * @return 是否包含
+	 * 
+	 * @param  source 字符串
+	 * @return        是否包含
 	 */
 	public static boolean containsEmoji(String source) {
 		int len = source.length();
@@ -55,8 +57,9 @@ public final class StringUtil {
 
 	/**
 	 * 过滤掉Emoji表情
-	 * @param source 字符串
-	 * @return 过滤后的字符串
+	 * 
+	 * @param  source 字符串
+	 * @return        过滤后的字符串
 	 */
 	public static String filterEmoji(String source) {
 		if (EmptyUtil.isEmpty(source))
@@ -84,8 +87,9 @@ public final class StringUtil {
 
 	/**
 	 * 判断是否Emoji表情
-	 * @param codePoint 检查字节
-	 * @return 是否Emoji表情
+	 * 
+	 * @param  codePoint 检查字节
+	 * @return           是否Emoji表情
 	 */
 	public static boolean isEmojiCharacter(char codePoint) {
 		return (codePoint == 0x0) || (codePoint == 0x9) || (codePoint == 0xA) || (codePoint == 0xD) || ((codePoint >= 0x20) && (codePoint <= 0xD7FF))
@@ -94,9 +98,10 @@ public final class StringUtil {
 
 	/**
 	 * 判断字符串是否prefix开头
-	 * @param str 字符串
-	 * @param prefix 开头字符串
-	 * @return 是否开头
+	 * 
+	 * @param  str    字符串
+	 * @param  prefix 开头字符串
+	 * @return        是否开头
 	 */
 	public static boolean startsWith(String str, String prefix) {
 		return Conversion.toString(str).startsWith(prefix);
@@ -104,8 +109,9 @@ public final class StringUtil {
 
 	/**
 	 * 字符串累加
-	 * @param os 累加字符串
-	 * @return 返回累加后字符串
+	 * 
+	 * @param  os 累加字符串
+	 * @return    返回累加后字符串
 	 */
 	public static String add(Object... os) {
 		StringBuilder sb = new StringBuilder();
@@ -116,9 +122,10 @@ public final class StringUtil {
 
 	/**
 	 * 判断两个字符串是否相等 两个字符串都要不为空情况下才判断 都为空也为false
-	 * @param str1 第一个字符串
-	 * @param str2 第二个字符串
-	 * @return true false
+	 * 
+	 * @param  str1 第一个字符串
+	 * @param  str2 第二个字符串
+	 * @return      true false
 	 */
 	public static boolean equals(String str1, String str2) {
 		return trim(str1).equals(trim(str2));
@@ -126,8 +133,9 @@ public final class StringUtil {
 
 	/**
 	 * 返回字符串长度，汉字占两字节 主要是用于计算有汉字时的长度 一般情况下不使用,如果str为空返回0
-	 * @param str 要校验长度的字符串
-	 * @return 字符串长度
+	 * 
+	 * @param  str 要校验长度的字符串
+	 * @return     字符串长度
 	 */
 	public static int getLength(String str) {
 		// 如果为空返回0
@@ -152,9 +160,10 @@ public final class StringUtil {
 
 	/**
 	 * 使用正则表达式截取字符 截取第一个 如果没找到返回 ""
-	 * @param str 要截取的字符串
-	 * @param regex 正则表达式
-	 * @return 截取后的字符串
+	 * 
+	 * @param  str   要截取的字符串
+	 * @param  regex 正则表达式
+	 * @return       截取后的字符串
 	 */
 	public static String sub(String str, String regex) {
 		return sub(str, regex, 1);
@@ -162,10 +171,11 @@ public final class StringUtil {
 
 	/**
 	 * 使用正则表达式截取字符 如果没找到返回 ""
-	 * @param str 要截取的字符串
-	 * @param regex 正则表达式
-	 * @param index 截取组位置 重1开始
-	 * @return 截取后的字符串
+	 * 
+	 * @param  str   要截取的字符串
+	 * @param  regex 正则表达式
+	 * @param  index 截取组位置 重1开始
+	 * @return       截取后的字符串
 	 */
 	public static String sub(String str, String regex, int index) {
 		// 获得Matcher
@@ -176,9 +186,10 @@ public final class StringUtil {
 
 	/**
 	 * 使用正则表达式截取字符 获得全部匹配的
-	 * @param str 要截取的字符串
-	 * @param regex 正则表达式
-	 * @return 字符串数组
+	 * 
+	 * @param  str   要截取的字符串
+	 * @param  regex 正则表达式
+	 * @return       字符串数组
 	 */
 	public static String[] subAll(String str, String regex) {
 		// 获得Matcher
@@ -197,10 +208,11 @@ public final class StringUtil {
 	 * 从前截取字符串,如果str为空返回str<br>
 	 * <h2>注: 如果没有开始字符串 开始长度为0 如果没有结束字符串 结束长度为str长度</h2>
 	 * <h2>注: 不包含开始与结束字符串</h2>
-	 * @param str 要截取的字符串
-	 * @param start 开始截取的字符串
-	 * @param end 结束字符串
-	 * @return 返回截取后的字符串
+	 * 
+	 * @param  str   要截取的字符串
+	 * @param  start 开始截取的字符串
+	 * @param  end   结束字符串
+	 * @return       返回截取后的字符串
 	 */
 	public static String subString(String str, String start, String end) {
 		// 字符串为空返回原串
@@ -221,9 +233,10 @@ public final class StringUtil {
 
 	/**
 	 * 截取字符串
-	 * @param str 字符串
-	 * @param start 开始字符
-	 * @return 截取后的字符串
+	 * 
+	 * @param  str   字符串
+	 * @param  start 开始字符
+	 * @return       截取后的字符串
 	 */
 	public static String subString(String str, int start) {
 		return EmptyUtil.isEmpty(str) ? StringConstants.EMPTY : subString(str, start, str.length());
@@ -231,10 +244,11 @@ public final class StringUtil {
 
 	/**
 	 * 截取字符串
-	 * @param str 字符串
-	 * @param start 开始字符
-	 * @param end 结束字符
-	 * @return 截取后的字符串
+	 * 
+	 * @param  str   字符串
+	 * @param  start 开始字符
+	 * @param  end   结束字符
+	 * @return       截取后的字符串
 	 */
 	public static String subString(String str, int start, int end) {
 		// 字符串为空返回原串
@@ -258,10 +272,11 @@ public final class StringUtil {
 	/**
 	 * 从后截取字符串,如果str为空返回str<br>
 	 * <h2>注: 如果没有开始字符串 开始长度为0 如果没有结束字符串 结束长度为str长度</h2>
-	 * @param str 要截取的字符串
-	 * @param start 开始截取的字符串
-	 * @param end 结束字符串
-	 * @return 返回截取后的字符串
+	 * 
+	 * @param  str   要截取的字符串
+	 * @param  start 开始截取的字符串
+	 * @param  end   结束字符串
+	 * @return       返回截取后的字符串
 	 */
 	public static String subStringLast(String str, String start, String end) {
 		// 字符串为空返回""
@@ -278,9 +293,10 @@ public final class StringUtil {
 	/**
 	 * 从前截取字符串,如果str为空返回str<br>
 	 * <h2>注: 如果没有开始字符串 开始长度为0</h2>
-	 * @param str 要截取的字符串
-	 * @param start 开始截取的字符串
-	 * @return 返回截取后的字符串
+	 * 
+	 * @param  str   要截取的字符串
+	 * @param  start 开始截取的字符串
+	 * @return       返回截取后的字符串
 	 */
 	public static String subString(String str, String start) {
 		// 字符串为空返回""
@@ -298,9 +314,10 @@ public final class StringUtil {
 	/**
 	 * 从后截取字符串,如果str为空返回str<br>
 	 * <h2>注: 如果没有开始字符串 开始长度为0</h2>
-	 * @param str 要截取的字符串
-	 * @param start 开始截取的字符串
-	 * @return 返回截取后的字符串
+	 * 
+	 * @param  str   要截取的字符串
+	 * @param  start 开始截取的字符串
+	 * @return       返回截取后的字符串
 	 */
 	public static String subStringLast(String str, String start) {
 		// 字符串为空返回原串
@@ -318,9 +335,10 @@ public final class StringUtil {
 	/**
 	 * 从前截取字符串,如果str为空返回str<br>
 	 * <h2>注: 如果没有开始字符串 开始长度为0</h2>
-	 * @param str 要截取的字符串
-	 * @param end 截取到的字符串
-	 * @return 返回截取后的字符串
+	 * 
+	 * @param  str 要截取的字符串
+	 * @param  end 截取到的字符串
+	 * @return     返回截取后的字符串
 	 */
 	public static String subStringEnd(String str, String end) {
 		// 字符串为空返回""
@@ -338,9 +356,10 @@ public final class StringUtil {
 	/**
 	 * 从后截取字符串,如果str为空返回str<br>
 	 * <h2>注: 如果没有开始字符串 开始长度为0</h2>
-	 * @param str 要截取的字符串
-	 * @param end 截取到的字符串
-	 * @return 返回截取后的字符串
+	 * 
+	 * @param  str 要截取的字符串
+	 * @param  end 截取到的字符串
+	 * @return     返回截取后的字符串
 	 */
 	public static String subStringLastEnd(String str, String end) {
 		// 字符串为空返回""
@@ -357,9 +376,10 @@ public final class StringUtil {
 
 	/**
 	 * 转换字符串的编码格式 如果source为空 返回原串 如果转换异常返回原串
-	 * @param source 要转换的字符串
-	 * @param tChar 转换编码
-	 * @return 转换后的字符串
+	 * 
+	 * @param  source 要转换的字符串
+	 * @param  tChar  转换编码
+	 * @return        转换后的字符串
 	 */
 	public static String toCharset(String source, String tChar) {
 		try {
@@ -371,10 +391,11 @@ public final class StringUtil {
 
 	/**
 	 * 转换字符串的编码格式 如果source为空 返回原串 如果转换异常返回原串
-	 * @param source 要转换的字符串
-	 * @param sChar 原编码
-	 * @param tChar 转换编码
-	 * @return 转换后的字符串
+	 * 
+	 * @param  source 要转换的字符串
+	 * @param  sChar  原编码
+	 * @param  tChar  转换编码
+	 * @return        转换后的字符串
 	 */
 	public static String toCharset(String source, String sChar, String tChar) {
 		try {
@@ -387,8 +408,9 @@ public final class StringUtil {
 
 	/**
 	 * 把输入的其它命名法变成驼峰命名法,如 User_Id = userId User = user
-	 * @param name 属性名
-	 * @return 转换后的字符串
+	 * 
+	 * @param  name 属性名
+	 * @return      转换后的字符串
 	 */
 	public static String convert(String name) {
 		// 如果为空返回原串
@@ -417,8 +439,9 @@ public final class StringUtil {
 
 	/**
 	 * 把驼峰命名转换为数据库名,如 userInfo = user_info
-	 * @param name 属性名
-	 * @return 转换后的字符串
+	 * 
+	 * @param  name 属性名
+	 * @return      转换后的字符串
 	 */
 	public static String toDbName(String name) {
 		// 如果为空返回原串
@@ -450,8 +473,9 @@ public final class StringUtil {
 
 	/**
 	 * 转换字节数组为字符串
-	 * @param b 字节数组
-	 * @return 字符串
+	 * 
+	 * @param  b 字节数组
+	 * @return   字符串
 	 */
 	public static String toString(byte[] b) {
 		return toString(b, CommonParams.ENCODING);
@@ -459,9 +483,10 @@ public final class StringUtil {
 
 	/**
 	 * 转换字节数组为字符串
-	 * @param b 字节数组
-	 * @param charsetName 编码格式
-	 * @return 字符串
+	 * 
+	 * @param  b           字节数组
+	 * @param  charsetName 编码格式
+	 * @return             字符串
 	 */
 	public static String toString(byte[] b, String charsetName) {
 		try {
@@ -474,8 +499,19 @@ public final class StringUtil {
 
 	/**
 	 * 转换字符串为字节数组
-	 * @param s 字符串
-	 * @return 字节数组
+	 * 
+	 * @param  s 字符对象
+	 * @return   字节数组
+	 */
+	public static byte[] toBytes(Object s) {
+		return toBytes(Conversion.toString(s));
+	}
+
+	/**
+	 * 转换字符串为字节数组
+	 * 
+	 * @param  s 字符串
+	 * @return   字节数组
 	 */
 	public static byte[] toBytes(String s) {
 		return toBytes(s, CommonParams.ENCODING);
@@ -483,9 +519,10 @@ public final class StringUtil {
 
 	/**
 	 * 转换字符串为字节数组
-	 * @param s 字符串
-	 * @param charsetName 编码格式
-	 * @return 字节数组
+	 * 
+	 * @param  s           字符串
+	 * @param  charsetName 编码格式
+	 * @return             字节数组
 	 */
 	public static byte[] toBytes(String s, String charsetName) {
 		try {
@@ -498,9 +535,10 @@ public final class StringUtil {
 
 	/**
 	 * 判断str是否包含searchStr
-	 * @param str 字符串
-	 * @param searchStr 被包含串
-	 * @return true 包含 false 不包含
+	 * 
+	 * @param  str       字符串
+	 * @param  searchStr 被包含串
+	 * @return           true 包含 false 不包含
 	 */
 	public static boolean contains(String str, String searchStr) {
 		// 如果一个串为空 返回false
@@ -512,8 +550,9 @@ public final class StringUtil {
 
 	/**
 	 * 去除两边空格
-	 * @param s 要处理的字符串
-	 * @return 处理后的字符串
+	 * 
+	 * @param  s 要处理的字符串
+	 * @return   处理后的字符串
 	 */
 	public static String trim(String s) {
 		return Conversion.toString(s).trim();
@@ -521,10 +560,11 @@ public final class StringUtil {
 
 	/**
 	 * 替换字符串
-	 * @param s 要替换的字符串
-	 * @param regex 正则表达式
-	 * @param replacement 要替换掉的字符
-	 * @return 替换后的字符
+	 * 
+	 * @param  s           要替换的字符串
+	 * @param  regex       正则表达式
+	 * @param  replacement 要替换掉的字符
+	 * @return             替换后的字符
 	 */
 	public static String replace(String s, String regex, String replacement) {
 		return EmptyUtil.isEmpty(s) ? StringConstants.EMPTY : s.replace(regex, replacement);
@@ -532,10 +572,11 @@ public final class StringUtil {
 
 	/**
 	 * 替换字符串
-	 * @param s 要替换的字符串
-	 * @param regex 正则表达式
-	 * @param replacement 要替换掉的字符
-	 * @return 替换后的字符
+	 * 
+	 * @param  s           要替换的字符串
+	 * @param  regex       正则表达式
+	 * @param  replacement 要替换掉的字符
+	 * @return             替换后的字符
 	 */
 	public static String replaceAll(String s, String regex, String replacement) {
 		return EmptyUtil.isEmpty(s) ? StringConstants.EMPTY : s.replaceAll(regex, replacement);
@@ -543,9 +584,10 @@ public final class StringUtil {
 
 	/**
 	 * 拆分字符串
-	 * @param s 要拆分的字符串
-	 * @param regex 正则表达式
-	 * @return 替换后的字符
+	 * 
+	 * @param  s     要拆分的字符串
+	 * @param  regex 正则表达式
+	 * @return       替换后的字符
 	 */
 	public static String[] split(String s, String regex) {
 		return EmptyUtil.isEmpty(s) ? ArrayConstants.STRING_EMPTY : s.split(regex);
@@ -553,9 +595,10 @@ public final class StringUtil {
 
 	/**
 	 * 获得方法名
-	 * @param prefix 方法前缀 比如set get
-	 * @param name 方法的后缀名 比如字段名
-	 * @return 方法名
+	 * 
+	 * @param  prefix 方法前缀 比如set get
+	 * @param  name   方法的后缀名 比如字段名
+	 * @return        方法名
 	 */
 	public static String getMethodName(String prefix, String name) {
 		return convert(prefix + StringConstants.UNDERLINE + name);
@@ -563,9 +606,10 @@ public final class StringUtil {
 
 	/**
 	 * 分解字符串
-	 * @param text 整串
-	 * @param len 新串的长度
-	 * @return 新串
+	 * 
+	 * @param  text 整串
+	 * @param  len  新串的长度
+	 * @return      新串
 	 */
 	public static String resolve(String text, int len) {
 		// 字符串为空
@@ -589,9 +633,10 @@ public final class StringUtil {
 
 	/**
 	 * 字符串结合
-	 * @param s1 字符串
-	 * @param s2 字符串
-	 * @return 返回聚合后字符串
+	 * 
+	 * @param  s1 字符串
+	 * @param  s2 字符串
+	 * @return    返回聚合后字符串
 	 */
 	public static String combine(String s1, String s2) {
 		return EmptyUtil.isEmpty(s1) || EmptyUtil.isEmpty(s2) ? StringConstants.EMPTY : combine(s1, s2, (s1.length() + s2.length()) / s1.length());
@@ -599,10 +644,11 @@ public final class StringUtil {
 
 	/**
 	 * 字符串结合
-	 * @param s1 字符串
-	 * @param s2 字符串
-	 * @param len 合并长度
-	 * @return 返回聚合后字符串
+	 * 
+	 * @param  s1  字符串
+	 * @param  s2  字符串
+	 * @param  len 合并长度
+	 * @return     返回聚合后字符串
 	 */
 	public static String combine(String s1, String s2, int len) {
 		// try {
@@ -625,9 +671,10 @@ public final class StringUtil {
 
 	/**
 	 * 字符串拆分 分解combine方法结合的字符串
-	 * @param s 要拆分的字符串
-	 * @param len 拆分长度
-	 * @return 返回分开后字符串数组
+	 * 
+	 * @param  s   要拆分的字符串
+	 * @param  len 拆分长度
+	 * @return     返回分开后字符串数组
 	 */
 	public static String[] separate(String s, int len) {
 		try {
@@ -648,11 +695,12 @@ public final class StringUtil {
 				else
 					c2[i2++] = c[i];
 			// 返回字符串数组
-			return new String[] { new String(c1), new String(c2) };
+			return new String[]{new String(c1), new String(c2)};
 		} catch (Exception e) {
 			return ArrayConstants.STRING_EMPTY;
 		}
 	}
 
-	private StringUtil() {}
+	private StringUtil() {
+	}
 }

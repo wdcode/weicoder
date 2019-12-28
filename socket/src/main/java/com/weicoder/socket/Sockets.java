@@ -14,15 +14,16 @@ import com.weicoder.socket.server.WebSocketServer;
 
 /**
  * Socket 相关类
+ * 
  * @author WD
  */
 public final class Sockets {
 	// Socket Client 模式
-	private static Client	client;
+	private static Client client;
 	// Manager Session管理器 一般给Server使用
-	private static Manager	manager;
+	private static Manager manager;
 	// 是否已经初始化
-	private static boolean	init;
+	private static boolean init;
 
 	/**
 	 * 初始化Mina
@@ -49,6 +50,7 @@ public final class Sockets {
 
 	/**
 	 * 获得客户端
+	 * 
 	 * @return Client
 	 */
 	public static Client client() {
@@ -60,6 +62,7 @@ public final class Sockets {
 
 	/**
 	 * 获得客户端
+	 * 
 	 * @return Client
 	 */
 	public static Manager manager() {
@@ -68,9 +71,10 @@ public final class Sockets {
 
 	/**
 	 * 包装数据
-	 * @param id 指令
-	 * @param message 消息
-	 * @return 字节数组
+	 * 
+	 * @param  id      指令
+	 * @param  message 消息
+	 * @return         字节数组
 	 */
 	public static byte[] pack(short id, Object message) {
 		// 声明字节数组
@@ -81,8 +85,9 @@ public final class Sockets {
 
 	/**
 	 * 包装数据
-	 * @param message 消息
-	 * @return 字节数组
+	 * 
+	 * @param  message 消息
+	 * @return         字节数组
 	 */
 	public static byte[] pack(Object message) {
 		// 声明字节数组
@@ -93,8 +98,9 @@ public final class Sockets {
 
 	/**
 	 * 转换message为字节数组
-	 * @param message 消息
-	 * @return 字节数组
+	 * 
+	 * @param  message 消息
+	 * @return         字节数组
 	 */
 	public static byte[] toBytes(Object message) {
 		// 判断类型
@@ -103,7 +109,7 @@ public final class Sockets {
 			return ArrayConstants.BYTES_EMPTY;
 		else if (message instanceof String)
 			// 字符串
-			return StringUtil.toBytes(Conversion.toString(message));
+			return StringUtil.toBytes(message);
 		else if (message.getClass().isAnnotationPresent(Protobuf.class))
 			// 字符串
 			return ProtobufEngine.toBytes(message);

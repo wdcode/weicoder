@@ -105,6 +105,27 @@ public final class SuperService {
 	}
 
 	/**
+	 * 获得查询的对象实体列表 分页功能
+	 * 
+	 * @param  entity 需要获得的对象，会查询出实体中封装的相等的条件
+	 * @param  page   分页Bean
+	 * @return        返回这个对象的列表
+	 */
+	public static PageResult list(Object entity, Paging page) {
+		// 获得数据列表
+		List<Object> list = DAO.list(entity, getFirstResult(page), getMaxResults(page));
+		// 判断列表
+		if (EmptyUtil.isEmpty(list))
+			// 为空 设置总数为 0
+			page.setTotal(0);
+		else
+			// 不为空 查询出总数
+			page.setTotal(DAO.count(entity));
+		// 返回列表
+		return new PageResult(list, page);
+	}
+
+	/**
 	 * 根据时间段查询的对象实体列表 分页功能
 	 * 
 	 * @param  <E>
@@ -140,27 +161,6 @@ public final class SuperService {
 //			page.setTotal(DAO.count(entity.getClass()));
 		// 返回列表
 		return list;
-	}
-
-	/**
-	 * 获得查询的对象实体列表 分页功能
-	 * 
-	 * @param  entity 需要获得的对象，会查询出实体中封装的相等的条件
-	 * @param  page   分页Bean
-	 * @return        返回这个对象的列表
-	 */
-	public static PageResult list(Object entity, Paging page) {
-		// 获得数据列表
-		List<Object> list = DAO.list(entity, getFirstResult(page), getMaxResults(page));
-		// 判断列表
-		if (EmptyUtil.isEmpty(list))
-			// 为空 设置总数为 0
-			page.setTotal(0);
-		else
-			// 不为空 查询出总数
-			page.setTotal(DAO.count(entity));
-		// 返回列表
-		return new PageResult(list, page);
 	}
 
 	/**
@@ -423,6 +423,7 @@ public final class SuperService {
 	 * @return      从第N条开始返回结果
 	 */
 	private static int getFirstResult(Paging page) {
-		return EmptyUtil.isEmpty(page) ? -1 : (page.getPage() - 1) * page.getSize();
+//		return EmptyUtil.isEmpty(page) ? -1 : (page.getPage() - 1) * page.getSize();
+		return EmptyUtil.isEmpty(page) ? -1 : page.getStart();// page.getPage() * page.getSize();
 	}
 }

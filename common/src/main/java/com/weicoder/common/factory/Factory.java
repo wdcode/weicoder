@@ -3,6 +3,8 @@ package com.weicoder.common.factory;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import com.weicoder.common.log.Logs;
+
 /**
  * 抽象工厂抽象实现
  * 
@@ -30,6 +32,7 @@ public abstract class Factory<E> {
 				try {
 					e = newInstance();
 				} catch (Exception e) {
+					Logs.error(e);
 				}
 			// 解锁
 			lock.unlock();

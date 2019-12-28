@@ -26,6 +26,8 @@ public final class IpUtil {
 	public final static String LOCAL_IP;
 	/** 本服务器IP */
 	public final static String SERVER_IP;
+	/** 本服务器IP编码后字符串 */
+	public final static String CODE;
 	// 过滤ip列表
 	private final static Set<String> IPS_ALL;
 	private final static Set<String> IPS_ONE;
@@ -35,6 +37,7 @@ public final class IpUtil {
 	static {
 		LOCAL_IP = "127.0.0.1";
 		SERVER_IP = getIp();
+		CODE = Conversion.toString(encode(SERVER_IP));
 		IPS_ALL = Sets.newSet();
 		IPS_ONE = Sets.newSet();
 		IPS_TWO = Sets.newSet();
@@ -188,6 +191,15 @@ public final class IpUtil {
 		} catch (Exception e) {
 			return ArrayConstants.STRING_EMPTY;
 		}
+	}
+
+	/**
+	 * 编码本服务器IP为数字
+	 * 
+	 * @return 返回编码后的数字
+	 */
+	public static String code() {
+		return Conversion.toString(encode(SERVER_IP));
 	}
 
 	/**
