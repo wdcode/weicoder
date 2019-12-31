@@ -637,6 +637,18 @@ public final class Bytes {
 	}
 
 	/**
+	 * 把字节数组转换成字符串
+	 * 
+	 * @param  b      字节数组
+	 * @param  offset 偏移
+	 * @param  is     是否读取长度
+	 * @return        字符串
+	 */
+	public static String toString(byte[] b, int offset, boolean is) {
+		return is ? toString(b, offset) : StringUtil.toString(copy(b, offset, b.length));
+	}
+
+	/**
 	 * 拷贝字节数组
 	 * 
 	 * @param  b      字节数组

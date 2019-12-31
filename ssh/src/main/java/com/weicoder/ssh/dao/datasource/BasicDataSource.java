@@ -5,8 +5,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.SQLFeatureNotSupportedException;
 import java.util.logging.Logger;
- 
-import com.weicoder.ssh.dao.datasource.impl.C3P0; 
 import com.weicoder.ssh.dao.datasource.impl.DBCP2;
 import com.weicoder.ssh.dao.datasource.impl.Druid; 
 
@@ -30,10 +28,7 @@ public final class BasicDataSource implements DataSource {
 		switch (parse) { 
 			case "dbcp2":
 				ds = new DBCP2();
-				break;
-			case "c3p0":
-				ds = new C3P0();
-				break;  
+				break; 
 			case "druid":
 				ds = new Druid();
 				break;

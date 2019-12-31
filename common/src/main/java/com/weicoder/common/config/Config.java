@@ -43,6 +43,15 @@ public final class Config {
 	}
 
 	/**
+	 * 获取属性配置
+	 * 
+	 * @return
+	 */
+	public Properties getProperties() {
+		return ps;
+	}
+
+	/**
 	 * 获得属性value
 	 * 
 	 * @param  key          属性key
@@ -184,5 +193,10 @@ public final class Config {
 	 */
 	public boolean exists(String key) {
 		return ps.containsKey(key);
+	}
+
+	@Override
+	public String toString() {
+		return "Config [ps=" + ps + "]";
 	}
 }
