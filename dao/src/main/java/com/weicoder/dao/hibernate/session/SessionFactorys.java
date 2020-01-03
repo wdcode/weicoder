@@ -9,17 +9,16 @@ import javax.persistence.Entity;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl;
-import org.hibernate.cfg.Configuration; 
+import org.hibernate.cfg.Configuration;
 
 import com.weicoder.dao.hibernate.interceptor.EntityInterceptor;
 import com.weicoder.dao.hibernate.naming.ImprovedNamingStrategy;
-import com.weicoder.dao.params.DaoParams;
-import com.weicoder.common.constants.StringConstants;
+import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
-import com.weicoder.common.log.Logs; 
+import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.ClassUtil;
-import com.weicoder.common.util.ResourceUtil; 
+import com.weicoder.common.util.ResourceUtil;
 
 /**
  * SessionFactory包装类
@@ -46,17 +45,6 @@ public final class SessionFactorys {
 		// 如果只有一个SessionFactory
 		if (factorys.size() == 1)
 			factory = factorys.get(0);
-//		// 循环获得表名
-//		for (Class<?> e : ClassUtil.getAnnotationClass(CommonParams.getPackages("entity"), Entity.class))
-//			// 循环获得SessionFactory
-//			for (SessionFactory sessionFactory : factorys)
-//				try {
-//					if (((SessionFactoryImplementor) sessionFactory).getMetamodel().entity(e) != null) {
-//						entity_factorys.put(e, sessionFactory);
-//						break;
-//					}
-//				} catch (Exception ex) {
-//				}
 	}
 
 	/**
@@ -90,84 +78,42 @@ public final class SessionFactorys {
 	 */
 	private void initSessionFactory() {
 //		// 优先加载测试文件夹
-//		String path = DaoParams.DB_CONFIG + "-test/";
+		String path = "db/";
 //		// 获得数据库配置文件
-//		File file = ResourceUtil.newFile(path);
-//		Logs.debug("hibernate initSessionFactory test={}", file);
-//		// 为空设置为正式
-//		if (file == null || !file.exists() || !file.isDirectory()) {
-		String path = DaoParams.DB_CONFIG + StringConstants.BACKSLASH;
 		File file = ResourceUtil.newFile(path);
-//		}
 		Logs.debug("hibernate initSessionFactory config={}", file);
-
-//		URL url = ResourceUtil.getResource("hibernate.xml");
-//		InputStream in = ResourceUtil.loadResource("hibernate.xml");
-//		String c = IOUtil.readString(in);
-//		System.out.println(c);
-//		System.out.println(c = c.replace("${url}", "r0"));
-//		System.out.println(c = c.replace("${username}", "r1"));
-//		System.out.println(c = c.replace("${password}", "r2"));
-//		System.out.println(c = c.replace("${package}", "r3")); 
-//		try {
-//			File f = new File
-//			
-//			URL url = URI.create(c).toURL();
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		System.out.println(url);
-//		System.out.println(url.getFile());
-//		Configuration c =new Configuration().configure(url);
-//		System.out.println(c);
-//		System.out.println(c.buildSessionFactory());
 
 		// 不为空
 		if (file != null) {
 			// 循环生成
 			for (String name : file.list()) {
-//				if (StringUtil.contains(name, "properties")) {
-					// 实例化hibernate配置类
-					Configuration config = new Configuration().configure(ResourceUtil.getResource("hibernate.xml"));
-//					Config c = ConfigFactory.getConfig(path + name); 
-//				Configuration config = new Configuration().configure(path + name); 
-//					System.out.println(config.getProperty("url"));
-//					System.out.println(config.getProperty("dialect")); 
-					try {
-						config.getProperties().load(ResourceUtil.loadResource(path + name));
-					} catch (Exception e) {
-						Logs.error(e);
-					}
-					config.setProperty("hibernate.hikari.jdbcUrl", String.format(config.getProperty("hibernate.hikari.jdbcUrl"), config.getProperty("url")));
-					config.setProperty("hibernate.hikari.username", config.getProperty("username"));
-					config.setProperty("hibernate.hikari.password", config.getProperty("password"));
-//					config.addResource(path + config.getProperty("resource"));
-//					config.addPackage(config.getProperty("package")); 
-					// 声明实体列表
-					List<Class<Entity>> list = ClassUtil.getAnnotationClass(config.getProperty("package"), Entity.class);
-					// 根据包名获取对象实体
-					list.forEach(e -> config.addAnnotatedClass(e));
-//							try {
-//								if (((SessionFactoryImplementor) sessionFactory).getMetamodel().entity(e) != null) {
-//									entity_factorys.put(e, sessionFactory);
-//									break;
-//								}
-//							} catch (Exception ex) {
-//							}
-					Logs.info("load hibernate name={}", name);
-//					System.out.println(config.getProperties());
-//					System.out.println(config.getProperty("url"));
-//					System.out.println(config.getProperty("dialect")); 
-					// 设置namingStrategy
-					config.setImplicitNamingStrategy(ImplicitNamingStrategyJpaCompliantImpl.INSTANCE);
-					config.setPhysicalNamingStrategy(ImprovedNamingStrategy.INSTANCE);
-					// 设置分表过滤器
-					config.setInterceptor(EntityInterceptor.INSTANCE);
-					// 注册 并添加实体对应工厂
-					SessionFactory sf = config.buildSessionFactory();
-					factorys.add(sf);
-					list.forEach(e -> entity_factorys.put(e, sf));
-//				}
+				// 实例化hibernate配置类
+				Configuration config = new Configuration().configure(ResourceUtil.getResource("hibernate.xml"));
+				try {
+					config.getProperties().load(ResourceUtil.loadResource(path + name));
+				} catch (Exception e) {
+					Logs.error(e);
+				}
+				config.setProperty("hibernate.hikari.jdbcUrl", String.format(config.getProperty("hibernate.hikari.jdbcUrl"), Conversion.toString(config.getProperty("url"))));
+				config.setProperty("hibernate.hikari.username", Conversion.toString(config.getProperty("username")));
+				config.setProperty("hibernate.hikari.password", Conversion.toString(config.getProperty("password")));
+//				config.setProperty("hikari.jdbcUrl", config.getProperty("hibernate.hikari.jdbcUrl"));
+//				config.setProperty("hikari.username", config.getProperty("hibernate.hikari.username"));
+//				config.setProperty("hikari.password", config.getProperty("hibernate.hikari.password"));
+				// 声明实体列表
+				List<Class<Entity>> list = ClassUtil.getAnnotationClass(config.getProperty("package"), Entity.class);
+				// 根据包名获取对象实体
+				list.forEach(e -> config.addAnnotatedClass(e));
+				Logs.info("load hibernate name={}", name);
+				// 设置namingStrategy
+				config.setImplicitNamingStrategy(ImplicitNamingStrategyJpaCompliantImpl.INSTANCE);
+				config.setPhysicalNamingStrategy(ImprovedNamingStrategy.INSTANCE);
+				// 设置分表过滤器
+				config.setInterceptor(EntityInterceptor.INSTANCE);
+				// 注册 并添加实体对应工厂
+				SessionFactory sf = config.buildSessionFactory();
+				factorys.add(sf);
+				list.forEach(e -> entity_factorys.put(e, sf));
 			}
 		}
 	}

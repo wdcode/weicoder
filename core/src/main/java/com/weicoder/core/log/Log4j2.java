@@ -4,20 +4,27 @@ import java.util.Arrays;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.lookup.MainMapLookup;
 
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.log.Log;
 import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.util.StringUtil;
+import com.weicoder.core.params.Log4j2Params;
 
 /**
  * Log4j2 实现
+ * 
  * @author WD
  */
 public class Log4j2 implements Log {
 	// 日志
 	private Logger log;
+
+	public Log4j2() {
+		MainMapLookup.setMainArguments(Log4j2Params.DIR, Log4j2Params.LEVEL);
+	}
 
 	@Override
 	public void setClass(Class<?> c) {
@@ -111,8 +118,9 @@ public class Log4j2 implements Log {
 
 	/**
 	 * 转换日志 1 把字符串长于一定程度的信息截取 2把数组变成字符串 并截取一定长度
-	 * @param params 写日志参数
-	 * @return 参数
+	 * 
+	 * @param  params 写日志参数
+	 * @return        参数
 	 */
 	private static Object[] params(Object... params) {
 		// 开启日志截取

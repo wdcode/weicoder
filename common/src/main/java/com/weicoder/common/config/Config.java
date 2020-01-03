@@ -36,6 +36,7 @@ public final class Config {
 			// 有配置文件加载
 			if (in != null) {
 				ps.load(in);
+//				System.getProperties().putAll(ps);
 			}
 		} catch (IOException e) {
 		}

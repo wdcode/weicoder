@@ -52,7 +52,7 @@ public final class ResponseUtil {
 		// 写入到前端
 		try {
 			pw = response.getWriter();
-			pw.write(str);
+			pw.write(str); 
 		} catch (Exception e) {
 			Logs.error(e);
 		} finally {

@@ -17,8 +17,8 @@ public final class DaoParams {
 	public final static boolean	JDBC		= CONFIG.getBoolean("jdbc", Params.getBoolean(PREFIX + ".jdbc", false));
 //	/** 分页使用当前页的标识 */
 //	public final static String	PAGE_FLAG	= CONFIG.getString("page.flag", Params.getString(PREFIX + ".page.flag", "pager.currentPage"));
-	/** 数据源配置 */
-	public final static String	DB_CONFIG	= CONFIG.getString("db.config", Params.getString(PREFIX + ".db.config", "db"));
+//	/** 数据源配置 */
+//	public final static String	DB_CONFIG	= CONFIG.getString("db.config", Params.getString(PREFIX + ".db.config", "db"));
 	/** PO 扫描包名 */
 	public final static String	PACKAGES	= CONFIG.getString("packages", Params.getString(PREFIX + ".packages"));
 	/** 队列更新时间 默认2秒 */
