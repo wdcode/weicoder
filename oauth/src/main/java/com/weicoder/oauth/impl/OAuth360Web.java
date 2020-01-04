@@ -2,9 +2,9 @@ package com.weicoder.oauth.impl;
 
 import java.util.Map;
 
+import com.weicoder.common.http.HttpEngine;
 import com.weicoder.common.lang.Conversion; 
-import com.weicoder.core.json.JsonEngine;
-import com.weicoder.http.HttpClient;
+import com.weicoder.core.json.JsonEngine; 
 import com.weicoder.oauth.OAuthInfo;
 import com.weicoder.oauth.base.BaseOAuth;
 import com.weicoder.oauth.params.OAuthParams; 
@@ -54,7 +54,7 @@ public final class OAuth360Web extends BaseOAuth {
 		// 获得openid url
 		String url = String.format(OPEN_ID_URL, token);
 		// 获得提交返回结果
-		String res = HttpClient.get(url);
+		String res = HttpEngine.get(url);
 		Map<String, Object> map = JsonEngine.toMap(res);
 		// 返回信息
 		OAuthInfo info = new OAuthInfo();

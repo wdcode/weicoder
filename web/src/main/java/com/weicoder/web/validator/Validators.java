@@ -203,6 +203,9 @@ public final class Validators {
 			if (t.sign() > 0 && token.isSign())
 				// 是否服务器签发sign
 				return t.sign();
+			if (t.ban() > 0 && token.isBan())
+				// 封号
+				return t.ban();
 			if (t.ip() > 0 && IpUtil.equals(ip, token.getIp()) > ValidatorParams.TOKEN_IP)
 				// 客户端IP不符
 				return t.ip();

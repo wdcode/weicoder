@@ -2,12 +2,12 @@ package com.weicoder.oauth.qq;
 
 import java.util.Map;
 
+import com.weicoder.common.http.HttpEngine;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil; 
-import com.weicoder.core.json.JsonEngine;
-import com.weicoder.http.HttpClient;
+import com.weicoder.core.json.JsonEngine; 
 import com.weicoder.oauth.OAuthInfo;
 import com.weicoder.oauth.base.BaseOAuth;
 import com.weicoder.oauth.params.OAuthParams; 
@@ -59,7 +59,7 @@ public final class OAuthQQNew extends BaseOAuth {
 		// 获得openid url
 		String url = String.format(OPEN_ID_URL, token);
 		// 获得提交返回结果
-		String res = StringUtil.subString(HttpClient.get(url), " ", " ");
+		String res = StringUtil.subString(HttpEngine.get(url), " ", " ");
 		Map<String, Object> map = JsonEngine.toMap(res);
 		// 获得openid
 		openid = Conversion.toString(map.get("openid"));
@@ -71,7 +71,7 @@ public final class OAuthQQNew extends BaseOAuth {
 		info.setData(res);
 		// openid不为空 请求用户信息
 		if (!EmptyUtil.isEmpty(openid)) {
-			res = HttpClient.get(String.format(GET_USER_URL, token, appid(), openid));
+			res = HttpEngine.get(String.format(GET_USER_URL, token, appid(), openid));
 			Logs.debug("type={} openid={} user_info={}", info.getType(), openid, res);
 			map = JsonEngine.toMap(res);
 			info.setNickname(Conversion.toString(map.get("nickname")));

@@ -39,8 +39,10 @@ public final class CommonParams {
 	public final static String[]    IPS                  = Params.getStringArray("ips", ArrayConstants.STRING_EMPTY);
 	/** token 验证长度 */
 	public final static int         TOKEN_LENGHT         = Params.getInt("token.lenght", 8);
-	/** token 验证长度 */
-	public final static int         TOKEN_SIGN           = Params.getInt("token.sign", Byte.MIN_VALUE);
+	/** token 标记 */
+	public final static short       TOKEN_SIGN           = Params.getShort("token.sign", Byte.MIN_VALUE);
+	/** token 有效期 */
+	public static final int         TOKEN_EXPIRE         = Params.getInt("token.expire", DateConstants.DAY * 8);
 	/** 截取日志长度 */
 	public final static int         LOGS_LEN             = Params.getInt("logs.len", 500);
 	/** token 发放服务器 */

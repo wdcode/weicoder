@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.weicoder</groupId>
 		<artifactId>weicoder</artifactId> 
-		<version>3.2.1</version>
+		<version>3.2.2</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion> 
@@ -14,10 +14,6 @@
 		<dependency>
 			<groupId>com.weicoder</groupId>
 			<artifactId>web</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.weicoder</groupId>
-			<artifactId>http</artifactId>
 		</dependency>
 	</dependencies>
 </project>

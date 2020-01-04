@@ -3,8 +3,8 @@ package com.weicoder.oauth.base;
 import java.util.Map;
 
 import com.weicoder.common.codec.URLCode;
-import com.weicoder.common.util.StringUtil;
-import com.weicoder.http.HttpClient;
+import com.weicoder.common.http.HttpEngine;
+import com.weicoder.common.util.StringUtil; 
 import com.weicoder.web.util.HttpUtil;
 
 import com.weicoder.oauth.OAuth;
@@ -38,7 +38,7 @@ public abstract class BaseOAuth implements OAuth {
 	 * @return
 	 */
 	protected String http(String url) {
-		return HttpClient.get(url);
+		return HttpEngine.get(url);
 	}
 
 	/**

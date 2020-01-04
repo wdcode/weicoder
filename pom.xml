@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.weicoder</groupId>
 	<artifactId>weicoder</artifactId>
-	<version>3.2.1</version>
+	<version>3.2.2</version>
 	<packaging>pom</packaging>
 	<name>weicoder</name>
 	<description>java tools</description>
@@ -37,13 +37,16 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<parent>3.2.1</parent>
+		<parent>3.2.2</parent>
 		<jdk>11</jdk>
 		<maven-compiler-plugin>3.8.1</maven-compiler-plugin>
 		<maven-source-plugin>3.2.1</maven-source-plugin>
 		<maven-javadoc-plugin>3.1.1</maven-javadoc-plugin>
+		<maven-resources-plugin>3.1.0</maven-resources-plugin>
+		<maven-jar-plugin>3.2.0</maven-jar-plugin>
 		<maven-surefire-plugin>2.22.2</maven-surefire-plugin>
 		<maven-clean-plugin>3.1.0</maven-clean-plugin>
+		<maven-install-plugin>2.5.2</maven-install-plugin>
 		<maven-gpg-plugin>1.6</maven-gpg-plugin>
 		<javaee-api>8.0.1</javaee-api>
 		<lombok>1.18.10</lombok>
@@ -147,6 +150,21 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-clean-plugin</artifactId>
 				<version>${maven-clean-plugin}</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-install-plugin</artifactId>
+				<version>${maven-install-plugin}</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>${maven-resources-plugin}</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>${maven-jar-plugin}</version> 
 			</plugin>
 		</plugins>
 	</build>

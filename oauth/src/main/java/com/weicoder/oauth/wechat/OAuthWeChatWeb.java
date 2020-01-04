@@ -3,10 +3,10 @@ package com.weicoder.oauth.wechat;
 import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
+import com.weicoder.common.http.HttpEngine;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.util.EmptyUtil; 
 import com.weicoder.core.json.JsonEngine;
-import com.weicoder.http.HttpClient;
 import com.weicoder.oauth.OAuthInfo;
 import com.weicoder.oauth.base.BaseOAuth;
 import com.weicoder.oauth.params.OAuthParams; 
@@ -53,7 +53,7 @@ public class OAuthWeChatWeb extends BaseOAuth {
 	@Override
 	public OAuthInfo getInfoByToken(String token, String openid) {
 		// openid不为空 请求用户信息
-		String res = HttpClient.get(String.format(GET_USER_URL, token, openid));
+		String res = HttpEngine.get(String.format(GET_USER_URL, token, openid));
 		// 返回信息
 		Map<String, Object> map = JsonEngine.toMap(res);
 		OAuthInfo info = new OAuthInfo();

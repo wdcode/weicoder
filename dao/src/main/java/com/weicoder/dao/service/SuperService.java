@@ -152,13 +152,13 @@ public final class SuperService {
 	public static <E> List<E> time(E entity, int begin, int end, Paging page) {
 		// 获得数据列表
 		List<E> list = DAO.between(entity, "time", begin, end, getFirstResult(page), getMaxResults(page));
-//		// 判断列表
-//		if (EmptyUtil.isEmpty(list))
-//			// 为空 设置总数为 0
-//			page.setTotal(0);
-//		else
-//			// 不为空 查询出总数
-//			page.setTotal(DAO.count(entity.getClass()));
+		// 判断列表
+		if (EmptyUtil.isEmpty(list))
+			// 为空 设置总数为 0
+			page.setTotal(0);
+		else
+			// 不为空 查询出总数
+			page.setTotal(DAO.count(entity, "time", begin, end));
 		// 返回列表
 		return list;
 	}

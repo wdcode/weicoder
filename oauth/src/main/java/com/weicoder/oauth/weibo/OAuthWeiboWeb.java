@@ -4,10 +4,10 @@ import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
 import com.weicoder.common.codec.URLCode;
+import com.weicoder.common.http.HttpEngine;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.lang.Maps; 
-import com.weicoder.core.json.JsonEngine;
-import com.weicoder.http.HttpClient;
+import com.weicoder.core.json.JsonEngine; 
 import com.weicoder.oauth.OAuthInfo;
 import com.weicoder.oauth.base.BaseOAuth;
 import com.weicoder.oauth.params.OAuthParams; 
@@ -49,7 +49,7 @@ public class OAuthWeiboWeb extends BaseOAuth {
 
 	@Override
 	protected String http(String url) {
-		return HttpClient.post(url, Maps.newMap());
+		return HttpEngine.post(url, Maps.newMap());
 	}
 
 	@Override
@@ -61,7 +61,7 @@ public class OAuthWeiboWeb extends BaseOAuth {
 	@Override
 	public OAuthInfo getInfoByToken(String token, String openid) {
 		String url = "https://api.weibo.com/2/users/show.json?access_token=" + token + "&uid=" + openid;
-		String res = HttpClient.get(url);
+		String res = HttpEngine.get(url);
 		Map<String, Object> map = JsonEngine.toMap(res);
 		// 返回信息
 		OAuthInfo info = new OAuthInfo();
