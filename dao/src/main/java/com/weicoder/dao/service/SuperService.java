@@ -135,7 +135,7 @@ public final class SuperService {
 	 * @param  page   页面
 	 * @return
 	 */
-	public static <E> List<E> date(E entity, String begin, String end, Paging page) {
+	public static <E> PageResult date(E entity, String begin, String end, Paging page) {
 		return time(entity, DateUtil.getTime(begin), DateUtil.getTime(end), page);
 	}
 
@@ -149,7 +149,7 @@ public final class SuperService {
 	 * @param  page   页面
 	 * @return
 	 */
-	public static <E> List<E> time(E entity, int begin, int end, Paging page) {
+	public static <E> PageResult time(E entity, int begin, int end, Paging page) {
 		// 获得数据列表
 		List<E> list = DAO.between(entity, "time", begin, end, getFirstResult(page), getMaxResults(page));
 		// 判断列表
@@ -160,7 +160,7 @@ public final class SuperService {
 			// 不为空 查询出总数
 			page.setTotal(DAO.count(entity, "time", begin, end));
 		// 返回列表
-		return list;
+		return new PageResult(list, page);
 	}
 
 	/**
@@ -169,22 +169,22 @@ public final class SuperService {
 	 * @param  entityClass 要查询的实体
 	 * @param  property    属性名
 	 * @param  values      属性值
-	 * @param  pager       分页Bean
+	 * @param  page       分页Bean
 	 * @param  <E>         泛型
 	 * @return             数据列表
 	 */
-	public static <E> List<E> in(Class<E> entityClass, String property, List<Object> values, Paging pager) {
+	public static <E> PageResult in(Class<E> entityClass, String property, List<Object> values, Paging page) {
 		// 获得数据列表
-		List<E> list = DAO.in(entityClass, property, values, getFirstResult(pager), getMaxResults(pager));
+		List<E> list = DAO.in(entityClass, property, values, getFirstResult(page), getMaxResults(page));
 		// 判断列表
 		if (EmptyUtil.isEmpty(list))
 			// 为空 设置总数为 0
-			pager.setTotal(0);
+			page.setTotal(0);
 		else
 			// 不为空 查询出总数
-			pager.setTotal(DAO.count(entityClass, property, values));
+			page.setTotal(DAO.count(entityClass, property, values));
 		// 返回列表
-		return list;
+		return new PageResult(list, page);
 	}
 
 	/**
@@ -232,22 +232,22 @@ public final class SuperService {
 	 * @param  entityClass 要查询的实体
 	 * @param  property    属性名
 	 * @param  value       属性值
-	 * @param  pager       分页Bean
+	 * @param  page       分页Bean
 	 * @param  <E>         泛型
 	 * @return             数据列表
 	 */
-	public static <E> List<E> eq(Class<E> entityClass, String property, Object value, Paging pager) {
+	public static <E> PageResult eq(Class<E> entityClass, String property, Object value, Paging page) {
 		// 获得数据列表
-		List<E> list = DAO.eq(entityClass, property, value, getFirstResult(pager), getMaxResults(pager));
+		List<E> list = DAO.eq(entityClass, property, value, getFirstResult(page), getMaxResults(page));
 		// 判断列表
 		if (EmptyUtil.isEmpty(list))
 			// 为空 设置总数为 0
-			pager.setTotal(0);
+			page.setTotal(0);
 		else
 			// 不为空 查询出总数
-			pager.setTotal(DAO.count(entityClass, property, value));
+			page.setTotal(DAO.count(entityClass, property, value));
 		// 返回列表
-		return list;
+		return new PageResult(list, page);
 	}
 
 	/**
@@ -257,22 +257,22 @@ public final class SuperService {
 	 * @param  property    属性名
 	 * @param  values      属性值
 	 * @param  orders      排序
-	 * @param  pager       分页Bean
+	 * @param  page       分页Bean
 	 * @param  <E>         泛型
 	 * @return             数据列表
 	 */
-	public static <E> List<E> in(Class<E> entityClass, String property, List<Object> values, Map<String, Object> orders, Paging pager) {
+	public static <E> PageResult in(Class<E> entityClass, String property, List<Object> values, Map<String, Object> orders, Paging page) {
 		// 获得数据列表
-		List<E> list = DAO.in(entityClass, property, values, orders, getFirstResult(pager), getMaxResults(pager));
+		List<E> list = DAO.in(entityClass, property, values, orders, getFirstResult(page), getMaxResults(page));
 		// 判断列表
 		if (EmptyUtil.isEmpty(list))
 			// 为空 设置总数为 0
-			pager.setTotal(0);
+			page.setTotal(0);
 		else
 			// 不为空 查询出总数
-			pager.setTotal(DAO.count(entityClass, property, values));
+			page.setTotal(DAO.count(entityClass, property, values));
 		// 返回列表
-		return list;
+		return new PageResult(list, page);
 	}
 
 	/**
@@ -300,7 +300,7 @@ public final class SuperService {
 	 * @param  <E>      泛型
 	 * @return          返回结果列表
 	 */
-	public static <E> List<E> between(E entity, String property, Object lo, Object hi, Paging page) {
+	public static <E> PageResult between(E entity, String property, Object lo, Object hi, Paging page) {
 		// 获得数据列表
 		List<E> list = DAO.between(entity, property, lo, hi, getFirstResult(page), getMaxResults(page));
 		// 判断列表
@@ -311,7 +311,7 @@ public final class SuperService {
 			// 不为空 查询出总数
 			page.setTotal(DAO.count(entity, property, lo, hi));
 		// 返回列表
-		return list;
+		return new PageResult(list, page);
 	}
 
 	/**
@@ -323,7 +323,7 @@ public final class SuperService {
 	 * @param  <E>    泛型
 	 * @return        返回结果列表
 	 */
-	public static <E> List<E> order(E entity, Map<String, Object> orders, Paging page) {
+	public static <E> PageResult order(E entity, Map<String, Object> orders, Paging page) {
 		// 获得数据列表
 		List<E> list = DAO.order(entity, orders, getFirstResult(page), getMaxResults(page));
 		// 判断列表
@@ -334,7 +334,7 @@ public final class SuperService {
 			// 不为空 查询出总数
 			page.setTotal(DAO.count(entity));
 		// 返回列表
-		return list;
+		return new PageResult(list, page);
 	}
 
 	/**
@@ -346,7 +346,7 @@ public final class SuperService {
 	 * @param  <E>    泛型
 	 * @return        返回结果列表
 	 */
-	public static <E> List<E> order(Class<E> entity, Map<String, Object> orders, Paging page) {
+	public static <E> PageResult order(Class<E> entity, Map<String, Object> orders, Paging page) {
 		// 获得数据列表
 		List<E> list = DAO.order(entity, orders, getFirstResult(page), getMaxResults(page));
 		// 判断列表
@@ -357,7 +357,7 @@ public final class SuperService {
 			// 不为空 查询出总数
 			page.setTotal(DAO.count(entity));
 		// 返回列表
-		return list;
+		return new PageResult(list, page);
 	}
 
 	/**
