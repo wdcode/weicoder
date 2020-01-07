@@ -31,15 +31,16 @@ import com.weicoder.dao.Transactional;
 
 /**
  * Hibernate接口
+ * 
  * @author WD
  */
 public final class HibernateDao implements Dao {
 	// 日志
-	private final static Log			LOG			= LogFactory.getLog(HibernateDao.class);
+	private final static Log LOG = LogFactory.getLog(HibernateDao.class);
 	// Session工厂
-	private SessionFactorys				factorys	= new SessionFactorys();
+	private SessionFactorys factorys = new SessionFactorys();
 	// 事务保存列表
-	private Map<Session, Transactional>	txs			= Maps.newMap();
+	private Map<Session, Transactional> txs = Maps.newMap();
 
 	@Override
 	public Transactional getTransaction(Class<?> entityClass) {
@@ -61,12 +62,13 @@ public final class HibernateDao implements Dao {
 
 	@Override
 	public <E> List<E> insert(final List<E> entitys) {
-		return EmptyUtil.isEmpty(entitys) ? entitys : execute(entitys.get(0).getClass(), session -> {
-			// 循环添加
-			entitys.forEach(e -> session.save(e));
-			// 返回实体
-			return entitys;
-		});
+		return EmptyUtil.isEmpty(entitys) ? entitys
+				: execute(entitys.get(0).getClass(), session -> {
+					// 循环添加
+					entitys.forEach(e -> session.save(e));
+					// 返回实体
+					return entitys;
+				});
 	}
 
 	@Override
@@ -121,12 +123,13 @@ public final class HibernateDao implements Dao {
 
 	@Override
 	public <E> List<E> insertOrUpdate(final List<E> entitys) {
-		return EmptyUtil.isEmpty(entitys) ? Lists.emptyList() : execute(entitys.get(0).getClass(), session -> {
-			// 循环更新
-			entitys.forEach(e -> session.saveOrUpdate(e));
-			// 返回实体
-			return entitys;
-		});
+		return EmptyUtil.isEmpty(entitys) ? Lists.emptyList()
+				: execute(entitys.get(0).getClass(), session -> {
+					// 循环更新
+					entitys.forEach(e -> session.saveOrUpdate(e));
+					// 返回实体
+					return entitys;
+				});
 	}
 
 	@Override
@@ -371,6 +374,11 @@ public final class HibernateDao implements Dao {
 	}
 
 	@Override
+	public Class<?> entity(String name) {
+		return factorys.entity(name);
+	}
+
+	@Override
 	public boolean inserts(Object... entitys) {
 		return execute(entitys[0].getClass(), session -> {
 			// 循环添加
@@ -405,12 +413,13 @@ public final class HibernateDao implements Dao {
 
 	/**
 	 * 设置Query 参数与结果集数量
-	 * @param query Query查询器
-	 * @param values 参数列表
-	 * @param firstResult 第一条结果
-	 * @param maxResults 最大结果
-	 * @param <R> 泛型
-	 * @return Query
+	 * 
+	 * @param  query       Query查询器
+	 * @param  values      参数列表
+	 * @param  firstResult 第一条结果
+	 * @param  maxResults  最大结果
+	 * @param  <R>         泛型
+	 * @return             Query
 	 */
 	private <R> Query<R> setParameter(Query<R> query, List<Object> values, int firstResult, int maxResults) {
 		// 是否有参数
@@ -431,10 +440,11 @@ public final class HibernateDao implements Dao {
 
 	/**
 	 * 根据DetachedCriteria 查询条件 查询一个结果
-	 * @param entityClass 类
-	 * @param criteria 查询条件
-	 * @param <E> 泛型
-	 * @return 返回结果列表
+	 * 
+	 * @param  entityClass 类
+	 * @param  criteria    查询条件
+	 * @param  <E>         泛型
+	 * @return             返回结果列表
 	 */
 	private <E> E getCriteria(Class<?> entityClass, final DetachedCriteria criteria) {
 		// 获得结果
@@ -445,12 +455,13 @@ public final class HibernateDao implements Dao {
 
 	/**
 	 * 根据DetachedCriteria 查询条件 查询 支持分页
-	 * @param entityClass 实体类
-	 * @param criteria 查询条件
-	 * @param firstResult 开始查询的条数
-	 * @param maxResults 最多查询多少条
-	 * @param <E> 泛型
-	 * @return 返回结果列表
+	 * 
+	 * @param  entityClass 实体类
+	 * @param  criteria    查询条件
+	 * @param  firstResult 开始查询的条数
+	 * @param  maxResults  最多查询多少条
+	 * @param  <E>         泛型
+	 * @return             返回结果列表
 	 */
 	@SuppressWarnings("unchecked")
 	private <E> List<E> queryCriteria(Class<?> entityClass, final DetachedCriteria criteria, final int firstResult, final int maxResults) {
@@ -470,9 +481,10 @@ public final class HibernateDao implements Dao {
 
 	/**
 	 * 根据DetachedCriteria 查询条件 查询总行数
-	 * @param entityClass 实体类
-	 * @param criteria 查询条件
-	 * @return 返回结果列表 异常返回0
+	 * 
+	 * @param  entityClass 实体类
+	 * @param  criteria    查询条件
+	 * @return             返回结果列表 异常返回0
 	 */
 	private int count(Class<?> entityClass, final DetachedCriteria criteria) {
 		return execute(entityClass, session -> Conversion.toInt(criteria.getExecutableCriteria(session).setProjection(Projections.rowCount()).uniqueResult()));
@@ -480,11 +492,12 @@ public final class HibernateDao implements Dao {
 
 	/**
 	 * queryByBetween使用 返回DetachedCriteria
-	 * @param entity 查询实体
-	 * @param property 字段名
-	 * @param lo 开始条件
-	 * @param hi 结束条件
-	 * @return DetachedCriteria
+	 * 
+	 * @param  entity   查询实体
+	 * @param  property 字段名
+	 * @param  lo       开始条件
+	 * @param  hi       结束条件
+	 * @return          DetachedCriteria
 	 */
 	private DetachedCriteria getBetween(Object entity, String property, Object lo, Object hi) {
 		// 获得criteria
@@ -499,12 +512,13 @@ public final class HibernateDao implements Dao {
 
 	/**
 	 * queryByBetween使用 返回DetachedCriteria
-	 * @param entity 查询实体
-	 * @param property 字段名
-	 * @param lo 开始条件
-	 * @param hi 结束条件
-	 * @param <E> 泛型
-	 * @return DetachedCriteria
+	 * 
+	 * @param  entity   查询实体
+	 * @param  property 字段名
+	 * @param  lo       开始条件
+	 * @param  hi       结束条件
+	 * @param  <E>      泛型
+	 * @return          DetachedCriteria
 	 */
 	private <E> DetachedCriteria getBetween(Class<E> entity, String property, Object lo, Object hi) {
 		// 获得criteria
@@ -517,9 +531,10 @@ public final class HibernateDao implements Dao {
 
 	/**
 	 * 获得排序DetachedCriteria
-	 * @param entityClass 实体类
-	 * @param orders 排序参数
-	 * @return DetachedCriteria
+	 * 
+	 * @param  entityClass 实体类
+	 * @param  orders      排序参数
+	 * @return             DetachedCriteria
 	 */
 	private DetachedCriteria getOrder(Class<?> entityClass, Map<String, Object> orders) {
 		// 获得DetachedCriteria
@@ -532,8 +547,9 @@ public final class HibernateDao implements Dao {
 
 	/**
 	 * 获得当前Session
-	 * @param entityClass 实体类
-	 * @return Session
+	 * 
+	 * @param  entityClass 实体类
+	 * @return             Session
 	 */
 	private Session getSession(Class<?> entity) {
 		return factorys.getSession(entity);
@@ -541,10 +557,11 @@ public final class HibernateDao implements Dao {
 
 	/**
 	 * 执行Hibernate操作
-	 * @param entity 类
-	 * @param callback 回调方法
-	 * @param <T> 泛型
-	 * @return 泛型对象
+	 * 
+	 * @param  entity   类
+	 * @param  callback 回调方法
+	 * @param  <T>      泛型
+	 * @return          泛型对象
 	 */
 	private <T> T execute(Class<?> entity, Callback<T> callback) {
 		// 获得Session
@@ -590,13 +607,15 @@ public final class HibernateDao implements Dao {
 
 	/**
 	 * Hibernate回调方法
+	 * 
 	 * @author WD
 	 */
 	interface Callback<T> {
 		/**
 		 * 调用Hibernate执行操作
-		 * @param session hibernate Session
-		 * @return 指定的泛型
+		 * 
+		 * @param  session hibernate Session
+		 * @return         指定的泛型
 		 */
 		T callback(Session session);
 	}

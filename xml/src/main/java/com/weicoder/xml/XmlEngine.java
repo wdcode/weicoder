@@ -1,7 +1,7 @@
 package com.weicoder.xml;
 
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.JDom2Driver;
+import com.thoughtworks.xstream.XStream; 
+import com.thoughtworks.xstream.io.xml.JDom2Driver; 
 
 /**
  * XML处理引擎

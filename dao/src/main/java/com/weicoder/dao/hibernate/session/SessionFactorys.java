@@ -19,6 +19,7 @@ import com.weicoder.common.lang.Maps;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.util.ResourceUtil;
+import com.weicoder.common.util.StringUtil;
 
 /**
  * SessionFactory包装类
@@ -32,6 +33,8 @@ public final class SessionFactorys {
 	private Map<Class<?>, SessionFactory> entity_factorys;
 	// 保存单session工厂 只有一个SessionFactory工厂时使用
 	private SessionFactory factory;
+	// 保存实体对象类
+	private Map<String, Class<?>> entitys;
 
 	/**
 	 * 初始化
@@ -40,6 +43,7 @@ public final class SessionFactorys {
 		// 实例化表列表
 		entity_factorys = Maps.newMap();
 		factorys = Lists.newList();
+		entitys = Maps.newMap();
 		// 初始化SessionFactory
 		initSessionFactory();
 		// 如果只有一个SessionFactory
@@ -55,6 +59,16 @@ public final class SessionFactorys {
 	 */
 	public SessionFactory getSessionFactory(Class<?> entity) {
 		return factory == null ? entity_factorys.get(entity) : factory;
+	}
+
+	/**
+	 * 根据类名找到对应的实体类
+	 * 
+	 * @param  name
+	 * @return
+	 */
+	public Class<?> entity(String name) {
+		return entitys.get(name);
 	}
 
 	/**
@@ -97,9 +111,6 @@ public final class SessionFactorys {
 				config.setProperty("hibernate.hikari.jdbcUrl", String.format(config.getProperty("hibernate.hikari.jdbcUrl"), Conversion.toString(config.getProperty("url"))));
 				config.setProperty("hibernate.hikari.username", Conversion.toString(config.getProperty("username")));
 				config.setProperty("hibernate.hikari.password", Conversion.toString(config.getProperty("password")));
-//				config.setProperty("hikari.jdbcUrl", config.getProperty("hibernate.hikari.jdbcUrl"));
-//				config.setProperty("hikari.username", config.getProperty("hibernate.hikari.username"));
-//				config.setProperty("hikari.password", config.getProperty("hibernate.hikari.password"));
 				// 声明实体列表
 				List<Class<Entity>> list = ClassUtil.getAnnotationClass(config.getProperty("package"), Entity.class);
 				// 根据包名获取对象实体
@@ -113,7 +124,10 @@ public final class SessionFactorys {
 				// 注册 并添加实体对应工厂
 				SessionFactory sf = config.buildSessionFactory();
 				factorys.add(sf);
-				list.forEach(e -> entity_factorys.put(e, sf));
+				list.forEach(e -> {
+					entity_factorys.put(e, sf);
+					entitys.put(StringUtil.convert(e.getSimpleName()), e);
+				});
 			}
 		}
 	}

@@ -32,7 +32,7 @@ import java.io.Writer;
  * @author J&ouml;rg Schaible
  * @since 1.4
  */
-@SuppressWarnings({"deprecation", "resource","static-access"})
+@SuppressWarnings({"resource","static-access"})
 public abstract class AbstractXppDriver extends AbstractXmlDriver {
 
     /**

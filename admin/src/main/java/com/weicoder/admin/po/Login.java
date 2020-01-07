@@ -8,21 +8,23 @@ import javax.persistence.Id;
 import lombok.Data;
 
 /**
- * 菜单实体
+ * 登录日志实体
  * 
  * @author WD
  */
 @Entity
 @Data
-public class Menu {
+public class Login {
 	// ID
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	// 上级菜单ID
-	private Integer menuId;
-	// 链接
-	private String url;
 	// 名称
 	private String name;
+	// 登录IP
+	private String ip;
+	// 状态
+	private Integer state;
+	// 时间
+	private Integer time;
 }

@@ -35,8 +35,7 @@ import com.thoughtworks.xstream.core.Caching;
 @SuppressWarnings({"rawtypes", "unchecked", "deprecation"})
 public class SerializationMembers implements Caching {
 
-    private static final Method NO_METHOD = (new Object() {
-    }).getClass().getDeclaredMethods()[0];
+    private static final Method NO_METHOD = Object.class.getDeclaredMethods()[0];
     private static final Object[] EMPTY_ARGS = new Object[0];
     private static final Class[] EMPTY_CLASSES = new Class[0];
     private static final Map NO_FIELDS = Collections.EMPTY_MAP;

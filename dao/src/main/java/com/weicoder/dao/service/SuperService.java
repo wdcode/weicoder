@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.weicoder.dao.factory.DaoFactory;
 import com.weicoder.common.bean.Paging;
+import com.weicoder.common.interfaces.Callback;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.DateUtil;
@@ -21,6 +22,57 @@ import com.weicoder.dao.bean.PageResult;
 public final class SuperService {
 	/** Dao 接口 */
 	public final static Dao DAO = DaoFactory.FACTORY.getInstance();
+
+	/**
+	 * 根据传入的实体名获取到实体类，并且根据传入的参数注入值
+	 * 
+	 * @param  entity 实体名
+	 * @param  ps     参数
+	 * @return        如果存在就返回对象，不存在返回null
+	 */
+	public static Object entity(String entity, Map<String, String> ps) {
+		// 根据实体名获取实体
+		Class<?> c = DAO.entity(entity);
+		// 判断实体类
+		if (c == null)
+			return null;
+		// 实例化赋值并返回对象
+		return BeanUtil.copy(ps, c);
+	}
+
+	/**
+	 * 根据传入的实体名获取到实体类，并且根据传入的参数注入值
+	 * 
+	 * @param  entity 实体名
+	 * @param  ps     参数
+	 * @param  call   回调方法 传入获取的实体
+	 * @return
+	 */
+	public static Object entity(String entity, Map<String, String> ps, Callback<Object> call) {
+		// 获取实体类
+		Object e = entity(entity, ps);
+		// 实体不为空 入口 为空返回null
+		if (e == null)
+			return null;
+		// 回调
+		return call.callback(e);
+	}
+
+	/**
+	 * 根据传入的实体名获取到实体类
+	 * 
+	 * @param  entity 实体名
+	 * @return        如果存在就返回对象，不存在返回null
+	 */
+	public static Object entity(String entity, Callback<Class<?>> call) {
+		// 根据实体名获取实体
+		Class<?> c = DAO.entity(entity);
+		// 判断实体类
+		if (c == null)
+			return null;
+		// 回调
+		return call.callback(c);
+	}
 
 	/**
 	 * 添加要更新的数据到队列 队列按定时执行insertOrUpdate 不要使用此方法保存重要数据
@@ -169,7 +221,7 @@ public final class SuperService {
 	 * @param  entityClass 要查询的实体
 	 * @param  property    属性名
 	 * @param  values      属性值
-	 * @param  page       分页Bean
+	 * @param  page        分页Bean
 	 * @param  <E>         泛型
 	 * @return             数据列表
 	 */
@@ -232,7 +284,7 @@ public final class SuperService {
 	 * @param  entityClass 要查询的实体
 	 * @param  property    属性名
 	 * @param  value       属性值
-	 * @param  page       分页Bean
+	 * @param  page        分页Bean
 	 * @param  <E>         泛型
 	 * @return             数据列表
 	 */
@@ -257,7 +309,7 @@ public final class SuperService {
 	 * @param  property    属性名
 	 * @param  values      属性值
 	 * @param  orders      排序
-	 * @param  page       分页Bean
+	 * @param  page        分页Bean
 	 * @param  <E>         泛型
 	 * @return             数据列表
 	 */

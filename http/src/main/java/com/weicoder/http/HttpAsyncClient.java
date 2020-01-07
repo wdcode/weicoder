@@ -34,13 +34,14 @@ import com.weicoder.common.util.StringUtil;
 
 /**
  * HTTP异步客户端
+ * 
  * @author WD
  */
 public final class HttpAsyncClient {
 	// 日志
-	private final static Log				LOG	= LogFactory.getLog(HttpAsyncClient.class);
+	private final static Log LOG = LogFactory.getLog(HttpAsyncClient.class);
 	// Http客户端
-	final static CloseableHttpAsyncClient	CLIENT;
+	final static CloseableHttpAsyncClient CLIENT;
 
 	static {
 		// Http连接池
@@ -79,7 +80,8 @@ public final class HttpAsyncClient {
 
 	/**
 	 * 模拟get提交
-	 * @param url get提交地址
+	 * 
+	 * @param url      get提交地址
 	 * @param callback 回调结果
 	 */
 	public static void get(String url, Callback<String> callback) {
@@ -88,21 +90,24 @@ public final class HttpAsyncClient {
 
 	/**
 	 * 模拟get提交
-	 * @param url get提交地址
+	 * 
+	 * @param url      get提交地址
 	 * @param callback 回调结果
-	 * @param charset 编码
+	 * @param charset  编码
 	 */
 	public static void get(String url, Callback<String> callback, String charset) {
 		download(url, (byte[] result) -> {
 			if (callback != null) {
 				callback.callback(StringUtil.toString(result, charset));
 			}
+			return result;
 		});
 	}
 
 	/**
 	 * 下载文件
-	 * @param url get提交地址
+	 * 
+	 * @param url      get提交地址
 	 * @param callback 回调结果
 	 */
 	public static void download(String url, final Callback<byte[]> callback) {
@@ -131,7 +136,8 @@ public final class HttpAsyncClient {
 				}
 
 				@Override
-				public void cancelled() {}
+				public void cancelled() {
+				}
 			});
 		} catch (Exception e) {
 			LOG.error(e);
@@ -145,8 +151,9 @@ public final class HttpAsyncClient {
 
 	/**
 	 * 模拟post提交
-	 * @param url post提交地址
-	 * @param data 提交参数
+	 * 
+	 * @param url      post提交地址
+	 * @param data     提交参数
 	 * @param callback 回调结果
 	 */
 	public static void post(String url, Map<String, String> data, Callback<String> callback) {
@@ -155,10 +162,11 @@ public final class HttpAsyncClient {
 
 	/**
 	 * 模拟post提交
-	 * @param url post提交地址
-	 * @param data 提交参数
+	 * 
+	 * @param url      post提交地址
+	 * @param data     提交参数
 	 * @param callback 回调结果
-	 * @param charset 编码
+	 * @param charset  编码
 	 */
 	public static void post(String url, Map<String, String> data, Callback<String> callback, String charset) {
 		// 声明HttpPost
@@ -195,7 +203,8 @@ public final class HttpAsyncClient {
 				}
 
 				@Override
-				public void cancelled() {}
+				public void cancelled() {
+				}
 			});
 		} catch (Exception e) {
 			LOG.error(e);
@@ -207,5 +216,6 @@ public final class HttpAsyncClient {
 		}
 	}
 
-	private HttpAsyncClient() {}
+	private HttpAsyncClient() {
+	}
 }

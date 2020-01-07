@@ -28,6 +28,7 @@ import com.weicoder.common.token.TokenBean;
 import com.weicoder.common.token.TokenEngine;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.ClassUtil;
+import com.weicoder.common.util.DateUtil;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.IpUtil;
 import com.weicoder.common.util.StringUtil;
@@ -152,8 +153,12 @@ public class BasicServlet extends HttpServlet {
 			if (EmptyUtil.isNotEmpty(pars)) {
 				// 参数不为空 设置参数
 				params = new Object[pars.length];
+				// ip没有传 注入当前客户端IP
 				if (EmptyUtil.isEmpty(ps.get("ip")))
 					ps.put("ip", ip);
+				// 当前时间time没有传注入time
+				if (EmptyUtil.isEmpty(ps.get("time")))
+					ps.put("time", Conversion.toString(DateUtil.getTime()));
 				LOG.trace("request all ip={} params={}", ip, params);
 				// token验证通过在执行
 				if (code == StateParams.SUCCESS) {

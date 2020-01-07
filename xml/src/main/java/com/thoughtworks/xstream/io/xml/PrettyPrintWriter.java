@@ -47,7 +47,7 @@ import java.io.Writer;
  * @author Joe Walnes
  * @author J&ouml;rg Schaible
  */
-@SuppressWarnings({"rawtypes","deprecation"})
+@SuppressWarnings({"rawtypes"})
 public class PrettyPrintWriter extends AbstractXmlWriter {
 
     public static int XML_QUIRKS = -1;

@@ -20,8 +20,7 @@ import com.thoughtworks.xstream.io.naming.NameCoder;
  * 
  * @author Mauro Talevi
  * @author J&ouml;rg Schaible
- * @since 1.2
- * @deprecated As of 1.4 use {@link AbstractWriter} instead
+ * @since 1.2 
  */
 public abstract class AbstractXmlWriter extends AbstractWriter implements XmlFriendlyWriter {
 

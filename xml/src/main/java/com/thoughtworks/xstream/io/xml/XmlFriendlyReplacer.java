@@ -23,15 +23,13 @@ package com.thoughtworks.xstream.io.xml;
  * @author Mauro Talevi
  * @author J&ouml;rg Schaible
  * @author Tatu Saloranta
- * @since 1.2
- * @deprecated As of 1.4, use {@link XmlFriendlyNameCoder} instead
+ * @since 1.2 
  */
 public class XmlFriendlyReplacer extends XmlFriendlyNameCoder {
 
     /**
      * Default constructor.
-     * 
-     * @deprecated As of 1.4, use {@link XmlFriendlyNameCoder} instead
+     *  
      */
     public XmlFriendlyReplacer() {
         this("_-", "__");
@@ -41,8 +39,7 @@ public class XmlFriendlyReplacer extends XmlFriendlyNameCoder {
      * Creates an XmlFriendlyReplacer with custom replacements
      * 
      * @param dollarReplacement the replacement for '$'
-     * @param underscoreReplacement the replacement for '_'
-     * @deprecated As of 1.4, use {@link XmlFriendlyNameCoder} instead
+     * @param underscoreReplacement the replacement for '_' 
      */
     public XmlFriendlyReplacer(String dollarReplacement, String underscoreReplacement) {
         super(dollarReplacement, underscoreReplacement);
@@ -52,8 +49,7 @@ public class XmlFriendlyReplacer extends XmlFriendlyNameCoder {
      * Escapes name substituting '$' and '_' with replacement strings
      * 
      * @param name the name of attribute or node
-     * @return The String with the escaped name
-     * @deprecated As of 1.4, use {@link XmlFriendlyNameCoder} instead
+     * @return The String with the escaped name 
      */
     public String escapeName(String name) {
         return super.encodeNode(name);
@@ -63,11 +59,9 @@ public class XmlFriendlyReplacer extends XmlFriendlyNameCoder {
      * Unescapes name re-enstating '$' and '_' when replacement strings are found
      * 
      * @param name the name of attribute or node
-     * @return The String with unescaped name
-     * @deprecated As of 1.4, use {@link XmlFriendlyNameCoder} instead
+     * @return The String with unescaped name 
      */
     public String unescapeName(String name) {
         return super.decodeNode(name);
-    }
-
+    } 
 }

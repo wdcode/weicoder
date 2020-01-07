@@ -16,8 +16,7 @@ package com.thoughtworks.xstream.io.xml;
  * 
  * @author J&ouml;rg Schaible
  * @author Mauro Talevi
- * @since 1.3
- * @deprecated As of 1.4
+ * @since 1.3 
  */
 public interface XmlFriendlyWriter {
 

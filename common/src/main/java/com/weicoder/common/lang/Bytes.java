@@ -633,7 +633,7 @@ public final class Bytes {
 	 * @return        字符串
 	 */
 	public static String toString(byte[] b, int offset) {
-		return StringUtil.toString(copy(b, offset + 2, offset + 2 + toShort(b, offset)));
+		return toString(b, offset, false);
 	}
 
 	/**
@@ -645,7 +645,7 @@ public final class Bytes {
 	 * @return        字符串
 	 */
 	public static String toString(byte[] b, int offset, boolean is) {
-		return is ? toString(b, offset) : StringUtil.toString(copy(b, offset, b.length));
+		return StringUtil.toString(is ? copy(b, offset + 2, offset + 2 + toShort(b, offset)) : copy(b, offset, b.length));
 	}
 
 	/**
