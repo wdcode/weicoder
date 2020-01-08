@@ -18,9 +18,7 @@ import com.weicoder.dao.service.SuperService;
 /**
  * 后台初始化监听器
  * 
- * @author  WD
- * @since   JDK7
- * @version 1.0 2009-12-07
+ * @author  WD 
  */
 @WebListener
 public class AdminInitListener implements ServletContextListener {

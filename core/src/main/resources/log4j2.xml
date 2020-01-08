@@ -3,7 +3,7 @@
 <configuration status="off">
 	<!-- 定义下面的引用名 -->
 	<Properties>
-		<property name="log_pattern">%date{yyyy-MM-dd HH:mm:ss}  %-5level [%thread] (%F:%L) %logger - %msg%n</property>
+		<property name="log_pattern">%date{yyyy-MM-dd HH:mm:ss} %-5level [%thread] (%F:%L) %logger - %msg%n</property>
 		<property name="dev_file_name">app.log</property>
 		<property name="dev_file_pattern">app_%d{yyyy-MM-dd}.log.gz</property>
 		<property name="error_file_name">error.log</property>

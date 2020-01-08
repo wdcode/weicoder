@@ -5,13 +5,11 @@ import com.weicoder.common.params.Params;
 /**
  * 读取后台管理配置
  * 
- * @author  WD
- * @since   JDK7
- * @version 1.0 2009-08-04
+ * @author WD
  */
 public final class AdminParams {
 	/** 创建者ID */
-	public final static int ADMIN = Params.getInt("admin", 1);
+	public final static String ADMIN = Params.getString("admin", "admin");
 
 	private AdminParams() {
 	}
