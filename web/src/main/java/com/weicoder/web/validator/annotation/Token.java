@@ -60,7 +60,7 @@ public @interface Token {
 	int ban() default 0;
 
 	/**
-	 * 验证id是否相同 验证用户token与用户id是否相同 不为0验证
+	 * 验证id是否相同 验证用户token与用户id是否相同 为空不验证
 	 * 
 	 * @return 验证id
 	 */
@@ -71,5 +71,5 @@ public @interface Token {
 	 * 
 	 * @return 强制参数
 	 */
-	String uid() default StringConstants.EMPTY;
+	String uid() default "uid";
 }

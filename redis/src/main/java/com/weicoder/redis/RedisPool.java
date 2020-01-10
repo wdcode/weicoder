@@ -14,18 +14,45 @@ import redis.clients.jedis.JedisPubSub;
  */
 public interface RedisPool {
 	/**
-	 * 获取资源Jedis
-	 * 
-	 * @return Jedis
-	 */
-	Jedis getResource();
-
-	/**
 	 * 执行Redis 回调使用 内部处理jedis的关闭问题
 	 * 
 	 * @param callback
 	 */
 	void exec(Callback callback);
+
+	/**
+	 * 分布式锁锁定1秒 无超时时间 会一直等待
+	 * 
+	 * @param  key 加锁key
+	 * @return     是否成功
+	 */
+	void lock(String key);
+
+	/**
+	 * 分布式锁锁定1秒 有超时时间
+	 * 
+	 * @param  key 加锁key
+	 * @param  ms  超时时间 毫秒
+	 * @return     是否加锁成功 如果超时会返回false失败
+	 */
+	boolean lock(String key, long ms);
+
+	/**
+	 * 分布式锁锁定1秒 有超时时间
+	 * 
+	 * @param  key 加锁key
+	 * @param  s   超时时间 秒
+	 * @return     是否加锁成功 如果超时会返回false失败
+	 */
+	boolean lock(String key, int s);
+
+	/**
+	 * 分布式解锁
+	 * 
+	 * @param  key 解锁key
+	 * @return     是否成功
+	 */
+	void unlock(String key);
 
 	/**
 	 * 压缩值 当值能压缩时才压缩

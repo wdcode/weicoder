@@ -22,7 +22,7 @@
 		<property name="hikari.driverClassName">com.mysql.cj.jdbc.Driver</property> 
 		<!-- 方言 -->
 		<property name="dialect">org.hibernate.dialect.MySQL8Dialect</property>
-		<!-- 设置hibernate中session与线程绑定 -->
+		<!-- 设置hibernate中session与线程绑定  本地事务thread 分布式事务jta-->
         <property name="hibernate.current_session_context_class">thread</property>
         <!-- 自动关闭 =  -->
         <property name="hibernate.transaction.auto_close_session">true</property>

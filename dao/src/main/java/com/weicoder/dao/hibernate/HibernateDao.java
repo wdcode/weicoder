@@ -585,11 +585,9 @@ public final class HibernateDao implements Dao {
 			if (EmptyUtil.isNotEmpty(tx))
 				// 提交事务
 				tx.commit();
-			if (EmptyUtil.isNotEmpty(t))
-				t.toString();
-			LOG.debug("hibernate dao callback class={} res={}", entity, t);
+			LOG.debug("hibernate dao callback res={}", t);
 		} catch (Exception e) {
-			LOG.error(e, "hibernate dao class={} res={}", entity, t);
+			LOG.error(e, "hibernate dao res={}", t);
 			// 回滚事务
 			if (EmptyUtil.isNotEmpty(tx))
 				tx.rollback();

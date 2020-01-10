@@ -9,7 +9,7 @@ import com.weicoder.common.params.Params;
  */
 public final class Log4j2Params {
 	/** 日志存放目录 */
-	public static final String DIR   = Params.getString("log.dir");
+	public static final String DIR   = Params.getString("log.dir", "logs");
 	/** 日志打印级别 */
 	public static final String LEVEL = Params.getString("log.level", "debug");
 

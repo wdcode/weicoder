@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.weicoder</groupId>
 		<artifactId>weicoder</artifactId> 
-		<version>3.2.2</version>
+		<version>3.2.3</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
@@ -20,7 +20,7 @@
 			<artifactId>log4j-core</artifactId> 
 		</dependency> 
 		<dependency>
-			<groupId>com.lmax</groupId>
+			<groupId>com.weicoder</groupId>
 			<artifactId>disruptor</artifactId> 
 		</dependency>  
 		<dependency>

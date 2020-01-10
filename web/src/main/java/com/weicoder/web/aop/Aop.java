@@ -7,32 +7,34 @@ import java.lang.annotation.Target;
 
 /**
  * 标注AOP注解
+ * 
  * @author WD
  */
-@Target({ ElementType.METHOD, ElementType.TYPE })
+@Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Aop {
 	/**
 	 * 拦截的aop类
+	 * 
 	 * @return 拦截的aop类
 	 */
-	String value();
+	String value() default "";
 
-	/**
-	 * 前置方法
-	 * @return 前置方法
-	 */
-	String before();
-
-	/**
-	 * 后置方法
-	 * @return 后置方法
-	 */
-	String after();
-
-	/**
-	 * 异常方法
-	 * @return 异常方法
-	 */
-	String exception() default "";
+//	/**
+//	 * 前置方法
+//	 * @return 前置方法
+//	 */
+//	String before();
+//
+//	/**
+//	 * 后置方法
+//	 * @return 后置方法
+//	 */
+//	String after();
+//
+//	/**
+//	 * 异常方法
+//	 * @return 异常方法
+//	 */
+//	String exception() default "";
 }
