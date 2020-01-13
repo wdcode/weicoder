@@ -85,8 +85,7 @@ import org.jdom2.*;
  * @author Jason Hunter
  * @author Jon Baer
  * @author David Bartle
- * @author Robert J. Munro
- * @version 0.5
+ * @author Robert J. Munro 
  */
 @SuppressWarnings("javadoc")
 public class ResultSetBuilder {

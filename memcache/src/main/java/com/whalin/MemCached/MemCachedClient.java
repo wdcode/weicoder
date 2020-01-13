@@ -14,8 +14,7 @@
  * You should have received a copy of the BSD License along with this
  * library.
  *
- * @author Greg Whalin <greg@meetup.com> 
- * @version 2.0
+ * @author Greg Whalin <greg@meetup.com>  
  */
 
 /*******************************************************************************

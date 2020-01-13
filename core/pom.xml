@@ -21,8 +21,8 @@
 		</dependency> 
 		<dependency>
 			<groupId>com.weicoder</groupId>
-			<artifactId>disruptor</artifactId> 
-		</dependency>  
+			<artifactId>disruptor-jdk11</artifactId> 
+		</dependency>
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>fastjson</artifactId> 

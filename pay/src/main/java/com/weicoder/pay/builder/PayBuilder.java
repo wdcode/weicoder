@@ -14,9 +14,7 @@ import com.weicoder.pay.impl.Yeepay;
 /**
  * 支付构建器
  * 
- * @author WD
- * 
- * @version 1.0 2012-12-04
+ * @author WD 
  */
 public final class PayBuilder {
 	// 支付Map

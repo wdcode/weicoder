@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<!-- status=debug 可以查看log4j的装配过程 -->
+<configuration status="off">
+	<appenders>
+		<!-- 定义控制台输出 -->
+		<Console name="Console" target="SYSTEM_OUT" follow="true">
+			<PatternLayout pattern="%date{yyyy-MM-dd HH:mm:ss} %level - %msg%n" />
+		</Console> 
+	</appenders>
+	<loggers>
+		<!-- 指定不同包得日志基本 -->
+		<logger name="org.jboss" level="warn"></logger>
+		<logger name="org.apache" level="warn"></logger> 
+		<logger name="io.netty" level="warn"></logger>
+		<logger name="org.springframework" level="warn"></logger>
+		<logger name="org.hibernate" level="warn"></logger> 
+		<!-- 异步日志 -->
+		<asyncRoot level="debug">  
+			<appender-ref ref="Console" />
+		</asyncRoot>
+	</loggers>
+</configuration>

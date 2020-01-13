@@ -151,8 +151,7 @@ import com.weicoder.common.log.Logs;
  * 	sock.close();
  * </pre>
  * 
- * @author  greg whalin <greg@whalin.com>
- * @version 1.5
+ * @author  greg whalin <greg@whalin.com> 
  */
 public class SockIOPool {
 	// Constants
@@ -589,8 +588,7 @@ public class SockIOPool {
 	 * MemCached client for Java, utility class for Socket IO. This class is a wrapper around a Socket and its streams.
 	 * 
 	 * @author  greg whalin <greg@meetup.com>
-	 * @author  Richard 'toast' Russo <russor@msoe.edu>
-	 * @version 1.5
+	 * @author  Richard 'toast' Russo <russor@msoe.edu> 
 	 */
 	public static class SockIO implements LineInputStream, AutoCloseable {
 		// pool
@@ -1039,8 +1037,7 @@ public class SockIOPool {
 	/**
 	 * Class which extends thread and handles maintenance of the pool.
 	 * 
-	 * @author  greg whalin <greg@meetup.com>
-	 * @version 1.5
+	 * @author  greg whalin <greg@meetup.com> 
 	 */
 	protected static class MaintThread extends Thread {
 

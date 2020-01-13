@@ -11,8 +11,7 @@ import com.weicoder.excel.Excel;
 
 /**
  * Excel相关操作类,使用getExcelUtil或createExcelUtil获得实例
- * @author WD
- * @version 1.0
+ * @author WD 
  */
 public abstract class BaseExcel implements Excel {
 	// 第几个工作薄

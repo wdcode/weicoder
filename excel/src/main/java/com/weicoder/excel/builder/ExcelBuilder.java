@@ -8,8 +8,7 @@ import com.weicoder.excel.impl.ExcelPOI;
 
 /**
  * 生成 Excel 接口工厂
- * @author WD
- * @version 1.0
+ * @author WD 
  */
 public final class ExcelBuilder {
 	/**

@@ -8,8 +8,7 @@ import com.weicoder.xml.Element;
 
 /**
  * Document接口 Dom4J实现
- * @author WD
- * @version 1.0
+ * @author WD 
  */
 public final class DocumentDom4J implements Document {
 	// Dom4J Document对象

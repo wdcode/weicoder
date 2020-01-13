@@ -1298,8 +1298,7 @@ public class SchoonerSockIOPool {
 	 * MemCached Java client, utility class for Socket IO. This class is a wrapper around a Socket and its streams.
 	 * 
 	 * @author  greg whalin <greg@meetup.com>
-	 * @author  Richard 'toast' Russo <russor@msoe.edu>
-	 * @version 1.5
+	 * @author  Richard 'toast' Russo <russor@msoe.edu> 
 	 */
 	public static class TCPSockIO extends SchoonerSockIO {
 		// data

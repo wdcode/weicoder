@@ -15,8 +15,7 @@ import com.weicoder.xml.input.XMLRead;
 
 /**
  * SAXBuilder接口 Dom4J实现
- * @author WD
- * @version 1.0
+ * @author WD 
  */
 public final class XMLReadDom4J implements XMLRead {
 	// Dom4J SAXReader 读取XML文件

@@ -2,8 +2,7 @@ package com.weicoder.xml.output;
 
 /**
  * XML输出格式格式接口
- * @author WD 
- * @version 1.0 
+ * @author WD  
  */
 public interface Format {
 	/**

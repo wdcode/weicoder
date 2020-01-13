@@ -18,8 +18,7 @@ import com.weicoder.excel.base.BaseExcel;
 
 /**
  * 使用POI操作Excel
- * @author WD
- * @version 1.0
+ * @author WD 
  */
 public final class ExcelPOI extends BaseExcel {
 	// 工作薄 读

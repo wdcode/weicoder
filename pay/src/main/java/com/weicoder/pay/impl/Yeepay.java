@@ -28,9 +28,7 @@ import com.weicoder.web.util.RequestUtil;
 
 /**
  * 易宝网银支付
- * @author WD
- * 
- * @version 1.0 2012-12-04
+ * @author WD 
  */
 public final class Yeepay implements Pay {
 	@Override

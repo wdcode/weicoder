@@ -2,9 +2,7 @@ package com.weicoder.pay.bean;
 
 /**
  * 支付回调实体
- * @author WD
- * 
- * @version 1.0 2013-12-23
+ * @author WD 
  */
 public final class TradeBean {
 	// 订单号

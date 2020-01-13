@@ -11,8 +11,7 @@ import com.weicoder.xml.Element;
 
 /**
  * Element接口 JDom实现
- * @author WD
- * @version 1.0
+ * @author WD 
  */
 public final class ElementJDom2 implements Element {
 	// Document对象

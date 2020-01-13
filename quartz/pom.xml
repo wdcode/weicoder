@@ -3,21 +3,17 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<parent>
 		<groupId>com.weicoder</groupId>
-		<artifactId>weicoder</artifactId> 
+		<artifactId>weicoder</artifactId>
 		<version>3.2.3</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>quartz</artifactId> 
+	<artifactId>quartz</artifactId>
 
 	<dependencies>
 		<dependency>
 			<groupId>com.weicoder</groupId>
 			<artifactId>core</artifactId>
 		</dependency> 
-		<dependency>
-			<groupId>org.quartz-scheduler</groupId>
-			<artifactId>quartz</artifactId> 
-		</dependency>
 	</dependencies>
 </project>

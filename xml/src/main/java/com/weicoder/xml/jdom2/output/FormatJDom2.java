@@ -4,8 +4,7 @@ import com.weicoder.xml.output.Format;
 
 /**
  * Format接口 JDom实现
- * @author WD 
- * @version 1.0 
+ * @author WD  
  */
 public final class FormatJDom2 implements Format {
 	// JDom Format

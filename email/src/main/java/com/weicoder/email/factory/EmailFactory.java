@@ -9,8 +9,7 @@ import com.weicoder.email.params.EmailParams;
 
 /**
  * 获得Email接口实例的工厂类 
- * @author WD 
- * @version 1.0 
+ * @author WD  
  */
 public final class EmailFactory extends Factory<Email> {
 	// 工厂

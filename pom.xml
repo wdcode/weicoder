@@ -47,20 +47,19 @@
 		<maven-install-plugin>2.5.2</maven-install-plugin>
 		<maven-gpg-plugin>1.6</maven-gpg-plugin>
 		<javaee-api>8.0.1</javaee-api>
-		<lombok>1.18.10</lombok>
-		<log4j-core>2.13.0</log4j-core>
 		<disruptor>3.4.2</disruptor>
-		<fastjson>1.2.62</fastjson>
-		<quartz>2.3.2</quartz>
+		<HikariCP>3.4.2</HikariCP>
+		<lombok>1.18.10</lombok>
+		<log4j-core>2.13.0</log4j-core> 
+		<fastjson>1.2.62</fastjson> 
 		<httpclient>4.5.10</httpclient>
 		<httpmime>4.5.10</httpmime>
 		<httpcore>4.4.12</httpcore>
 		<httpcore-nio>4.4.12</httpcore-nio>
 		<httpasyncclient>4.1.4</httpasyncclient>
 		<protobuf-java>3.11.1</protobuf-java>
-		<hibernate-core>5.4.10.Final</hibernate-core>
-		<HikariCP>3.4.2</HikariCP>
-		<mysql-connector-java>8.0.18</mysql-connector-java>
+		<hibernate-core>5.4.10.Final</hibernate-core> 
+		<mysql-connector-java>8.0.19</mysql-connector-java>
 		<netty-all>4.1.44.Final</netty-all>
 		<mongo-java-driver>3.12.0</mongo-java-driver>
 		<jedis>3.2.0</jedis>
@@ -336,6 +335,16 @@
 				<version>${parent}</version>
 			</dependency>
 			<dependency>
+				<groupId>com.weicoder</groupId>
+				<artifactId>HikariCP-jdk11</artifactId>
+				<version>${HikariCP}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.weicoder</groupId>
+				<artifactId>disruptor-jdk11</artifactId>
+				<version>${disruptor}</version>
+			</dependency>
+			<dependency>
 				<groupId>org.projectlombok</groupId>
 				<artifactId>lombok</artifactId>
 				<version>${lombok}</version>
@@ -344,21 +353,11 @@
 				<groupId>org.apache.logging.log4j</groupId>
 				<artifactId>log4j-core</artifactId>
 				<version>${log4j-core}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.weicoder</groupId>
-				<artifactId>disruptor</artifactId>
-				<version>${disruptor}</version>
-			</dependency>
+			</dependency> 
 			<dependency>
 				<groupId>com.alibaba</groupId>
 				<artifactId>fastjson</artifactId>
 				<version>${fastjson}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.quartz-scheduler</groupId>
-				<artifactId>quartz</artifactId>
-				<version>${quartz}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.httpcomponents</groupId>
@@ -394,12 +393,7 @@
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-core</artifactId>
 				<version>${hibernate-core}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.zaxxer</groupId>
-				<artifactId>HikariCP</artifactId>
-				<version>${HikariCP}</version>
-			</dependency>
+			</dependency> 
 			<dependency>
 				<groupId>mysql</groupId>
 				<artifactId>mysql-connector-java</artifactId>

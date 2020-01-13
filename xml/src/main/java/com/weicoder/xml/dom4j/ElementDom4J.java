@@ -13,8 +13,7 @@ import com.weicoder.xml.Element;
 
 /**
  * XML节点接口 Dom4J实现
- * @author WD
- * @version 1.0
+ * @author WD 
  */
 public final class ElementDom4J implements Element {
 	// Document对象

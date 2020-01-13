@@ -6,8 +6,7 @@ import com.weicoder.xml.Attribute;
 
 /**
  * Attribute接口 Dom4J实现
- * @author WD
- * @version 1.0
+ * @author WD 
  */
 public final class AttributeDom4J implements Attribute {
 	// Dom4J Attribute对象

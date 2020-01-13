@@ -6,9 +6,7 @@ import com.weicoder.common.params.Params;
 
 /**
  * 支付配置读取
- * @author WD
- * 
- * @version 1.0 2011-11-08
+ * @author WD 
  */
 public final class PayParams {
 	/* 支付宝 */

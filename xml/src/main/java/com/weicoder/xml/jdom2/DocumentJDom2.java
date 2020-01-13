@@ -6,8 +6,7 @@ import com.weicoder.xml.Element;
 
 /**
  * Document接口 JDom实现
- * @author WD
- * @version 1.0
+ * @author WD 
  */
 public final class DocumentJDom2 implements Document {
 	// JDom Document对象

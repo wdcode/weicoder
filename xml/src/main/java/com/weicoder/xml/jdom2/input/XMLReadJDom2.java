@@ -14,8 +14,7 @@ import com.weicoder.common.util.CloseUtil;
 
 /**
  * SAXBuilder接口 JDom实现
- * @author WD 
- * @version 1.0  
+ * @author WD  
  */
 public final class XMLReadJDom2 implements XMLRead {
 	// JDom SAXReader 读取XML文件

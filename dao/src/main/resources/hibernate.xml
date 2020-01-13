@@ -14,8 +14,8 @@
 		<!-- 配置监控统计拦截的filters，去掉后监控界面sql无法统计 
 		<property name="filters">stat</property> 
 		-->
-		<!-- hikaricp -->
-		<property name="connection.provider_class">com.zaxxer.hikari.hibernate.HikariConnectionProvider</property> 
+		<!-- hikaricp com.zaxxer.hikari.hibernate.HikariConnectionProvider-->
+		<property name="connection.provider_class">org.hibernate.hikaricp.internal.HikariCPConnectionProvider</property>  
 		<property name="hikari.jdbcUrl">jdbc:mysql://%s?useLocalSessionState=true&amp;characterEncoding=utf8&amp;useSSL=true&amp;verifyServerCertificate=false&amp;serverTimezone=UTC</property>
 		<property name="hikari.username">root</property>
 		<property name="hikari.password">12345678</property>  

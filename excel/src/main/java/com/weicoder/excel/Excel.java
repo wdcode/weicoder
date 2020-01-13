@@ -5,8 +5,7 @@ import java.util.Map;
 
 /**
  * Excel 相关操作接口 使用ExcelFactory获得实例
- * @author WD
- * @version 1.0
+ * @author WD 
  */
 public interface Excel {
 	/**
