@@ -10,7 +10,7 @@ import java.util.Map;
 
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.lang.Conversion;
+import com.weicoder.common.lang.C;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.EmptyUtil;
@@ -86,11 +86,11 @@ public final class HttpEngine {
 	public static byte[] download(HttpClient client, String url, Map<String, Object> header) {
 		try {
 			// 获得HttpRequest构建器
-			HttpRequest.Builder builder = HttpRequest.newBuilder(new URI(url));
+			HttpRequest.Builder builder = HttpRequest.newBuilder(URI.create(url));
 			// 头不为空，添加头
 			if (EmptyUtil.isNotEmpty(header))
 				for (Map.Entry<String, Object> h : header.entrySet())
-					builder.setHeader(h.getKey(), Conversion.toString(h.getValue()));
+					builder.setHeader(h.getKey(), C.toString(h.getValue()));
 			// HttpRequest
 			HttpRequest request = builder.GET().build();
 			// 请求
@@ -98,7 +98,7 @@ public final class HttpEngine {
 			// 返回结果
 			return response.body();
 		} catch (Exception e) {
-			Logs.error(e, "Http2Engine get url={}", url);
+			Logs.error(e, "Http2Engine download url={}", url);
 		}
 		return ArrayConstants.BYTES_EMPTY;
 	}
@@ -137,29 +137,24 @@ public final class HttpEngine {
 	 */
 	public static String post(HttpClient client, String url, Map<String, Object> data, Map<String, Object> header) {
 		try {
-			// 获得HttpRequest构建器
-			HttpRequest.Builder builder = HttpRequest.newBuilder(new URI(url));
-			// 头不为空，添加头
-			if (EmptyUtil.isNotEmpty(header))
-				for (Map.Entry<String, Object> h : header.entrySet())
-					builder.setHeader(h.getKey(), Conversion.toString(h.getValue()));
-
 			// 请求body
-			String body = null;
+			String body = StringConstants.EMPTY;
 			// 判断有参数提交
 			if (EmptyUtil.isNotEmpty(data)) {
 				// 声明字符串缓存
-				StringBuilder sb = new StringBuilder();
+				StringBuilder sb = new StringBuilder("?");
 				// 循环参数
-				data.entrySet().forEach(e -> {
-					// 添加条件与分隔符
-					sb.append(e.getKey()).append("=").append(e.getValue()).append("&");
-				});
+				data.entrySet().forEach(e -> sb.append(e.getKey()).append("=").append(e.getValue()).append("&"));
 				body = sb.substring(0, sb.length() - 1);
-
 			}
+
+			// 获得HttpRequest构建器
+			HttpRequest.Builder builder = HttpRequest.newBuilder(URI.create(url + body));
+			// 头不为空，添加头
+			if (EmptyUtil.isNotEmpty(header))
+				header.forEach((k, v) -> builder.setHeader(k, C.toString(v)));
 			// HttpRequest
-			HttpRequest request = builder.POST(BodyPublishers.ofString(body)).build();
+			HttpRequest request = builder.POST(BodyPublishers.noBody()).build();
 			// 请求
 			HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 			// 使用GZIP一般服务器支持解压获得的流 然后转成字符串 一般为UTF-8

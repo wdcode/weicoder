@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.lang.Conversion;
+import com.weicoder.common.lang.C;
 
 /**
  * 数组帮助类
@@ -92,7 +92,7 @@ public final class ArrayUtil {
 		Integer[] t = new Integer[s.length];
 		// 循环int数组
 		for (int i = 0; i < s.length; i++)
-			t[i] = Conversion.toInt(s[i]);
+			t[i] = C.toInt(s[i]);
 		// 返回Integer数组
 		return t;
 	}
@@ -122,7 +122,7 @@ public final class ArrayUtil {
 		String[] t = new String[n.length];
 		// 循环int数组
 		for (int i = 0; i < n.length; i++)
-			t[i] = Conversion.toString(n[i]);
+			t[i] = C.toString(n[i]);
 		// 返回Integer数组
 		return t;
 	}
@@ -137,7 +137,7 @@ public final class ArrayUtil {
 		String[] t = new String[a.length];
 		// 循环序列化数组
 		for (int i = 0; i < a.length; i++)
-			t[i] = Conversion.toString(a[i]);
+			t[i] = C.toString(a[i]);
 		// 返回String数组
 		return t;
 	}
@@ -152,7 +152,7 @@ public final class ArrayUtil {
 		String[] t = new String[a.length];
 		// 循环序列化数组
 		for (int i = 0; i < a.length; i++)
-			t[i] = Conversion.toString(a[i]);
+			t[i] = C.toString(a[i]);
 		// 返回String数组
 		return t;
 	}

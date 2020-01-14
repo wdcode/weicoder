@@ -258,7 +258,7 @@ public final class Lists {
 		// 判断不为空
 		if (EmptyUtil.isNotEmpty(list) && o != null)
 			for (Object obj : list)
-				if (o.getClass().equals(obj.getClass()) ? o.equals(obj) : Conversion.toString(o).equals(Conversion.toString(obj)))
+				if (o.getClass().equals(obj.getClass()) ? o.equals(obj) : C.toString(o).equals(C.toString(obj)))
 					return true;
 		// 返回false
 		return false;

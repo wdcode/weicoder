@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.weicoder.common.lang.Bytes;
-import com.weicoder.common.lang.Conversion;
+import com.weicoder.common.lang.C;
 import com.weicoder.redis.Subscribe;
 import com.weicoder.redis.base.BaseRedis;
 import com.weicoder.redis.builder.JedisBuilder;
@@ -37,7 +37,7 @@ public final class RedisJedis extends BaseRedis implements Subscribe {
 	@Override
 	public long llen(String key) {
 		try (Jedis jedis = pool.getResource()) {
-			return Conversion.toLong(jedis.llen(key));
+			return C.toLong(jedis.llen(key));
 		}
 	}
 

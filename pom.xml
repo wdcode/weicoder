@@ -46,24 +46,26 @@
 		<maven-clean-plugin>3.1.0</maven-clean-plugin>
 		<maven-install-plugin>2.5.2</maven-install-plugin>
 		<maven-gpg-plugin>1.6</maven-gpg-plugin>
+		<maven-war-plugin>3.2.3</maven-war-plugin>
+		<maven-dependency-plugin>3.1.1</maven-dependency-plugin>
+		<jetty-maven-plugin>9.4.24.v20191120</jetty-maven-plugin>
 		<javaee-api>8.0.1</javaee-api>
 		<disruptor>3.4.2</disruptor>
 		<HikariCP>3.4.2</HikariCP>
 		<lombok>1.18.10</lombok>
-		<log4j-core>2.13.0</log4j-core> 
-		<fastjson>1.2.62</fastjson> 
+		<log4j-core>2.13.0</log4j-core>
+		<fastjson>1.2.62</fastjson>
 		<httpclient>4.5.10</httpclient>
 		<httpmime>4.5.10</httpmime>
 		<httpcore>4.4.12</httpcore>
 		<httpcore-nio>4.4.12</httpcore-nio>
-		<httpasyncclient>4.1.4</httpasyncclient>
-		<protobuf-java>3.11.1</protobuf-java>
-		<hibernate-core>5.4.10.Final</hibernate-core> 
+		<httpasyncclient>4.1.4</httpasyncclient> 
+		<hibernate-core>5.4.10.Final</hibernate-core>
 		<mysql-connector-java>8.0.19</mysql-connector-java>
-		<netty-all>4.1.44.Final</netty-all>
+		<netty-all>4.1.45.Final</netty-all>
 		<mongo-java-driver>3.12.0</mongo-java-driver>
 		<jedis>3.2.0</jedis>
-		<kafka-clients>2.4.0</kafka-clients> 
+		<kafka-clients>2.4.0</kafka-clients>
 		<poi>4.1.1</poi>
 	</properties>
 
@@ -153,6 +155,31 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
 				<version>${maven-jar-plugin}</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>${maven-dependency-plugin}</version><!--$NO-MVN-MAN-VER$ --> 
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>${maven-war-plugin}</version>
+				<configuration>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>${jetty-maven-plugin}</version>				
+				<configuration>
+					<scanIntervalSeconds>1</scanIntervalSeconds>
+					<!-- 
+					<httpConnector><port>8080</port></httpConnector>
+					<webAppConfig><contextPath>/</contextPath></webAppConfig>
+					 -->
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
@@ -353,7 +380,7 @@
 				<groupId>org.apache.logging.log4j</groupId>
 				<artifactId>log4j-core</artifactId>
 				<version>${log4j-core}</version>
-			</dependency> 
+			</dependency>
 			<dependency>
 				<groupId>com.alibaba</groupId>
 				<artifactId>fastjson</artifactId>
@@ -383,17 +410,12 @@
 				<groupId>org.apache.httpcomponents</groupId>
 				<artifactId>httpasyncclient</artifactId>
 				<version>${httpasyncclient}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.google.protobuf</groupId>
-				<artifactId>protobuf-java</artifactId>
-				<version>${protobuf-java}</version>
-			</dependency>
+			</dependency> 
 			<dependency>
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-core</artifactId>
 				<version>${hibernate-core}</version>
-			</dependency> 
+			</dependency>
 			<dependency>
 				<groupId>mysql</groupId>
 				<artifactId>mysql-connector-java</artifactId>
@@ -418,7 +440,7 @@
 				<groupId>org.apache.kafka</groupId>
 				<artifactId>kafka-clients</artifactId>
 				<version>${kafka-clients}</version>
-			</dependency> 
+			</dependency>
 			<dependency>
 				<groupId>org.apache.poi</groupId>
 				<artifactId>poi</artifactId>

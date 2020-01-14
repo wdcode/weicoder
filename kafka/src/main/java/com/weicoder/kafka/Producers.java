@@ -15,13 +15,14 @@ import com.weicoder.kafka.params.KafkaParams;
 
 /**
  * kafka生产者
+ * 
  * @author WD
  */
 public class Producers {
 	// 日志
-	private final static Log			LOG	= LogFactory.getLog(Producers.class);
+	private final static Log LOG = LogFactory.getLog(Producers.class);
 	// 生产者
-	private Producer<byte[], byte[]>	producer;
+	private Producer<byte[], byte[]> producer;
 
 	public Producers(String name) {
 		// 设置属性
@@ -32,7 +33,7 @@ public class Producers {
 		props.put(ProducerConfig.BATCH_SIZE_CONFIG, 16384);
 		props.put(ProducerConfig.LINGER_MS_CONFIG, 50);
 		props.put(ProducerConfig.BUFFER_MEMORY_CONFIG, 33554432);
-		props.put(ProducerConfig.COMPRESSION_TYPE_CONFIG, "gzip");
+		props.put(ProducerConfig.COMPRESSION_TYPE_CONFIG, KafkaParams.getCompress(name));
 		props.put(ProducerConfig.RECONNECT_BACKOFF_MS_CONFIG, 20000);
 		props.put(ProducerConfig.RETRY_BACKOFF_MS_CONFIG, 20000);
 		props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.ByteArraySerializer");
@@ -44,6 +45,7 @@ public class Producers {
 
 	/**
 	 * 获得生产者
+	 * 
 	 * @return 生产者
 	 */
 	public Producer<byte[], byte[]> getProducer() {
@@ -59,9 +61,10 @@ public class Producers {
 
 	/**
 	 * 发送数据
-	 * @param topic 节点
-	 * @param value 值
-	 * @return 信息
+	 * 
+	 * @param  topic 节点
+	 * @param  value 值
+	 * @return       信息
 	 */
 	public Future<RecordMetadata> send(String topic, Object value) {
 		return send(topic, value, (metadata, exception) -> LOG.debug("kafka send producer metadata={} exception={} value={}", metadata, exception, value));
@@ -69,10 +72,11 @@ public class Producers {
 
 	/**
 	 * 发送数据
-	 * @param topic 节点
-	 * @param key 键
-	 * @param value 值
-	 * @return 信息
+	 * 
+	 * @param  topic 节点
+	 * @param  key   键
+	 * @param  value 值
+	 * @return       信息
 	 */
 	public Future<RecordMetadata> send(String topic, Object key, Object value) {
 		return send(topic, key, value, (metadata, exception) -> LOG.debug("kafka send producer metadata={} exception={} key={} value={}", metadata, exception, key, value));
@@ -80,10 +84,11 @@ public class Producers {
 
 	/**
 	 * 发送数据
-	 * @param topic 节点
-	 * @param value 值
-	 * @param callback 回调
-	 * @return 信息
+	 * 
+	 * @param  topic    节点
+	 * @param  value    值
+	 * @param  callback 回调
+	 * @return          信息
 	 */
 	public Future<RecordMetadata> send(String topic, Object value, Callback callback) {
 		return producer.send(Kafkas.newRecord(topic, value), callback);
@@ -91,11 +96,12 @@ public class Producers {
 
 	/**
 	 * 发送数据
-	 * @param topic 节点
-	 * @param key 键
-	 * @param value 值
-	 * @param callback 回调
-	 * @return 信息
+	 * 
+	 * @param  topic    节点
+	 * @param  key      键
+	 * @param  value    值
+	 * @param  callback 回调
+	 * @return          信息
 	 */
 	public Future<RecordMetadata> send(String topic, Object key, Object value, Callback callback) {
 		return producer.send(Kafkas.newRecord(topic, key, value), callback);

@@ -97,7 +97,7 @@ public final class Bytes {
 	 */
 	public static byte[] toBytes(Collection<?> c) {
 		// 获得列表长度
-		short size = Conversion.toShort(EmptyUtil.isEmpty(c) ? 0 : c.size());
+		short size = C.toShort(EmptyUtil.isEmpty(c) ? 0 : c.size());
 		// 判断如果列表为0只返回长度
 		return size == 0 ? toBytes(size) : toBytes(size, c.toArray());
 	}
@@ -126,28 +126,28 @@ public final class Bytes {
 			return new byte[]{(Byte) obj};
 		if (obj instanceof Integer)
 			// int
-			return toBytes(Conversion.toInt(obj));
+			return toBytes(C.toInt(obj));
 		if (obj instanceof Long)
 			// Long
-			return toBytes(Conversion.toLong(obj));
+			return toBytes(C.toLong(obj));
 		if (obj instanceof Float)
 			// float
-			return toBytes(Conversion.toFloat(obj));
+			return toBytes(C.toFloat(obj));
 		if (obj instanceof Double)
 			// Double
-			return toBytes(Conversion.toDouble(obj));
+			return toBytes(C.toDouble(obj));
 		if (obj instanceof Short)
 			// Short
-			return toBytes(Conversion.toShort(obj));
+			return toBytes(C.toShort(obj));
 		if (obj instanceof Byte)
 			// Short
 			return new byte[]{(byte) (obj)};
 		if (obj instanceof Boolean)
 			// Short
-			return toBytes(Conversion.toBoolean(obj));
+			return toBytes(C.toBoolean(obj));
 		if (obj instanceof String)
 			// String
-			return toBytes(Conversion.toString(obj), true);
+			return toBytes(C.toString(obj), true);
 		if (obj instanceof ByteBuffer)
 			// String
 			return toBytes((ByteBuffer) obj);
@@ -607,7 +607,7 @@ public final class Bytes {
 		byte[] b = StringUtil.toBytes(s);
 		if (is) {
 			// 获得长度
-			short size = Conversion.toShort(b.length);
+			short size = C.toShort(b.length);
 			// 如果长度为0 只返回长度
 			return size == 0 ? toBytes(size) : toBytes(size, b);
 		}

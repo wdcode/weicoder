@@ -3,7 +3,7 @@ package com.weicoder.web.util;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.weicoder.common.lang.Conversion;
+import com.weicoder.common.lang.C;
 import com.weicoder.common.util.EmptyUtil;
 
 /**
@@ -33,7 +33,7 @@ public final class AttributeUtil {
 	public static void set(HttpServletRequest request, HttpServletResponse response, String key, Object value, int maxAge) {
 		// 判断使用什么方式保存属性
 		// 使用Cookie保存
-		CookieUtil.add(response, key, Conversion.toString(value), maxAge);
+		CookieUtil.add(response, key, C.toString(value), maxAge);
 		// 使用Session保存
 		SessionUtil.setAttribute(RequestUtil.getSession(request), key, value, maxAge);
 	}

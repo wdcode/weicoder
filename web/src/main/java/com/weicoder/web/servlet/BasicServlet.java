@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.weicoder.common.bean.StateCode;
 import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.lang.Conversion;
+import com.weicoder.common.lang.C;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.log.Log;
@@ -157,7 +157,7 @@ public class BasicServlet extends HttpServlet {
 					ps.put("ip", ip);
 				// 当前时间time没有传注入time
 				if (EmptyUtil.isEmpty(ps.get("time")))
-					ps.put("time", Conversion.toString(DateUtil.getTime()));
+					ps.put("time", C.toString(DateUtil.getTime()));
 				LOG.trace("request all ip={} params={}", ip, params);
 				// token验证通过在执行
 //				if (code == StateParams.SUCCESS) {
@@ -179,7 +179,7 @@ public class BasicServlet extends HttpServlet {
 						params[i] = ps;
 					else if (ClassUtil.isBaseType(cs)) {
 						// 获得参数
-						params[i] = Conversion.to(ps.get(p.getName()), cs);
+						params[i] = C.to(ps.get(p.getName()), cs);
 						// 验证参数
 						if (code == StateParams.SUCCESS)
 							if ((code = Validators.validator(p, params[i])) != StateParams.SUCCESS)
@@ -253,7 +253,7 @@ public class BasicServlet extends HttpServlet {
 			}
 			// 判断是否跳转url
 			if (method.isAnnotationPresent(Redirect.class) || action.getClass().isAnnotationPresent(Redirect.class)) {
-				String url = Conversion.toString(res);
+				String url = C.toString(res);
 				if (EmptyUtil.isEmpty(url)) {
 					ResponseUtil.json(response, callback, "Redirect is null");
 					return;
@@ -263,7 +263,7 @@ public class BasicServlet extends HttpServlet {
 					return;
 				}
 			} else if (method.isAnnotationPresent(Forward.class) || action.getClass().isAnnotationPresent(Forward.class)) {
-				String url = Conversion.toString(res);
+				String url = C.toString(res);
 				if (EmptyUtil.isEmpty(url)) {
 					ResponseUtil.json(response, callback, "Forward is null");
 					return;

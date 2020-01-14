@@ -19,7 +19,7 @@ import org.hibernate.resource.transaction.spi.TransactionStatus;
 import com.weicoder.dao.hibernate.session.SessionFactorys;
 import com.weicoder.dao.hibernate.tx.HibernateTransactional;
 import com.weicoder.dao.params.DaoParams;
-import com.weicoder.common.lang.Conversion;
+import com.weicoder.common.lang.C;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.log.Log;
@@ -319,7 +319,7 @@ public final class HibernateDao implements Dao {
 			// 设置获得总行数
 			criteria.setProjection(Projections.rowCount());
 			// 返回结果
-			return Conversion.toInt(criteria.uniqueResult());
+			return C.toInt(criteria.uniqueResult());
 		});
 	}
 
@@ -334,7 +334,7 @@ public final class HibernateDao implements Dao {
 			// 设置获得总行数
 			criteria.setProjection(Projections.rowCount());
 			// 返回结果
-			return Conversion.toInt(criteria.uniqueResult());
+			return C.toInt(criteria.uniqueResult());
 		});
 	}
 
@@ -348,7 +348,7 @@ public final class HibernateDao implements Dao {
 			// 设置获得总行数
 			criteria.setProjection(Projections.rowCount());
 			// 返回结果
-			return Conversion.toInt(criteria.uniqueResult());
+			return C.toInt(criteria.uniqueResult());
 		});
 	}
 
@@ -487,7 +487,7 @@ public final class HibernateDao implements Dao {
 	 * @return             返回结果列表 异常返回0
 	 */
 	private int count(Class<?> entityClass, final DetachedCriteria criteria) {
-		return execute(entityClass, session -> Conversion.toInt(criteria.getExecutableCriteria(session).setProjection(Projections.rowCount()).uniqueResult()));
+		return execute(entityClass, session -> C.toInt(criteria.getExecutableCriteria(session).setProjection(Projections.rowCount()).uniqueResult()));
 	}
 
 	/**
@@ -540,7 +540,7 @@ public final class HibernateDao implements Dao {
 		// 获得DetachedCriteria
 		DetachedCriteria criteria = DetachedCriteria.forClass(entityClass);
 		// 循环排序
-		orders.forEach((k, v) -> criteria.addOrder(Conversion.toBoolean(v) ? Order.asc(k) : Order.desc(k)));
+		orders.forEach((k, v) -> criteria.addOrder(C.toBoolean(v) ? Order.asc(k) : Order.desc(k)));
 		// 返回DetachedCriteria
 		return criteria;
 	}

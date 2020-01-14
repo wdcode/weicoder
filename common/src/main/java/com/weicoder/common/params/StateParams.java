@@ -3,7 +3,7 @@ package com.weicoder.common.params;
 import com.weicoder.common.config.Config;
 import com.weicoder.common.config.ConfigFactory;
 import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.lang.Conversion;
+import com.weicoder.common.lang.C;
 
 /**
  * 状态码读取配置
@@ -29,7 +29,7 @@ public final class StateParams {
 	 * @return      状态信息
 	 */
 	public static String getMessage(int code) {
-		return CONFIG.getString(Conversion.toString(code));
+		return CONFIG.getString(C.toString(code));
 	}
 
 	private StateParams() {

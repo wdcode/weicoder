@@ -2,7 +2,7 @@ package com.weicoder.socket;
 
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.lang.Bytes;
-import com.weicoder.common.lang.Conversion;
+import com.weicoder.common.lang.C;
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.protobuf.Protobuf;
 import com.weicoder.protobuf.ProtobufEngine;
@@ -80,7 +80,7 @@ public final class Sockets {
 		// 声明字节数组
 		byte[] data = toBytes(message);
 		// 返回数据
-		return Bytes.toBytes(Conversion.toShort(data.length + 2), id, data);
+		return Bytes.toBytes(C.toShort(data.length + 2), id, data);
 	}
 
 	/**
@@ -93,7 +93,7 @@ public final class Sockets {
 		// 声明字节数组
 		byte[] data = toBytes(message);
 		// 返回数据
-		return Bytes.toBytes(Conversion.toShort(data.length), data);
+		return Bytes.toBytes(C.toShort(data.length), data);
 	}
 
 	/**

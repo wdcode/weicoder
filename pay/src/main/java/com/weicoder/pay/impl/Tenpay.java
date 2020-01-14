@@ -3,7 +3,7 @@ package com.weicoder.pay.impl;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.weicoder.common.lang.Conversion;
+import com.weicoder.common.lang.C;
 import com.weicoder.common.util.MathUtil;
 import com.weicoder.pay.Pay;
 import com.weicoder.pay.bean.PayBean;
@@ -44,7 +44,7 @@ public final class Tenpay implements Pay {
 		reqHandler.setParameter("return_url", PayParams.TENPAY_RETURN); // 交易完成后跳转的URL
 		reqHandler.setParameter("notify_url", PayParams.TENPAY_NOTIFY); // 接收财付通通知的URL
 		reqHandler.setParameter("body", pay.getBody()); // 商品描述
-		reqHandler.setParameter("bank_type", Conversion.toString(pay.getDitch(), "DEFAULT")); // 银行类型(中介担保时此参数无效)
+		reqHandler.setParameter("bank_type", C.toString(pay.getDitch(), "DEFAULT")); // 银行类型(中介担保时此参数无效)
 		reqHandler.setParameter("spbill_create_ip", request.getRemoteAddr()); // 用户的公网ip，不是商户服务器IP
 		reqHandler.setParameter("fee_type", "1"); // 币种，1人民币
 		reqHandler.setParameter("subject", pay.getSubject()); // 商品名称(中介交易时必填)
@@ -72,7 +72,7 @@ public final class Tenpay implements Pay {
 		// 商户订单号
 		String out_trade_no = resHandler.getParameter("out_trade_no");
 		// 商户订单号
-		boolean notify = Conversion.toBoolean(resHandler.getParameter("notify"));
+		boolean notify = C.toBoolean(resHandler.getParameter("notify"));
 		// 是否成功
 		boolean isOk = false;
 		// 金额

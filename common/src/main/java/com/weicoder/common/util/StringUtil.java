@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.StringConstants;
 
-import com.weicoder.common.lang.Conversion;
+import com.weicoder.common.lang.C;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
 
@@ -104,7 +104,7 @@ public final class StringUtil {
 	 * @return        是否开头
 	 */
 	public static boolean startsWith(String str, String prefix) {
-		return Conversion.toString(str).startsWith(prefix);
+		return C.toString(str).startsWith(prefix);
 	}
 
 	/**
@@ -116,7 +116,7 @@ public final class StringUtil {
 	public static String add(Object... os) {
 		StringBuilder sb = new StringBuilder();
 		for (Object o : os)
-			sb.append(Conversion.toString(o));
+			sb.append(C.toString(o));
 		return sb.toString();
 	}
 
@@ -504,7 +504,7 @@ public final class StringUtil {
 	 * @return   字节数组
 	 */
 	public static byte[] toBytes(Object s) {
-		return toBytes(Conversion.toString(s));
+		return toBytes(C.toString(s));
 	}
 
 	/**
@@ -555,7 +555,7 @@ public final class StringUtil {
 	 * @return   处理后的字符串
 	 */
 	public static String trim(String s) {
-		return Conversion.toString(s).trim();
+		return C.toString(s).trim();
 	}
 
 	/**

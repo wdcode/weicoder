@@ -18,7 +18,7 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 
 import com.weicoder.common.concurrent.ScheduledUtil;
 import com.weicoder.common.lang.Bytes;
-import com.weicoder.common.lang.Conversion;
+import com.weicoder.common.lang.C;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.log.Log;
@@ -261,7 +261,7 @@ public final class Kafkas {
 	private static byte[] toBytes(Object obj) {
 		// 根据不同类型序列化
 		if (obj instanceof String)
-			return Conversion.toString(obj).getBytes();
+			return C.toString(obj).getBytes();
 		else if (obj.getClass().isAnnotationPresent(Protobuf.class))
 			return ProtobufEngine.toBytes(obj);
 		else

@@ -1,21 +1,27 @@
 package com.weicoder.test;
 
-import java.time.Instant;
+import com.weicoder.common.http.HttpEngine;
+import com.weicoder.common.lang.Maps; 
 
 public class Test {
 
 	public static void main(String[] args) {
-		System.out.println(Instant.now().toEpochMilli());
-		System.out.println(System.currentTimeMillis());
-		int n = 10000000;
-		long curr = System.currentTimeMillis();
-		for (int i = 0; i < n; i++)
-			System.currentTimeMillis();
-		System.out.println(System.currentTimeMillis() - curr);
-		curr = System.currentTimeMillis();
-		for (int i = 0; i < n; i++)
-			Instant.now().toEpochMilli();
-		System.out.println(System.currentTimeMillis() - curr);
+		String url = "http://m.i4322.com/user/get/info?uid=10000002";
+		System.out.println(HttpEngine.get(url));
+		url = "http://m.i4322.com/user/get/info";
+		System.out.println(HttpEngine.post(url, Maps.newMap("uid", "10000002")));
+//		System.out.println(DateUtil.toString(1578883508));
+//		System.out.println(Instant.now().toEpochMilli());
+//		System.out.println(System.currentTimeMillis());
+//		int n = 10000000;
+//		long curr = System.currentTimeMillis();
+//		for (int i = 0; i < n; i++)
+//			System.currentTimeMillis();
+//		System.out.println(System.currentTimeMillis() - curr);
+//		curr = System.currentTimeMillis();
+//		for (int i = 0; i < n; i++)
+//			Instant.now().toEpochMilli();
+//		System.out.println(System.currentTimeMillis() - curr);
 //		String name = "admin";
 //		String token = AdminToken.encrypt(name, IpUtil.SERVER_IP);
 //		System.out.println(token);

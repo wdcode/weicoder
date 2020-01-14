@@ -22,6 +22,16 @@ public final class KafkaParams {
 	 * @param  name 名字
 	 * @return      服务器
 	 */
+	public static String getCompress(String name) {
+		return CONFIG.getString(name, Params.getString(Params.getKey(PREFIX, name, "compress"), "gzip"));
+	}
+
+	/**
+	 * 获得kafka服务器
+	 * 
+	 * @param  name 名字
+	 * @return      服务器
+	 */
 	public static String getServers(String name) {
 		return CONFIG.getString(name, Params.getString(Params.getKey(PREFIX, name, "servers")));
 	}

@@ -4,7 +4,7 @@ import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
 import com.weicoder.common.http.HttpEngine;
-import com.weicoder.common.lang.Conversion;
+import com.weicoder.common.lang.C;
 import com.weicoder.common.util.EmptyUtil; 
 import com.weicoder.core.json.JsonEngine;
 import com.weicoder.oauth.OAuthInfo;
@@ -60,11 +60,11 @@ public class OAuthWeChatWeb extends BaseOAuth {
 		info.setOpenid(openid);
 		info.setType("wechat");
 		info.setData(res);
-		info.setNickname(Conversion.toString(map.get("nickname")));
-		info.setHead(Conversion.toString(map.get("headimgurl")));
-		info.setSex("1".equals(Conversion.toString(map.get("sex"))) ? 1 : 0);
+		info.setNickname(C.toString(map.get("nickname")));
+		info.setHead(C.toString(map.get("headimgurl")));
+		info.setSex("1".equals(C.toString(map.get("sex"))) ? 1 : 0);
 		if (EmptyUtil.isEmpty(info.getUnionid()))
-			info.setUnionid(Conversion.toString(map.get("unionid")));
+			info.setUnionid(C.toString(map.get("unionid")));
 		return info;
 	}
 }

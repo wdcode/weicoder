@@ -23,7 +23,7 @@ import java.util.HashSet;
 import java.util.Properties;
 import java.util.StringTokenizer;
 
-import com.weicoder.common.lang.Conversion;
+import com.weicoder.common.lang.C;
 
 /**
  * <p>
@@ -259,7 +259,7 @@ public class PropertiesParser {
         try {
             while (stok.hasMoreTokens()) {
                 try {
-                    ints.add(Conversion.toInt(stok.nextToken()));
+                    ints.add(C.toInt(stok.nextToken()));
                 } catch (NumberFormatException nfe) {
                     throw new NumberFormatException(" '" + vals + "'");
                 }

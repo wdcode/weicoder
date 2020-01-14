@@ -13,7 +13,7 @@ import org.hibernate.cfg.Configuration;
 
 import com.weicoder.dao.hibernate.interceptor.EntityInterceptor;
 import com.weicoder.dao.hibernate.naming.ImprovedNamingStrategy;
-import com.weicoder.common.lang.Conversion;
+import com.weicoder.common.lang.C;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.log.Logs;
@@ -108,9 +108,9 @@ public final class SessionFactorys {
 				} catch (Exception e) {
 					Logs.error(e);
 				}
-				config.setProperty("hibernate.hikari.jdbcUrl", String.format(config.getProperty("hibernate.hikari.jdbcUrl"), Conversion.toString(config.getProperty("url"))));
-				config.setProperty("hibernate.hikari.username", Conversion.toString(config.getProperty("username")));
-				config.setProperty("hibernate.hikari.password", Conversion.toString(config.getProperty("password")));
+				config.setProperty("hibernate.hikari.jdbcUrl", String.format(config.getProperty("hibernate.hikari.jdbcUrl"), C.toString(config.getProperty("url"))));
+				config.setProperty("hibernate.hikari.username", C.toString(config.getProperty("username")));
+				config.setProperty("hibernate.hikari.password", C.toString(config.getProperty("password")));
 				// 声明实体列表
 				List<Class<Entity>> list = ClassUtil.getAnnotationClass(config.getProperty("package"), Entity.class);
 				// 根据包名获取对象实体

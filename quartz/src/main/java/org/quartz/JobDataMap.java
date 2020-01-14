@@ -23,7 +23,7 @@ import java.util.Map;
 
 import org.quartz.utils.StringKeyDirtyFlagMap;
 
-import com.weicoder.common.lang.Conversion;
+import com.weicoder.common.lang.C;
 
 /**
  * Holds state information for <code>Job</code> instances.
@@ -260,7 +260,7 @@ public class JobDataMap extends StringKeyDirtyFlagMap implements Serializable {
      *           if the identified object is not a String.
      */
     public int getIntFromString(String key) {
-        return Conversion.toInt(get(key));
+        return C.toInt(get(key));
     }
 
     /**
@@ -290,7 +290,7 @@ public class JobDataMap extends StringKeyDirtyFlagMap implements Serializable {
      *           if the identified object is not a String.
      */
     public Integer getIntegerFromString(String key) {
-    	 return Conversion.toInt(get(key));
+    	 return C.toInt(get(key));
     }
 
     /**
@@ -409,7 +409,7 @@ public class JobDataMap extends StringKeyDirtyFlagMap implements Serializable {
      *           if the identified object is not a String.
      */
     public Double getDoubleFromString(String key) {
-    	 return Conversion.toDouble(get(key));
+    	 return C.toDouble(get(key));
     }
 
     /**
@@ -421,7 +421,7 @@ public class JobDataMap extends StringKeyDirtyFlagMap implements Serializable {
      *           if the identified object is not a String.
      */
     public float getFloatValueFromString(String key) {
-    	 return Conversion.toFloat(get(key));
+    	 return C.toFloat(get(key));
     }
 
     /**
@@ -451,7 +451,7 @@ public class JobDataMap extends StringKeyDirtyFlagMap implements Serializable {
      *           if the identified object is not a String.
      */
     public Float getFloatFromString(String key) {
-    	 return Conversion.toFloat(get(key));
+    	 return C.toFloat(get(key));
     }
 
     /**
@@ -463,7 +463,7 @@ public class JobDataMap extends StringKeyDirtyFlagMap implements Serializable {
      *           if the identified object is not a String.
      */
     public long getLongValueFromString(String key) {
-    	return Conversion.toLong(get(key));
+    	return C.toLong(get(key));
     }
 
     /**
@@ -493,6 +493,6 @@ public class JobDataMap extends StringKeyDirtyFlagMap implements Serializable {
      *           if the identified object is not a String.
      */
     public Long getLongFromString(String key) {
-    	return Conversion.toLong(get(key));
+    	return C.toLong(get(key));
     }
 }

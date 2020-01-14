@@ -3,26 +3,29 @@ package com.weicoder.protobuf;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.List;
-
-import com.google.protobuf.ByteString;
+ 
 import com.google.protobuf.CodedInputStream;
 import com.google.protobuf.CodedOutputStream;
 import com.google.protobuf.WireFormat;
 import com.weicoder.common.constants.ArrayConstants;
-import com.weicoder.common.lang.Conversion;
+import com.weicoder.common.lang.Bytes;
+import com.weicoder.common.lang.C;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.BeanUtil;
+import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.util.EmptyUtil;
 
 /**
  * Google Protobuf 处理器 使用的Protobuf 3
+ * 
  * @author WD
  */
 public final class ProtobufEngine {
 	/**
 	 * 使用Protobuf序列化对象
-	 * @param obj 实体对象
-	 * @return 字节数组
+	 * 
+	 * @param  obj 实体对象
+	 * @return     字节数组
 	 */
 	public static byte[] toBytes(Object obj) {
 		try {
@@ -49,10 +52,11 @@ public final class ProtobufEngine {
 
 	/**
 	 * 反序列化获得对象
-	 * @param b 字节数组
-	 * @param c 反序列化的对象
-	 * @param <E> 范型
-	 * @return 获得的对象
+	 * 
+	 * @param  b   字节数组
+	 * @param  c   反序列化的对象
+	 * @param  <E> 范型
+	 * @return     获得的对象
 	 */
 	public static <E> E toBean(byte[] b, Class<E> c) {
 		// 实例化对象
@@ -82,6 +86,12 @@ public final class ProtobufEngine {
 				if (type.equals(String.class))
 					// 字符串
 					BeanUtil.setFieldValue(bean, field, input.readStringRequireUtf8());
+				else if (type.equals(byte.class) || type.equals(Byte.class))
+					// 字节类型
+					BeanUtil.setFieldValue(bean, field, input.readBytes().byteAt(0));
+				else if (type.equals(short.class) || type.equals(Short.class))
+					// 字节类型
+					BeanUtil.setFieldValue(bean, field, Bytes.toShort(input.readBytes().toByteArray()));
 				else if (type.equals(int.class) || type.equals(Integer.class))
 					// 整型
 					BeanUtil.setFieldValue(bean, field, input.readInt32());
@@ -97,9 +107,9 @@ public final class ProtobufEngine {
 				else if (type.equals(double.class) || type.equals(Double.class))
 					// Double型
 					BeanUtil.setFieldValue(bean, field, input.readDouble());
-				else if (type.equals(ByteString.class))
-					// 字节字符串
-					BeanUtil.setFieldValue(bean, field, input.readBytes());
+//				else if (type.equals(ByteString.class))
+//					// 字节字符串
+//					BeanUtil.setFieldValue(bean, field, input.readBytes());
 				else if (type.equals(byte[].class))
 					// 字节流
 					BeanUtil.setFieldValue(bean, field, input.readByteArray());
@@ -118,10 +128,11 @@ public final class ProtobufEngine {
 
 	/**
 	 * 获得序列化字节数量
-	 * @param obj 要序列化的对象
-	 * @param c 序列化对象的类
-	 * @param fields 序列化对象的所有字段
-	 * @return 序列化后的字节数量
+	 * 
+	 * @param  obj    要序列化的对象
+	 * @param  c      序列化对象的类
+	 * @param  fields 序列化对象的所有字段
+	 * @return        序列化后的字节数量
 	 */
 	private static int getSerializedSize(Object obj, Class<?> c, List<Field> fields) {
 		// 要返回的数量
@@ -139,45 +150,63 @@ public final class ProtobufEngine {
 			// 判断字段类型并累加大小
 			if (type.equals(String.class)) {
 				// 字符串
-				String s = Conversion.toString(val);
+				String s = C.toString(val);
 				if (EmptyUtil.isNotEmpty(s))
 					size += CodedOutputStream.computeStringSize(i, s);
 			} else if (type.equals(int.class) || type.equals(Integer.class)) {
 				// 整型
-				int n = Conversion.toInt(val);
+				int n = C.toInt(val);
 				if (n != 0)
 					size += CodedOutputStream.computeInt32Size(i, n);
 			} else if (type.equals(long.class) || type.equals(Long.class)) {
 				// 长整型
-				long n = Conversion.toLong(val);
+				long n = C.toLong(val);
 				if (n != 0L)
 					size += CodedOutputStream.computeInt64Size(i, n);
 			} else if (type.equals(boolean.class) || type.equals(Boolean.class)) {
 				// 布尔
-				boolean n = Conversion.toBoolean(val);
+				boolean n = C.toBoolean(val);
 				if (n != false)
 					size += CodedOutputStream.computeBoolSize(i, n);
 			} else if (type.equals(float.class) || type.equals(Float.class)) {
 				// float型
-				float n = Conversion.toFloat(val);
+				float n = C.toFloat(val);
 				if (n != 0F)
 					size += CodedOutputStream.computeFloatSize(i, n);
 			} else if (type.equals(double.class) || type.equals(Double.class)) {
 				// Double型
-				double n = Conversion.toDouble(val);
+				double n = C.toDouble(val);
 				if (n != 0D)
 					size += CodedOutputStream.computeDoubleSize(i, n);
-			} else if (type.equals(ByteString.class)) {
-				// 字节字符串
-				ByteString n = (ByteString) val;
-				if (!n.isEmpty())
-					size += CodedOutputStream.computeBytesSize(i, n);
-			} else if (type.equals(byte[].class)) {
+			} 
+//			else if (type.equals(ByteString.class)) {
+//				// 字节字符串
+//				ByteString n = (ByteString) val;
+//				if (!n.isEmpty())
+//					size += CodedOutputStream.computeBytesSize(i, n);
+//			} 
+			else if (type.equals(byte[].class) || ClassUtil.isBaseType(type)) {
 				// 字节流
-				byte[] n = (byte[]) val;
+				byte[] n = Bytes.toBytes(val);
 				if (EmptyUtil.isNotEmpty(n))
 					size += CodedOutputStream.computeByteArraySize(i, n);
 			}
+//			else if (type.equals(byte.class) || type.equals(Byte.class) ||) {
+//				// 整型
+//				byte[] n = Bytes.toBytes(val);
+//				if (EmptyUtil.isNotEmpty(n))
+//					size += CodedOutputStream.computeByteArraySize(i, n);
+//			} else if (type.equals(short.class) || type.equals(Integer.class)) {
+//				// 整型
+//				int n = Conversion.toInt(val);
+//				if (n != 0)
+//					size += CodedOutputStream.computeInt32Size(i, n);
+//			} else {
+//				// 转成字节流
+//				ByteString n = ByteString.copyFrom(Bytes.toBytes(val));
+//				if (!n.isEmpty())
+//					size += CodedOutputStream.computeBytesSize(i, n);
+//			}
 		}
 		// 返回数量
 		return size;
@@ -185,9 +214,10 @@ public final class ProtobufEngine {
 
 	/**
 	 * 写入数据
-	 * @param output 编码输出流
-	 * @param obj 序列化对象
-	 * @param fields 字段列表
+	 * 
+	 * @param  output      编码输出流
+	 * @param  obj         序列化对象
+	 * @param  fields      字段列表
 	 * @throws IOException IO异常
 	 */
 	private static void writeTo(CodedOutputStream output, Object obj, List<Field> fields) throws IOException {
@@ -199,47 +229,56 @@ public final class ProtobufEngine {
 			Class<?> type = field.getType();
 			if (type.equals(String.class)) {
 				// 字符串
-				String s = Conversion.toString(val);
+				String s = C.toString(val);
 				if (EmptyUtil.isNotEmpty(s))
 					output.writeString(i, s);
 			} else if (type.equals(int.class) || type.equals(Integer.class)) {
 				// 整型
-				int n = Conversion.toInt(val);
+				int n = C.toInt(val);
 				if (n != 0)
 					output.writeInt32(i, n);
 			} else if (type.equals(long.class) || type.equals(Long.class)) {
 				// 长整型
-				long n = Conversion.toLong(val);
+				long n = C.toLong(val);
 				if (n != 0L)
 					output.writeInt64(i, n);
 			} else if (type.equals(boolean.class) || type.equals(Boolean.class)) {
 				// 布尔
-				boolean n = Conversion.toBoolean(val);
+				boolean n = C.toBoolean(val);
 				if (n != false)
 					output.writeBool(i, n);
 			} else if (type.equals(float.class) || type.equals(Float.class)) {
 				// float型
-				float n = Conversion.toFloat(val);
+				float n = C.toFloat(val);
 				if (n != 0F)
 					output.writeFloat(i, n);
 			} else if (type.equals(double.class) || type.equals(Double.class)) {
 				// Double型
-				double n = Conversion.toDouble(val);
+				double n = C.toDouble(val);
 				if (n != 0D)
 					output.writeDouble(i, n);
-			} else if (type.equals(ByteString.class)) {
-				// 字节字符串
-				ByteString n = (ByteString) val;
-				if (!n.isEmpty())
-					output.writeBytes(i, n);
-			} else if (type.equals(byte[].class)) {
+			} 
+//			else if (type.equals(ByteString.class)) {
+//				// 字节字符串
+//				ByteString n = (ByteString) val;
+//				if (!n.isEmpty())
+//					output.writeBytes(i, n);
+//			} 
+			else if (type.equals(byte[].class) || ClassUtil.isBaseType(type)) {
 				// 字节流
-				byte[] n = (byte[]) val;
+				byte[] n = Bytes.toBytes(val);
 				if (EmptyUtil.isNotEmpty(n))
 					output.writeByteArray(i, n);
 			}
+//			else {
+//				// 转成字节流
+//				ByteString n = ByteString.copyFrom(Bytes.toBytes(val));
+//				if (!n.isEmpty())
+//					output.writeBytes(i, n);
+//			}
 		}
 	}
 
-	private ProtobufEngine() {}
+	private ProtobufEngine() {
+	}
 }

@@ -13,7 +13,7 @@ import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.HttpConstants;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.io.IOUtil;
-import com.weicoder.common.lang.Conversion;
+import com.weicoder.common.lang.C;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.util.EmptyUtil;
@@ -190,7 +190,7 @@ public final class RequestUtil {
 				// 判断是json
 				if (JsonEngine.isJson(json))
 					// 转换成map
-					JsonEngine.toMap(json).forEach((k, v) -> map.put(k, Conversion.toString(v)));
+					JsonEngine.toMap(json).forEach((k, v) -> map.put(k, C.toString(v)));
 			} catch (IOException e) {
 			}
 		}

@@ -7,7 +7,7 @@ import java.util.Properties;
 
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.lang.Conversion;
+import com.weicoder.common.lang.C;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.ResourceUtil;
@@ -119,7 +119,7 @@ public final class Config {
 	 * @return              value
 	 */
 	public boolean getBoolean(String key, boolean defaultValue) {
-		return Conversion.toBoolean(getString(key), defaultValue);
+		return C.toBoolean(getString(key), defaultValue);
 	}
 
 	/**
@@ -140,7 +140,7 @@ public final class Config {
 	 * @return              value
 	 */
 	public int getInt(String key, int defaultValue) {
-		return Conversion.toInt(getString(key), defaultValue);
+		return C.toInt(getString(key), defaultValue);
 	}
 
 	/**
@@ -161,7 +161,7 @@ public final class Config {
 	 * @return              value
 	 */
 	public byte getByte(String key, byte defaultValue) {
-		return Conversion.toByte(getString(key), defaultValue);
+		return C.toByte(getString(key), defaultValue);
 	}
 
 	/**
@@ -172,7 +172,7 @@ public final class Config {
 	 * @return              value
 	 */
 	public long getLong(String key, long defaultValue) {
-		return Conversion.toLong(getString(key), defaultValue);
+		return C.toLong(getString(key), defaultValue);
 	}
 
 	/**
@@ -183,7 +183,7 @@ public final class Config {
 	 * @return              value
 	 */
 	public short getShort(String key, short defaultValue) {
-		return Conversion.toShort(getString(key), defaultValue);
+		return C.toShort(getString(key), defaultValue);
 	}
 
 	/**

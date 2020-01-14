@@ -6,7 +6,7 @@ import com.weicoder.common.codec.Hex;
 import com.weicoder.common.constants.EncryptConstants;
 import com.weicoder.common.crypto.base.BaseCrypt;
 import com.weicoder.common.lang.Bytes;
-import com.weicoder.common.lang.Conversion;
+import com.weicoder.common.lang.C;
 import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.util.StringUtil;
 
@@ -33,7 +33,7 @@ public final class Encrypts extends BaseCrypt {
 	 * @return 加密后的字节数组
 	 */
 	public static String encrypt(Object obj) {
-		return obj instanceof String ? encrypt(Conversion.toString(obj)) : Hex.encode(encrypt(Bytes.toBytes(obj)));
+		return obj instanceof String ? encrypt(C.toString(obj)) : Hex.encode(encrypt(Bytes.toBytes(obj)));
 	}
 
 	/**

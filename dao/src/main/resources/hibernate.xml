@@ -20,6 +20,12 @@
 		<property name="hikari.username">root</property>
 		<property name="hikari.password">12345678</property>  
 		<property name="hikari.driverClassName">com.mysql.cj.jdbc.Driver</property> 
+		<!-- 连接参数  
+		<property name="connection.characterEncoding">UTF-8</property>
+		<property name="connection.useSSL">true</property>
+		<property name="connection.verifyServerCertificate">false</property>
+		<property name="connection.serverTimezone">UTC</property>
+		-->
 		<!-- 方言 -->
 		<property name="dialect">org.hibernate.dialect.MySQL8Dialect</property>
 		<!-- 设置hibernate中session与线程绑定  本地事务thread 分布式事务jta-->

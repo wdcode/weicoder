@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.weicoder.common.constants.HttpConstants;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.io.IOUtil;
-import com.weicoder.common.lang.Conversion;
+import com.weicoder.common.lang.C;
 import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.util.CloseUtil;
 import com.weicoder.common.util.EmptyUtil;
@@ -112,7 +112,7 @@ public final class ResponseUtil {
 		if (EmptyUtil.isNotEmpty(callback))
 			s.append(callback).append("(");
 		// 添加json数据
-		s.append(data instanceof String || data instanceof Number ? Conversion.toString(data) : JsonEngine.toJson(data));
+		s.append(data instanceof String || data instanceof Number ? C.toString(data) : JsonEngine.toJson(data));
 		// 如果callback不为空 填补右括号
 		if (EmptyUtil.isNotEmpty(callback))
 			s.append(")");

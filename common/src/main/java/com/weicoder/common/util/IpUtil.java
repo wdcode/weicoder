@@ -10,7 +10,7 @@ import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.RegexConstants;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Bytes;
-import com.weicoder.common.lang.Conversion;
+import com.weicoder.common.lang.C;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Sets;
 import com.weicoder.common.log.Logs;
@@ -37,7 +37,7 @@ public final class IpUtil {
 	static {
 		LOCAL_IP = "127.0.0.1";
 		SERVER_IP = getIp();
-		CODE = Conversion.toString(encode(SERVER_IP));
+		CODE = C.toString(encode(SERVER_IP));
 		IPS_ALL = Sets.newSet();
 		IPS_ONE = Sets.newSet();
 		IPS_TWO = Sets.newSet();
@@ -199,7 +199,7 @@ public final class IpUtil {
 	 * @return 返回编码后的数字
 	 */
 	public static String code() {
-		return Conversion.toString(encode(SERVER_IP));
+		return C.toString(encode(SERVER_IP));
 	}
 
 	/**
@@ -215,7 +215,7 @@ public final class IpUtil {
 			String[] t = ip.split("\\.");
 			// 判断数组长度为4
 			if (t.length == 4)
-				return Conversion.toInt(t[0]) << 24 | Conversion.toInt(t[1]) << 16 | Conversion.toInt(t[2]) << 8 | Conversion.toInt(t[3]);
+				return C.toInt(t[0]) << 24 | C.toInt(t[1]) << 16 | C.toInt(t[2]) << 8 | C.toInt(t[3]);
 		}
 		// 失败返回0
 		return 0;

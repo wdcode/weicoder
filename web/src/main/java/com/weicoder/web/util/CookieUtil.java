@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.lang.Conversion;
+import com.weicoder.common.lang.C;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.EmptyUtil;
@@ -46,18 +46,18 @@ public final class CookieUtil {
 				// 如果键为空
 				if (EmptyUtil.isEmpty(names))
 					// 写全部属性
-					map.forEach((k, v) -> add(response, Conversion.toString(k), Conversion.toString(v), maxAge));
+					map.forEach((k, v) -> add(response, C.toString(k), C.toString(v), maxAge));
 				else
 					// 写指定属性
 					for (String name : names)
-						add(response, name, Conversion.toString(name), maxAge);
+						add(response, name, C.toString(name), maxAge);
 			} else {
 				// 普通实体按字段返回 如果键为空
 				if (EmptyUtil.isEmpty(names))
 					// 写全部属性
 					BeanUtil.getFields(res.getClass()).forEach(field -> {
 						// 值不为空 写cookie
-						String val = Conversion.toString(BeanUtil.getFieldValue(res, field));
+						String val = C.toString(BeanUtil.getFieldValue(res, field));
 						if (EmptyUtil.isNotEmpty(val))
 							add(response, field.getName(), val, maxAge);
 					});
@@ -65,7 +65,7 @@ public final class CookieUtil {
 					// 写指定属性
 					for (String name : names) {
 						// 值不为空 写cookie
-						String val = Conversion.toString(BeanUtil.getFieldValue(res, name));
+						String val = C.toString(BeanUtil.getFieldValue(res, name));
 						if (EmptyUtil.isNotEmpty(val))
 							add(response, name, val, maxAge);
 					}

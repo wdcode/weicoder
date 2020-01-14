@@ -12,7 +12,7 @@ import java.nio.channels.FileChannel;
 import java.nio.file.Paths;
 
 import com.weicoder.common.constants.ArrayConstants;
-import com.weicoder.common.lang.Conversion;
+import com.weicoder.common.lang.C;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
 
@@ -114,7 +114,7 @@ public final class FileUtil {
 			// 获得随机读写文件
 			try (RandomAccessFile file = getRandomAccessFile(fileName, "rw", pos);) {
 				// 声明字节数组
-				byte[] b = new byte[Conversion.toInt(file.length() - pos)];
+				byte[] b = new byte[C.toInt(file.length() - pos)];
 				// 读取文件
 				file.read(b);
 				// 返回字节数组
@@ -126,7 +126,7 @@ public final class FileUtil {
 			// 获得文件通道
 			try (AsynchronousFileChannel channel = AsynchronousFileChannel.open(Paths.get(fileName));) {
 				// 声明字节数组
-				ByteBuffer buf = ByteBuffer.allocate(Conversion.toInt(channel.size() - pos));
+				ByteBuffer buf = ByteBuffer.allocate(C.toInt(channel.size() - pos));
 				// 读取字节数组
 				channel.read(buf, pos);
 				// 返回字节数组
@@ -138,7 +138,7 @@ public final class FileUtil {
 			// 获得文件通道
 			try (FileChannel channel = FileChannel.open(Paths.get(fileName));) {
 				// 声明字节数组
-				ByteBuffer buf = ByteBuffer.allocate(Conversion.toInt(channel.size() - pos));
+				ByteBuffer buf = ByteBuffer.allocate(C.toInt(channel.size() - pos));
 				// 读取字节数组
 				channel.read(buf, pos);
 				// 返回字节数组

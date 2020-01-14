@@ -3,7 +3,7 @@ package com.weicoder.admin.token;
 import java.util.Arrays;
 
 import com.weicoder.common.lang.Bytes;
-import com.weicoder.common.lang.Conversion;
+import com.weicoder.common.lang.C;
 import com.weicoder.common.token.TokenEngine;
 
 /**
@@ -30,7 +30,7 @@ public final class AdminToken {
 	 * @return      管理员名
 	 */
 	public static String decrypt(String info) {
-		return Conversion.toString(Bytes.toString(Bytes.toBytes(TokenEngine.decrypt(info).getId())));
+		return C.toString(Bytes.toString(Bytes.toBytes(TokenEngine.decrypt(info).getId())));
 	}
 
 	private AdminToken() {

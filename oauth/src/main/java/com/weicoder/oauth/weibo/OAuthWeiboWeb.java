@@ -5,7 +5,7 @@ import java.util.Map;
 import com.alibaba.fastjson.JSONObject;
 import com.weicoder.common.codec.URLCode;
 import com.weicoder.common.http.HttpEngine;
-import com.weicoder.common.lang.Conversion;
+import com.weicoder.common.lang.C;
 import com.weicoder.common.lang.Maps; 
 import com.weicoder.core.json.JsonEngine; 
 import com.weicoder.oauth.OAuthInfo;
@@ -65,11 +65,11 @@ public class OAuthWeiboWeb extends BaseOAuth {
 		Map<String, Object> map = JsonEngine.toMap(res);
 		// 返回信息
 		OAuthInfo info = new OAuthInfo();
-		info.setOpenid(Conversion.toString(map.get("id")));
+		info.setOpenid(C.toString(map.get("id")));
 		info.setType("weibo");
-		info.setHead(Conversion.toString(map.get("profile_image_url")));
-		info.setNickname(Conversion.toString(map.get("screen_name")));
-		info.setSex("m".equals(Conversion.toString(map.get("gender"))) ? 1 : 0);
+		info.setHead(C.toString(map.get("profile_image_url")));
+		info.setNickname(C.toString(map.get("screen_name")));
+		info.setSex("m".equals(C.toString(map.get("gender"))) ? 1 : 0);
 		info.setData(res);
 		return info;
 	}

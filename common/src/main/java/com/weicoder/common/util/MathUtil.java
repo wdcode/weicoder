@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.lang.Conversion;
+import com.weicoder.common.lang.C;
 
 /**
  * 各种数学相关操作类
@@ -24,7 +24,7 @@ public final class MathUtil {
 		BigDecimal result = BigDecimal.ZERO;
 		// 循环相加
 		for (int i = 0; i < values.length; i++)
-			result = result.add(Conversion.toBigDecimal(values[i]));
+			result = result.add(C.toBigDecimal(values[i]));
 		// 返回结果
 		return result;
 
@@ -37,7 +37,7 @@ public final class MathUtil {
 	 * @return 结果
 	 */
 	public static BigDecimal subtract(Object v1, Object v2) {
-		return scale(v1).subtract(Conversion.toBigDecimal(v2));
+		return scale(v1).subtract(C.toBigDecimal(v2));
 
 	}
 
@@ -63,7 +63,7 @@ public final class MathUtil {
 		BigDecimal result = BigDecimal.ONE;
 		// 循环相乘
 		for (int i = 0; i < values.length; i++)
-			result = result.multiply(Conversion.toBigDecimal(values[i]));
+			result = result.multiply(C.toBigDecimal(values[i]));
 		// 返回结果
 		return result;
 	}
@@ -105,7 +105,7 @@ public final class MathUtil {
 	 * @return 四舍五入后的结果
 	 */
 	public static BigDecimal scale(Object v, int scale) {
-		return Conversion.toBigDecimal(v).setScale(scale, ROUND);
+		return C.toBigDecimal(v).setScale(scale, ROUND);
 	}
 
 	/**
@@ -123,7 +123,7 @@ public final class MathUtil {
 	 * @return 字符串
 	 */
 	public static String toString(Object val) {
-		return Conversion.toBigDecimal(val).toPlainString();
+		return C.toBigDecimal(val).toPlainString();
 	}
 
 	private MathUtil() {}

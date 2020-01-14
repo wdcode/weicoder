@@ -16,7 +16,7 @@ import org.apache.http.message.BasicNameValuePair;
 import com.weicoder.common.constants.HttpConstants;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.io.IOUtil;
-import com.weicoder.common.lang.Conversion;
+import com.weicoder.common.lang.C;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.log.Log;
 import com.weicoder.common.log.LogFactory;
@@ -63,7 +63,7 @@ public class HttpUpload {
 				// 声明参数列表
 				List<NameValuePair> list = Lists.newList(data.size());
 				// 设置参数
-				data.forEach((k, v) -> list.add(new BasicNameValuePair(k, Conversion.toString(v))));
+				data.forEach((k, v) -> list.add(new BasicNameValuePair(k, C.toString(v))));
 				// 设置参数与 编码格式
 				post.setEntity(new UrlEncodedFormEntity(list, CommonParams.ENCODING));
 			}
@@ -129,7 +129,7 @@ public class HttpUpload {
 			// 参数
 			if (EmptyUtil.isNotEmpty(data))
 				// 设置参数
-				data.forEach((k, v) -> builder.addTextBody(k, Conversion.toString(v)));
+				data.forEach((k, v) -> builder.addTextBody(k, C.toString(v)));
 			// 设置提交文件参数
 			post.setEntity(builder.build());
 			// 获得HttpResponse参数

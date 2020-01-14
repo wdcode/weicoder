@@ -12,7 +12,7 @@ import javax.websocket.RemoteEndpoint;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
-import com.weicoder.common.lang.Conversion;
+import com.weicoder.common.lang.C;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.token.TokenBean;
@@ -77,7 +77,7 @@ public class BasicServerEndpoint {
 		// 把传过来的字符串转换成map 要求过来数据为json
 		Map<String, Object> ps = JsonEngine.toMap(message);
 		// 获得参数里的action
-		String name = Conversion.toString(ps.get("action"));
+		String name = C.toString(ps.get("action"));
 		// 判断action为空
 		if (EmptyUtil.isEmpty(name)) {
 			async.sendText("no action");
@@ -110,12 +110,12 @@ public class BasicServerEndpoint {
 				Class<?> cs = p.getType();
 				if (TokenBean.class.equals(cs))
 					// 设置Token
-					params[i] = TokenEngine.decrypt(Conversion.toString(ps.get(p.getName())));
+					params[i] = TokenEngine.decrypt(C.toString(ps.get(p.getName())));
 				else if (Map.class.equals(cs))
 					params[i] = ps;
 				else if (ClassUtil.isBaseType(cs)) {
 					// 获得参数
-					params[i] = Conversion.to(ps.get(p.getName()), cs);
+					params[i] = C.to(ps.get(p.getName()), cs);
 				} else {
 					// 设置属性
 					params[i] = BeanUtil.copy(ps, cs);
@@ -123,7 +123,7 @@ public class BasicServerEndpoint {
 				// 调用方法
 				Object res = BeanUtil.invoke(action, method, params);
 				// 返回结果
-				async.sendText(res instanceof String || res instanceof Number ? Conversion.toString(res) : JsonEngine.toJson(res));
+				async.sendText(res instanceof String || res instanceof Number ? C.toString(res) : JsonEngine.toJson(res));
 			}
 		}
 	}

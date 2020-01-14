@@ -12,6 +12,7 @@ import com.weicoder.kafka.params.KafkaParams;
 
 /**
  * kafka消费者工厂
+ * 
  * @author WD
  */
 final class KafkaConsumerFactory extends FactoryKey<String, KafkaConsumer<byte[], byte[]>> {
@@ -31,7 +32,7 @@ final class KafkaConsumerFactory extends FactoryKey<String, KafkaConsumer<byte[]
 		props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, KafkaParams.getServers(key));
 		props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, true);
 		props.put(ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG, KafkaParams.getInterval(key));
-		props.put(ProducerConfig.COMPRESSION_TYPE_CONFIG, "gzip");
+		props.put(ProducerConfig.COMPRESSION_TYPE_CONFIG, KafkaParams.getCompress(key));
 		props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.ByteArrayDeserializer");
 		props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.ByteArrayDeserializer");
 		Logs.info("new KafkaConsumer key={} props={}", key, props);

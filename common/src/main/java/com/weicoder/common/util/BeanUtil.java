@@ -10,7 +10,7 @@ import java.util.Map;
 
 import com.weicoder.common.constants.StringConstants;
 
-import com.weicoder.common.lang.Conversion;
+import com.weicoder.common.lang.C;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.log.Logs;
 
@@ -252,7 +252,7 @@ public final class BeanUtil {
 			return;
 		// 设置字段值
 		try {
-			makeAccessible(field).set(object, Conversion.to(value, field.getType()));
+			makeAccessible(field).set(object, C.to(value, field.getType()));
 		} catch (Exception e) {}
 	}
 

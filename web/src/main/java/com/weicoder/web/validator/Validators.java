@@ -8,7 +8,7 @@ import java.lang.reflect.Parameter;
 import java.util.Map;
 
 import com.weicoder.common.bean.StateCode;
-import com.weicoder.common.lang.Conversion;
+import com.weicoder.common.lang.C;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.log.Log;
 import com.weicoder.common.log.LogFactory;
@@ -87,17 +87,17 @@ public final class Validators {
 			// 判断验证类型
 			if (a instanceof Number) {
 				// 是数字并且在可用范围内
-				long i = Conversion.toLong(value, Long.MIN_VALUE);
+				long i = C.toLong(value, Long.MIN_VALUE);
 				if (i < ((Number) a).min() || i > ((Number) a).max())
 					return ((Number) a).error();
 			} else if (a instanceof Max) {
 				// 是数字并且小于最大值
-				long i = Conversion.toLong(value, Long.MAX_VALUE);
+				long i = C.toLong(value, Long.MAX_VALUE);
 				if (i > ((Max) a).value())
 					return ((Max) a).error();
 			} else if (a instanceof Min) {
 				// 是数字并且大于最小值
-				long i = Conversion.toLong(value, Long.MIN_VALUE);
+				long i = C.toLong(value, Long.MIN_VALUE);
 				if (i < ((Min) a).value())
 					return ((Min) a).error();
 			} else if (a instanceof NotEmpty) {
@@ -110,7 +110,7 @@ public final class Validators {
 					return ((NotNull) a).error();
 			} else if (a instanceof Regex) {
 				// 判断正则
-				if (!RegexUtil.is(((Regex) a).value(), Conversion.toString(value)))
+				if (!RegexUtil.is(((Regex) a).value(), C.toString(value)))
 					return ((Regex) a).error();
 			}
 		}
@@ -149,7 +149,7 @@ public final class Validators {
 						params[i] = ps;
 					else if (ClassUtil.isBaseType(cs))
 						// 获得参数
-						params[i] = Conversion.to(ps.get(p.getName()), cs);
+						params[i] = C.to(ps.get(p.getName()), cs);
 					else
 						// 设置属性
 						params[i] = BeanUtil.copy(ps, cs);
@@ -162,7 +162,7 @@ public final class Validators {
 				if (rs instanceof StateCode && (res = ((StateCode) rs).getCode()) != StateParams.SUCCESS)
 					break;
 				// 判断状态码 int 类型
-				if (rs instanceof Integer && (res = Conversion.toInt(rs)) != StateParams.SUCCESS)
+				if (rs instanceof Integer && (res = C.toInt(rs)) != StateParams.SUCCESS)
 					break;
 			}
 		} catch (Exception e) {
@@ -210,11 +210,11 @@ public final class Validators {
 				// 客户端IP不符
 				return t.ip();
 			// 校验token与传入的用户ID是否相同
-			if (EmptyUtil.isNotEmpty(t.id()) && Conversion.toLong(ps.get(t.id())) != token.getId())
+			if (EmptyUtil.isNotEmpty(t.id()) && C.toLong(ps.get(t.id())) != token.getId())
 				// 不是用户
 				return t.valid();
 			// 用户id
-			String uid = Conversion.toString(token.getId());
+			String uid = C.toString(token.getId());
 			// 是否强制赋值参数
 			if (EmptyUtil.isNotEmpty(t.uid()))
 				ps.put(t.uid(), uid);

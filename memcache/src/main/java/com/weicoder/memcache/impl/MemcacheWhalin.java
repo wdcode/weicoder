@@ -2,7 +2,7 @@ package com.weicoder.memcache.impl;
 
 import java.util.Map;
 
-import com.weicoder.common.lang.Conversion;
+import com.weicoder.common.lang.C;
 import com.weicoder.memcache.base.BaseMemcache;
 import com.whalin.MemCached.MemCachedClient;
 import com.whalin.MemCached.SockIOPool;
@@ -107,7 +107,7 @@ public final class MemcacheWhalin extends BaseMemcache {
 		// 设置最大连接
 		pool.setMaxConn(maxConn);
 		// 设置空闲时间
-		pool.setMaxIdle(Conversion.toInt(maxIdle));
+		pool.setMaxIdle(C.toInt(maxIdle));
 		// 设置睡眠时间
 		pool.setMaintSleep(maintSleep);
 		// 设置超时读取

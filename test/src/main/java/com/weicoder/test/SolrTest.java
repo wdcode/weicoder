@@ -13,7 +13,7 @@ import org.apache.solr.client.solrj.response.UpdateResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList; 
 
-import com.weicoder.common.lang.Conversion;
+import com.weicoder.common.lang.C;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.EmptyUtil;
@@ -28,17 +28,17 @@ public class SolrTest {
 //		CLIENT.optimize();
 //		CLIENT.commit(); 
 		
-		List<SearchBean> list = Lists.newList();
-		list.add(new SearchBean(1, 11, "呵呵哒"));
-		list.add(new SearchBean(2, 12, "呵呵呵"));
-		list.add(new SearchBean(3, 13, "呵哒呵"));
-		list.add(new SearchBean(4, 14, "哈哈哒"));
-		list.add(new SearchBean(5, 15, "哈哈哈"));
-		System.out.println(update(list).getStatus());
+//		List<SearchBean> list = Lists.newList();
+//		list.add(new SearchBean(1, 11, "呵呵哒"));
+//		list.add(new SearchBean(2, 12, "呵呵呵"));
+//		list.add(new SearchBean(3, 13, "呵哒呵"));
+//		list.add(new SearchBean(4, 14, "哈哈哒"));
+//		list.add(new SearchBean(5, 15, "哈哈哈"));
+//		System.out.println(update(list).getStatus());
 
 //		System.out.println(del(Lists.newList("1","2","3")).getStatus());
 
-		System.out.println(Lists.toString(query("呵", 0, 10)));
+		System.out.println(Lists.toString(query("呵呵", 0, 10)));
 	}
 
 	public static List<SearchBean> query(String key, int start, int limit) {
@@ -55,7 +55,7 @@ public class SolrTest {
 			SolrDocumentList docsList = resp.getResults();
 			// logger.debug("找到个数：{}", dataNum);
 			for (SolrDocument doc : docsList) {
-				dataList.add(new SearchBean(Conversion.toLong(doc.getFirstValue("id").toString()), Conversion.toLong(doc.getFirstValue("uid").toString()), doc.getFieldValue("nickname").toString()));
+				dataList.add(new SearchBean(C.toLong(doc.getFirstValue("id").toString()), C.toLong(doc.getFirstValue("uid").toString()), doc.getFieldValue("nickname").toString()));
 			}
 		} catch (Exception e) {
 			Logs.error(e);

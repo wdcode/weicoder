@@ -5,7 +5,7 @@ import java.util.Enumeration;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
-import com.weicoder.common.lang.Conversion;
+import com.weicoder.common.lang.C;
 import com.weicoder.common.util.EmptyUtil;
 
 /**
@@ -28,7 +28,7 @@ public final class SessionUtil {
 					// 循环删除属性
 					while (e.hasMoreElements())
 						// 删除
-						session.removeAttribute(Conversion.toString(e.nextElement()));
+						session.removeAttribute(C.toString(e.nextElement()));
 				// 销毁Session
 				session.invalidate();
 			} catch (Exception e) {}

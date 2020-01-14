@@ -10,7 +10,7 @@ import com.weicoder.common.constants.RegexConstants;
 
 import com.weicoder.common.constants.StringConstants;
 
-import com.weicoder.common.lang.Conversion;
+import com.weicoder.common.lang.C;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
 
@@ -115,7 +115,7 @@ public final class DateUtil {
 	 * @return int
 	 */
 	public static int getTime() {
-		return Conversion.toInt(System.currentTimeMillis() / 1000);
+		return C.toInt(System.currentTimeMillis() / 1000);
 	}
 
 	/**
@@ -125,7 +125,7 @@ public final class DateUtil {
 	 * @return      int
 	 */
 	public static int getTime(Date date) {
-		return EmptyUtil.isEmpty(date) ? 0 : Conversion.toInt(date.getTime() / 1000);
+		return EmptyUtil.isEmpty(date) ? 0 : C.toInt(date.getTime() / 1000);
 	}
 
 	/**
@@ -232,7 +232,7 @@ public final class DateUtil {
 	 * @return        String time的日期
 	 */
 	public static String toString(int time, String format) {
-		return toString(Conversion.toLong(time) * 1000, format);
+		return toString(C.toLong(time) * 1000, format);
 	}
 
 	/**
@@ -293,7 +293,7 @@ public final class DateUtil {
 	 * @return         返回两个日期相差的天数
 	 */
 	public static int marginDay(Date oneDate, Date twoDate) {
-		return Conversion.toInt((twoDate.getTime() - oneDate.getTime()) / DateConstants.TIME_DAY);
+		return C.toInt((twoDate.getTime() - oneDate.getTime()) / DateConstants.TIME_DAY);
 	}
 
 	/**

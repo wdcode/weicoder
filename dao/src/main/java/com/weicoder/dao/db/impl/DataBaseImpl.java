@@ -20,7 +20,7 @@ import javax.sql.DataSource;
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.StringConstants;
 
-import com.weicoder.common.lang.Conversion;
+import com.weicoder.common.lang.C;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.log.Logs;
@@ -607,31 +607,31 @@ public final class DataBaseImpl implements DataBase {
 			pstmt.setNull(index, java.sql.Types.NULL);
 		else if (parame instanceof String)
 			// String
-			pstmt.setString(index, Conversion.toString(parame));
+			pstmt.setString(index, C.toString(parame));
 		else if (parame instanceof Integer)
 			// Integer
-			pstmt.setInt(index, Conversion.toInt(parame));
+			pstmt.setInt(index, C.toInt(parame));
 		else if (parame instanceof Long)
 			// Long
-			pstmt.setLong(index, Conversion.toLong(parame));
+			pstmt.setLong(index, C.toLong(parame));
 		else if (parame instanceof Double)
 			// Double
-			pstmt.setDouble(index, Conversion.toDouble(parame));
+			pstmt.setDouble(index, C.toDouble(parame));
 		else if (parame instanceof Float)
 			// Float
-			pstmt.setFloat(index, Conversion.toFloat(parame));
+			pstmt.setFloat(index, C.toFloat(parame));
 		else if (parame instanceof Short)
 			// Short
-			pstmt.setShort(index, Conversion.toShort(parame));
+			pstmt.setShort(index, C.toShort(parame));
 		else if (parame instanceof Byte)
 			// Byte
-			pstmt.setByte(index, Conversion.toByte(parame));
+			pstmt.setByte(index, C.toByte(parame));
 		else if (parame instanceof Boolean)
 			// Boolean
-			pstmt.setBoolean(index, Conversion.toBoolean(parame));
+			pstmt.setBoolean(index, C.toBoolean(parame));
 		else if (parame instanceof BigDecimal)
 			// BigDecimal
-			pstmt.setBigDecimal(index, Conversion.toBigDecimal(parame));
+			pstmt.setBigDecimal(index, C.toBigDecimal(parame));
 		else if (parame instanceof Blob)
 			// Blob
 			pstmt.setBlob(index, (Blob) parame);
