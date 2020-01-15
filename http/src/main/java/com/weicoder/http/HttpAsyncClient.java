@@ -25,10 +25,12 @@ import com.weicoder.common.constants.HttpConstants;
 import com.weicoder.common.constants.SystemConstants;
 import com.weicoder.common.interfaces.Callback;
 import com.weicoder.common.io.IOUtil;
+import com.weicoder.common.lang.C;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.log.Log;
-import com.weicoder.common.log.LogFactory;
+import com.weicoder.common.log.LogFactory; 
 import com.weicoder.common.params.CommonParams;
+import com.weicoder.common.util.CloseUtil;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
 
@@ -142,10 +144,10 @@ public final class HttpAsyncClient {
 		} catch (Exception e) {
 			LOG.error(e);
 		} finally {
-			// 销毁get
-			if (get != null) {
-				get.abort();
-			}
+//			// 销毁get
+//			if (get != null) {
+//				get.abort();
+//			}
 		}
 	}
 
@@ -156,7 +158,7 @@ public final class HttpAsyncClient {
 	 * @param data     提交参数
 	 * @param callback 回调结果
 	 */
-	public static void post(String url, Map<String, String> data, Callback<String> callback) {
+	public static void post(String url, Map<String, Object> data, Callback<String> callback) {
 		post(url, data, callback, CommonParams.ENCODING);
 	}
 
@@ -168,7 +170,7 @@ public final class HttpAsyncClient {
 	 * @param callback 回调结果
 	 * @param charset  编码
 	 */
-	public static void post(String url, Map<String, String> data, Callback<String> callback, String charset) {
+	public static void post(String url, Map<String, Object> data, Callback<String> callback, String charset) {
 		// 声明HttpPost
 		HttpPost post = null;
 		try {
@@ -180,7 +182,7 @@ public final class HttpAsyncClient {
 				// 声明参数列表
 				List<NameValuePair> list = Lists.newList(data.size());
 				// 设置参数
-				data.forEach((k, v) -> list.add(new BasicNameValuePair(k, v)));
+				data.forEach((k, v) -> list.add(new BasicNameValuePair(k,C.toString(v))));
 				// 设置参数与 编码格式
 				post.setEntity(new UrlEncodedFormEntity(list, charset));
 			}
@@ -209,11 +211,15 @@ public final class HttpAsyncClient {
 		} catch (Exception e) {
 			LOG.error(e);
 		} finally {
-			// 销毁post
-			if (post != null) {
-				post.abort();
-			}
+//			// 销毁post
+//			if (post != null) {
+//				post.abort();
+//			}
 		}
+	}
+	
+	public static void close() {
+		CloseUtil.close(CLIENT);
 	}
 
 	private HttpAsyncClient() {

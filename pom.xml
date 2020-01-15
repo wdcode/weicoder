@@ -54,12 +54,7 @@
 		<HikariCP>3.4.2</HikariCP>
 		<lombok>1.18.10</lombok>
 		<log4j-core>2.13.0</log4j-core>
-		<fastjson>1.2.62</fastjson>
-		<httpclient>4.5.10</httpclient>
-		<httpmime>4.5.10</httpmime>
-		<httpcore>4.4.12</httpcore>
-		<httpcore-nio>4.4.12</httpcore-nio>
-		<httpasyncclient>4.1.4</httpasyncclient> 
+		<fastjson>1.2.62</fastjson>  
 		<hibernate-core>5.4.10.Final</hibernate-core>
 		<mysql-connector-java>8.0.19</mysql-connector-java>
 		<netty-all>4.1.45.Final</netty-all>
@@ -385,32 +380,7 @@
 				<groupId>com.alibaba</groupId>
 				<artifactId>fastjson</artifactId>
 				<version>${fastjson}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.httpcomponents</groupId>
-				<artifactId>httpclient</artifactId>
-				<version>${httpclient}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.httpcomponents</groupId>
-				<artifactId>httpmime</artifactId>
-				<version>${httpmime}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.httpcomponents</groupId>
-				<artifactId>httpcore</artifactId>
-				<version>${httpcore}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.httpcomponents</groupId>
-				<artifactId>httpcore-nio</artifactId>
-				<version>${httpcore-nio}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.httpcomponents</groupId>
-				<artifactId>httpasyncclient</artifactId>
-				<version>${httpasyncclient}</version>
-			</dependency> 
+			</dependency>  
 			<dependency>
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-core</artifactId>

@@ -1,15 +1,30 @@
 package com.weicoder.test;
 
-import com.weicoder.common.http.HttpEngine;
-import com.weicoder.common.lang.Maps; 
+import java.util.Map;
+
+import com.weicoder.common.io.FileUtil;
+import com.weicoder.common.lang.Maps;
+import com.weicoder.http.HttpAsyncClient;
+import com.weicoder.http.HttpClient;
+import com.weicoder.http.HttpUpload;
 
 public class Test {
 
 	public static void main(String[] args) {
 		String url = "http://m.i4322.com/user/get/info?uid=10000002";
-		System.out.println(HttpEngine.get(url));
+		HttpAsyncClient.get(url, r -> {
+			System.out.println("HttpAsyncClient.get=" + r);
+			return r;
+		});
+		System.out.println("HttpClient.get=" + HttpClient.get(url));
 		url = "http://m.i4322.com/user/get/info";
-		System.out.println(HttpEngine.post(url, Maps.newMap("uid", "10000002")));
+		final Map<String, Object> data = Maps.newMap("uid", "10000002");
+		HttpAsyncClient.post(url, data, r -> {
+			System.out.println("HttpAsyncClient.post" + r);
+			return r;
+		});
+		System.out.println("HttpClient.post=" + HttpClient.post(url, data));
+		System.out.println("HttpClient.post=" +HttpUpload.upload("http://m.i4322.com/upload/upload", FileUtil.newFile("E:\\2.jpg")));
 //		System.out.println(DateUtil.toString(1578883508));
 //		System.out.println(Instant.now().toEpochMilli());
 //		System.out.println(System.currentTimeMillis());
