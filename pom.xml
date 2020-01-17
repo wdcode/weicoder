@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.weicoder</groupId>
 	<artifactId>weicoder</artifactId>
-	<version>3.2.3</version>
+	<version>3.2.4</version>
 	<packaging>pom</packaging>
 	<name>weicoder</name>
 	<description>java tools</description>
@@ -35,7 +35,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<parent>3.2.3</parent>
+		<parent>3.2.4</parent>
 		<jdk>11</jdk>
 		<maven-compiler-plugin>3.8.1</maven-compiler-plugin>
 		<maven-source-plugin>3.2.1</maven-source-plugin>
@@ -60,8 +60,7 @@
 		<netty-all>4.1.45.Final</netty-all>
 		<mongo-java-driver>3.12.0</mongo-java-driver>
 		<jedis>3.2.0</jedis>
-		<kafka-clients>2.4.0</kafka-clients>
-		<poi>4.1.1</poi>
+		<kafka-clients>2.4.0</kafka-clients> 
 	</properties>
 
 	<licenses>
@@ -410,17 +409,7 @@
 				<groupId>org.apache.kafka</groupId>
 				<artifactId>kafka-clients</artifactId>
 				<version>${kafka-clients}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.poi</groupId>
-				<artifactId>poi</artifactId>
-				<version>${poi}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.poi</groupId>
-				<artifactId>poi-ooxml</artifactId>
-				<version>${poi}</version>
-			</dependency>
+			</dependency> 
 		</dependencies>
 	</dependencyManagement>
 </project>

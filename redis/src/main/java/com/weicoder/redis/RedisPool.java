@@ -38,13 +38,23 @@ public interface RedisPool {
 	boolean lock(String key, long ms);
 
 	/**
-	 * 分布式锁锁定1秒 有超时时间
+	 * 分布式锁锁定s秒 无超时
 	 * 
 	 * @param  key 加锁key
-	 * @param  s   超时时间 秒
+	 * @param  s   锁时间 秒
 	 * @return     是否加锁成功 如果超时会返回false失败
 	 */
 	boolean lock(String key, int s);
+
+	/**
+	 * 分布式锁
+	 * 
+	 * @param  key     加锁key
+	 * @param  seconds 加锁超时时间 最小1秒 -1为无超时时间 注意不要死锁
+	 * @param  timeout 超时时间 等待超时时间 如果有锁并等待时间已过返回false
+	 * @return         是否加锁成功 如果超时会返回false失败
+	 */
+	boolean lock(String key, int seconds, long timeout);
 
 	/**
 	 * 分布式解锁

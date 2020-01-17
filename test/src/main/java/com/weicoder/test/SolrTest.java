@@ -38,7 +38,7 @@ public class SolrTest {
 
 //		System.out.println(del(Lists.newList("1","2","3")).getStatus());
 
-		System.out.println(Lists.toString(query("呵呵", 0, 10)));
+		System.out.println(Lists.toString(query("哈哈", 0, 10)));
 	}
 
 	public static List<SearchBean> query(String key, int start, int limit) {

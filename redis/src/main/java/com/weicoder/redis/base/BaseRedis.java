@@ -75,7 +75,7 @@ public abstract class BaseRedis implements RedisPool {
 
 	@Override
 	public boolean lock(String key, int s) {
-		return lock(key, 1000L);
+		return lock(key, s, -1L);
 	}
 
 	@Override
@@ -85,6 +85,11 @@ public abstract class BaseRedis implements RedisPool {
 
 	@Override
 	public boolean lock(String key, long ms) {
+		return lock(key, 1, ms);
+	}
+
+	@Override
+	public boolean lock(String key, int seconds, long timeout) {
 		try {
 			exec(r -> {
 				// 当前时间
@@ -92,13 +97,18 @@ public abstract class BaseRedis implements RedisPool {
 				// 检查分布式锁是否存在 如果存在循环等待
 				while (r.exists(key)) {
 					// 等待5毫秒
-					ThreadUtil.sleep(2L);
+					ThreadUtil.sleep(5L);
 					// 检查是否超时
-					if (ms > 0 && System.currentTimeMillis() - curr > ms)
+					if (timeout > 0 && System.currentTimeMillis() - curr > timeout)
 						throw new RuntimeException("timeout ..");
 				}
 				// 加锁
-				r.setex(key, 1, key);
+//				if (r.exists(key))
+//					throw new RuntimeException("other server is lock");
+				if (seconds == -1)
+					r.set(key, key);
+				else
+					r.setex(key, seconds, key);
 			});
 			return true;
 		} catch (Exception e) {
