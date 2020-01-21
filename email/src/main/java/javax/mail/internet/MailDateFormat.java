@@ -478,8 +478,7 @@ public class MailDateFormat extends SimpleDateFormat {
 
         /**
          * @return the java.util.Calendar constant for the parsed month name
-         */
-        @SuppressWarnings("fallthrough")
+         */ 
         final int parseMonthName(boolean caseSensitive) throws ParseException {
             switch (getChar()) {
                 case 'j':

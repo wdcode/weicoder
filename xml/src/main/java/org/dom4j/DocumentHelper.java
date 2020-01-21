@@ -26,8 +26,7 @@ import org.xml.sax.SAXException;
  *
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  * @version $Revision: 1.26 $
- */
-@SuppressWarnings("unused")
+ */ 
 public final class DocumentHelper {
     private DocumentHelper() {
     }

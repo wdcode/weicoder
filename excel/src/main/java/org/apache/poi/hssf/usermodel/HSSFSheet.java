@@ -736,8 +736,7 @@ public final class HSSFSheet implements org.apache.poi.ss.usermodel.Sheet {
                 region.getLastColumn());
     }
 
-    private void validateArrayFormulas(CellRangeAddress region) {
-        // FIXME: this may be faster if it looped over array formulas directly rather than looping over each cell in
+    private void validateArrayFormulas(CellRangeAddress region) { 
         // the region and searching if that cell belongs to an array formula
         int firstRow = region.getFirstRow();
         int firstColumn = region.getFirstColumn();
@@ -1514,8 +1513,7 @@ public final class HSSFSheet implements org.apache.poi.ss.usermodel.Sheet {
      * Additionally shifts merged regions that are completely defined in these
      * rows (ie. merged 2 cells on a row to be shifted). All merged regions that are
      * completely overlaid by shifting will be deleted.<p>
-     * 
-     * TODO Might want to add bounds checking here
+     *  
      *
      * @param startRow               the row to start shifting
      * @param endRow                 the row to end shifting
@@ -1546,8 +1544,7 @@ public final class HSSFSheet implements org.apache.poi.ss.usermodel.Sheet {
      * 
      * Additionally shifts merged regions that are completely defined in these
      * rows (ie. merged 2 cells on a row to be shifted).<p>
-     * 
-     * TODO Might want to add bounds checking here
+     *  
      *
      * @param startRow               the row to start shifting
      * @param endRow                 the row to end shifting
@@ -1977,9 +1974,7 @@ public final class HSSFSheet implements org.apache.poi.ss.usermodel.Sheet {
 
     /**
      * Determines if there is a page break at the indicated column
-     *
-     * @param column FIXME: Document this!
-     * @return FIXME: Document this!
+     * 
      */
     @Override
     public boolean isColumnBroken(int column) {
@@ -2320,8 +2315,7 @@ public final class HSSFSheet implements org.apache.poi.ss.usermodel.Sheet {
      * Returns the name of this sheet
      *
      * @return the name of this sheet
-     */
-    @SuppressWarnings("resource")
+     */ 
     @Override
     public String getSheetName() {
         HSSFWorkbook wb = getWorkbook();

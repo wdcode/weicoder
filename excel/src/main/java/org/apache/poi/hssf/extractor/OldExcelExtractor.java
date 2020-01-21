@@ -88,8 +88,7 @@ public class OldExcelExtractor implements Closeable {
                 IOUtils.closeQuietly(poifs);
             }
         }
-
-        @SuppressWarnings("resource")
+ 
         FileInputStream biffStream = new FileInputStream(f); // NOSONAR
         try {
             open(biffStream);
@@ -223,8 +222,7 @@ public class OldExcelExtractor implements Closeable {
         StringBuffer text = new StringBuffer();
         
         // To track formats and encodings
-        CodepageRecord codepage = null;
-        // TODO track the XFs and Format Strings
+        CodepageRecord codepage = null; 
 
         // Process each record in turn, looking for interesting ones
         while (ris.hasNextRecord()) {
@@ -307,8 +305,7 @@ public class OldExcelExtractor implements Closeable {
         }
     }
 
-    protected void handleNumericCell(StringBuffer text, double value) {
-        // TODO Need to fetch / use format strings
+    protected void handleNumericCell(StringBuffer text, double value) { 
         text.append(value);
         text.append('\n');
     }

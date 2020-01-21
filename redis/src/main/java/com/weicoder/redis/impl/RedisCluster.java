@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Bytes;
 import com.weicoder.redis.Subscribe;
 import com.weicoder.redis.base.BaseRedis;
@@ -12,6 +13,8 @@ import com.weicoder.redis.builder.JedisBuilder;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisCluster;
 import redis.clients.jedis.JedisPubSub;
+import redis.clients.jedis.Tuple;
+import redis.clients.jedis.util.JedisClusterCRC16;
 
 /**
  * redis 集群
@@ -218,7 +221,7 @@ public final class RedisCluster extends BaseRedis implements Subscribe {
 
 	@Override
 	public void exec(Callback callback) {
-		callback.callback(getResource());
+		callback.callback(getResource(StringConstants.EMPTY));
 	}
 
 	@Override
@@ -226,7 +229,18 @@ public final class RedisCluster extends BaseRedis implements Subscribe {
 		return cluster.lrange(key, start, stop);
 	}
 
-	private Jedis getResource() {
-		return cluster.getConnectionFromSlot(1);
+	@Override
+	public Jedis getResource(String key) {
+		return cluster.getConnectionFromSlot(JedisClusterCRC16.getCRC16(key));
+	}
+
+	@Override
+	public Set<Tuple> zrevrangeByScoreWithScores(String key, double max, double min, int offset, int count) { 
+		return cluster.zrevrangeByScoreWithScores(key, max, min, offset, count);
+	}
+
+	@Override
+	public String rpop(String key) { 
+		return cluster.rpop(key);
 	}
 }

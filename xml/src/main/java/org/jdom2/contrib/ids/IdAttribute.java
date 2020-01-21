@@ -68,8 +68,7 @@ import org.jdom2.Parent;
  * <code>IdDocument</code>.
  *
  * @author Laurent Bihanic
- */
-@SuppressWarnings("javadoc")
+ */ 
 public class IdAttribute extends Attribute {
 
     /**

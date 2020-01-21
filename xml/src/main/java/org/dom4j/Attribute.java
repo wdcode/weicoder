@@ -13,8 +13,7 @@ package org.dom4j;
  *
  * @author <a href="mailto:james.strachan@metastuff.com">James Strachan </a>
  * @version $Revision: 1.9 $
- */
-@SuppressWarnings("unused")
+ */ 
 public interface Attribute extends Node {
 	/**
 	 * Returns the <code>QName</code> of this attribute which represents the

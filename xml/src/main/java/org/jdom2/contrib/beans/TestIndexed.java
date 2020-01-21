@@ -58,8 +58,7 @@ import org.jdom2.*;
 import org.jdom2.output.*;
 import java.util.*;
 import java.beans.*;
-    
-@SuppressWarnings("javadoc")
+     
 public class TestIndexed implements java.io.Serializable {
     /**
 	 * Default.

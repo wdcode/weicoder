@@ -79,9 +79,7 @@ import org.jdom2.Element;
  * document tree.</p>
  *
  * @author Laurent Bihanic
- */
-@SuppressWarnings("javadoc")
-public class IdDocument extends Document {
+ */ public class IdDocument extends Document {
 
     /**
 	 * Default.

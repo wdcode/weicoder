@@ -49,8 +49,7 @@ public final class IOUtils {
      *
      * @param maxOverride The number of bytes that should be possible to be allocated in one step.
      * @since 4.0.0
-     */
-    @SuppressWarnings("unused")
+     */ 
     public static void setByteArrayMaxOverride(int maxOverride) {
         BYTE_ARRAY_MAX_OVERRIDE = maxOverride;
     }

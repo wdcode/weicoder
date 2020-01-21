@@ -289,8 +289,7 @@ public final class XSSFDrawing extends POIXMLDocumentPart implements Drawing<XSS
      *            pictures,
      *            {@link org.apache.poi.xssf.usermodel.XSSFWorkbook#getAllPictures()}
      *            .
-     */
-    @SuppressWarnings("resource")
+     */ 
     protected PackageRelationship addPictureReference(int pictureIndex) {
         XSSFWorkbook wb = (XSSFWorkbook) getParent().getParent();
         XSSFPictureData data = wb.getAllPictures().get(pictureIndex);
@@ -585,8 +584,7 @@ public final class XSSFDrawing extends POIXMLDocumentPart implements Drawing<XSS
         CTPositiveSize2D ext = xfrm.addNewExt();
         ext.setCx(width - anchor.getDx1() + anchor.getDx2());
         ext.setCy(height - anchor.getDy1() + anchor.getDy2());
-
-        // TODO: handle vflip/hflip
+ 
         return xfrm;
     }
 

@@ -101,8 +101,7 @@ import org.jdom2.output.SAXOutputter;
 import org.jdom2.output.XMLOutputter;
 import org.jdom2.xpath.XPathExpression;
 import org.jdom2.xpath.XPathFactory;
-
-@SuppressWarnings("javadoc")
+ 
 public class PerfDoc {
 	
 	private class SAXLoadRunnable implements TimeRunnable {

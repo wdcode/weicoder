@@ -31,8 +31,7 @@ import java.io.Writer;
  * @author Joe Walnes
  * @author J&ouml;rg Schaible
  * @since 1.4
- */
-@SuppressWarnings({"resource","static-access"})
+ */ 
 public abstract class AbstractXppDriver extends AbstractXmlDriver {
 
     /**

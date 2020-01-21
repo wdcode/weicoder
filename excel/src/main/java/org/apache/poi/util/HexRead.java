@@ -22,8 +22,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 /**
- * Utilities to read hex from files.
- * TODO - move to test packages
+ * Utilities to read hex from files. 
  */
 public class HexRead {
     /**
@@ -88,8 +87,7 @@ public class HexRead {
     public static byte[] readData( String filename, String section ) throws IOException {
         return readData(new FileInputStream( filename ), section);
     }
-
-    @SuppressWarnings("fallthrough")
+ 
     static public byte[] readData( InputStream stream, int eofChar )
             throws IOException
     {

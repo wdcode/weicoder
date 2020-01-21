@@ -222,16 +222,14 @@ public abstract class POIXMLDocument extends POIXMLDocumentPart implements Close
      * @param stream - the java OutputStream you wish to write the file to
      *
      * @exception IOException if anything can't be written.
-     */
-    @SuppressWarnings("resource")
+     */ 
     public final void write(OutputStream stream) throws IOException {
         OPCPackage p = getPackage();
         if(p == null) {
             throw new IOException("Cannot write data, document seems to have been closed already");
         }
         
-        //force all children to commit their changes into the underlying OOXML Package
-        // TODO Shouldn't they be committing to the new one instead?
+        //force all children to commit their changes into the underlying OOXML Package 
         Set<PackagePart> context = new HashSet<>();
         onSave(context);
         context.clear();

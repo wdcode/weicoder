@@ -13,6 +13,7 @@ import com.weicoder.redis.builder.JedisBuilder;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPubSub;
+import redis.clients.jedis.Tuple;
 
 /**
  * Redis客户端Jedis实现
@@ -30,6 +31,7 @@ public final class RedisJedis extends BaseRedis implements Subscribe {
 	@Override
 	public Long rpush(String key, String... strings) {
 		try (Jedis jedis = pool.getResource()) {
+			jedis.rpop("");
 			return jedis.rpush(key, strings);
 		}
 	}
@@ -306,6 +308,25 @@ public final class RedisJedis extends BaseRedis implements Subscribe {
 	public void exec(Callback callback) {
 		try (Jedis jedis = pool.getResource()) {
 			callback.callback(jedis);
+		}
+	}
+
+	@Override
+	public Jedis getResource(String key) {
+		return pool.getResource();
+	}
+
+	@Override
+	public Set<Tuple> zrevrangeByScoreWithScores(String key, double max, double min, int offset, int count) {
+		try (Jedis jedis = pool.getResource()) {
+			return jedis.zrevrangeByScoreWithScores(key, max, min, offset, count);
+		}
+	}
+
+	@Override
+	public String rpop(String key) {
+		try (Jedis jedis = pool.getResource()) {
+			return jedis.rpop(key);
 		}
 	}
 }

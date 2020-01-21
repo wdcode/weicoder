@@ -18,8 +18,7 @@ import java.util.List;
  *
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  * @version $Revision: 1.32 $
- */
-@SuppressWarnings("unused")
+ */ 
 public interface Branch extends Node {
 	/**
 	 * Returns the <code>Node</code> at the specified index position.

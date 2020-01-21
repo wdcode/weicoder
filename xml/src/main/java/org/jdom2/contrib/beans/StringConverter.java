@@ -62,8 +62,7 @@ import java.util.*;
  *
  * @author Alex Chaffee (alex@jguru.com)
  **/
-
-@SuppressWarnings("javadoc")
+ 
 public class StringConverter {
 
 	public static interface Factory {

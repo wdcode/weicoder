@@ -167,8 +167,7 @@ public final class ZipHelper {
      * @param stream
      *            The stream to open.
      * @return The zip stream freshly open.
-     */
-    @SuppressWarnings("resource")
+     */ 
     public static ZipArchiveThresholdInputStream openZipStream(InputStream stream) throws IOException {
         // Peek at the first few bytes to sanity check
         InputStream checkedStream = FileMagic.prepareToCheckMagic(stream);

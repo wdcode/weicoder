@@ -141,8 +141,7 @@ public class ZipSecureFile extends ZipFile {
      * @throws IOException if an I/O error has occurred
      * @throws IllegalStateException if the zip file has been closed
      */
-    @Override
-    @SuppressWarnings("resource")
+    @Override 
     public ZipArchiveThresholdInputStream getInputStream(ZipArchiveEntry entry) throws IOException {
         ZipArchiveThresholdInputStream zatis = new ZipArchiveThresholdInputStream(super.getInputStream(entry));
         zatis.setEntry(entry);

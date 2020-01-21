@@ -213,9 +213,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    * @since 7.0 (source-compatible since 2.0)
    */
   public static <E> ImmutableSet<E> copyOf(Collection<? extends E> elements) {
-    /*
-     * TODO(lowasser): consider checking for ImmutableAsList here
-     * TODO(lowasser): consider checking for Multiset here
+    /* 
      */
     // Don't refer to ImmutableSortedSet by name so it won't pull in all that code
     if (elements instanceof ImmutableSet && !(elements instanceof SortedSet)) { 
@@ -479,7 +477,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
       impl = new RegularSetBuilderImpl<E>(capacity);
     }
 
-    Builder(@SuppressWarnings("unused") boolean subclass) {
+    Builder(boolean subclass) {
       this.impl = null; // unused
     }
 

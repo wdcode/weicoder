@@ -82,8 +82,7 @@ public final class FilePassRecord extends StandardRecord implements Cloneable {
             throw new EncryptedDocumentException(e);
         }
 	}
-
-	@SuppressWarnings("resource")
+ 
     @Override
     public void serialize(LittleEndianOutput out) {
         out.writeShort(encryptionType);

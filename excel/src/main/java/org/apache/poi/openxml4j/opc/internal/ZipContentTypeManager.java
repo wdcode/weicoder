@@ -53,8 +53,7 @@ public class ZipContentTypeManager extends ContentTypeManager {
 			throws InvalidFormatException {
 		super(in, pkg);
 	}
-
-	@SuppressWarnings("resource")
+ 
     @Override
 	public boolean saveImpl(Document content, OutputStream out) {
 		final ZipArchiveOutputStream zos = (out instanceof ZipArchiveOutputStream)

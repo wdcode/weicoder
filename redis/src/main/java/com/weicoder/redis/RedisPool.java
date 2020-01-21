@@ -6,6 +6,7 @@ import java.util.Set;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPubSub;
+import redis.clients.jedis.Tuple;
 
 /**
  * Redis 操作接口
@@ -14,11 +15,38 @@ import redis.clients.jedis.JedisPubSub;
  */
 public interface RedisPool {
 	/**
+	 * 集群模式会跟据key返回Jedis连接 pool模式直接返回Jedis
+	 * 
+	 * @return Jedis
+	 */
+	Jedis getResource(String key);
+
+	/**
 	 * 执行Redis 回调使用 内部处理jedis的关闭问题
 	 * 
 	 * @param callback
 	 */
 	void exec(Callback callback);
+
+	/**
+	 * 从大到小获取有序集合里的数据
+	 * 
+	 * @param  key    剑
+	 * @param  max    最大值
+	 * @param  min    最小值
+	 * @param  offset 获取开始
+	 * @param  count  获取数量
+	 * @return        Set<Tuple>
+	 */
+	Set<Tuple> zrevrangeByScoreWithScores(String key, double max, double min, int offset, int count);
+
+	/**
+	 * 从队列右侧开始取数据
+	 * 
+	 * @param  key
+	 * @return
+	 */
+	String rpop(String key);
 
 	/**
 	 * 分布式锁锁定1秒 无超时时间 会一直等待

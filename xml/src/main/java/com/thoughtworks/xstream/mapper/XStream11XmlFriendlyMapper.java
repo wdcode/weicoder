@@ -28,7 +28,7 @@ package com.thoughtworks.xstream.mapper;
  * @author Mauro Talevi
  * @deprecated As of 1.4 use {@link com.thoughtworks.xstream.io.xml.XmlFriendlyReader}
  */
-@SuppressWarnings({"rawtypes", "resource","static-access"})
+@SuppressWarnings({"rawtypes"})
 public class XStream11XmlFriendlyMapper extends AbstractXmlFriendlyMapper {
 
     public XStream11XmlFriendlyMapper(Mapper wrapped) {

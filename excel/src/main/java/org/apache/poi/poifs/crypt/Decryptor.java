@@ -140,8 +140,7 @@ public abstract class Decryptor implements Cloneable, GenericRecord {
     public byte[] getIntegrityHmacKey() {
         return integrityHmacKey;
     }
-
-    @SuppressWarnings("unused")
+ 
     public byte[] getIntegrityHmacValue() {
         return integrityHmacValue;
     }
@@ -161,8 +160,7 @@ public abstract class Decryptor implements Cloneable, GenericRecord {
     protected void setIntegrityHmacValue(byte[] integrityHmacValue) {
         this.integrityHmacValue = (integrityHmacValue == null) ? null : integrityHmacValue.clone();
     }
-
-    @SuppressWarnings("unused")
+ 
     protected int getBlockSizeInBytes() {
         return encryptionInfo.getHeader().getBlockSize();
     }

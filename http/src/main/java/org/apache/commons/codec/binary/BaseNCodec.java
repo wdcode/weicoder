@@ -95,8 +95,7 @@ public abstract class BaseNCodec implements BinaryEncoder, BinaryDecoder {
          * Returns a String useful for debugging (especially within a debugger.)
          *
          * @return a String useful for debugging.
-         */
-        @SuppressWarnings("boxing") // OK to ignore boxing here
+         */ 
         @Override
         public String toString() {
             return String.format("%s[buffer=%s, currentLinePos=%s, eof=%s, ibitWorkArea=%s, lbitWorkArea=%s, " +
@@ -279,8 +278,7 @@ public abstract class BaseNCodec implements BinaryEncoder, BinaryDecoder {
     /**
      * Compares two {@code int} values numerically treating the values
      * as unsigned. Taken from JDK 1.8.
-     *
-     * <p>TODO: Replace with JDK 1.8 Integer::compareUnsigned(int, int).</p>
+     * 
      *
      * @param  x the first {@code int} to compare
      * @param  y the second {@code int} to compare

@@ -24,8 +24,7 @@ import org.apache.poi.ss.formula.eval.*;
  *  take a single expression argument, and return True or False.
  */
 public abstract class LogicalFunction extends Fixed1ArgFunction implements ArrayFunction{
-
-    @SuppressWarnings("unused")
+ 
     public ValueEval evaluate(int srcRowIndex, int srcColumnIndex, ValueEval arg0) {
 		ValueEval ve;
 		try {

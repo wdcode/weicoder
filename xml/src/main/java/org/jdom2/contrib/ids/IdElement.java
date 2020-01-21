@@ -69,8 +69,7 @@ import org.jdom2.Namespace;
  * <code>IdDocument</code>.
  *
  * @author Laurent Bihanic
- */
-@SuppressWarnings("javadoc")
+ */ 
 public class IdElement extends Element {
 
     /**

@@ -74,8 +74,7 @@ import org.jdom2.Verifier;
  *
  */
 public class PerfVerifier {
-	
-	@SuppressWarnings("javadoc")
+	 
 	public static void main(final String[] args) throws InterruptedException {
 		Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
 		if (args.length != 1) {

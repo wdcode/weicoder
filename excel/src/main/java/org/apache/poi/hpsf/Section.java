@@ -529,8 +529,7 @@ public class Section {
      * @see #setProperty(int, long, Object)
      * @see #getProperty
      * @see Variant
-     */
-    @SuppressWarnings("unused")
+     */ 
     protected void setPropertyBooleanValue(final int id, final boolean value) {
         setProperty(id, Variant.VT_BOOL, value);
     }

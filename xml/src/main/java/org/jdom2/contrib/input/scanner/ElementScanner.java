@@ -162,8 +162,7 @@ import org.jdom2.input.sax.SAXHandlerFactory;
  * the XML parser.</p>
  *
  * @author Laurent Bihanic
- */
-@SuppressWarnings("javadoc")
+ */ 
 public class ElementScanner extends XMLFilterImpl {
 
 	/**

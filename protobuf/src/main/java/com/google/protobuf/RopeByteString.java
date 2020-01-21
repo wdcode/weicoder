@@ -805,7 +805,7 @@ private static ByteString concatenateBytes(ByteString left, ByteString right) {
     return ByteString.wrap(toByteArray());
   }
 
-  private void readObject(@SuppressWarnings("unused") ObjectInputStream in) throws IOException {
+  private void readObject(ObjectInputStream in) throws IOException {
     throw new InvalidObjectException("RopeByteStream instances are not to be serialized directly");
   }
 

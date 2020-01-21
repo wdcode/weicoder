@@ -197,7 +197,7 @@ public abstract class CodedOutputStream extends ByteOutput {
    */
   @Deprecated
   public static CodedOutputStream newInstance(
-      ByteBuffer byteBuffer, @SuppressWarnings("unused") int unused) {
+      ByteBuffer byteBuffer,int unused) {
     return newInstance(byteBuffer);
   }
 
@@ -455,8 +455,7 @@ public abstract class CodedOutputStream extends ByteOutput {
     writeInt32NoTag(value);
   }
 
-  /** Write a {@code string} field to the stream. */
-  // TODO(dweis): Document behavior on ill-formed UTF-16 input.
+  /** Write a {@code string} field to the stream. */ 
   // Abstract to avoid overhead of additional virtual method calls.
   public abstract void writeStringNoTag(String value) throws IOException;
 
@@ -746,12 +745,12 @@ public abstract class CodedOutputStream extends ByteOutput {
   }
 
   /** Compute the number of bytes that would be needed to encode a {@code fixed32} field. */
-  public static int computeFixed32SizeNoTag(@SuppressWarnings("unused") final int unused) {
+  public static int computeFixed32SizeNoTag(final int unused) {
     return FIXED32_SIZE;
   }
 
   /** Compute the number of bytes that would be needed to encode an {@code sfixed32} field. */
-  public static int computeSFixed32SizeNoTag(@SuppressWarnings("unused") final int unused) {
+  public static int computeSFixed32SizeNoTag(final int unused) {
     return FIXED32_SIZE;
   }
 
@@ -797,12 +796,12 @@ public abstract class CodedOutputStream extends ByteOutput {
   }
 
   /** Compute the number of bytes that would be needed to encode a {@code fixed64} field. */
-  public static int computeFixed64SizeNoTag(@SuppressWarnings("unused") final long unused) {
+  public static int computeFixed64SizeNoTag(final long unused) {
     return FIXED64_SIZE;
   }
 
   /** Compute the number of bytes that would be needed to encode an {@code sfixed64} field. */
-  public static int computeSFixed64SizeNoTag(@SuppressWarnings("unused") final long unused) {
+  public static int computeSFixed64SizeNoTag(final long unused) {
     return FIXED64_SIZE;
   }
 
@@ -810,7 +809,7 @@ public abstract class CodedOutputStream extends ByteOutput {
    * Compute the number of bytes that would be needed to encode a {@code float} field, including
    * tag.
    */
-  public static int computeFloatSizeNoTag(@SuppressWarnings("unused") final float unused) {
+  public static int computeFloatSizeNoTag(final float unused) {
     return FIXED32_SIZE;
   }
 
@@ -818,12 +817,12 @@ public abstract class CodedOutputStream extends ByteOutput {
    * Compute the number of bytes that would be needed to encode a {@code double} field, including
    * tag.
    */
-  public static int computeDoubleSizeNoTag(@SuppressWarnings("unused") final double unused) {
+  public static int computeDoubleSizeNoTag(final double unused) {
     return FIXED64_SIZE;
   }
 
   /** Compute the number of bytes that would be needed to encode a {@code bool} field. */
-  public static int computeBoolSizeNoTag(@SuppressWarnings("unused") final boolean unused) {
+  public static int computeBoolSizeNoTag(final boolean unused) {
     return 1;
   }
 
@@ -840,8 +839,7 @@ public abstract class CodedOutputStream extends ByteOutput {
     int length;
     try {
       length = Utf8.encodedLength(value);
-    } catch (UnpairedSurrogateException e) {
-      // TODO(dweis): Consider using nio Charset methods instead.
+    } catch (UnpairedSurrogateException e) { 
       final byte[] bytes = value.getBytes(Internal.UTF_8);
       length = bytes.length;
     }
@@ -988,8 +986,7 @@ public abstract class CodedOutputStream extends ByteOutput {
 
     // Unfortunately there does not appear to be any way to tell Java to encode
     // UTF-8 directly into our buffer, so we have to let it create its own byte
-    // array and then copy.
-    // TODO(dweis): Consider using nio Charset methods instead.
+    // array and then copy. 
     final byte[] bytes = value.getBytes(Internal.UTF_8);
     try {
       writeUInt32NoTag(bytes.length);
@@ -1499,8 +1496,7 @@ public abstract class CodedOutputStream extends ByteOutput {
       } catch (UnpairedSurrogateException e) {
         // Roll back the change - we fall back to inefficient path.
         position = oldPosition;
-
-        // TODO(nathanmittler): We should throw an IOException here instead.
+ 
         inefficientWriteStringNoTag(value, e);
       } catch (IndexOutOfBoundsException e) {
         throw new OutOfSpaceException(e);
@@ -1835,8 +1831,7 @@ public abstract class CodedOutputStream extends ByteOutput {
       } catch (UnpairedSurrogateException e) {
         // Roll back the change and convert to an IOException.
         buffer.position(startPos);
-
-        // TODO(nathanmittler): We should throw an IOException here instead.
+ 
         inefficientWriteStringNoTag(value, e);
       } catch (IllegalArgumentException e) {
         // Thrown by buffer.position() if out of range.
@@ -2194,8 +2189,7 @@ public abstract class CodedOutputStream extends ByteOutput {
         // Roll back the change and convert to an IOException.
         position = prevPos;
         repositionBuffer(position);
-
-        // TODO(nathanmittler): We should throw an IOException here instead.
+ 
         inefficientWriteStringNoTag(value, e);
       } catch (IllegalArgumentException e) {
         // Thrown by buffer.position() if out of range.
@@ -2643,8 +2637,7 @@ public abstract class CodedOutputStream extends ByteOutput {
         // Roll back the change and convert to an IOException.
         totalBytesWritten -= position - oldPosition;
         position = oldPosition;
-
-        // TODO(nathanmittler): We should throw an IOException here instead.
+ 
         inefficientWriteStringNoTag(value, e);
       } catch (IndexOutOfBoundsException e) {
         throw new OutOfSpaceException(e);

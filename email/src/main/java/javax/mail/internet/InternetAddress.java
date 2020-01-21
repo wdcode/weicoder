@@ -124,8 +124,7 @@ public class InternetAddress extends Address implements Cloneable {
 	/*
 	 * Now copy the contents of the single address we parsed
 	 * into the current object, which will be returned from the
-	 * constructor.
-	 * XXX - this sure is a round-about way of getting this done.
+	 * constructor. 
 	 */
 	this.address = a[0].address;
 	this.personal = a[0].personal;
@@ -530,10 +529,8 @@ public class InternetAddress extends Address implements Cloneable {
      * @return		comma separated string of addresses
      * @since		JavaMail 1.6
      */
-    /*
-     * XXX - This is exactly the same as the above, except it uses
-     *	     toUnicodeString instead of toString.
-     * XXX - Since the line length restrictions are in bytes, not characters,
+    /* 
+     *	     toUnicodeString instead of toString. 
      *	     we convert all non-ASCII addresses to UTF-8 byte strings,
      *	     which we then convert to ISO-8859-1 Strings where every
      *	     character respresents one UTF-8 byte.  At the end we reverse
@@ -779,13 +776,11 @@ public class InternetAddress extends Address implements Cloneable {
 
     /*
      * RFC822 Address parser.
-     *
-     * XXX - This is complex enough that it ought to be a real parser,
+     * 
      *       not this ad-hoc mess, and because of that, this is not perfect.
-     *
-     * XXX - Deal with encoded Headers too.
+     * 
      */
-    @SuppressWarnings({"fallthrough", "unused"})
+    @SuppressWarnings({"unused"})
     private static InternetAddress[] parse(String s, boolean strict,
 				    boolean parseHdr) throws AddressException {
 	int start, end, index, nesting;
@@ -803,8 +798,7 @@ public class InternetAddress extends Address implements Cloneable {
     	    c = s.charAt(index);
 
 	    switch (c) {
-	    case '(': // We are parsing a Comment. Ignore everything inside.
-		// XXX - comment fields should be parsed as whitespace,
+	    case '(': // We are parsing a Comment. Ignore everything inside. 
 		//	 more than one allowed per address
 		rfc822 = true;
 		if (start >= 0 && end == -1)
@@ -894,7 +888,7 @@ public class InternetAddress extends Address implements Cloneable {
 		for (index++; index < length; index++) {
 		    c = s.charAt(index);
 		    switch (c) {
-		    case '\\':	// XXX - is this needed?
+		    case '\\':	// 
 			index++; // skip both '\' and the escaped char
 			break;
 		    case '"':
@@ -918,7 +912,7 @@ public class InternetAddress extends Address implements Cloneable {
 		  outq:
 		    for (index = rindex + 1; index < length; index++) {
 			c = s.charAt(index);
-			if (c == '\\')	// XXX - is this needed?
+			if (c == '\\')	//  
 			    index++;	// skip both '\' and the escaped char
 			else if (c == '>')
 			    break;
@@ -1259,9 +1253,7 @@ public class InternetAddress extends Address implements Cloneable {
     /**
      * Check that the address is a valid "mailbox" per RFC822.
      * (We also allow simple names.)
-     *
-     * XXX - much more to check
-     * XXX - doesn't handle domain-literals properly (but no one uses them)
+     * 
      */
     private static void checkAddress(String addr,
 				boolean routeAddr, boolean validate)

@@ -160,8 +160,7 @@ public final class Offset implements Function {
             return _refEval.offset(relFirstRowIx, relLastRowIx, relFirstColIx, relLastColIx);
         }
     }
-
-    @SuppressWarnings("fallthrough")
+ 
     public ValueEval evaluate(ValueEval[] args, int srcCellRow, int srcCellCol) {
         if(args.length < 1 || args.length > 5) {
             return ErrorEval.VALUE_INVALID;

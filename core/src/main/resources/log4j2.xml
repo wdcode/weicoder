@@ -45,6 +45,7 @@
 		<logger name="io.netty" level="warn"></logger>
 		<logger name="org.springframework" level="warn"></logger>
 		<logger name="org.hibernate" level="warn"></logger>
+		<logger name="com.zaxxer.hikari" level="warn"></logger> 
 		<!-- 异步日志 -->
 		<asyncRoot level="${log_level}">
 			<appender-ref ref="dev" />

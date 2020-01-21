@@ -822,8 +822,7 @@ public final class HSSFWorkbook extends POIDocument implements org.apache.poi.ss
             NameRecord newNameRecord = workbook.cloneFilter(filterDbNameIndex, newSheetIndex);
             HSSFName newName = new HSSFName(this, newNameRecord);
             names.add(newName);
-        }
-        // TODO - maybe same logic required for other/all built-in name records
+        } 
 //        workbook.cloneDrawings(clonedSheet.getSheet());
 
         return clonedSheet;
@@ -1493,8 +1492,7 @@ public final class HSSFWorkbook extends POIDocument implements org.apache.poi.ss
                 // to report errors and loose data while reading the workbook
                 throw new IllegalStateException("Actual serialized sheet size (" + serializedSize
                         + ") differs from pre-calculated size (" + src.getTotalSize()
-                        + ") for sheet (" + k + ")");
-                // TODO - add similar sanity check to ensure that Sheet.serializeIndexRecord() does not write mis-aligned offsets either
+                        + ") for sheet (" + k + ")"); 
             }
             pos += serializedSize;
         }
@@ -1503,8 +1501,7 @@ public final class HSSFWorkbook extends POIDocument implements org.apache.poi.ss
         
         return retval;
     }
-
-    @SuppressWarnings("resource")
+ 
     void encryptBytes(byte[] buf) {
         EncryptionInfo ei = getEncryptionInfo();
         if (ei == null) {
@@ -1858,8 +1855,7 @@ public final class HSSFWorkbook extends POIDocument implements org.apache.poi.ss
      * @see #PICTURE_TYPE_PNG
      * @see #PICTURE_TYPE_JPEG
      * @see #PICTURE_TYPE_DIB
-     */
-    @SuppressWarnings("fallthrough")
+     */ 
     @Override
     public int addPicture(byte[] pictureData, int format)
     {
@@ -1974,8 +1970,7 @@ public final class HSSFWorkbook extends POIDocument implements org.apache.poi.ss
             {
                 EscherBlipRecord blip = ((EscherBSERecord) escherRecord).getBlipRecord();
                 if (blip != null)
-                {
-                    // TODO: Some kind of structure.
+                { 
                     HSSFPictureData picture = new HSSFPictureData(blip);
 					pictures.add(picture);
                 }

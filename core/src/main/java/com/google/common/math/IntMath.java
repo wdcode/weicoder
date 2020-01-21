@@ -112,9 +112,7 @@ public final class IntMath {
    * @throws IllegalArgumentException if {@code x <= 0}
    * @throws ArithmeticException if {@code mode} is {@link RoundingMode#UNNECESSARY} and {@code x}
    *     is not a power of two
-   */
-  @SuppressWarnings("fallthrough")
-  // TODO(kevinb): remove after this warning is disabled globally
+   */  
   public static int log2(int x, RoundingMode mode) {
     checkPositive("x", x);
     switch (mode) {
@@ -154,8 +152,7 @@ public final class IntMath {
    * @throws ArithmeticException if {@code mode} is {@link RoundingMode#UNNECESSARY} and {@code x}
    *     is not a power of ten
    */
-  @GwtIncompatible // need BigIntegerMath to adequately test
-  @SuppressWarnings("fallthrough")
+  @GwtIncompatible // need BigIntegerMath to adequately test 
   public static int log10(int x, RoundingMode mode) {
     checkPositive("x", x);
     int logFloor = log10Floor(x);
@@ -264,8 +261,7 @@ public final class IntMath {
    * @throws ArithmeticException if {@code mode} is {@link RoundingMode#UNNECESSARY} and {@code
    *     sqrt(x)} is not an integer
    */
-  @GwtIncompatible // need BigIntegerMath to adequately test
-  @SuppressWarnings("fallthrough")
+  @GwtIncompatible // need BigIntegerMath to adequately test 
   public static int sqrt(int x, RoundingMode mode) {
     checkNonNegative("x", x);
     int sqrtFloor = sqrtFloor(x);
@@ -311,8 +307,7 @@ public final class IntMath {
    *
    * @throws ArithmeticException if {@code q == 0}, or if {@code mode == UNNECESSARY} and {@code a}
    *     is not an integer multiple of {@code b}
-   */
-  @SuppressWarnings("fallthrough")
+   */ 
   public static int divide(int p, int q, RoundingMode mode) {
     checkNotNull(mode);
     if (q == 0) {
@@ -718,7 +713,7 @@ public final class IntMath {
    * @throws IllegalArgumentException if {@code n} is negative
    * @since 20.0
    */
-  @GwtIncompatible // TODO
+  @GwtIncompatible  
   @Beta
   public static boolean isPrime(int n) {
     return LongMath.isPrime(n);

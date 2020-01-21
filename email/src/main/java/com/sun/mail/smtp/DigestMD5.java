@@ -188,8 +188,7 @@ public class DigestMD5 {
      * Tokenize a response from the server.
      *
      * @return	Map containing key/value pairs from server
-     */
-    @SuppressWarnings("fallthrough")
+     */ 
     private Map<String, String> tokenize(String serverResponse)
 	    throws IOException {
 	Map<String, String> map	= new HashMap<>();
@@ -226,7 +225,7 @@ public class DigestMD5 {
 		}
 		key = null;
 		break;
-	    default:	// XXX - should never happen?
+	    default: 
 		break;
 	    }
 	}

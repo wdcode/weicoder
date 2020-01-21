@@ -435,8 +435,7 @@ public final class Multisets {
       @Override
       Iterator<Entry<E>> entryIterator() {
         final Iterator<? extends Entry<? extends E>> iterator1 = multiset1.entrySet().iterator();
-        final Iterator<? extends Entry<? extends E>> iterator2 = multiset2.entrySet().iterator();
-        // TODO(lowasser): consider making the entries live views
+        final Iterator<? extends Entry<? extends E>> iterator2 = multiset2.entrySet().iterator(); 
         return new AbstractIterator<Entry<E>>() {
           @Override
           protected Entry<E> computeNext() {
@@ -496,8 +495,7 @@ public final class Multisets {
 
       @Override
       Iterator<Entry<E>> entryIterator() {
-        final Iterator<Entry<E>> iterator1 = multiset1.entrySet().iterator();
-        // TODO(lowasser): consider making the entries live views
+        final Iterator<Entry<E>> iterator1 = multiset1.entrySet().iterator(); 
         return new AbstractIterator<Entry<E>>() {
           @Override
           protected Entry<E> computeNext() {
@@ -533,8 +531,7 @@ public final class Multisets {
       final Multiset<? extends E> multiset1, final Multiset<? extends E> multiset2) {
     checkNotNull(multiset1);
     checkNotNull(multiset2);
-
-    // TODO(lowasser): consider making the entries live views
+ 
     return new ViewMultiset<E>() {
       @Override
       public boolean contains(@Nullable Object element) {
@@ -610,8 +607,7 @@ public final class Multisets {
       final Multiset<E> multiset1, final Multiset<?> multiset2) {
     checkNotNull(multiset1);
     checkNotNull(multiset2);
-
-    // TODO(lowasser): consider making the entries live views
+ 
     return new ViewMultiset<E>() {
       @Override
       public int count(@Nullable Object element) {
@@ -1009,8 +1005,7 @@ public final class Multisets {
       if (o instanceof Entry) {
         /*
          * The GWT compiler wrongly issues a warning here.
-         */
-        @SuppressWarnings("cast")
+         */ 
         Entry<?> entry = (Entry<?>) o;
         if (entry.getCount() <= 0) {
           return false;
@@ -1021,8 +1016,7 @@ public final class Multisets {
       return false;
     }
 
-    // GWT compiler warning; see contains().
-    @SuppressWarnings("cast")
+    // GWT compiler warning; see contains(). 
     @Override
     public boolean remove(Object object) {
       if (object instanceof Multiset.Entry) {

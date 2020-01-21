@@ -61,8 +61,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-
-@SuppressWarnings("javadoc")
+ 
 public class PerfTest {
 	
 	public static final long timeRun(TimeRunnable torun) throws Exception {

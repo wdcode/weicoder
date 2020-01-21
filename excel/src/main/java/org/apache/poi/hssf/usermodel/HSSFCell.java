@@ -432,8 +432,7 @@ public class HSSFCell extends CellBase {
     /**
      * {@inheritDoc}
      */
-    @Override
-    @SuppressWarnings("fallthrough")
+    @Override 
     protected void setCellValueImpl(double value) {
         switch (_cellType) {
             default:
@@ -757,8 +756,7 @@ public class HSSFCell extends CellBase {
      * @param value the boolean value to set this cell to.  For formulas we'll set the
      *        precalculated value, for booleans we'll set its value. For other types we
      *        will change the cell to a boolean cell and set its value.
-     */
-    @SuppressWarnings("fallthrough")
+     */ 
     public void setCellValue(boolean value) {
         int row=_record.getRow();
         short col=_record.getColumn();
@@ -798,8 +796,7 @@ public class HSSFCell extends CellBase {
      *        precalculated value , for errors we'll set
      *        its value. For other types we will change the cell to an error
      *        cell and set its value.
-     */
-    @SuppressWarnings("fallthrough")
+     */ 
     public void setCellErrorValue(FormulaError error) {
         int row=_record.getRow();
         short col=_record.getColumn();
@@ -823,8 +820,7 @@ public class HSSFCell extends CellBase {
      *
      * Usually the caller is calling setCellType() with the intention of calling
      * setCellValue(boolean) straight afterwards.  This method only exists to give
-     * the cell a somewhat reasonable value until the setCellValue() call (if at all).
-     * TODO - perhaps a method like setCellTypeAndValue(int, Object) should be introduced to avoid this
+     * the cell a somewhat reasonable value until the setCellValue() call (if at all). 
      */
     private boolean convertCellValueToBoolean() {
 
@@ -1034,8 +1030,7 @@ public class HSSFCell extends CellBase {
                 return ErrorEval.getText((( BoolErrRecord ) _record).getErrorValue());
             case FORMULA:
                 return getCellFormula();
-            case NUMERIC:
-                //TODO apply the dataformat for this cell
+            case NUMERIC: 
                 if (DateUtil.isCellDateFormatted(this)) {
                     SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy", LocaleUtil.getUserLocale());
                     sdf.setTimeZone(LocaleUtil.getUserTimeZone());

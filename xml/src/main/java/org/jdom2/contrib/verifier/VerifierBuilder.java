@@ -86,8 +86,7 @@ final public class VerifierBuilder {
 	private static final byte maskxmldigit          = 1 << 4;
 	private static final byte maskxmlcombining      = 1 << 5;
 	private static final byte maskuricharacter      = 1 << 6;
-	
-	@SuppressWarnings("javadoc")
+	 
 	public static void main(String[] args) {
 		// populate the flags array.
 		final byte[] flags = new byte[charcnt];

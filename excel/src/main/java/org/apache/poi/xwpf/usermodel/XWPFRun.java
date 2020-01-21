@@ -739,8 +739,7 @@ public class XWPFRun implements ISDTContents, IRunElement, CharacterRun {
             return false;
         }
         return true;
-    }
-    // TODO Provide a wrapper round STHighlightColor, then expose getter/setter
+    } 
     //  for the highlight colour. Ideally also then add to CharacterRun interface
 
     @Override
@@ -940,8 +939,7 @@ public class XWPFRun implements ISDTContents, IRunElement, CharacterRun {
     /**
      *
      */
-    public void removeBreak() {
-        // TODO
+    public void removeBreak() { 
     }
 
     /**
@@ -1003,8 +1001,7 @@ public class XWPFRun implements ISDTContents, IRunElement, CharacterRun {
         run.addNewTab();
     }
 
-    public void removeTab() {
-        //TODO
+    public void removeTab() { 
     }
 
     /**
@@ -1023,8 +1020,7 @@ public class XWPFRun implements ISDTContents, IRunElement, CharacterRun {
         run.addNewCr();
     }
 
-    public void removeCarriageReturn() {
-        //TODO
+    public void removeCarriageReturn() { 
     }
 
     /**
@@ -1050,14 +1046,12 @@ public class XWPFRun implements ISDTContents, IRunElement, CharacterRun {
         XWPFPictureData picData;
 
         // Work out what to add the picture to, then add both the
-        //  picture and the relationship for it
-        // TODO Should we have an interface for this sort of thing?
+        //  picture and the relationship for it 
         if (parent.getPart() instanceof XWPFHeaderFooter) {
             XWPFHeaderFooter headerFooter = (XWPFHeaderFooter) parent.getPart();
             relationId = headerFooter.addPictureData(pictureData, pictureType);
             picData = (XWPFPictureData) headerFooter.getRelationById(relationId);
-        } else {
-            @SuppressWarnings("resource")
+        } else { 
             XWPFDocument doc = parent.getDocument();
             relationId = doc.addPictureData(pictureData, pictureType);
             picData = (XWPFPictureData) doc.getRelationById(relationId);

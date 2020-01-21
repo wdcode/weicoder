@@ -396,8 +396,7 @@ public class DVConstraint implements DataValidationConstraint {
 		}
 		return new FormulaPair(formula1, formula2);
 	}
-
-    @SuppressWarnings("resource")
+ 
     private Ptg[] createListFormula(HSSFSheet sheet) {
 
 		if (_explicitListValues == null) {
@@ -422,8 +421,7 @@ public class DVConstraint implements DataValidationConstraint {
 	/**
 	 * @return The parsed token array representing the formula or value specified. 
 	 * Empty array if both formula and value are <code>null</code>
-	 */
-    @SuppressWarnings("resource")
+	 */ 
 	private static Ptg[] convertDoubleFormula(String formula, Double value, HSSFSheet sheet) {
 		if (formula == null) {
 			if (value == null) {

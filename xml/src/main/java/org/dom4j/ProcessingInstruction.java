@@ -17,8 +17,7 @@ import java.util.Map;
  *
  * @author <a href="mailto:james.strachan@metastuff.com">James Strachan </a>
  * @version $Revision: 1.10 $
- */
-@SuppressWarnings("unused")
+ */ 
 public interface ProcessingInstruction extends Node {
     /**
      * This method is the equivalent to the {@link #getName}method. It is added

@@ -387,8 +387,7 @@ public abstract class ByteString implements Iterable<Byte>, Serializable {
    * Wraps the given bytes into a {@code ByteString}. Intended for internal only usage to force a
    * classload of ByteString before LiteralByteString.
    */
-  static ByteString wrap(byte[] bytes) {
-    // TODO(dweis): Return EMPTY when bytes are empty to reduce allocations?
+  static ByteString wrap(byte[] bytes) { 
     return new LiteralByteString(bytes);
   }
 
@@ -1359,8 +1358,7 @@ public abstract class ByteString implements Iterable<Byte>, Serializable {
     protected void copyToInternal(
         byte[] target, int sourceOffset, int targetOffset, int numberToCopy) {
       // Optimized form, not for subclasses, since we don't call
-      // getOffsetIntoBytes() or check the 'numberToCopy' parameter.
-      // TODO(nathanmittler): Is not calling getOffsetIntoBytes really saving that much?
+      // getOffsetIntoBytes() or check the 'numberToCopy' parameter. 
       System.arraycopy(bytes, sourceOffset, target, targetOffset, numberToCopy);
     }
 
@@ -1608,7 +1606,7 @@ public abstract class ByteString implements Iterable<Byte>, Serializable {
       return ByteString.wrap(toByteArray());
     }
 
-    private void readObject(@SuppressWarnings("unused") ObjectInputStream in) throws IOException {
+    private void readObject(ObjectInputStream in) throws IOException {
       throw new InvalidObjectException(
           "BoundedByteStream instances are not to be serialized directly");
     }

@@ -65,7 +65,7 @@ final class NioByteString extends ByteString.LeafByteString {
 	}
 
 	/** Magic method that lets us override deserialization behavior. */
-	private void readObject(@SuppressWarnings("unused") ObjectInputStream in) throws IOException {
+	private void readObject(ObjectInputStream in) throws IOException {
 		throw new InvalidObjectException("NioByteString instances are not to be serialized directly");
 	}
 
@@ -165,8 +165,7 @@ final class NioByteString extends ByteString.LeafByteString {
 			bytes = buffer.array();
 			offset = buffer.arrayOffset() + buffer.position();
 			length = buffer.remaining();
-		} else {
-			// TODO(nathanmittler): Can we optimize this?
+		} else { 
 			bytes = toByteArray();
 			offset = 0;
 			length = bytes.length;

@@ -114,8 +114,7 @@ import org.jdom2.output.XMLOutputter;
  * </pre>
  *
  * @author Alex Chaffee [alex@jguru.com]
- **/
-@SuppressWarnings("javadoc")
+ **/ 
 public class JDOMBean {
 
     /** Default SAX parser class to use */

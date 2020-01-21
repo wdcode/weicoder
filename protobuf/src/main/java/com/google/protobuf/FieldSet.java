@@ -83,8 +83,7 @@ final class FieldSet<T extends FieldSet.FieldDescriptorLite<T>> {
     this.fields = SmallSortedMap.newFieldMap(DEFAULT_FIELD_MAP_ARRAY_SIZE);
   }
 
-  /** Construct an empty FieldSet. This is only used to initialize DEFAULT_INSTANCE. */
-  @SuppressWarnings("unused")
+  /** Construct an empty FieldSet. This is only used to initialize DEFAULT_INSTANCE. */ 
   private FieldSet(final boolean dummy) {
     this(SmallSortedMap.<T>newFieldMap(0));
     makeImmutable();
@@ -391,8 +390,7 @@ final class FieldSet<T extends FieldSet.FieldDescriptorLite<T>> {
    * @throws IllegalArgumentException The value is not of the right type.
    */
   private void verifyType(final WireFormat.FieldType type, final Object value) {
-    if (!isValidType(type, value)) {
-      // TODO(kenton):  When chaining calls to setField(), it can be hard to
+    if (!isValidType(type, value)) { 
       //   tell from the stack trace which exact call failed, since the whole
       //   chain is considered one line of code.  It would be nice to print
       //   more information here, e.g. naming the field.  We used to do that.
@@ -421,11 +419,9 @@ final class FieldSet<T extends FieldSet.FieldDescriptorLite<T>> {
         return value instanceof String;
       case BYTE_STRING:
         return value instanceof ByteString || value instanceof byte[];
-      case ENUM:
-        // TODO(kenton):  Caller must do type checking here, I guess.
+      case ENUM: 
         return (value instanceof Integer || value instanceof Internal.EnumLite);
-      case MESSAGE:
-        // TODO(kenton):  Caller must do type checking here, I guess.
+      case MESSAGE: 
         return (value instanceof MessageLite) || (value instanceof LazyField);
     }
     return false;
@@ -548,8 +544,7 @@ final class FieldSet<T extends FieldSet.FieldDescriptorLite<T>> {
       fields.put(descriptor, cloneIfMutable(otherValue));
     }
   }
-
-  // TODO(kenton):  Move static parsing and serialization methods into some
+ 
   //   other class.  Probably WireFormat.
 
   /**
