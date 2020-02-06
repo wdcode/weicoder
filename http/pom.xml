@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.weicoder</groupId>
 		<artifactId>weicoder</artifactId> 
-		<version>3.2.5</version> 
+		<version>3.2.5.1</version> 
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>http</artifactId> 
@@ -14,11 +14,12 @@
 			<groupId>com.weicoder</groupId>
 			<artifactId>core</artifactId>
 		</dependency>
+		<!-- 
 		<dependency>
 			<groupId>com.weicoder</groupId>
 			<artifactId>http-extend</artifactId>
 		</dependency>
-		<!-- 
+		 -->
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId> 
@@ -39,6 +40,6 @@
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpasyncclient</artifactId> 
 		</dependency> 
-		 -->
+		
 	</dependencies>
 </project>
