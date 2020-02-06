@@ -1,46 +1,30 @@
 package com.weicoder.test;
- 
-import java.util.concurrent.Executor;
-
-import com.alibaba.nacos.api.NacosFactory;
-import com.alibaba.nacos.api.config.ConfigService;
-import com.alibaba.nacos.api.config.listener.Listener;
-import com.alibaba.nacos.api.naming.NamingService; 
-import com.weicoder.common.concurrent.ExecutorUtil;
+  
 import com.weicoder.common.constants.DateConstants;
+import com.weicoder.nacos.NacosConfig;
+import com.weicoder.nacos.NacosNaming;
+import com.weicoder.nacos.factory.NacosFactory;
 
 public class NacosTest {
 
 	public static void main(String[] args) throws Exception {
 		String ip = "172.18.77.135";
-		int port = 8848;
-		String addr = ip + ":" + port;
+		int port = 8848; 
 		String dataId = "cf.test";
 		String group = "user";
 		String content = "test123321";
 		long curr = DateConstants.TIME_MINUTE;
-		Listener listener = new Listener() {
-			@Override
-			public void receiveConfigInfo(String configInfo) {
-				System.out.println(configInfo);
-			}
-
-			@Override
-			public Executor getExecutor() {
-				return ExecutorUtil.pool();
-			}
-		};
 		// 配置
-		ConfigService config = NacosFactory.createConfigService(addr);
-		config.addListener(dataId, group, listener);
-		config.publishConfig(dataId, group, content);
-		System.out.println(config.getConfig(dataId, group, curr));
+		NacosConfig config = NacosFactory.getConfig("");
+		config.listener(dataId, group, s -> System.out.println(s));
+		config.publish(dataId, group, content);
+		System.out.println(config.get(dataId, group, curr));
 
 		// 注册
-		NamingService naming = NacosFactory.createNamingService(addr);
+		NacosNaming naming = NacosFactory.getNaming("");
 
-		// 方式一： 
-		naming.registerInstance(group, ip, port);
-		naming.getAllInstances(group).forEach(i->System.out.println(i)); 
+		// 方式一：
+		naming.register(group, ip, port);
+		naming.all(group).forEach(i -> System.out.println(i));
 	}
 }

@@ -14,7 +14,14 @@ public final class KafkaParams {
 	/** kafka使用 */
 	public final static String PREFIX = "kafka";
 	// Properties配置
-	private final static Config CONFIG = ConfigFactory.getConfig(PREFIX);
+	private final static Config CONFIG       = ConfigFactory.getConfig(PREFIX);
+	private final static String COMPRESS     = "compress";
+	private final static String SERVERS      = "servers";
+	private final static String GROUP        = "group";
+	private final static String TIMEOUT      = "timeout";
+	private final static String MAXPOLL      = "maxPoll";
+	private final static String OFFSET_RESET = "offset.reset";
+	private final static String INTERVAL     = "interval";
 
 	/**
 	 * 获得kafka服务器
@@ -23,7 +30,8 @@ public final class KafkaParams {
 	 * @return      服务器
 	 */
 	public static String getCompress(String name) {
-		return CONFIG.getString(name, Params.getString(Params.getKey(PREFIX, name, "compress"), "gzip"));
+		return CONFIG.getString(Params.getKey(name, COMPRESS),
+				Params.getString(Params.getKey(PREFIX, name, COMPRESS), "gzip"));
 	}
 
 	/**
@@ -33,7 +41,7 @@ public final class KafkaParams {
 	 * @return      服务器
 	 */
 	public static String getServers(String name) {
-		return CONFIG.getString(name, Params.getString(Params.getKey(PREFIX, name, "servers")));
+		return CONFIG.getString(Params.getKey(name, SERVERS), Params.getString(Params.getKey(PREFIX, name, SERVERS)));
 	}
 
 	/**
@@ -43,7 +51,8 @@ public final class KafkaParams {
 	 * @return      组id
 	 */
 	public static String getGroup(String name) {
-		return CONFIG.getString(name, String.format(Params.getString(Params.getKey(PREFIX, name, "group"), IpUtil.CODE), IpUtil.CODE));
+		return CONFIG.getString(Params.getKey(name, GROUP),
+				String.format(Params.getString(Params.getKey(PREFIX, name, GROUP), IpUtil.CODE), IpUtil.CODE));
 	}
 
 	/**
@@ -53,7 +62,7 @@ public final class KafkaParams {
 	 * @return      数量
 	 */
 	public static int getMaxPoll(String name) {
-		return CONFIG.getInt(name, Params.getInt(Params.getKey(PREFIX, name, "maxPoll"), 1000));
+		return CONFIG.getInt(Params.getKey(name, MAXPOLL), Params.getInt(Params.getKey(PREFIX, name, MAXPOLL), 1000));
 	}
 
 	/**
@@ -63,7 +72,7 @@ public final class KafkaParams {
 	 * @return      超时时间
 	 */
 	public static int getTimeout(String name) {
-		return CONFIG.getInt(name, Params.getInt(Params.getKey(PREFIX, name, "timeout"), 30000));
+		return CONFIG.getInt(Params.getKey(name, TIMEOUT), Params.getInt(Params.getKey(PREFIX, name, TIMEOUT), 30000));
 	}
 
 	/**
@@ -73,7 +82,8 @@ public final class KafkaParams {
 	 * @return      偏移量失效方案
 	 */
 	public static String getOffsetReset(String name) {
-		return CONFIG.getString(name, Params.getString(Params.getKey(PREFIX, name, "offset.reset"), "latest"));
+		return CONFIG.getString(Params.getKey(name, OFFSET_RESET),
+				Params.getString(Params.getKey(PREFIX, name, OFFSET_RESET), "latest"));
 	}
 
 	/**
@@ -83,7 +93,7 @@ public final class KafkaParams {
 	 * @return      间隔时间
 	 */
 	public static int getInterval(String name) {
-		return CONFIG.getInt(name, Params.getInt(Params.getKey(PREFIX, name, "interval"), 1000));
+		return CONFIG.getInt(Params.getKey(name, INTERVAL), Params.getInt(Params.getKey(PREFIX, name, INTERVAL), 1000));
 	}
 
 	private KafkaParams() {

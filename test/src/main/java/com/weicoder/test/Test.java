@@ -1,13 +1,10 @@
 package com.weicoder.test;
  
-  
-import com.weicoder.common.util.DateUtil; 
-
 public class Test {
 
 	public static void main(String[] args) {
-		System.out.println(DateUtil.getTime("2020-01-21 15:42:12"));
-		System.out.println(DateUtil.toString(1579594222));
+//		System.out.println(DateUtil.getTime("2020-01-21 15:42:12"));
+//		System.out.println(DateUtil.toString(1579594222));
 //		System.out.println(TokenEngine.encrypt(20202121L, IpUtil.SERVER_IP));
 //		String url = "http://m.i4322.com/user/get/info?uid=10000002";
 //		HttpAsyncClient.get(url, r -> {

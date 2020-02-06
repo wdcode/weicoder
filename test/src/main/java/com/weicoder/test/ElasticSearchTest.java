@@ -4,16 +4,13 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.http.HttpHost;
+ 
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.support.master.AcknowledgedResponse;
 import org.elasticsearch.client.IndicesClient;
-import org.elasticsearch.client.RequestOptions;
-import org.elasticsearch.client.RestClient;
-import org.elasticsearch.client.RestClientBuilder;
+import org.elasticsearch.client.RequestOptions; 
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.client.indices.CreateIndexRequest;
 import org.elasticsearch.common.settings.Settings;
@@ -31,13 +28,16 @@ public class ElasticSearchTest {
 	private final static String index = "test";
 
 	public static void main(String[] args) throws Exception {
-		String[] ips = {"172.18.77.135:9200"};
-		HttpHost[] httpHosts = new HttpHost[ips.length];
-		for (int i = 0; i < ips.length; i++) {
-			httpHosts[i] = HttpHost.create(ips[i]);
-		}
-		RestClientBuilder builder = RestClient.builder(httpHosts);
-		RestHighLevelClient client = new RestHighLevelClient(builder);
+		System.out.println(SearchBean.class.getCanonicalName());
+		System.out.println(SearchBean.class.getName());
+		System.out.println(SearchBean.class.getSimpleName());
+//		String[] ips = {"172.18.77.135:9200"};
+//		HttpHost[] httpHosts = new HttpHost[ips.length];
+//		for (int i = 0; i < ips.length; i++) {
+//			httpHosts[i] = HttpHost.create(ips[i]);
+//		}
+//		RestClientBuilder builder = RestClient.builder(httpHosts); 
+//		RestHighLevelClient client = new RestHighLevelClient(builder);
 
 		// createIndex
 //		createIndex(client);
@@ -46,11 +46,11 @@ public class ElasticSearchTest {
 //		add(client);
 
 		// all
-		all(client, -1, -1);
-
-		// get
-		query(client,"nickname", "呵", -1, -1);
-		query(client,"uid", "11", -1, -1);
+//		all(client, -1, -1);
+//
+//		// get
+//		query(client,"nickname", "呵", -1, -1);
+//		query(client,"uid", "11", -1, -1);
 
 //		// delete
 //		del(client);

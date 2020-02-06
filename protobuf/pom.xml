@@ -3,16 +3,26 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<parent>
 		<groupId>com.weicoder</groupId>
-		<artifactId>weicoder</artifactId> 
-		<version>3.2.4</version> 
+		<artifactId>weicoder</artifactId>
+		<version>3.2.5</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>protobuf</artifactId> 
+	<artifactId>protobuf</artifactId>
 
 	<dependencies>
 		<dependency>
 			<groupId>com.weicoder</groupId>
 			<artifactId>common</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.weicoder</groupId>
+			<artifactId>protobuf-extend</artifactId>
+		</dependency>
+		<!-- 
+		<dependency>
+			<groupId>com.google.protobuf</groupId>
+			<artifactId>protobuf-java</artifactId> 
+		</dependency>
+		 -->
 	</dependencies>
 </project>

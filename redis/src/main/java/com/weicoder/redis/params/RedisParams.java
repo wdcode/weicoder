@@ -17,7 +17,17 @@ public final class RedisParams {
 	/** redis前缀 */
 	public final static String PREFIX = "redis";
 	// Properties配置
-	private final static Config CONFIG = ConfigFactory.getConfig(PREFIX);
+	private final static Config CONFIG   = ConfigFactory.getConfig(PREFIX);
+	private final static String CLUSTER  = "cluster";
+	private final static String TYPE     = "type";
+	private final static String HOST     = "host";
+	private final static String TIMEOUT  = "timeout";
+	private final static String PORT     = "port";
+	private final static String MAXTOTAL = "maxTotal";
+	private final static String MAXIDLE  = "maxIdle";
+	private final static String PASSWORD = "password";
+	private final static String DB       = "db";
+	private final static String MAXWAIT  = "maxWait";
 
 	/**
 	 * Redis集群地址
@@ -26,17 +36,18 @@ public final class RedisParams {
 	 * @return      集群地址
 	 */
 	public static String[] getCluster(String name) {
-		return CONFIG.getStringArray(name, Params.getStringArray(getKey(name, "cluster"), ArrayConstants.STRING_EMPTY));
+		return CONFIG.getStringArray(Params.getKey(name, CLUSTER),
+				Params.getStringArray(getKey(name, CLUSTER), ArrayConstants.STRING_EMPTY));
 	}
 
 	/**
-	 * Redis 解析类型 默认 cluster 可选项 cluster 集群 pool池 redisson
+	 * Redis 解析类型 默认 pool 可选项 cluster
 	 * 
 	 * @param  name 名
 	 * @return      服务器地址
 	 */
 	public static String getType(String name) {
-		return CONFIG.getString(name, Params.getString(getKey(name, "type"), "pool"));
+		return CONFIG.getString(Params.getKey(name, TYPE), Params.getString(getKey(name, TYPE), "pool"));
 	}
 
 	/**
@@ -46,7 +57,7 @@ public final class RedisParams {
 	 * @return      服务器地址
 	 */
 	public static String getHost(String name) {
-		return CONFIG.getString(name, Params.getString(getKey(name, "host"), "127.0.0.1"));
+		return CONFIG.getString(Params.getKey(name, HOST), Params.getString(getKey(name, HOST), "127.0.0.1"));
 	}
 
 	/**
@@ -56,7 +67,8 @@ public final class RedisParams {
 	 * @return      端口
 	 */
 	public static int getTimeOut(String name) {
-		return CONFIG.getInt(name, Params.getInt(getKey(name, "timeout"), Protocol.DEFAULT_TIMEOUT));
+		return CONFIG.getInt(Params.getKey(name, TIMEOUT),
+				Params.getInt(getKey(name, TIMEOUT), Protocol.DEFAULT_TIMEOUT));
 	}
 
 	/**
@@ -66,7 +78,7 @@ public final class RedisParams {
 	 * @return      端口
 	 */
 	public static int getPort(String name) {
-		return CONFIG.getInt(name, Params.getInt(getKey(name, "port"), 6379));
+		return CONFIG.getInt(Params.getKey(name, PORT), Params.getInt(getKey(name, PORT), 6379));
 	}
 
 	/**
@@ -76,7 +88,7 @@ public final class RedisParams {
 	 * @return      int
 	 */
 	public static int getMaxTotal(String name) {
-		return CONFIG.getInt(name, Params.getInt(getKey(name, "maxTotal"), 100));
+		return CONFIG.getInt(Params.getKey(name, MAXTOTAL), Params.getInt(getKey(name, MAXTOTAL), 100));
 	}
 
 	/**
@@ -86,7 +98,7 @@ public final class RedisParams {
 	 * @return      int
 	 */
 	public static int getMaxIdle(String name) {
-		return CONFIG.getInt(name, Params.getInt(getKey(name, "maxIdle"), 30));
+		return CONFIG.getInt(Params.getKey(name, MAXIDLE), Params.getInt(getKey(name, MAXIDLE), 30));
 	}
 
 	/**
@@ -96,7 +108,7 @@ public final class RedisParams {
 	 * @return      long
 	 */
 	public static String getPassword(String name) {
-		String password = CONFIG.getString(name, Params.getString(getKey(name, "password")));
+		String password = CONFIG.getString(Params.getKey(name, PASSWORD), Params.getString(getKey(name, PASSWORD)));
 		return EmptyUtil.isEmpty(password) ? null : password;
 	}
 
@@ -107,7 +119,7 @@ public final class RedisParams {
 	 * @return      默认数据库
 	 */
 	public static int getDatabase(String name) {
-		return CONFIG.getInt(name, Params.getInt(getKey(name, "database"), Protocol.DEFAULT_DATABASE));
+		return CONFIG.getInt(Params.getKey(name, DB), Params.getInt(getKey(name, DB), Protocol.DEFAULT_DATABASE));
 	}
 
 	/**
@@ -117,7 +129,7 @@ public final class RedisParams {
 	 * @return      long
 	 */
 	public static long getMaxWait(String name) {
-		return CONFIG.getLong(name, Params.getLong(getKey(name, "maxWait"), 1000));
+		return CONFIG.getLong(Params.getKey(name, MAXWAIT), Params.getLong(getKey(name, MAXWAIT), 1000));
 	}
 
 	/**

@@ -18,7 +18,7 @@ public final class StateCode {
 	// 状态码
 	private int code;
 	// 内容
-	private String content;
+	private Object content;
 	// 状态码对应信息
 	private String message;
 
@@ -44,13 +44,24 @@ public final class StateCode {
 	}
 
 	/**
-	 * 判断是否成功状态
+	 * 构造状态码
 	 * 
-	 * @return 是否成功状态
+	 * @param  code    状态码
+	 * @param  message 状态码信息
+	 * @return         StateCode
 	 */
-	public boolean isSuccess() {
-		return this.equals(SUCCESS);
+	public static StateCode build(Object content) {
+		return new StateCode(content);
 	}
+
+//	/**
+//	 * 判断是否成功状态
+//	 * 
+//	 * @return 是否成功状态
+//	 */
+//	public boolean isSuccess() {
+//		return this.equals(SUCCESS);
+//	}
 
 	/**
 	 * 转换成对象数组 表示 code,message
@@ -66,7 +77,7 @@ public final class StateCode {
 	 * 
 	 * @return 内容
 	 */
-	public String getContent() {
+	public Object getContent() {
 		return content;
 	}
 
@@ -142,15 +153,16 @@ public final class StateCode {
 		return "StateCode [code=" + code + ", content=" + content + ", message=" + message + "]";
 	}
 
-	/**
-	 * 构造方法
-	 * 
-	 * @param code    状态码
-	 * @param message 状态码消息
-	 */
 	private StateCode(int code, String message) {
 		this.code = code;
+		this.content = message;
 		this.message = message;
+	}
+
+	private StateCode(Object content) {
+		this.code = StateParams.SUCCESS;
+		this.content = content;
+		this.message = StateParams.SUCCESS_MSG;
 	}
 
 	private StateCode() {

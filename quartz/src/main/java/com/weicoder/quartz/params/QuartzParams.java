@@ -6,23 +6,28 @@ import com.weicoder.common.params.Params;
 
 /**
  * quartz参数获取
+ * 
  * @author WD
  */
 public final class QuartzParams {
 	// 前缀
-	private final static String	PREFIX	= "job";
+	private final static String PREFIX = "job";
 	// Properties配置
-	private final static Config	CONFIG	= ConfigFactory.getConfig(PREFIX);
+	private final static Config CONFIG  = ConfigFactory.getConfig(PREFIX);
+	private final static String TRIGGER = "trigger";
 
 	/**
 	 * 根据健获得Trigger
-	 * @param key 健
-	 * @param defaultValue 默认值
-	 * @return Trigger
+	 * 
+	 * @param  key          健
+	 * @param  defaultValue 默认值
+	 * @return              Trigger
 	 */
 	public static String getTrigger(String key, String defaultValue) {
-		return CONFIG.getString(key, Params.getString(Params.getKey(PREFIX, key, "trigger"), defaultValue));
+		return CONFIG.getString(Params.getKey(key, TRIGGER),
+				Params.getString(Params.getKey(PREFIX, key, TRIGGER), defaultValue));
 	}
 
-	private QuartzParams() {}
+	private QuartzParams() {
+	}
 }

@@ -26,8 +26,7 @@ public class SolrTest {
 //		SolrInputDocument doc = new SolrInputDocument("id","uid","nickname","q");
 //		CLIENT.add(doc);
 //		CLIENT.optimize();
-//		CLIENT.commit(); 
-		
+//		CLIENT.commit();  
 //		List<SearchBean> list = Lists.newList();
 //		list.add(new SearchBean(1, 11, "呵呵哒"));
 //		list.add(new SearchBean(2, 12, "呵呵呵"));
