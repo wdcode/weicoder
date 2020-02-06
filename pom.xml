@@ -70,9 +70,7 @@
 		<poi>28.2-jre</poi>
 		<nacos-client>1.1.4</nacos-client>
 		<protobuf-java>3.11.1</protobuf-java>
-		<quartz>2.3.2</quartz>
-		<jedis>3.2.0</jedis>
-		<netty-all>4.1.44.Final</netty-all>
+		<quartz>2.3.2</quartz>  
 		<solr-solrj>8.4.1</solr-solrj>
 		<httpclient>4.5.10</httpclient>
 		<httpmime>4.5.10</httpmime>
@@ -554,17 +552,7 @@
 				<groupId>org.quartz-scheduler</groupId>
 				<artifactId>quartz</artifactId>
 				<version>${quartz}</version>
-			</dependency>
-			<dependency>
-				<groupId>redis.clients</groupId>
-				<artifactId>jedis</artifactId>
-				<version>${jedis}</version>
-			</dependency>
-			<dependency>
-				<groupId>io.netty</groupId>
-				<artifactId>netty-all</artifactId>
-				<version>${netty-all}</version>
-			</dependency>
+			</dependency> 
 			<dependency>
 				<groupId>org.apache.solr</groupId>
 				<artifactId>solr-solrj</artifactId>
