@@ -5,7 +5,7 @@ import static com.weicoder.dao.service.SuperService.DAO;
 import java.io.Serializable;
 import java.util.Map;
 
-import com.weicoder.common.bean.Paging;
+import com.weicoder.common.bean.Pages;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.dao.service.SuperService;
 import com.weicoder.web.annotation.Action;
@@ -64,7 +64,7 @@ public class EntityAction {
 	 * 
 	 * @return
 	 */
-	public Object order(String entity, Map<String, Object> orders, Paging page, Map<String, String> ps) {
+	public Object order(String entity, Map<String, Object> orders, Pages page, Map<String, String> ps) {
 		return SuperService.entity(entity, filter(ps), e -> SuperService.order(e, orders, page));
 	}
 
@@ -73,7 +73,7 @@ public class EntityAction {
 	 * 
 	 * @return
 	 */
-	public Object date(String entity, String begin, String end, Paging page, Map<String, String> ps) {
+	public Object date(String entity, String begin, String end, Pages page, Map<String, String> ps) {
 		return SuperService.entity(entity, filter(ps), e -> SuperService.date(e, begin, end, page));
 	}
 
@@ -109,7 +109,7 @@ public class EntityAction {
 	 * 
 	 * @return
 	 */
-	public Object list(String entity, String begin, String end, Paging page, Map<String, String> ps) {
+	public Object list(String entity, String begin, String end, Pages page, Map<String, String> ps) {
 		return SuperService.entity(entity, filter(ps), e -> {
 			// 如果日期不为空 按日期查询
 			if (EmptyUtil.isNotEmptys(begin, end))

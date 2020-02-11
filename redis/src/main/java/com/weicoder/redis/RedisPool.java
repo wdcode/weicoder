@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.Set;
 
 import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPubSub;
 import redis.clients.jedis.Tuple;
 
 /**
@@ -285,10 +284,10 @@ public interface RedisPool {
 	/**
 	 * 订阅消息
 	 * 
-	 * @param jedisPubSub 订阅类
+	 * @param sub 订阅类
 	 * @param channels    通道
 	 */
-	void subscribe(JedisPubSub jedisPubSub, String... channels);
+	void subscribe(Subscribe sub, String... channels);
 
 	/**
 	 * 发布消息
@@ -468,6 +467,24 @@ public interface RedisPool {
 	 * @author wudi
 	 */
 	interface Callback {
+		/**
+		 * 回调
+		 * @param jedis
+		 */
 		void callback(Jedis jedis);
+	}
+
+	/**
+	 * redis订阅
+	 * 
+	 * @author wudi
+	 */
+	interface Subscribe { 
+		/**
+		 * 回调
+		 * @param channel
+		 * @param message
+		 */
+		void onMessage(String channel, String message);
 	}
 }

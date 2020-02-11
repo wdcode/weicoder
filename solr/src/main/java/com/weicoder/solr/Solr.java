@@ -37,6 +37,16 @@ public class Solr {
 	 * @param  list solr数据
 	 * @return      更新数量
 	 */
+	public int update(Object... obj) {
+		return update(Lists.newList(obj));
+	}
+
+	/**
+	 * 更新索引数据
+	 * 
+	 * @param  list solr数据
+	 * @return      更新数量
+	 */
 	public int update(Collection<?> list) {
 		try {
 			return EmptyUtil.isEmpty(list) ? 0 : client.addBeans(list).getStatus();

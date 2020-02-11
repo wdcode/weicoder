@@ -18,8 +18,7 @@ public final class RedisParams {
 	public final static String PREFIX = "redis";
 	// Properties配置
 	private final static Config CONFIG   = ConfigFactory.getConfig(PREFIX);
-	private final static String CLUSTER  = "cluster";
-	private final static String TYPE     = "type";
+	private final static String CLUSTER  = "cluster"; 
 	private final static String HOST     = "host";
 	private final static String TIMEOUT  = "timeout";
 	private final static String PORT     = "port";
@@ -38,16 +37,6 @@ public final class RedisParams {
 	public static String[] getCluster(String name) {
 		return CONFIG.getStringArray(Params.getKey(name, CLUSTER),
 				Params.getStringArray(getKey(name, CLUSTER), ArrayConstants.STRING_EMPTY));
-	}
-
-	/**
-	 * Redis 解析类型 默认 pool 可选项 cluster
-	 * 
-	 * @param  name 名
-	 * @return      服务器地址
-	 */
-	public static String getType(String name) {
-		return CONFIG.getString(Params.getKey(name, TYPE), Params.getString(getKey(name, TYPE), "pool"));
 	}
 
 	/**

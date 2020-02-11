@@ -1,8 +1,6 @@
-package com.weicoder.dao.bean;
+package com.weicoder.common.bean;
 
 import java.util.List;
-
-import com.weicoder.common.bean.Paging;
 
 /**
  * 保存分页查询返回结果
@@ -13,7 +11,7 @@ public final class PageResult {
 	// 数据列表
 	private List<?> list;
 	// 分页页码
-	private Paging pager;
+	private Pages pager;
 
 	public List<?> getList() {
 		return list;
@@ -23,15 +21,15 @@ public final class PageResult {
 		this.list = list;
 	}
 
-	public Paging getPager() {
+	public Pages getPager() {
 		return pager;
 	}
 
-	public void setPager(Paging pager) {
+	public void setPager(Pages pager) {
 		this.pager = pager;
 	}
 
-	public PageResult(List<?> list, Paging pager) {
+	public PageResult(List<?> list, Pages pager) {
 		this.list = list;
 		this.pager = pager;
 	}

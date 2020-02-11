@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.weicoder</groupId>
 		<artifactId>weicoder</artifactId>
-		<version>3.2.5.1</version>
+		<version>3.2.6</version>
 	</parent>
 	<artifactId>test</artifactId>
 
@@ -62,6 +62,16 @@
 			<groupId>org.glassfish.external</groupId>
 			<artifactId>antlr</artifactId>
 			<version>2.7.8</version>
-		</dependency> 
+		</dependency>
+		<dependency>
+			<groupId>com.ibeetl</groupId>
+			<artifactId>beetlsql</artifactId>
+			<version>2.12.19.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>com.ibeetl</groupId>
+			<artifactId>beetl</artifactId>
+			<version>3.0.17.RELEASE</version>
+		</dependency>
 	</dependencies>
 </project>

@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.weicoder</groupId>
 		<artifactId>weicoder</artifactId>
-		<version>3.2.5.1</version>
+		<version>3.2.6</version>
 	</parent>
 	<artifactId>nacos</artifactId>
 
@@ -14,16 +14,15 @@
 			<groupId>com.weicoder</groupId>
 			<artifactId>core</artifactId>
 		</dependency>
-		<!-- 
 		<dependency>
 			<groupId>com.weicoder</groupId>
 			<artifactId>nacos-extend</artifactId>
 		</dependency>
-		 -->
+		<!-- 
 		<dependency>
 			<groupId>com.alibaba.nacos</groupId>
 			<artifactId>nacos-client</artifactId> 
 		</dependency>
-		
+		 -->
 	</dependencies>
 </project>

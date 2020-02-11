@@ -6,7 +6,7 @@ import java.util.Set;
 
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Bytes;
-import com.weicoder.redis.Subscribe;
+import com.weicoder.common.log.Logs; 
 import com.weicoder.redis.base.BaseRedis;
 import com.weicoder.redis.builder.JedisBuilder;
 
@@ -21,7 +21,7 @@ import redis.clients.jedis.util.JedisClusterCRC16;
  * 
  * @author wudi
  */
-public final class RedisCluster extends BaseRedis implements Subscribe {
+public final class RedisCluster extends BaseRedis {
 	// 声明JedisCluster
 	private JedisCluster cluster;
 
@@ -125,8 +125,16 @@ public final class RedisCluster extends BaseRedis implements Subscribe {
 	}
 
 	@Override
-	public void subscribe(JedisPubSub jedisPubSub, String... channels) {
-		cluster.subscribe(jedisPubSub, channels);
+	public void subscribe(Subscribe sub, String... channels) {
+		cluster.subscribe(new JedisPubSub() {
+			@Override
+			public void onMessage(String channel, String message) {
+				long time = System.currentTimeMillis();
+				sub.onMessage(channel, message);
+				Logs.debug("redis subscribe={}  channel={} message={} time={}  thread={}",
+						sub.getClass().getSimpleName(), channel, message, System.currentTimeMillis() - time);
+			}
+		}, channels);
 	}
 
 	@Override
@@ -235,12 +243,12 @@ public final class RedisCluster extends BaseRedis implements Subscribe {
 	}
 
 	@Override
-	public Set<Tuple> zrevrangeByScoreWithScores(String key, double max, double min, int offset, int count) { 
+	public Set<Tuple> zrevrangeByScoreWithScores(String key, double max, double min, int offset, int count) {
 		return cluster.zrevrangeByScoreWithScores(key, max, min, offset, count);
 	}
 
 	@Override
-	public String rpop(String key) { 
+	public String rpop(String key) {
 		return cluster.rpop(key);
 	}
 }

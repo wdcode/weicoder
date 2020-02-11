@@ -5,8 +5,8 @@ import java.util.Map;
 import java.util.Set;
 
 import com.weicoder.common.lang.Bytes;
-import com.weicoder.common.lang.C;
-import com.weicoder.redis.Subscribe;
+import com.weicoder.common.lang.C; 
+import com.weicoder.common.log.Logs; 
 import com.weicoder.redis.base.BaseRedis;
 import com.weicoder.redis.builder.JedisBuilder;
 
@@ -20,7 +20,7 @@ import redis.clients.jedis.Tuple;
  * 
  * @author WD
  */
-public final class RedisJedis extends BaseRedis implements Subscribe {
+public final class RedisJedis extends BaseRedis {
 	// Jedis连接池
 	private JedisPool pool;
 
@@ -200,9 +200,17 @@ public final class RedisJedis extends BaseRedis implements Subscribe {
 	}
 
 	@Override
-	public void subscribe(final JedisPubSub jedisPubSub, final String... channels) {
+	public void subscribe(final Subscribe sub, final String... channels) {
 		try (Jedis jedis = pool.getResource()) {
-			jedis.subscribe(jedisPubSub, channels);
+			jedis.subscribe(new JedisPubSub() {
+				@Override
+				public void onMessage(String channel, String message) {
+					long time = System.currentTimeMillis();
+					sub.onMessage(channel, message);
+					Logs.debug("redis subscribe={}  channel={} message={} time={}  thread={}",
+							sub.getClass().getSimpleName(), channel, message, System.currentTimeMillis() - time);
+				}
+			}, channels);
 		}
 	}
 

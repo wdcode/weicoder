@@ -20,8 +20,6 @@ import com.weicoder.redis.annotation.Channel;
 import com.weicoder.redis.annotation.Subscribes;
 import com.weicoder.redis.factory.RedisFactory;
 
-import redis.clients.jedis.JedisPubSub;
-
 /**
  * redis订阅功能
  * 
@@ -35,7 +33,7 @@ public final class Redis {
 	// 保存Channel对应方法
 	private final static Map<String, Method> METHODS = Maps.newMap();
 	// 保存Redis消费
-	private final static Map<String, Subscribe> REDIS = Maps.newMap();
+	private final static Map<String, RedisPool> REDIS = Maps.newMap();
 	// 保存Redis对应消费的Channel
 	private final static Map<String, List<String>> CHANNELS = Maps.newMap();
 
@@ -55,7 +53,7 @@ public final class Redis {
 				Subscribes a = subscribe.getClass().getAnnotation(Subscribes.class);
 				String name = a.value();
 				if (!REDIS.containsKey(name))
-					REDIS.put(name, RedisFactory.getSubscribe(name));
+					REDIS.put(name, RedisFactory.getRedis(name));
 				// 获得channels列表
 				List<String> channels = Maps.getList(CHANNELS, name, String.class);
 				// 处理所有方法
@@ -78,39 +76,36 @@ public final class Redis {
 				// 定时观察订阅信息
 				ExecutorUtil.pool(RedisParams.PREFIX).execute(() -> {
 					// ScheduledUtil.delay(RedisParams.PREFIX, () -> {
-					REDIS.get(key).subscribe(new JedisPubSub() {
-						@Override
-						public void onMessage(String channel, String message) {
-							// 线程池id
-							long tid = Thread.currentThread().getId();
-							// 获得订阅通道的对象和方法
-							long time = System.currentTimeMillis();
-							Object s = SUBSCRIBES.get(channel);
-							Method m = METHODS.get(channel);
-							if (EmptyUtil.isNotEmptys(s, m)) {
-								// 获得所有参数
-								Parameter[] params = m.getParameters();
-								Object[] objs = null;
-								if (EmptyUtil.isEmpty(params))
-									// 参数为空直接执行方法
-									BeanUtil.invoke(s, m);
-								else {
-									objs = new Object[params.length];
-									// 有参数 现在只支持 1位的参数，1个参数表示message
-									Class<?> type = params[0].getType();
-									if (params.length == 1)
-										if (String.class.equals(type))
-											objs[0] = message;
-										else
-											objs[0] = JsonEngine.toBean(message, type);
-									// 执行方法
-									BeanUtil.invoke(s, m, objs);
-								}
+					REDIS.get(key).subscribe((channel, message) -> {
+						// 线程池id
+						long tid = Thread.currentThread().getId();
+						// 获得订阅通道的对象和方法
+						long time = System.currentTimeMillis();
+						Object s = SUBSCRIBES.get(channel);
+						Method m = METHODS.get(channel);
+						if (EmptyUtil.isNotEmptys(s, m)) {
+							// 获得所有参数
+							Parameter[] params = m.getParameters();
+							Object[] objs = null;
+							if (EmptyUtil.isEmpty(params))
+								// 参数为空直接执行方法
+								BeanUtil.invoke(s, m);
+							else {
+								objs = new Object[params.length];
+								// 有参数 现在只支持 1位的参数，1个参数表示message
+								Class<?> type = params[0].getType();
+								if (params.length == 1)
+									if (String.class.equals(type))
+										objs[0] = message;
+									else
+										objs[0] = JsonEngine.toBean(message, type);
+								// 执行方法
+								BeanUtil.invoke(s, m, objs);
 							}
-							LOG.debug("redis subscribe={} method={} channel={} message={} time={}  thread={}",
-									s.getClass().getSimpleName(), m.getName(), channel, message,
-									System.currentTimeMillis() - time, tid);
 						}
+						LOG.debug("redis subscribe={} method={} channel={} message={} time={}  thread={}",
+								s.getClass().getSimpleName(), m.getName(), channel, message,
+								System.currentTimeMillis() - time, tid);
 					}, Lists.toArray(val));
 				});
 			});

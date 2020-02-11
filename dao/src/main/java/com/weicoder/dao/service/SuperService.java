@@ -5,14 +5,14 @@ import java.util.List;
 import java.util.Map;
 
 import com.weicoder.dao.factory.DaoFactory;
-import com.weicoder.common.bean.Paging;
+import com.weicoder.common.bean.PageResult;
+import com.weicoder.common.bean.Pages;
 import com.weicoder.common.interfaces.Callback;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.DateUtil;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.dao.Dao;
-import com.weicoder.dao.bean.PageResult;
 
 /**
  * 超级通用业务hibernate实现
@@ -142,7 +142,7 @@ public final class SuperService {
 	 * @param  <E>         泛型
 	 * @return             返回这个对象的列表
 	 */
-	public static <E> PageResult list(Class<E> entityClass, Paging page) {
+	public static <E> PageResult list(Class<E> entityClass, Pages page) {
 		// 获得数据列表
 		List<E> list = DAO.list(entityClass, getFirstResult(page), getMaxResults(page));
 		// 判断列表
@@ -163,7 +163,7 @@ public final class SuperService {
 	 * @param  page   分页Bean
 	 * @return        返回这个对象的列表
 	 */
-	public static PageResult list(Object entity, Paging page) {
+	public static PageResult list(Object entity, Pages page) {
 		// 获得数据列表
 		List<Object> list = DAO.list(entity, getFirstResult(page), getMaxResults(page));
 		// 判断列表
@@ -187,7 +187,7 @@ public final class SuperService {
 	 * @param  page   页面
 	 * @return
 	 */
-	public static <E> PageResult date(E entity, String begin, String end, Paging page) {
+	public static <E> PageResult date(E entity, String begin, String end, Pages page) {
 		return time(entity, DateUtil.getTime(begin), DateUtil.getTime(end), page);
 	}
 
@@ -201,7 +201,7 @@ public final class SuperService {
 	 * @param  page   页面
 	 * @return
 	 */
-	public static <E> PageResult time(E entity, int begin, int end, Paging page) {
+	public static <E> PageResult time(E entity, int begin, int end, Pages page) {
 		// 获得数据列表
 		List<E> list = DAO.between(entity, "time", begin, end, getFirstResult(page), getMaxResults(page));
 		// 判断列表
@@ -225,7 +225,7 @@ public final class SuperService {
 	 * @param  <E>         泛型
 	 * @return             数据列表
 	 */
-	public static <E> PageResult in(Class<E> entityClass, String property, List<Object> values, Paging page) {
+	public static <E> PageResult in(Class<E> entityClass, String property, List<Object> values, Pages page) {
 		// 获得数据列表
 		List<E> list = DAO.in(entityClass, property, values, getFirstResult(page), getMaxResults(page));
 		// 判断列表
@@ -288,7 +288,7 @@ public final class SuperService {
 	 * @param  <E>         泛型
 	 * @return             数据列表
 	 */
-	public static <E> PageResult eq(Class<E> entityClass, String property, Object value, Paging page) {
+	public static <E> PageResult eq(Class<E> entityClass, String property, Object value, Pages page) {
 		// 获得数据列表
 		List<E> list = DAO.eq(entityClass, property, value, getFirstResult(page), getMaxResults(page));
 		// 判断列表
@@ -313,7 +313,7 @@ public final class SuperService {
 	 * @param  <E>         泛型
 	 * @return             数据列表
 	 */
-	public static <E> PageResult in(Class<E> entityClass, String property, List<Object> values, Map<String, Object> orders, Paging page) {
+	public static <E> PageResult in(Class<E> entityClass, String property, List<Object> values, Map<String, Object> orders, Pages page) {
 		// 获得数据列表
 		List<E> list = DAO.in(entityClass, property, values, orders, getFirstResult(page), getMaxResults(page));
 		// 判断列表
@@ -352,7 +352,7 @@ public final class SuperService {
 	 * @param  <E>      泛型
 	 * @return          返回结果列表
 	 */
-	public static <E> PageResult between(E entity, String property, Object lo, Object hi, Paging page) {
+	public static <E> PageResult between(E entity, String property, Object lo, Object hi, Pages page) {
 		// 获得数据列表
 		List<E> list = DAO.between(entity, property, lo, hi, getFirstResult(page), getMaxResults(page));
 		// 判断列表
@@ -375,7 +375,7 @@ public final class SuperService {
 	 * @param  <E>    泛型
 	 * @return        返回结果列表
 	 */
-	public static <E> PageResult order(E entity, Map<String, Object> orders, Paging page) {
+	public static <E> PageResult order(E entity, Map<String, Object> orders, Pages page) {
 		// 获得数据列表
 		List<E> list = DAO.order(entity, orders, getFirstResult(page), getMaxResults(page));
 		// 判断列表
@@ -398,7 +398,7 @@ public final class SuperService {
 	 * @param  <E>    泛型
 	 * @return        返回结果列表
 	 */
-	public static <E> PageResult order(Class<E> entity, Map<String, Object> orders, Paging page) {
+	public static <E> PageResult order(Class<E> entity, Map<String, Object> orders, Pages page) {
 		// 获得数据列表
 		List<E> list = DAO.order(entity, orders, getFirstResult(page), getMaxResults(page));
 		// 判断列表
@@ -464,7 +464,7 @@ public final class SuperService {
 	 * @param  page 分页Bean
 	 * @return      最大结果数
 	 */
-	private static int getMaxResults(Paging page) {
+	private static int getMaxResults(Pages page) {
 		return EmptyUtil.isEmpty(page) ? -1 : page.getSize();
 	}
 
@@ -474,7 +474,7 @@ public final class SuperService {
 	 * @param  page 分页Bean
 	 * @return      从第N条开始返回结果
 	 */
-	private static int getFirstResult(Paging page) {
+	private static int getFirstResult(Pages page) {
 //		return EmptyUtil.isEmpty(page) ? -1 : (page.getPage() - 1) * page.getSize();
 		return EmptyUtil.isEmpty(page) ? -1 : page.getStart();// page.getPage() * page.getSize();
 	}

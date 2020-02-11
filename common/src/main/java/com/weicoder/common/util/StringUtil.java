@@ -1,5 +1,7 @@
 package com.weicoder.common.util;
 
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -7,6 +9,7 @@ import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.StringConstants;
 
 import com.weicoder.common.lang.C;
+import com.weicoder.common.lang.Lists;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
 
@@ -240,6 +243,35 @@ public final class StringUtil {
 	 */
 	public static String subString(String str, int start) {
 		return EmptyUtil.isEmpty(str) ? StringConstants.EMPTY : subString(str, start, str.length());
+	}
+	
+	/**
+	 * 根据Map获得URL后的参数 连接 如果值为空不连接 对Key进行排序
+	 * @param map 参数列表
+	 * @return 参数
+	 */
+	public static String toParameters(Map<String, String> map) {
+		// 如果Map为空 返回空串
+		if (EmptyUtil.isEmpty(map))
+			return StringConstants.EMPTY;
+		// 声明字符串缓存
+		StringBuilder sb = new StringBuilder();
+		// 获得Key列表并排序
+		List<String> keys = Lists.sort(Lists.newList(map.keySet()));
+		// 根据Key列表获得值
+		for (int i = 0; i < keys.size(); i++) {
+			// 获得Key
+			String key = keys.get(i);
+			// 获得值
+			String val = map.get(key);
+			// 判断值不为空
+			if (EmptyUtil.isNotEmpty(val)) {
+				sb.append(key).append("=");
+				sb.append(val).append("&");
+			}
+		}
+		// 返回组合后的字符串
+		return subString(sb.toString(), 0, sb.length() - 1);
 	}
 
 	/**

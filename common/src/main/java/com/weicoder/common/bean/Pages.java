@@ -1,5 +1,7 @@
 package com.weicoder.common.bean;
 
+import java.util.List;
+
 import com.weicoder.common.params.CommonParams;
 
 /**
@@ -7,13 +9,23 @@ import com.weicoder.common.params.CommonParams;
  * 
  * @author WD
  */
-public final class Paging {
+public final class Pages {
 	// 总数量
 	private int total;
 	// 当前页
 	private int page;
 	// 每页显示数量
 	private int size = CommonParams.PAGE_SIZE;
+
+	/**
+	 * 返回包括本身的分页结果
+	 * 
+	 * @param  list
+	 * @return
+	 */
+	public PageResult result(List<?> list) {
+		return new PageResult(list, this);
+	}
 
 //	/**
 //	 * 获得总页数

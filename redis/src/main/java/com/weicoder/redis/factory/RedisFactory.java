@@ -2,8 +2,7 @@ package com.weicoder.redis.factory;
 
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.redis.params.RedisParams;
-import com.weicoder.redis.RedisPool;
-import com.weicoder.redis.Subscribe;
+import com.weicoder.redis.RedisPool; 
 import com.weicoder.redis.impl.RedisCluster;
 import com.weicoder.redis.impl.RedisJedis;
 
@@ -41,22 +40,6 @@ public final class RedisFactory {
 	 */
 	public static RedisJedis getPool(String key) {
 		return JedisPoolFactory.FACTORY.getInstance(key);
-	}
-
-	/**
-	 * 获得redis发布订阅对象
-	 * 
-	 * @param  name 名称
-	 * @return      redis发布订阅对象
-	 */
-	public static Subscribe getSubscribe(String name) {
-		// 判断类型
-		switch (RedisParams.getType(name)) {
-			case "cluster":
-				return getCluster(name);
-			default:
-				return getPool(name);
-		}
 	}
 
 	private RedisFactory() {
