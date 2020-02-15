@@ -54,14 +54,14 @@ public final class StateCode {
 		return new StateCode(content);
 	}
 
-//	/**
-//	 * 判断是否成功状态
-//	 * 
-//	 * @return 是否成功状态
-//	 */
-//	public boolean isSuccess() {
-//		return this.equals(SUCCESS);
-//	}
+	/**
+	 * 判断是否成功状态
+	 * 
+	 * @return 是否成功状态
+	 */
+	public boolean success() {
+		return this.equals(SUCCESS);
+	}
 
 	/**
 	 * 转换成对象数组 表示 code,message

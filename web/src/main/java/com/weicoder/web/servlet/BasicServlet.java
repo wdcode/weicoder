@@ -60,7 +60,8 @@ public class BasicServlet extends HttpServlet {
 	private final static Log LOG = LogFactory.getLog(BasicServlet.class);
 
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		long curr = System.currentTimeMillis();
 		// 获得客户端IP
 		String ip = RequestUtil.getIp(request);
@@ -70,11 +71,13 @@ public class BasicServlet extends HttpServlet {
 		String m = request.getMethod();
 		// 获得path
 		String path = request.getPathInfo();
-		LOG.debug("request ip={} path={} Method={} scheme={} queryString={}", ip, path, m, request.getScheme(), request.getQueryString());
+		LOG.debug("request ip={} path={} Method={} scheme={} queryString={}", ip, path, m, request.getScheme(),
+				request.getQueryString());
 		if (EmptyUtil.isNotEmpty(path)) {
 			// 分解提交action 去处开头的/ 并且按/或者_分解出数组
 			String actionName = StringUtil.subString(path, 1, path.length());
-			String[] actions = StringUtil.contains(actionName, StringConstants.BACKSLASH) ? StringUtil.split(actionName, StringConstants.BACKSLASH)
+			String[] actions = StringUtil.contains(actionName, StringConstants.BACKSLASH)
+					? StringUtil.split(actionName, StringConstants.BACKSLASH)
 					: StringUtil.split(actionName, StringConstants.UNDERLINE);
 			if (EmptyUtil.isEmpty(actions)) {
 				LOG.debug("this path={}", path);
@@ -104,7 +107,8 @@ public class BasicServlet extends HttpServlet {
 			// action为空
 			if (action == null) {
 				// 还是为空
-				LOG.warn("request ip={},path={},name={},actionName={},ma={},no action and method", ip, path, name, actionName, WebCommons.METHODS_ACTIONS);
+				LOG.warn("request ip={},path={},name={},actionName={},ma={},no action and method", ip, path, name,
+						actionName, WebCommons.METHODS_ACTIONS);
 				ResponseUtil.json(response, callback, "no action and method");
 				return;
 			}
@@ -166,6 +170,8 @@ public class BasicServlet extends HttpServlet {
 				for (; i < pars.length; i++) {
 					// 判断类型并设置
 					Parameter p = pars[i];
+					// 获得参数值
+					String v = ps.get(p.getName());
 					// 参数的类型
 					Class<?> cs = p.getType();
 					if (HttpServletRequest.class.equals(cs))
@@ -174,12 +180,12 @@ public class BasicServlet extends HttpServlet {
 						params[i] = response;
 					else if (TokenBean.class.equals(cs))
 						// 设置Token
-						params[i] = TokenEngine.decrypt(ps.get(p.getName()));
+						params[i] = TokenEngine.decrypt(v);
 					else if (Map.class.equals(cs))
 						params[i] = ps;
 					else if (ClassUtil.isBaseType(cs)) {
 						// 获得参数
-						params[i] = C.to(ps.get(p.getName()), cs);
+						params[i] = C.to(v, cs);
 						// 验证参数
 						if (code == StateParams.SUCCESS)
 							if ((code = Validators.validator(p, params[i])) != StateParams.SUCCESS)
@@ -207,7 +213,8 @@ public class BasicServlet extends HttpServlet {
 					// 异步执行
 					async.start(() -> {
 						// 执行方法并返回结果
-						result(method, ac, invoke(ac, method, p, request, response), callback, request, response, ip, actionName, p, pars, curr);
+						result(method, ac, invoke(ac, method, p, request, response), callback, request, response, ip,
+								actionName, p, pars, curr);
 						// 通知主线程完成
 						async.complete();
 					});
@@ -223,25 +230,29 @@ public class BasicServlet extends HttpServlet {
 //						async.complete();
 //					});
 				} else
-					result(method, action, invoke(action, method, params, request, response), callback, request, response, ip, actionName, params, pars, curr);
+					result(method, action, invoke(action, method, params, request, response), callback, request,
+							response, ip, actionName, params, pars, curr);
 			} else
-				result(method, action, StateCode.build(code), callback, request, response, ip, actionName, params, pars, curr);
+				result(method, action, StateCode.build(code), callback, request, response, ip, actionName, params, pars,
+						curr);
 		}
 	}
 
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		if (WebParams.GET)
 			doPost(request, response);
 		else
 			ResponseUtil.json(response, "not supported get");
 	}
 
-	private void result(Method method, Object action, Object res, String callback, HttpServletRequest request, HttpServletResponse response, String ip, String actionName, Object[] params,
-			Parameter[] pars, long curr) {
+	private void result(Method method, Object action, Object res, String callback, HttpServletRequest request,
+			HttpServletResponse response, String ip, String actionName, Object[] params, Parameter[] pars, long curr) {
 		try {
 			// 判断是否需要写cookie
-			boolean cookie = method.isAnnotationPresent(Cookies.class) || action.getClass().isAnnotationPresent(Cookies.class);
+			boolean cookie = method.isAnnotationPresent(Cookies.class)
+					|| action.getClass().isAnnotationPresent(Cookies.class);
 			String[] names = null;
 			Cookies c = null;
 			if (cookie) {
@@ -262,7 +273,8 @@ public class BasicServlet extends HttpServlet {
 					response.sendRedirect(url);
 					return;
 				}
-			} else if (method.isAnnotationPresent(Forward.class) || action.getClass().isAnnotationPresent(Forward.class)) {
+			} else if (method.isAnnotationPresent(Forward.class)
+					|| action.getClass().isAnnotationPresent(Forward.class)) {
 				String url = C.toString(res);
 				if (EmptyUtil.isEmpty(url)) {
 					ResponseUtil.json(response, callback, "Forward is null");
@@ -311,14 +323,16 @@ public class BasicServlet extends HttpServlet {
 					CookieUtil.adds(response, c.maxAge(), res, names);
 			}
 			// 写到前端
-			LOG.info("request ip={} name={} time={} params={} pars={} method={} type={} res={} end", ip, actionName, System.currentTimeMillis() - curr, params, pars, request.getMethod(),
-					request.getContentType(), ResponseUtil.json(response, callback, res));
+			LOG.info("request ip={} name={} time={} params={} pars={} method={} type={} res={} end", ip, actionName,
+					System.currentTimeMillis() - curr, params, pars, request.getMethod(), request.getContentType(),
+					ResponseUtil.json(response, callback, res));
 		} catch (Exception e) {
 			Logs.error(e);
 		}
 	}
 
-	private Object invoke(Object action, Method method, Object[] params, HttpServletRequest request, HttpServletResponse response) {
+	private Object invoke(Object action, Method method, Object[] params, HttpServletRequest request,
+			HttpServletResponse response) {
 		// 获得所有aop
 		List<Aops> aops = aops(action, method);
 		try {
@@ -331,7 +345,8 @@ public class BasicServlet extends HttpServlet {
 			// 返回结果
 			return result;
 		} catch (Exception e) {
-			Logs.error(e, "action invoke method={} args={} params={}", method.getName(), Arrays.toString(params), Arrays.toString(method.getParameters()));
+			Logs.error(e, "action invoke method={} args={} params={}", method.getName(), Arrays.toString(params),
+					Arrays.toString(method.getParameters()));
 			// 异常执行
 			aops.forEach(aop -> aop.exception(e, action, params, request, response));
 			// 返回错误

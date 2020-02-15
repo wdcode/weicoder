@@ -6,8 +6,7 @@ import com.weicoder.common.lang.C;
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.protobuf.Protobuf;
 import com.weicoder.protobuf.ProtobufEngine;
-import com.weicoder.socket.client.NettyClient;
-import com.weicoder.socket.manager.Manager;
+import com.weicoder.socket.client.NettyClient; 
 import com.weicoder.socket.params.SocketParams;
 import com.weicoder.socket.server.TcpServer;
 import com.weicoder.socket.server.WebSocketServer;
@@ -20,18 +19,14 @@ import com.weicoder.socket.server.WebSocketServer;
 public final class Sockets {
 	// Socket Client 模式
 	private static Client client;
-	// Manager Session管理器 一般给Server使用
-	private static Manager manager;
 	// 是否已经初始化
 	private static boolean init;
 
 	/**
-	 * 初始化Mina
+	 * 初始化
 	 */
 	public synchronized static void init() {
 		if (!init) {
-			// 初始化管理器
-			manager = new Manager();
 			// 初始化 客户端
 			if (SocketParams.CLINET_PORT > 0) {
 				client = new NettyClient("client");
@@ -58,15 +53,6 @@ public final class Sockets {
 		if (client == null)
 			init();
 		return client;
-	}
-
-	/**
-	 * 获得客户端
-	 * 
-	 * @return Client
-	 */
-	public static Manager manager() {
-		return manager;
 	}
 
 	/**

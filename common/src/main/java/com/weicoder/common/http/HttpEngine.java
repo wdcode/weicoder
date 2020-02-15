@@ -13,6 +13,7 @@ import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.C;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.log.Logs;
+import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
 
@@ -101,6 +102,18 @@ public final class HttpEngine {
 			Logs.error(e, "Http2Engine download url={}", url);
 		}
 		return ArrayConstants.BYTES_EMPTY;
+	}
+
+	/**
+	 * 模拟post提交 定制提交 参数对象与提交参数相同 返回结果为json对象
+	 * 
+	 * @param  url  post提交地址
+	 * @param  data 提交参数
+	 * @param  c    返回类类型
+	 * @return      提交结果
+	 */
+	public static String post(String url, Object data) {
+		return post(url, BeanUtil.copy(data, Maps.newMap()));
 	}
 
 	/**

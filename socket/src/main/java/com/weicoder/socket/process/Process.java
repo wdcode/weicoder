@@ -24,7 +24,6 @@ import com.weicoder.common.log.Log;
 import com.weicoder.common.log.LogFactory;
 import com.weicoder.common.params.CommonParams;
 import com.weicoder.socket.Session;
-import com.weicoder.socket.Sockets;
 import com.weicoder.socket.annotation.AllHead;
 import com.weicoder.socket.annotation.Closed;
 import com.weicoder.socket.annotation.Connected;
@@ -35,28 +34,28 @@ import com.weicoder.socket.params.SocketParams;
 
 /**
  * Socket 数据处理器实现
+ * 
  * @author WD
  */
 public final class Process {
 	// 日志
-	private final static Log	LOG			= LogFactory.getLog(Process.class);
+	private final static Log LOG = LogFactory.getLog(Process.class);
 	// Handler列表
-	private Map<Short, Object>	handlers	= Maps.newMap();
+	private Map<Short, Object> handlers = Maps.newMap();
 	// head 对应方法
-	private Map<Short, Method>	methods		= Maps.newMap();
+	private Map<Short, Method> methods = Maps.newMap();
 	// 所有Handler列表
-	private Map<Object, Method>	all			= Maps.newMap();
+	private Map<Object, Method> all = Maps.newMap();
 	// 关闭处理器
-	private Map<Object, Method>	closeds		= Maps.newMap();
+	private Map<Object, Method> closeds = Maps.newMap();
 	// 连接处理器
-	private Map<Object, Method>	connected	= Maps.newMap();
-	// 管理器
-	private Manager				manager		= Sockets.manager();
+	private Map<Object, Method> connected = Maps.newMap();
 	// 处理器名字
-	private String				name;
+	private String name;
 
 	/**
 	 * 构造
+	 * 
 	 * @param name 名称
 	 */
 	public Process(String name) {
@@ -91,46 +90,46 @@ public final class Process {
 
 	/**
 	 * Session连接时
+	 * 
 	 * @param session Session
 	 */
 	public void connected(Session session) {
 		// 管理器注册Session
-		manager.register(session);
+		Manager.register(session);
 		// 如果连接处理器不为空
-		for (Map.Entry<Object, Method> e : connected.entrySet()) {
-			// 获得关闭方法
-			Method m = e.getValue();
-			if (m.getParameterCount() == 1)
-				BeanUtil.invoke(e.getKey(), m, session);
+		connected.forEach((k, v) -> {
+			if (v.getParameterCount() == 1)
+				BeanUtil.invoke(k, v, session);
 			else
-				BeanUtil.invoke(e.getKey(), m);
-		}
+				BeanUtil.invoke(k, v);
+		});
 		// 日志
 		LOG.info("name={};socket conn={};ip={};", name, session.getId(), session.getIp());
 	}
 
 	/**
 	 * Session关闭时
+	 * 
 	 * @param session Session
 	 */
 	public void closed(Session session) {
 		// 关闭处理器
-		for (Map.Entry<Object, Method> e : closeds.entrySet()) {
+		closeds.forEach((k, v) -> {
 			// 获得关闭方法
-			Method m = e.getValue();
-			if (m.getParameterCount() == 1)
-				BeanUtil.invoke(e.getKey(), m, session);
+			if (v.getParameterCount() == 1)
+				BeanUtil.invoke(k, v, session);
 			else
-				BeanUtil.invoke(e.getKey(), m);
-		}
+				BeanUtil.invoke(k, v);
+		});
 		// 删除管理器注册Session
-		manager.remove(session.getId());
+		Manager.remove(session.getId());
 		// 删除缓存
 		LOG.info("name={};socket close={};ip={}", name, session.getId(), session.getIp());
 	}
 
 	/**
 	 * 处理数据 消息处理 short(消息长度不算本身2字节) short(ID) byte[]
+	 * 
 	 * @param session Session
 	 * @param message 字节流
 	 */
@@ -185,7 +184,8 @@ public final class Process {
 			}
 			// 如果有接受所有头方法 使用异步方式执行
 			if (EmptyUtil.isNotEmpty(all))
-				ExecutorUtil.pool().execute(() -> all.forEach((h, m) -> BeanUtil.invoke(h, m, getParames(m, data, session))));
+				ExecutorUtil.pool()
+						.execute(() -> all.forEach((h, m) -> BeanUtil.invoke(h, m, getParames(m, data, session))));
 
 			// 获得相应的方法
 			Method m = methods.get(id);
@@ -195,7 +195,8 @@ public final class Process {
 				LOG.warn("name={};socket={};handler message discard id={};message len={}", name, sid, id, len);
 				return;
 			}
-			LOG.info("name={};socket={};receive len={};id={};method={};time={}", name, sid, length, id, m, DateUtil.getTheDate());
+			LOG.info("name={};socket={};receive len={};id={};method={};time={}", name, sid, length, id, m,
+					DateUtil.getTheDate());
 			try {
 				// 当前时间
 				long curr = System.currentTimeMillis();
@@ -236,9 +237,9 @@ public final class Process {
 				if (Session.class.isAssignableFrom(type))
 					// Session
 					params[i] = session;
-				else if (Manager.class.equals(type))
-					// Manager
-					params[i] = manager;
+//				else if (Manager.class.equals(type))
+//					// Manager
+//					params[i] = Manager;
 				else if (type.isAnnotationPresent(Protobuf.class))
 					// 字节流
 					params[i] = ProtobufEngine.toBean(data, type);

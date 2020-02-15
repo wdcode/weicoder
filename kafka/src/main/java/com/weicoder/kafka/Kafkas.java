@@ -248,6 +248,9 @@ public final class Kafkas {
 		// List
 		if (List.class.equals(c))
 			return JsonEngine.toList(StringUtil.toString(b));
+		//Protobuf
+		else if (c.isAnnotationPresent(Protobuf.class))
+			return ProtobufEngine.toBean(b, c);
 		// 序列化
 		return Bytes.to(b, c);
 	}
