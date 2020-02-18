@@ -154,7 +154,7 @@ public final class Bytes {
 		if (obj instanceof ByteArray)
 			// File
 			return toBytes((ByteArray) obj);
-		if (obj instanceof Binary)
+		if (obj.getClass().isAnnotationPresent(Binary.class) || obj instanceof Binary)
 			// File
 			return toBytes((Binary) obj);
 		if (obj instanceof File)
@@ -645,7 +645,8 @@ public final class Bytes {
 	 * @return        字符串
 	 */
 	public static String toString(byte[] b, int offset, boolean is) {
-		return StringUtil.toString(is ? copy(b, offset + 2, offset + 2 + toShort(b, offset)) : copy(b, offset, b.length));
+		return StringUtil
+				.toString(is ? copy(b, offset + 2, offset + 2 + toShort(b, offset)) : copy(b, offset, b.length));
 	}
 
 	/**

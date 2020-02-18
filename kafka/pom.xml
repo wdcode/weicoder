@@ -19,7 +19,7 @@
 			<artifactId>protobuf</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.weicoder</groupId>
+			<groupId>com.weicoder.extend</groupId>
 			<artifactId>kafka-extend</artifactId>
 		</dependency>
 		<!-- 

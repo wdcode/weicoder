@@ -16,7 +16,7 @@
 		<logger name="org.springframework" level="warn"></logger>
 		<logger name="org.hibernate" level="warn"></logger> 
 		<!-- 异步日志 -->
-		<asyncRoot level="debug">  
+		<asyncRoot level="info">  
 			<appender-ref ref="Console" />
 		</asyncRoot>
 	</loggers>

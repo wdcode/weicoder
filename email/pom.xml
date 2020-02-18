@@ -15,7 +15,7 @@
 			<artifactId>common</artifactId>
 		</dependency>  
 		<dependency>
-			<groupId>com.weicoder</groupId>
+			<groupId>com.weicoder.extend</groupId>
 			<artifactId>email-extend</artifactId>
 		</dependency>  
 	</dependencies>
