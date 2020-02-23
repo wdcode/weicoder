@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.weicoder</groupId>
 		<artifactId>weicoder</artifactId>
-		<version>3.2.7</version>
+		<version>3.2.8</version>
 	</parent>
 	<artifactId>test</artifactId>
 
@@ -65,7 +65,7 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-		</dependency> 
+		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
@@ -73,7 +73,7 @@
 		<dependency>
 			<groupId>com.weicoder</groupId>
 			<artifactId>po</artifactId>
-			<version>3.2.7</version>
+			<version>3.2.8</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ibeetl</groupId>
@@ -94,15 +94,20 @@
 			<groupId>org.smartboot.socket</groupId>
 			<artifactId>aio-core</artifactId>
 			<version>1.4.7</version>
-		</dependency> 
+		</dependency>
 		<dependency>
 			<groupId>io.seata</groupId>
 			<artifactId>seata-all</artifactId>
 			<version>1.1.0</version>
-		</dependency> 
+		</dependency>
 		<dependency>
 			<groupId>org.apache.tomcat.embed</groupId>
 			<artifactId>tomcat-embed-core</artifactId>
+			<version>9.0.31</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.tomcat.embed</groupId>
+			<artifactId>tomcat-embed-jasper</artifactId>
 			<version>9.0.31</version>
 		</dependency>
 	</dependencies>
