@@ -3,9 +3,9 @@ package com.weicoder.common.lang;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.LinkedBlockingQueue;
-
-import com.weicoder.common.interfaces.Callback;
+ 
 import com.weicoder.common.interfaces.CallbackList;
+import com.weicoder.common.interfaces.CallbackVoid;
 import com.weicoder.common.util.AsynQueue;
 import com.weicoder.common.util.AsynQueueList;
 import com.weicoder.common.util.MathUtil;
@@ -49,7 +49,7 @@ public class Queues {
 	 * 
 	 * @return 异步更新并发队列
 	 */
-	public static <E> AsynQueue<E> newAsynQueue(Queue<E> queue, Callback<E> callback, long time) {
+	public static <E> AsynQueue<E> newAsynQueue(Queue<E> queue, CallbackVoid<E> callback, long time) {
 		return new AsynQueue<E>(queue, callback, time);
 	}
 
@@ -58,7 +58,7 @@ public class Queues {
 	 * 
 	 * @return 异步更新并发队列
 	 */
-	public static <E> AsynQueue<E> newAsynQueue(Queue<E> queue, Callback<E> callback, int time) {
+	public static <E> AsynQueue<E> newAsynQueue(Queue<E> queue, CallbackVoid<E> callback, int time) {
 		return newAsynQueue(queue, callback, MathUtil.multiply(time, 1000).longValue());
 	}
 

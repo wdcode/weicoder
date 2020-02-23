@@ -2,8 +2,7 @@ package com.weicoder.web.validator;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
+import java.lang.reflect.Method; 
 import java.lang.reflect.Parameter;
 import java.util.Map;
 
@@ -261,9 +260,7 @@ public final class Validators {
 			WebCommons.VALIDATORS.put(cname, validator);
 			if (validator != null) {
 				// 循环判断方法
-				for (Method m : c.getDeclaredMethods()) {
-					// 判断是公有方法
-					if (Modifier.isPublic(m.getModifiers())) {
+				ClassUtil.getPublicMethod(c).forEach(m -> { 
 						// 获得方法名
 						String mname = m.getName();
 						// 放入validator里方法
@@ -280,9 +277,8 @@ public final class Validators {
 						// 方法对应METHOD_VALIDATOR
 						WebCommons.METHOD_VALIDATOR.put(mname, validator);
 						// 放入参数池
-						WebCommons.VALIDATORS_METHODS_PARAMES.put(m, m.getParameters());
-					}
-				}
+						WebCommons.VALIDATORS_METHODS_PARAMES.put(m, m.getParameters()); 
+				});
 			}
 		});
 	}

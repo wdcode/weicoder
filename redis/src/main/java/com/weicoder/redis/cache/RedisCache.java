@@ -6,11 +6,12 @@ import java.util.concurrent.TimeUnit;
 
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
-import com.weicoder.common.util.ClassUtil;
+import com.weicoder.common.concurrent.ExecutorUtil;
 import com.weicoder.core.cache.Cache;
 import com.weicoder.core.json.JsonEngine;
 import com.weicoder.redis.RedisPool;
 import com.weicoder.redis.factory.RedisFactory;
+import com.weicoder.redis.params.RedisParams;
 
 /**
  * 使用Redis存储缓存
@@ -34,10 +35,11 @@ public class RedisCache<V> extends Cache<String, V> {
 	 * @param  redis   Redis名
 	 * @param  key     缓存主key 在hset里的key
 	 * @param  channel 发布订阅的通道
+	 * @param  cls     要缓存的类
 	 * @return         一个新的RedisCache
 	 */
-	public static <V> RedisCache<V> build(String redis, String key, String channel) {
-		return build(RedisFactory.getRedis(redis), key, channel);
+	public static <V> RedisCache<V> build(String redis, String key, String channel, Class<V> cls) {
+		return build(RedisFactory.getRedis(redis), key, channel, cls);
 	}
 
 	/**
@@ -47,10 +49,11 @@ public class RedisCache<V> extends Cache<String, V> {
 	 * @param  redis   Redis名
 	 * @param  key     缓存主key 在hset里的key
 	 * @param  channel 发布订阅的通道
+	 * @param  cls     要缓存的类
 	 * @return         一个新的RedisCache
 	 */
-	public static <V> RedisCache<V> build(RedisPool redis, String key, String channel) {
-		return new RedisCache<>(redis, key, channel);
+	public static <V> RedisCache<V> build(RedisPool redis, String key, String channel, Class<V> cls) {
+		return new RedisCache<>(redis, key, channel, cls);
 	}
 
 	/**
@@ -78,14 +81,13 @@ public class RedisCache<V> extends Cache<String, V> {
 		return JsonEngine.toBean(redis.hget(key, k), cls);
 	}
 
-	@SuppressWarnings("unchecked")
-	private RedisCache(RedisPool redis, String key, String channel) {
+	private RedisCache(RedisPool redis, String key, String channel, Class<V> cls) {
 		// 获得redis
 		this.redis = redis;
 		this.key = key;
 		this.channel = channel;
 		// 反射出本地缓存泛型类
-		this.cls = (Class<V>) ClassUtil.getGenericClass(this.getClass());
+		this.cls = cls;
 		// 初始化取缓存
 		cache = CacheBuilder.newBuilder().maximumSize(MAX).initialCapacity(INIT).concurrencyLevel(LEVEL)
 				.refreshAfterWrite(REFRESH, TimeUnit.SECONDS).expireAfterAccess(EXPIRE, TimeUnit.SECONDS)
@@ -96,14 +98,16 @@ public class RedisCache<V> extends Cache<String, V> {
 					}
 				});
 		// 使用Redis发布订阅来更新缓存
-		this.redis.subscribe((c, m) -> {
-			// 收到更新消息后获得redis里缓存
-			V v = getRedis(m);
-			// 如果获得缓存为空删除缓存否则更新缓存
-			if (v == null)
-				super.remove(m);
-			else
-				super.put(m, v);
-		}, channel);
+		ExecutorUtil.pool(RedisParams.PREFIX).execute(() -> {
+			this.redis.subscribe((c, m) -> {
+				// 收到更新消息后获得redis里缓存
+				V v = getRedis(m);
+				// 如果获得缓存为空删除缓存否则更新缓存
+				if (v == null)
+					super.remove(m);
+				else
+					super.put(m, v);
+			}, channel);
+		});
 	}
 }

@@ -5,39 +5,9 @@
 	<parent>
 		<groupId>com.weicoder</groupId>
 		<artifactId>weicoder</artifactId>
-		<version>3.2.6</version>
+		<version>3.2.7</version>
 	</parent>
 	<artifactId>test</artifactId>
-
-	<build>
-		<extensions>
-			<extension>
-				<groupId>kr.motd.maven</groupId>
-				<artifactId>os-maven-plugin</artifactId>
-				<version>1.5.0.Final</version>
-			</extension>
-		</extensions>
-		<plugins>
-			<plugin>
-				<groupId>org.xolstice.maven.plugins</groupId>
-				<artifactId>protobuf-maven-plugin</artifactId>
-				<version>0.5.0</version>
-				<configuration>
-					<protocArtifact>com.google.protobuf:protoc:3.3.0:exe:${os.detected.classifier}</protocArtifact>
-					<pluginId>grpc-java</pluginId>
-					<pluginArtifact>io.grpc:protoc-gen-grpc-java:1.19.0:exe:${os.detected.classifier}</pluginArtifact>
-				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<goal>compile</goal>
-							<goal>compile-custom</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
 
 	<dependencies>
 		<dependency>
@@ -74,6 +44,10 @@
 		</dependency>
 		<dependency>
 			<groupId>com.weicoder</groupId>
+			<artifactId>rpc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.weicoder</groupId>
 			<artifactId>excel</artifactId>
 		</dependency>
 		<dependency>
@@ -91,11 +65,15 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
+		</dependency> 
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.glassfish.external</groupId>
-			<artifactId>antlr</artifactId>
-			<version>2.7.8</version>
+			<groupId>com.weicoder</groupId>
+			<artifactId>po</artifactId>
+			<version>3.2.7</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ibeetl</groupId>
@@ -108,14 +86,24 @@
 			<version>3.0.17.RELEASE</version>
 		</dependency>
 		<dependency>
-			<groupId>io.grpc</groupId>
-			<artifactId>grpc-all</artifactId>
-			<version>1.27.1</version>
-		</dependency>
-		<dependency>
 			<groupId>com.squareup.okhttp3</groupId>
 			<artifactId>okhttp</artifactId>
 			<version>4.3.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.smartboot.socket</groupId>
+			<artifactId>aio-core</artifactId>
+			<version>1.4.7</version>
+		</dependency> 
+		<dependency>
+			<groupId>io.seata</groupId>
+			<artifactId>seata-all</artifactId>
+			<version>1.1.0</version>
+		</dependency> 
+		<dependency>
+			<groupId>org.apache.tomcat.embed</groupId>
+			<artifactId>tomcat-embed-core</artifactId>
+			<version>9.0.31</version>
 		</dependency>
 	</dependencies>
 </project>

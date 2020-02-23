@@ -5,14 +5,14 @@
 	<parent>
 		<groupId>com.weicoder</groupId>
 		<artifactId>weicoder</artifactId>
-		<version>3.2.6</version>
+		<version>3.2.7</version>
 	</parent>
 	<artifactId>nacos</artifactId>
 
 	<dependencies>
 		<dependency>
 			<groupId>com.weicoder</groupId>
-			<artifactId>core</artifactId>
+			<artifactId>common</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.weicoder.extend</groupId>

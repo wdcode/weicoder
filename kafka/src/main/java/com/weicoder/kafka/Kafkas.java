@@ -7,10 +7,7 @@ import java.time.Duration;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
-import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.ConcurrentLinkedQueue; 
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
@@ -57,14 +54,16 @@ public final class Kafkas {
 	// 保存kafka对应消费的topic
 	private final static Map<String, List<String>> TOPICS = Maps.newMap();
 	// 保存Topic队列
-	private final static Map<String, Map<String, Queue<ConsumerRecord<byte[], byte[]>>>> TOPIC_RECORDS = Maps.newConcurrentMap();
+	private final static Map<String, Map<String, Queue<ConsumerRecord<byte[], byte[]>>>> TOPIC_RECORDS = Maps
+			.newConcurrentMap();
 
 	/**
 	 * 初始化消费者
 	 */
 	public static void consumers() {
 		// 获得所有kafka消费者
-		List<Class<Consumer>> consumers = ClassUtil.getAnnotationClass(CommonParams.getPackages("kafka"), Consumer.class);
+		List<Class<Consumer>> consumers = ClassUtil.getAnnotationClass(CommonParams.getPackages("kafka"),
+				Consumer.class);
 		if (EmptyUtil.isNotEmpty(consumers)) {
 			// 循环处理kafka类
 			consumers.forEach(c -> {
@@ -113,10 +112,8 @@ public final class Kafkas {
 				KAFKA_CONSUMERS.get(key).subscribe(topics);
 				LOG.info("Kafkas init Consumer={} subscribe topic={}", key, topics);
 			});
-			// 读取topic定时
-			ScheduledExecutorService ses = Executors.newSingleThreadScheduledExecutor();
-			// 启动定时读取kafka消息
-			ses.scheduleWithFixedDelay(() -> {
+			// 读取topic定时 启动定时读取kafka消息
+			ScheduledUtil.newDelay(() -> {
 				KAFKA_CONSUMERS.forEach((name, consumer) -> {
 					// 线程池id
 					long tid = Thread.currentThread().getId();
@@ -134,10 +131,11 @@ public final class Kafkas {
 					}
 					// 数量不为空
 					if (n > 0) {
-						LOG.info("kafka read consumer end name={} size={} time={} thread={}", name, n, System.currentTimeMillis() - time, tid);
+						LOG.info("kafka read consumer end name={} size={} time={} thread={}", name, n,
+								System.currentTimeMillis() - time, tid);
 					}
 				});
-			}, 0L, 10L, TimeUnit.MICROSECONDS);
+			}, 0L, 10L);
 			// 消费队列
 			TOPIC_RECORDS.forEach((name, map) -> {
 				map.values().forEach((records) -> {
@@ -174,7 +172,8 @@ public final class Kafkas {
 									else if (Record.class.equals(t)) {
 										Type type = param.getParameterizedType();
 										Class<?>[] gc = ClassUtil.getGenericClass(type);
-										objs[0] = new Record<>(record.topic(), toParam(record.key(), gc[0]), toParam(record.value(), gc[1]), record.offset(), record.timestamp());
+										objs[0] = new Record<>(record.topic(), toParam(record.key(), gc[0]),
+												toParam(record.value(), gc[1]), record.offset(), record.timestamp());
 										// 执行所有topic方法
 										List<Method> all = ALL_TOPICS.get(name);
 										if (EmptyUtil.isEmpty(all)) {
@@ -191,12 +190,14 @@ public final class Kafkas {
 								// 执行方法
 								BeanUtil.invoke(obj, method, objs);
 							}
-							LOG.debug("kafka consumer topic={} offset={} method={} args={} params={} thread={}", topic, offset, method.getName(), objs, params, tid);
+							LOG.debug("kafka consumer topic={} offset={} method={} args={} params={} thread={}", topic,
+									offset, method.getName(), objs, params, tid);
 							n++;
 						}
 						// 数量不为空
 						if (n > 0) {
-							LOG.info("kafka consumer end topic={} offset={} size={} time={} thread={}", topic, offset, n, System.currentTimeMillis() - time, tid);
+							LOG.info("kafka consumer end topic={} offset={} size={} time={} thread={}", topic, offset,
+									n, System.currentTimeMillis() - time, tid);
 						}
 					}, 10L);
 				});
@@ -248,7 +249,7 @@ public final class Kafkas {
 		// List
 		if (List.class.equals(c))
 			return JsonEngine.toList(StringUtil.toString(b));
-		//Protobuf
+		// Protobuf
 		else if (c.isAnnotationPresent(Protobuf.class))
 			return ProtobufEngine.toBean(b, c);
 		// 序列化

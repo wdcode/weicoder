@@ -1,6 +1,5 @@
 package com.weicoder.quartz;
 
-import java.lang.reflect.Method;
 import java.util.List;
 
 import org.quartz.CronScheduleBuilder;
@@ -8,6 +7,7 @@ import org.quartz.JobBuilder;
 import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
 import org.quartz.TriggerBuilder;
 import org.quartz.impl.StdSchedulerFactory;
 
@@ -22,6 +22,7 @@ import com.weicoder.quartz.params.QuartzParams;
 
 /**
  * Quartz任务初始化类
+ * 
  * @author WD
  */
 public final class Quartzs {
@@ -36,31 +37,34 @@ public final class Quartzs {
 				Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
 				// 循环处理任务类
 				jobs.forEach(c -> {
-					try {
-						// 执行对象
-						Object obj = BeanUtil.newInstance(c);
-						// Trigger生成器
-						TriggerBuilder<org.quartz.Trigger> builder = TriggerBuilder.newTrigger();
-						// 处理所有方法
-						for (Method m : c.getDeclaredMethods()) {
-							// 方法有执行时间注解
-							Trigger t = m.getAnnotation(Trigger.class);
-							if (t != null) {
-								// 获得任务
-								JobDetail job = JobBuilder.newJob(Jobs.class).build();
-								// 设置对应方法和对象
-								JobDataMap map = job.getJobDataMap();
-								map.put("method", m);
-								map.put("obj", obj);
-								// 设置任务执行类
-								scheduler.scheduleJob(job, builder.withIdentity(m.getName(), obj.getClass().getSimpleName())
-										.withSchedule(CronScheduleBuilder.cronSchedule(QuartzParams.getTrigger(m.getName(), t.value()))).build());
-								Logs.info("add quartz job={}", job);
+					// 执行对象
+					Object obj = BeanUtil.newInstance(c);
+					// Trigger生成器
+					TriggerBuilder<org.quartz.Trigger> builder = TriggerBuilder.newTrigger();
+					// 处理所有方法
+					ClassUtil.getPublicMethod(c).forEach(m -> {
+						// 方法有执行时间注解
+						Trigger t = m.getAnnotation(Trigger.class);
+						if (t != null) {
+							// 获得任务
+							JobDetail job = JobBuilder.newJob(Jobs.class).build();
+							// 设置对应方法和对象
+							JobDataMap map = job.getJobDataMap();
+							map.put("method", m);
+							map.put("obj", obj);
+							// 设置任务执行类
+							try {
+								scheduler.scheduleJob(job,
+										builder.withIdentity(m.getName(), obj.getClass().getSimpleName())
+												.withSchedule(CronScheduleBuilder
+														.cronSchedule(QuartzParams.getTrigger(m.getName(), t.value())))
+												.build());
+							} catch (SchedulerException e) {
+								Logs.error(e);
 							}
+							Logs.info("add quartz job={}", job);
 						}
-					} catch (Exception e) {
-						Logs.error(e);
-					}
+					});
 				});
 				// 执行任务
 				scheduler.start();
@@ -70,5 +74,6 @@ public final class Quartzs {
 		}
 	}
 
-	private Quartzs() {}
+	private Quartzs() {
+	}
 }

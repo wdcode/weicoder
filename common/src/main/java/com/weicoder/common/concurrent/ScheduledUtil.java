@@ -1,5 +1,6 @@
 package com.weicoder.common.concurrent;
 
+import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
@@ -18,12 +19,39 @@ public final class ScheduledUtil {
 	private final static ScheduledFactory FACTORY = new ScheduledFactory();
 
 	/**
+	 * 执行定时任务 按执行线程时间间隔
+	 * 
+	 * @param  name         名称
+	 * @param  command      线程任务
+	 * @param  initialDelay 初始化时间
+	 * @param  delay        间隔时间
+	 * @param  unit         时间戳
+	 * @return              ScheduledFuture
+	 */
+	public static ScheduledFuture<?> newDelay(Runnable command, long initialDelay, long delay) {
+		return newSingle().scheduleWithFixedDelay(command, initialDelay, delay, TimeUnit.MICROSECONDS);
+	}
+
+	/**
+	 * 执行定时任务 按执行线程时间间隔
+	 * 
+	 * @param  command      线程任务
+	 * @param  initialDelay 初始化时间
+	 * @param  delay        间隔时间
+	 * @param  unit         时间戳
+	 * @return              ScheduledFuture
+	 */
+	public static ScheduledFuture<?> newRate(Runnable command, int initialDelay, int delay) {
+		return newSingle().scheduleWithFixedDelay(command, initialDelay, delay, TimeUnit.SECONDS);
+	}
+
+	/**
 	 * 获得单守护定时线程
 	 * 
 	 * @return 缓存线程池
 	 */
-	public static ScheduledExecutorService newPool() {
-		return FACTORY.newPool(1, true);
+	public static ScheduledExecutorService newSingle() {
+		return Executors.newSingleThreadScheduledExecutor(DaemonThreadFactory.INSTANCE);
 	}
 
 	/**

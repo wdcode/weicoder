@@ -18,7 +18,7 @@
 		<property name="connection.provider_class">org.hibernate.hikaricp.internal.HikariCPConnectionProvider</property>  
 		<property name="hikari.jdbcUrl">jdbc:mysql://%s?useLocalSessionState=true&amp;characterEncoding=utf8&amp;useSSL=true&amp;verifyServerCertificate=false&amp;serverTimezone=UTC</property>
 		<property name="hikari.username">root</property>
-		<property name="hikari.password">12345678</property>  
+		<property name="hikari.password">123456789</property>  
 		<property name="hikari.driverClassName">com.mysql.cj.jdbc.Driver</property> 
 		<!-- 连接参数  
 		<property name="connection.characterEncoding">UTF-8</property>

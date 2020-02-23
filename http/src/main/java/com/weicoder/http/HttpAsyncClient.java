@@ -22,8 +22,8 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.nio.reactor.IOReactorException;
 
 import com.weicoder.common.constants.HttpConstants;
-import com.weicoder.common.constants.SystemConstants;
-import com.weicoder.common.interfaces.Callback;
+import com.weicoder.common.constants.SystemConstants; 
+import com.weicoder.common.interfaces.CallbackVoid;
 import com.weicoder.common.io.IOUtil;
 import com.weicoder.common.lang.C;
 import com.weicoder.common.lang.Lists;
@@ -86,7 +86,7 @@ public final class HttpAsyncClient {
 	 * @param url      get提交地址
 	 * @param callback 回调结果
 	 */
-	public static void get(String url, Callback<String> callback) {
+	public static void get(String url, CallbackVoid<String> callback) {
 		get(url, callback, CommonParams.ENCODING);
 	}
 
@@ -97,12 +97,11 @@ public final class HttpAsyncClient {
 	 * @param callback 回调结果
 	 * @param charset  编码
 	 */
-	public static void get(String url, Callback<String> callback, String charset) {
+	public static void get(String url, CallbackVoid<String> callback, String charset) {
 		download(url, (byte[] result) -> {
 			if (callback != null) {
 				callback.callback(StringUtil.toString(result, charset));
-			}
-			return result;
+			} 
 		});
 	}
 
@@ -112,7 +111,7 @@ public final class HttpAsyncClient {
 	 * @param url      get提交地址
 	 * @param callback 回调结果
 	 */
-	public static void download(String url, final Callback<byte[]> callback) {
+	public static void download(String url, final CallbackVoid<byte[]> callback) {
 		// 声明HttpGet对象
 		HttpGet get = null;
 		try {
@@ -158,7 +157,7 @@ public final class HttpAsyncClient {
 	 * @param data     提交参数
 	 * @param callback 回调结果
 	 */
-	public static void post(String url, Map<String, Object> data, Callback<String> callback) {
+	public static void post(String url, Map<String, Object> data, CallbackVoid<String> callback) {
 		post(url, data, callback, CommonParams.ENCODING);
 	}
 
@@ -170,7 +169,7 @@ public final class HttpAsyncClient {
 	 * @param callback 回调结果
 	 * @param charset  编码
 	 */
-	public static void post(String url, Map<String, Object> data, Callback<String> callback, String charset) {
+	public static void post(String url, Map<String, Object> data, CallbackVoid<String> callback, String charset) {
 		// 声明HttpPost
 		HttpPost post = null;
 		try {

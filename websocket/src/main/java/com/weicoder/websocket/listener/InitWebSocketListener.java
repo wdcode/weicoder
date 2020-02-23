@@ -1,8 +1,5 @@
 package com.weicoder.websocket.listener;
-
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-
+   
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
@@ -31,18 +28,15 @@ public class InitWebSocketListener implements ServletContextListener {
 				Object ws = BeanUtil.newInstance(c);
 				if (ws != null) {
 					// 循环判断方法
-					for (Method m : c.getDeclaredMethods()) {
+					ClassUtil.getPublicMethod(c).forEach(m -> {
 						String n = m.getName();
-						WebSocketCommons.WEBSOCKES.put(n, ws);
-						// 判断是公有方法
-						if (Modifier.isPublic(m.getModifiers())) {
+						WebSocketCommons.WEBSOCKES.put(n, ws); 
 							// 放入方法列表
 							WebSocketCommons.METHODS.put(n, m);
 							// 放入参数池
 							WebSocketCommons.PARAMES.put(m, m.getParameters());
-							Logs.debug("add websocket method={}", n);
-						}
-					}
+							Logs.debug("add websocket method={}", n); 
+					});
 				}
 			} catch (Exception ex) {
 				Logs.error(ex);

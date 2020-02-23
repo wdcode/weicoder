@@ -48,7 +48,7 @@ public final class SuperService {
 	 * @param  call   回调方法 传入获取的实体
 	 * @return
 	 */
-	public static Object entity(String entity, Map<String, String> ps, Callback<Object> call) {
+	public static Object entity(String entity, Map<String, String> ps, Callback<Object, Object> call) {
 		// 获取实体类
 		Object e = entity(entity, ps);
 		// 实体不为空 入口 为空返回null
@@ -64,7 +64,7 @@ public final class SuperService {
 	 * @param  entity 实体名
 	 * @return        如果存在就返回对象，不存在返回null
 	 */
-	public static Object entity(String entity, Callback<Class<?>> call) {
+	public static Object entity(String entity, Callback<Class<?>, Object> call) {
 		// 根据实体名获取实体
 		Class<?> c = DAO.entity(entity);
 		// 判断实体类
@@ -313,7 +313,8 @@ public final class SuperService {
 	 * @param  <E>         泛型
 	 * @return             数据列表
 	 */
-	public static <E> PageResult in(Class<E> entityClass, String property, List<Object> values, Map<String, Object> orders, Pages page) {
+	public static <E> PageResult in(Class<E> entityClass, String property, List<Object> values,
+			Map<String, Object> orders, Pages page) {
 		// 获得数据列表
 		List<E> list = DAO.in(entityClass, property, values, orders, getFirstResult(page), getMaxResults(page));
 		// 判断列表

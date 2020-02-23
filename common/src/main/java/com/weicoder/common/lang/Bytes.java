@@ -10,6 +10,7 @@ import java.util.Collection;
 import java.util.List;
 
 import com.weicoder.common.binary.Binary;
+import com.weicoder.common.binary.Buffer;
 import com.weicoder.common.binary.ByteArray;
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.io.ChannelUtil;
@@ -30,15 +31,18 @@ public final class Bytes {
 	private final static boolean IS_HIGH = "high".equals(CommonParams.BYTES);
 
 	/**
-	 * 转换dest到src同类型
+	 * 根据c类型反序列化
 	 * 
 	 * @param  b 要转换的对象
+	 * @param  o 偏移量 数组0就可以 定义成数组是为了引用传递
 	 * @param  c 要转换的类型
 	 * @return   转换后的对象
 	 */
 	public static Object to(byte[] b, Class<?> c) {
 		// 判断类型
-		if (c == null)
+		if (c == null || EmptyUtil.isEmpty(b))
+			return b;
+		if (byte[].class == c || Byte[].class == c)
 			return b;
 		if (String.class == c)
 			return toString(b);
@@ -56,9 +60,11 @@ public final class Bytes {
 			return toByte(b);
 		if (Boolean.class == c || boolean.class == c)
 			return toBoolean(b);
+		if (c == Buffer.class)
+			return new Buffer(b);
 		if (c.isAssignableFrom(ByteArray.class))
 			return toBean((ByteArray) BeanUtil.newInstance(c), b);
-		return toBinary(c, b);
+		return toBinary(b, c);
 	}
 
 	/**
@@ -68,13 +74,23 @@ public final class Bytes {
 	 * @return      字节数组
 	 */
 	public static byte[] toBytes(Object... objs) {
+		return toBytes(Boolean.FALSE, objs);
+	}
+
+	/**
+	 * 转换Object变成字节数组
+	 * 
+	 * @param  objs 对象
+	 * @return      字节数组
+	 */
+	public static byte[] toBytes(Boolean is, Object... objs) {
 		// 获得数据长度
 		int len = objs.length;
 		// 声明字节数组
 		byte[][] bs = new byte[len][];
 		// 循环数组
 		for (int i = 0; i < len; i++)
-			bs[i] = toBytes(objs[i]);
+			bs[i] = toBytes(is, objs[i]);
 		// 返回字节数组
 		return add(bs);
 	}
@@ -109,6 +125,16 @@ public final class Bytes {
 	 * @return     字节数组
 	 */
 	public static byte[] toBytes(Object obj) {
+		return toBytes(false, obj);
+	}
+
+	/**
+	 * 转换Object变成字节数组
+	 * 
+	 * @param  obj 对象
+	 * @return     字节数组
+	 */
+	public static byte[] toBytes(boolean is, Object obj) {
 		// 判断类型
 		if (obj == null)
 			return ArrayConstants.BYTES_EMPTY;
@@ -147,14 +173,14 @@ public final class Bytes {
 			return toBytes(C.toBoolean(obj));
 		if (obj instanceof String)
 			// String
-			return toBytes(C.toString(obj), true);
+			return toBytes(C.toString(obj), is);
 		if (obj instanceof ByteBuffer)
 			// String
 			return toBytes((ByteBuffer) obj);
 		if (obj instanceof ByteArray)
 			// File
 			return toBytes((ByteArray) obj);
-		if (obj.getClass().isAnnotationPresent(Binary.class) || obj instanceof Binary)
+		if (obj instanceof Binary || obj.getClass().isAssignableFrom(Binary.class))
 			// File
 			return toBytes((Binary) obj);
 		if (obj instanceof File)
@@ -166,8 +192,8 @@ public final class Bytes {
 		if (obj instanceof ReadableByteChannel)
 			// File
 			return ChannelUtil.read((ReadableByteChannel) obj, false);
-		// Object调用toString()然后转换成byte[]
-		return StringUtil.toBytes(obj.toString());
+		// 直接按binary接口处理
+		return binary(obj);
 	}
 
 	/**
@@ -177,6 +203,16 @@ public final class Bytes {
 	 * @return        字节数组
 	 */
 	public static byte[] toBytes(Binary binary) {
+		return binary(binary);
+	}
+
+	/**
+	 * 转换Binary序列化
+	 * 
+	 * @param  binary Binary接口
+	 * @return        字节数组
+	 */
+	public static byte[] binary(Object binary) {
 		// 对象为空
 		if (EmptyUtil.isEmpty(binary))
 			return ArrayConstants.BYTES_EMPTY;
@@ -187,7 +223,7 @@ public final class Bytes {
 			if (!field.isSynthetic())
 				values.add(BeanUtil.getFieldValue(binary, field));
 		// 返回字节数组
-		return Bytes.toBytes(values.toArray());
+		return Bytes.toBytes(true, values.toArray());
 	}
 
 	/**
@@ -705,7 +741,7 @@ public final class Bytes {
 	 * @param  <B> 泛型
 	 * @return     对象
 	 */
-	public static <B> B toBinary(Class<B> c, byte[] b) {
+	public static <B> B toBinary(byte[] b, Class<B> c) {
 		// 实例化
 		B binary = BeanUtil.newInstance(c);
 		// 获得全部字段

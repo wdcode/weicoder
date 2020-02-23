@@ -1,5 +1,8 @@
 package com.weicoder.test;
 
+import com.weicoder.common.binary.Binary;
+import com.weicoder.protobuf.Protobuf;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,7 +15,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Users {
+@Protobuf 
+public class Users implements Binary{
 	private boolean anchor;
 	private byte    admin;
 	private short   nid;

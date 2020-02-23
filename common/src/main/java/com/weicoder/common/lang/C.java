@@ -8,7 +8,7 @@ import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.MathUtil;
 
 /**
- * 数据类型转换,对null和异常进行处理
+ * 数据类型转换 Conversion的简写
  * 
  * @author WD
  */

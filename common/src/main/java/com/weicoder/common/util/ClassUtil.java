@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
@@ -15,16 +17,19 @@ import java.util.jar.JarInputStream;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.log.Logs;
+import com.weicoder.common.params.CommonParams;
 
 /**
  * 关于Class的一些操作
+ * 
  * @author WD
  */
 public final class ClassUtil {
 	/**
 	 * 判断是否是基础类型
-	 * @param clazz 要检查的类
-	 * @return 是否基础类型
+	 * 
+	 * @param  clazz 要检查的类
+	 * @return       是否基础类型
 	 */
 	public static boolean isBaseType(Class<?> clazz) {
 		if (clazz == null)
@@ -53,8 +58,9 @@ public final class ClassUtil {
 
 	/**
 	 * 获得指定类型的泛型
-	 * @param clazz 指定的类型
-	 * @return 这个类的泛型
+	 * 
+	 * @param  clazz 指定的类型
+	 * @return       这个类的泛型
 	 */
 	public static Class<?> getGenericClass(Class<?> clazz) {
 		// 查询父类是否有泛型
@@ -81,8 +87,9 @@ public final class ClassUtil {
 
 	/**
 	 * 获得指定类型的泛型
-	 * @param type 指定的类型
-	 * @return 这个类的泛型
+	 * 
+	 * @param  type 指定的类型
+	 * @return      这个类的泛型
 	 */
 	public static Class<?>[] getGenericClass(Type type) {
 		// 类型不对
@@ -104,9 +111,10 @@ public final class ClassUtil {
 
 	/**
 	 * 获得指定类型的泛型
-	 * @param type 指定的类型
-	 * @param index 索引
-	 * @return 这个类型的泛型
+	 * 
+	 * @param  type  指定的类型
+	 * @param  index 索引
+	 * @return       这个类型的泛型
 	 */
 	public static Class<?> getGenericClass(Type type, int index) {
 		try {
@@ -118,8 +126,9 @@ public final class ClassUtil {
 
 	/**
 	 * 加载类
-	 * @param className 类名
-	 * @return 获得的类
+	 * 
+	 * @param  className 类名
+	 * @return           获得的类
 	 */
 	public static Class<?> loadClass(String className) {
 		// 声明类
@@ -146,8 +155,9 @@ public final class ClassUtil {
 
 	/**
 	 * 获得Class
-	 * @param className Class名称
-	 * @return Class
+	 * 
+	 * @param  className Class名称
+	 * @return           Class
 	 */
 	public static Class<?> forName(String className) {
 		try {
@@ -159,9 +169,10 @@ public final class ClassUtil {
 
 	/**
 	 * 实例化对象
-	 * @param className 类名
-	 * @param parameterTypes 参数类型
-	 * @return 实例化对象
+	 * 
+	 * @param  className      类名
+	 * @param  parameterTypes 参数类型
+	 * @return                实例化对象
 	 */
 	public static Object newInstance(String className, Class<?>... parameterTypes) {
 		try {
@@ -176,10 +187,11 @@ public final class ClassUtil {
 
 	/**
 	 * 实例化对象
-	 * @param className 类名
-	 * @param obj 默认值
-	 * @param <E> 泛型
-	 * @return 实例化对象
+	 * 
+	 * @param  className 类名
+	 * @param  obj       默认值
+	 * @param  <E>       泛型
+	 * @return           实例化对象
 	 */
 	@SuppressWarnings("unchecked")
 	public static <E> E newInstance(String className, E obj) {
@@ -191,10 +203,11 @@ public final class ClassUtil {
 
 	/**
 	 * 实例化对象
-	 * @param clazz 类
-	 * @param <T> 泛型
-	 * @param parameterTypes 参数类型
-	 * @return 实例化对象
+	 * 
+	 * @param  clazz          类
+	 * @param  <T>            泛型
+	 * @param  parameterTypes 参数类型
+	 * @return                实例化对象
 	 */
 	public static <T> T newInstance(Class<T> clazz, Class<?>... parameterTypes) {
 		try {
@@ -206,21 +219,23 @@ public final class ClassUtil {
 
 	/**
 	 * 指定包下 指定类的实现
-	 * @param cls 指定类
-	 * @param i 指定索引
-	 * @param <E> 泛型
-	 * @return 类列表
+	 * 
+	 * @param  cls 指定类
+	 * @param  i   指定索引
+	 * @param  <E> 泛型
+	 * @return     类列表
 	 */
 	public static <E> Class<E> getAssignedClass(Class<E> cls, int i) {
-		return Lists.get(getAssignedClass(StringConstants.EMPTY, cls), i);
+		return Lists.get(getAssignedClass(CommonParams.getPackages(StringConstants.EMPTY), cls), i);
 	}
 
 	/**
 	 * 指定包下 指定类的实现
-	 * @param packageName 包名
-	 * @param cls 指定类
-	 * @param <E> 泛型
-	 * @return 类列表
+	 * 
+	 * @param  packageName 包名
+	 * @param  cls         指定类
+	 * @param  <E>         泛型
+	 * @return             类列表
 	 */
 	@SuppressWarnings("unchecked")
 	public static <E> List<Class<E>> getAssignedClass(String packageName, Class<E> cls) {
@@ -237,22 +252,42 @@ public final class ClassUtil {
 
 	/**
 	 * 指定包下 指定类的实现
-	 * @param packageName 包名
-	 * @param cls 指定类
-	 * @param i 指定索引
-	 * @param <E> 泛型
-	 * @return 类列表
+	 * 
+	 * @param  packageName 包名
+	 * @param  cls         指定类
+	 * @param  i           指定索引
+	 * @param  <E>         泛型
+	 * @return             类列表
 	 */
 	public static <E extends Annotation> Class<E> getAnnotationClass(String packageName, Class<E> cls, int i) {
 		return Lists.get(getAnnotationClass(packageName, cls), i);
 	}
 
 	/**
+	 * 获取本类下所有公用方法 不读取父类
+	 * 
+	 * @param  c 类
+	 * @return   list
+	 */
+	public static List<Method> getPublicMethod(Class<?> c) {
+		// 返回的方法列表
+		List<Method> methods = Lists.newList();
+		// 处理所有方法
+		for (Method m : c.getDeclaredMethods())
+			// 判断是公有方法
+			if (Modifier.isPublic(m.getModifiers()))
+				methods.add(m);
+		// 返回
+		return methods;
+	}
+
+	/**
 	 * 指定包下 指定类的实现
-	 * @param packageName 包名
-	 * @param cls 指定类
-	 * @param <E> 泛型
-	 * @return 类列表
+	 * 
+	 * @param  packageName 包名
+	 * @param  cls         指定类
+	 * @param  <E>         泛型
+	 * @return             类列表
 	 */
 	@SuppressWarnings("unchecked")
 	public static <E extends Annotation> List<Class<E>> getAnnotationClass(String packageName, Class<E> cls) {
@@ -269,8 +304,9 @@ public final class ClassUtil {
 
 	/**
 	 * 获得指定包下的所有Class
-	 * @param packageName 报名  
-	 * @return 类列表
+	 * 
+	 * @param  packageName 报名
+	 * @return             类列表
 	 */
 	public static List<Class<?>> getPackageClasses(String packageName) {
 		// 声明返回类列表
@@ -299,7 +335,8 @@ public final class ClassUtil {
 					}
 				} else
 					// 迭代调用本方法 获得类列表
-					classes.addAll(getPackageClasses(EmptyUtil.isEmpty(path) ? name : path + StringConstants.BACKSLASH + name));
+					classes.addAll(getPackageClasses(
+							EmptyUtil.isEmpty(path) ? name : path + StringConstants.BACKSLASH + name));
 			}
 		}
 		// 返回类列表
@@ -315,7 +352,8 @@ public final class ClassUtil {
 			return Lists.newList(path.list());
 		if (name.indexOf(".jar!") > -1)
 			// 是否jar文件内
-			return getClassesFromJARFile(StringUtil.subString(name, "file:/", "!"), packageName + StringConstants.BACKSLASH);
+			return getClassesFromJARFile(StringUtil.subString(name, "file:/", "!"),
+					packageName + StringConstants.BACKSLASH);
 		// 返回空列表
 		return Lists.emptyList();
 	}
@@ -341,6 +379,16 @@ public final class ClassUtil {
 		}
 		// 返回列表
 		return list;
+	}
+
+	/**
+	 * 获得当前ClassLoader
+	 * 
+	 * @return ClassLoader
+	 */
+	public static ClassLoader getClassLoader() {
+		ClassLoader cl = Thread.currentThread().getContextClassLoader();
+		return cl == null ? ClassLoader.getSystemClassLoader() : cl;
 	}
 
 	private ClassUtil() {

@@ -2,7 +2,6 @@ package com.weicoder.socket.manager;
 
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import com.weicoder.common.concurrent.ScheduledUtil;
 import com.weicoder.common.lang.Lists;
@@ -28,7 +27,7 @@ public final class Manager {
 		registers = Maps.newConcurrentMap();
 		// 定时检测
 		if (SocketParams.HEART) {
-			ScheduledUtil.newPool().scheduleAtFixedRate(() -> {
+			ScheduledUtil.newRate(() -> {
 				// 检测连接超时
 				// try {
 				// 获得当前时间
@@ -45,7 +44,7 @@ public final class Manager {
 					n++;
 				}
 				Logs.trace("testing heart num={}", n);
-			}, 0, SocketParams.TIME, TimeUnit.SECONDS);
+			}, 0, SocketParams.TIME);
 		}
 	}
 

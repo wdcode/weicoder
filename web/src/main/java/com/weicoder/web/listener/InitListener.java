@@ -1,7 +1,6 @@
 package com.weicoder.web.listener;
 
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
+import java.lang.reflect.Method; 
 import java.util.Map;
 
 import javax.servlet.ServletContextEvent;
@@ -43,9 +42,7 @@ public class InitListener implements ServletContextListener {
 				if (action != null) {
 					WebCommons.ACTIONS.put(cname, action);
 					// 循环判断方法
-					for (Method m : c.getDeclaredMethods()) {
-						// 判断是公有方法
-						if (Modifier.isPublic(m.getModifiers())) {
+					ClassUtil.getPublicMethod(c).forEach(m -> { 
 							// 获得方法名
 							String mname = m.getName();
 							// 放入action里方法
@@ -61,9 +58,8 @@ public class InitListener implements ServletContextListener {
 							// 方法对应action
 							WebCommons.METHODS_ACTIONS.put(mname, action);
 							// 放入参数池
-							WebCommons.METHODS_PARAMES.put(m, m.getParameters());
-						}
-					}
+							WebCommons.METHODS_PARAMES.put(m, m.getParameters()); 
+					});
 				}
 			} catch (Exception ex) {
 				Logs.error(ex);

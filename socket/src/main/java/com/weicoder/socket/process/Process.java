@@ -1,14 +1,11 @@
 package com.weicoder.socket.process;
 
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
+import java.lang.reflect.Method; 
 import java.lang.reflect.Parameter;
 import java.util.Arrays;
 import java.util.Map;
 
-import com.weicoder.common.binary.Binary;
 import com.weicoder.common.binary.Buffer;
-import com.weicoder.common.binary.ByteArray;
 import com.weicoder.common.concurrent.ExecutorUtil;
 import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.lang.Maps;
@@ -17,7 +14,6 @@ import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.util.CloseUtil;
 import com.weicoder.common.util.DateUtil;
 import com.weicoder.common.util.EmptyUtil;
-import com.weicoder.common.util.StringUtil;
 import com.weicoder.protobuf.Protobuf;
 import com.weicoder.protobuf.ProtobufEngine;
 import com.weicoder.common.log.Log;
@@ -67,23 +63,22 @@ public final class Process {
 			Object h = BeanUtil.newInstance(c);
 			if (name.equals(h.getClass().getAnnotation(Handler.class).value())) {
 				// 所有方法
-				for (Method m : c.getDeclaredMethods())
-					// 判断是公有方法
-					if (Modifier.isPublic(m.getModifiers()))
-						// 是head 头的
-						if (m.isAnnotationPresent(Head.class)) {
-							// 添加到map中
-							short id = m.getAnnotation(Head.class).id();
-							methods.put(id, m);
-							handlers.put(id, h);
-						} else if (m.isAnnotationPresent(Closed.class))
-							// Closed 头
-							closeds.put(h, m);
-						else if (m.isAnnotationPresent(Connected.class))
-							// Closed 头
-							connected.put(h, m);
-						else if (m.isAnnotationPresent(AllHead.class))
-							all.put(h, m);
+				ClassUtil.getPublicMethod(c).forEach(m -> {
+					// 是head 头的
+					if (m.isAnnotationPresent(Head.class)) {
+						// 添加到map中
+						short id = m.getAnnotation(Head.class).id();
+						methods.put(id, m);
+						handlers.put(id, h);
+					} else if (m.isAnnotationPresent(Closed.class))
+						// Closed 头
+						closeds.put(h, m);
+					else if (m.isAnnotationPresent(Connected.class))
+						// Closed 头
+						connected.put(h, m);
+					else if (m.isAnnotationPresent(AllHead.class))
+						all.put(h, m);
+				});
 			}
 		});
 	}
@@ -237,47 +232,46 @@ public final class Process {
 				if (Session.class.isAssignableFrom(type))
 					// Session
 					params[i] = session;
-//				else if (Manager.class.equals(type))
-//					// Manager
-//					params[i] = Manager;
 				else if (type.isAnnotationPresent(Protobuf.class))
 					// 字节流
 					params[i] = ProtobufEngine.toBean(data, type);
-				else if (type.equals(String.class))
-					// 字符串
-					params[i] = StringUtil.toString(data);
-				else if (Binary.class.isAssignableFrom(type))
-					// 字节流
-					params[i] = Bytes.toBinary(type, data);
-				else if (ByteArray.class.isAssignableFrom(type))
-					// 字节流
-					params[i] = ((ByteArray) ClassUtil.newInstance(type)).array(data);
-				else if (type.equals(Buffer.class))
-					// 字节流
-					params[i] = new Buffer(data);
-				else if (type.equals(int.class) || type.equals(Integer.class))
-					// 整型
-					params[i] = Bytes.toInt(data);
-				else if (type.equals(long.class) || type.equals(Long.class))
-					// 长整型
-					params[i] = Bytes.toLong(data);
-				else if (type.equals(boolean.class) || type.equals(Boolean.class))
-					// 布尔
-					params[i] = Bytes.toBoolean(data);
-				else if (type.equals(float.class) || type.equals(Float.class))
-					// float型
-					params[i] = Bytes.toFloat(data);
-				else if (type.equals(double.class) || type.equals(Double.class))
-					// Double型
-					params[i] = Bytes.toDouble(data);
-				else if (type.equals(byte.class) || type.equals(Byte.class))
-					// 字节流
-					params[i] = data[0];
-				else if (type.equals(byte[].class))
-					// 字节流
-					params[i] = data;
 				else
-					params[i] = null;
+					params[i] = Bytes.to(data, type);
+//				if (type.equals(String.class))
+//					// 字符串
+//					params[i] = StringUtil.toString(data);
+//				else if (Binary.class.isAssignableFrom(type))
+//					// 字节流
+//					params[i] = Bytes.toBinary(data, type);
+//				else if (ByteArray.class.isAssignableFrom(type))
+//					// 字节流
+//					params[i] = ((ByteArray) ClassUtil.newInstance(type)).array(data);
+//				else if (type.equals(Buffer.class))
+//					// 字节流
+//					params[i] = new Buffer(data);
+//				else if (type.equals(int.class) || type.equals(Integer.class))
+//					// 整型
+//					params[i] = Bytes.toInt(data);
+//				else if (type.equals(long.class) || type.equals(Long.class))
+//					// 长整型
+//					params[i] = Bytes.toLong(data);
+//				else if (type.equals(boolean.class) || type.equals(Boolean.class))
+//					// 布尔
+//					params[i] = Bytes.toBoolean(data);
+//				else if (type.equals(float.class) || type.equals(Float.class))
+//					// float型
+//					params[i] = Bytes.toFloat(data);
+//				else if (type.equals(double.class) || type.equals(Double.class))
+//					// Double型
+//					params[i] = Bytes.toDouble(data);
+//				else if (type.equals(byte.class) || type.equals(Byte.class))
+//					// 字节流
+//					params[i] = data[0];
+//				else if (type.equals(byte[].class))
+//					// 字节流
+//					params[i] = data;
+//				else
+//					params[i] = null;
 			}
 		}
 		// 返回参数

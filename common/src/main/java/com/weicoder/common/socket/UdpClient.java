@@ -1,22 +1,20 @@
-package com.weicoder.common.util;
+package com.weicoder.common.socket;
 
 import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
 import java.net.InetSocketAddress;
-import java.net.Socket;
-import java.nio.ByteBuffer;
-import java.nio.channels.AsynchronousSocketChannel;
-import java.nio.channels.SocketChannel;
+import java.nio.channels.DatagramChannel;
 
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.io.ChannelUtil;
-import com.weicoder.common.io.IOUtil;
 import com.weicoder.common.log.Logs;
 
 /**
- * TCP 客户端发包处理器
+ * UDP 客户端发包处理器
  * @author WD
  */
-public final class TcpUtil {
+public final class UdpClient {
 	/**
 	 * bio模式发送数据 不接收返回数据
 	 * @param host 服务器主机
@@ -25,11 +23,11 @@ public final class TcpUtil {
 	 */
 	public static void send(String host, int port, byte[] data) {
 		// 实例化Socket
-		try (Socket socket = new Socket()) {
+		try (DatagramSocket socket = new DatagramSocket()) {
 			// 连接服务器
 			socket.connect(new InetSocketAddress(host, port));
 			// 写入数据流
-			IOUtil.write(socket.getOutputStream(), data, false);
+			socket.send(new DatagramPacket(data, data.length));
 		} catch (IOException e) {
 			Logs.error(e);
 		}
@@ -45,13 +43,15 @@ public final class TcpUtil {
 	 */
 	public static byte[] send(String host, int port, byte[] data, int len) {
 		// 实例化Socket
-		try (Socket socket = new Socket()) {
+		try (DatagramSocket socket = new DatagramSocket()) {
 			// 连接服务器
 			socket.connect(new InetSocketAddress(host, port));
 			// 写入数据流
-			IOUtil.write(socket.getOutputStream(), data, false);
+			socket.send(new DatagramPacket(data, data.length));
 			// 读取数据
-			return IOUtil.read(socket.getInputStream(), false);
+			DatagramPacket p = new DatagramPacket(new byte[4], 4);
+			socket.receive(p);
+			return p.getData();
 		} catch (IOException e) {
 			Logs.error(e);
 			return ArrayConstants.BYTES_EMPTY;
@@ -66,7 +66,7 @@ public final class TcpUtil {
 	 */
 	public static void write(String host, int port, byte[] data) {
 		// 实例化Socket
-		try (SocketChannel socket = SocketChannel.open()) {
+		try (DatagramChannel socket = DatagramChannel.open()) {
 			// 连接服务器
 			socket.connect(new InetSocketAddress(host, port));
 			// 写入数据流
@@ -86,7 +86,7 @@ public final class TcpUtil {
 	 */
 	public static byte[] write(String host, int port, byte[] data, int len) {
 		// 实例化Socket
-		try (SocketChannel socket = SocketChannel.open()) {
+		try (DatagramChannel socket = DatagramChannel.open()) {
 			// 连接服务器
 			socket.connect(new InetSocketAddress(host, port));
 			// 写入数据流
@@ -99,48 +99,5 @@ public final class TcpUtil {
 		}
 	}
 
-	/**
-	 * aio模式发送数据
-	 * @param host 服务器主机
-	 * @param port 服务器端口
-	 * @param data 发送数据
-	 */
-	public static void asyn(String host, int port, byte[] data) {
-		// 实例化Socket
-		try (AsynchronousSocketChannel socket = AsynchronousSocketChannel.open()) {
-			// 连接服务器
-			socket.connect(new InetSocketAddress(host, port)).get();
-			// 写入数据流
-			socket.write(ByteBuffer.wrap(data)).get();
-		} catch (Exception e) {
-			Logs.error(e);
-		}
-	}
-
-	/**
-	 * aio模式发送数据 接收返回数据
-	 * @param host 服务器主机
-	 * @param port 服务器端口
-	 * @param data 发送数据
-	 * @param len 接收返回数据长度
-	 * @return 接收的数据
-	 */
-	public static byte[] asyn(String host, int port, byte[] data, int len) {
-		// 实例化Socket
-		try (AsynchronousSocketChannel socket = AsynchronousSocketChannel.open()) {
-			// 连接服务器
-			socket.connect(new InetSocketAddress(host, port)).get();
-			// 写入数据流
-			socket.write(ByteBuffer.wrap(data)).get();
-			// 读取数据
-			ByteBuffer buf = ByteBuffer.allocate(len);
-			socket.read(buf).get();
-			return buf.array();
-		} catch (Exception e) {
-			Logs.error(e);
-			return ArrayConstants.BYTES_EMPTY;
-		}
-	}
-
-	private TcpUtil() {}
+	private UdpClient() {}
 }

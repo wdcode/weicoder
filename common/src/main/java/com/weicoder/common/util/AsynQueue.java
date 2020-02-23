@@ -3,8 +3,8 @@ package com.weicoder.common.util;
 import java.util.Collection;
 import java.util.Queue;
 
-import com.weicoder.common.concurrent.ScheduledUtil;
-import com.weicoder.common.interfaces.Callback;
+import com.weicoder.common.concurrent.ScheduledUtil; 
+import com.weicoder.common.interfaces.CallbackVoid;
 import com.weicoder.common.log.Log;
 import com.weicoder.common.log.LogFactory;
 
@@ -26,7 +26,7 @@ public class AsynQueue<E> {
 	 * @param callback 回调
 	 * @param time     时间 毫秒
 	 */
-	public AsynQueue(Queue<E> queue, Callback<E> callback, long time) {
+	public AsynQueue(Queue<E> queue, CallbackVoid<E> callback, long time) {
 		this.queue = queue;
 		// 定时任务
 		ScheduledUtil.delay(() -> {
@@ -50,7 +50,7 @@ public class AsynQueue<E> {
 	 * @param callback 回调
 	 * @param time     时间 秒
 	 */
-	public AsynQueue(Queue<E> queue, Callback<E> callback, int time) {
+	public AsynQueue(Queue<E> queue, CallbackVoid<E> callback, int time) {
 		this(queue, callback, MathUtil.multiply(time, 1000).longValue());
 	}
 

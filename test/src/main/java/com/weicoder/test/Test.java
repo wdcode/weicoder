@@ -1,26 +1,18 @@
 package com.weicoder.test;
- 
-import java.util.List;
- 
-import com.weicoder.common.log.Logs;
-
-import lombok.NonNull;
 
 public class Test {
 
-	public static void main(String[] args) {
-		Logs.info("123");
-//		List<Integer> l = Lists.newList();
-//		l.add(1);
-//		test(l);
-//		test(null);
-//		l.add(2);
-//		l.add(3);
-//		test(l);
-	}	
-	
-	
-	public static void test(@NonNull List<?> l) {
-		System.out.println(l.size());
+	public static void main(String[] args) throws Exception {
+		int[] i = new int[]{0};
+		to(i);
+		System.out.println(i[0]);
+		to(i);
+		System.out.println(i[0]);
+	}
+
+	public static void to(int[] i) {
+		System.out.println(i[0]);
+		System.out.println(i[0]++);
+		System.out.println(i[0] += 1);
 	}
 }

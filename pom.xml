@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.weicoder</groupId>
 	<artifactId>weicoder</artifactId>
-	<version>3.2.6</version>
+	<version>3.2.7</version>
 	<packaging>pom</packaging>
 	<name>weicoder</name>
 	<description>java tools</description>
@@ -28,28 +28,29 @@
 		<module>protobuf</module>
 		<module>quartz</module>
 		<module>redis</module>
+		<module>rpc</module>
 		<module>socket</module>
 		<module>solr</module>
 		<module>web</module>
 		<module>websocket</module>
-		<module>xml</module> 
+		<module>xml</module>
 	</modules>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<parent>3.2.6</parent>
-		<extend>3.2.1</extend>
+		<parent>3.2.7</parent>
+		<extend>3.3</extend>
 		<jdk>11</jdk>
 		<maven-compiler-plugin>3.8.1</maven-compiler-plugin>
 		<maven-source-plugin>3.2.1</maven-source-plugin>
 		<maven-javadoc-plugin>3.1.1</maven-javadoc-plugin>
+		<maven-gpg-plugin>1.6</maven-gpg-plugin>
 		<maven-resources-plugin>3.1.0</maven-resources-plugin>
 		<maven-jar-plugin>3.2.0</maven-jar-plugin>
 		<maven-surefire-plugin>2.22.2</maven-surefire-plugin>
 		<maven-clean-plugin>3.1.0</maven-clean-plugin>
-		<maven-install-plugin>2.5.2</maven-install-plugin>
-		<maven-gpg-plugin>1.6</maven-gpg-plugin>
+		<maven-install-plugin>2.5.2</maven-install-plugin> 
 		<maven-war-plugin>3.2.3</maven-war-plugin>
 		<maven-dependency-plugin>3.1.1</maven-dependency-plugin>
 		<jetty-maven-plugin>9.4.26.v20200117</jetty-maven-plugin>
@@ -59,18 +60,19 @@
 		<lombok>1.18.10</lombok>
 		<log4j-core>2.13.0</log4j-core>
 		<fastjson>1.2.62</fastjson>
-		<hibernate-core>5.4.10.Final</hibernate-core>
+		<hibernate>5.4.12.Final</hibernate>
 		<mysql-connector-java>8.0.19</mysql-connector-java>
 		<netty-all>4.1.45.Final</netty-all>
 		<mongo-java-driver>3.12.1</mongo-java-driver>
 		<jedis>3.2.0</jedis>
 		<kafka-clients>2.4.0</kafka-clients>
+		<sofa-rpc>5.6.4</sofa-rpc>
 		<guava>28.2-jre</guava>
 		<elasticsearch>7.6.0</elasticsearch>
 		<poi>4.1.2</poi>
 		<nacos-client>1.1.4</nacos-client>
 		<protobuf-java>3.11.4</protobuf-java>
-		<quartz>2.3.2</quartz>  
+		<quartz>2.3.2</quartz>
 		<solr-solrj>8.4.1</solr-solrj>
 		<httpclient>4.5.11</httpclient>
 		<httpmime>4.5.11</httpmime>
@@ -78,7 +80,7 @@
 		<httpcore-nio>4.4.13</httpcore-nio>
 		<httpasyncclient>4.1.4</httpasyncclient>
 	</properties>
- 
+
 	<licenses>
 		<license>
 			<name>The Apache Software License, Version 2.0</name>
@@ -345,6 +347,11 @@
 			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
+				<artifactId>rpc</artifactId>
+				<version>${parent}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.weicoder</groupId>
 				<artifactId>socket</artifactId>
 				<version>${parent}</version>
 			</dependency>
@@ -437,7 +444,7 @@
 				<groupId>com.weicoder.extend</groupId>
 				<artifactId>http-extend</artifactId>
 				<version>${extend}</version>
-			</dependency> 
+			</dependency>
 			<dependency>
 				<groupId>com.weicoder.extend</groupId>
 				<artifactId>quartz-extend</artifactId>
@@ -446,6 +453,11 @@
 			<dependency>
 				<groupId>com.weicoder.extend</groupId>
 				<artifactId>redis-extend</artifactId>
+				<version>${extend}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.weicoder.extend</groupId>
+				<artifactId>rpc-extend</artifactId>
 				<version>${extend}</version>
 			</dependency>
 			<dependency>
@@ -486,7 +498,12 @@
 			<dependency>
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-core</artifactId>
-				<version>${hibernate-core}</version>
+				<version>${hibernate}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-hikaricp</artifactId>
+				<version>${hibernate}</version>
 			</dependency>
 			<dependency>
 				<groupId>mysql</groupId>
@@ -552,7 +569,7 @@
 				<groupId>org.quartz-scheduler</groupId>
 				<artifactId>quartz</artifactId>
 				<version>${quartz}</version>
-			</dependency> 
+			</dependency>
 			<dependency>
 				<groupId>org.apache.solr</groupId>
 				<artifactId>solr-solrj</artifactId>
@@ -582,6 +599,11 @@
 				<groupId>org.apache.httpcomponents</groupId>
 				<artifactId>httpasyncclient</artifactId>
 				<version>${httpasyncclient}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.alipay.sofa</groupId>
+				<artifactId>sofa-rpc-all</artifactId>
+				<version>${sofa-rpc}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

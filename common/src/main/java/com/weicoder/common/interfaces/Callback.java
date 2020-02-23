@@ -5,11 +5,11 @@ package com.weicoder.common.interfaces;
  * 
  * @author WD
  */
-public interface Callback<E> {
+public interface Callback<E, R> {
 	/**
 	 * 回调方法
 	 * 
 	 * @param result 结果
 	 */
-	Object callback(E result);
+	R callback(E result);
 }

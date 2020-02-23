@@ -57,7 +57,7 @@ public final class Redis {
 				// 获得channels列表
 				List<String> channels = Maps.getList(CHANNELS, name, String.class);
 				// 处理所有方法
-				for (Method m : c.getDeclaredMethods()) {
+				ClassUtil.getPublicMethod(c).forEach(m -> {
 					// 方法有执行时间注解
 					Channel channel = m.getAnnotation(Channel.class);
 					if (channel != null) {
@@ -67,7 +67,7 @@ public final class Redis {
 						SUBSCRIBES.put(val, subscribe);
 						LOG.debug("add redis name={} subscribe={} channel={}", name, c.getSimpleName(), val);
 					}
-				}
+				});
 				n += channels.size();
 			}
 			LOG.info("add redis subscribe={} channels={}", subscribes.size(), n);

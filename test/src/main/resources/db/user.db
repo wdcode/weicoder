@@ -1,0 +1,4 @@
+url=mysql.test:3306/user
+username=root
+password=123456789
+package=com.weicoder.po.user
