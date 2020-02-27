@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.weicoder</groupId>
 		<artifactId>weicoder</artifactId>
-		<version>3.2.7.1</version>
+		<version>3.2.8</version>
 	</parent>
 	<artifactId>test</artifactId>
 
@@ -13,6 +13,14 @@
 		<dependency>
 			<groupId>com.weicoder</groupId>
 			<artifactId>core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.weicoder</groupId>
+			<artifactId>web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.weicoder</groupId>
+			<artifactId>dao</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.weicoder</groupId>
@@ -60,6 +68,10 @@
 		</dependency>
 		<dependency>
 			<groupId>com.weicoder</groupId>
+			<artifactId>tomcat</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.weicoder</groupId>
 			<artifactId>solr</artifactId>
 		</dependency>
 		<dependency>
@@ -69,8 +81,9 @@
 		<dependency>
 			<groupId>com.weicoder</groupId>
 			<artifactId>po</artifactId>
-			<version>3.2.7.1</version>
-		</dependency>
+			<version>3.2.8</version>
+		</dependency> 
+		<!-- 
 		<dependency>
 			<groupId>com.ibeetl</groupId>
 			<artifactId>beetlsql</artifactId>
@@ -97,14 +110,10 @@
 			<version>1.1.0</version>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.tomcat.embed</groupId>
-			<artifactId>tomcat-embed-core</artifactId>
-			<version>9.0.31</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.tomcat.embed</groupId>
-			<artifactId>tomcat-embed-jasper</artifactId>
-			<version>9.0.31</version>
+		  <groupId>org.teasoft</groupId>
+		  <artifactId>bee</artifactId>
+		  <version>1.7.1</version>
 		</dependency> 
+		 -->
 	</dependencies>
 </project>

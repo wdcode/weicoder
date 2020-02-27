@@ -28,8 +28,29 @@ public final class RpcClients {
 	// 回调方法对应参数
 	private final static Map<String, Class<?>> RESULTS = Maps.newMap();
 	// rpc调用地址
-	private final static Map<String, InetSocketAddress>   ADDRESS       = Maps.newMap();
-	private final static Map<Class<?>, InetSocketAddress> ADDRESS_CLASS = Maps.newMap();
+	private final static Map<String, InetSocketAddress>   ADDRESS       = Maps.newMap(); 
+	// 标识是否初始化
+	private static boolean INIT = true;
+	static {
+		init();
+	}
+
+	/**
+	 * 根据rpc接口生成相关代理类 执行rpc调用操作
+	 * 
+	 * @param  <E>
+	 * @param  rpc  rpc类
+	 * @param  host rpc服务器地址
+	 * @param  port rpc服务器端口
+	 * @return      rpc客户端代理类
+	 */
+	public static <E> E client(Class<E> rpc, String host, int port) {
+		// 有sofa包返回 sofa client
+		if (ClassUtil.forName("com.alipay.sofa.rpc.config.ConsumerConfig") != null)
+			return sofa(rpc, host, port);
+		// 使用jdk调用
+		return ProxyUtil.newProxyInstance(rpc, new JDKInvocationHandler(new InetSocketAddress(host, port)));
+	}
 
 	/**
 	 * 根据rpc接口生成相关代理类 执行rpc调用操作
@@ -38,8 +59,11 @@ public final class RpcClients {
 	 * @param  rpc
 	 * @return
 	 */
-	public static <E> E newRpc(Class<E> rpc) {
-		return ProxyUtil.newProxyInstance(rpc, new JDKInvocationHandler(ADDRESS_CLASS.get(rpc)));
+	public static <E> E client(Class<E> rpc) {
+		// 获得接口的服务名称
+		String name = rpc.getAnnotation(Rpc.class).value();
+		// 返回代理对象
+		return client(rpc, RpcParams.getHost(name), RpcParams.getPort(name));
 	}
 
 	/**
@@ -51,11 +75,8 @@ public final class RpcClients {
 	public static Object rpc(Object obj) {
 		// 获得对象的RPC bean
 		RpcBean rpc = obj.getClass().getAnnotation(RpcBean.class);
-		// 为空返回null
-		if (rpc == null)
-			return null;
-		// 调用rpc
-		return rpc(rpc.name(), rpc.method(), obj);
+		// 为空返回null 不为空调用rpc
+		return rpc == null ? null : rpc(rpc.name(), rpc.method(), obj);
 	}
 
 	/**
@@ -83,25 +104,42 @@ public final class RpcClients {
 	}
 
 	/**
+	 * 根据sofa rpc接口返回客户端
+	 * 
+	 * @param  <E> client
+	 * @param  cls rpc接口
+	 * @return     client
+	 */
+	public static <E> E sofa(Class<E> cls, String host, int port) {
+		// 生成消费配置
+		return new com.alipay.sofa.rpc.config.ConsumerConfig<E>().setInterfaceId(cls.getName()) // 指定接口
+				.setProtocol(RpcParams.PROTOCOL) // 指定协议
+				.setDirectUrl(StringUtil.add(RpcParams.PROTOCOL, "://", host, ":", port + 1))// 指定地址
+				.refer();
+	}
+
+	/**
 	 * 初始化
 	 */
 	public static void init() {
-		// 循环处理rpc服务
-		ClassUtil.getAnnotationClass(CommonParams.getPackages("rpc"), Rpc.class).forEach(r -> {
-			// rpc服务地址
-			String addr = r.getAnnotation(Rpc.class).value();
-			if (EmptyUtil.isEmpty(addr))
-				addr = StringUtil.convert(r.getSimpleName());
-			InetSocketAddress isa = new InetSocketAddress(RpcParams.getHost(addr), RpcParams.getPort(addr));
-			ADDRESS.put(addr, isa);
-			ADDRESS_CLASS.put(r, isa);
-			// 处理所有方法
-			ClassUtil.getPublicMethod(r).forEach(m -> {
-				String name = m.getName();
-				METHODS.put(name, m);
-				RESULTS.put(name, m.getReturnType());
+		// 是否需要初始化
+		if (INIT) {
+			// 循环处理rpc服务
+			ClassUtil.getAnnotationClass(CommonParams.getPackages("rpc"), Rpc.class).forEach(r -> {
+				// rpc服务地址
+				String addr = r.getAnnotation(Rpc.class).value();
+				if (EmptyUtil.isEmpty(addr))
+					addr = StringUtil.convert(r.getSimpleName()); 
+				ADDRESS.put(addr, new InetSocketAddress(RpcParams.getHost(addr), RpcParams.getPort(addr)));
+				// 处理所有方法
+				ClassUtil.getPublicMethod(r).forEach(m -> {
+					String name = m.getName();
+					METHODS.put(name, m);
+					RESULTS.put(name, m.getReturnType());
+				});
 			});
-		});
+			INIT = false;
+		}
 	}
 
 	private RpcClients() {

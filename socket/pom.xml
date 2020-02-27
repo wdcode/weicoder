@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.weicoder</groupId>
 		<artifactId>weicoder</artifactId>
-		<version>3.2.7.1</version>
+		<version>3.2.8</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>socket</artifactId>
@@ -18,16 +18,16 @@
 			<groupId>com.weicoder</groupId>
 			<artifactId>protobuf</artifactId>
 		</dependency>
-		<!--
+		
 		<dependency>
 			<groupId>com.weicoder.extend</groupId>
 			<artifactId>socket-extend</artifactId>
 		</dependency>
-		 -->
+		<!--
 		<dependency>
 			<groupId>io.netty</groupId>
 			<artifactId>netty-all</artifactId> 
 		</dependency>
-		 
+		  -->
 	</dependencies>
 </project>

@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.weicoder</groupId>
 	<artifactId>weicoder</artifactId>
-	<version>3.2.7.1</version>
+	<version>3.2.8</version>
 	<packaging>pom</packaging>
 	<name>weicoder</name>
 	<description>java tools</description>
@@ -34,13 +34,14 @@
 		<module>web</module>
 		<module>websocket</module>
 		<module>xml</module>
+		<module>tomcat</module>
 	</modules>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<parent>3.2.7.1</parent>
-		<extend>3.3</extend>
+		<parent>3.2.8</parent>
+		<extend>3.3.2</extend>
 		<jdk>11</jdk>
 		<maven-compiler-plugin>3.8.1</maven-compiler-plugin>
 		<maven-source-plugin>3.2.1</maven-source-plugin>
@@ -50,7 +51,7 @@
 		<maven-jar-plugin>3.2.0</maven-jar-plugin>
 		<maven-surefire-plugin>2.22.2</maven-surefire-plugin>
 		<maven-clean-plugin>3.1.0</maven-clean-plugin>
-		<maven-install-plugin>2.5.2</maven-install-plugin> 
+		<maven-install-plugin>2.5.2</maven-install-plugin>
 		<maven-war-plugin>3.2.3</maven-war-plugin>
 		<maven-dependency-plugin>3.1.1</maven-dependency-plugin>
 		<jetty-maven-plugin>9.4.26.v20200117</jetty-maven-plugin>
@@ -67,6 +68,7 @@
 		<jedis>3.2.0</jedis>
 		<kafka-clients>2.4.0</kafka-clients>
 		<sofa-rpc>5.6.4</sofa-rpc>
+		<tomcat-embed>9.0.31</tomcat-embed>
 		<guava>28.2-jre</guava>
 		<elasticsearch>7.6.0</elasticsearch>
 		<poi>4.1.2</poi>
@@ -106,7 +108,7 @@
 		<developerConnection>scm:git@github.com:wdcode/weicoder.git</developerConnection>
 		<url>git@github.com:wdcode/weicoder.git</url>
 	</scm>
-
+	<!-- -->
 	<repositories>
 		<repository>
 			<id>public</id>
@@ -193,7 +195,12 @@
 				<version>${jetty-maven-plugin}</version>
 				<configuration>
 					<scanIntervalSeconds>1</scanIntervalSeconds>
-					<!-- <httpConnector><port>8080</port></httpConnector> <webAppConfig><contextPath>/</contextPath></webAppConfig> -->
+					<httpConnector>
+						<port>8080</port>
+					</httpConnector>
+					<webAppConfig>
+						<contextPath>/</contextPath>
+					</webAppConfig>
 				</configuration>
 			</plugin>
 		</plugins>
@@ -237,6 +244,11 @@
 								</goals>
 							</execution>
 						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-resources-plugin</artifactId>
+						<version>${maven-resources-plugin}</version>
 					</plugin>
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
@@ -369,6 +381,11 @@
 			<dependency>
 				<groupId>com.weicoder</groupId>
 				<artifactId>websocket</artifactId>
+				<version>${parent}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.weicoder</groupId>
+				<artifactId>tomcat</artifactId>
 				<version>${parent}</version>
 			</dependency>
 			<dependency>
@@ -538,7 +555,7 @@
 			</dependency>
 			<dependency>
 				<groupId>com.lmax</groupId>
-  				<artifactId>disruptor</artifactId>
+				<artifactId>disruptor</artifactId>
 				<version>${disruptor}</version>
 			</dependency>
 			<dependency>
@@ -621,25 +638,35 @@
 				<artifactId>commons-email</artifactId>
 				<version>${commons-email}</version>
 			</dependency>
-			<dependency> 
-			 	<groupId>org.dom4j</groupId>
-			  	<artifactId>dom4j</artifactId>
-			  	<version>${dom4j}</version>
+			<dependency>
+				<groupId>org.dom4j</groupId>
+				<artifactId>dom4j</artifactId>
+				<version>${dom4j}</version>
 			</dependency>
 			<dependency>
-			  	<groupId>org.jdom</groupId>
-			  	<artifactId>jdom</artifactId>
-			  	<version>${jdom}</version>
+				<groupId>org.jdom</groupId>
+				<artifactId>jdom</artifactId>
+				<version>${jdom}</version>
 			</dependency>
 			<dependency>
-			  	<groupId>com.thoughtworks.xstream</groupId>
-			  	<artifactId>xstream</artifactId>
-			  	<version>${xstream}</version>
+				<groupId>com.thoughtworks.xstream</groupId>
+				<artifactId>xstream</artifactId>
+				<version>${xstream}</version>
 			</dependency>
 			<dependency>
-			 	<groupId>com.whalin</groupId>
-			 	<artifactId>Memcached-Java-Client</artifactId>
-			 	<version>${Memcached-Java-Client}</version>
+				<groupId>com.whalin</groupId>
+				<artifactId>Memcached-Java-Client</artifactId>
+				<version>${Memcached-Java-Client}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.tomcat.embed</groupId>
+				<artifactId>tomcat-embed-core</artifactId>
+				<version>${tomcat-embed}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.tomcat.embed</groupId>
+				<artifactId>tomcat-embed-jasper</artifactId>
+				<version>${tomcat-embed}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
