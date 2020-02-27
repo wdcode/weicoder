@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.weicoder</groupId>
 		<artifactId>weicoder</artifactId>
-		<version>3.2.8</version> 
+		<version>3.2.7.1</version> 
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>memcache</artifactId>
@@ -14,9 +14,15 @@
 			<groupId>com.weicoder</groupId>
 			<artifactId>core</artifactId>
 		</dependency> 
+		<!-- 
 		<dependency>
 			<groupId>com.weicoder.extend</groupId>
 			<artifactId>memcache-extend</artifactId>
 		</dependency> 
+		 -->
+		 <dependency>
+		 	<groupId>com.whalin</groupId>
+		 	<artifactId>Memcached-Java-Client</artifactId> 
+		 </dependency>
 	</dependencies>
 </project>

@@ -10,11 +10,14 @@
 	</appenders>
 	<loggers>
 		<!-- 指定不同包得日志基本 -->
-		<logger name="org.jboss" level="warn"></logger>
+		<logger name="org" level="warn"></logger>
+		<logger name="io" level="warn"></logger>
 		<logger name="org.apache" level="warn"></logger> 
 		<logger name="io.netty" level="warn"></logger>
 		<logger name="org.springframework" level="warn"></logger>
 		<logger name="org.hibernate" level="warn"></logger> 
+		<logger name="com.alipay" level="warn"></logger>
+		<logger name="com.alibaba" level="warn"></logger>
 		<!-- 异步日志 -->
 		<asyncRoot level="debug">  
 			<appender-ref ref="Console" />

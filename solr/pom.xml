@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.weicoder</groupId>
 		<artifactId>weicoder</artifactId>
-		<version>3.2.8</version>
+		<version>3.2.7.1</version>
 	</parent>
 	<artifactId>solr</artifactId>
 
@@ -14,15 +14,16 @@
 			<groupId>com.weicoder</groupId>
 			<artifactId>core</artifactId>
 		</dependency>
+		<!-- 
 		<dependency>
 			<groupId>com.weicoder.extend</groupId>
 			<artifactId>solr-extend</artifactId>
 		</dependency>
-		<!-- 
+		-->
 		<dependency>
 			<groupId>org.apache.solr</groupId>
 			<artifactId>solr-solrj</artifactId> 
 		</dependency>
-		 -->
+		 
 	</dependencies>
 </project>

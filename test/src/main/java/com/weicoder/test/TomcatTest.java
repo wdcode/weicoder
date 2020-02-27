@@ -1,11 +1,8 @@
 package com.weicoder.test;
 
-import java.io.File;
 
 import org.apache.catalina.LifecycleException;
 import org.apache.catalina.connector.Connector;
-import org.apache.catalina.core.AprLifecycleListener;
-import org.apache.catalina.core.StandardContext;
 import org.apache.catalina.startup.Tomcat;
  
 

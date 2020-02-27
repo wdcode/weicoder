@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.weicoder</groupId>
 	<artifactId>weicoder</artifactId>
-	<version>3.2.8</version>
+	<version>3.2.7.1</version>
 	<packaging>pom</packaging>
 	<name>weicoder</name>
 	<description>java tools</description>
@@ -39,7 +39,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<parent>3.2.8</parent>
+		<parent>3.2.7.1</parent>
 		<extend>3.3</extend>
 		<jdk>11</jdk>
 		<maven-compiler-plugin>3.8.1</maven-compiler-plugin>
@@ -57,7 +57,7 @@
 		<javaee-api>8.0.1</javaee-api>
 		<HikariCP>3.4.2</HikariCP>
 		<disruptor>3.4.2</disruptor>
-		<lombok>1.18.10</lombok>
+		<lombok>1.18.12</lombok>
 		<log4j-core>2.13.0</log4j-core>
 		<fastjson>1.2.62</fastjson>
 		<hibernate>5.4.12.Final</hibernate>
@@ -79,6 +79,12 @@
 		<httpcore>4.4.13</httpcore>
 		<httpcore-nio>4.4.13</httpcore-nio>
 		<httpasyncclient>4.1.4</httpasyncclient>
+		<javax.mail>1.4.7</javax.mail>
+		<commons-email>1.5</commons-email>
+		<dom4j>2.1.1</dom4j>
+		<jdom>2.0.2</jdom>
+		<xstream>1.4.11.1</xstream>
+		<Memcached-Java-Client>3.0.2</Memcached-Java-Client>
 	</properties>
 
 	<licenses>
@@ -531,8 +537,8 @@
 				<version>${kafka-clients}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.weicoder</groupId>
-				<artifactId>disruptor-jdk11</artifactId>
+				<groupId>com.lmax</groupId>
+  				<artifactId>disruptor</artifactId>
 				<version>${disruptor}</version>
 			</dependency>
 			<dependency>
@@ -604,6 +610,36 @@
 				<groupId>com.alipay.sofa</groupId>
 				<artifactId>sofa-rpc-all</artifactId>
 				<version>${sofa-rpc}</version>
+			</dependency>
+			<dependency>
+				<groupId>javax.mail</groupId>
+				<artifactId>mail</artifactId>
+				<version>${javax.mail}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-email</artifactId>
+				<version>${commons-email}</version>
+			</dependency>
+			<dependency> 
+			 	<groupId>org.dom4j</groupId>
+			  	<artifactId>dom4j</artifactId>
+			  	<version>${dom4j}</version>
+			</dependency>
+			<dependency>
+			  	<groupId>org.jdom</groupId>
+			  	<artifactId>jdom</artifactId>
+			  	<version>${jdom}</version>
+			</dependency>
+			<dependency>
+			  	<groupId>com.thoughtworks.xstream</groupId>
+			  	<artifactId>xstream</artifactId>
+			  	<version>${xstream}</version>
+			</dependency>
+			<dependency>
+			 	<groupId>com.whalin</groupId>
+			 	<artifactId>Memcached-Java-Client</artifactId>
+			 	<version>${Memcached-Java-Client}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

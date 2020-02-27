@@ -6,6 +6,7 @@ public class RpcServerTest {
 
 	public static void main(String[] args) {
 		RpcServers.start();
+		System.out.println("rpc server start...");
 //		ClassUtil.getAnnotationClass(CommonParams.getPackages("rpc"), RpcServer.class).forEach(r -> {// 处理所有方法
 //			for (Method m : r.getDeclaredMethods()) {
 //				String name = m.getName();

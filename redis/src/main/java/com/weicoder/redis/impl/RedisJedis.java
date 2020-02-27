@@ -31,7 +31,6 @@ public final class RedisJedis extends BaseRedis {
 	@Override
 	public Long rpush(String key, String... strings) {
 		try (Jedis jedis = pool.getResource()) {
-			jedis.rpop("");
 			return jedis.rpush(key, strings);
 		}
 	}

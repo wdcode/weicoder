@@ -1,8 +1,6 @@
 package com.weicoder.test;
-
-import com.weicer.rpc.annotation.RpcServer;
-
-@RpcServer
+ 
+ 
 public class RpcS implements Irpc {
 
 	@Override

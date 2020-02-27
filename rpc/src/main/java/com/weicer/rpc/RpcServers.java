@@ -3,7 +3,7 @@ package com.weicer.rpc;
 import java.lang.reflect.Method; 
 import java.util.Map;
 
-import com.weicer.rpc.annotation.RpcServer;
+import com.weicer.rpc.annotation.Rpc; 
 import com.weicer.rpc.params.RpcParams;
 import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.lang.Maps;
@@ -11,7 +11,7 @@ import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.socket.TcpServers;
 import com.weicoder.common.util.BeanUtil;
-import com.weicoder.common.util.ClassUtil;
+import com.weicoder.common.util.ClassUtil; 
 
 /**
  * rpc服务端
@@ -31,11 +31,13 @@ public final class RpcServers {
 	 */
 	public static void init() {
 		// 获得所有rpc服务
-		ClassUtil.getAnnotationClass(CommonParams.getPackages("rpc"), RpcServer.class).forEach(r -> {
+		ClassUtil.getAnnotationClass(CommonParams.getPackages("rpc"), Rpc.class).forEach(r -> {
+			//获得rpc接口实现类
+			Class<?> c = ClassUtil.getAssignedClass(r, 0);
 			// 处理所有方法
-			ClassUtil.getPublicMethod(r).forEach(m -> { 
+			ClassUtil.getPublicMethod(c).forEach(m -> { 
 					String name = m.getName();
-					PRCS.put(name, BeanUtil.newInstance(r));
+					PRCS.put(name, BeanUtil.newInstance(c));
 					METHODS.put(name, m);
 					PARAMES.put(name, m.getParameterCount() > 0 ? m.getParameters()[0].getType() : null); 
 			});
