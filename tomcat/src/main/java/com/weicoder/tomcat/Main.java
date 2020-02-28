@@ -1,5 +1,6 @@
 package com.weicoder.tomcat;
 
+import com.weicoder.common.util.StringUtil;
 import com.weicoder.extend.C;
 import com.weicoder.tomcat.params.TomcatParams;
 
@@ -16,6 +17,10 @@ public class Main {
 		String path = TomcatParams.PATH;
 		// 如果有输入参数 更改端口路径
 		if (args.length > 0) {
+			if (StringUtil.equals("stop", args[0])) {
+				TomcatServer.stop();
+				return;
+			}
 			port = C.toInt(args[0]);
 		}
 		if (args.length > 1) {

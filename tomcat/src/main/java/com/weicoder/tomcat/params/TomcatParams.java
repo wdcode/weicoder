@@ -22,7 +22,7 @@ public final class TomcatParams {
 			Params.getString(PREFIX + ".path", "/" + SystemConstants.PROJECT_NAME));
 	/** tomcat protocol 协议 */
 	public final static String  PROTOCOL = CONFIG.getString("protocol",
-			Params.getString(PREFIX + ".protocol", "protocol"));
+			Params.getString(PREFIX + ".protocol", "HTTP/1.1"));
 
 	private TomcatParams() {
 	}

@@ -1,5 +1,6 @@
 package com.weicoder.tomcat;
 
+import org.apache.catalina.LifecycleException;
 import org.apache.catalina.connector.Connector;
 import org.apache.catalina.core.AprLifecycleListener;
 import org.apache.catalina.startup.Tomcat;
@@ -16,11 +17,27 @@ import com.weicoder.web.servlet.BasicServlet;
  * @author wudi
  */
 public final class TomcatServer {
+	// tomcat服务器
+	private static Tomcat tomcat = null;
+
 	/**
 	 * 启动tomcat
 	 */
 	public static void start() {
 		start(TomcatParams.PORT, TomcatParams.PATH);
+	}
+
+	/**
+	 * 关闭tomcat
+	 */
+	public static void stop() {
+		if (tomcat != null) {
+			try {
+				tomcat.stop();
+			} catch (LifecycleException e) {
+				Logs.error(e);
+			}
+		}
 	}
 
 	/**
@@ -30,9 +47,14 @@ public final class TomcatServer {
 	 * @param path 路径
 	 */
 	public static void start(int port, String path) {
+		// 如果已经启动 返回
+		if (tomcat != null) {
+			Logs.warn("tomcat server port={} path={} already start");
+			return;
+		}
 		try {
 			// 声明tomcat 设置参数
-			Tomcat tomcat = new Tomcat();
+			tomcat = new Tomcat();
 			tomcat.setBaseDir(SystemConstants.BASE_DIR);
 			tomcat.setPort(port);
 			// 声明Connector 设置参数

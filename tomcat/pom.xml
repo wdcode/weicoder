@@ -31,6 +31,11 @@
 			<artifactId>web</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>com.weicoder.extend</groupId>
+			<artifactId>tomcat-extend</artifactId> 
+		</dependency>
+		<!-- 
+		<dependency>
 			<groupId>org.apache.tomcat.embed</groupId>
 			<artifactId>tomcat-embed-core</artifactId>
 		</dependency>
@@ -38,5 +43,6 @@
 			<groupId>org.apache.tomcat.embed</groupId>
 			<artifactId>tomcat-embed-jasper</artifactId>
 		</dependency>
+		 -->
 	</dependencies>
 </project>

@@ -41,7 +41,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<parent>3.2.8</parent>
-		<extend>3.3.2</extend>
+		<extend>3.3.3</extend>
 		<jdk>11</jdk>
 		<maven-compiler-plugin>3.8.1</maven-compiler-plugin>
 		<maven-source-plugin>3.2.1</maven-source-plugin>
@@ -496,6 +496,11 @@
 			<dependency>
 				<groupId>com.weicoder.extend</groupId>
 				<artifactId>xml-extend</artifactId>
+				<version>${extend}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.weicoder.extend</groupId>
+				<artifactId>tomcat-extend</artifactId>
 				<version>${extend}</version>
 			</dependency>
 			<dependency>
