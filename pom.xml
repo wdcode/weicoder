@@ -54,7 +54,7 @@
 		<maven-install-plugin>2.5.2</maven-install-plugin>
 		<maven-war-plugin>3.2.3</maven-war-plugin>
 		<maven-dependency-plugin>3.1.1</maven-dependency-plugin>
-		<jetty-maven-plugin>9.4.26.v20200117</jetty-maven-plugin>
+		<jetty-maven-plugin>9.4.27.v20200227</jetty-maven-plugin>
 		<javaee-api>8.0.1</javaee-api>
 		<HikariCP>3.4.2</HikariCP>
 		<disruptor>3.4.2</disruptor>
@@ -63,7 +63,7 @@
 		<fastjson>1.2.62</fastjson>
 		<hibernate>5.4.12.Final</hibernate>
 		<mysql-connector-java>8.0.19</mysql-connector-java>
-		<netty-all>4.1.45.Final</netty-all>
+		<netty-all>4.1.46.Final</netty-all>
 		<mongo-java-driver>3.12.1</mongo-java-driver>
 		<jedis>3.2.0</jedis>
 		<kafka-clients>2.4.0</kafka-clients>
@@ -81,7 +81,6 @@
 		<httpcore>4.4.13</httpcore>
 		<httpcore-nio>4.4.13</httpcore-nio>
 		<httpasyncclient>4.1.4</httpasyncclient>
-		<javax.mail>1.4.7</javax.mail>
 		<commons-email>1.5</commons-email>
 		<dom4j>2.1.1</dom4j>
 		<jdom>2.0.2</jdom>
@@ -632,11 +631,6 @@
 				<groupId>com.alipay.sofa</groupId>
 				<artifactId>sofa-rpc-all</artifactId>
 				<version>${sofa-rpc}</version>
-			</dependency>
-			<dependency>
-				<groupId>javax.mail</groupId>
-				<artifactId>mail</artifactId>
-				<version>${javax.mail}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.commons</groupId>
