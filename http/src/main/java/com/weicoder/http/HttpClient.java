@@ -143,7 +143,7 @@ public final class HttpClient {
 	 */
 	public static <E> E post(String url, Object data, Class<E> c) {
 		// 设置参数
-		Map<String, Object> params = Maps.newMap();
+		Map<String, String> params = Maps.newMap();
 		BeanUtil.copy(data, params);
 		// 返回json转换成对象
 		return JsonEngine.toBean(post(url, params, CommonParams.ENCODING), c);
@@ -156,7 +156,7 @@ public final class HttpClient {
 	 * @param  data 提交参数
 	 * @return      提交结果
 	 */
-	public static String post(String url, Map<String, Object> data) {
+	public static String post(String url, Map<String, String> data) {
 		return post(url, data, CommonParams.ENCODING);
 	}
 
@@ -168,7 +168,7 @@ public final class HttpClient {
 	 * @param  header http头
 	 * @return        提交结果
 	 */
-	public static String post(String url, Map<String, Object> data, Map<String, Object> header) {
+	public static String post(String url, Map<String, String> data, Map<String, String> header) {
 		return post(url, data, header, CommonParams.ENCODING);
 	}
 
@@ -180,7 +180,7 @@ public final class HttpClient {
 	 * @param  charset 编码
 	 * @return         提交结果
 	 */
-	public static String post(String url, Map<String, Object> data, String charset) {
+	public static String post(String url, Map<String, String> data, String charset) {
 		return post(url, data, Maps.emptyMap(), charset);
 	}
 
@@ -193,7 +193,7 @@ public final class HttpClient {
 	 * @param  charset 编码
 	 * @return         提交结果
 	 */
-	public static String post(String url, Map<String, Object> data, Map<String, Object> header, String charset) {
+	public static String post(String url, Map<String, String> data, Map<String, String> header, String charset) {
 		// 声明HttpPost
 		HttpPost post = null;
 		try {
@@ -209,8 +209,8 @@ public final class HttpClient {
 				post.setEntity(new UrlEncodedFormEntity(list, charset));
 			}
 			// 添加http头
-			for (Map.Entry<String, Object> h : header.entrySet()) {
-				post.addHeader(h.getKey(), C.toString(h.getValue()));
+			for (Map.Entry<String, String> h : header.entrySet()) {
+				post.addHeader(h.getKey(), h.getValue());
 			}
 			LOG.debug("HttpClient post url={} data={} header={} charset={}", url, data, header, charset);
 			// 返回结果

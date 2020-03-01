@@ -7,7 +7,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse;
 import java.util.Map;
-
+ 
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.C;
@@ -123,7 +123,7 @@ public final class HttpEngine {
 	 * @param  data 参数
 	 * @return      返回的结果
 	 */
-	public static String post(String url, Map<String, Object> data) {
+	public static String post(String url, Map<String, String> data) {
 		return post(url, data, Maps.emptyMap());
 	}
 
@@ -135,7 +135,7 @@ public final class HttpEngine {
 	 * @param  header http头列表
 	 * @return        返回的结果
 	 */
-	public static String post(String url, Map<String, Object> data, Map<String, Object> header) {
+	public static String post(String url, Map<String, String> data, Map<String, String> header) {
 		return post(CLIENT, url, data, header);
 	}
 
@@ -148,19 +148,19 @@ public final class HttpEngine {
 	 * @param  header http头列表
 	 * @return        返回的结果
 	 */
-	public static String post(HttpClient client, String url, Map<String, Object> data, Map<String, Object> header) {
+	public static String post(HttpClient client, String url, Map<String, String> data, Map<String, String> header) {
 		try {
 			// 请求body
-			String body = StringConstants.EMPTY;
-			// 判断有参数提交
-			if (EmptyUtil.isNotEmpty(data)) {
-				// 声明字符串缓存
-				StringBuilder sb = new StringBuilder("?");
-				// 循环参数
-				data.entrySet().forEach(e -> sb.append(e.getKey()).append("=").append(e.getValue()).append("&"));
-				body = sb.substring(0, sb.length() - 1);
-			}
-
+			String body = StringUtil.add("?",StringUtil.toParameters(data));
+//			// 判断有参数提交
+//			if (EmptyUtil.isNotEmpty(data)) {
+//				// 声明字符串缓存
+//				StringBuilder sb = new StringBuilder("?");
+//				// 循环参数
+//				data.entrySet().forEach(e -> sb.append(e.getKey()).append("=").append(e.getValue()).append("&"));
+//				body = sb.substring(0, sb.length() - 1);
+//			}
+			  
 			// 获得HttpRequest构建器
 			HttpRequest.Builder builder = HttpRequest.newBuilder(URI.create(url + body));
 			// 头不为空，添加头

@@ -1,6 +1,6 @@
 package com.weicoder.socket.process;
 
-import java.lang.reflect.Method; 
+import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.Arrays;
 import java.util.Map;
@@ -19,12 +19,11 @@ import com.weicoder.protobuf.ProtobufEngine;
 import com.weicoder.common.log.Log;
 import com.weicoder.common.log.LogFactory;
 import com.weicoder.common.params.CommonParams;
+import com.weicoder.socket.Event;
 import com.weicoder.socket.Session;
-import com.weicoder.socket.annotation.AllHead;
-import com.weicoder.socket.annotation.Closed;
-import com.weicoder.socket.annotation.Connected;
+import com.weicoder.socket.annotation.AllHead; 
 import com.weicoder.socket.annotation.Handler;
-import com.weicoder.socket.annotation.Head;
+import com.weicoder.socket.annotation.Head; 
 import com.weicoder.socket.manager.Manager;
 import com.weicoder.socket.params.SocketParams;
 
@@ -42,10 +41,8 @@ public final class Process {
 	private Map<Short, Method> methods = Maps.newMap();
 	// 所有Handler列表
 	private Map<Object, Method> all = Maps.newMap();
-	// 关闭处理器
-	private Map<Object, Method> closeds = Maps.newMap();
-	// 连接处理器
-	private Map<Object, Method> connected = Maps.newMap();
+	// 事件处理器
+	private Event event;
 	// 处理器名字
 	private String name;
 
@@ -70,17 +67,15 @@ public final class Process {
 						short id = m.getAnnotation(Head.class).id();
 						methods.put(id, m);
 						handlers.put(id, h);
-					} else if (m.isAnnotationPresent(Closed.class))
-						// Closed 头
-						closeds.put(h, m);
-					else if (m.isAnnotationPresent(Connected.class))
-						// Closed 头
-						connected.put(h, m);
-					else if (m.isAnnotationPresent(AllHead.class))
+					} else if (m.isAnnotationPresent(AllHead.class))
 						all.put(h, m);
 				});
 			}
 		});
+		// 获取事件处理器
+		event = BeanUtil.newInstance(ClassUtil.getAssignedClass(Event.class, 0));
+		if (event == null)
+			event = new EmptyEvent();
 	}
 
 	/**
@@ -92,12 +87,7 @@ public final class Process {
 		// 管理器注册Session
 		Manager.register(session);
 		// 如果连接处理器不为空
-		connected.forEach((k, v) -> {
-			if (v.getParameterCount() == 1)
-				BeanUtil.invoke(k, v, session);
-			else
-				BeanUtil.invoke(k, v);
-		});
+		event.connected(session);
 		// 日志
 		LOG.info("name={};socket conn={};ip={};", name, session.getId(), session.getIp());
 	}
@@ -109,13 +99,7 @@ public final class Process {
 	 */
 	public void closed(Session session) {
 		// 关闭处理器
-		closeds.forEach((k, v) -> {
-			// 获得关闭方法
-			if (v.getParameterCount() == 1)
-				BeanUtil.invoke(k, v, session);
-			else
-				BeanUtil.invoke(k, v);
-		});
+		event.closed(session);
 		// 删除管理器注册Session
 		Manager.remove(session.getId());
 		// 删除缓存
@@ -175,6 +159,8 @@ public final class Process {
 			if (id == SocketParams.HEART_ID) {
 				// 设置心跳时间
 				session.setHeart(DateUtil.getTime());
+				// 心跳处理器
+				event.heart(session);
 				continue;
 			}
 			// 如果有接受所有头方法 使用异步方式执行
@@ -276,5 +262,19 @@ public final class Process {
 		}
 		// 返回参数
 		return params;
+	}
+
+	class EmptyEvent implements Event {
+		@Override
+		public void connected(Session session) {
+		}
+
+		@Override
+		public void closed(Session session) {
+		}
+
+		@Override
+		public void heart(Session session) {
+		}
 	}
 }
