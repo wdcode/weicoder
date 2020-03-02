@@ -1,7 +1,7 @@
 package com.weicoder.test;
  
 import com.weicer.rpc.RpcClients;
-import com.weicoder.extend.C;
+import com.weicoder.common.lang.C; 
 
 public class RpcTest {
 

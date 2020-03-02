@@ -1,7 +1,7 @@
 package com.weicoder.tomcat;
 
-import com.weicoder.common.util.StringUtil;
-import com.weicoder.extend.C;
+import com.weicoder.common.lang.C;
+import com.weicoder.common.util.StringUtil; 
 import com.weicoder.tomcat.params.TomcatParams;
 
 /**
