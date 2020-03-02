@@ -41,7 +41,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<parent>3.2.9</parent>
-		<extend>3.3.3</extend>
+		<extend>3.3.4</extend>
 		<jdk>11</jdk>
 		<maven-compiler-plugin>3.8.1</maven-compiler-plugin>
 		<maven-source-plugin>3.2.1</maven-source-plugin>
@@ -59,7 +59,7 @@
 		<HikariCP>3.4.2</HikariCP>
 		<disruptor>3.4.2</disruptor>
 		<lombok>1.18.12</lombok>
-		<log4j-core>2.13.0</log4j-core>
+		<log4j-core>2.13.1</log4j-core>
 		<fastjson>1.2.62</fastjson>
 		<hibernate>5.4.12.Final</hibernate>
 		<mysql-connector-java>8.0.19</mysql-connector-java>
@@ -76,6 +76,7 @@
 		<protobuf-java>3.11.4</protobuf-java>
 		<quartz>2.3.2</quartz>
 		<solr-solrj>8.4.1</solr-solrj>
+		<httpclient5>5.0</httpclient5>
 		<httpclient>4.5.11</httpclient>
 		<httpmime>4.5.11</httpmime>
 		<httpcore>4.4.13</httpcore>
@@ -601,6 +602,11 @@
 				<groupId>org.apache.solr</groupId>
 				<artifactId>solr-solrj</artifactId>
 				<version>${solr-solrj}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.httpcomponents.client5</groupId>
+				<artifactId>httpclient5</artifactId>
+				<version>${httpclient5}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.httpcomponents</groupId>

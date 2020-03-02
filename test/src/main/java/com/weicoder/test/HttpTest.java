@@ -13,7 +13,7 @@ import com.weicoder.common.log.Logs;
 public class HttpTest {
 
 	public static void main(String[] args) {
-		String url = "http://m.i4322.com/logic/noble/ranks";
+		String url = "https://www.baidu.com/sugrec";
 		String r1 = HttpEngine.get(url);
 		String r2 = HttpEngine.get(url);
 		System.out.println("http=" + r1);

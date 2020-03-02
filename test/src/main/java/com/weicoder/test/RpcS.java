@@ -1,11 +1,16 @@
 package com.weicoder.test;
- 
- 
+
+import com.weicoder.common.log.Logs;
+
 public class RpcS implements Irpc {
 
 	@Override
 	public String test(int i) {
-		return "rpc test res=" + i;
+		StringBuilder sb = new StringBuilder("rpc test res=");
+		for(int n=0;n<100000;n++) 
+			sb.append(n);
+		Logs.info("test={}",sb.length());
+		return  sb.toString();
 	}
 
 	@Override

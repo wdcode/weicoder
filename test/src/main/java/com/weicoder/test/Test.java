@@ -1,12 +1,12 @@
 package com.weicoder.test;
-
-import com.weicoder.extend.Logs;
+ 
+import com.weicoder.http5.HttpClient;
 
 public class Test {
 
 	public static void main(String[] args) throws Exception {
-		Logs.info("sss");
-		Logs.error("sss");
+		String url = "https://www.baidu.com/sugrec";
+		System.out.println(HttpClient.get(url));
 // 		int[] i = new int[]{0};
 //		to(i);
 //		System.out.println(i[0]);

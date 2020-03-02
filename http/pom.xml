@@ -14,32 +14,36 @@
 			<groupId>com.weicoder</groupId>
 			<artifactId>core</artifactId>
 		</dependency>
-		 
+		<!--
 		<dependency>
 			<groupId>com.weicoder.extend</groupId>
 			<artifactId>http-extend</artifactId>
 		</dependency>
-		 <!--
-		<dependency>
+		 -->
+		 <dependency>
+			<groupId>org.apache.httpcomponents.client5</groupId>
+			<artifactId>httpclient5</artifactId> 
+		 </dependency>
+		 <dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId> 
-		</dependency>
-		<dependency>
+		 </dependency>
+		 <dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpmime</artifactId> 
-		</dependency>
-		<dependency>
+		 </dependency>
+		 <dependency>
 			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpcore</artifactId> 
-		</dependency>
-		<dependency>
+		 	<artifactId>httpcore</artifactId> 
+		 </dependency>
+		 <dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpcore-nio</artifactId> 
-		</dependency>
-		<dependency>
+		 </dependency>
+		 <dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpasyncclient</artifactId> 
-		</dependency> 
-		-->
+		 </dependency> 
+		
 	</dependencies>
 </project>

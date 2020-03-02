@@ -14,12 +14,12 @@
 			<groupId>com.weicoder</groupId>
 			<artifactId>core</artifactId>
 		</dependency>
-		 
+		 <!-- 
 		<dependency> 
 			<groupId>com.weicoder.extend</groupId> 
 			<artifactId>dao-extend</artifactId> 
 		</dependency>
-		 <!-- 
+		 -->
 		<dependency>
 			<groupId>com.zaxxer</groupId>
 			<artifactId>HikariCP</artifactId>
@@ -36,6 +36,6 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency> 
-		-->
+		
 	</dependencies>
 </project>

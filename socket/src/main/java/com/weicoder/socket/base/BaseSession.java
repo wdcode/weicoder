@@ -4,35 +4,40 @@ import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 
 import com.weicoder.common.binary.Buffer;
-import com.weicoder.common.constants.StringConstants; 
+import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.C;
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.common.log.Logs;
+import com.weicoder.common.token.TokenBean;
 import com.weicoder.socket.Session;
 import com.weicoder.socket.Sockets;
 
 /**
  * 基础Socket Session实现
+ * 
  * @author WD
  */
 public abstract class BaseSession implements Session {
 	// 名称
-	protected String	name;
+	protected String name;
 	// SessionId
-	protected long		id;
+	protected long id;
 	// 保存IP
-	protected String	ip;
+	protected String ip;
 	// 保存端口
-	protected int		port;
+	protected int port;
 	// 心跳存活时间
-	protected int		heart;
+	protected int heart;
 	// 写缓存
-	protected Buffer	buffer;
+	protected Buffer buffer;
+	// 用户Token
+	protected TokenBean token; 
 	// 保存属性 一般为绑定的对象
-	protected Object	obj;
+	protected Object obj;
 
 	/**
 	 * 构造
+	 * 
 	 * @param name 名称
 	 */
 	public BaseSession(String name) {
@@ -99,6 +104,16 @@ public abstract class BaseSession implements Session {
 		flush();
 		Logs.info("name={};socket={};send len={}", name, id, data.length);
 	}
+	
+	@Override
+	public TokenBean getToken() {
+		return token;
+	}
+
+	@Override
+	public void setToken(TokenBean token) {
+		this.token = token;
+	}
 
 	@Override
 	public <E> void set(E e) {
@@ -135,6 +150,7 @@ public abstract class BaseSession implements Session {
 
 	/**
 	 * 设置IP与端口
+	 * 
 	 * @param address Socket地址
 	 */
 	protected void address(SocketAddress address) {
