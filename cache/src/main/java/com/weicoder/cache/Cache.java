@@ -1,4 +1,4 @@
-package com.weicoder.core.cache;
+package com.weicoder.cache;
 
 import java.util.List;
 import java.util.Map;

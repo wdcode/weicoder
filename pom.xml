@@ -13,7 +13,7 @@
 	<modules>
 		<module>admin</module>
 		<module>common</module>
-		<module>core</module>
+		<module>cache</module>
 		<module>dao</module>
 		<module>elasticsearch</module>
 		<module>email</module>
@@ -310,7 +310,7 @@
 			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
-				<artifactId>core</artifactId>
+				<artifactId>cache</artifactId>
 				<version>${parent}</version>
 			</dependency>
 			<dependency>

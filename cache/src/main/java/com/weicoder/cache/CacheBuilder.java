@@ -1,8 +1,8 @@
-package com.weicoder.core.cache;
+package com.weicoder.cache;
 
-import static com.weicoder.core.params.CacheParams.*;
+import static com.weicoder.cache.params.CacheParams.*;
 
-import com.weicoder.core.cache.Cache.CacheLoad;
+import com.weicoder.cache.Cache.CacheLoad;
 
 /**
  * 缓存工厂

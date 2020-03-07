@@ -1,4 +1,4 @@
-package com.weicoder.core.params;
+package com.weicoder.cache.params;
 
 import com.weicoder.common.params.Params;
 
