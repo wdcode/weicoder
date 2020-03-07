@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!-- status=debug off不查看 可以查看log4j的装配过程   monitorInterval="60"-->
+<configuration status="off">
+	<!-- 定义下面的引用名 -->
+	<Properties>
+		<property name="log_pattern">%date{yyyy-MM-dd HH:mm:ss} %-5level [%thread] %logger - %msg%n</property>
+		<property name="dev_file_name">app.log</property>
+		<property name="dev_file_pattern">app_%d{yyyy-MM-dd}.log.gz</property>
+		<property name="error_file_name">error.log</property>
+		<property name="error_file_pattern">error_%d{yyyy-MM-dd}.log.gz</property>  
+		<property name="log_dir">/data/logs/${main:0}</property> 
+		<property name="log_level">${main:1}</property>  
+		<property name="log_test">${main:2}</property>  
+	</Properties> 
+	 	
+	<!--先定义所有的appender MemoryMappedFile File RandomAccessFile RollingRandomAccessFile-->
+	<appenders>
+		<!-- 定义控制台输出 -->
+		<Console name="console" target="SYSTEM_OUT" follow="true">
+			<PatternLayout pattern="${log_pattern}" />
+			<Filters>  
+                <ThresholdFilter level="${log_test}" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+		</Console>
+		<!-- 开发日志  -->
+		<RollingRandomAccessFile name="dev"
+			fileName="${log_dir}/${dev_file_name}" filePattern="${log_dir}/${dev_file_pattern}">
+			<PatternLayout pattern="${log_pattern}" />
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="1" modulate="true" /> 
+			</Policies>
+			<Filters> 
+				<ThresholdFilter level="error" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+		</RollingRandomAccessFile> 
+		<!-- 错误日志 -->
+		<RollingRandomAccessFile name="error" 
+			fileName="${log_dir}/${error_file_name}" filePattern="${log_dir}/${error_file_pattern}">
+			<PatternLayout pattern="${log_pattern}" />
+			<Policies> 
+				<TimeBasedTriggeringPolicy interval="1" modulate="true" /> 
+			</Policies>
+			<Filters>
+                <ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+		</RollingRandomAccessFile>
+	</appenders>
+	<loggers>
+		<!-- 指定不同包得日志基本 -->
+		<logger name="org" level="warn"></logger> 
+		<logger name="io" level="warn"></logger> 
+		<logger name="com.zaxxer.hikari" level="warn"></logger> 
+		<!-- 异步日志 -->
+		<asyncRoot level="${log_level}">
+			<appender-ref ref="console" /> 
+			<appender-ref ref="dev" /> 
+			<appender-ref ref="error" />
+		</asyncRoot>
+	</loggers>
+</configuration> 

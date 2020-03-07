@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.weicoder</groupId>
 		<artifactId>weicoder</artifactId>
-		<version>3.2.9</version>
+		<version>3.3.0</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>email</artifactId>
@@ -14,16 +14,16 @@
 			<groupId>com.weicoder</groupId>
 			<artifactId>common</artifactId>
 		</dependency>
-		 <!--
+		 
 		<dependency> 
 			<groupId>com.weicoder.extend</groupId> 
 			<artifactId>email-extend</artifactId> 
 		</dependency>
-		 -->
+		 <!--
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-email</artifactId> 
 		</dependency>
-		
+		-->
 	</dependencies>
 </project>

@@ -38,7 +38,7 @@ public final class Quartzs {
 				// 循环处理任务类
 				jobs.forEach(c -> {
 					// 执行对象
-					Object obj = BeanUtil.newInstance(c);
+					Object obj = ClassUtil.newInstance(c);
 					// Trigger生成器
 					TriggerBuilder<org.quartz.Trigger> builder = TriggerBuilder.newTrigger();
 					// 处理所有方法

@@ -1,7 +1,5 @@
 package com.weicoder.socket;
 
-import com.weicoder.socket.Session;
-
 /**
  * session 事件处理
  * 

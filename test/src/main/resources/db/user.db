@@ -1,4 +1,4 @@
-url=mysql.test:3306/user
+url=127.0.0.1:3306/user
 username=root
-password=123456789
+password=123456
 package=com.weicoder.po.user

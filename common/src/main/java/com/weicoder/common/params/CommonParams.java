@@ -16,7 +16,7 @@ import com.weicoder.common.lang.Sets;
  */
 public final class CommonParams {
 	/** log实现 */
-	public final static String      LOG_CLASS            = Params.getString("log.class", "com.weicoder.core.log.Log4j2");
+	public final static String      LOG_CLASS            = Params.getString("log.class", "com.weicoder.log.Log4j2");
 	/** IO缓冲区大小 */
 	public final static int         IO_BUFFERSIZE        = Params.getInt("io.buffer", 8192);
 	/** IO模式 */

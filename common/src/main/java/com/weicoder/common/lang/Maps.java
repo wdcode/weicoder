@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-
-import com.weicoder.common.util.BeanUtil;
+ 
+import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.util.EmptyUtil;
 
 /**
@@ -33,7 +33,7 @@ public final class Maps {
 		// 如果值为空
 		if (val == null)
 			// 实例化并保存
-			map.put(key, val = BeanUtil.newInstance(c));
+			map.put(key, val = ClassUtil.newInstance(c));
 		// 返回值
 		return val;
 	}

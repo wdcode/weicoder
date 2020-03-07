@@ -20,7 +20,7 @@ import com.weicoder.common.token.TokenEngine;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.util.EmptyUtil;
-import com.weicoder.core.json.JsonEngine;
+import com.weicoder.json.JsonEngine;
 import com.weicoder.websocket.common.WebSocketCommons;
 
 /**

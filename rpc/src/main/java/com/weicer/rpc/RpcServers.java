@@ -37,7 +37,7 @@ public final class RpcServers {
 			// 处理所有方法
 			ClassUtil.getPublicMethod(c).forEach(m -> {
 				String name = m.getName();
-				PRCS.put(name, BeanUtil.newInstance(c));
+				PRCS.put(name, ClassUtil.newInstance(c));
 				METHODS.put(name, m);
 				PARAMES.put(name, m.getParameterCount() > 0 ? m.getParameters()[0].getType() : null);
 			});
@@ -89,7 +89,7 @@ public final class RpcServers {
 			// 循环发布rpc服务
 			ClassUtil.getAnnotationClass(CommonParams.getPackages("rpc"), Rpc.class).forEach(r -> {
 				new com.alipay.sofa.rpc.config.ProviderConfig<Object>().setInterfaceId(r.getNestHost().getName()) // 指定接口
-						.setRef(BeanUtil.newInstance(ClassUtil.getAssignedClass(r, 0))) // 指定实现
+						.setRef(ClassUtil.newInstance(ClassUtil.getAssignedClass(r, 0))) // 指定实现
 						.setServer(config)// 指定服务端
 						.export(); // 发布服务
 			});

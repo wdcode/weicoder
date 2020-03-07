@@ -1,38 +1,35 @@
 package com.weicoder.http;
-
-import java.io.InputStream;
-import java.nio.charset.Charset;
+ 
 import java.util.List;
 import java.util.Map;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.concurrent.FutureCallback;
-import org.apache.http.config.ConnectionConfig;
-import org.apache.http.impl.nio.client.CloseableHttpAsyncClient;
-import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
-import org.apache.http.impl.nio.conn.PoolingNHttpClientConnectionManager;
-import org.apache.http.impl.nio.reactor.DefaultConnectingIOReactor;
-import org.apache.http.message.BasicHeader;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.nio.reactor.IOReactorException;
+import org.apache.hc.client5.http.async.methods.SimpleHttpRequest;
+import org.apache.hc.client5.http.async.methods.SimpleHttpResponse;
+import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.client5.http.classic.methods.HttpPost;
+import org.apache.hc.client5.http.config.RequestConfig;
+import org.apache.hc.client5.http.entity.UrlEncodedFormEntity;
+import org.apache.hc.client5.http.impl.async.CloseableHttpAsyncClient;
+import org.apache.hc.client5.http.impl.async.HttpAsyncClientBuilder;
+import org.apache.hc.client5.http.impl.nio.PoolingAsyncClientConnectionManager;
+import org.apache.hc.core5.concurrent.FutureCallback; 
+import org.apache.hc.core5.http.NameValuePair;
+import org.apache.hc.core5.http.message.BasicHeader;
+import org.apache.hc.core5.http.message.BasicNameValuePair; 
+import org.apache.hc.core5.util.Timeout;
 
 import com.weicoder.common.constants.HttpConstants;
-import com.weicoder.common.constants.SystemConstants; 
-import com.weicoder.common.interfaces.CallbackVoid;
-import com.weicoder.common.io.IOUtil;
+import com.weicoder.common.constants.SystemConstants;
+import com.weicoder.common.interfaces.CallbackVoid; 
 import com.weicoder.common.lang.C;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.log.Log;
-import com.weicoder.common.log.LogFactory; 
+import com.weicoder.common.log.LogFactory;
 import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.util.CloseUtil;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
+import com.weicoder.http.params.HttpParams;
 
 /**
  * HTTP异步客户端
@@ -47,24 +44,19 @@ public final class HttpAsyncClient {
 
 	static {
 		// Http连接池
-		PoolingNHttpClientConnectionManager pool = null;
-		try {
-			pool = new PoolingNHttpClientConnectionManager(new DefaultConnectingIOReactor());
-		} catch (IOReactorException e) {
-			LOG.error(e);
-		}
-		pool.setDefaultMaxPerRoute(SystemConstants.CPU_NUM * 10);
-		pool.setMaxTotal(SystemConstants.CPU_NUM * 10);
+		PoolingAsyncClientConnectionManager pool = new PoolingAsyncClientConnectionManager();
+		pool.setDefaultMaxPerRoute(SystemConstants.CPU_NUM);
+		pool.setMaxTotal(HttpParams.HTTP_MAX);
 		// 设置请求参数
 		RequestConfig.Builder config = RequestConfig.custom();
-		config.setSocketTimeout(2000);
-		config.setConnectTimeout(2000);
+		config.setConnectionRequestTimeout(Timeout.ofSeconds(C.toLong(HttpParams.HTTP_TIMEOUT)));
+		config.setConnectTimeout(Timeout.ofSeconds(C.toLong(HttpParams.HTTP_TIMEOUT)));
 		config.setCircularRedirectsAllowed(false);
 		// HttpClientBuilder
 		HttpAsyncClientBuilder builder = HttpAsyncClientBuilder.create();
 		builder.setDefaultRequestConfig(config.build());
 		builder.setConnectionManager(pool);
-		builder.setMaxConnPerRoute(SystemConstants.CPU_NUM * 10);
+//		builder.setMaxConnPerRoute(SystemConstants.CPU_NUM * 10);
 		// 设置 头
 		List<BasicHeader> headers = Lists.newList();
 		headers.add(new BasicHeader(HttpConstants.USER_AGENT_KEY, HttpConstants.USER_AGENT_VAL));
@@ -72,8 +64,6 @@ public final class HttpAsyncClient {
 		headers.add(new BasicHeader(HttpConstants.ACCEPT_LANGUAGE_KEY, HttpConstants.ACCEPT_LANGUAGE_VAL));
 		headers.add(new BasicHeader(HttpConstants.ACCEPT_CHARSET_KEY, HttpConstants.ACCEPT_CHARSET_VAL));
 		builder.setDefaultHeaders(headers);
-		// 设置连接配置
-		builder.setDefaultConnectionConfig(ConnectionConfig.custom().setCharset(Charset.forName(CommonParams.ENCODING)).build());
 		// 实例化客户端
 		CLIENT = builder.build();
 		// 启动
@@ -101,7 +91,7 @@ public final class HttpAsyncClient {
 		download(url, (byte[] result) -> {
 			if (callback != null) {
 				callback.callback(StringUtil.toString(result, charset));
-			} 
+			}
 		});
 	}
 
@@ -119,21 +109,16 @@ public final class HttpAsyncClient {
 			get = new HttpGet(url);
 			get.addHeader(new BasicHeader(HttpConstants.CONTENT_TYPE_KEY, HttpConstants.CONTENT_TYPE_VAL));
 			// 执行get
-			CLIENT.execute(get, new FutureCallback<HttpResponse>() {
+			CLIENT.execute(SimpleHttpRequest.copy(get), new FutureCallback<SimpleHttpResponse>() {
 				@Override
 				public void failed(Exception ex) {
 					LOG.error(ex);
 				}
 
 				@Override
-				public void completed(HttpResponse result) {
-					if (callback != null) {
-						try (InputStream in = result.getEntity().getContent()) {
-							callback.callback(IOUtil.read(in));
-						} catch (Exception e) {
-							LOG.error(e);
-						}
-					}
+				public void completed(SimpleHttpResponse result) {
+					if (callback != null)
+						callback.callback(result.getBodyBytes());
 				}
 
 				@Override
@@ -142,11 +127,6 @@ public final class HttpAsyncClient {
 			});
 		} catch (Exception e) {
 			LOG.error(e);
-		} finally {
-//			// 销毁get
-//			if (get != null) {
-//				get.abort();
-//			}
 		}
 	}
 
@@ -181,26 +161,21 @@ public final class HttpAsyncClient {
 				// 声明参数列表
 				List<NameValuePair> list = Lists.newList(data.size());
 				// 设置参数
-				data.forEach((k, v) -> list.add(new BasicNameValuePair(k,C.toString(v))));
+				data.forEach((k, v) -> list.add(new BasicNameValuePair(k, C.toString(v))));
 				// 设置参数与 编码格式
-				post.setEntity(new UrlEncodedFormEntity(list, charset));
+				post.setEntity(new UrlEncodedFormEntity(list));
 			}
 			// 执行POST
-			CLIENT.execute(post, new FutureCallback<HttpResponse>() {
+			CLIENT.execute(SimpleHttpRequest.copy(post), new FutureCallback<SimpleHttpResponse>() {
 				@Override
 				public void failed(Exception ex) {
 					LOG.error(ex);
 				}
 
 				@Override
-				public void completed(HttpResponse result) {
-					if (callback != null) {
-						try (InputStream in = result.getEntity().getContent()) {
-							callback.callback(IOUtil.readString(in));
-						} catch (Exception e) {
-							LOG.error(e);
-						}
-					}
+				public void completed(SimpleHttpResponse result) {
+					if (callback != null)
+						callback.callback(result.getBodyText());
 				}
 
 				@Override
@@ -209,14 +184,9 @@ public final class HttpAsyncClient {
 			});
 		} catch (Exception e) {
 			LOG.error(e);
-		} finally {
-//			// 销毁post
-//			if (post != null) {
-//				post.abort();
-//			}
-		}
+		} 
 	}
-	
+
 	public static void close() {
 		CloseUtil.close(CLIENT);
 	}

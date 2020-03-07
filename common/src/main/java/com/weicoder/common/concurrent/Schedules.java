@@ -26,12 +26,12 @@ public final class Schedules {
 					Rate rate = m.getDeclaredAnnotation(Rate.class);
 					if (rate != null) {
 						// 添加定时任务
-						ScheduledUtil.rate(() -> BeanUtil.invoke(BeanUtil.newInstance(c), m), rate.start(),
+						ScheduledUtil.rate(() -> BeanUtil.invoke(ClassUtil.newInstance(c), m), rate.start(),
 								rate.value(), rate.unit());
 						Logs.info("add schedule name={},rate={}", m.getName(), rate);
 					}
 				} else {
-					ScheduledUtil.delay(() -> BeanUtil.invoke(BeanUtil.newInstance(c), m), delay.start(), delay.value(),
+					ScheduledUtil.delay(() -> BeanUtil.invoke(ClassUtil.newInstance(c), m), delay.start(), delay.value(),
 							delay.unit());
 					Logs.info("add schedule name={},delay={}", m.getName(), delay);
 				}

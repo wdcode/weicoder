@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.weicoder</groupId>
 		<artifactId>weicoder</artifactId>
-		<version>3.2.9</version>
+		<version>3.3.0</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>dao</artifactId>
@@ -12,30 +12,26 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.weicoder</groupId>
-			<artifactId>core</artifactId>
+			<artifactId>json</artifactId>
 		</dependency>
-		 <!-- 
+		  
 		<dependency> 
 			<groupId>com.weicoder.extend</groupId> 
 			<artifactId>dao-extend</artifactId> 
-		</dependency>
-		 -->
+		</dependency> 
+		<!--
 		<dependency>
 			<groupId>com.zaxxer</groupId>
 			<artifactId>HikariCP</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-core</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-hikaricp</artifactId> 
-		</dependency>
+		</dependency> 
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency> 
-		
+		<dependency>
+		  	<groupId>javax.persistence</groupId>
+			<artifactId>javax.persistence-api</artifactId> 
+		</dependency>
+		-->
 	</dependencies>
 </project>

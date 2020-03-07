@@ -18,6 +18,7 @@ import com.weicoder.common.io.FileUtil;
 import com.weicoder.common.io.IOUtil;
 import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.util.BeanUtil;
+import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
 
@@ -63,7 +64,7 @@ public final class Bytes {
 		if (c == Buffer.class)
 			return new Buffer(b);
 		if (c.isAssignableFrom(ByteArray.class))
-			return toBean((ByteArray) BeanUtil.newInstance(c), b);
+			return toBean((ByteArray) ClassUtil.newInstance(c), b);
 		return toBinary(b, c);
 	}
 
@@ -743,7 +744,7 @@ public final class Bytes {
 	 */
 	public static <B> B toBinary(byte[] b, Class<B> c) {
 		// 实例化
-		B binary = BeanUtil.newInstance(c);
+		B binary = ClassUtil.newInstance(c);
 		// 获得全部字段
 		List<Field> fields = BeanUtil.getFields(c);
 		// 偏移
@@ -784,7 +785,7 @@ public final class Bytes {
 					offset += Bytes.toShort(b, offset) + 2;
 				} else if (type.isAssignableFrom(ByteArray.class)) {
 					// 转换为BytesBean
-					ByteArray bean = Bytes.toBean((ByteArray) BeanUtil.newInstance(type), b, offset);
+					ByteArray bean = Bytes.toBean((ByteArray) ClassUtil.newInstance(type), b, offset);
 					BeanUtil.setFieldValue(binary, field, bean);
 					// 字节数组长度
 					offset += bean.array().length;

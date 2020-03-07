@@ -30,7 +30,7 @@ public final class CacheBuilder {
 	 * @return         缓存
 	 */
 	public static <K, V> Cache<K, V> build(long max, long refresh, long expire, CacheLoad<K, V> load) {
-		return build(MAX, INIT, LEVEL, REFRESH, EXPIRE, load);
+		return build(max, INIT, LEVEL, refresh, expire, load);
 	}
 
 	/**

@@ -7,7 +7,7 @@ import com.weicoder.common.codec.URLCode;
 import com.weicoder.common.http.HttpEngine;
 import com.weicoder.common.lang.C;
 import com.weicoder.common.lang.Maps; 
-import com.weicoder.core.json.JsonEngine; 
+import com.weicoder.json.JsonEngine; 
 import com.weicoder.oauth.OAuthInfo;
 import com.weicoder.oauth.base.BaseOAuth;
 import com.weicoder.oauth.params.OAuthParams; 

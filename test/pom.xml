@@ -5,11 +5,11 @@
 	<parent>
 		<groupId>com.weicoder</groupId>
 		<artifactId>weicoder</artifactId>
-		<version>3.2.9</version>
+		<version>3.3.0</version>
 	</parent>
 	<artifactId>test</artifactId>
 
-	<dependencies>
+	<dependencies>  
 		<dependency>
 			<groupId>com.weicoder</groupId>
 			<artifactId>core</artifactId>
@@ -20,7 +20,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.weicoder</groupId>
-			<artifactId>dao</artifactId>
+			<artifactId>hibernate</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.weicoder</groupId>
@@ -48,6 +48,10 @@
 		</dependency>
 		<dependency>
 			<groupId>com.weicoder</groupId>
+			<artifactId>log</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.weicoder</groupId>
 			<artifactId>xml</artifactId>
 		</dependency>
 		<dependency>
@@ -57,7 +61,7 @@
 		<dependency>
 			<groupId>com.weicoder</groupId>
 			<artifactId>excel</artifactId>
-		</dependency>
+		</dependency> 
 		<dependency>
 			<groupId>com.weicoder</groupId>
 			<artifactId>nacos</artifactId>
@@ -75,45 +79,24 @@
 			<artifactId>solr</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>com.weicoder</groupId>
+			<artifactId>po</artifactId>
+			<version>3.3.0</version>
+		</dependency>
+		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 		</dependency> 
-		<dependency>
-			<groupId>com.weicoder</groupId>
-			<artifactId>po</artifactId>
-			<version>3.2.9</version>
-		</dependency>
-		<!-- 
-		<dependency>
-			<groupId>com.ibeetl</groupId>
-			<artifactId>beetlsql</artifactId>
-			<version>2.12.19.RELEASE</version>
-		</dependency>
-		<dependency>
-			<groupId>com.ibeetl</groupId>
-			<artifactId>beetl</artifactId>
-			<version>3.0.17.RELEASE</version>
-		</dependency>
-		<dependency>
-			<groupId>com.squareup.okhttp3</groupId>
-			<artifactId>okhttp</artifactId>
-			<version>4.3.1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.smartboot.socket</groupId>
-			<artifactId>aio-core</artifactId>
-			<version>1.4.7</version>
-		</dependency>
-		<dependency>
-			<groupId>io.seata</groupId>
-			<artifactId>seata-all</artifactId>
-			<version>1.1.0</version>
-		</dependency>
-		<dependency>
-		  <groupId>org.teasoft</groupId>
-		  <artifactId>bee</artifactId>
-		  <version>1.7.1</version>
-		</dependency> 
-		 -->
+		<!-- <dependency> <groupId>com.ibeetl</groupId> <artifactId>beetlsql</artifactId> 
+			<version>2.12.19.RELEASE</version> </dependency> <dependency> <groupId>com.ibeetl</groupId> 
+			<artifactId>beetl</artifactId> <version>3.0.17.RELEASE</version> </dependency> 
+			<dependency> <groupId>com.squareup.okhttp3</groupId> <artifactId>okhttp</artifactId> 
+			<version>4.3.1</version> </dependency> <dependency> <groupId>org.smartboot.socket</groupId> 
+			<artifactId>aio-core</artifactId> <version>1.4.7</version> </dependency> 
+			<dependency> <groupId>io.seata</groupId> <artifactId>seata-all</artifactId> 
+			<version>1.1.0</version> </dependency> <dependency> <groupId>org.teasoft</groupId> 
+			<artifactId>bee</artifactId> <version>1.7.1</version> </dependency> <dependency> 
+			<groupId>org.jsoup</groupId> <artifactId>jsoup</artifactId> <version>1.13.1</version> 
+			</dependency> -->
 	</dependencies>
 </project>

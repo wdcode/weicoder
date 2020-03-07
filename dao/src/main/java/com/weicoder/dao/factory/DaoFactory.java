@@ -1,8 +1,8 @@
 package com.weicoder.dao.factory;
 
 import com.weicoder.common.factory.Factory;
+import com.weicoder.common.util.ClassUtil;
 import com.weicoder.dao.Dao;
-import com.weicoder.dao.hibernate.HibernateDao;
 import com.weicoder.dao.jdbc.JdbcDao;
 import com.weicoder.dao.params.DaoParams;
 
@@ -17,7 +17,7 @@ public final class DaoFactory extends Factory<Dao> {
 
 	@Override
 	public Dao newInstance() {
-		return DaoParams.JDBC ? new JdbcDao() : new HibernateDao();
+		return DaoParams.JDBC ? new JdbcDao() : (Dao) ClassUtil.newInstance("com.weicoder.hibernate.HibernateDao");
 	}
 
 	private DaoFactory() {

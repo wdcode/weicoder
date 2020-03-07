@@ -21,7 +21,7 @@ import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.IpUtil;
 import com.weicoder.common.util.RegexUtil;
 import com.weicoder.common.util.StringUtil;
-import com.weicoder.core.json.JsonEngine;
+import com.weicoder.json.JsonEngine;
 import com.weicoder.web.common.WebCommons;
 import com.weicoder.web.params.ValidatorParams;
 import com.weicoder.web.validator.annotation.Ip;
@@ -256,7 +256,7 @@ public final class Validators {
 			String cname = StringUtil.convert(StringUtil.subStringLastEnd(c.getSimpleName(), "Validator"));
 			LOG.info("init validator sname={},cname={}", c.getSimpleName(), cname);
 			// 实例化Action并放在context中
-			Object validator = BeanUtil.newInstance(c);
+			Object validator = ClassUtil.newInstance(c);
 			WebCommons.VALIDATORS.put(cname, validator);
 			if (validator != null) {
 				// 循环判断方法

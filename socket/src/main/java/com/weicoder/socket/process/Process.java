@@ -57,7 +57,7 @@ public final class Process {
 		// 设置handler closed
 		ClassUtil.getAnnotationClass(CommonParams.getPackages("socket"), Handler.class).forEach(c -> {
 			// 是本类使用
-			Object h = BeanUtil.newInstance(c);
+			Object h = ClassUtil.newInstance(c);
 			if (name.equals(h.getClass().getAnnotation(Handler.class).value())) {
 				// 所有方法
 				ClassUtil.getPublicMethod(c).forEach(m -> {
@@ -73,7 +73,7 @@ public final class Process {
 			}
 		});
 		// 获取事件处理器
-		event = BeanUtil.newInstance(ClassUtil.getAssignedClass(Event.class, 0));
+		event = ClassUtil.newInstance(ClassUtil.getAssignedClass(Event.class, 0));
 		if (event == null)
 			event = new EmptyEvent();
 	}

@@ -3,7 +3,7 @@ package com.weicoder.test;
 import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.token.TokenBean;
 import com.weicoder.common.token.TokenEngine;
-import com.weicoder.core.json.JsonEngine;
+import com.weicoder.json.JsonEngine;
 
 public class TokenTest {
 	public static void main(String[] args) {

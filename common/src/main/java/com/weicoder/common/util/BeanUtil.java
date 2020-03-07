@@ -27,7 +27,7 @@ public final class BeanUtil {
 	 * @return 目标对象
 	 */
 	public static <T> T copy(Object source, Class<T> entity) {
-		return copy(source, newInstance(entity));
+		return copy(source, ClassUtil.newInstance(entity));
 	}
 
 	/**
@@ -98,7 +98,7 @@ public final class BeanUtil {
 	 * @return dest 目标对象的新实例
 	 */
 	public static <T> T copy(Map<?, ?> map, Class<T> dest) {
-		return copy(map, newInstance(dest));
+		return copy(map, ClassUtil.newInstance(dest));
 	}
 
 	/**
@@ -119,32 +119,7 @@ public final class BeanUtil {
 		// 返回列表
 		return ls;
 	}
-
-	/**
-	 * 使用Class的newInstance()方法实例一个对象 封装异常为运行时异常
-	 * @param entity 对象的类
-	 * @param parameterTypes 参数类型
-	 * @param <T> 泛型
-	 * @return 实例的对象
-	 */
-	public static <T> T newInstance(Class<T> entity,Class<?>... parameterTypes) {
-		try {
-			return entity == null ? null : entity.getDeclaredConstructor(parameterTypes).newInstance();
-		} catch (Exception e) {
-			Logs.error(e);
-			return null;
-		}
-	}
-
-	/**
-	 * 使用Class的newInstance()方法实例一个对象 封装异常为运行时异常
-	 * @param className 对象的类
-	 * @return 实例的对象
-	 */
-	public static Object newInstance(String className) {
-		return newInstance(ClassUtil.forName(className));
-	}
-
+  
 	/**
 	 * 直接读取对象属性值, 无视private/protected修饰符, 不经过getter函数.
 	 * @param list 列表

@@ -4,23 +4,22 @@ import java.io.File;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.mime.HttpMultipartMode;
-import org.apache.http.entity.mime.MultipartEntityBuilder;
-import org.apache.http.message.BasicHeader;
-import org.apache.http.message.BasicNameValuePair;
+import org.apache.hc.client5.http.async.methods.SimpleHttpResponse;
+import org.apache.hc.client5.http.classic.methods.HttpPost;
+import org.apache.hc.client5.http.entity.UrlEncodedFormEntity;
+import org.apache.hc.client5.http.entity.mime.HttpMultipartMode;
+import org.apache.hc.client5.http.entity.mime.MultipartEntityBuilder;
+import org.apache.hc.core5.http.HttpResponse;
+import org.apache.hc.core5.http.NameValuePair;
+import org.apache.hc.core5.http.message.BasicHeader;
+import org.apache.hc.core5.http.message.BasicNameValuePair;
 
 import com.weicoder.common.constants.HttpConstants;
-import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.io.IOUtil;
+import com.weicoder.common.constants.StringConstants; 
 import com.weicoder.common.lang.C;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.log.Log;
-import com.weicoder.common.log.LogFactory;
-import com.weicoder.common.params.CommonParams;
+import com.weicoder.common.log.LogFactory; 
 import com.weicoder.common.util.EmptyUtil;
 
 /**
@@ -65,12 +64,12 @@ public class HttpUpload {
 				// 设置参数
 				data.forEach((k, v) -> list.add(new BasicNameValuePair(k, C.toString(v))));
 				// 设置参数与 编码格式
-				post.setEntity(new UrlEncodedFormEntity(list, CommonParams.ENCODING));
+				post.setEntity(new UrlEncodedFormEntity(list));
 			}
 			// 多提交实体构造器
 			MultipartEntityBuilder builder = MultipartEntityBuilder.create();
 			// 设置浏览器上传
-			builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+			builder.setMode(HttpMultipartMode.EXTENDED);
 			// 添加上传文件
 			for (File file : files)
 				builder.addBinaryBody(file.getName(), file);
@@ -79,7 +78,7 @@ public class HttpUpload {
 			// 获得HttpResponse参数
 			HttpResponse response = HttpClient.CLIENT.execute(post);
 			// 返回结果
-			return IOUtil.readString(response.getEntity().getContent());
+			return SimpleHttpResponse.copy(response).getBodyText();
 		} catch (Exception e) {
 			LOG.error(e);
 		} finally {
@@ -123,7 +122,7 @@ public class HttpUpload {
 			// 多提交实体构造器
 			MultipartEntityBuilder builder = MultipartEntityBuilder.create();
 			// 设置浏览器上传
-			builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+			builder.setMode(HttpMultipartMode.EXTENDED);
 			// 添加上传文件
 			builder.addBinaryBody(name, b);
 			// 参数
@@ -135,7 +134,7 @@ public class HttpUpload {
 			// 获得HttpResponse参数
 			HttpResponse response = HttpClient.CLIENT.execute(post);
 			// 返回结果
-			return IOUtil.readString(response.getEntity().getContent());
+			return SimpleHttpResponse.copy(response).getBodyText();
 		} catch (Exception e) {
 			LOG.error(e);
 		} finally {

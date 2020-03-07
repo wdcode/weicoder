@@ -60,7 +60,7 @@ public final class ProtobufEngine {
 	 */
 	public static <E> E toBean(byte[] b, Class<E> c) {
 		// 实例化对象
-		E bean = BeanUtil.newInstance(c);
+		E bean = ClassUtil.newInstance(c);
 		try {
 			// 声明编码输入流 用于读取字段数据
 			CodedInputStream input = CodedInputStream.newInstance(b);

@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.weicoder</groupId>
 		<artifactId>weicoder</artifactId>
-		<version>3.2.9</version>
+		<version>3.3.0</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>kafka</artifactId>
@@ -12,22 +12,22 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.weicoder</groupId>
-			<artifactId>core</artifactId>
+			<artifactId>json</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.weicoder</groupId>
 			<artifactId>protobuf</artifactId>
 		</dependency>
-		 <!--
+		 
 		<dependency>
 			<groupId>com.weicoder.extend</groupId>
 			<artifactId>kafka-extend</artifactId>
 		</dependency>
-		 -->
+		 <!--
 		<dependency>
 			<groupId>org.apache.kafka</groupId>
 			<artifactId>kafka-clients</artifactId> 
 		</dependency>
-		
+		-->
 	</dependencies>
 </project>

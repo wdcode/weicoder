@@ -9,7 +9,7 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.weicoder.common.concurrent.ExecutorUtil;
 import com.weicoder.core.cache.Cache;
-import com.weicoder.core.json.JsonEngine;
+import com.weicoder.json.JsonEngine;
 import com.weicoder.redis.RedisPool;
 import com.weicoder.redis.factory.RedisFactory;
 import com.weicoder.redis.params.RedisParams;

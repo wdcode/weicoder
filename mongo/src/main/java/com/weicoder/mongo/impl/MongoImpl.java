@@ -13,7 +13,7 @@ import com.weicoder.common.lang.Maps;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.zip.ZipEngine;
-import com.weicoder.core.json.JsonEngine;
+import com.weicoder.json.JsonEngine;
 import com.weicoder.mongo.Mongo;
 import com.weicoder.mongo.params.MongoParams;
 

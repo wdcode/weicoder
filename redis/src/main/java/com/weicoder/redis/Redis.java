@@ -14,7 +14,7 @@ import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.util.EmptyUtil;
-import com.weicoder.core.json.JsonEngine;
+import com.weicoder.json.JsonEngine;
 import com.weicoder.redis.params.RedisParams;
 import com.weicoder.redis.annotation.Channel;
 import com.weicoder.redis.annotation.Subscribes;
@@ -49,7 +49,7 @@ public final class Redis {
 			int n = 0;
 			for (Class<Subscribes> c : subscribes) {
 				// 执行对象
-				Object subscribe = BeanUtil.newInstance(c);
+				Object subscribe = ClassUtil.newInstance(c);
 				Subscribes a = subscribe.getClass().getAnnotation(Subscribes.class);
 				String name = a.value();
 				if (!REDIS.containsKey(name))

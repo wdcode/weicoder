@@ -21,7 +21,7 @@ import org.elasticsearch.search.builder.SearchSourceBuilder;
 import com.weicoder.common.lang.C;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
-import com.weicoder.core.json.JsonEngine;
+import com.weicoder.json.JsonEngine;
 
 public class ElasticSearchTest {
 

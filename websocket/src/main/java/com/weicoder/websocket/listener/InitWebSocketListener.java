@@ -25,7 +25,7 @@ public class InitWebSocketListener implements ServletContextListener {
 		ClassUtil.getAnnotationClass(CommonParams.getPackages("websocket"), WebSocket.class).forEach(c -> {
 			try {
 				// 实例化Action并放在context中
-				Object ws = BeanUtil.newInstance(c);
+				Object ws = ClassUtil.newInstance(c);
 				if (ws != null) {
 					// 循环判断方法
 					ClassUtil.getPublicMethod(c).forEach(m -> {

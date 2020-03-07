@@ -34,7 +34,7 @@ public final class Actions {
 				String cname = StringUtil.convert(StringUtil.subStringLastEnd(c.getSimpleName(), "Action"));
 				Logs.info("init action sname={},cname={}", c.getSimpleName(), cname);
 				// 实例化Action并放在context中
-				Object action = BeanUtil.newInstance(c);
+				Object action = ClassUtil.newInstance(c);
 				if (action != null) {
 					WebCommons.ACTIONS.put(cname, action);
 					// 循环判断方法
@@ -68,7 +68,7 @@ public final class Actions {
 			String cname = StringUtil.convert(StringUtil.subStringLastEnd(c.getSimpleName(), "Aop"));
 			Logs.info("init aop sname={},cname={}", c.getSimpleName(), cname);
 			// 实例化Action并放在context中
-			Aops aop = BeanUtil.newInstance(c);
+			Aops aop = ClassUtil.newInstance(c);
 			if (aop != null)
 				WebCommons.AOPS.put(cname, aop);
 		});
@@ -78,7 +78,7 @@ public final class Actions {
 			// 初始化aopall
 			Logs.info("init aopall name={}", c.getSimpleName());
 			// 放到列表中
-			WebCommons.AOP_ALL.add(BeanUtil.newInstance(c));
+			WebCommons.AOP_ALL.add(ClassUtil.newInstance(c));
 		});
 	}
 

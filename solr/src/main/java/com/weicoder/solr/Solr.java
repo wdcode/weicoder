@@ -50,8 +50,6 @@ public class Solr {
 	public int update(Collection<?> list) {
 		try {
 			return EmptyUtil.isEmpty(list) ? 0 : client.addBeans(list).getStatus();
-//			client.optimize();
-//			return client.commit().getStatus();
 		} catch (Exception e) {
 			Logs.error(e);
 			return -1;
@@ -98,8 +96,6 @@ public class Solr {
 	public int del(List<String> ids) {
 		try {
 			return EmptyUtil.isEmpty(ids) ? 0 : client.deleteById(ids).getStatus();
-//			client.optimize();
-//			return client.commit().getStatus();
 		} catch (Exception e) {
 			Logs.error(e);
 			return -1;

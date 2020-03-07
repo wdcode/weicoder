@@ -213,8 +213,18 @@ public final class ClassUtil {
 		try {
 			return clazz == null ? null : clazz.getConstructor(parameterTypes).newInstance();
 		} catch (Exception e) {
+			Logs.error(e);
 			return null;
 		}
+	}
+	 
+	/**
+	 * 使用Class的newInstance()方法实例一个对象 封装异常为运行时异常
+	 * @param className 对象的类
+	 * @return 实例的对象
+	 */
+	public static Object newInstance(String className) {
+		return newInstance(forName(className));
 	}
 
 	/**

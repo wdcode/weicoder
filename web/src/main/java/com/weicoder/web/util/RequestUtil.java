@@ -19,7 +19,7 @@ import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.IpUtil;
 import com.weicoder.common.util.StringUtil;
-import com.weicoder.core.json.JsonEngine;
+import com.weicoder.json.JsonEngine;
 
 /**
  * Request一些相关操作类

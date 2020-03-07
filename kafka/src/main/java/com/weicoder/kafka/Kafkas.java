@@ -25,7 +25,7 @@ import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
-import com.weicoder.core.json.JsonEngine;
+import com.weicoder.json.JsonEngine;
 import com.weicoder.kafka.annotation.AllTopic;
 import com.weicoder.kafka.annotation.Consumer;
 import com.weicoder.kafka.annotation.Topic;
@@ -68,7 +68,7 @@ public final class Kafkas {
 			// 循环处理kafka类
 			consumers.forEach(c -> {
 				// 执行对象
-				Object consumer = BeanUtil.newInstance(c);
+				Object consumer = ClassUtil.newInstance(c);
 				String name = consumer.getClass().getAnnotation(Consumer.class).value();
 				// 消费者队列
 				Map<String, Queue<ConsumerRecord<byte[], byte[]>>> map = TOPIC_RECORDS.get(name);
