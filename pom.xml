@@ -57,6 +57,7 @@
 		<maven-clean-plugin>3.1.0</maven-clean-plugin>
 		<maven-install-plugin>2.5.2</maven-install-plugin>
 		<maven-war-plugin>3.2.3</maven-war-plugin>
+		<nexus-staging-maven-plugin>1.6.8</nexus-staging-maven-plugin>
 		<maven-dependency-plugin>3.1.1</maven-dependency-plugin>
 		<jetty-maven-plugin>9.4.27.v20200227</jetty-maven-plugin>
 		<javaee-api>8.0.1</javaee-api>
@@ -236,6 +237,17 @@
 							<encoding>UTF-8</encoding>
 						</configuration>
 					</plugin>
+					<plugin>
+			            <groupId>org.sonatype.plugins</groupId>
+			            <artifactId>nexus-staging-maven-plugin</artifactId>
+			            <version>${nexus-staging-maven-plugin}</version>
+			            <extensions>true</extensions>
+			            <configuration>
+				            <serverId>sonatype-nexus-staging</serverId>
+				            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+			            	<autoReleaseAfterClose>true</autoReleaseAfterClose>
+			            </configuration>
+		            </plugin> 
 					<!-- 
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
