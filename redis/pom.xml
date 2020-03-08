@@ -12,22 +12,30 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.weicoder</groupId>
-			<artifactId>core</artifactId>
+			<artifactId>common</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.weicoder</groupId>
+			<artifactId>cache</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.weicoder</groupId>
 			<artifactId>json</artifactId>
 		</dependency>
-		
+		<dependency>
+			<groupId>com.weicoder</groupId>
+			<artifactId>log</artifactId>
+		</dependency>
+		<!--
 		<dependency>
 			<groupId>com.weicoder.extend</groupId>
 			<artifactId>redis-extend</artifactId>
 		</dependency>
-		 <!--
+		--> 
 		<dependency>
 			<groupId>redis.clients</groupId>
 			<artifactId>jedis</artifactId> 
 		</dependency>
-		--> 
+		 
 	</dependencies>
 </project>

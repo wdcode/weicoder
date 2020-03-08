@@ -5,8 +5,7 @@ import java.util.Map;
 
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.log.Logs;
-import com.weicoder.common.params.CommonParams;
-import com.weicoder.common.util.BeanUtil;
+import com.weicoder.common.params.CommonParams; 
 import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.web.annotation.Action;

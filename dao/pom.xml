@@ -14,12 +14,12 @@
 			<groupId>com.weicoder</groupId>
 			<artifactId>json</artifactId>
 		</dependency>
-		  
+		 <!-- 
 		<dependency> 
 			<groupId>com.weicoder.extend</groupId> 
 			<artifactId>dao-extend</artifactId> 
 		</dependency> 
-		<!--
+		-->
 		<dependency>
 			<groupId>com.zaxxer</groupId>
 			<artifactId>HikariCP</artifactId>
@@ -27,11 +27,7 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-		</dependency> 
-		<dependency>
-		  	<groupId>javax.persistence</groupId>
-			<artifactId>javax.persistence-api</artifactId> 
-		</dependency>
-		-->
+		</dependency>  
+		
 	</dependencies>
 </project>

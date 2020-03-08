@@ -14,16 +14,16 @@
 			<groupId>com.weicoder</groupId>
 			<artifactId>json</artifactId>
 		</dependency>
-		
+		<!--
 		<dependency>
 			<groupId>com.weicoder.extend</groupId>
 			<artifactId>http-extend</artifactId>
 		</dependency>
-		 <!--
-		 <dependency>
+		--> 
+		<dependency>
 			<groupId>org.apache.httpcomponents.client5</groupId>
 			<artifactId>httpclient5</artifactId> 
-		 </dependency> 
-		 -->
+	 	</dependency> 
+		 
 	</dependencies>
 </project>

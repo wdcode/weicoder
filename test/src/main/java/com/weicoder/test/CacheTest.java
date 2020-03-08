@@ -1,8 +1,8 @@
 package com.weicoder.test;
 
 import com.weicoder.common.util.ThreadUtil;
-import com.weicoder.core.cache.Cache;
-import com.weicoder.core.cache.CacheBuilder;
+import com.weicoder.cache.Cache;
+import com.weicoder.cache.CacheBuilder;
 
 public class CacheTest {
 

@@ -4,9 +4,7 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
-
-import javax.persistence.Entity;
-
+  
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
@@ -308,8 +306,7 @@ public final class JdbcDao implements Dao {
 	}
 
 	@Override
-	public Class<Entity> entity(String name) {
-		// TODO Auto-generated method stub
+	public Class<?> entity(String name) { 
 		return null;
 	}
 }

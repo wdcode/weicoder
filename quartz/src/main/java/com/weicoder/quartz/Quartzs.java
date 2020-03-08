@@ -12,8 +12,7 @@ import org.quartz.TriggerBuilder;
 import org.quartz.impl.StdSchedulerFactory;
 
 import com.weicoder.common.log.Logs;
-import com.weicoder.common.params.CommonParams;
-import com.weicoder.common.util.BeanUtil;
+import com.weicoder.common.params.CommonParams; 
 import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.quartz.annotation.Job;

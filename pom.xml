@@ -68,7 +68,7 @@
 		<hibernate-core>5.4.12.Final</hibernate-core>
 		<mysql-connector-java>8.0.19</mysql-connector-java>
 		<netty-all>4.1.46.Final</netty-all>
-		<mongo-java-driver>3.12.1</mongo-java-driver>
+		<mongo-java-driver>3.12.2</mongo-java-driver>
 		<jedis>3.2.0</jedis>
 		<kafka-clients>2.4.0</kafka-clients>
 		<sofa-rpc>5.6.4</sofa-rpc>
@@ -76,17 +76,16 @@
 		<guava>28.2-jre</guava>
 		<elasticsearch>7.6.1</elasticsearch>
 		<poi>4.1.2</poi>
-		<nacos-client>1.1.4</nacos-client>
+		<nacos-client>1.2.0</nacos-client>
 		<protobuf-java>3.11.4</protobuf-java>
 		<quartz>2.3.2</quartz>
 		<solr-solrj>8.4.1</solr-solrj>
 		<httpclient5>5.0</httpclient5>
-		<httpclient>4.5.11</httpclient>
-		<httpmime>4.5.11</httpmime>
+		<httpclient>4.5.12</httpclient>
+		<httpmime>4.5.12</httpmime>
 		<httpcore>4.4.13</httpcore>
 		<httpcore-nio>4.4.13</httpcore-nio>
-		<httpasyncclient>4.1.4</httpasyncclient>
-		<javax.persistence>2.2</javax.persistence>
+		<httpasyncclient>4.1.4</httpasyncclient> 
 		<commons-email>1.5</commons-email>
 		<dom4j>2.1.1</dom4j>
 		<jdom>2.0.2</jdom>
@@ -237,6 +236,7 @@
 							<encoding>UTF-8</encoding>
 						</configuration>
 					</plugin>
+					<!-- 
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-source-plugin</artifactId>
@@ -249,11 +249,6 @@
 								</goals>
 							</execution>
 						</executions>
-					</plugin>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-resources-plugin</artifactId>
-						<version>${maven-resources-plugin}</version>
 					</plugin>
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
@@ -272,6 +267,12 @@
 							</execution>
 						</executions>
 					</plugin>
+					 -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-resources-plugin</artifactId>
+						<version>${maven-resources-plugin}</version>
+					</plugin> 
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-gpg-plugin</artifactId>
@@ -717,12 +718,7 @@
 				<groupId>org.apache.tomcat.embed</groupId>
 				<artifactId>tomcat-embed-jasper</artifactId>
 				<version>${tomcat-embed}</version>
-			</dependency>
-			<dependency>
-			  	<groupId>javax.persistence</groupId>
-				<artifactId>javax.persistence-api</artifactId>
-				<version>${javax.persistence}</version>
-			</dependency>
+			</dependency> 
 		</dependencies>
 	</dependencyManagement>
 </project>

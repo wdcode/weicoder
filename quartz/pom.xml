@@ -12,18 +12,18 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.weicoder</groupId>
-			<artifactId>core</artifactId>
+			<artifactId>common</artifactId>
 		</dependency>
-		
+		<!-- 
 		<dependency>
 			<groupId>com.weicoder.extend</groupId>
 			<artifactId>quartz-extend</artifactId>
 		</dependency>
-		<!-- 
+		-->
 		<dependency>
 			<groupId>org.quartz-scheduler</groupId>
 			<artifactId>quartz</artifactId> 
 		</dependency>
-		 -->
+		 
 	</dependencies>
 </project>

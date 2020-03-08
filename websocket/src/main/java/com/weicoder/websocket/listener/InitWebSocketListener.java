@@ -3,8 +3,7 @@ package com.weicoder.websocket.listener;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
-
-import com.weicoder.common.util.BeanUtil;
+ 
 import com.weicoder.common.util.ClassUtil;
 import com.weicoder.websocket.annotation.WebSocket;
 import com.weicoder.websocket.common.WebSocketCommons;

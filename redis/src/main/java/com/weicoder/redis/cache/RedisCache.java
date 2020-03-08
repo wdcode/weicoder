@@ -1,6 +1,6 @@
 package com.weicoder.redis.cache;
  
-import static com.weicoder.core.params.CacheParams.*;
+import static com.weicoder.cache.params.CacheParams.*;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.weicoder.common.concurrent.ExecutorUtil;
-import com.weicoder.core.cache.Cache;
+import com.weicoder.cache.Cache;
 import com.weicoder.json.JsonEngine;
 import com.weicoder.redis.RedisPool;
 import com.weicoder.redis.factory.RedisFactory;

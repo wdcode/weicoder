@@ -14,18 +14,18 @@
 			<groupId>com.weicoder</groupId>
 			<artifactId>common</artifactId>
 		</dependency>
-		
+		<!--
 		<dependency>
 			<groupId>com.weicoder.extend</groupId>
 			<artifactId>rpc-extend</artifactId>
 			<scope>provided</scope>
 		</dependency>
-		<!--
+		-->
 		<dependency> 
 			<groupId>com.alipay.sofa</groupId> 
 			<artifactId>sofa-rpc-all</artifactId> 
 			<scope>provided</scope>
 		</dependency> 
-		 -->
+		 
 	</dependencies>
 </project>
