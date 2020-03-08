@@ -2,64 +2,18 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.weicoder</groupId>
+	<parent>
+		<groupId>com.weicoder</groupId>
+		<artifactId>build</artifactId>
+		<version>1.0</version>
+	</parent> 
 	<artifactId>weicoder</artifactId>
 	<version>3.3.0</version>
 	<packaging>pom</packaging>
-	<name>weicoder</name>
-	<description>java tools</description>
-	<url>https://github.com/wdcode/weicoder</url>
-
-	<modules>
-		<module>admin</module>
-		<module>common</module>
-		<module>cache</module>
-		<module>dao</module>
-		<module>elasticsearch</module>
-		<module>email</module>
-		<module>excel</module>
-		<module>hibernate</module>
-		<module>http</module>
-		<module>http4</module>
-		<module>json</module>
-		<module>kafka</module>
-		<module>log</module>
-		<module>memcache</module>
-		<module>mongo</module>
-		<module>nacos</module>
-		<module>oauth</module>
-		<module>pay</module>
-		<module>protobuf</module>
-		<module>quartz</module>
-		<module>redis</module>
-		<module>rpc</module>
-		<module>socket</module>
-		<module>solr</module>
-		<module>tomcat</module>
-		<module>web</module>
-		<module>websocket</module>
-		<module>xml</module> 
-	</modules>
-
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+	
+	<properties> 
 		<parent>3.3.0</parent>
 		<extend>3.3.5</extend>
-		<jdk>11</jdk>
-		<maven-compiler-plugin>3.8.1</maven-compiler-plugin>
-		<maven-source-plugin>3.2.1</maven-source-plugin>
-		<maven-javadoc-plugin>3.1.1</maven-javadoc-plugin>
-		<maven-gpg-plugin>1.6</maven-gpg-plugin>
-		<maven-resources-plugin>3.1.0</maven-resources-plugin>
-		<maven-jar-plugin>3.2.0</maven-jar-plugin>
-		<maven-surefire-plugin>2.22.2</maven-surefire-plugin>
-		<maven-clean-plugin>3.1.0</maven-clean-plugin>
-		<maven-install-plugin>2.5.2</maven-install-plugin>
-		<maven-war-plugin>3.2.3</maven-war-plugin>
-		<nexus-staging-maven-plugin>1.6.8</nexus-staging-maven-plugin>
-		<maven-dependency-plugin>3.1.1</maven-dependency-plugin>
-		<jetty-maven-plugin>9.4.27.v20200227</jetty-maven-plugin>
 		<javaee-api>8.0.1</javaee-api>
 		<HikariCP>3.4.2</HikariCP>
 		<disruptor>3.4.2</disruptor>
@@ -94,216 +48,37 @@
 		<Memcached-Java-Client>3.0.2</Memcached-Java-Client>
 	</properties>
 
-	<licenses>
-		<license>
-			<name>The Apache Software License, Version 2.0</name>
-			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-		</license>
-	</licenses>
-
-	<developers>
-		<developer>
-			<name>wdcode</name>
-			<email>wdcode@qq.com</email>
-		</developer>
-	</developers>
-
-	<scm>
-		<connection>scm:git@github.com:wdcode/weicoder.git</connection>
-		<developerConnection>scm:git@github.com:wdcode/weicoder.git</developerConnection>
-		<url>git@github.com:wdcode/weicoder.git</url>
-	</scm>
-	<!-- -->
-	<repositories>
-		<repository>
-			<id>public</id>
-			<name>aliyun nexus</name>
-			<url>http://maven.aliyun.com/nexus/content/groups/public/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-		</repository>
-	</repositories>
-
-	<pluginRepositories>
-		<pluginRepository>
-			<id>public</id>
-			<name>aliyun nexus</name>
-			<url>http://maven.aliyun.com/nexus/content/groups/public/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</pluginRepository>
-	</pluginRepositories>
-
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>${maven-compiler-plugin}</version>
-				<configuration>
-					<compilerArgument>-parameters</compilerArgument>
-					<source>${jdk}</source>
-					<target>${jdk}</target>
-					<encoding>UTF-8</encoding>
-					<skip>true</skip>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>${maven-surefire-plugin}</version>
-				<configuration>
-					<skip>true</skip>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-clean-plugin</artifactId>
-				<version>${maven-clean-plugin}</version>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-install-plugin</artifactId>
-				<version>${maven-install-plugin}</version>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-resources-plugin</artifactId>
-				<version>${maven-resources-plugin}</version>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<version>${maven-jar-plugin}</version>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<version>${maven-dependency-plugin}</version><!--$NO-MVN-MAN-VER$ -->
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<version>${maven-war-plugin}</version>
-				<configuration>
-					<failOnMissingWebXml>false</failOnMissingWebXml>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.eclipse.jetty</groupId>
-				<artifactId>jetty-maven-plugin</artifactId>
-				<version>${jetty-maven-plugin}</version>
-				<configuration>
-					<scanIntervalSeconds>1</scanIntervalSeconds>
-					<httpConnector>
-						<port>8080</port>
-					</httpConnector>
-					<webAppConfig>
-						<contextPath>/</contextPath>
-					</webAppConfig>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
-
-	<profiles>
-		<profile>
-			<id>release</id>
-			<distributionManagement>
-				<snapshotRepository>
-					<id>oss</id>
-					<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-				</snapshotRepository>
-				<repository>
-					<id>oss</id>
-					<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-				</repository>
-			</distributionManagement>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-compiler-plugin</artifactId>
-						<version>${maven-compiler-plugin}</version>
-						<configuration>
-							<compilerArgument>-parameters</compilerArgument>
-							<source>${jdk}</source>
-							<target>${jdk}</target>
-							<encoding>UTF-8</encoding>
-						</configuration>
-					</plugin>
-					<plugin>
-			            <groupId>org.sonatype.plugins</groupId>
-			            <artifactId>nexus-staging-maven-plugin</artifactId>
-			            <version>${nexus-staging-maven-plugin}</version>
-			            <extensions>true</extensions>
-			            <configuration>
-				            <serverId>sonatype-nexus-staging</serverId>
-				            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-			            	<autoReleaseAfterClose>true</autoReleaseAfterClose>
-			            </configuration>
-		            </plugin> 
-					<!-- 
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-source-plugin</artifactId>
-						<version>${maven-source-plugin}</version>
-						<executions>
-							<execution>
-								<phase>package</phase>
-								<goals>
-									<goal>jar-no-fork</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-javadoc-plugin</artifactId>
-						<version>${maven-javadoc-plugin}</version>
-						<configuration>
-							<failOnError>false</failOnError>
-							<doclint>none</doclint>
-						</configuration>
-						<executions>
-							<execution>
-								<phase>package</phase>
-								<goals>
-									<goal>jar</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-					 -->
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-resources-plugin</artifactId>
-						<version>${maven-resources-plugin}</version>
-					</plugin> 
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-gpg-plugin</artifactId>
-						<version>${maven-gpg-plugin}</version>
-						<executions>
-							<execution>
-								<id>sign-artifacts</id>
-								<phase>verify</phase>
-								<goals>
-									<goal>sign</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
-
+	<modules>
+		<module>admin</module>
+		<module>common</module>
+		<module>cache</module>
+		<module>dao</module>
+		<module>elasticsearch</module>
+		<module>email</module>
+		<module>excel</module>
+		<module>hibernate</module>
+		<module>http</module>
+		<module>http4</module>
+		<module>json</module>
+		<module>kafka</module>
+		<module>log</module>
+		<module>memcache</module>
+		<module>mongo</module>
+		<module>nacos</module>
+		<module>oauth</module>
+		<module>pay</module>
+		<module>protobuf</module>
+		<module>quartz</module>
+		<module>redis</module>
+		<module>rpc</module>
+		<module>socket</module>
+		<module>solr</module>
+		<module>tomcat</module>
+		<module>web</module>
+		<module>websocket</module>
+		<module>xml</module> 
+	</modules>
+         
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
