@@ -8,12 +8,12 @@
 		<version>1.0</version>
 	</parent> 
 	<artifactId>weicoder</artifactId>
-	<version>3.3.0</version>
+	<version>3.3.1</version>
 	<packaging>pom</packaging>
 	
 	<properties> 
-		<parent>3.3.0</parent>
-		<extend>3.3.5</extend>
+		<parent>3.3.1</parent>
+		<extend>3.3.6</extend>
 		<javaee-api>8.0.1</javaee-api>
 		<HikariCP>3.4.2</HikariCP>
 		<disruptor>3.4.2</disruptor>
@@ -228,113 +228,10 @@
 			</dependency>  
 			<dependency>
 				<groupId>com.weicoder.extend</groupId>
-				<artifactId>core-extend</artifactId>
+				<artifactId>extend</artifactId>
 				<version>${extend}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.weicoder.extend</groupId>
-				<artifactId>dao-extend</artifactId>
-				<version>${extend}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.weicoder.extend</groupId>
-				<artifactId>elasticsearch-extend</artifactId>
-				<version>${extend}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.weicoder.extend</groupId>
-				<artifactId>email-extend</artifactId>
-				<version>${extend}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.weicoder.extend</groupId>
-				<artifactId>excel-extend</artifactId>
-				<version>${extend}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.weicoder.extend</groupId>
-				<artifactId>hibernate-extend</artifactId>
-				<version>${extend}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.weicoder.extend</groupId>
-				<artifactId>http-extend</artifactId>
-				<version>${extend}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.weicoder.extend</groupId>
-				<artifactId>http4-extend</artifactId>
-				<version>${extend}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.weicoder.extend</groupId>
-				<artifactId>json-extend</artifactId>
-				<version>${extend}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.weicoder.extend</groupId>
-				<artifactId>kafka-extend</artifactId>
-				<version>${extend}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.weicoder.extend</groupId>
-				<artifactId>log-extend</artifactId>
-				<version>${extend}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.weicoder.extend</groupId>
-				<artifactId>memcache-extend</artifactId>
-				<version>${extend}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.weicoder.extend</groupId>
-				<artifactId>mongo-extend</artifactId>
-				<version>${extend}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.weicoder.extend</groupId>
-				<artifactId>nacos-extend</artifactId>
-				<version>${extend}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.weicoder.extend</groupId>
-				<artifactId>protobuf-extend</artifactId>
-				<version>${extend}</version>
-			</dependency> 
-			<dependency>
-				<groupId>com.weicoder.extend</groupId>
-				<artifactId>quartz-extend</artifactId>
-				<version>${extend}</version>
-			</dependency> 
-			<dependency>
-				<groupId>com.weicoder.extend</groupId>
-				<artifactId>redis-extend</artifactId>
-				<version>${extend}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.weicoder.extend</groupId>
-				<artifactId>rpc-extend</artifactId>
-				<version>${extend}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.weicoder.extend</groupId>
-				<artifactId>socket-extend</artifactId>
-				<version>${extend}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.weicoder.extend</groupId>
-				<artifactId>solr-extend</artifactId>
-				<version>${extend}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.weicoder.extend</groupId>
-				<artifactId>tomcat-extend</artifactId>
-				<version>${extend}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.weicoder.extend</groupId>
-				<artifactId>xml-extend</artifactId>
-				<version>${extend}</version>
+				<type>pom</type>
+				<scope>import</scope>
 			</dependency>
 			<dependency>
 				<groupId>com.zaxxer</groupId>
@@ -494,7 +391,7 @@
 			<dependency>
 				<groupId>com.whalin</groupId>
 				<artifactId>Memcached-Java-Client</artifactId>
-				<version>${Memcached-Java-Client}</version>
+				<version>${Memcached-Java-Client}</version> 
 			</dependency>
 			<dependency>
 				<groupId>org.apache.tomcat.embed</groupId>

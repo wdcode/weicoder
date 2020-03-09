@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.weicoder</groupId>
 		<artifactId>weicoder</artifactId>
-		<version>3.3.0</version>
+		<version>3.3.1</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>redis</artifactId>
@@ -26,16 +26,16 @@
 			<groupId>com.weicoder</groupId>
 			<artifactId>log</artifactId>
 		</dependency>
-		<!--
+		
 		<dependency>
 			<groupId>com.weicoder.extend</groupId>
 			<artifactId>redis-extend</artifactId>
 		</dependency>
-		--> 
+		<!--
 		<dependency>
 			<groupId>redis.clients</groupId>
 			<artifactId>jedis</artifactId> 
 		</dependency>
-		 
+		 --> 
 	</dependencies>
 </project>

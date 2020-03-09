@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.weicoder</groupId>
 		<artifactId>weicoder</artifactId>
-		<version>3.3.0</version>
+		<version>3.3.1</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>protobuf</artifactId>
@@ -14,16 +14,16 @@
 			<groupId>com.weicoder</groupId>
 			<artifactId>common</artifactId>
 		</dependency>
-		<!-- 
+		 
 		<dependency>
 			<groupId>com.weicoder.extend</groupId>
 			<artifactId>protobuf-extend</artifactId>
 		</dependency>
-		 -->
+		 <!--
 		<dependency>
 			<groupId>com.google.protobuf</groupId>
 			<artifactId>protobuf-java</artifactId> 
 		</dependency>
-		
+		-->
 	</dependencies>
 </project>

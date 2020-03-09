@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.weicoder</groupId>
 		<artifactId>weicoder</artifactId>
-		<version>3.3.0</version>
+		<version>3.3.1</version>
 	</parent>
 	<artifactId>json</artifactId>
 
@@ -14,16 +14,16 @@
 			<groupId>com.weicoder</groupId>
 			<artifactId>common</artifactId>
 		</dependency>
-		<!-- 
+		 
 		<dependency>
 			<groupId>com.weicoder.extend</groupId>
 			<artifactId>json-extend</artifactId>
 		</dependency>
-		 -->
+		 <!--
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>fastjson</artifactId>
 		</dependency>
-		
+		-->
 	</dependencies>
 </project>

@@ -1,8 +1,7 @@
 package com.weicoder.redis.cache;
- 
+
 import static com.weicoder.cache.params.CacheParams.*;
 
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 import com.google.common.cache.CacheBuilder;
@@ -76,20 +75,6 @@ public class RedisCache<V> extends Cache<String, V> {
 		super.remove(key);
 		redis.hdel(this.key, key);
 		redis.publish(remove, key);
-	}
-
-	/**
-	 * 查询缓存是否存在
-	 * 
-	 * @param  uid 用户id
-	 * @return
-	 */
-	public boolean exists(String key) {
-		try {
-			return cache.get(key) != null;
-		} catch (ExecutionException e) {
-			return false;
-		}
 	}
 
 	private V getRedis(String k) {

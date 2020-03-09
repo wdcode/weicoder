@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.weicoder</groupId>
 		<artifactId>weicoder</artifactId>
-		<version>3.3.0</version>
+		<version>3.3.1</version>
 	</parent>
 	<artifactId>log</artifactId>
 
@@ -14,12 +14,12 @@
 			<groupId>com.weicoder</groupId>
 			<artifactId>common</artifactId>
 		</dependency>
-		<!-- 
+		 
 		<dependency>
 			<groupId>com.weicoder.extend</groupId>
 			<artifactId>log-extend</artifactId>
 		</dependency>
-		-->
+		<!--
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-core</artifactId>
@@ -28,6 +28,6 @@
 			<groupId>com.lmax</groupId>
   			<artifactId>disruptor</artifactId>
 		</dependency>
-		
+		-->
 	</dependencies>
 </project>

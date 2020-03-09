@@ -1,8 +1,9 @@
 package com.weicoder.cache;
-
+ 
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 import com.google.common.cache.CacheBuilder;
@@ -75,6 +76,20 @@ public class Cache<K, V> {
 	 */
 	public long size() {
 		return cache.size();
+	}
+
+	/**
+	 * 查询缓存是否存在
+	 * 
+	 * @param  uid 用户id
+	 * @return
+	 */
+	public boolean exists(K key) {
+		try {
+			return cache.get(key) != null;
+		} catch (ExecutionException e) {
+			return false;
+		}
 	}
 
 	/**
