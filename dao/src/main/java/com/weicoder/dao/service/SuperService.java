@@ -11,7 +11,7 @@ import com.weicoder.common.interfaces.Callback;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.DateUtil;
-import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.U;
 import com.weicoder.dao.Dao;
 
 /**
@@ -91,7 +91,7 @@ public final class SuperService {
 	 * @return      是否添加成功
 	 */
 	public static boolean adds(List<Object> objs) {
-		return EmptyUtil.isEmpty(objs) ? false : QueueFactory.get(objs.get(0).getClass()).addAll(objs);
+		return U.E.isEmpty(objs) ? false : QueueFactory.get(objs.get(0).getClass()).addAll(objs);
 	}
 
 	/**
@@ -105,7 +105,7 @@ public final class SuperService {
 		// 查询出符合删除实体列表
 		List<E> list = DAO.list(entity, -1, -1);
 		// 删除列表为空
-		if (EmptyUtil.isEmpty(list))
+		if (U.E.isEmpty(list))
 			return Lists.emptyList();
 		// 删除
 		return DAO.delete(list);
@@ -146,7 +146,7 @@ public final class SuperService {
 		// 获得数据列表
 		List<E> list = DAO.list(entityClass, getFirstResult(page), getMaxResults(page));
 		// 判断列表
-		if (EmptyUtil.isEmpty(list))
+		if (U.E.isEmpty(list))
 			// 为空 设置总数为 0
 			page.setTotal(0);
 		else
@@ -167,7 +167,7 @@ public final class SuperService {
 		// 获得数据列表
 		List<Object> list = DAO.list(entity, getFirstResult(page), getMaxResults(page));
 		// 判断列表
-		if (EmptyUtil.isEmpty(list))
+		if (U.E.isEmpty(list))
 			// 为空 设置总数为 0
 			page.setTotal(0);
 		else
@@ -205,7 +205,7 @@ public final class SuperService {
 		// 获得数据列表
 		List<E> list = DAO.between(entity, "time", begin, end, getFirstResult(page), getMaxResults(page));
 		// 判断列表
-		if (EmptyUtil.isEmpty(list))
+		if (U.E.isEmpty(list))
 			// 为空 设置总数为 0
 			page.setTotal(0);
 		else
@@ -229,7 +229,7 @@ public final class SuperService {
 		// 获得数据列表
 		List<E> list = DAO.in(entityClass, property, values, getFirstResult(page), getMaxResults(page));
 		// 判断列表
-		if (EmptyUtil.isEmpty(list))
+		if (U.E.isEmpty(list))
 			// 为空 设置总数为 0
 			page.setTotal(0);
 		else
@@ -292,7 +292,7 @@ public final class SuperService {
 		// 获得数据列表
 		List<E> list = DAO.eq(entityClass, property, value, getFirstResult(page), getMaxResults(page));
 		// 判断列表
-		if (EmptyUtil.isEmpty(list))
+		if (U.E.isEmpty(list))
 			// 为空 设置总数为 0
 			page.setTotal(0);
 		else
@@ -318,7 +318,7 @@ public final class SuperService {
 		// 获得数据列表
 		List<E> list = DAO.in(entityClass, property, values, orders, getFirstResult(page), getMaxResults(page));
 		// 判断列表
-		if (EmptyUtil.isEmpty(list))
+		if (U.E.isEmpty(list))
 			// 为空 设置总数为 0
 			page.setTotal(0);
 		else
@@ -357,7 +357,7 @@ public final class SuperService {
 		// 获得数据列表
 		List<E> list = DAO.between(entity, property, lo, hi, getFirstResult(page), getMaxResults(page));
 		// 判断列表
-		if (EmptyUtil.isEmpty(list))
+		if (U.E.isEmpty(list))
 			// 为空 设置总数为 0
 			page.setTotal(0);
 		else
@@ -380,7 +380,7 @@ public final class SuperService {
 		// 获得数据列表
 		List<E> list = DAO.order(entity, orders, getFirstResult(page), getMaxResults(page));
 		// 判断列表
-		if (EmptyUtil.isEmpty(list))
+		if (U.E.isEmpty(list))
 			// 为空 设置总数为 0
 			page.setTotal(0);
 		else
@@ -403,7 +403,7 @@ public final class SuperService {
 		// 获得数据列表
 		List<E> list = DAO.order(entity, orders, getFirstResult(page), getMaxResults(page));
 		// 判断列表
-		if (EmptyUtil.isEmpty(list))
+		if (U.E.isEmpty(list))
 			// 为空 设置总数为 0
 			page.setTotal(0);
 		else
@@ -466,7 +466,7 @@ public final class SuperService {
 	 * @return      最大结果数
 	 */
 	private static int getMaxResults(Pages page) {
-		return EmptyUtil.isEmpty(page) ? -1 : page.getSize();
+		return U.E.isEmpty(page) ? -1 : page.getSize();
 	}
 
 	/**
@@ -476,7 +476,7 @@ public final class SuperService {
 	 * @return      从第N条开始返回结果
 	 */
 	private static int getFirstResult(Pages page) {
-//		return EmptyUtil.isEmpty(page) ? -1 : (page.getPage() - 1) * page.getSize();
-		return EmptyUtil.isEmpty(page) ? -1 : page.getStart();// page.getPage() * page.getSize();
+//		return U.E.isEmpty(page) ? -1 : (page.getPage() - 1) * page.getSize();
+		return U.E.isEmpty(page) ? -1 : page.getStart();// page.getPage() * page.getSize();
 	}
 }

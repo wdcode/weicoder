@@ -10,7 +10,7 @@ import org.apache.commons.mail.SimpleEmail;
 
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.log.Logs;
-import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.U;
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.email.base.BaseEmail;
 import com.weicoder.email.params.EmailParams;
@@ -139,7 +139,7 @@ public final class EmailApache extends BaseEmail {
 	private void setAttachment(MultiPartEmail email, String attach) {
 		try {
 			// 判断附件是否为空
-			if (EmptyUtil.isEmpty(attach)) {
+			if (U.E.isEmpty(attach)) {
 				return;
 			}
 			// 实例化邮件附件

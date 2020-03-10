@@ -10,7 +10,8 @@ import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.RegexConstants;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Bytes;
-import com.weicoder.common.lang.C;
+import com.weicoder.common.U;
+import com.weicoder.common.W;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Sets;
 import com.weicoder.common.log.Logs;
@@ -21,7 +22,7 @@ import com.weicoder.common.params.CommonParams;
  * 
  * @author WD
  */
-public final class IpUtil {
+public class IpUtil {
 	/** 本机IP 127.0.0.1 */
 	public final static String LOCAL_IP;
 	/** 本服务器IP */
@@ -37,7 +38,7 @@ public final class IpUtil {
 	static {
 		LOCAL_IP = "127.0.0.1";
 		SERVER_IP = getIp();
-		CODE = C.toString(encode(SERVER_IP));
+		CODE = W.C.toString(encode(SERVER_IP));
 		IPS_ALL = Sets.newSet();
 		IPS_ONE = Sets.newSet();
 		IPS_TWO = Sets.newSet();
@@ -79,7 +80,8 @@ public final class IpUtil {
 		String p = StringConstants.POINT;
 		String[] t = StringUtil.split(ip, RegexConstants.POINT);
 		// 判断解析处理的ip放在不同列表
-		return IPS_ALL.contains(ip) || IPS_THREE.contains(StringUtil.add(t[0], p, t[1], p, t[2], p)) || IPS_TWO.contains(StringUtil.add(t[0], p, t[1], p)) || IPS_ONE.contains(StringUtil.add(t[0], p));
+		return IPS_ALL.contains(ip) || IPS_THREE.contains(StringUtil.add(t[0], p, t[1], p, t[2], p))
+				|| IPS_TWO.contains(StringUtil.add(t[0], p, t[1], p)) || IPS_ONE.contains(StringUtil.add(t[0], p));
 	}
 
 	/**
@@ -138,11 +140,11 @@ public final class IpUtil {
 	 * @return 本机IP
 	 */
 	public static String getIp() {
-		if (EmptyUtil.isEmpty(SERVER_IP) && !LOCAL_IP.equals(SERVER_IP)) {
+		if (U.E.isEmpty(SERVER_IP) && !LOCAL_IP.equals(SERVER_IP)) {
 			// 获得ip列表
 			String[] ips = getIps();
 			// 如果为空
-			if (EmptyUtil.isEmpty(ips))
+			if (U.E.isEmpty(ips))
 				return StringConstants.EMPTY;
 			// 获得第一个IP
 			String ip = ips[0];
@@ -199,7 +201,7 @@ public final class IpUtil {
 	 * @return 返回编码后的数字
 	 */
 	public static String code() {
-		return C.toString(encode(SERVER_IP));
+		return W.C.toString(encode(SERVER_IP));
 	}
 
 	/**
@@ -215,7 +217,7 @@ public final class IpUtil {
 			String[] t = ip.split("\\.");
 			// 判断数组长度为4
 			if (t.length == 4)
-				return C.toInt(t[0]) << 24 | C.toInt(t[1]) << 16 | C.toInt(t[2]) << 8 | C.toInt(t[3]);
+				return W.C.toInt(t[0]) << 24 | W.C.toInt(t[1]) << 16 | W.C.toInt(t[2]) << 8 | W.C.toInt(t[3]);
 		}
 		// 失败返回0
 		return 0;
@@ -239,8 +241,5 @@ public final class IpUtil {
 		sb.append(ip & 0xFF);
 		// 失败返回0
 		return sb.toString();
-	}
-
-	private IpUtil() {
 	}
 }

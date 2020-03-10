@@ -1,13 +1,13 @@
 package com.weicoder.test;
  
-import com.weicer.rpc.RpcClients;
-import com.weicoder.common.lang.C; 
+import com.weicer.rpc.RpcClients; 
+import com.weicoder.common.W;
 
 public class RpcTest {
 
 	public static void main(String[] args) {
 //		RpcClients.init(); 
-		System.out.println(C.toString(RpcClients.rpc("rpct", "test", 102)).length());
+		System.out.println(W.C.toString(RpcClients.rpc("rpct", "test", 102)).length());
 		System.out.println(RpcClients.rpc("rpct", "get", 108L));
 		System.out.println(RpcClients.rpc(new RpcB(188L,"test")));
 		

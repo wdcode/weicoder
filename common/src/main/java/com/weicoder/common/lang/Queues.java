@@ -6,10 +6,10 @@ import java.util.concurrent.LinkedBlockingQueue;
  
 import com.weicoder.common.interfaces.CallbackList;
 import com.weicoder.common.interfaces.CallbackVoid;
-import com.weicoder.common.util.AsynQueue;
-import com.weicoder.common.util.AsynQueueList;
+import com.weicoder.common.queue.AsynQueue;
+import com.weicoder.common.queue.AsynQueueList;
 import com.weicoder.common.util.MathUtil;
-import com.weicoder.common.util.OnlyQueue;
+import com.weicoder.common.queue.OnlyQueue;
 
 /**
  * 队列相关方法
@@ -78,8 +78,5 @@ public class Queues {
 	 */
 	public static <E> AsynQueueList<E> newAsynQueueList(Queue<E> queue, CallbackList<E> callback, int time) {
 		return newAsynQueueList(queue, callback, MathUtil.multiply(time, 1000).longValue());
-	}
-
-	private Queues() {
-	}
+	} 
 }

@@ -13,7 +13,7 @@ import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.util.CloseUtil;
 import com.weicoder.common.util.DateUtil;
-import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.U;
 import com.weicoder.protobuf.Protobuf;
 import com.weicoder.protobuf.ProtobufEngine;
 import com.weicoder.common.log.Log;
@@ -164,7 +164,7 @@ public final class Process {
 				continue;
 			}
 			// 如果有接受所有头方法 使用异步方式执行
-			if (EmptyUtil.isNotEmpty(all))
+			if (U.E.isNotEmpty(all))
 				ExecutorUtil.pool()
 						.execute(() -> all.forEach((h, m) -> BeanUtil.invoke(h, m, getParames(m, data, session))));
 
@@ -200,12 +200,12 @@ public final class Process {
 
 	private Object[] getParames(Method m, byte[] data, Session session) {
 		// 如果数据为空
-		if (EmptyUtil.isEmpty(data))
+		if (U.E.isEmpty(data))
 			return null;
 		// 设置参数
 		Parameter[] pars = m.getParameters();
 		Object[] params = null;
-		if (EmptyUtil.isNotEmpty(pars)) {
+		if (U.E.isNotEmpty(pars)) {
 			// 参数不为空 设置参数
 			params = new Object[pars.length];
 			// action全部参数下标

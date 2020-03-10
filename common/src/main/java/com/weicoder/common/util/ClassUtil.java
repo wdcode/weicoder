@@ -4,9 +4,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Proxy;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.net.URL;
@@ -14,6 +16,7 @@ import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
 
+import com.weicoder.common.U;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.log.Logs;
@@ -24,7 +27,7 @@ import com.weicoder.common.params.CommonParams;
  * 
  * @author WD
  */
-public final class ClassUtil {
+public class ClassUtil {
 	/**
 	 * 判断是否是基础类型
 	 * 
@@ -70,7 +73,7 @@ public final class ClassUtil {
 			// 获得所有接口
 			Type[] type = clazz.getGenericInterfaces();
 			// 接口不为空
-			if (EmptyUtil.isNotEmpty(type)) {
+			if (U.E.isNotEmpty(type)) {
 				// 循环接口
 				for (Type t : type) {
 					// 获得泛型
@@ -154,6 +157,19 @@ public final class ClassUtil {
 	}
 
 	/**
+	 * 使用JDK代理生成代理类
+	 * 
+	 * @param  <E>
+	 * @param  cls     要生成代理的类接口
+	 * @param  handler 代理方法处理器
+	 * @return         代理对象
+	 */
+	@SuppressWarnings("unchecked")
+	public static <E> E newProxyInstance(Class<E> cls, InvocationHandler handler) {
+		return (E) Proxy.newProxyInstance(ClassUtil.getClassLoader(), new Class[]{cls}, handler);
+	}
+
+	/**
 	 * 获得Class
 	 * 
 	 * @param  className Class名称
@@ -161,7 +177,7 @@ public final class ClassUtil {
 	 */
 	public static Class<?> forName(String className) {
 		try {
-			return EmptyUtil.isEmpty(className) ? null : Class.forName(className);
+			return U.E.isEmpty(className) ? null : Class.forName(className);
 		} catch (Exception e) {
 			return null;
 		}
@@ -176,7 +192,7 @@ public final class ClassUtil {
 	 */
 	public static Object newInstance(String className, Class<?>... parameterTypes) {
 		try {
-			if (EmptyUtil.isEmpty(className))
+			if (U.E.isEmpty(className))
 				return null;
 			Class<?> c = forName(className);
 			return c == null ? null : c.getDeclaredConstructor(parameterTypes).newInstance();
@@ -217,11 +233,12 @@ public final class ClassUtil {
 			return null;
 		}
 	}
-	 
+
 	/**
 	 * 使用Class的newInstance()方法实例一个对象 封装异常为运行时异常
-	 * @param className 对象的类
-	 * @return 实例的对象
+	 * 
+	 * @param  className 对象的类
+	 * @return           实例的对象
 	 */
 	public static Object newInstance(String className) {
 		return newInstance(forName(className));
@@ -345,8 +362,8 @@ public final class ClassUtil {
 					}
 				} else
 					// 迭代调用本方法 获得类列表
-					classes.addAll(getPackageClasses(
-							EmptyUtil.isEmpty(path) ? name : path + StringConstants.BACKSLASH + name));
+					classes.addAll(
+							getPackageClasses(U.E.isEmpty(path) ? name : path + StringConstants.BACKSLASH + name));
 			}
 		}
 		// 返回类列表
@@ -399,8 +416,5 @@ public final class ClassUtil {
 	public static ClassLoader getClassLoader() {
 		ClassLoader cl = Thread.currentThread().getContextClassLoader();
 		return cl == null ? ClassLoader.getSystemClassLoader() : cl;
-	}
-
-	private ClassUtil() {
 	}
 }

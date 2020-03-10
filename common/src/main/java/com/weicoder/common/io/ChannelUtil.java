@@ -15,14 +15,16 @@ import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.util.CloseUtil;
 
 /**
- * 通道操作
+ * nio通道操作
+ * 
  * @author WD
  */
-public final class ChannelUtil {
+public class ChannelUtil {
 	/**
 	 * 读取出通道的所有字节
-	 * @param ch 通道
-	 * @return 字节数组
+	 * 
+	 * @param  ch 通道
+	 * @return    字节数组
 	 */
 	public static byte[] read(ReadableByteChannel ch) {
 		return read(ch, true);
@@ -30,9 +32,10 @@ public final class ChannelUtil {
 
 	/**
 	 * 读取出通道的所有字节
-	 * @param ch 通道
-	 * @param isClose 是否关闭流
-	 * @return 字节数组
+	 * 
+	 * @param  ch      通道
+	 * @param  isClose 是否关闭流
+	 * @return         字节数组
 	 */
 	public static byte[] read(ReadableByteChannel ch, boolean isClose) {
 		// 创建结果字节缓存
@@ -63,9 +66,10 @@ public final class ChannelUtil {
 
 	/**
 	 * 把text写入到os中
-	 * @param wbc 写入通道
-	 * @param b 字节数组
-	 * @return true false
+	 * 
+	 * @param  wbc 写入通道
+	 * @param  b   字节数组
+	 * @return     true false
 	 */
 	public static boolean write(WritableByteChannel wbc, byte[] b) {
 		return write(wbc, b, true);
@@ -73,10 +77,11 @@ public final class ChannelUtil {
 
 	/**
 	 * 把text写入到os中
-	 * @param wbc 写入通道
-	 * @param b 字节数组
-	 * @param isClose 是否关闭流
-	 * @return true false
+	 * 
+	 * @param  wbc     写入通道
+	 * @param  b       字节数组
+	 * @param  isClose 是否关闭流
+	 * @return         true false
 	 */
 	public static boolean write(WritableByteChannel wbc, byte[] b, boolean isClose) {
 		return write(wbc, new ByteArrayInputStream(b), isClose);
@@ -84,9 +89,10 @@ public final class ChannelUtil {
 
 	/**
 	 * 把text写入到os中
-	 * @param wbc 写入通道
-	 * @param in 输入流
-	 * @return true false
+	 * 
+	 * @param  wbc 写入通道
+	 * @param  in  输入流
+	 * @return     true false
 	 */
 	public static boolean write(WritableByteChannel wbc, InputStream in) {
 		return write(wbc, in, true);
@@ -94,10 +100,11 @@ public final class ChannelUtil {
 
 	/**
 	 * 把text写入到os中
-	 * @param wbc 写入通道
-	 * @param in 输入流
-	 * @param isClose 是否关闭流
-	 * @return true false
+	 * 
+	 * @param  wbc     写入通道
+	 * @param  in      输入流
+	 * @param  isClose 是否关闭流
+	 * @return         true false
 	 */
 	public static boolean write(WritableByteChannel wbc, InputStream in, boolean isClose) {
 		// 如果输出或则输入流为空
@@ -135,6 +142,4 @@ public final class ChannelUtil {
 		// 返回失败
 		return false;
 	}
-
-	private ChannelUtil() {}
 }

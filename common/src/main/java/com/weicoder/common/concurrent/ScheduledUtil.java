@@ -10,11 +10,11 @@ import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.log.Logs;
 
 /**
- * 定时任务工具类
+ * 并发线程定时任务工具类
  * 
  * @author WD
  */
-public final class ScheduledUtil {
+public class ScheduledUtil {
 	// 定时线程工厂
 	private final static ScheduledFactory FACTORY = new ScheduledFactory();
 
@@ -234,8 +234,5 @@ public final class ScheduledUtil {
 		Logs.debug("ScheduledUtile rate name={} command={},initialDelay={},delay={},unit={}", name, command,
 				initialDelay, delay, unit);
 		return pool(name).scheduleWithFixedDelay(command, initialDelay, delay, unit);
-	}
-
-	private ScheduledUtil() {
 	}
 }

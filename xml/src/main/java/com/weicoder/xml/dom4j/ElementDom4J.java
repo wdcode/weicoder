@@ -6,7 +6,7 @@ import org.dom4j.DocumentHelper;
 
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Lists;
-import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.U;
 import com.weicoder.xml.Attribute;
 import com.weicoder.xml.Document;
 import com.weicoder.xml.Element; 
@@ -122,7 +122,7 @@ public final class ElementDom4J implements Element {
 		// 获得所以属性
 		List<?> list = element.attributes();
 		// 列表不为空
-		if (EmptyUtil.isEmpty(list)) {
+		if (U.E.isEmpty(list)) {
 			// 返回空列表
 			return Lists.emptyList();
 		}
@@ -186,7 +186,7 @@ public final class ElementDom4J implements Element {
 	 * @return true 空对象 false 非空对象
 	 */
 	public boolean isEmpty() {
-		return EmptyUtil.isEmpty(element);
+		return U.E.isEmpty(element);
 	}
 
 	/**
@@ -267,7 +267,7 @@ public final class ElementDom4J implements Element {
 	 */
 	private List<Element> getElementList(List<?> list) {
 		// 判断列表不为空
-		if (EmptyUtil.isEmpty(list)) {
+		if (U.E.isEmpty(list)) {
 			return Lists.emptyList();
 		}
 		// 获得列表大小

@@ -5,11 +5,11 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Properties;
 
+import com.weicoder.common.U;
+import com.weicoder.common.W;
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.lang.C;
-import com.weicoder.common.lang.Lists;
-import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.lang.Lists; 
 import com.weicoder.common.util.ResourceUtil;
 import com.weicoder.common.util.StringUtil;
 
@@ -60,7 +60,7 @@ public final class Config {
 	 * @return              value
 	 */
 	public List<String> getList(String key, List<String> defaultValue) {
-		return Lists.newList(getStringArray(key, EmptyUtil.isEmpty(defaultValue) ? ArrayConstants.STRING_EMPTY : Lists.toArray(defaultValue)));
+		return Lists.newList(getStringArray(key, U.E.isEmpty(defaultValue) ? ArrayConstants.STRING_EMPTY : Lists.toArray(defaultValue)));
 	}
 
 	/**
@@ -84,7 +84,7 @@ public final class Config {
 		// 获得字符串
 		String s = getString(key);
 		// 如果为空返回默认值 不为空以,拆分
-		if (EmptyUtil.isEmpty(s))
+		if (U.E.isEmpty(s))
 			return defaultValue;
 		else
 			return s.split(StringConstants.COMMA);
@@ -119,7 +119,7 @@ public final class Config {
 	 * @return              value
 	 */
 	public boolean getBoolean(String key, boolean defaultValue) {
-		return C.toBoolean(getString(key), defaultValue);
+		return W.C.toBoolean(getString(key), defaultValue);
 	}
 
 	/**
@@ -140,7 +140,7 @@ public final class Config {
 	 * @return              value
 	 */
 	public int getInt(String key, int defaultValue) {
-		return C.toInt(getString(key), defaultValue);
+		return W.C.toInt(getString(key), defaultValue);
 	}
 
 	/**
@@ -161,7 +161,7 @@ public final class Config {
 	 * @return              value
 	 */
 	public byte getByte(String key, byte defaultValue) {
-		return C.toByte(getString(key), defaultValue);
+		return W.C.toByte(getString(key), defaultValue);
 	}
 
 	/**
@@ -172,7 +172,7 @@ public final class Config {
 	 * @return              value
 	 */
 	public long getLong(String key, long defaultValue) {
-		return C.toLong(getString(key), defaultValue);
+		return W.C.toLong(getString(key), defaultValue);
 	}
 
 	/**
@@ -183,7 +183,7 @@ public final class Config {
 	 * @return              value
 	 */
 	public short getShort(String key, short defaultValue) {
-		return C.toShort(getString(key), defaultValue);
+		return W.C.toShort(getString(key), defaultValue);
 	}
 
 	/**

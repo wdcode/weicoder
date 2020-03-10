@@ -7,7 +7,7 @@ import com.weicoder.common.codec.Hex;
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.EncryptConstants;
 import com.weicoder.common.params.CommonParams;
-import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.U;
 import com.weicoder.common.util.StringUtil;
 
 /**
@@ -107,7 +107,7 @@ public final class HMac {
 	private static byte[] doFinal(byte[] b, String algorithm, String keys) {
 		try {
 			// 参数为空时
-			if (EmptyUtil.isEmptys(b, algorithm, keys))
+			if (U.E.isEmptys(b, algorithm, keys))
 				return ArrayConstants.BYTES_EMPTY;
 			return getMac(algorithm, keys).doFinal(b);
 		} catch (Exception e) {

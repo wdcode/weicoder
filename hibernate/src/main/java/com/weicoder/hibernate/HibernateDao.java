@@ -19,12 +19,12 @@ import org.hibernate.resource.transaction.spi.TransactionStatus;
 import com.weicoder.hibernate.session.SessionFactorys;
 import com.weicoder.hibernate.tx.HibernateTransactional;
 import com.weicoder.dao.params.DaoParams;
-import com.weicoder.common.lang.C;
+import com.weicoder.common.U;
+import com.weicoder.common.W;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.log.Log;
-import com.weicoder.common.log.LogFactory;
-import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.log.LogFactory; 
 import com.weicoder.common.util.ThreadUtil;
 import com.weicoder.dao.Dao;
 import com.weicoder.dao.Transactional;
@@ -62,7 +62,7 @@ public final class HibernateDao implements Dao {
 
 	@Override
 	public <E> List<E> insert(final List<E> entitys) {
-		return EmptyUtil.isEmpty(entitys) ? entitys
+		return U.E.isEmpty(entitys) ? entitys
 				: execute(entitys.get(0).getClass(), session -> {
 					// 循环添加
 					entitys.forEach(e -> session.save(e));
@@ -123,7 +123,7 @@ public final class HibernateDao implements Dao {
 
 	@Override
 	public <E> List<E> insertOrUpdate(final List<E> entitys) {
-		return EmptyUtil.isEmpty(entitys) ? Lists.emptyList()
+		return U.E.isEmpty(entitys) ? Lists.emptyList()
 				: execute(entitys.get(0).getClass(), session -> {
 					// 循环更新
 					entitys.forEach(e -> session.saveOrUpdate(e));
@@ -162,7 +162,7 @@ public final class HibernateDao implements Dao {
 	@Override
 	public <E> E get(final Class<E> entityClass, final Serializable pk) {
 		// 验证pk是否为空
-		if (EmptyUtil.isEmpty(pk))
+		if (U.E.isEmpty(pk))
 			return null;
 		// 查找对象
 		return execute(entityClass, session -> session.get(entityClass, pk));
@@ -171,7 +171,7 @@ public final class HibernateDao implements Dao {
 	@Override
 	public <E> List<E> gets(final Class<E> entityClass, final Serializable... pks) {
 		// 验证pk是否为空
-		if (EmptyUtil.isEmpty(pks))
+		if (U.E.isEmpty(pks))
 			return Lists.emptyList();
 		// 查找对象
 		return execute(entityClass, session -> {
@@ -191,7 +191,7 @@ public final class HibernateDao implements Dao {
 		// 获得结果
 		List<E> list = list(entity, 0, 1);
 		// 返回结果
-		return EmptyUtil.isEmpty(list) ? null : list.get(0);
+		return U.E.isEmpty(list) ? null : list.get(0);
 	}
 
 	@Override
@@ -314,12 +314,12 @@ public final class HibernateDao implements Dao {
 			// 创建查询条件
 			Criteria criteria = DetachedCriteria.forClass(entityClass).getExecutableCriteria(session);
 			// 设置参数
-			if (EmptyUtil.isNotEmpty(property) && EmptyUtil.isNotEmpty(value))
+			if (U.E.isNotEmpty(property) && U.E.isNotEmpty(value))
 				criteria.add(Restrictions.eq(property, value));
 			// 设置获得总行数
 			criteria.setProjection(Projections.rowCount());
 			// 返回结果
-			return C.toInt(criteria.uniqueResult());
+			return W.C.toInt(criteria.uniqueResult());
 		});
 	}
 
@@ -329,12 +329,12 @@ public final class HibernateDao implements Dao {
 			// 创建查询条件
 			Criteria criteria = DetachedCriteria.forClass(entityClass).getExecutableCriteria(session);
 			// 判断属性名不为空
-			if (EmptyUtil.isNotEmpty(map))
+			if (U.E.isNotEmpty(map))
 				criteria.add(Restrictions.allEq(map));
 			// 设置获得总行数
 			criteria.setProjection(Projections.rowCount());
 			// 返回结果
-			return C.toInt(criteria.uniqueResult());
+			return W.C.toInt(criteria.uniqueResult());
 		});
 	}
 
@@ -348,7 +348,7 @@ public final class HibernateDao implements Dao {
 			// 设置获得总行数
 			criteria.setProjection(Projections.rowCount());
 			// 返回结果
-			return C.toInt(criteria.uniqueResult());
+			return W.C.toInt(criteria.uniqueResult());
 		});
 	}
 
@@ -423,7 +423,7 @@ public final class HibernateDao implements Dao {
 	 */
 	private <R> Query<R> setParameter(Query<R> query, List<Object> values, int firstResult, int maxResults) {
 		// 是否有参数
-		if (!EmptyUtil.isEmpty(values))
+		if (!U.E.isEmpty(values))
 			// 循环参数
 			for (int i = 0; i < values.size(); i++)
 				// 设置参数
@@ -450,7 +450,7 @@ public final class HibernateDao implements Dao {
 		// 获得结果
 		List<E> list = queryCriteria(entityClass, criteria, 0, 1);
 		// 返回结果
-		return EmptyUtil.isEmpty(list) ? null : list.get(0);
+		return U.E.isEmpty(list) ? null : list.get(0);
 	}
 
 	/**
@@ -487,7 +487,7 @@ public final class HibernateDao implements Dao {
 	 * @return             返回结果列表 异常返回0
 	 */
 	private int count(Class<?> entityClass, final DetachedCriteria criteria) {
-		return execute(entityClass, session -> C.toInt(criteria.getExecutableCriteria(session).setProjection(Projections.rowCount()).uniqueResult()));
+		return execute(entityClass, session -> W.C.toInt(criteria.getExecutableCriteria(session).setProjection(Projections.rowCount()).uniqueResult()));
 	}
 
 	/**
@@ -540,7 +540,7 @@ public final class HibernateDao implements Dao {
 		// 获得DetachedCriteria
 		DetachedCriteria criteria = DetachedCriteria.forClass(entityClass);
 		// 循环排序
-		orders.forEach((k, v) -> criteria.addOrder(C.toBoolean(v) ? Order.asc(k) : Order.desc(k)));
+		orders.forEach((k, v) -> criteria.addOrder(W.C.toBoolean(v) ? Order.asc(k) : Order.desc(k)));
 		// 返回DetachedCriteria
 		return criteria;
 	}
@@ -582,16 +582,16 @@ public final class HibernateDao implements Dao {
 			// 执行
 			t = callback.callback(session);
 			// 是否自己控制事务
-			if (EmptyUtil.isNotEmpty(tx))
+			if (U.E.isNotEmpty(tx))
 				// 提交事务
 				tx.commit();
 			LOG.debug("hibernate dao callback res={}", t);
 		} catch (Exception e) {
 			LOG.error(e, "hibernate dao res={}", t);
 			// 回滚事务
-			if (EmptyUtil.isNotEmpty(tx))
+			if (U.E.isNotEmpty(tx))
 				tx.rollback();
-			if (EmptyUtil.isNotEmpty(txl))
+			if (U.E.isNotEmpty(txl))
 				txl.rollback();
 			t = null;
 		} finally {

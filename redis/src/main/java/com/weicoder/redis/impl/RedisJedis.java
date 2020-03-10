@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.weicoder.common.lang.Bytes;
-import com.weicoder.common.lang.C; 
+import com.weicoder.common.lang.Bytes; 
+import com.weicoder.common.W;
 import com.weicoder.common.log.Logs; 
 import com.weicoder.redis.base.BaseRedis;
 import com.weicoder.redis.builder.JedisBuilder;
@@ -38,7 +38,7 @@ public final class RedisJedis extends BaseRedis {
 	@Override
 	public long llen(String key) {
 		try (Jedis jedis = pool.getResource()) {
-			return C.toLong(jedis.llen(key));
+			return W.C.toLong(jedis.llen(key));
 		}
 	}
 

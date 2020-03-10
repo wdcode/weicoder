@@ -5,11 +5,13 @@ import com.weicoder.common.log.Logs;
 
 /**
  * Thread 相关方法
+ * 
  * @author WD
  */
-public final class ThreadUtil {
+public class ThreadUtil {
 	/**
 	 * 封装sleep异常处理
+	 * 
 	 * @param millis 暂停时间毫秒
 	 */
 	public static void sleep(long millis) {
@@ -22,6 +24,7 @@ public final class ThreadUtil {
 
 	/**
 	 * 封装sleep异常处理
+	 * 
 	 * @param millis 暂停时间毫秒
 	 */
 	public static void sleep(int millis) {
@@ -30,11 +33,10 @@ public final class ThreadUtil {
 
 	/**
 	 * 执行线程
+	 * 
 	 * @param target 线程接口
 	 */
 	public static void start(Runnable target) {
 		new Thread(target).start();
 	}
-
-	private ThreadUtil() {}
 }

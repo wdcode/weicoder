@@ -7,7 +7,7 @@ import com.weicoder.common.params.CommonParams;
  * 
  * @author WD
  */
-public final class TokenEngine {
+public   class TokenEngine {
 	/** 空登录信息 */
 	public final static TokenBean EMPTY = new TokenBean();
 
@@ -91,8 +91,5 @@ public final class TokenEngine {
 	 */
 	public static TokenBean decrypt(String info) {
 		return new TokenBean(info);
-	}
-
-	private TokenEngine() {
-	}
+	} 
 }

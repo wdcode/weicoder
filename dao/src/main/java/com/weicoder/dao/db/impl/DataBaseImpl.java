@@ -20,12 +20,12 @@ import javax.sql.DataSource;
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.StringConstants;
 
-import com.weicoder.common.lang.C;
+import com.weicoder.common.U;
+import com.weicoder.common.W;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.log.Logs;
-import com.weicoder.common.util.CloseUtil;
-import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.util.CloseUtil; 
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.dao.db.DataBase;
@@ -216,7 +216,7 @@ public final class DataBaseImpl implements DataBase {
 			// 获得CallableStatement
 			cstmt = conn.prepareCall(call);
 			// 判断参数不为空
-			if (EmptyUtil.isNotEmpty(parame)) {
+			if (U.E.isNotEmpty(parame)) {
 				// 循环参数
 				for (int i = 0; i < parame.length; i++)
 					// 设置参数
@@ -498,7 +498,7 @@ public final class DataBaseImpl implements DataBase {
 		// 获得PreparedStatement实例
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		// 判断参数不为空
-		if (EmptyUtil.isEmpty(parame))
+		if (U.E.isEmpty(parame))
 			// 添加到批里
 			pstmt.addBatch();
 		else {
@@ -532,7 +532,7 @@ public final class DataBaseImpl implements DataBase {
 		// 获得PreparedStatement实例
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		// 判断参数不为空F
-		if (EmptyUtil.isNotEmpty(parame)) {
+		if (U.E.isNotEmpty(parame)) {
 			// 循环设置每条条件
 			for (int i = 0; i < parame.length; i++)
 				// 设置参数
@@ -607,31 +607,31 @@ public final class DataBaseImpl implements DataBase {
 			pstmt.setNull(index, java.sql.Types.NULL);
 		else if (parame instanceof String)
 			// String
-			pstmt.setString(index, C.toString(parame));
+			pstmt.setString(index, W.C.toString(parame));
 		else if (parame instanceof Integer)
 			// Integer
-			pstmt.setInt(index, C.toInt(parame));
+			pstmt.setInt(index, W.C.toInt(parame));
 		else if (parame instanceof Long)
 			// Long
-			pstmt.setLong(index, C.toLong(parame));
+			pstmt.setLong(index, W.C.toLong(parame));
 		else if (parame instanceof Double)
 			// Double
-			pstmt.setDouble(index, C.toDouble(parame));
+			pstmt.setDouble(index, W.C.toDouble(parame));
 		else if (parame instanceof Float)
 			// Float
-			pstmt.setFloat(index, C.toFloat(parame));
+			pstmt.setFloat(index, W.C.toFloat(parame));
 		else if (parame instanceof Short)
 			// Short
-			pstmt.setShort(index, C.toShort(parame));
+			pstmt.setShort(index, W.C.toShort(parame));
 		else if (parame instanceof Byte)
 			// Byte
-			pstmt.setByte(index, C.toByte(parame));
+			pstmt.setByte(index, W.C.toByte(parame));
 		else if (parame instanceof Boolean)
 			// Boolean
-			pstmt.setBoolean(index, C.toBoolean(parame));
+			pstmt.setBoolean(index, W.C.toBoolean(parame));
 		else if (parame instanceof BigDecimal)
 			// BigDecimal
-			pstmt.setBigDecimal(index, C.toBigDecimal(parame));
+			pstmt.setBigDecimal(index, W.C.toBigDecimal(parame));
 		else if (parame instanceof Blob)
 			// Blob
 			pstmt.setBlob(index, (Blob) parame);

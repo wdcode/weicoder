@@ -8,7 +8,8 @@ import java.util.regex.Pattern;
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.StringConstants;
 
-import com.weicoder.common.lang.C;
+import com.weicoder.common.U;
+import com.weicoder.common.W;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
@@ -18,7 +19,7 @@ import com.weicoder.common.params.CommonParams;
  * 
  * @author WD
  */
-public final class StringUtil {
+public class StringUtil {
 
 	/**
 	 * 是否包含Emoji表情
@@ -65,7 +66,7 @@ public final class StringUtil {
 	 * @return        过滤后的字符串
 	 */
 	public static String filterEmoji(String source) {
-		if (EmptyUtil.isEmpty(source))
+		if (U.E.isEmpty(source))
 			return source;
 		StringBuilder buf = null;
 		int len = source.length();
@@ -107,7 +108,7 @@ public final class StringUtil {
 	 * @return        是否开头
 	 */
 	public static boolean startsWith(String str, String prefix) {
-		return C.toString(str).startsWith(prefix);
+		return W.C.toString(str).startsWith(prefix);
 	}
 
 	/**
@@ -119,7 +120,7 @@ public final class StringUtil {
 	public static String add(Object... os) {
 		StringBuilder sb = new StringBuilder();
 		for (Object o : os)
-			sb.append(C.toString(o));
+			sb.append(W.C.toString(o));
 		return sb.toString();
 	}
 
@@ -142,7 +143,7 @@ public final class StringUtil {
 	 */
 	public static int getLength(String str) {
 		// 如果为空返回0
-		if (EmptyUtil.isEmpty(str))
+		if (U.E.isEmpty(str))
 			return 0;
 		// 初始化长度
 		int length = 0;
@@ -219,7 +220,7 @@ public final class StringUtil {
 	 */
 	public static String subString(String str, String start, String end) {
 		// 字符串为空返回原串
-		if (EmptyUtil.isEmpty(str))
+		if (U.E.isEmpty(str))
 			return str;
 		// 开始位置
 		int i = str.indexOf(start) == -1 ? 0 : str.indexOf(start) + start.length();
@@ -242,7 +243,7 @@ public final class StringUtil {
 	 * @return       截取后的字符串
 	 */
 	public static String subString(String str, int start) {
-		return EmptyUtil.isEmpty(str) ? StringConstants.EMPTY : subString(str, start, str.length());
+		return U.E.isEmpty(str) ? StringConstants.EMPTY : subString(str, start, str.length());
 	}
 	
 	/**
@@ -252,7 +253,7 @@ public final class StringUtil {
 	 */
 	public static String toParameters(Map<String, String> map) {
 		// 如果Map为空 返回空串
-		if (EmptyUtil.isEmpty(map))
+		if (U.E.isEmpty(map))
 			return StringConstants.EMPTY;
 		// 声明字符串缓存
 		StringBuilder sb = new StringBuilder();
@@ -265,7 +266,7 @@ public final class StringUtil {
 			// 获得值
 			String val = map.get(key);
 			// 判断值不为空
-			if (EmptyUtil.isNotEmpty(val)) {
+			if (U.E.isNotEmpty(val)) {
 				sb.append(key).append("=");
 				sb.append(val).append("&");
 			}
@@ -284,7 +285,7 @@ public final class StringUtil {
 	 */
 	public static String subString(String str, int start, int end) {
 		// 字符串为空返回原串
-		if (EmptyUtil.isEmpty(str))
+		if (U.E.isEmpty(str))
 			return str;
 		// 字符串长度
 		int len = str.length();
@@ -312,7 +313,7 @@ public final class StringUtil {
 	 */
 	public static String subStringLast(String str, String start, String end) {
 		// 字符串为空返回""
-		if (EmptyUtil.isEmpty(str))
+		if (U.E.isEmpty(str))
 			return str;
 		// 开始位置
 		int i = str.lastIndexOf(start) == -1 ? 0 : str.lastIndexOf(start) + start.length();
@@ -332,7 +333,7 @@ public final class StringUtil {
 	 */
 	public static String subString(String str, String start) {
 		// 字符串为空返回""
-		if (EmptyUtil.isEmpty(str))
+		if (U.E.isEmpty(str))
 			return str;
 		// 开始位置
 		int i = str.indexOf(start) == -1 ? 0 : str.indexOf(start) + start.length();
@@ -353,7 +354,7 @@ public final class StringUtil {
 	 */
 	public static String subStringLast(String str, String start) {
 		// 字符串为空返回原串
-		if (EmptyUtil.isEmpty(str))
+		if (U.E.isEmpty(str))
 			return str;
 		// 开始位置
 		int i = str.lastIndexOf(start) == -1 ? 0 : str.lastIndexOf(start) + start.length();
@@ -374,7 +375,7 @@ public final class StringUtil {
 	 */
 	public static String subStringEnd(String str, String end) {
 		// 字符串为空返回""
-		if (EmptyUtil.isEmpty(str))
+		if (U.E.isEmpty(str))
 			return str;
 		// 开始位置
 		int i = str.indexOf(end) == -1 ? 0 : str.indexOf(end);
@@ -395,7 +396,7 @@ public final class StringUtil {
 	 */
 	public static String subStringLastEnd(String str, String end) {
 		// 字符串为空返回""
-		if (EmptyUtil.isEmpty(str))
+		if (U.E.isEmpty(str))
 			return str;
 		// 开始位置
 		int i = str.lastIndexOf(end) == -1 ? 0 : str.lastIndexOf(end);
@@ -415,7 +416,7 @@ public final class StringUtil {
 	 */
 	public static String toCharset(String source, String tChar) {
 		try {
-			return EmptyUtil.isEmpty(source) ? source : new String(source.getBytes(), tChar);
+			return U.E.isEmpty(source) ? source : new String(source.getBytes(), tChar);
 		} catch (Exception e) {
 			return StringConstants.EMPTY;
 		}
@@ -431,7 +432,7 @@ public final class StringUtil {
 	 */
 	public static String toCharset(String source, String sChar, String tChar) {
 		try {
-			return EmptyUtil.isEmpty(source) ? source : new String(source.getBytes(sChar), tChar);
+			return U.E.isEmpty(source) ? source : new String(source.getBytes(sChar), tChar);
 		} catch (Exception e) {
 			Logs.warn(e);
 			return StringConstants.EMPTY;
@@ -446,7 +447,7 @@ public final class StringUtil {
 	 */
 	public static String convert(String name) {
 		// 如果为空返回原串
-		if (EmptyUtil.isEmpty(name))
+		if (U.E.isEmpty(name))
 			return name;
 		// 分解_个字段
 		String[] strs = name.split(StringConstants.UNDERLINE);
@@ -457,7 +458,7 @@ public final class StringUtil {
 			// 获得新字符串
 			String s = strs[i];
 			// 添加字符串
-			if (EmptyUtil.isNotEmpty(s)) {
+			if (U.E.isNotEmpty(s)) {
 				if (i == 0)
 					buf.append(s.substring(0, 1).toLowerCase());
 				else
@@ -477,7 +478,7 @@ public final class StringUtil {
 	 */
 	public static String toDbName(String name) {
 		// 如果为空返回原串
-		if (EmptyUtil.isEmpty(name))
+		if (U.E.isEmpty(name))
 			return name;
 		// 分解成字符
 		char[] cs = name.toCharArray();
@@ -522,7 +523,7 @@ public final class StringUtil {
 	 */
 	public static String toString(byte[] b, String charsetName) {
 		try {
-			return EmptyUtil.isEmpty(b) ? StringConstants.EMPTY : new String(b, charsetName);
+			return U.E.isEmpty(b) ? StringConstants.EMPTY : new String(b, charsetName);
 		} catch (Exception e) {
 			Logs.warn(e);
 			return StringConstants.EMPTY;
@@ -536,7 +537,7 @@ public final class StringUtil {
 	 * @return   字节数组
 	 */
 	public static byte[] toBytes(Object s) {
-		return toBytes(C.toString(s));
+		return toBytes(W.C.toString(s));
 	}
 
 	/**
@@ -558,7 +559,7 @@ public final class StringUtil {
 	 */
 	public static byte[] toBytes(String s, String charsetName) {
 		try {
-			return EmptyUtil.isEmpty(s) ? ArrayConstants.BYTES_EMPTY : s.getBytes(charsetName);
+			return U.E.isEmpty(s) ? ArrayConstants.BYTES_EMPTY : s.getBytes(charsetName);
 		} catch (Exception e) {
 			Logs.warn(e);
 			return ArrayConstants.BYTES_EMPTY;
@@ -574,7 +575,7 @@ public final class StringUtil {
 	 */
 	public static boolean contains(String str, String searchStr) {
 		// 如果一个串为空 返回false
-		if (EmptyUtil.isEmpty(str) || EmptyUtil.isEmpty(searchStr))
+		if (U.E.isEmpty(str) || U.E.isEmpty(searchStr))
 			return false;
 		// 判断是否包含
 		return str.indexOf(searchStr) >= 0;
@@ -587,7 +588,7 @@ public final class StringUtil {
 	 * @return   处理后的字符串
 	 */
 	public static String trim(String s) {
-		return C.toString(s).trim();
+		return W.C.toString(s).trim();
 	}
 
 	/**
@@ -599,7 +600,7 @@ public final class StringUtil {
 	 * @return             替换后的字符
 	 */
 	public static String replace(String s, String regex, String replacement) {
-		return EmptyUtil.isEmpty(s) ? StringConstants.EMPTY : s.replace(regex, replacement);
+		return U.E.isEmpty(s) ? StringConstants.EMPTY : s.replace(regex, replacement);
 	}
 
 	/**
@@ -611,7 +612,7 @@ public final class StringUtil {
 	 * @return             替换后的字符
 	 */
 	public static String replaceAll(String s, String regex, String replacement) {
-		return EmptyUtil.isEmpty(s) ? StringConstants.EMPTY : s.replaceAll(regex, replacement);
+		return U.E.isEmpty(s) ? StringConstants.EMPTY : s.replaceAll(regex, replacement);
 	}
 
 	/**
@@ -622,7 +623,7 @@ public final class StringUtil {
 	 * @return       替换后的字符
 	 */
 	public static String[] split(String s, String regex) {
-		return EmptyUtil.isEmpty(s) ? ArrayConstants.STRING_EMPTY : s.split(regex);
+		return U.E.isEmpty(s) ? ArrayConstants.STRING_EMPTY : s.split(regex);
 	}
 
 	/**
@@ -645,7 +646,7 @@ public final class StringUtil {
 	 */
 	public static String resolve(String text, int len) {
 		// 字符串为空
-		if (EmptyUtil.isEmpty(text))
+		if (U.E.isEmpty(text))
 			return text;
 		// 如果字符串长度大于要返回的长度
 		if (text.length() > len) {
@@ -671,7 +672,7 @@ public final class StringUtil {
 	 * @return    返回聚合后字符串
 	 */
 	public static String combine(String s1, String s2) {
-		return EmptyUtil.isEmpty(s1) || EmptyUtil.isEmpty(s2) ? StringConstants.EMPTY : combine(s1, s2, (s1.length() + s2.length()) / s1.length());
+		return U.E.isEmpty(s1) || U.E.isEmpty(s2) ? StringConstants.EMPTY : combine(s1, s2, (s1.length() + s2.length()) / s1.length());
 	}
 
 	/**
@@ -711,7 +712,7 @@ public final class StringUtil {
 	public static String[] separate(String s, int len) {
 		try {
 			// 如果字符为空返回空
-			if (EmptyUtil.isEmpty(s))
+			if (U.E.isEmpty(s))
 				return ArrayConstants.STRING_EMPTY;
 			// 声明字符数组
 			char[] c = s.toCharArray();
@@ -731,8 +732,5 @@ public final class StringUtil {
 		} catch (Exception e) {
 			return ArrayConstants.STRING_EMPTY;
 		}
-	}
-
-	private StringUtil() {
-	}
+	} 
 }

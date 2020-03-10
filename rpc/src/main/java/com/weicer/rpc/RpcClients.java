@@ -13,8 +13,7 @@ import com.weicoder.common.lang.Maps;
 import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.socket.TcpClient;
 import com.weicoder.common.util.ClassUtil;
-import com.weicoder.common.util.EmptyUtil;
-import com.weicoder.common.util.ProxyUtil;
+import com.weicoder.common.U; 
 import com.weicoder.common.util.StringUtil;
 
 /**
@@ -49,7 +48,7 @@ public final class RpcClients {
 		if (ClassUtil.forName("com.alipay.sofa.rpc.config.ConsumerConfig") != null)
 			return sofa(rpc, host, port);
 		// 使用jdk调用
-		return ProxyUtil.newProxyInstance(rpc, new JDKInvocationHandler(new InetSocketAddress(host, port)));
+		return U.C.newProxyInstance(rpc, new JDKInvocationHandler(new InetSocketAddress(host, port)));
 	}
 
 	/**
@@ -128,7 +127,7 @@ public final class RpcClients {
 			ClassUtil.getAnnotationClass(CommonParams.getPackages("rpc"), Rpc.class).forEach(r -> {
 				// rpc服务地址
 				String addr = r.getAnnotation(Rpc.class).value();
-				if (EmptyUtil.isEmpty(addr))
+				if (U.E.isEmpty(addr))
 					addr = StringUtil.convert(r.getSimpleName()); 
 				ADDRESS.put(addr, new InetSocketAddress(RpcParams.getHost(addr), RpcParams.getPort(addr)));
 				// 处理所有方法

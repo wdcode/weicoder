@@ -17,8 +17,8 @@ import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
-
-import com.weicoder.common.lang.C;
+ 
+import com.weicoder.common.W;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.json.JsonEngine;
@@ -109,8 +109,8 @@ public class ElasticSearchTest {
 		list.add(Maps.newMap(new String[]{"id","uid", "nickname"}, new Object[]{6, 16, "呵哈呵"}));
 
 		list.forEach(m -> {
-			try {// .id(C.toString(m.get("id")))
-				System.out.println(client.index(new IndexRequest(index).id(C.toString(m.remove("id"))).source(m), RequestOptions.DEFAULT).getResult());
+			try {// .id(W.C.toString(m.get("id")))
+				System.out.println(client.index(new IndexRequest(index).id(W.C.toString(m.remove("id"))).source(m), RequestOptions.DEFAULT).getResult());
 			} catch (IOException e) {
 				System.out.println(e);
 			}

@@ -10,7 +10,7 @@ import org.apache.solr.client.solrj.impl.HttpSolrClient.Builder;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.BeanUtil;
-import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.U;
 import com.weicoder.solr.params.SolrParams;
 
 /**
@@ -49,7 +49,7 @@ public class Solr {
 	 */
 	public int update(Collection<?> list) {
 		try {
-			return EmptyUtil.isEmpty(list) ? 0 : client.addBeans(list).getStatus();
+			return U.E.isEmpty(list) ? 0 : client.addBeans(list).getStatus();
 		} catch (Exception e) {
 			Logs.error(e);
 			return -1;
@@ -95,7 +95,7 @@ public class Solr {
 	 */
 	public int del(List<String> ids) {
 		try {
-			return EmptyUtil.isEmpty(ids) ? 0 : client.deleteById(ids).getStatus();
+			return U.E.isEmpty(ids) ? 0 : client.deleteById(ids).getStatus();
 		} catch (Exception e) {
 			Logs.error(e);
 			return -1;

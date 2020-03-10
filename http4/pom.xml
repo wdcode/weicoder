@@ -20,24 +20,29 @@
 		 <!-- 
 		 <dependency>
 			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpclient</artifactId> 
-		 </dependency>
-		 <dependency>
+			<artifactId>httpclient</artifactId>
+			<version>${httpclient}</version>
+		</dependency>
+		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpmime</artifactId> 
-		 </dependency>
-		 <dependency>
+			<artifactId>httpmime</artifactId>
+			<version>${httpmime}</version>
+		</dependency>
+		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
-		 	<artifactId>httpcore</artifactId> 
-		 </dependency>
-		 <dependency>
+			<artifactId>httpcore</artifactId>
+			<version>${httpcore}</version>
+		</dependency>
+		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpcore-nio</artifactId> 
-		 </dependency>
-		 <dependency>
+			<artifactId>httpcore-nio</artifactId>
+			<version>${httpcore-nio}</version>
+		</dependency>
+		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpasyncclient</artifactId> 
-		 </dependency> 
+			<artifactId>httpasyncclient</artifactId>
+			<version>${httpasyncclient}</version>
+		</dependency> 
 		 -->
 	</dependencies>
 </project>

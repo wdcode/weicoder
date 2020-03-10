@@ -21,8 +21,9 @@
 		</dependency> 
 		 <!--
 		<dependency>
-		 	<groupId>com.whalin</groupId>
-		 	<artifactId>Memcached-Java-Client</artifactId> 
+			<groupId>com.whalin</groupId>
+			<artifactId>Memcached-Java-Client</artifactId>
+			<version>${Memcached-Java-Client}</version> 
 		</dependency>
 		 -->
 	</dependencies>

@@ -11,7 +11,7 @@ import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.log.Logs;
-import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.U;
 import com.weicoder.common.zip.ZipEngine;
 import com.weicoder.json.JsonEngine;
 import com.weicoder.mongo.Mongo;
@@ -62,7 +62,7 @@ public final class MongoImpl implements Mongo {
 //			builder.threadsAllowedToBlockForConnectionMultiplier(100);
 			// MongoCredential
 			MongoCredential credential = null;
-			if (EmptyUtil.isNotEmpty(MongoParams.getUser(key)))
+			if (U.E.isNotEmpty(MongoParams.getUser(key)))
 				credential = MongoCredential.createScramSha1Credential(MongoParams.getUser(key), "admin", MongoParams.getPassword(key).toCharArray());
 			// 实例化客户端
 			if (credential == null)
@@ -71,7 +71,7 @@ public final class MongoImpl implements Mongo {
 				client = new MongoClient(new ServerAddress(MongoParams.getHost(key), MongoParams.getPort(key)), credential, builder.build());
 			// 如果库存在
 			db = client.getDatabase(MongoParams.getDB(key));
-			if (EmptyUtil.isNotEmpty(MongoParams.getCollection(key)))
+			if (U.E.isNotEmpty(MongoParams.getCollection(key)))
 				dbc = db.getCollection(MongoParams.getCollection(key));
 			dbcs = Maps.newMap();
 		} catch (Exception e) {
@@ -158,7 +158,7 @@ public final class MongoImpl implements Mongo {
 	@Override
 	public List<Map<String, Object>> query(String name, Map<String, Object> query, int start, int end) {
 		// 获得数据库游标
-		FindIterable<Document> iterable = getCollection(name).find(EmptyUtil.isEmpty(query) ? new BasicDBObject() : new BasicDBObject(query));
+		FindIterable<Document> iterable = getCollection(name).find(U.E.isEmpty(query) ? new BasicDBObject() : new BasicDBObject(query));
 		// 设置游标开始位置
 		iterable.skip(start);
 		// 设置限定数量
@@ -181,7 +181,7 @@ public final class MongoImpl implements Mongo {
 	 */
 	@SuppressWarnings("unchecked")
 	private Map<String, Object> toMap(Document object) {
-		return (Map<String, Object>) (EmptyUtil.isEmpty(object) ? Maps.newMap() : object);
+		return (Map<String, Object>) (U.E.isEmpty(object) ? Maps.newMap() : object);
 	}
 
 	/**
@@ -191,11 +191,11 @@ public final class MongoImpl implements Mongo {
 	 */
 	private Map<String, Object> newMap(Map<String, Object> map) {
 		// 判断_id为空 赋值
-		if (EmptyUtil.isNotEmpty(map)) {
+		if (U.E.isNotEmpty(map)) {
 			// 获得ID
 			Object key = map.get(ID);
 			// 判断如果为空获得 id键
-			key = EmptyUtil.isEmpty(key) ? map.get(KEY) : key;
+			key = U.E.isEmpty(key) ? map.get(KEY) : key;
 			// 设置主键
 			map.put(ID, key);
 		}
@@ -310,7 +310,7 @@ public final class MongoImpl implements Mongo {
 	 */
 	public MongoCollection<Document> getCollection(String name) {
 		// 获得数据集合
-		MongoCollection<Document> dbc = EmptyUtil.isEmpty(name) ? this.dbc : dbcs.get(name);
+		MongoCollection<Document> dbc = U.E.isEmpty(name) ? this.dbc : dbcs.get(name);
 		// 如果数据集合为空
 		if (dbc == null) {
 			lock.lock();

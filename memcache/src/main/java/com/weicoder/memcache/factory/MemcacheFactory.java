@@ -2,7 +2,7 @@ package com.weicoder.memcache.factory;
 
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.factory.FactoryKey;
-import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.U;
 import com.weicoder.memcache.params.MemcacheParams;
 import com.weicoder.memcache.Memcache;
 import com.weicoder.memcache.impl.MemcacheArray;
@@ -40,7 +40,7 @@ public final class MemcacheFactory extends FactoryKey<String, Memcache> {
 		// 获得集群发送名称服务器
 		String[] names = MemcacheParams.NAMES;
 		// 判断集群是否为空
-		if (EmptyUtil.isEmpty(names)) {
+		if (U.E.isEmpty(names)) {
 			return newInstance(StringConstants.EMPTY);
 		} else {
 			return new MemcacheArray(names);

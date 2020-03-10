@@ -15,15 +15,15 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 
 import com.weicoder.common.concurrent.ScheduledUtil;
 import com.weicoder.common.lang.Bytes;
-import com.weicoder.common.lang.C;
+import com.weicoder.common.U;
+import com.weicoder.common.W;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.log.Log;
 import com.weicoder.common.log.LogFactory;
 import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.util.BeanUtil;
-import com.weicoder.common.util.ClassUtil;
-import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.util.ClassUtil; 
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.json.JsonEngine;
 import com.weicoder.kafka.annotation.AllTopic;
@@ -64,7 +64,7 @@ public final class Kafkas {
 		// 获得所有kafka消费者
 		List<Class<Consumer>> consumers = ClassUtil.getAnnotationClass(CommonParams.getPackages("kafka"),
 				Consumer.class);
-		if (EmptyUtil.isNotEmpty(consumers)) {
+		if (U.E.isNotEmpty(consumers)) {
 			// 循环处理kafka类
 			consumers.forEach(c -> {
 				// 执行对象
@@ -157,7 +157,7 @@ public final class Kafkas {
 							// 获得所有参数
 							Parameter[] params = method.getParameters();
 							Object[] objs = null;
-							if (EmptyUtil.isEmpty(params))
+							if (U.E.isEmpty(params))
 								// 参数为空直接执行方法
 								BeanUtil.invoke(obj, method);
 							else {
@@ -176,7 +176,7 @@ public final class Kafkas {
 												toParam(record.value(), gc[1]), record.offset(), record.timestamp());
 										// 执行所有topic方法
 										List<Method> all = ALL_TOPICS.get(name);
-										if (EmptyUtil.isEmpty(all)) {
+										if (U.E.isEmpty(all)) {
 											for (Method m : all) {
 												BeanUtil.invoke(obj, m, objs);
 											}
@@ -265,7 +265,7 @@ public final class Kafkas {
 	private static byte[] toBytes(Object obj) {
 		// 根据不同类型序列化
 		if (obj instanceof String)
-			return C.toString(obj).getBytes();
+			return W.C.toString(obj).getBytes();
 		else if (obj.getClass().isAnnotationPresent(Protobuf.class))
 			return ProtobufEngine.toBytes(obj);
 		else

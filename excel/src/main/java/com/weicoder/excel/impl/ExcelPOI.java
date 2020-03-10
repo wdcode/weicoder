@@ -11,9 +11,9 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.weicoder.common.io.FileUtil;
-import com.weicoder.common.lang.C;
-import com.weicoder.common.log.Logs;
-import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.U;
+import com.weicoder.common.W;
+import com.weicoder.common.log.Logs; 
 import com.weicoder.excel.base.BaseExcel;
 
 /**
@@ -35,7 +35,7 @@ public final class ExcelPOI extends BaseExcel {
 		setIndex(0);
 		try {
 			// 如果文件存在
-			workbook = EmptyUtil.isEmpty(file) ? new XSSFWorkbook() : new XSSFWorkbook(FileUtil.getInputStream(file)); // WorkbookFactory.create(file);
+			workbook = U.E.isEmpty(file) ? new XSSFWorkbook() : new XSSFWorkbook(FileUtil.getInputStream(file)); // WorkbookFactory.create(file);
 			// 获得输出流
 			this.file = file;
 		} catch (Exception e) {
@@ -100,7 +100,7 @@ public final class ExcelPOI extends BaseExcel {
 		// 获得Cell
 		Cell cell = hRow == null ? null : hRow.getCell(col);
 		// 返回单元格内容
-		return C.toString(cell);
+		return W.C.toString(cell);
 	}
 
 	/**

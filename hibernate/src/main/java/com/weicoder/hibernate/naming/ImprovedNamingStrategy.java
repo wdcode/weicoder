@@ -4,7 +4,7 @@ import org.hibernate.boot.model.naming.Identifier;
 import org.hibernate.boot.model.naming.PhysicalNamingStrategy;
 import org.hibernate.engine.jdbc.env.spi.JdbcEnvironment;
 
-import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.U;
 
 /**
  * 驼峰命名法
@@ -41,7 +41,7 @@ public class ImprovedNamingStrategy implements PhysicalNamingStrategy {
 	}
 
 	private Identifier convert(Identifier name) {
-		if (name == null || EmptyUtil.isEmpty(name.getText()))
+		if (name == null || U.E.isEmpty(name.getText()))
 			return name;
 		return Identifier.toIdentifier(name.getText().replaceAll(regex, replacement).toLowerCase());
 	}

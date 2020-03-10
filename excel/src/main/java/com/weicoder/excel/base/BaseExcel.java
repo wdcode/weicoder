@@ -6,7 +6,7 @@ import java.util.Map;
 
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
-import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.U;
 import com.weicoder.excel.Excel;
 
 /**
@@ -145,7 +145,7 @@ public abstract class BaseExcel implements Excel {
 		// 获得Sheet所有内容
 		List<List<String>> lsList = readSheet(index);
 		// 列名和内容是否存在
-		if (EmptyUtil.isEmpty(colNames) || EmptyUtil.isEmpty(lsList)) {
+		if (U.E.isEmpty(colNames) || U.E.isEmpty(lsList)) {
 			return Collections.emptyList();
 		}
 		// 列表大小

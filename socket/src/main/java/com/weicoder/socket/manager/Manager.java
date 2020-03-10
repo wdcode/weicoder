@@ -8,7 +8,7 @@ import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.util.CloseUtil;
 import com.weicoder.common.util.DateUtil;
-import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.U;
 import com.weicoder.common.log.Logs;
 import com.weicoder.socket.params.SocketParams;
 import com.weicoder.socket.Session;
@@ -202,7 +202,7 @@ public final class Manager {
 	 */
 	public static void broad(List<Session> sessions, byte[] data) {
 		// 列表为空
-		if (EmptyUtil.isEmpty(sessions))
+		if (U.E.isEmpty(sessions))
 			return;
 		// 日志
 		long curr = System.currentTimeMillis();

@@ -14,10 +14,10 @@ import com.weicoder.common.codec.Hex;
 import com.weicoder.common.codec.URLCode;
 import com.weicoder.common.constants.EncryptConstants;
 import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.lang.C;
+import com.weicoder.common.U;
+import com.weicoder.common.W;
 import com.weicoder.common.lang.Maps;
-import com.weicoder.common.util.MathUtil;
-import com.weicoder.common.util.StringUtil;
+import com.weicoder.common.util.MathUtil; 
 import com.weicoder.pay.Pay;
 import com.weicoder.pay.bean.PayBean;
 import com.weicoder.pay.bean.TradeBean;
@@ -63,7 +63,7 @@ public final class Yeepay implements Pay {
 		// 交易币种
 		String r4_Cur = RequestUtil.getParameter(request, "r4_Cur");
 		// 商品名称
-		String r5_Pid = StringUtil.subString(request.getQueryString(), "r5_Pid=", "&");
+		String r5_Pid = U.S.subString(request.getQueryString(), "r5_Pid=", "&");
 		r5_Pid = URLCode.decode(r5_Pid, getCharset());
 		// 商户订单号
 		String r6_Order = RequestUtil.getParameter(request, "r6_Order");
@@ -114,16 +114,16 @@ public final class Yeepay implements Pay {
 		Map<String, String> data = Maps.newMap();
 		data.put("p0_Cmd", "Buy");
 		data.put("p1_MerId", PayParams.YEEPAY_ID);
-		data.put("p2_Order", C.toString(pay.getNo()));
+		data.put("p2_Order", W.C.toString(pay.getNo()));
 		data.put("p3_Amt", MathUtil.scale(pay.getTotal(), 2).toPlainString());
 		data.put("p4_Cur", "CNY");
-		data.put("p5_Pid", C.toString(pay.getSubject()));
+		data.put("p5_Pid", W.C.toString(pay.getSubject()));
 		data.put("p6_Pcat", StringConstants.EMPTY);
-		data.put("p7_Pdesc", C.toString(pay.getBody()));
+		data.put("p7_Pdesc", W.C.toString(pay.getBody()));
 		data.put("p8_Url", PayParams.YEEPAY_REDIRECT);
 		data.put("p9_SAF", "0");
-		data.put("pa_MP", C.toString(pay.getType()));
-		data.put("pd_FrpId", C.toString(pay.getDitch()).toUpperCase());
+		data.put("pa_MP", W.C.toString(pay.getType()));
+		data.put("pd_FrpId", W.C.toString(pay.getDitch()).toUpperCase());
 		data.put("pr_NeedResponse", "1");
 		data.put("hmac", sign(data));
 		// 返回参数列表

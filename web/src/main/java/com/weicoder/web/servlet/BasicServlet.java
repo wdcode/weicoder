@@ -16,7 +16,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.weicoder.common.bean.StateCode;
 import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.lang.C;
+import com.weicoder.common.U;
+import com.weicoder.common.W;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.log.Log;
@@ -27,8 +28,7 @@ import com.weicoder.common.token.TokenBean;
 import com.weicoder.common.token.TokenEngine;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.ClassUtil;
-import com.weicoder.common.util.DateUtil;
-import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.util.DateUtil; 
 import com.weicoder.common.util.IpUtil;
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.web.annotation.Action;
@@ -73,13 +73,13 @@ public class BasicServlet extends HttpServlet {
 		String path = request.getPathInfo();
 		LOG.debug("request ip={} path={} Method={} scheme={} queryString={}", ip, path, m, request.getScheme(),
 				request.getQueryString());
-		if (EmptyUtil.isNotEmpty(path)) {
+		if (U.E.isNotEmpty(path)) {
 			// 分解提交action 去处开头的/ 并且按/或者_分解出数组
 			String actionName = StringUtil.subString(path, 1, path.length());
 			String[] actions = StringUtil.contains(actionName, StringConstants.BACKSLASH)
 					? StringUtil.split(actionName, StringConstants.BACKSLASH)
 					: StringUtil.split(actionName, StringConstants.UNDERLINE);
-			if (EmptyUtil.isEmpty(actions)) {
+			if (U.E.isEmpty(actions)) {
 				LOG.debug("this path={}", path);
 				ResponseUtil.json(response, callback, "action is null path");
 				return;
@@ -124,7 +124,7 @@ public class BasicServlet extends HttpServlet {
 			}
 			// 获得方法
 			Map<String, Method> methods = WebCommons.ACTIONS_METHODS.get(name);
-			if (EmptyUtil.isEmpty(methods))
+			if (U.E.isEmpty(methods))
 				methods = WebCommons.METHODS;
 			Method method = methods.get(actions[actions.length - 1]);
 			if (method == null) {
@@ -153,15 +153,15 @@ public class BasicServlet extends HttpServlet {
 			LOG.debug("action={} params={}", actionName, ps);
 			// 验证
 			int code = Validators.validator(method, action, ps, ip);
-			if (EmptyUtil.isNotEmpty(pars)) {
+			if (U.E.isNotEmpty(pars)) {
 				// 参数不为空 设置参数
 				params = new Object[pars.length];
 				// ip没有传 注入当前客户端IP
-				if (EmptyUtil.isEmpty(ps.get("ip")))
+				if (U.E.isEmpty(ps.get("ip")))
 					ps.put("ip", ip);
 				// 当前时间time没有传注入time
-				if (EmptyUtil.isEmpty(ps.get("time")))
-					ps.put("time", C.toString(DateUtil.getTime()));
+				if (U.E.isEmpty(ps.get("time")))
+					ps.put("time", W.C.toString(DateUtil.getTime()));
 				LOG.trace("request all ip={} params={}", ip, params);
 				// token验证通过在执行
 //				if (code == StateParams.SUCCESS) {
@@ -185,7 +185,7 @@ public class BasicServlet extends HttpServlet {
 						params[i] = ps;
 					else if (ClassUtil.isBaseType(cs)) {
 						// 获得参数
-						params[i] = C.to(v, cs);
+						params[i] = W.C.to(v, cs);
 						// 验证参数
 						if (code == StateParams.SUCCESS)
 							if ((code = Validators.validator(p, params[i])) != StateParams.SUCCESS)
@@ -264,8 +264,8 @@ public class BasicServlet extends HttpServlet {
 			}
 			// 判断是否跳转url
 			if (method.isAnnotationPresent(Redirect.class) || action.getClass().isAnnotationPresent(Redirect.class)) {
-				String url = C.toString(res);
-				if (EmptyUtil.isEmpty(url)) {
+				String url = W.C.toString(res);
+				if (U.E.isEmpty(url)) {
 					ResponseUtil.json(response, callback, "Redirect is null");
 					return;
 				} else {
@@ -275,8 +275,8 @@ public class BasicServlet extends HttpServlet {
 				}
 			} else if (method.isAnnotationPresent(Forward.class)
 					|| action.getClass().isAnnotationPresent(Forward.class)) {
-				String url = C.toString(res);
-				if (EmptyUtil.isEmpty(url)) {
+				String url = W.C.toString(res);
+				if (U.E.isEmpty(url)) {
 					ResponseUtil.json(response, callback, "Forward is null");
 					return;
 				} else {
@@ -339,7 +339,7 @@ public class BasicServlet extends HttpServlet {
 			// 前置执行
 			aops.forEach(aop -> aop.before(action, params, request, response));
 			// 执行方法返回结果
-			Object result = method.invoke(action, EmptyUtil.isEmpty(params) ? null : params);
+			Object result = method.invoke(action, U.E.isEmpty(params) ? null : params);
 			// 后置执行
 			aops.forEach(aop -> aop.after(action, params, result, request, response));
 			// 返回结果
@@ -360,13 +360,13 @@ public class BasicServlet extends HttpServlet {
 		// 检查action是否有aop
 		if (obj.getClass().isAnnotationPresent(Aop.class)) {
 			Aop aop = obj.getClass().getAnnotation(Aop.class);
-			if (aop != null && EmptyUtil.isNotEmpty(aop.value()))
+			if (aop != null && U.E.isNotEmpty(aop.value()))
 				aops.add(WebCommons.AOPS.get(aop.value()));
 		}
 		// 检查method是否有aop
 		if (method.isAnnotationPresent(Aop.class)) {
 			Aop aop = method.getClass().getAnnotation(Aop.class);
-			if (aop != null && EmptyUtil.isNotEmpty(aop.value()))
+			if (aop != null && U.E.isNotEmpty(aop.value()))
 				aops.add(WebCommons.AOPS.get(aop.value()));
 		}
 		// 返回列表
@@ -388,7 +388,7 @@ public class BasicServlet extends HttpServlet {
 //			HttpServletResponse response) {
 //		// 声明action
 //		Object action = null;
-//		if (EmptyUtil.isEmpty(actions)) {
+//		if (U.E.isEmpty(actions)) {
 //			LOG.debug("this path={}", path);
 //			ResponseUtil.json(response, callback, "action is null path");
 //			return null;

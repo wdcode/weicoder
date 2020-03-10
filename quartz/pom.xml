@@ -22,7 +22,8 @@
 		<!-- 
 		<dependency>
 			<groupId>org.quartz-scheduler</groupId>
-			<artifactId>quartz</artifactId> 
+			<artifactId>quartz</artifactId>
+			<version>${quartz}</version>
 		</dependency>
 		--> 
 	</dependencies>

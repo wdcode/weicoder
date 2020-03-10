@@ -6,7 +6,7 @@ import org.hibernate.EmptyInterceptor;
 import org.hibernate.Interceptor;
 
 import com.weicoder.common.lang.Maps;
-import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.U;
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.hibernate.shards.Shards;
 import com.weicoder.dao.util.SqlUtil;
@@ -26,12 +26,12 @@ public class EntityInterceptor extends EmptyInterceptor {
 	@Override
 	public String onPrepareStatement(String sql) {
 		// 分表列表为空
-		if (EmptyUtil.isEmpty(names))
+		if (U.E.isEmpty(names))
 			return sql;
 		// 查找表名
 		String name = SqlUtil.getTable(sql);
 		String table = names.get(name);
-		if (EmptyUtil.isNotEmptys(name, table) && !name.equals(table))
+		if (U.E.isNotEmptys(name, table) && !name.equals(table))
 			sql = StringUtil.replace(sql, name, table);
 		return super.onPrepareStatement(sql);
 	}

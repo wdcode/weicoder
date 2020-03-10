@@ -1,4 +1,4 @@
-package com.weicoder.common.util;
+package com.weicoder.common.queue;
 
 import java.util.Collection;
 import java.util.concurrent.ConcurrentLinkedQueue;

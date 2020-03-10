@@ -14,7 +14,7 @@ import com.weicoder.common.constants.HttpConstants;
 import com.weicoder.common.constants.StringConstants;
  
 import com.weicoder.common.log.Logs;
-import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.U;
 import com.weicoder.common.util.StringUtil;
 
 /**
@@ -75,7 +75,7 @@ public final class HttpUtil {
 	 * @return     是否
 	 */
 	public static boolean isHttp(String str) {
-		return EmptyUtil.isEmpty(str) ? false : str.startsWith("http://") || str.startsWith("https://");
+		return U.E.isEmpty(str) ? false : str.startsWith("http://") || str.startsWith("https://");
 	}
 
 	/**
@@ -169,7 +169,7 @@ public final class HttpUtil {
 	public static boolean checkIfNoneMatchEtag(HttpServletRequest request, HttpServletResponse response, String etag) {
 		// 获得If-None-Match
 		String headerValue = request.getHeader("If-None-Match");
-		if (EmptyUtil.isNotEmpty(headerValue)) {
+		if (U.E.isNotEmpty(headerValue)) {
 			// 声明Boolean变量
 			boolean conditionSatisfied = false;
 			// 判断headerValue不等于 *

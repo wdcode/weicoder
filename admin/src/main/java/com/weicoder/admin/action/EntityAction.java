@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.Map;
 
 import com.weicoder.common.bean.Pages;
-import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.U;
 import com.weicoder.dao.service.SuperService;
 import com.weicoder.web.annotation.Action;
 import com.weicoder.web.annotation.State;
@@ -112,7 +112,7 @@ public class EntityAction {
 	public Object list(String entity, String begin, String end, Pages page, Map<String, String> ps) {
 		return SuperService.entity(entity, filter(ps), e -> {
 			// 如果日期不为空 按日期查询
-			if (EmptyUtil.isNotEmptys(begin, end))
+			if (U.E.isNotEmptys(begin, end))
 				return SuperService.date(e, begin, end, page);
 			else
 				return SuperService.list(e, page);

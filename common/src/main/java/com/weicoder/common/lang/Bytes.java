@@ -9,6 +9,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import com.weicoder.common.U;
+import com.weicoder.common.W;
 import com.weicoder.common.binary.Binary;
 import com.weicoder.common.binary.Buffer;
 import com.weicoder.common.binary.ByteArray;
@@ -19,7 +21,6 @@ import com.weicoder.common.io.IOUtil;
 import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.ClassUtil;
-import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
 
 /**
@@ -27,7 +28,7 @@ import com.weicoder.common.util.StringUtil;
  * 
  * @author WD
  */
-public final class Bytes {
+public class Bytes {
 	// 使用高地位算法
 	private final static boolean IS_HIGH = "high".equals(CommonParams.BYTES);
 
@@ -41,7 +42,7 @@ public final class Bytes {
 	 */
 	public static Object to(byte[] b, Class<?> c) {
 		// 判断类型
-		if (c == null || EmptyUtil.isEmpty(b))
+		if (c == null || U.E.isEmpty(b))
 			return b;
 		if (byte[].class == c || Byte[].class == c)
 			return b;
@@ -114,7 +115,7 @@ public final class Bytes {
 	 */
 	public static byte[] toBytes(Collection<?> c) {
 		// 获得列表长度
-		short size = C.toShort(EmptyUtil.isEmpty(c) ? 0 : c.size());
+		short size = W.C.toShort(U.E.isEmpty(c) ? 0 : c.size());
 		// 判断如果列表为0只返回长度
 		return size == 0 ? toBytes(size) : toBytes(size, c.toArray());
 	}
@@ -153,28 +154,28 @@ public final class Bytes {
 			return new byte[]{(Byte) obj};
 		if (obj instanceof Integer)
 			// int
-			return toBytes(C.toInt(obj));
+			return toBytes(W.C.toInt(obj));
 		if (obj instanceof Long)
 			// Long
-			return toBytes(C.toLong(obj));
+			return toBytes(W.C.toLong(obj));
 		if (obj instanceof Float)
 			// float
-			return toBytes(C.toFloat(obj));
+			return toBytes(W.C.toFloat(obj));
 		if (obj instanceof Double)
 			// Double
-			return toBytes(C.toDouble(obj));
+			return toBytes(W.C.toDouble(obj));
 		if (obj instanceof Short)
 			// Short
-			return toBytes(C.toShort(obj));
+			return toBytes(W.C.toShort(obj));
 		if (obj instanceof Byte)
 			// Short
 			return new byte[]{(byte) (obj)};
 		if (obj instanceof Boolean)
 			// Short
-			return toBytes(C.toBoolean(obj));
+			return toBytes(W.C.toBoolean(obj));
 		if (obj instanceof String)
 			// String
-			return toBytes(C.toString(obj), is);
+			return toBytes(W.C.toString(obj), is);
 		if (obj instanceof ByteBuffer)
 			// String
 			return toBytes((ByteBuffer) obj);
@@ -215,7 +216,7 @@ public final class Bytes {
 	 */
 	public static byte[] binary(Object binary) {
 		// 对象为空
-		if (EmptyUtil.isEmpty(binary))
+		if (U.E.isEmpty(binary))
 			return ArrayConstants.BYTES_EMPTY;
 		// 字段值
 		List<Object> values = Lists.newList();
@@ -234,7 +235,7 @@ public final class Bytes {
 	 * @return       字节数组
 	 */
 	public static byte[] toBytes(ByteArray array) {
-		return EmptyUtil.isEmpty(array) ? ArrayConstants.BYTES_EMPTY : array.array();
+		return U.E.isEmpty(array) ? ArrayConstants.BYTES_EMPTY : array.array();
 	}
 
 	/**
@@ -644,7 +645,7 @@ public final class Bytes {
 		byte[] b = StringUtil.toBytes(s);
 		if (is) {
 			// 获得长度
-			short size = C.toShort(b.length);
+			short size = W.C.toShort(b.length);
 			// 如果长度为0 只返回长度
 			return size == 0 ? toBytes(size) : toBytes(size, b);
 		}
@@ -695,7 +696,7 @@ public final class Bytes {
 	 * @return        字节数组
 	 */
 	public static byte[] copy(byte[] b, int offset, int len) {
-		return EmptyUtil.isEmpty(b) || (offset == 0 && b.length == len) ? b : Arrays.copyOfRange(b, offset, len);
+		return U.E.isEmpty(b) || (offset == 0 && b.length == len) ? b : Arrays.copyOfRange(b, offset, len);
 	}
 
 	/**
@@ -809,7 +810,7 @@ public final class Bytes {
 	 */
 	public static byte[] add(byte[]... bs) {
 		// 判断字节数组是否为空
-		if (EmptyUtil.isNotEmpty(bs)) {
+		if (U.E.isNotEmpty(bs)) {
 			// 获得所有字节数组长度
 			int len = 0;
 			for (int i = 0; i < bs.length; i++)
@@ -833,8 +834,5 @@ public final class Bytes {
 			return b;
 		}
 		return ArrayConstants.BYTES_EMPTY;
-	}
-
-	private Bytes() {
 	}
 }

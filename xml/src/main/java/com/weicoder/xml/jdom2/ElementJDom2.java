@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.List;
 
 import com.weicoder.common.lang.Lists;
-import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.U;
 import com.weicoder.xml.Attribute;
 import com.weicoder.xml.Document;
 import com.weicoder.xml.Element;
@@ -131,7 +131,7 @@ public final class ElementJDom2 implements Element {
 		// 获得所以属性
 		List<?> list = element.getAttributes();
 		// 列表不为空
-		if (EmptyUtil.isEmpty(list)) {
+		if (U.E.isEmpty(list)) {
 			// 返回空列表
 			return Lists.emptyList();
 		}
@@ -186,7 +186,7 @@ public final class ElementJDom2 implements Element {
 	 * @return true 空对象 false 非空对象
 	 */
 	public boolean isEmpty() {
-		return EmptyUtil.isEmpty(element);
+		return U.E.isEmpty(element);
 	}
 
 	/**
@@ -247,7 +247,7 @@ public final class ElementJDom2 implements Element {
 	 */
 	private List<Element> getElementList(List<?> list) {
 		// 判断列表不为空
-		if (EmptyUtil.isEmpty(list)) {
+		if (U.E.isEmpty(list)) {
 			Collections.emptyList();
 		}
 		// 获得列表大小

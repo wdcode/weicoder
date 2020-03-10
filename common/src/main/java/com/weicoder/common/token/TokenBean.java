@@ -8,7 +8,7 @@ import com.weicoder.common.crypto.Encrypts;
 import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.util.DateUtil;
-import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.U;
 import com.weicoder.common.util.IpUtil;
 
 /**
@@ -199,7 +199,7 @@ public final class TokenBean implements ByteArray {
 	@Override
 	public TokenBean array(byte[] b) {
 		// 判断字节数组不为空
-		if (EmptyUtil.isNotEmpty(b)) {
+		if (U.E.isNotEmpty(b)) {
 			this.id = Bytes.toLong(b);
 			this.time = Bytes.toInt(b, 8);
 			this.ip = IpUtil.decode(Bytes.toInt(b, 12));

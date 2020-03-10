@@ -9,9 +9,9 @@ import javax.servlet.http.HttpServletResponse;
 import com.weicoder.common.constants.HttpConstants;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.io.IOUtil;
-import com.weicoder.common.lang.C;
-import com.weicoder.common.params.CommonParams; 
-import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.U;
+import com.weicoder.common.W;
+import com.weicoder.common.params.CommonParams;  
 import com.weicoder.json.JsonEngine; 
 
 /**
@@ -109,12 +109,12 @@ public final class ResponseUtil {
 		// 声明返回字符串
 		StringBuilder s = new StringBuilder();
 		// 如果callback不为空 填补左括号
-		if (EmptyUtil.isNotEmpty(callback))
+		if (U.E.isNotEmpty(callback))
 			s.append(callback).append("(");
 		// 添加json数据
-		s.append(data instanceof String || data instanceof Number ? C.toString(data) : JsonEngine.toJson(data));
+		s.append(data instanceof String || data instanceof Number ? W.C.toString(data) : JsonEngine.toJson(data));
 		// 如果callback不为空 填补右括号
-		if (EmptyUtil.isNotEmpty(callback))
+		if (U.E.isNotEmpty(callback))
 			s.append(")");
 		// 写入前端
 		return write(response, s.toString());
@@ -126,7 +126,7 @@ public final class ResponseUtil {
 	 * @param response Response
 	 */
 	public static void noCache(HttpServletResponse response) {
-		if (EmptyUtil.isNotEmpty(response)) {
+		if (U.E.isNotEmpty(response)) {
 			response.setHeader("Pragma", HttpConstants.HEADER_VAL_NO_CACHE);
 			response.setHeader(HttpConstants.HEADER_KEY_CACHE_CONTROL, HttpConstants.HEADER_VAL_NO_CACHE);
 			response.setDateHeader("Expires", 0);
@@ -140,7 +140,7 @@ public final class ResponseUtil {
 	 * @param type     ContentType
 	 */
 	public static void setContentType(ServletResponse response, String type) {
-		if (EmptyUtil.isNotEmpty(response) && EmptyUtil.isNotEmpty(type))
+		if (U.E.isNotEmpty(response) && U.E.isNotEmpty(type))
 			response.setContentType(type);
 	}
 

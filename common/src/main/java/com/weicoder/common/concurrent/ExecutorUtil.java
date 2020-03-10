@@ -11,14 +11,14 @@ import java.util.concurrent.TimeUnit;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.log.Logs;
-import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.U;
 
 /**
  * 并发线程任务处理
  * 
  * @author WD
  */
-public final class ExecutorUtil {
+public class ExecutorUtil {
 	// 线程池
 	private final static ExecutorFactory FACTORY = new ExecutorFactory();
 	// 保存线程
@@ -146,7 +146,7 @@ public final class ExecutorUtil {
 					it.remove();
 			}
 			// 如果列表为空
-			if (EmptyUtil.isEmpty(list)) {
+			if (U.E.isEmpty(list)) {
 				break;
 			}
 		}
@@ -195,8 +195,5 @@ public final class ExecutorUtil {
 		});
 		// 返回列表
 		return ls;
-	}
-
-	private ExecutorUtil() {
 	}
 }

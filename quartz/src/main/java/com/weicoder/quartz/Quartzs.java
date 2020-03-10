@@ -14,7 +14,7 @@ import org.quartz.impl.StdSchedulerFactory;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams; 
 import com.weicoder.common.util.ClassUtil;
-import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.U;
 import com.weicoder.quartz.annotation.Job;
 import com.weicoder.quartz.annotation.Trigger;
 import com.weicoder.quartz.params.QuartzParams;
@@ -31,7 +31,7 @@ public final class Quartzs {
 	public final static void init() {
 		try {
 			List<Class<Job>> jobs = ClassUtil.getAnnotationClass(CommonParams.getPackages("quartz"), Job.class);
-			if (EmptyUtil.isNotEmpty(jobs)) {
+			if (U.E.isNotEmpty(jobs)) {
 				// 任务执行器
 				Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
 				// 循环处理任务类

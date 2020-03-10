@@ -6,11 +6,12 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.OutputStream;
 
+import com.weicoder.common.U;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams; 
 
 /**
- * 生成验证图片,并把验证码保存到sessin中
+ * 生成验证图片
  * @author WD
  */
 public final class VerifyCodeUtil {
@@ -63,16 +64,16 @@ public final class VerifyCodeUtil {
 			// 随机产生155条干扰线，使图象中的认证码不易被其它程序探测到
 			g.setColor(getRandColor(160, 200));
 			for (int i = 0; i < 155; i++) {
-				int x = RandomUtil.nextInt(width);
-				int y = RandomUtil.nextInt(height);
-				int xl = RandomUtil.nextInt(12);
-				int yl = RandomUtil.nextInt(12);
+				int x = U.M.nextInt(width);
+				int y = U.M.nextInt(height);
+				int xl = U.M.nextInt(12);
+				int yl = U.M.nextInt(12);
 				g.drawLine(x, y, x + xl, y + yl);
 			}
 			for (int i = 0; i < len; i++) {
 				// 将认证码显示到图象中
 				// 设置颜色
-				g.setColor(new Color(20 + RandomUtil.nextInt(110), 20 + RandomUtil.nextInt(110), 20 + RandomUtil.nextInt(110)));
+				g.setColor(new Color(20 + U.M.nextInt(110), 20 + U.M.nextInt(110), 20 + U.M.nextInt(110)));
 				// 写文字
 				g.drawString(rand.substring(i, i + 1), charWidth * i + 10, charHeight);
 			}
@@ -100,7 +101,7 @@ public final class VerifyCodeUtil {
 		// 循环获得字符
 		for (int i = 0; i < CommonParams.VERIFY_LENGTH; i++)
 			// 添件字符
-			buf[i] = code[RandomUtil.nextInt(CommonParams.VERIFY_LENGTH)];
+			buf[i] = code[U.M.nextInt(CommonParams.VERIFY_LENGTH)];
 		// 获得字符串
 		return String.valueOf(buf);
 	}
@@ -119,11 +120,11 @@ public final class VerifyCodeUtil {
 		if (bc > 255)
 			bc = 255;
 		// 获得R
-		int r = fc + RandomUtil.nextInt(bc - fc);
+		int r = fc + U.M.nextInt(bc - fc);
 		// 获得G
-		int g = fc + RandomUtil.nextInt(bc - fc);
+		int g = fc + U.M.nextInt(bc - fc);
 		// 获得B
-		int b = fc + RandomUtil.nextInt(bc - fc);
+		int b = fc + U.M.nextInt(bc - fc);
 		// 返回Color
 		return new Color(r, g, b);
 	}

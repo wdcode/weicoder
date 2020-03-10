@@ -81,7 +81,7 @@ public class RedisCache<V> extends Cache<String, V> {
 		return JsonEngine.toBean(redis.hget(key, k), cls);
 	}
 
-	private RedisCache(RedisPool redis, String key, Class<V> cls) {
+	public RedisCache(RedisPool redis, String key, Class<V> cls) {
 		// 获得redis
 		this.redis = redis;
 		this.key = key;

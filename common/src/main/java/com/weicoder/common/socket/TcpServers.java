@@ -14,7 +14,7 @@ import com.weicoder.common.io.ChannelUtil;
 import com.weicoder.common.io.IOUtil;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.DateUtil;
-import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.U;
 import com.weicoder.common.util.ThreadUtil;
 
 /**
@@ -45,7 +45,7 @@ public final class TcpServers {
 						// 读取出数据 放入回调 并且接收回调处理结果
 						byte[] b = call.callback(AsynChannelUtil.read(asc, false));
 						// 如果返回结果不为空 写入到客户端
-						if (EmptyUtil.isNotEmpty(b)) {
+						if (U.E.isNotEmpty(b)) {
 							AsynChannelUtil.write(asc, b, false);
 							asc.shutdownOutput();
 						}
@@ -82,7 +82,7 @@ public final class TcpServers {
 						// 读取出数据 放入回调 并且接收回调处理结果
 						byte[] b = call.callback(ChannelUtil.read(sc, false));
 						// 如果返回结果不为空 写入到客户端
-						if (EmptyUtil.isNotEmpty(b)) {
+						if (U.E.isNotEmpty(b)) {
 							ChannelUtil.write(sc, b, false);
 							sc.shutdownOutput();
 						}
@@ -117,7 +117,7 @@ public final class TcpServers {
 						// 读取出数据 放入回调 并且接收回调处理结果
 						byte[] b = call.callback(IOUtil.read(sc.getInputStream(), false));
 						// 如果返回结果不为空 写入到客户端
-						if (EmptyUtil.isNotEmpty(b)) {
+						if (U.E.isNotEmpty(b)) {
 							IOUtil.write(sc.getOutputStream(), b, false);
 							sc.shutdownOutput();
 						}

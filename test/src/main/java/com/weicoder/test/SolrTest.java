@@ -13,10 +13,10 @@ import org.apache.solr.client.solrj.response.UpdateResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList; 
 
-import com.weicoder.common.lang.C;
+import com.weicoder.common.U;
+import com.weicoder.common.W;
 import com.weicoder.common.lang.Lists;
-import com.weicoder.common.log.Logs;
-import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.log.Logs; 
 
 public class SolrTest {
 	private final static String     SEARCH_URL = "http://192.168.0.200:8983/solr/witch"; 
@@ -54,7 +54,7 @@ public class SolrTest {
 			SolrDocumentList docsList = resp.getResults();
 			// logger.debug("找到个数：{}", dataNum);
 			for (SolrDocument doc : docsList) {
-				dataList.add(new SearchBean(C.toLong(doc.getFirstValue("id").toString()), C.toLong(doc.getFirstValue("uid").toString()), doc.getFieldValue("nickname").toString()));
+				dataList.add(new SearchBean(W.C.toLong(doc.getFirstValue("id").toString()), W.C.toLong(doc.getFirstValue("uid").toString()), doc.getFieldValue("nickname").toString()));
 			}
 		} catch (Exception e) {
 			Logs.error(e);
@@ -63,7 +63,7 @@ public class SolrTest {
 	}
 
 	public static <T> UpdateResponse del(List<String> list) {
-		if (EmptyUtil.isEmpty(list)) {
+		if (U.E.isEmpty(list)) {
 			return null;
 		}
 		UpdateResponse rs = null;
@@ -87,7 +87,7 @@ public class SolrTest {
 	 * 说明：更新solr数据
 	 */
 	public static <T> UpdateResponse update(Collection<T> list) {
-		if (EmptyUtil.isEmpty(list)) {
+		if (U.E.isEmpty(list)) {
 			return null;
 		}
 		UpdateResponse rs = null;

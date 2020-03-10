@@ -18,12 +18,12 @@ import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 
-import com.weicoder.common.lang.C;
+import com.weicoder.common.U;
+import com.weicoder.common.W;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.log.Logs;
-import com.weicoder.common.util.BeanUtil;
-import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.util.BeanUtil; 
 import com.weicoder.json.JsonEngine;
 import com.weicoder.elasticsearch.annotation.Index;
 import com.weicoder.elasticsearch.params.ElasticSearchParams;
@@ -98,7 +98,7 @@ public class ElasticSearch {
 		String id = index[0].id();
 		Lists.newList(index).forEach(i -> {
 			try {
-				client.index(new IndexRequest(name).id(C.toString(BeanUtil.getFieldValue(i, id)))
+				client.index(new IndexRequest(name).id(W.C.toString(BeanUtil.getFieldValue(i, id)))
 						.source(JsonEngine.toJson(i), XContentType.JSON), RequestOptions.DEFAULT).getResult();
 			} catch (IOException e) {
 				Logs.error(e);
@@ -165,6 +165,6 @@ public class ElasticSearch {
 	}
 
 	private String getIndexName(Index index) {
-		return EmptyUtil.isEmpty(index.name()) ? index.getClass().getSimpleName() : index.name();
+		return U.E.isEmpty(index.name()) ? index.getClass().getSimpleName() : index.name();
 	}
 }

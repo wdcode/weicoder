@@ -2,27 +2,27 @@ package com.weicoder.common.io;
 
 import java.io.ByteArrayOutputStream;
 import java.nio.ByteBuffer;
-import java.nio.channels.AsynchronousSocketChannel;
+import java.nio.channels.AsynchronousByteChannel;
 
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.util.CloseUtil;
-import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.U;
 
 /**
  * aio读写字节流
  * 
  * @author wudi
  */
-public final class AsynChannelUtil {
+public class AsynChannelUtil {
 	/**
 	 * 读取出通道的所有字节
 	 * 
 	 * @param  asc 通道
 	 * @return     字节数组
 	 */
-	public static byte[] read(AsynchronousSocketChannel asc) {
+	public static byte[] read(AsynchronousByteChannel asc) {
 		return read(asc, true);
 	}
 
@@ -33,7 +33,7 @@ public final class AsynChannelUtil {
 	 * @param  isClose 是否关闭流
 	 * @return         字节数组
 	 */
-	public static byte[] read(AsynchronousSocketChannel asc, boolean isClose) {
+	public static byte[] read(AsynchronousByteChannel asc, boolean isClose) {
 		if (asc == null)
 			return ArrayConstants.BYTES_EMPTY;
 		// 创建结果字节缓存
@@ -68,7 +68,7 @@ public final class AsynChannelUtil {
 	 * @param  b   字节数组
 	 * @return     true false
 	 */
-	public static int write(AsynchronousSocketChannel asc, byte[] b) {
+	public static int write(AsynchronousByteChannel asc, byte[] b) {
 		return write(asc, b, true);
 	}
 
@@ -80,9 +80,9 @@ public final class AsynChannelUtil {
 	 * @param  isClose 是否关闭流
 	 * @return         true false
 	 */
-	public static int write(AsynchronousSocketChannel asc, byte[] b, boolean isClose) {
+	public static int write(AsynchronousByteChannel asc, byte[] b, boolean isClose) {
 		// 如果输出或则输入流为空
-		if (asc == null || EmptyUtil.isEmpty(b)) {
+		if (asc == null || U.E.isEmpty(b)) {
 			return -1;
 		}
 		try {
@@ -96,8 +96,5 @@ public final class AsynChannelUtil {
 			if (isClose)
 				CloseUtil.close(asc);
 		}
-	}
-
-	private AsynChannelUtil() {
 	}
 }

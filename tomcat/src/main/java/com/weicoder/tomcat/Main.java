@@ -1,6 +1,6 @@
 package com.weicoder.tomcat;
-
-import com.weicoder.common.lang.C;
+ 
+import com.weicoder.common.W;
 import com.weicoder.common.util.StringUtil; 
 import com.weicoder.tomcat.params.TomcatParams;
 
@@ -21,7 +21,7 @@ public class Main {
 				TomcatServer.stop();
 				return;
 			}
-			port = C.toInt(args[0]);
+			port = W.C.toInt(args[0]);
 		}
 		if (args.length > 1) {
 			path = args[1];

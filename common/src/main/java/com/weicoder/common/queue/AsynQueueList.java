@@ -1,9 +1,10 @@
-package com.weicoder.common.util;
+package com.weicoder.common.queue;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Queue;
 
+import com.weicoder.common.U;
 import com.weicoder.common.concurrent.ScheduledUtil;
 import com.weicoder.common.interfaces.CallbackList;
 import com.weicoder.common.lang.Lists;
@@ -37,7 +38,7 @@ public class AsynQueueList<E> {
 			long c = System.currentTimeMillis();
 			List<E> result = Lists.newList();
 			// 队列不为空
-			while (EmptyUtil.isNotEmpty(queue)) {
+			while (U.E.isNotEmpty(queue)) {
 				E e = queue.poll();
 				result.add(e);
 				n++;

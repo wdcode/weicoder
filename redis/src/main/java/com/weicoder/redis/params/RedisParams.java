@@ -4,7 +4,7 @@ import com.weicoder.common.config.Config;
 import com.weicoder.common.config.ConfigFactory;
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.params.Params;
-import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.U;
 
 import redis.clients.jedis.Protocol;
 
@@ -98,7 +98,7 @@ public final class RedisParams {
 	 */
 	public static String getPassword(String name) {
 		String password = CONFIG.getString(Params.getKey(name, PASSWORD), Params.getString(getKey(name, PASSWORD)));
-		return EmptyUtil.isEmpty(password) ? null : password;
+		return U.E.isEmpty(password) ? null : password;
 	}
 
 	/**

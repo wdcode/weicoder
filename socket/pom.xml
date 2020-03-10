@@ -30,7 +30,8 @@
 		<!--
 		<dependency>
 			<groupId>io.netty</groupId>
-			<artifactId>netty-all</artifactId> 
+			<artifactId>netty-all</artifactId>
+			<version>${netty-all}</version>
 		</dependency>
 		 --> 
 	</dependencies>

@@ -6,13 +6,15 @@ import java.util.Map;
 
 /**
  * 一些公用的方法类
+ * 
  * @author WD
  */
-public final class EmptyUtil {
+public class EmptyUtil {
 	/**
 	 * 判断对象是否非空 !isEmptys(objs...);
-	 * @param objs 对象
-	 * @return true为空,false非空
+	 * 
+	 * @param  objs 对象
+	 * @return      true为空,false非空
 	 */
 	public static boolean isNotEmptys(Object... objs) {
 		return !isEmptys(objs);
@@ -20,8 +22,9 @@ public final class EmptyUtil {
 
 	/**
 	 * 判断对象是否空 传入的对象有一个为空就返回 false
-	 * @param objs 对象
-	 * @return true为空,false非空
+	 * 
+	 * @param  objs 对象
+	 * @return      true为空,false非空
 	 */
 	public static boolean isEmptys(Object... objs) {
 		// 循环判断 如果有一个对象为空 返回 true
@@ -34,8 +37,9 @@ public final class EmptyUtil {
 
 	/**
 	 * 判断对象数组是否空 判断 objects == null || objects.length == 0
-	 * @param objects 数组对象
-	 * @return true为空,false非空
+	 * 
+	 * @param  objects 数组对象
+	 * @return         true为空,false非空
 	 */
 	public static boolean isEmpty(Object[] objects) {
 		return objects == null || objects.length == 0;
@@ -43,8 +47,9 @@ public final class EmptyUtil {
 
 	/**
 	 * 判断对象是否非空 !isEmpty(obj);
-	 * @param obj 对象
-	 * @return true为空,false非空
+	 * 
+	 * @param  obj 对象
+	 * @return     true为空,false非空
 	 */
 	public static boolean isNotEmpty(Object obj) {
 		return !isEmpty(obj);
@@ -52,8 +57,9 @@ public final class EmptyUtil {
 
 	/**
 	 * 判断对象是否空 判断 object == null
-	 * @param obj 对象
-	 * @return true为空,false非空
+	 * 
+	 * @param  obj 对象
+	 * @return     true为空,false非空
 	 */
 	public static boolean isEmpty(Object obj) {
 		// 判断对象类型
@@ -78,8 +84,9 @@ public final class EmptyUtil {
 
 	/**
 	 * 判断文件是否空 判断 file == null || file.exists();
-	 * @param file 对象
-	 * @return true为空,false非空
+	 * 
+	 * @param  file 对象
+	 * @return      true为空,false非空
 	 */
 	public static boolean isEmpty(File file) {
 		return file == null || !file.exists();
@@ -87,8 +94,9 @@ public final class EmptyUtil {
 
 	/**
 	 * 判断字节数组是否空 判断 b == null || b.length == 0
-	 * @param b 字节数组
-	 * @return true为空,false非空
+	 * 
+	 * @param  b 字节数组
+	 * @return   true为空,false非空
 	 */
 	public static boolean isEmpty(byte[] b) {
 		return b == null || b.length == 0;
@@ -96,8 +104,9 @@ public final class EmptyUtil {
 
 	/**
 	 * 返回集合是否为空 判断 c == null || c.size() == 0
-	 * @param c 实现Collection接口集合
-	 * @return true为空,false非空
+	 * 
+	 * @param  c 实现Collection接口集合
+	 * @return   true为空,false非空
 	 */
 	public static boolean isEmpty(Collection<?> c) {
 		return c == null || c.size() == 0;
@@ -105,8 +114,9 @@ public final class EmptyUtil {
 
 	/**
 	 * 返回Map是否为空 判断 m == null || m.size() == 0
-	 * @param m 实现Map接口集合
-	 * @return true为空,false非空
+	 * 
+	 * @param  m 实现Map接口集合
+	 * @return   true为空,false非空
 	 */
 	public static boolean isEmpty(Map<?, ?> m) {
 		return m == null || m.size() == 0;
@@ -114,8 +124,9 @@ public final class EmptyUtil {
 
 	/**
 	 * 判断int数组是否空 判断 objects == null || objects.length == 0
-	 * @param objects 数组对象
-	 * @return true为空,false非空
+	 * 
+	 * @param  objects 数组对象
+	 * @return         true为空,false非空
 	 */
 	public static boolean isEmpty(int[] objects) {
 		return objects == null || objects.length == 0;
@@ -123,8 +134,9 @@ public final class EmptyUtil {
 
 	/**
 	 * 返回字符串是否为空 判断 s== null || s.length() == 0;
-	 * @param s 字符串
-	 * @return true为空,false非空
+	 * 
+	 * @param  s 字符串
+	 * @return   true为空,false非空
 	 */
 	public static boolean isEmpty(String s) {
 		return s == null || s.length() == 0;
@@ -132,12 +144,11 @@ public final class EmptyUtil {
 
 	/**
 	 * 返回字符串是否为空 判断cs == null || cs.length() == 0;
-	 * @param cs CharSequence接口与子对象
-	 * @return true为空,false非空
+	 * 
+	 * @param  cs CharSequence接口与子对象
+	 * @return    true为空,false非空
 	 */
 	public static boolean isEmpty(CharSequence cs) {
 		return cs == null || cs.length() == 0;
 	}
-
-	private EmptyUtil() {}
 }

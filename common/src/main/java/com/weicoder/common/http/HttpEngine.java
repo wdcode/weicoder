@@ -7,14 +7,14 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse;
 import java.util.Map;
- 
+
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.lang.C;
+import com.weicoder.common.U;
+import com.weicoder.common.W;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.BeanUtil;
-import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
 
 /**
@@ -22,7 +22,7 @@ import com.weicoder.common.util.StringUtil;
  * 
  * @author WD
  */
-public final class HttpEngine {
+public class HttpEngine {
 	// 全局HttpClient
 	private final static HttpClient CLIENT = createClient();
 
@@ -89,9 +89,9 @@ public final class HttpEngine {
 			// 获得HttpRequest构建器
 			HttpRequest.Builder builder = HttpRequest.newBuilder(URI.create(url));
 			// 头不为空，添加头
-			if (EmptyUtil.isNotEmpty(header))
+			if (U.E.isNotEmpty(header))
 				for (Map.Entry<String, Object> h : header.entrySet())
-					builder.setHeader(h.getKey(), C.toString(h.getValue()));
+					builder.setHeader(h.getKey(), W.C.toString(h.getValue()));
 			// HttpRequest
 			HttpRequest request = builder.GET().build();
 			// 请求
@@ -151,21 +151,21 @@ public final class HttpEngine {
 	public static String post(HttpClient client, String url, Map<String, String> data, Map<String, String> header) {
 		try {
 			// 请求body
-			String body = StringUtil.add("?",StringUtil.toParameters(data));
+			String body = StringUtil.add("?", StringUtil.toParameters(data));
 //			// 判断有参数提交
-//			if (EmptyUtil.isNotEmpty(data)) {
+//			if (U.E.isNotEmpty(data)) {
 //				// 声明字符串缓存
 //				StringBuilder sb = new StringBuilder("?");
 //				// 循环参数
 //				data.entrySet().forEach(e -> sb.append(e.getKey()).append("=").append(e.getValue()).append("&"));
 //				body = sb.substring(0, sb.length() - 1);
 //			}
-			  
+
 			// 获得HttpRequest构建器
 			HttpRequest.Builder builder = HttpRequest.newBuilder(URI.create(url + body));
 			// 头不为空，添加头
-			if (EmptyUtil.isNotEmpty(header))
-				header.forEach((k, v) -> builder.setHeader(k, C.toString(v)));
+			if (U.E.isNotEmpty(header))
+				header.forEach((k, v) -> builder.setHeader(k, W.C.toString(v)));
 			// HttpRequest
 			HttpRequest request = builder.POST(BodyPublishers.noBody()).build();
 			// 请求
@@ -187,8 +187,5 @@ public final class HttpEngine {
 	 */
 	private static HttpClient createClient() {
 		return HttpClient.newBuilder().version(Version.HTTP_2).build();
-	}
-
-	private HttpEngine() {
 	}
 }

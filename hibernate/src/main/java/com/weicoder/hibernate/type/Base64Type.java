@@ -8,8 +8,8 @@ import java.sql.Types;
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
 
-import com.weicoder.common.codec.Base64;
-import com.weicoder.common.lang.C;
+import com.weicoder.common.codec.Base64; 
+import com.weicoder.common.W;
 
 /**
  * Json保存数据类型
@@ -26,6 +26,6 @@ public class Base64Type extends BaseType {
 	public void nullSafeSet(PreparedStatement st, Object value, int index, SharedSessionContractImplementor session) throws HibernateException, SQLException {
 		if (value == null)
 			st.setNull(index, Types.VARCHAR);
-		st.setString(index, Base64.encode(C.toString(value)));
+		st.setString(index, Base64.encode(W.C.toString(value)));
 	}
 }

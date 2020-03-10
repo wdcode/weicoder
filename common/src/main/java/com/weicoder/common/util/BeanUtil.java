@@ -10,7 +10,8 @@ import java.util.Map;
 
 import com.weicoder.common.constants.StringConstants;
 
-import com.weicoder.common.lang.C;
+import com.weicoder.common.U;
+import com.weicoder.common.W;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.log.Logs;
 
@@ -18,7 +19,7 @@ import com.weicoder.common.log.Logs;
  * Bean工具类
  * @author WD
  */
-public final class BeanUtil {
+public class BeanUtil {
 	/**
 	 * 拷贝属性
 	 * @param source 原对象
@@ -128,7 +129,7 @@ public final class BeanUtil {
 	 */
 	public static List<Object> getFieldValues(Collection<?> list, String fieldName) {
 		// 对象为空
-		if (EmptyUtil.isEmpty(list))
+		if (U.E.isEmpty(list))
 			return Lists.emptyList();
 		// 声明返回列表
 		List<Object> ls = Lists.newList(list.size());
@@ -175,7 +176,7 @@ public final class BeanUtil {
 		// 获得字段
 		Field field = getField(object, fieldName);
 		// 判断字段为空 返回null
-		if (EmptyUtil.isEmpty(field))
+		if (U.E.isEmpty(field))
 			return null;
 		try {
 			// 获得字段值
@@ -227,7 +228,7 @@ public final class BeanUtil {
 			return;
 		// 设置字段值
 		try {
-			makeAccessible(field).set(object, C.to(value, field.getType()));
+			makeAccessible(field).set(object, W.C.to(value, field.getType()));
 		} catch (Exception e) {}
 	}
 
@@ -240,7 +241,7 @@ public final class BeanUtil {
 	 */
 	public static Object invoke(Object obj, Method method, Object... args) {
 		try {
-			return makeAccessible(method).invoke(obj, EmptyUtil.isEmpty(args) ? null : args);
+			return makeAccessible(method).invoke(obj, U.E.isEmpty(args) ? null : args);
 		} catch (Exception e) {
 			Logs.error(e, "invoke method={} args={} params={}", method.getName(), Arrays.toString(args), Arrays.toString(method.getParameters()));
 			return null;
@@ -302,7 +303,7 @@ public final class BeanUtil {
 	 */
 	public static Field getField(Class<?> clazz, String name) {
 		// 判断对象和字段名是否为空
-		if (clazz == null || EmptyUtil.isEmpty(name))
+		if (clazz == null || U.E.isEmpty(name))
 			return null;
 		// 如果有复杂字段
 		if (name.indexOf(StringConstants.POINT) > -1)
@@ -326,7 +327,7 @@ public final class BeanUtil {
 	 */
 	public static List<Field> getFields(Class<?> clazz) {
 		// 判断对象和字段名是否为空
-		if (EmptyUtil.isEmpty(clazz))
+		if (U.E.isEmpty(clazz))
 			return Lists.emptyList();
 		// 声明列表
 		List<Field> fields = Lists.newList();
@@ -349,7 +350,7 @@ public final class BeanUtil {
 	 */
 	public static Method getMethod(Object obj, String name, Class<?>... parameterTypes) {
 		// 判断对象和字段名是否为空
-		if (obj == null || EmptyUtil.isEmpty(name))
+		if (obj == null || U.E.isEmpty(name))
 			return null;
 		// 声明Method
 		Method method = null;
@@ -389,7 +390,5 @@ public final class BeanUtil {
 			method.setAccessible(true);
 		// 返回方法
 		return method;
-	}
-
-	private BeanUtil() {}
+	} 
 }

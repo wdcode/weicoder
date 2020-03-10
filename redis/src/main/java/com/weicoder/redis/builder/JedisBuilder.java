@@ -2,8 +2,8 @@ package com.weicoder.redis.builder;
 
 import java.util.Set;
 
-import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.lang.C;
+import com.weicoder.common.constants.StringConstants; 
+import com.weicoder.common.W;
 import com.weicoder.common.lang.Sets;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.StringUtil;
@@ -39,7 +39,7 @@ public final class JedisBuilder {
 		Set<HostAndPort> nodes = Sets.newSet();
 		for (String server : RedisParams.getCluster(name)) {
 			String[] s = StringUtil.split(server, StringConstants.COLON);
-			nodes.add(new HostAndPort(s[0], C.toInt(s[1])));
+			nodes.add(new HostAndPort(s[0], W.C.toInt(s[1])));
 		}
 		// 生成JedisCluster
 		Logs.info("redis init cluster nodes={}", nodes);

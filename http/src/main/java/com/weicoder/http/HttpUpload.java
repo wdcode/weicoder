@@ -16,11 +16,11 @@ import org.apache.hc.core5.http.message.BasicNameValuePair;
 
 import com.weicoder.common.constants.HttpConstants;
 import com.weicoder.common.constants.StringConstants; 
-import com.weicoder.common.lang.C;
+import com.weicoder.common.U;
+import com.weicoder.common.W;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.log.Log;
-import com.weicoder.common.log.LogFactory; 
-import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.log.LogFactory;  
 
 /**
  * http 上传文件
@@ -49,7 +49,7 @@ public class HttpUpload {
 	 */
 	public static String upload(String url, Map<String, Object> data, File... files) {
 		// 如果文件为空
-		if (EmptyUtil.isEmpty(url) || EmptyUtil.isEmpty(files))
+		if (U.E.isEmpty(url) || U.E.isEmpty(files))
 			return StringConstants.EMPTY;
 		// 声明HttpPost
 		HttpPost post = null;
@@ -58,11 +58,11 @@ public class HttpUpload {
 			post = new HttpPost(url);
 //			post.addHeader(new BasicHeader(HttpConstants.CONTENT_TYPE_KEY, HttpConstants.CONTENT_TYPE_UPLOAD));
 			// 参数
-			if (EmptyUtil.isNotEmpty(data)) {
+			if (U.E.isNotEmpty(data)) {
 				// 声明参数列表
 				List<NameValuePair> list = Lists.newList(data.size());
 				// 设置参数
-				data.forEach((k, v) -> list.add(new BasicNameValuePair(k, C.toString(v))));
+				data.forEach((k, v) -> list.add(new BasicNameValuePair(k, W.C.toString(v))));
 				// 设置参数与 编码格式
 				post.setEntity(new UrlEncodedFormEntity(list));
 			}
@@ -111,7 +111,7 @@ public class HttpUpload {
 	 */
 	public static String upload(String url, Map<String, Object> data, String name, byte[] b) {
 		// 如果文件为空
-		if (EmptyUtil.isEmpty(url) || EmptyUtil.isEmpty(b))
+		if (U.E.isEmpty(url) || U.E.isEmpty(b))
 			return StringConstants.EMPTY;
 		// 声明HttpPost
 		HttpPost post = null;
@@ -126,9 +126,9 @@ public class HttpUpload {
 			// 添加上传文件
 			builder.addBinaryBody(name, b);
 			// 参数
-			if (EmptyUtil.isNotEmpty(data))
+			if (U.E.isNotEmpty(data))
 				// 设置参数
-				data.forEach((k, v) -> builder.addTextBody(k, C.toString(v)));
+				data.forEach((k, v) -> builder.addTextBody(k, W.C.toString(v)));
 			// 设置提交文件参数
 			post.setEntity(builder.build());
 			// 获得HttpResponse参数

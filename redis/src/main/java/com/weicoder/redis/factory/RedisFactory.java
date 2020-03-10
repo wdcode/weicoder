@@ -1,6 +1,6 @@
 package com.weicoder.redis.factory;
 
-import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.U;
 import com.weicoder.redis.params.RedisParams;
 import com.weicoder.redis.RedisPool; 
 import com.weicoder.redis.impl.RedisCluster;
@@ -19,7 +19,7 @@ public final class RedisFactory {
 	 * @return      Redis
 	 */
 	public static RedisPool getRedis(String name) {
-		return EmptyUtil.isEmpty(RedisParams.getCluster(name)) ? getPool(name) : getCluster(name);
+		return U.E.isEmpty(RedisParams.getCluster(name)) ? getPool(name) : getCluster(name);
 	}
 
 	/**

@@ -30,7 +30,8 @@
 		<!-- 
 		<dependency>
 			<groupId>org.apache.kafka</groupId>
-			<artifactId>kafka-clients</artifactId> 
+			<artifactId>kafka-clients</artifactId>
+			<version>${kafka-clients}</version>
 		</dependency>
 		-->
 	</dependencies>

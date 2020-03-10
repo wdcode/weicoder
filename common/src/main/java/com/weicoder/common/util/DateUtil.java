@@ -10,7 +10,8 @@ import com.weicoder.common.constants.RegexConstants;
 
 import com.weicoder.common.constants.StringConstants;
 
-import com.weicoder.common.lang.C;
+import com.weicoder.common.U;
+import com.weicoder.common.W;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
 
@@ -19,7 +20,7 @@ import com.weicoder.common.params.CommonParams;
  * 
  * @author WD
  */
-public final class DateUtil {
+public class DateUtil {
 	/**
 	 * 根据给定的日期字符串返回它的日期Format
 	 * 
@@ -115,7 +116,7 @@ public final class DateUtil {
 	 * @return int
 	 */
 	public static int getTime() {
-		return C.toInt(System.currentTimeMillis() / 1000);
+		return W.C.toInt(System.currentTimeMillis() / 1000);
 	}
 
 	/**
@@ -125,7 +126,7 @@ public final class DateUtil {
 	 * @return      int
 	 */
 	public static int getTime(Date date) {
-		return EmptyUtil.isEmpty(date) ? 0 : C.toInt(date.getTime() / 1000);
+		return U.E.isEmpty(date) ? 0 : W.C.toInt(date.getTime() / 1000);
 	}
 
 	/**
@@ -232,7 +233,7 @@ public final class DateUtil {
 	 * @return        String time的日期
 	 */
 	public static String toString(int time, String format) {
-		return toString(C.toLong(time) * 1000, format);
+		return toString(W.C.toLong(time) * 1000, format);
 	}
 
 	/**
@@ -255,7 +256,7 @@ public final class DateUtil {
 	public static Date toDate(String dateString, String format) {
 		try {
 			// 返回转换后的日期
-			return (EmptyUtil.isEmpty(format) ? new SimpleDateFormat() : new SimpleDateFormat(format)).parse(dateString);
+			return (U.E.isEmpty(format) ? new SimpleDateFormat() : new SimpleDateFormat(format)).parse(dateString);
 		} catch (Exception e) {
 			Logs.warn(e);
 			return null;
@@ -293,7 +294,7 @@ public final class DateUtil {
 	 * @return         返回两个日期相差的天数
 	 */
 	public static int marginDay(Date oneDate, Date twoDate) {
-		return C.toInt((twoDate.getTime() - oneDate.getTime()) / DateConstants.TIME_DAY);
+		return W.C.toInt((twoDate.getTime() - oneDate.getTime()) / DateConstants.TIME_DAY);
 	}
 
 	/**
@@ -1156,12 +1157,9 @@ public final class DateUtil {
 	 */
 	private static int getActualMaximum(Date date, int field) {
 		// 设置时间
-		Calendar c = Calendar.getInstance(); 
+		Calendar c = Calendar.getInstance();
 		c.setTime(date);
 		// 获得本月最大日子
 		return c.getActualMaximum(field);
-	}
-
-	private DateUtil() {
 	}
 }

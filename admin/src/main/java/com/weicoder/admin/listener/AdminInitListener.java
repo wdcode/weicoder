@@ -8,9 +8,9 @@ import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
 import com.weicoder.admin.po.Admin;
-import com.weicoder.common.lang.C;
-import com.weicoder.common.log.Logs;
-import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.U;
+import com.weicoder.common.W;
+import com.weicoder.common.log.Logs; 
 import com.weicoder.common.util.ResourceUtil;
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.dao.service.SuperService;
@@ -31,7 +31,7 @@ public class AdminInitListener implements ServletContextListener {
 			// 读取初始化文件
 			try (BufferedReader reader = new BufferedReader(new InputStreamReader(ResourceUtil.loadResource("init.sql")))) {
 				reader.lines().forEach(sql -> {
-					if (EmptyUtil.isNotEmpty(C.toString(sql)) && !StringUtil.startsWith(sql, "#")) {
+					if (U.E.isNotEmpty(W.C.toString(sql)) && !StringUtil.startsWith(sql, "#")) {
 						SuperService.DAO.execute(Admin.class, sql);
 					}
 				});

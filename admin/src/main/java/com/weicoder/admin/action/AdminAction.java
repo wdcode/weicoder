@@ -7,7 +7,7 @@ import com.weicoder.admin.state.ErrorCode;
 import com.weicoder.admin.token.AdminToken;
 import com.weicoder.admin.vo.Result;
 import com.weicoder.common.crypto.Digest;
-import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.U;
 import com.weicoder.web.annotation.Action;
 import com.weicoder.web.annotation.State;
 import com.weicoder.web.validator.annotation.Token;
@@ -28,7 +28,7 @@ public class AdminAction {
 	 */
 	public Object register(Admin admin) {
 		// 判断用户名与密码
-		if (admin == null || EmptyUtil.isEmpty(admin.getName()) || EmptyUtil.isEmpty(admin.getPassword()))
+		if (admin == null || U.E.isEmpty(admin.getName()) || U.E.isEmpty(admin.getPassword()))
 			return ErrorCode.ADMIN_NULL;
 		// 判断用户名长度
 		if (admin.getName().length() > 8)

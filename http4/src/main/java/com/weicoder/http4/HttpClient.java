@@ -20,14 +20,14 @@ import com.weicoder.common.constants.HttpConstants;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.constants.SystemConstants;
 import com.weicoder.common.io.IOUtil;
-import com.weicoder.common.lang.C;
+import com.weicoder.common.U;
+import com.weicoder.common.W;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.log.Log;
 import com.weicoder.common.log.LogFactory;
 import com.weicoder.common.params.CommonParams;
-import com.weicoder.common.util.BeanUtil;
-import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.util.BeanUtil; 
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.json.JsonEngine;
 import com.weicoder.http4.params.HttpParams;
@@ -200,11 +200,11 @@ public final class HttpClient {
 			// 获得HttpPost
 			post = new HttpPost(url);
 			// 如果参数列表为空 data为空map
-			if (EmptyUtil.isNotEmpty(data)) {
+			if (U.E.isNotEmpty(data)) {
 				// 声明参数列表
 				List<NameValuePair> list = Lists.newList(data.size());
 				// 设置参数
-				data.forEach((k, v) -> list.add(new BasicNameValuePair(k, C.toString(v))));
+				data.forEach((k, v) -> list.add(new BasicNameValuePair(k, W.C.toString(v))));
 				// 设置参数与 编码格式
 				post.setEntity(new UrlEncodedFormEntity(list, charset));
 			}

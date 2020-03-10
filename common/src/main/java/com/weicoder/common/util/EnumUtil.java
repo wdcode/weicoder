@@ -1,13 +1,13 @@
 package com.weicoder.common.util;
 
-import com.weicoder.common.lang.C;
+import com.weicoder.common.W;
 
 /**
  * enum枚举使用
  * 
  * @author wudi
  */
-public final class EnumUtil {
+public class EnumUtil {
 	/**
 	 * 判断枚举和对比对象是否相等 相同对象或则字符串区分大小写相等 或则 值相等
 	 * 
@@ -21,7 +21,7 @@ public final class EnumUtil {
 			return false;
 		// 如果是数字
 		if (o instanceof Integer || o instanceof Short || o instanceof Long)
-			return C.toInt(o) == e.ordinal();
+			return W.C.toInt(o) == e.ordinal();
 		// 是字符串
 		if (o instanceof String || o.getClass().equals(e.getClass()))
 			return e.name().equals(o);
@@ -30,10 +30,7 @@ public final class EnumUtil {
 	}
 
 	/**
-	 * 根据输入的枚举类型与对象转换成对应的枚举 
-	 * 如果是数字按getEnumConstants的下标获得 
-	 * 如果是String 转换对象区分大小写 
-	 * 如果是本对象直接强转
+	 * 根据输入的枚举类型与对象转换成对应的枚举 如果是数字按getEnumConstants的下标获得 如果是String 转换对象区分大小写 如果是本对象直接强转
 	 * 
 	 * @param  <E>  枚举对象的泛型
 	 * @param  type 枚举对象的类
@@ -51,16 +48,13 @@ public final class EnumUtil {
 				return (Enum<E>) o;
 			// 如果是数字
 			if (o instanceof Integer || o instanceof Short || o instanceof Long)
-				return type.getEnumConstants()[C.toInt(o)];
+				return type.getEnumConstants()[W.C.toInt(o)];
 			// 是字符串
 			if (o instanceof String)
-				return Enum.valueOf(type, C.toString(o));
+				return Enum.valueOf(type, W.C.toString(o));
 		} catch (Exception e) {
 		}
 		// 没有找到 对应枚举 返回 null
 		return null;
-	}
-
-	private EnumUtil() {
 	}
 }

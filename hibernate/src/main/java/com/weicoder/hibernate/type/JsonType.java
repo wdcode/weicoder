@@ -9,7 +9,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
 
 import com.weicoder.common.lang.Lists;
-import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.U;
 import com.weicoder.json.JsonEngine;
 
 /**
@@ -22,7 +22,7 @@ public class JsonType extends BaseType {
 	public Object nullSafeGet(ResultSet rs, String[] names, SharedSessionContractImplementor session, Object owner) throws HibernateException, SQLException {
 		String json = rs.getString(names[0]);
 		// 判断json不为空
-		if (EmptyUtil.isEmpty(json))
+		if (U.E.isEmpty(json))
 			return Lists.newList();
 		// 返回对象
 		return JsonEngine.toList(json, returnedClass());

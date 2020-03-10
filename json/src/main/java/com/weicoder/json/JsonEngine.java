@@ -10,7 +10,7 @@ import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.util.BeanUtil;
-import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.U;
 
 /**
  * JSON处理引擎
@@ -25,7 +25,7 @@ public final class JsonEngine {
 	 */
 	public static boolean isJson(String json) {
 		// 字符串为空
-		if (EmptyUtil.isEmpty(json))
+		if (U.E.isEmpty(json))
 			return false;
 		// 是数组格式
 		if (isObject(json))
@@ -44,7 +44,7 @@ public final class JsonEngine {
 	 */
 	public static boolean isObject(String json) {
 		// 字符串为空
-		if (EmptyUtil.isEmpty(json))
+		if (U.E.isEmpty(json))
 			return false;
 		// {开头 }结尾
 		if (json.startsWith("{") && json.endsWith("}"))
@@ -63,7 +63,7 @@ public final class JsonEngine {
 	 */
 	public static boolean isArray(String json) {
 		// 字符串为空
-		if (EmptyUtil.isEmpty(json))
+		if (U.E.isEmpty(json))
 			return false;
 		// [开头 ]结尾
 		if (json.startsWith("[{") && json.endsWith("}]"))
@@ -110,7 +110,7 @@ public final class JsonEngine {
 	 * @return 对象
 	 */
 	public static <E> E toBean(String json, Class<E> clazz) {
-		return EmptyUtil.isEmpty(json) ? null : JSON.parseObject(json, clazz);
+		return U.E.isEmpty(json) ? null : JSON.parseObject(json, clazz);
 	}
 
 	/**
@@ -121,7 +121,7 @@ public final class JsonEngine {
 	 * @return List
 	 */
 	public static <E> List<E> toList(String json, Class<E> clazz) {
-		return EmptyUtil.isEmpty(json) ? Lists.emptyList() : JSON.parseArray(json, clazz);
+		return U.E.isEmpty(json) ? Lists.emptyList() : JSON.parseArray(json, clazz);
 	}
 
 	/**
@@ -146,7 +146,7 @@ public final class JsonEngine {
 		// 获得Map
 		Map<String, Object> map = toBean(json, Map.class);
 		// 如果map为空
-		if (EmptyUtil.isEmpty(map))
+		if (U.E.isEmpty(map))
 			return Maps.newMap();
 		// 声明返回map
 		Map<String, E> data = Maps.newMap(map.size());

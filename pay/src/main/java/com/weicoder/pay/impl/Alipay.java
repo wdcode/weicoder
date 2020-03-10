@@ -7,8 +7,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.weicoder.common.codec.Hex;
 import com.weicoder.common.crypto.Digest;
-import com.weicoder.common.http.HttpEngine;
-import com.weicoder.common.lang.C;
+import com.weicoder.common.http.HttpEngine; 
+import com.weicoder.common.W;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.util.MathUtil;
 import com.weicoder.common.util.StringUtil;
@@ -55,7 +55,7 @@ public final class Alipay implements Pay {
 		// 校验URL
 		String veryfyUrl = "https://mapi.alipay.com/gateway.do?service=notify_verify&partner=" + PayParams.ALIPAY_ID + "&notify_id=" + notifyId;
 		// 获得交易网站验证
-		boolean verifyResponse = C.toBoolean(HttpEngine.get(veryfyUrl));
+		boolean verifyResponse = W.C.toBoolean(HttpEngine.get(veryfyUrl));
 		// 获得交易状态
 		boolean status = "TRADE_FINISHED".equals(tradeStatus) || "TRADE_SUCCESS".equals(tradeStatus);
 		// 返回实体

@@ -3,9 +3,9 @@ package com.weicoder.oauth.qq;
 import java.util.Map;
 
 import com.weicoder.common.http.HttpEngine;
-import com.weicoder.common.lang.C;
-import com.weicoder.common.log.Logs;
-import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.U;
+import com.weicoder.common.W;
+import com.weicoder.common.log.Logs; 
 import com.weicoder.common.util.StringUtil; 
 import com.weicoder.json.JsonEngine; 
 import com.weicoder.oauth.OAuthInfo;
@@ -54,7 +54,7 @@ public final class OAuthQQNew extends BaseOAuth {
 
 	@Override
 	public OAuthInfo getInfoByToken(String token, String openid) {
-		if (EmptyUtil.isEmpty(token) || token.startsWith("callback"))
+		if (U.E.isEmpty(token) || token.startsWith("callback"))
 			return null;
 		// 获得openid url
 		String url = String.format(OPEN_ID_URL, token);
@@ -62,21 +62,21 @@ public final class OAuthQQNew extends BaseOAuth {
 		String res = StringUtil.subString(HttpEngine.get(url), " ", " ");
 		Map<String, Object> map = JsonEngine.toMap(res);
 		// 获得openid
-		openid = C.toString(map.get("openid"));
+		openid = W.C.toString(map.get("openid"));
 		// 返回信息 unioid
 		OAuthInfo info = new OAuthInfo();
 		info.setOpenid(openid);
-		info.setUnionid(C.toString(map.get("unionid")));
+		info.setUnionid(W.C.toString(map.get("unionid")));
 		info.setType("qq");
 		info.setData(res);
 		// openid不为空 请求用户信息
-		if (!EmptyUtil.isEmpty(openid)) {
+		if (!U.E.isEmpty(openid)) {
 			res = HttpEngine.get(String.format(GET_USER_URL, token, appid(), openid));
 			Logs.debug("type={} openid={} user_info={}", info.getType(), openid, res);
 			map = JsonEngine.toMap(res);
-			info.setNickname(C.toString(map.get("nickname")));
-			info.setHead(C.toString(map.get("figureurl_qq_1")));
-			info.setSex("男".equals(C.toString(map.get("gender"))) ? 1 : 0);
+			info.setNickname(W.C.toString(map.get("nickname")));
+			info.setHead(W.C.toString(map.get("figureurl_qq_1")));
+			info.setSex("男".equals(W.C.toString(map.get("gender"))) ? 1 : 0);
 		}
 		return info;
 	}

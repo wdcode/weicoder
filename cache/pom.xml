@@ -17,10 +17,18 @@
 			<groupId>com.weicoder.extend</groupId>
 			<artifactId>core-extend</artifactId>
 		</dependency>
-		 <!-- 
+		<!-- 
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
+			<version>${guava}</version>
+		</dependency>
+		-->
+		<!-- 
+		<dependency>
+			<groupId>com.weicoder.fork</groupId>
+			<artifactId>guava-jdk11</artifactId>
+			<version>${guava}</version>
 		</dependency>
 		-->
 	</dependencies>

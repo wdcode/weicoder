@@ -13,10 +13,10 @@ import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.HttpConstants;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.io.IOUtil;
-import com.weicoder.common.lang.C;
+import com.weicoder.common.U;
+import com.weicoder.common.W;
 import com.weicoder.common.lang.Maps;
-import com.weicoder.common.params.CommonParams;
-import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.params.CommonParams; 
 import com.weicoder.common.util.IpUtil;
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.json.JsonEngine;
@@ -37,7 +37,7 @@ public final class RequestUtil {
 		// 获得ip列表
 		String[] ips = getIps(request);
 		// 返回第一个ip
-		return EmptyUtil.isEmpty(ips) ? StringConstants.EMPTY : ips[0];
+		return U.E.isEmpty(ips) ? StringConstants.EMPTY : ips[0];
 	}
 
 	/**
@@ -48,19 +48,19 @@ public final class RequestUtil {
 	 */
 	public static String[] getIps(HttpServletRequest request) {
 		// 判断不为空
-		if (EmptyUtil.isNotEmpty(request)) {
+		if (U.E.isNotEmpty(request)) {
 			// 获得IP
 			String ip = request.getHeader("X-Forwarded-For");
 			// 判断如果为空继续获得
-			if (EmptyUtil.isEmpty(ip))
+			if (U.E.isEmpty(ip))
 				// 为空换方法获得
 				ip = request.getHeader("X-Real-IP");
 			// 判断如果为空继续获得
-			if (EmptyUtil.isEmpty(ip))
+			if (U.E.isEmpty(ip))
 				// 为空换方法获得
 				ip = request.getRemoteAddr();
 			// 返回IP
-			return EmptyUtil.isEmpty(ip) ? ArrayConstants.STRING_EMPTY : ip.indexOf(StringConstants.COMMA) == -1 ? new String[]{ip} : ip.split(StringConstants.COMMA);
+			return U.E.isEmpty(ip) ? ArrayConstants.STRING_EMPTY : ip.indexOf(StringConstants.COMMA) == -1 ? new String[]{ip} : ip.split(StringConstants.COMMA);
 		}
 		// 返回""
 		return ArrayConstants.STRING_EMPTY;
@@ -190,7 +190,7 @@ public final class RequestUtil {
 				// 判断是json
 				if (JsonEngine.isJson(json))
 					// 转换成map
-					JsonEngine.toMap(json).forEach((k, v) -> map.put(k, C.toString(v)));
+					JsonEngine.toMap(json).forEach((k, v) -> map.put(k, W.C.toString(v)));
 			} catch (IOException e) {
 			}
 		}
@@ -249,9 +249,9 @@ public final class RequestUtil {
 	 */
 	public static String getParameter(ServletRequest request, String key, String defaultValue) {
 		// 获得值
-		String value = EmptyUtil.isEmpty(request) ? defaultValue : request.getParameter(key);
+		String value = U.E.isEmpty(request) ? defaultValue : request.getParameter(key);
 		// 如果值为空 返回默认值
-		return EmptyUtil.isEmpty(value) ? defaultValue : value;
+		return U.E.isEmpty(value) ? defaultValue : value;
 	}
 
 	/**
@@ -277,9 +277,9 @@ public final class RequestUtil {
 	@SuppressWarnings("unchecked")
 	public static <E> E getAttribute(ServletRequest request, String key, E defaultValue) {
 		// 获得值
-		E value = EmptyUtil.isEmpty(request) ? defaultValue : (E) request.getAttribute(key);
+		E value = U.E.isEmpty(request) ? defaultValue : (E) request.getAttribute(key);
 		// 如果值为空 返回默认值
-		return EmptyUtil.isEmpty(value) ? defaultValue : value;
+		return U.E.isEmpty(value) ? defaultValue : value;
 	}
 
 	/**
@@ -289,7 +289,7 @@ public final class RequestUtil {
 	 * @return         HttpSession
 	 */
 	public static HttpSession getSession(HttpServletRequest request) {
-		return EmptyUtil.isEmpty(request) ? null : request.getSession();
+		return U.E.isEmpty(request) ? null : request.getSession();
 	}
 
 	/**
@@ -300,7 +300,7 @@ public final class RequestUtil {
 	 * @return         HttpSession
 	 */
 	public static HttpSession getSession(HttpServletRequest request, boolean b) {
-		return EmptyUtil.isEmpty(request) ? null : request.getSession(b);
+		return U.E.isEmpty(request) ? null : request.getSession(b);
 	}
 
 	/**
@@ -311,7 +311,7 @@ public final class RequestUtil {
 	 * @param value   属性值
 	 */
 	public static void setAttribute(ServletRequest request, String key, Object value) {
-		if (EmptyUtil.isNotEmpty(request))
+		if (U.E.isNotEmpty(request))
 			request.setAttribute(key, value);
 	}
 

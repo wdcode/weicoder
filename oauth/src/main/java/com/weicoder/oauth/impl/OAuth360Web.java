@@ -2,8 +2,8 @@ package com.weicoder.oauth.impl;
 
 import java.util.Map;
 
-import com.weicoder.common.http.HttpEngine;
-import com.weicoder.common.lang.C; 
+import com.weicoder.common.http.HttpEngine; 
+import com.weicoder.common.W;
 import com.weicoder.json.JsonEngine; 
 import com.weicoder.oauth.OAuthInfo;
 import com.weicoder.oauth.base.BaseOAuth;
@@ -58,10 +58,10 @@ public final class OAuth360Web extends BaseOAuth {
 		Map<String, Object> map = JsonEngine.toMap(res);
 		// 返回信息
 		OAuthInfo info = new OAuthInfo();
-		info.setOpenid(C.toString(map.get("id")));
-		info.setNickname(C.toString(map.get("name")));
-		info.setHead(C.toString(map.get("avatar")));
-		info.setSex(C.toInt(map.get("sex")));
+		info.setOpenid(W.C.toString(map.get("id")));
+		info.setNickname(W.C.toString(map.get("name")));
+		info.setHead(W.C.toString(map.get("avatar")));
+		info.setSex(W.C.toInt(map.get("sex")));
 		info.setType("360");
 		info.setData(res);
 		return info;

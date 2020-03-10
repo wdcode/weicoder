@@ -13,7 +13,7 @@ import com.weicoder.common.log.LogFactory;
 import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.ClassUtil;
-import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.U;
 import com.weicoder.json.JsonEngine;
 import com.weicoder.redis.params.RedisParams;
 import com.weicoder.redis.annotation.Channel;
@@ -44,7 +44,7 @@ public final class Redis {
 		// 获得所有redis订阅者
 		List<Class<Subscribes>> subscribes = ClassUtil.getAnnotationClass(CommonParams.getPackages("redis"),
 				Subscribes.class);
-		if (EmptyUtil.isNotEmpty(subscribes)) {
+		if (U.E.isNotEmpty(subscribes)) {
 			// 循环处理所有redis订阅类
 			int n = 0;
 			for (Class<Subscribes> c : subscribes) {
@@ -83,11 +83,11 @@ public final class Redis {
 						long time = System.currentTimeMillis();
 						Object s = SUBSCRIBES.get(channel);
 						Method m = METHODS.get(channel);
-						if (EmptyUtil.isNotEmptys(s, m)) {
+						if (U.E.isNotEmptys(s, m)) {
 							// 获得所有参数
 							Parameter[] params = m.getParameters();
 							Object[] objs = null;
-							if (EmptyUtil.isEmpty(params))
+							if (U.E.isEmpty(params))
 								// 参数为空直接执行方法
 								BeanUtil.invoke(s, m);
 							else {

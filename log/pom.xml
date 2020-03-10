@@ -23,10 +23,12 @@
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-core</artifactId>
+			<version>${log4j-core}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.lmax</groupId>
-  			<artifactId>disruptor</artifactId>
+			<artifactId>disruptor</artifactId>
+			<version>${disruptor}</version>
 		</dependency>
 		-->
 	</dependencies>

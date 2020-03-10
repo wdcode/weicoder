@@ -2,8 +2,8 @@ package com.weicoder.socket.params;
 
 import com.weicoder.common.config.Config;
 import com.weicoder.common.config.ConfigFactory;
-import com.weicoder.common.constants.SystemConstants;
-import com.weicoder.common.lang.C;
+import com.weicoder.common.constants.SystemConstants; 
+import com.weicoder.common.W;
 import com.weicoder.common.params.Params;
 
 /**
@@ -26,7 +26,7 @@ public final class SocketParams {
 	/** 是否支持心跳检测 */
 	public final static boolean HEART          = CONFIG.getBoolean("heart", true);
 	/** 心跳检测id */
-	public final static short   HEART_ID       = CONFIG.getShort("heart.id", C.toShort(0));
+	public final static short   HEART_ID       = CONFIG.getShort("heart.id", W.C.toShort(0));
 	/** 获得Socket服务器监听端口号 */
 	public final static int     SERVER_PORT    = CONFIG.getInt("server.port", Params.getInt("socket.server.port"));
 	/** 获得WebSocket服务器监听端口号 */

@@ -7,15 +7,16 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import com.weicoder.common.U;
+import com.weicoder.common.W;
 import com.weicoder.common.util.ArrayUtil;
-import com.weicoder.common.util.EmptyUtil;
 
 /**
  * List的帮助类
  * 
  * @author WD
  */
-public final class Lists {
+public class Lists {
 	/**
 	 * 去除list的所有null
 	 * 
@@ -24,7 +25,8 @@ public final class Lists {
 	 * @return      List
 	 */
 	public static <E> List<E> notNull(List<E> list) {
-		return (EmptyUtil.isEmpty(list) || list.indexOf(null) == 0) ? list : list.stream().filter(Objects::nonNull).collect(Collectors.toList());
+		return (U.E.isEmpty(list) || list.indexOf(null) == 0) ? list
+				: list.stream().filter(Objects::nonNull).collect(Collectors.toList());
 	}
 
 	/**
@@ -36,7 +38,8 @@ public final class Lists {
 	 * @return      处理后的元素
 	 */
 	public static <E> E get(List<E> list, int i) {
-		return EmptyUtil.isEmpty(list) ? null : i < 0 ? list.get(0) : i >= list.size() ? list.get(list.size() - 1) : list.get(i);
+		return U.E.isEmpty(list) ? null
+				: i < 0 ? list.get(0) : i >= list.size() ? list.get(list.size() - 1) : list.get(i);
 	}
 
 	/**
@@ -46,7 +49,7 @@ public final class Lists {
 	 * @return     是否列表
 	 */
 	public static boolean isList(Object obj) {
-		return EmptyUtil.isNotEmpty(obj) && obj instanceof List<?>;
+		return U.E.isNotEmpty(obj) && obj instanceof List<?>;
 	}
 
 	/**
@@ -107,7 +110,7 @@ public final class Lists {
 		// 循环集合
 		for (int i = 0; i < c.length; i++)
 			// 添加到列表中
-			if (EmptyUtil.isNotEmpty(c[i]))
+			if (U.E.isNotEmpty(c[i]))
 				list.addAll(c[i]);
 		// 返回列表
 		return list;
@@ -125,7 +128,7 @@ public final class Lists {
 		// 声明返回结果
 		List<List<E>> res = Lists.newList();
 		// 对象为空或者分片小于1直接返回列表
-		if (EmptyUtil.isEmpty(list) || slice < 1 || list.size() <= slice)
+		if (U.E.isEmpty(list) || slice < 1 || list.size() <= slice)
 			res.add(list);
 		else {
 			// 开始数
@@ -137,7 +140,7 @@ public final class Lists {
 				List<E> ls = Lists.subList(list, start, start + slice);
 				n++;
 				// 不为空添加到列表
-				if (EmptyUtil.isNotEmpty(ls))
+				if (U.E.isNotEmpty(ls))
 					res.add(ls);
 				// 如果
 				if (ls.size() < slice)
@@ -159,7 +162,7 @@ public final class Lists {
 	 */
 	public static <E> List<E> subList(List<E> list, int begin, int end) {
 		// 如果列表为空返回一个空列表
-		if (EmptyUtil.isEmpty(list))
+		if (U.E.isEmpty(list))
 			return list;
 		// 获得元列表大小
 		int size = list.size();
@@ -215,7 +218,7 @@ public final class Lists {
 	@SuppressWarnings("unchecked")
 	public static <E> E[] toArray(List<E> list) {
 		// 判断列表不为空
-		if (EmptyUtil.isEmpty(list))
+		if (U.E.isEmpty(list))
 			return ArrayUtil.getArray();
 		// 返回数组
 		return (E[]) list.toArray(ArrayUtil.getArray(list.get(0).getClass(), list.size()));
@@ -231,7 +234,7 @@ public final class Lists {
 	 */
 	public static <E> E[] toArray(List<Object> list, Class<E> clazz) {
 		// 判断列表不为空
-		if (EmptyUtil.isEmpty(list))
+		if (U.E.isEmpty(list))
 			return ArrayUtil.getArray(clazz, 0);
 		// 返回数组
 		return list.toArray(ArrayUtil.getArray(clazz, list.size()));
@@ -256,9 +259,9 @@ public final class Lists {
 	 */
 	public static boolean contains(List<Object> list, Object o) {
 		// 判断不为空
-		if (EmptyUtil.isNotEmpty(list) && o != null)
+		if (U.E.isNotEmpty(list) && o != null)
 			for (Object obj : list)
-				if (o.getClass().equals(obj.getClass()) ? o.equals(obj) : C.toString(o).equals(C.toString(obj)))
+				if (o.getClass().equals(obj.getClass()) ? o.equals(obj) : W.C.toString(o).equals(W.C.toString(obj)))
 					return true;
 		// 返回false
 		return false;
@@ -271,9 +274,6 @@ public final class Lists {
 	 * @return      数量
 	 */
 	public static int size(List<?> list) {
-		return EmptyUtil.isEmpty(list) ? 0 : list.size();
-	}
-
-	private Lists() {
+		return U.E.isEmpty(list) ? 0 : list.size();
 	}
 }

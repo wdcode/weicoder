@@ -6,8 +6,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.lookup.MainMapLookup;
 
-import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.lang.C;
+import com.weicoder.common.constants.StringConstants; 
+import com.weicoder.common.W;
 import com.weicoder.common.log.Log;
 import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.util.StringUtil;
@@ -136,7 +136,7 @@ public class Log4j2 implements Log {
 				else if (obj instanceof String[])
 					obj = Arrays.toString((String[]) obj);
 				// 获得对象
-				params[i] = StringUtil.subString(C.toString(obj), 0, CommonParams.LOGS_LEN);
+				params[i] = StringUtil.subString(W.C.toString(obj), 0, CommonParams.LOGS_LEN);
 			}
 		// 返回对象
 		return params;

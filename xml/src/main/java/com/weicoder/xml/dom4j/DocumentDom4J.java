@@ -2,7 +2,7 @@ package com.weicoder.xml.dom4j;
 
 import org.dom4j.DocumentHelper;
 
-import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.U;
 import com.weicoder.xml.Document;
 import com.weicoder.xml.Element;
 
@@ -69,7 +69,7 @@ public final class DocumentDom4J implements Document {
 	 * @return true 空对象 false 非空对象
 	 */
 	public boolean isEmpty() {
-		return EmptyUtil.isEmpty(document);
+		return U.E.isEmpty(document);
 	}
 
 	/**

@@ -20,7 +20,7 @@ import javax.mail.internet.MimeMultipart;
 
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.log.Logs;
-import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.U;
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.email.base.BaseEmail;
 
@@ -134,7 +134,7 @@ public final class EmailJava extends BaseEmail {
 				message.setText(msg);
 			}
 			// 添加附件
-			if (!EmptyUtil.isEmpty(attach)) {
+			if (!U.E.isEmpty(attach)) {
 				// 附件
 				MimeBodyPart messageBodyPart = new MimeBodyPart();
 				DataSource source = null;

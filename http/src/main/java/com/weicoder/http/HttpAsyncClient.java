@@ -21,13 +21,13 @@ import org.apache.hc.core5.util.Timeout;
 import com.weicoder.common.constants.HttpConstants;
 import com.weicoder.common.constants.SystemConstants;
 import com.weicoder.common.interfaces.CallbackVoid; 
-import com.weicoder.common.lang.C;
+import com.weicoder.common.U;
+import com.weicoder.common.W;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.log.Log;
 import com.weicoder.common.log.LogFactory;
 import com.weicoder.common.params.CommonParams;
-import com.weicoder.common.util.CloseUtil;
-import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.util.CloseUtil; 
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.http.params.HttpParams;
 
@@ -49,8 +49,8 @@ public final class HttpAsyncClient {
 		pool.setMaxTotal(HttpParams.HTTP_MAX);
 		// 设置请求参数
 		RequestConfig.Builder config = RequestConfig.custom();
-		config.setConnectionRequestTimeout(Timeout.ofSeconds(C.toLong(HttpParams.HTTP_TIMEOUT)));
-		config.setConnectTimeout(Timeout.ofSeconds(C.toLong(HttpParams.HTTP_TIMEOUT)));
+		config.setConnectionRequestTimeout(Timeout.ofSeconds(W.C.toLong(HttpParams.HTTP_TIMEOUT)));
+		config.setConnectTimeout(Timeout.ofSeconds(W.C.toLong(HttpParams.HTTP_TIMEOUT)));
 		config.setCircularRedirectsAllowed(false);
 		// HttpClientBuilder
 		HttpAsyncClientBuilder builder = HttpAsyncClientBuilder.create();
@@ -157,11 +157,11 @@ public final class HttpAsyncClient {
 			post = new HttpPost(url);
 			post.addHeader(new BasicHeader(HttpConstants.CONTENT_TYPE_KEY, HttpConstants.CONTENT_TYPE_VAL));
 			// 如果参数列表为空 data为空map
-			if (EmptyUtil.isNotEmpty(data)) {
+			if (U.E.isNotEmpty(data)) {
 				// 声明参数列表
 				List<NameValuePair> list = Lists.newList(data.size());
 				// 设置参数
-				data.forEach((k, v) -> list.add(new BasicNameValuePair(k, C.toString(v))));
+				data.forEach((k, v) -> list.add(new BasicNameValuePair(k, W.C.toString(v))));
 				// 设置参数与 编码格式
 				post.setEntity(new UrlEncodedFormEntity(list));
 			}

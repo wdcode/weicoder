@@ -1,6 +1,6 @@
 package com.weicoder.xml.jdom2;
 
-import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.U;
 import com.weicoder.xml.Document;
 import com.weicoder.xml.Element;
 
@@ -69,7 +69,7 @@ public final class DocumentJDom2 implements Document {
 	 * @return true 空对象 false 非空对象
 	 */
 	public boolean isEmpty() {
-		return EmptyUtil.isEmpty(document);
+		return U.E.isEmpty(document);
 	}
 
 	/**

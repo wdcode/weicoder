@@ -9,11 +9,11 @@ import com.google.protobuf.CodedOutputStream;
 import com.google.protobuf.WireFormat;
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.lang.Bytes;
-import com.weicoder.common.lang.C;
+import com.weicoder.common.U;
+import com.weicoder.common.W;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.BeanUtil;
-import com.weicoder.common.util.ClassUtil;
-import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.util.ClassUtil; 
 
 /**
  * Google Protobuf 处理器 使用的Protobuf 3
@@ -150,32 +150,32 @@ public final class ProtobufEngine {
 			// 判断字段类型并累加大小
 			if (type.equals(String.class)) {
 				// 字符串
-				String s = C.toString(val);
-				if (EmptyUtil.isNotEmpty(s))
+				String s = W.C.toString(val);
+				if (U.E.isNotEmpty(s))
 					size += CodedOutputStream.computeStringSize(i, s);
 			} else if (type.equals(int.class) || type.equals(Integer.class)) {
 				// 整型
-				int n = C.toInt(val);
+				int n = W.C.toInt(val);
 				if (n != 0)
 					size += CodedOutputStream.computeInt32Size(i, n);
 			} else if (type.equals(long.class) || type.equals(Long.class)) {
 				// 长整型
-				long n = C.toLong(val);
+				long n = W.C.toLong(val);
 				if (n != 0L)
 					size += CodedOutputStream.computeInt64Size(i, n);
 			} else if (type.equals(boolean.class) || type.equals(Boolean.class)) {
 				// 布尔
-				boolean n = C.toBoolean(val);
+				boolean n = W.C.toBoolean(val);
 				if (n != false)
 					size += CodedOutputStream.computeBoolSize(i, n);
 			} else if (type.equals(float.class) || type.equals(Float.class)) {
 				// float型
-				float n = C.toFloat(val);
+				float n = W.C.toFloat(val);
 				if (n != 0F)
 					size += CodedOutputStream.computeFloatSize(i, n);
 			} else if (type.equals(double.class) || type.equals(Double.class)) {
 				// Double型
-				double n = C.toDouble(val);
+				double n = W.C.toDouble(val);
 				if (n != 0D)
 					size += CodedOutputStream.computeDoubleSize(i, n);
 			} 
@@ -188,13 +188,13 @@ public final class ProtobufEngine {
 			else if (type.equals(byte[].class) || ClassUtil.isBaseType(type)) {
 				// 字节流
 				byte[] n = Bytes.toBytes(val);
-				if (EmptyUtil.isNotEmpty(n))
+				if (U.E.isNotEmpty(n))
 					size += CodedOutputStream.computeByteArraySize(i, n);
 			}
 //			else if (type.equals(byte.class) || type.equals(Byte.class) ||) {
 //				// 整型
 //				byte[] n = Bytes.toBytes(val);
-//				if (EmptyUtil.isNotEmpty(n))
+//				if (U.E.isNotEmpty(n))
 //					size += CodedOutputStream.computeByteArraySize(i, n);
 //			} else if (type.equals(short.class) || type.equals(Integer.class)) {
 //				// 整型
@@ -229,32 +229,32 @@ public final class ProtobufEngine {
 			Class<?> type = field.getType();
 			if (type.equals(String.class)) {
 				// 字符串
-				String s = C.toString(val);
-				if (EmptyUtil.isNotEmpty(s))
+				String s = W.C.toString(val);
+				if (U.E.isNotEmpty(s))
 					output.writeString(i, s);
 			} else if (type.equals(int.class) || type.equals(Integer.class)) {
 				// 整型
-				int n = C.toInt(val);
+				int n = W.C.toInt(val);
 				if (n != 0)
 					output.writeInt32(i, n);
 			} else if (type.equals(long.class) || type.equals(Long.class)) {
 				// 长整型
-				long n = C.toLong(val);
+				long n = W.C.toLong(val);
 				if (n != 0L)
 					output.writeInt64(i, n);
 			} else if (type.equals(boolean.class) || type.equals(Boolean.class)) {
 				// 布尔
-				boolean n = C.toBoolean(val);
+				boolean n = W.C.toBoolean(val);
 				if (n != false)
 					output.writeBool(i, n);
 			} else if (type.equals(float.class) || type.equals(Float.class)) {
 				// float型
-				float n = C.toFloat(val);
+				float n = W.C.toFloat(val);
 				if (n != 0F)
 					output.writeFloat(i, n);
 			} else if (type.equals(double.class) || type.equals(Double.class)) {
 				// Double型
-				double n = C.toDouble(val);
+				double n = W.C.toDouble(val);
 				if (n != 0D)
 					output.writeDouble(i, n);
 			} 
@@ -267,7 +267,7 @@ public final class ProtobufEngine {
 			else if (type.equals(byte[].class) || ClassUtil.isBaseType(type)) {
 				// 字节流
 				byte[] n = Bytes.toBytes(val);
-				if (EmptyUtil.isNotEmpty(n))
+				if (U.E.isNotEmpty(n))
 					output.writeByteArray(i, n);
 			}
 //			else {

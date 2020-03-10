@@ -10,7 +10,7 @@ import java.util.Set;
  * 
  * @author WD
  */
-public final class Sets {
+public class Sets {
 	/**
 	 * 判断是否Set
 	 * 
@@ -83,8 +83,5 @@ public final class Sets {
 	 */
 	public static int size(Set<?> set) {
 		return set == null ? 0 : set.size();
-	}
-
-	private Sets() {
-	}
+	} 
 }

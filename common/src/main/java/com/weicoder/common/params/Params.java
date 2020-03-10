@@ -5,14 +5,14 @@ import java.util.List;
 import com.weicoder.common.config.Config;
 import com.weicoder.common.config.ConfigFactory;
 import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.U;
 
 /**
  * 系统配置信息 内部使用 CONFIG.properties 中配置,本包实现可配置功能
  * 
  * @author WD
  */
-public final class Params {
+public class Params {
 	// Properties配置
 	private final static Config CONFIG = ConfigFactory.getConfig("config");
 
@@ -144,7 +144,8 @@ public final class Params {
 	}
 
 	/**
-	 * 根据前后缀和和名称获得键 
+	 * 根据前后缀和和名称获得键
+	 * 
 	 * @param  name   名称
 	 * @param  suffix 后缀
 	 * @return        替换后的键
@@ -165,13 +166,13 @@ public final class Params {
 		// 声明字符串缓存
 		StringBuilder sb = new StringBuilder(prefix);
 		// 前缀不为空添加.
-		if (EmptyUtil.isNotEmpty(prefix))
+		if (U.E.isNotEmpty(prefix))
 			sb.append(StringConstants.POINT);
 		// 名称不为空
-		if (EmptyUtil.isNotEmpty(name))
+		if (U.E.isNotEmpty(name))
 			sb.append(name).append(StringConstants.POINT);
 		// 后缀不为空添加.
-		if (EmptyUtil.isNotEmpty(suffix))
+		if (U.E.isNotEmpty(suffix))
 			sb.append(suffix);
 		// 返回替换后的键
 		return sb.toString();
@@ -185,8 +186,5 @@ public final class Params {
 	 */
 	public static boolean exists(String key) {
 		return CONFIG.exists(key);
-	}
-
-	private Params() {
-	}
+	} 
 }

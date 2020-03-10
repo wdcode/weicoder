@@ -1,6 +1,10 @@
-package com.weicoder.test;
+package com.weicoder.test; 
 
+import com.weicoder.common.U;
+import com.weicoder.common.io.IOUtil;
+import com.weicoder.xml.Document;
 import com.weicoder.xml.XmlEngine;
+import com.weicoder.xml.builder.XmlBuilder;
 
 public class XmlTest {
 
@@ -12,25 +16,26 @@ public class XmlTest {
 		System.out.println(XmlEngine.toBean(xml, SearchBean.class));
 		// jdom2 1577 10685 7904 - 1920 2078 1739
 		// dom4j 9165 4545 5428 - 934 918 888
-		int n = 100;
-//		String f = "user.xml";
-//		InputStream in = ResourceUtil.loadResource(f); 
+//		int n = 1;
+		String f = "user.xml"; 
+//		System.out.println(IOUtil.readString(U.R.loadResource(f)));
 		long curr = System.currentTimeMillis();
-//		Document doc = XmlBuilder.readDocument(ResourceUtil.loadResource(f));
-//		System.out.println(doc.getRootElement().getName());
-//		System.out.println(doc.getRootElement().getText());
-//		System.out.println(doc.getRootElement().getElements().size());
-//		doc.getRootElement().getElements().forEach(e -> System.out.println(e.getName()));
-		for (int i = 0; i < n; i++) {
-//			doc = XmlBuilder.readDocument(ResourceUtil.loadResource(f));
+//		Document doc = XmlBuilder.readDocument(U.R.loadResource(f));
+		Document doc = null;
+		System.out.println(doc.getRootElement().getName());
+		System.out.println(doc.getRootElement().getText());
+		System.out.println(doc.getRootElement().getElements().size());
+		doc.getRootElement().getElements().forEach(e -> System.out.println(e.getName()));
+//		for (int i = 0; i < n; i++) {
+//			doc = XmlBuilder.readDocument(U.R.loadResource(f));
 //			doc.getRootElement().getName();
 //			doc.getRootElement().getElements().forEach(e -> e.getName());
-			xml = XmlEngine.toXML(bean);
-			XmlEngine.toBean(xml, SearchBean.class);
-		}
-//		System.out.println(doc.getRootElement().getName());
-//		System.out.println(doc.getRootElement().getText());
-//		System.out.println(doc.getRootElement().getElements().size());
+//			xml = XmlEngine.toXML(bean);
+//			XmlEngine.toBean(xml, SearchBean.class);
+//		}
+		System.out.println(doc.getRootElement().getName());
+		System.out.println(doc.getRootElement().getText());
+		System.out.println(doc.getRootElement().getElements().size());
 		System.out.println(System.currentTimeMillis() - curr);
 	}
 }
