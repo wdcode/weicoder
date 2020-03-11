@@ -17,7 +17,14 @@
 			<groupId>com.weicoder.extend</groupId>
 			<artifactId>http4-extend</artifactId>
 		</dependency>
-		 <!-- 
+		
+		<dependency>
+			<groupId>com.weicoder.fork</groupId>
+			<artifactId>httpclient4</artifactId>
+			<version>${httpclient}</version>
+		</dependency>
+		
+		<!--
 		 <dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
@@ -43,6 +50,6 @@
 			<artifactId>httpasyncclient</artifactId>
 			<version>${httpasyncclient}</version>
 		</dependency> 
-		 -->
+		  --> 
 	</dependencies>
 </project>

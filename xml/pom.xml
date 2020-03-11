@@ -14,12 +14,13 @@
 			<groupId>com.weicoder</groupId>
 			<artifactId>common</artifactId>
 		</dependency>  
-		<!-- 
+		 
 		<dependency>
 			<groupId>com.weicoder.extend</groupId>
 			<artifactId>xml-extend</artifactId>
 		</dependency>
-		--> 
+		
+		<!-- 
 		<dependency>
 			<groupId>org.dom4j</groupId>
 			<artifactId>dom4j</artifactId>
@@ -27,7 +28,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.jdom</groupId>
-			<artifactId>jdom</artifactId>
+			<artifactId>jdom2</artifactId>
 			<version>${jdom}</version>
 		</dependency>
 		<dependency>
@@ -35,8 +36,8 @@
 			<artifactId>xstream</artifactId>
 			<version>${xstream}</version>
 		</dependency>
-		
-		<!-- 
+		--> 
+		<!--
 		<dependency>
 			<groupId>com.weicoder.fork</groupId>
 			<artifactId>dom4j-jdk11</artifactId>
@@ -44,7 +45,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.weicoder.fork</groupId>
-			<artifactId>jdom-jdk11</artifactId>
+			<artifactId>jdom2-jdk11</artifactId> 
 			<version>${jdom}</version>
 		</dependency>
 		<dependency>

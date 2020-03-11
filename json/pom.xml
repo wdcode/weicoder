@@ -19,10 +19,18 @@
 			<groupId>com.weicoder.extend</groupId>
 			<artifactId>json-extend</artifactId>
 		</dependency>
-		 <!--
+		 
+		 <!-- 
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>fastjson</artifactId>
+			<version>${fastjson}</version>
+		</dependency>
+		-->
+		<!--
+		<dependency>
+			<groupId>com.weicoder.fork</groupId>
+			<artifactId>fastjson-jdk11</artifactId>
 			<version>${fastjson}</version>
 		</dependency>
 		-->

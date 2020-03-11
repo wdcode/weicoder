@@ -14,17 +14,25 @@
 			<groupId>com.weicoder</groupId>
 			<artifactId>common</artifactId>
 		</dependency>
-		
+		 
 		<dependency>
 			<groupId>com.weicoder.extend</groupId>
 			<artifactId>quartz-extend</artifactId>
 		</dependency>
+		
 		<!-- 
 		<dependency>
 			<groupId>org.quartz-scheduler</groupId>
 			<artifactId>quartz</artifactId>
 			<version>${quartz}</version>
 		</dependency>
-		--> 
+		 --> 
+		<!--
+		<dependency>
+			<groupId>com.weicoder.fork</groupId>
+			<artifactId>quartz-jdk11</artifactId>
+			<version>${quartz}</version>
+		</dependency>
+		-->
 	</dependencies>
 </project>

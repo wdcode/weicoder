@@ -25,6 +25,13 @@
 			<artifactId>Memcached-Java-Client</artifactId>
 			<version>${Memcached-Java-Client}</version> 
 		</dependency>
+		-->
+		<!--
+		<dependency>
+			<groupId>com.weicoder.fork</groupId>
+			<artifactId>Memcached-Java-Client-jdk11</artifactId>
+			<version>${Memcached-Java-Client}</version> 
+		</dependency>
 		 -->
 	</dependencies>
 </project>

@@ -12,12 +12,13 @@
 			<groupId>com.weicoder</groupId>
 			<artifactId>common</artifactId>
 		</dependency>
-		 
+		  
 		<dependency>
 			<groupId>com.weicoder.extend</groupId>
 			<artifactId>core-extend</artifactId>
 		</dependency>
-		<!-- 
+		
+		<!--
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>

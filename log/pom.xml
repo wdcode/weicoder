@@ -14,12 +14,13 @@
 			<groupId>com.weicoder</groupId>
 			<artifactId>common</artifactId>
 		</dependency>
-		 
+		 <!--
 		<dependency>
 			<groupId>com.weicoder.extend</groupId>
 			<artifactId>log-extend</artifactId>
 		</dependency>
-		<!--
+		-->
+		
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-core</artifactId>
@@ -28,6 +29,18 @@
 		<dependency>
 			<groupId>com.lmax</groupId>
 			<artifactId>disruptor</artifactId>
+			<version>${disruptor}</version>
+		</dependency>
+		
+		<!--
+		<dependency>
+			<groupId>com.weicoder.fork</groupId>
+		<artifactId>log4j-jdk11</artifactId>
+			<version>${log4j-core}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.weicoder.fork</groupId>
+			<artifactId>disruptor-jdk11</artifactId>
 			<version>${disruptor}</version>
 		</dependency>
 		-->

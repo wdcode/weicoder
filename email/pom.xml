@@ -26,5 +26,12 @@
 			<version>${commons-email}</version>
 		</dependency>
 		--> 
+		<!--
+		<dependency>
+			<groupId>com.weicoder.fork</groupId>
+			<artifactId>commons-email-jdk11</artifactId>
+			<version>${commons-email}</version>
+		</dependency>
+		--> 
 	</dependencies>
 </project>

@@ -11,8 +11,9 @@ import org.quartz.SchedulerException;
 import org.quartz.TriggerBuilder;
 import org.quartz.impl.StdSchedulerFactory;
 
-import com.weicoder.common.log.Logs;
-import com.weicoder.common.params.CommonParams; 
+import com.weicoder.common.log.Log;
+import com.weicoder.common.log.LogFactory; 
+import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.U;
 import com.weicoder.quartz.annotation.Job;
@@ -25,6 +26,8 @@ import com.weicoder.quartz.params.QuartzParams;
  * @author WD
  */
 public final class Quartzs {
+	private final static Log LOG = LogFactory.getLog(Quartzs.class);
+
 	/**
 	 * 初始化
 	 */
@@ -59,9 +62,9 @@ public final class Quartzs {
 														.cronSchedule(QuartzParams.getTrigger(m.getName(), t.value())))
 												.build());
 							} catch (SchedulerException e) {
-								Logs.error(e);
+								LOG.error(e);
 							}
-							Logs.info("add quartz job={}", job);
+							LOG.info("add quartz job={}", job);
 						}
 					});
 				});
@@ -69,7 +72,7 @@ public final class Quartzs {
 				scheduler.start();
 			}
 		} catch (Exception e) {
-			Logs.error(e);
+			LOG.error(e);
 		}
 	}
 

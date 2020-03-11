@@ -19,6 +19,7 @@
 			<groupId>com.weicoder.extend</groupId> 
 			<artifactId>dao-extend</artifactId> 
 		</dependency> 
+		
 		<!--
 		<dependency>
 			<groupId>com.zaxxer</groupId>
