@@ -15,7 +15,7 @@
 		  
 		<dependency>
 			<groupId>com.weicoder.extend</groupId>
-			<artifactId>core-extend</artifactId>
+			<artifactId>cache-extend</artifactId>
 		</dependency>
 		
 		<!--

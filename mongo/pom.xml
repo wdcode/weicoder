@@ -14,17 +14,17 @@
 			<groupId>com.weicoder</groupId>
 			<artifactId>json</artifactId>
 		</dependency>
-		
+		<!--
 		<dependency>
 			<groupId>com.weicoder.extend</groupId>
 			<artifactId>mongo-extend</artifactId>
 		</dependency>
-		<!--
+		-->
 		<dependency>
 			<groupId>org.mongodb</groupId>
 			<artifactId>mongo-java-driver</artifactId>
 			<version>${mongo-java-driver}</version>
 		</dependency>
-		-->
+		
 	</dependencies>
 </project>
