@@ -7,7 +7,7 @@
 		<version>3.3.1</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>kafka</artifactId>
+	<artifactId>kafka${suffix}</artifactId>
 
 	<dependencies>
 		<dependency>
@@ -22,17 +22,47 @@
 			<groupId>com.weicoder</groupId>
 			<artifactId>protobuf</artifactId>
 		</dependency>
-		 
-		<dependency>
-			<groupId>com.weicoder.extend</groupId>
-			<artifactId>kafka-extend</artifactId>
-		</dependency>
-		<!-- 
-		<dependency>
-			<groupId>org.apache.kafka</groupId>
-			<artifactId>kafka-clients</artifactId>
-			<version>${kafka-clients}</version>
-		</dependency>
-		-->
 	</dependencies>
+
+	<profiles>
+		<profile>
+			<id>opt</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<suffix>-ext</suffix>
+			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>com.weicoder.extend</groupId>
+					<artifactId>kafka-extend</artifactId>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>native</id>
+			<properties>
+				<suffix></suffix>
+			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>org.apache.kafka</groupId>
+					<artifactId>kafka-clients</artifactId>
+					<version>${kafka-clients}</version>
+				</dependency>
+			</dependencies>
+		</profile>
+		<!-- 
+		<profile>
+			<id>jdk11</id>
+			<properties>
+				<suffix>-jdk11</suffix>
+			</properties>
+			<dependencies>
+
+			</dependencies>
+		</profile>
+		 -->
+	</profiles>
 </project>

@@ -7,42 +7,66 @@
 		<artifactId>weicoder</artifactId>
 		<version>3.3.1</version>
 	</parent>
-	<artifactId>log</artifactId>
+	<artifactId>log${suffix}</artifactId>
 
 	<dependencies>
 		<dependency>
 			<groupId>com.weicoder</groupId>
 			<artifactId>common</artifactId>
 		</dependency>
-		 
-		<dependency>
-			<groupId>com.weicoder.extend</groupId>
-			<artifactId>log-extend</artifactId>
-		</dependency>
-		
-		<!--
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-core</artifactId>
-			<version>${log4j-core}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.lmax</groupId>
-			<artifactId>disruptor</artifactId>
-			<version>${disruptor}</version>
-		</dependency>
-		-->
-		<!--
-		<dependency>
-			<groupId>com.weicoder.fork</groupId>
-		<artifactId>log4j-jdk11</artifactId>
-			<version>${log4j-core}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.weicoder.fork</groupId>
-			<artifactId>disruptor-jdk11</artifactId>
-			<version>${disruptor}</version>
-		</dependency>
-		-->
 	</dependencies>
+
+	<profiles>
+		<profile>
+			<id>opt</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<suffix>-opt</suffix>
+			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>com.weicoder.extend</groupId>
+					<artifactId>log-extend</artifactId>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>native</id>
+			<properties>
+				<suffix></suffix>
+			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>org.apache.logging.log4j</groupId>
+					<artifactId>log4j-core</artifactId>
+					<version>${log4j-core}</version>
+				</dependency>
+				<dependency>
+					<groupId>com.lmax</groupId>
+					<artifactId>disruptor</artifactId>
+					<version>${disruptor}</version>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>jdk11</id>
+			<properties>
+				<suffix>-jdk11</suffix>
+			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>com.weicoder.fork</groupId>
+					<artifactId>log4j-jdk11</artifactId>
+					<version>${log4j-core}</version>
+				</dependency>
+				<dependency>
+					<groupId>com.weicoder.fork</groupId>
+					<artifactId>disruptor-jdk11</artifactId>
+					<version>${disruptor}</version>
+				</dependency>
+			</dependencies>
+		</profile>
+	</profiles>
 </project>

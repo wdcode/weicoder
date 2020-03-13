@@ -7,24 +7,53 @@
 		<artifactId>weicoder</artifactId>
 		<version>3.3.1</version>
 	</parent>
-	<artifactId>elasticsearch</artifactId>
+	<artifactId>elasticsearch${suffix}</artifactId>
 
 	<dependencies>
 		<dependency>
 			<groupId>com.weicoder</groupId>
 			<artifactId>json</artifactId>
 		</dependency>
-		  
-		<dependency>
-			<groupId>com.weicoder.extend</groupId>
-			<artifactId>elasticsearch-extend</artifactId>
-		</dependency> 
-		<!--
-		<dependency>
-			<groupId>org.elasticsearch.client</groupId>
-			<artifactId>elasticsearch-rest-high-level-client</artifactId>
-			<version>${elasticsearch}</version>
-		</dependency>
-		-->
 	</dependencies>
+
+	<profiles>
+		<profile>
+			<id>opt</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<suffix>-opt</suffix>
+			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>com.weicoder.extend</groupId>
+					<artifactId>elasticsearch-extend</artifactId>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>native</id>
+			<properties>
+				<suffix></suffix>
+			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>org.elasticsearch.client</groupId>
+					<artifactId>elasticsearch-rest-high-level-client</artifactId>
+					<version>${elasticsearch}</version>
+				</dependency>
+			</dependencies>
+		</profile>
+		<!-- 
+		<profile>
+			<id>jdk11</id>
+			<properties>
+				<suffix>-jdk11</suffix>
+			</properties>
+			<dependencies>
+			</dependencies>
+		</profile>
+		 -->
+	</profiles>
 </project>

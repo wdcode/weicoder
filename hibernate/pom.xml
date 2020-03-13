@@ -1,37 +1,69 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>com.weicoder</groupId>
-    <artifactId>weicoder</artifactId>
-    <version>3.3.1</version>
-  </parent> 
-  <artifactId>hibernate</artifactId> 
-  
-  <dependencies>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.weicoder</groupId>
+		<artifactId>weicoder</artifactId>
+		<version>3.3.1</version>
+	</parent>
+	<artifactId>hibernate${suffix}</artifactId>
+
+	<dependencies>
 		<dependency>
 			<groupId>com.weicoder</groupId>
 			<artifactId>json</artifactId>
-		</dependency>  
+		</dependency>
 		<dependency>
 			<groupId>com.weicoder</groupId>
 			<artifactId>dao</artifactId>
-		</dependency>  
-		  	 
-		<dependency> 
-			<groupId>com.weicoder.extend</groupId> 
-			<artifactId>hibernate-extend</artifactId> 
 		</dependency>
-		<!--	
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-core</artifactId>
-			<version>${hibernate-core}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-hikaricp</artifactId>
-			<version>${hibernate-core}</version>
-		</dependency> 
-		--> 
 	</dependencies>
+
+	<profiles>
+		<profile>
+			<id>opt</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<suffix>-opt</suffix>
+			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>com.weicoder.extend</groupId>
+					<artifactId>hibernate-extend</artifactId>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>native</id>
+			<properties>
+				<suffix></suffix>
+			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>org.hibernate</groupId>
+					<artifactId>hibernate-core</artifactId>
+					<version>${hibernate-core}</version>
+				</dependency>
+				<dependency>
+					<groupId>org.hibernate</groupId>
+					<artifactId>hibernate-hikaricp</artifactId>
+					<version>${hibernate-core}</version>
+				</dependency>
+			</dependencies>
+		</profile>
+		<!-- 
+		<profile>
+			<id>jdk11</id>
+			<properties>
+				<suffix>-jdk11</suffix>
+			</properties>
+			<dependencies>
+
+			</dependencies>
+		</profile>
+		 -->
+	</profiles>
 </project>

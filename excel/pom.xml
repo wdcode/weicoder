@@ -7,29 +7,59 @@
 		<version>3.3.1</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>excel</artifactId>
+	<artifactId>excel${suffix}</artifactId>
 
 	<dependencies>
 		<dependency>
 			<groupId>com.weicoder</groupId>
 			<artifactId>common</artifactId>
 		</dependency>
-		<!--
-		<dependency>
-			<groupId>com.weicoder.extend</groupId>
-			<artifactId>excel-extend</artifactId> 
-		</dependency>
-		 -->
-		<dependency>
-			<groupId>org.apache.poi</groupId>
-			<artifactId>poi</artifactId>
-			<version>${poi}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.poi</groupId>
-			<artifactId>poi-ooxml</artifactId>
-			<version>${poi}</version>
-		</dependency>
-		 
 	</dependencies>
+
+	<profiles>
+		<profile>
+			<id>opt</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<suffix>-opt</suffix>
+			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>com.weicoder.extend</groupId>
+					<artifactId>excel-extend</artifactId>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>native</id>
+			<properties>
+				<suffix></suffix>
+			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>org.apache.poi</groupId>
+					<artifactId>poi</artifactId>
+					<version>${poi}</version>
+				</dependency>
+				<dependency>
+					<groupId>org.apache.poi</groupId>
+					<artifactId>poi-ooxml</artifactId>
+					<version>${poi}</version>
+				</dependency>
+			</dependencies>
+		</profile>
+		<!-- 
+		<profile>
+			<id>jdk11</id>
+			<properties>
+				<suffix>-jdk11</suffix>
+			</properties>
+			<dependencies>
+
+			</dependencies>
+		</profile>
+		 -->
+	</profiles>
 </project>

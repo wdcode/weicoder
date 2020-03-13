@@ -7,32 +7,56 @@
 		<version>3.3.1</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>quartz</artifactId>
+	<artifactId>quartz${suffix}</artifactId>
 
 	<dependencies>
 		<dependency>
 			<groupId>com.weicoder</groupId>
 			<artifactId>common</artifactId>
 		</dependency>
-		<!-- 
-		<dependency>
-			<groupId>com.weicoder.extend</groupId>
-			<artifactId>quartz-extend</artifactId>
-		</dependency>
-		--> 
-		<!-- 
-		<dependency>
-			<groupId>org.quartz-scheduler</groupId>
-			<artifactId>quartz</artifactId>
-			<version>${quartz}</version>
-		</dependency>
-		 -->
-		
-		<dependency>
-			<groupId>com.weicoder.fork</groupId>
-			<artifactId>quartz-jdk11</artifactId>
-			<version>${quartz}</version>
-		</dependency>
-		
 	</dependencies>
+
+	<profiles>
+		<profile>
+			<id>opt</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<suffix>-opt</suffix>
+			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>com.weicoder.extend</groupId>
+					<artifactId>quartz-extend</artifactId>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>native</id>
+			<properties>
+				<suffix></suffix>
+			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>org.quartz-scheduler</groupId>
+					<artifactId>quartz</artifactId>
+					<version>${quartz}</version>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>jdk11</id>
+			<properties>
+				<suffix>-jdk11</suffix>
+			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>com.weicoder.fork</groupId>
+					<artifactId>quartz-jdk11</artifactId>
+					<version>${quartz}</version>
+				</dependency>
+			</dependencies>
+		</profile>
+	</profiles>
 </project>

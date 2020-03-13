@@ -7,7 +7,7 @@
 		<artifactId>weicoder</artifactId>
 		<version>3.3.1</version>
 	</parent>
-	<artifactId>tomcat</artifactId>
+	<artifactId>tomcat${suffix}</artifactId>
 
 	<build>
 		<plugins>
@@ -30,22 +30,52 @@
 			<groupId>com.weicoder</groupId>
 			<artifactId>web</artifactId>
 		</dependency>
-		
-		<dependency>
-			<groupId>com.weicoder.extend</groupId>
-			<artifactId>tomcat-extend</artifactId> 
-		</dependency>
-		<!--
-		<dependency>
-			<groupId>org.apache.tomcat.embed</groupId>
-			<artifactId>tomcat-embed-core</artifactId>
-			<version>${tomcat-embed}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.tomcat.embed</groupId>
-			<artifactId>tomcat-embed-jasper</artifactId>
-			<version>${tomcat-embed}</version>
-		</dependency> 
-		 --> 
 	</dependencies>
+
+	<profiles>
+		<profile>
+			<id>opt</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<suffix>-opt</suffix>
+			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>com.weicoder.extend</groupId>
+					<artifactId>tomcat-extend</artifactId>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>native</id>
+			<properties>
+				<suffix></suffix>
+			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>org.apache.tomcat.embed</groupId>
+					<artifactId>tomcat-embed-core</artifactId>
+					<version>${tomcat-embed}</version>
+				</dependency>
+				<dependency>
+					<groupId>org.apache.tomcat.embed</groupId>
+					<artifactId>tomcat-embed-jasper</artifactId>
+					<version>${tomcat-embed}</version>
+				</dependency>
+			</dependencies>
+		</profile>
+		<!-- 
+		<profile>
+			<id>jdk11</id>
+			<properties>
+				<suffix>-jdk11</suffix>
+			</properties>
+			<dependencies>
+
+			</dependencies>
+		</profile>
+		 -->
+	</profiles>
 </project>

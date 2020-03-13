@@ -1,36 +1,62 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>com.weicoder</groupId>
-    <artifactId>weicoder</artifactId>
-    <version>3.3.1</version>
-  </parent> 
-  <artifactId>cache</artifactId> 
-  
-  <dependencies>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.weicoder</groupId>
+		<artifactId>weicoder</artifactId>
+		<version>3.3.1</version>
+	</parent>
+	<artifactId>cache${suffix}</artifactId>
+
+	<dependencies>
 		<dependency>
 			<groupId>com.weicoder</groupId>
 			<artifactId>common</artifactId>
 		</dependency>
-		  
-		<dependency>
-			<groupId>com.weicoder.extend</groupId>
-			<artifactId>cache-extend</artifactId>
-		</dependency>
-		
-		<!--
-		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
-			<version>${guava}</version>
-		</dependency>
-		-->
-		<!-- 
-		<dependency>
-			<groupId>com.weicoder.fork</groupId>
-			<artifactId>guava-jdk11</artifactId>
-			<version>${guava}</version>
-		</dependency>
-		-->
 	</dependencies>
+
+	<profiles>
+		<profile>
+			<id>opt</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<suffix>-opt</suffix>
+			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>com.weicoder.extend</groupId>
+					<artifactId>cache-extend</artifactId>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>native</id>
+			<properties>
+				<suffix></suffix>
+			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>com.google.guava</groupId>
+					<artifactId>guava</artifactId>
+					<version>${guava}</version>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>jdk11</id>
+			<properties>
+				<suffix>-jdk11</suffix>
+			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>com.weicoder.fork</groupId>
+					<artifactId>guava-jdk11</artifactId>
+					<version>${guava}</version>
+				</dependency>
+			</dependencies>
+		</profile>
+	</profiles>
 </project>

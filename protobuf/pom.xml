@@ -7,24 +7,54 @@
 		<version>3.3.1</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>protobuf</artifactId>
+	<artifactId>protobuf${suffix}</artifactId>
 
 	<dependencies>
 		<dependency>
 			<groupId>com.weicoder</groupId>
 			<artifactId>common</artifactId>
 		</dependency>
-		 
-		<dependency>
-			<groupId>com.weicoder.extend</groupId>
-			<artifactId>protobuf-extend</artifactId>
-		</dependency>
-		 <!--
-		<dependency>
-			<groupId>com.google.protobuf</groupId>
-			<artifactId>protobuf-java</artifactId>
-			<version>${protobuf-java}</version>
-		</dependency>
-		-->
 	</dependencies>
+
+	<profiles>
+		<profile>
+			<id>opt</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<suffix>-opt</suffix>
+			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>com.weicoder.extend</groupId>
+					<artifactId>protobuf-extend</artifactId>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>native</id>
+			<properties>
+				<suffix></suffix>
+			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>com.google.protobuf</groupId>
+					<artifactId>protobuf-java</artifactId>
+					<version>${protobuf-java}</version>
+				</dependency>
+			</dependencies>
+		</profile>
+		<!-- 
+		<profile>
+			<id>jdk11</id>
+			<properties>
+				<suffix>-jdk11</suffix>
+			</properties>
+			<dependencies>
+
+			</dependencies>
+		</profile>
+		 -->
+	</profiles>
 </project>

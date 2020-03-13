@@ -7,25 +7,55 @@
 		<artifactId>weicoder</artifactId>
 		<version>3.3.1</version>
 	</parent>
-	<artifactId>rpc</artifactId>
+	<artifactId>rpc${suffix}</artifactId>
 
 	<dependencies>
 		<dependency>
 			<groupId>com.weicoder</groupId>
 			<artifactId>common</artifactId>
 		</dependency>
-		
-		<dependency>
-			<groupId>com.weicoder.extend</groupId>
-			<artifactId>rpc-extend</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<!--
-		<dependency>
-			<groupId>com.alipay.sofa</groupId>
-			<artifactId>sofa-rpc-all</artifactId>
-			<version>${sofa-rpc}</version>
-		</dependency>
-		 -->
 	</dependencies>
+
+	<profiles>
+		<profile>
+			<id>opt</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<suffix>-opt</suffix>
+			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>com.weicoder.extend</groupId>
+					<artifactId>rpc-extend</artifactId>
+					<scope>provided</scope>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>native</id>
+			<properties>
+				<suffix></suffix>
+			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>com.alipay.sofa</groupId>
+					<artifactId>sofa-rpc-all</artifactId>
+					<version>${sofa-rpc}</version>
+				</dependency>
+			</dependencies>
+		</profile>
+		<!-- 
+		<profile>
+			<id>jdk11</id>
+			<properties>
+				<suffix>-jdk11</suffix>
+			</properties>
+			<dependencies>
+
+			</dependencies>
+		</profile>
+		 -->
+	</profiles>
 </project>
