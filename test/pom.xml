@@ -60,7 +60,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.weicoder</groupId>
-			<artifactId>xml</artifactId>
+			<artifactId>xml</artifactId> 
 		</dependency>
 		<dependency>
 			<groupId>com.weicoder</groupId>

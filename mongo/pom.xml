@@ -19,9 +19,7 @@
 	<profiles>
 		<profile>
 			<id>opt</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
+
 			<properties>
 				<suffix>-opt</suffix>
 			</properties>
@@ -34,6 +32,9 @@
 		</profile>
 		<profile>
 			<id>native</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
 			<properties>
 				<suffix></suffix>
 			</properties>
@@ -45,16 +46,18 @@
 				</dependency>
 			</dependencies>
 		</profile>
-		<!-- 
 		<profile>
 			<id>jdk11</id>
 			<properties>
 				<suffix>-jdk11</suffix>
 			</properties>
 			<dependencies>
-
+				<dependency>
+					<groupId>org.mongodb</groupId>
+					<artifactId>mongo-java-driver</artifactId>
+					<version>${mongo-java-driver}</version>
+				</dependency>
 			</dependencies>
 		</profile>
-		 -->
 	</profiles>
 </project>

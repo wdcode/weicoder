@@ -45,16 +45,18 @@
 				</dependency>
 			</dependencies>
 		</profile>
-		<!-- 
 		<profile>
 			<id>jdk11</id>
 			<properties>
 				<suffix>-jdk11</suffix>
 			</properties>
 			<dependencies>
-
+				<dependency>
+					<groupId>com.weicoder.fork</groupId>
+					<artifactId>protobuf-java-jdk11</artifactId>
+					<version>${protobuf-java}</version>
+				</dependency>
 			</dependencies>
 		</profile>
-		 -->
 	</profiles>
 </project>

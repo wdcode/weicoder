@@ -19,9 +19,7 @@
 	<profiles>
 		<profile>
 			<id>opt</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
+			
 			<properties>
 				<suffix>-opt</suffix>
 			</properties>
@@ -29,12 +27,14 @@
 				<dependency>
 					<groupId>com.weicoder.extend</groupId>
 					<artifactId>rpc-extend</artifactId>
-					<scope>provided</scope>
 				</dependency>
 			</dependencies>
 		</profile>
 		<profile>
 			<id>native</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
 			<properties>
 				<suffix></suffix>
 			</properties>
@@ -46,16 +46,18 @@
 				</dependency>
 			</dependencies>
 		</profile>
-		<!-- 
 		<profile>
 			<id>jdk11</id>
 			<properties>
 				<suffix>-jdk11</suffix>
 			</properties>
 			<dependencies>
-
+				<dependency>
+					<groupId>com.weicoder.fork</groupId>
+					<artifactId>sofa-rpc-all-jdk11</artifactId>
+					<version>${sofa-rpc}</version>
+				</dependency>
 			</dependencies>
 		</profile>
-		 -->
 	</profiles>
 </project>

@@ -45,7 +45,7 @@
 			</dependencies>
 		</profile>
 		<profile>
-			<id>native</id>
+			<id>native</id> 
 			<properties>
 				<suffix></suffix>
 			</properties>
@@ -57,16 +57,18 @@
 				</dependency>
 			</dependencies>
 		</profile>
-		<!-- 
 		<profile>
 			<id>jdk11</id>
 			<properties>
 				<suffix>-jdk11</suffix>
 			</properties>
 			<dependencies>
-
+				<dependency>
+					<groupId>redis.clients</groupId>
+					<artifactId>jedis-jdk11</artifactId>
+					<version>${jedis}</version>
+				</dependency>
 			</dependencies>
 		</profile>
-		 -->
 	</profiles>
 </project>

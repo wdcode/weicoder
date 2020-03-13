@@ -23,9 +23,7 @@
 	<profiles>
 		<profile>
 			<id>opt</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
+			
 			<properties>
 				<suffix>-opt</suffix>
 			</properties>
@@ -38,6 +36,9 @@
 		</profile>
 		<profile>
 			<id>native</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
 			<properties>
 				<suffix></suffix>
 			</properties>

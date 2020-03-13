@@ -73,7 +73,7 @@
 			<dependencies>
 				<dependency>
 					<groupId>com.weicoder.fork</groupId>
-					<artifactId>httpclient4</artifactId>
+					<artifactId>httpclient4-jdk11</artifactId>
 					<version>${httpclient}</version>
 				</dependency>
 			</dependencies>
