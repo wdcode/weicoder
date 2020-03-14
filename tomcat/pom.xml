@@ -5,9 +5,10 @@
 	<parent>
 		<groupId>com.weicoder</groupId>
 		<artifactId>weicoder</artifactId>
-		<version>3.3.1</version>
+		<version>3.3.2${suffix}</version>
 	</parent>
-	<artifactId>tomcat${suffix}</artifactId>
+	<artifactId>tomcat</artifactId>
+	
 
 	<build>
 		<plugins>
@@ -34,11 +35,10 @@
 
 	<profiles>
 		<profile>
-			<id>opt</id>
-
-			<properties>
-				<suffix>-opt</suffix>
-			</properties>
+			<id>opt</id> 
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
 			<dependencies>
 				<dependency>
 					<groupId>com.weicoder.extend</groupId>
@@ -47,13 +47,7 @@
 			</dependencies>
 		</profile>
 		<profile>
-			<id>native</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<properties>
-				<suffix></suffix>
-			</properties>
+			<id>native</id> 
 			<dependencies>
 				<dependency>
 					<groupId>org.apache.tomcat.embed</groupId>
@@ -68,10 +62,7 @@
 			</dependencies>
 		</profile>
 		<profile>
-			<id>jdk11</id>
-			<properties>
-				<suffix>-jdk11</suffix>
-			</properties>
+			<id>jdk11</id> 
 			<dependencies>
 				<dependency>
 					<groupId>com.weicoder.fork</groupId>

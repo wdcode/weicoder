@@ -4,10 +4,11 @@
 	<parent>
 		<groupId>com.weicoder</groupId>
 		<artifactId>weicoder</artifactId>
-		<version>3.3.1</version>
+		<version>3.3.2${suffix}</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>memcache${suffix}</artifactId>
+	<artifactId>memcache</artifactId>
+	
 
 	<dependencies>
 		<dependency>
@@ -22,9 +23,6 @@
 			<activation>
 				<activeByDefault>true</activeByDefault>
 			</activation>
-			<properties>
-				<suffix>-opt</suffix>
-			</properties>
 			<dependencies>
 				<dependency>
 					<groupId>com.weicoder.extend</groupId>
@@ -34,9 +32,6 @@
 		</profile>
 		<profile>
 			<id>native</id>
-			<properties>
-				<suffix></suffix>
-			</properties>
 			<dependencies>
 				<dependency>
 					<groupId>com.whalin</groupId>
@@ -47,9 +42,6 @@
 		</profile>
 		<profile>
 			<id>jdk11</id>
-			<properties>
-				<suffix>-jdk11</suffix>
-			</properties>
 			<dependencies>
 				<dependency>
 					<groupId>com.weicoder.fork</groupId>

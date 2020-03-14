@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.weicoder</groupId>
 		<artifactId>weicoder</artifactId>
-		<version>3.3.1</version>
+		<version>3.3.2-opt</version>
 	</parent>
 	<artifactId>test</artifactId>
 
@@ -93,7 +93,7 @@
 		<dependency>
 			<groupId>com.weicoder</groupId>
 			<artifactId>po</artifactId>
-			<version>3.3.1</version>
+			<version>3.3.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
