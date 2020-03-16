@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.weicoder</groupId>
 		<artifactId>weicoder</artifactId>
-		<version>3.3.2${suffix}</version>
+		<version>3.3.2</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>excel</artifactId>
@@ -49,10 +49,22 @@
 			<id>jdk11</id> 
 			<dependencies>
 				<dependency>
+					<groupId>org.apache.poi</groupId>
+					<artifactId>poi</artifactId>
+					<version>${poi}</version>
+				</dependency>
+				<dependency>
+					<groupId>org.apache.poi</groupId>
+					<artifactId>poi-ooxml</artifactId>
+					<version>${poi}</version>
+				</dependency>
+				<!-- 
+				<dependency>
 					<groupId>com.weicoder.fork</groupId>
 					<artifactId>poi-jdk11</artifactId>
 					<version>${poi}</version>
 				</dependency>
+				 -->
 			</dependencies>
 		</profile>
 	</profiles>

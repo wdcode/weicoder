@@ -5,13 +5,14 @@
 	<parent>
 		<groupId>com.weicoder</groupId>
 		<artifactId>build</artifactId>
-		<version>1.1</version>
-	</parent>
+		<version>1.2</version>
+	</parent> 
 	<artifactId>weicoder</artifactId>
-	<version>3.3.2${suffix}</version>
+	<version>3.3.2</version>
 	<packaging>pom</packaging>
 
-	<properties> 
+	<properties>
+		<parent>${project.version}</parent>
 		<extend>3.3.6</extend>
 		<lombok>1.18.12</lombok>
 		<log4j-core>2.13.1</log4j-core>
@@ -117,142 +118,142 @@
 			<dependency>
 				<groupId>com.weicoder</groupId>
 				<artifactId>admin</artifactId>
-				<version>${project.version}</version>
+				<version>${parent}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
 				<artifactId>common</artifactId>
-				<version>${project.version}</version>
+				<version>${parent}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
 				<artifactId>cache</artifactId>
-				<version>${project.version}</version>
+				<version>${parent}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
 				<artifactId>dao</artifactId>
-				<version>${project.version}</version>
+				<version>${parent}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
 				<artifactId>elasticsearch</artifactId>
-				<version>${project.version}</version>
+				<version>${parent}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
 				<artifactId>email</artifactId>
-				<version>${project.version}</version>
+				<version>${parent}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
 				<artifactId>excel</artifactId>
-				<version>${project.version}</version>
+				<version>${parent}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
 				<artifactId>hibernate</artifactId>
-				<version>${project.version}</version>
+				<version>${parent}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
 				<artifactId>http</artifactId>
-				<version>${project.version}</version>
+				<version>${parent}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
 				<artifactId>http4</artifactId>
-				<version>${project.version}</version>
+				<version>${parent}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
 				<artifactId>json</artifactId>
-				<version>${project.version}</version>
+				<version>${parent}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
 				<artifactId>kafka</artifactId>
-				<version>${project.version}</version>
+				<version>${parent}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
 				<artifactId>log</artifactId>
-				<version>${project.version}</version>
+				<version>${parent}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
 				<artifactId>memcache</artifactId>
-				<version>${project.version}</version>
+				<version>${parent}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
 				<artifactId>mongo</artifactId>
-				<version>${project.version}</version>
+				<version>${parent}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
 				<artifactId>nacos</artifactId>
-				<version>${project.version}</version>
+				<version>${parent}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
 				<artifactId>oauth</artifactId>
-				<version>${project.version}</version>
+				<version>${parent}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
 				<artifactId>pay</artifactId>
-				<version>${project.version}</version>
+				<version>${parent}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
 				<artifactId>protobuf</artifactId>
-				<version>${project.version}</version>
+				<version>${parent}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
 				<artifactId>quartz</artifactId>
-				<version>${project.version}</version>
+				<version>${parent}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
 				<artifactId>redis</artifactId>
-				<version>${project.version}</version>
+				<version>${parent}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
 				<artifactId>rpc</artifactId>
-				<version>${project.version}</version>
+				<version>${parent}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
 				<artifactId>socket</artifactId>
-				<version>${project.version}</version>
+				<version>${parent}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
 				<artifactId>solr</artifactId>
-				<version>${project.version}</version>
+				<version>${parent}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
 				<artifactId>tomcat</artifactId>
-				<version>${project.version}</version>
+				<version>${parent}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
 				<artifactId>web</artifactId>
-				<version>${project.version}</version>
+				<version>${parent}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
 				<artifactId>websocket</artifactId>
-				<version>${project.version}</version>
+				<version>${parent}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
 				<artifactId>xml</artifactId>
-				<version>${project.version}</version>
+				<version>${parent}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.weicoder.extend</groupId>

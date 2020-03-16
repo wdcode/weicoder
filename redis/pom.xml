@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.weicoder</groupId>
 		<artifactId>weicoder</artifactId>
-		<version>3.3.2${suffix}</version>
+		<version>3.3.2</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>redis</artifactId>
@@ -56,7 +56,7 @@
 			<id>jdk11</id> 
 			<dependencies>
 				<dependency>
-					<groupId>redis.clients</groupId>
+					<groupId>com.weicoder.fork</groupId>
 					<artifactId>jedis-jdk11</artifactId>
 					<version>${jedis}</version>
 				</dependency>

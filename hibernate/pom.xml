@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.weicoder</groupId>
 		<artifactId>weicoder</artifactId>
-		<version>3.3.2${suffix}</version>
+		<version>3.3.2</version>
 	</parent>
 	<artifactId>hibernate</artifactId>
 	
@@ -53,7 +53,7 @@
 			<id>jdk11</id> 
 			<dependencies>
 				<dependency>
-					<groupId>org.hibernate</groupId>
+					<groupId>com.weicoder.fork</groupId>
 					<artifactId>hibernate-jdk11</artifactId>
 					<version>${hibernate-core}</version>
 				</dependency>
