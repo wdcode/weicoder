@@ -46,6 +46,13 @@ public interface Excel {
 	 * @return 返回List
 	 */
 	List<Map<String, String>> readSheetByCol();
+	
+	/**
+	 * 读取默认sheet下的指定列
+	 * @param col 第几类 从0开始
+	 * @return 列值集合表
+	 */
+	List<String> readCol(int col);
 
 	/**
 	 * 获得第一张Sheet表内容
@@ -267,7 +274,24 @@ public interface Excel {
 	 * @return 单元格内容
 	 */
 	String readContents(int row, int col);
-
+	
+	/**
+	 * 读取本sheet下所有行的数据 把指定列转成对象
+	 * @param <E> 
+	 * @param cls 数据实体的类
+	 * @return 本sheet下所有行数据
+	 */
+	<E> List<E> reads(Class<E> cls);
+	
+	/**
+	 * 读取指定行的数据为指定对象
+	 * @param <E>
+	 * @param row 指定行
+	 * @param cls 数据实体的类
+	 * @return 返回指定类型的实体
+	 */
+	<E> E read(int row,Class<E> cls);
+ 
 	/**
 	 * 写到指定的单元格
 	 * @param row 行

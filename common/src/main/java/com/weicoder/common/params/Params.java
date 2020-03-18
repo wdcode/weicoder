@@ -24,7 +24,7 @@ public class Params {
 	public final static Config getConfig() {
 		return CONFIG;
 	}
-
+	
 	/**
 	 * 获得属性value
 	 * 
@@ -186,5 +186,5 @@ public class Params {
 	 */
 	public static boolean exists(String key) {
 		return CONFIG.exists(key);
-	} 
+	}
 }

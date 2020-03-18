@@ -12,7 +12,7 @@
 	<packaging>pom</packaging>
 
 	<properties>
-		<parent>${project.version}</parent>
+		<parent>3.3.2</parent>
 		<extend>3.3.6</extend>
 		<lombok>1.18.12</lombok>
 		<log4j-core>2.13.1</log4j-core>

@@ -9,7 +9,7 @@ import com.weicoder.common.U;
 import com.weicoder.common.W;
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.lang.Lists; 
+import com.weicoder.common.lang.Lists;
 import com.weicoder.common.util.ResourceUtil;
 import com.weicoder.common.util.StringUtil;
 
@@ -60,7 +60,8 @@ public final class Config {
 	 * @return              value
 	 */
 	public List<String> getList(String key, List<String> defaultValue) {
-		return Lists.newList(getStringArray(key, U.E.isEmpty(defaultValue) ? ArrayConstants.STRING_EMPTY : Lists.toArray(defaultValue)));
+		return Lists.newList(getStringArray(key,
+				U.E.isEmpty(defaultValue) ? ArrayConstants.STRING_EMPTY : Lists.toArray(defaultValue)));
 	}
 
 	/**

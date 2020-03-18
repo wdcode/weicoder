@@ -24,7 +24,8 @@ public final class CommonParams {
 	/** 默认编码 */
 	public final static String      ENCODING             = Params.getString("encoding", "UTF-8");
 	/** 日期格式 */
-	public final static String      DATE_FORMAT          = Params.getString("date.format", DateConstants.FORMAT_Y_M_D_H_M_S);
+	public final static String      DATE_FORMAT          = Params.getString("date.format",
+			DateConstants.FORMAT_Y_M_D_H_M_S);
 	/** 转换字节数组算法 */
 	public final static String      BYTES                = Params.getString("bytes", "high");
 	/** 加密使用的密钥 字符串 */
@@ -32,7 +33,8 @@ public final class CommonParams {
 	/** 加密使用的算法 */
 	public final static String      ENCRYPT_ALGO         = Params.getString("encrypt.algo", EncryptConstants.ALGO_AES);
 	/** 加密使用摘要算法 */
-	public final static String      ENCRYPT_DIGEST       = Params.getString("encrypt.digest", EncryptConstants.ALGO_SHA_1);
+	public final static String      ENCRYPT_DIGEST       = Params.getString("encrypt.digest",
+			EncryptConstants.ALGO_SHA_1);
 	/** 包名 */
 	public final static String      PACKAGES             = Params.getString("packages", "com.weicoder");
 	/** 获得ips过滤组 */
@@ -46,7 +48,8 @@ public final class CommonParams {
 	/** 截取日志长度 */
 	public final static int         LOGS_LEN             = Params.getInt("logs.len", 500);
 	/** token 发放服务器 */
-	public final static Set<String> TOKEN_SERVERS        = Sets.newSet(Params.getStringArray("token.servers", ArrayConstants.STRING_EMPTY));
+	public final static Set<String> TOKEN_SERVERS        = Sets
+			.newSet(Params.getStringArray("token.servers", ArrayConstants.STRING_EMPTY));
 	/** http连接超时时间 */
 	public final static int         HTTP_CONNECT_TIMEOUT = Params.getInt("http.connect.timeout", 3000);
 	/** http读取超时时间 */
@@ -54,9 +57,20 @@ public final class CommonParams {
 	/** 分页每页大小 默认20 */
 	public final static int         PAGE_SIZE            = Params.getInt("page.size", 20);
 	/** 验证码出现的字符集 */
-	public final static char[]      VERIFY_CODE          = Params.getString("verify.code", "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ").toCharArray();
+	public final static char[]      VERIFY_CODE          = Params
+			.getString("verify.code", "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ").toCharArray();
 	/** 验证码长度 */
 	public final static int         VERIFY_LENGTH        = Params.getInt("verify.length", 4);
+
+	/**
+	 * 获得初始化开关
+	 * 
+	 * @param  name 初始化的模块
+	 * @return      true 初始化 false 不执行
+	 */
+	public static boolean power(String name) {
+		return Params.getBoolean("init.power." + name, true);
+	}
 
 	/**
 	 * 获得包名

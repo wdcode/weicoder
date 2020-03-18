@@ -5,6 +5,6 @@ import com.weicoder.common.log.Logs;
 public class Test {
 
 	public static void main(String[] args) throws Exception {
-		 Logs.info("123321");
+		Logs.info("123321");
 	}
 }

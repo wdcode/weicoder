@@ -17,15 +17,17 @@ import com.weicoder.common.log.Logs;
 
 /**
  * Bean工具类
+ * 
  * @author WD
  */
 public class BeanUtil {
 	/**
 	 * 拷贝属性
-	 * @param source 原对象
-	 * @param entity 目标类
-	 * @param <T> 泛型
-	 * @return 目标对象
+	 * 
+	 * @param  source 原对象
+	 * @param  entity 目标类
+	 * @param  <T>    泛型
+	 * @return        目标对象
 	 */
 	public static <T> T copy(Object source, Class<T> entity) {
 		return copy(source, ClassUtil.newInstance(entity));
@@ -33,10 +35,11 @@ public class BeanUtil {
 
 	/**
 	 * 拷贝属性
-	 * @param source 原对象
-	 * @param target 目标对象
-	 * @param <T> 泛型
-	 * @return 目标对象
+	 * 
+	 * @param  source 原对象
+	 * @param  target 目标对象
+	 * @param  <T>    泛型
+	 * @return        目标对象
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T> T copy(Object source, T target) {
@@ -69,10 +72,11 @@ public class BeanUtil {
 
 	/**
 	 * 把Map的Key与Object属性相同的字段赋值 就是把Map对应的值赋给Object
-	 * @param map 源对象
-	 * @param dest 目标对象
-	 * @param <T> 泛型
-	 * @return dest 目标对象
+	 * 
+	 * @param  map  源对象
+	 * @param  dest 目标对象
+	 * @param  <T>  泛型
+	 * @return      dest 目标对象
 	 */
 	public static <T> T copy(Map<?, ?> map, T dest) {
 		// 循环字段
@@ -84,7 +88,8 @@ public class BeanUtil {
 					String name = field.getName();
 					setFieldValue(dest, getField(dest, name), map.get(name));
 				}
-			} catch (Exception e) {}
+			} catch (Exception e) {
+			}
 		});
 		// 返回对象
 		return dest;
@@ -93,10 +98,11 @@ public class BeanUtil {
 	/**
 	 * 把Map的Key与Class的实例属性相同的字段赋值 就是把Map对应的值赋给Object
 	 * <h2>注: 此方法回返回Class的一个新实例对象</h2>
-	 * @param map 源对象
-	 * @param dest 目标对象的Class用dest.newInstance()生成一个新的实例 *
-	 * @param <T> 泛型
-	 * @return dest 目标对象的新实例
+	 * 
+	 * @param  map  源对象
+	 * @param  dest 目标对象的Class用dest.newInstance()生成一个新的实例 *
+	 * @param  <T>  泛型
+	 * @return      dest 目标对象的新实例
 	 */
 	public static <T> T copy(Map<?, ?> map, Class<T> dest) {
 		return copy(map, ClassUtil.newInstance(dest));
@@ -104,10 +110,11 @@ public class BeanUtil {
 
 	/**
 	 * 把Map的Key与Class的实例属性相同的字段赋值 就是把Map对应的值赋给Object
-	 * @param dest 目标对象的E用dest.getClass().newInstance()生成一个新的实例
-	 * @param list map对象列表
-	 * @param <T> 泛型
-	 * @return 转换后的对象
+	 * 
+	 * @param  dest 目标对象的E用dest.getClass().newInstance()生成一个新的实例
+	 * @param  list map对象列表
+	 * @param  <T>  泛型
+	 * @return      转换后的对象
 	 */
 	public static <T> List<T> copy(List<Map<String, Object>> list, Class<T> dest) {
 		// 获得列表大小
@@ -120,12 +127,13 @@ public class BeanUtil {
 		// 返回列表
 		return ls;
 	}
-  
+
 	/**
 	 * 直接读取对象属性值, 无视private/protected修饰符, 不经过getter函数.
-	 * @param list 列表
-	 * @param fieldName 属性名
-	 * @return 属性值
+	 * 
+	 * @param  list      列表
+	 * @param  fieldName 属性名
+	 * @return           属性值
 	 */
 	public static List<Object> getFieldValues(Collection<?> list, String fieldName) {
 		// 对象为空
@@ -149,8 +157,9 @@ public class BeanUtil {
 
 	/**
 	 * 获得本类下所有字段值
-	 * @param obj 对象
-	 * @return 列表
+	 * 
+	 * @param  obj 对象
+	 * @return     列表
 	 */
 	public static List<Object> getFieldValues(Object obj) {
 		// 获得所有字段
@@ -165,14 +174,16 @@ public class BeanUtil {
 
 	/**
 	 * 直接读取对象属性值, 无视private/protected修饰符, 不经过getter函数.
-	 * @param object 调用的对象
-	 * @param fieldName 属性名
-	 * @return 属性值
+	 * 
+	 * @param  object    调用的对象
+	 * @param  fieldName 属性名
+	 * @return           属性值
 	 */
 	public static Object getFieldValue(Object object, String fieldName) {
 		// 如果有复杂字段
 		if (fieldName.indexOf(StringConstants.POINT) > -1)
-			return getFieldValue(getFieldValue(object, StringUtil.subStringEnd(fieldName, StringConstants.POINT)), StringUtil.subString(fieldName, StringConstants.POINT));
+			return getFieldValue(getFieldValue(object, StringUtil.subStringEnd(fieldName, StringConstants.POINT)),
+					StringUtil.subString(fieldName, StringConstants.POINT));
 		// 获得字段
 		Field field = getField(object, fieldName);
 		// 判断字段为空 返回null
@@ -189,9 +200,10 @@ public class BeanUtil {
 
 	/**
 	 * 直接读取对象属性值, 无视private/protected修饰符, 不经过getter函数.
-	 * @param object 调用的对象
-	 * @param field 字段
-	 * @return 属性值
+	 * 
+	 * @param  object 调用的对象
+	 * @param  field  字段
+	 * @return        属性值
 	 */
 	public static Object getFieldValue(Object object, Field field) {
 		// 判断字段为空 返回null
@@ -208,19 +220,32 @@ public class BeanUtil {
 
 	/**
 	 * 直接设置对象属性值, 无视private/protected修饰符, 不经过setter函数
-	 * @param object 对象
+	 * 
+	 * @param object    对象
 	 * @param fieldName 字段名
-	 * @param value 值
+	 * @param value     值
 	 */
 	public static void setFieldValue(Object object, String fieldName, Object value) {
 		setFieldValue(object, getField(object, fieldName), value);
 	}
 
 	/**
-	 * 直接设置对象属性值, 无视private/protected修饰符, 不经过setter函数.
+	 * 直接设置对象属性值, 无视private/protected修饰符, 不经过setter函数
+	 * 
 	 * @param object 对象
-	 * @param field 字段
-	 * @param value 值
+	 * @param i      字段索引
+	 * @param value  值
+	 */
+	public static void setFieldValue(Object object, int i, Object value) {
+		setFieldValue(object, getField(object, i), value);
+	}
+
+	/**
+	 * 直接设置对象属性值, 无视private/protected修饰符, 不经过setter函数.
+	 * 
+	 * @param object 对象
+	 * @param field  字段
+	 * @param value  值
 	 */
 	public static void setFieldValue(Object object, Field field, Object value) {
 		// 判断字段为空 返回
@@ -229,30 +254,34 @@ public class BeanUtil {
 		// 设置字段值
 		try {
 			makeAccessible(field).set(object, W.C.to(value, field.getType()));
-		} catch (Exception e) {}
+		} catch (Exception e) {
+		}
 	}
 
 	/**
 	 * 直接调用对象方法
-	 * @param obj 调用的对象
-	 * @param method 方法
-	 * @param args 参数
-	 * @return 方法返回值
+	 * 
+	 * @param  obj    调用的对象
+	 * @param  method 方法
+	 * @param  args   参数
+	 * @return        方法返回值
 	 */
 	public static Object invoke(Object obj, Method method, Object... args) {
 		try {
 			return makeAccessible(method).invoke(obj, U.E.isEmpty(args) ? null : args);
 		} catch (Exception e) {
-			Logs.error(e, "invoke method={} args={} params={}", method.getName(), Arrays.toString(args), Arrays.toString(method.getParameters()));
+			Logs.error(e, "invoke method={} args={} params={}", method.getName(), Arrays.toString(args),
+					Arrays.toString(method.getParameters()));
 			return null;
 		}
 	}
 
 	/**
 	 * 直接调用对象方法
-	 * @param object 调用的对象
-	 * @param name 方法名
-	 * @return 方法返回值
+	 * 
+	 * @param  object 调用的对象
+	 * @param  name   方法名
+	 * @return        方法返回值
 	 */
 	public static Object invoke(Object object, String name) {
 		return invoke(object, name, null, null);
@@ -260,11 +289,12 @@ public class BeanUtil {
 
 	/**
 	 * 直接调用对象方法
-	 * @param object 调用的对象
-	 * @param name 方法名
-	 * @param parameterTypes 参数类型
-	 * @param parameters 参数
-	 * @return 方法返回值
+	 * 
+	 * @param  object         调用的对象
+	 * @param  name           方法名
+	 * @param  parameterTypes 参数类型
+	 * @param  parameters     参数
+	 * @return                方法返回值
 	 */
 	public static Object invoke(Object object, String name, Class<?>[] parameterTypes, Object[] parameters) {
 		// 声明Class
@@ -287,9 +317,40 @@ public class BeanUtil {
 
 	/**
 	 * 获得对象的字段
-	 * @param object 对象
-	 * @param name 字段名
-	 * @return 字段
+	 * 
+	 * @param  object 对象
+	 * @param  i      字段序号
+	 * @return        字段
+	 */
+	public static Field getField(Object object, int i) {
+		return getField(object.getClass(), i);
+	}
+
+	/**
+	 * 获得Class的字段
+	 * 
+	 * @param  clazz Class
+	 * @param  i     字段序号
+	 * @return       字段
+	 */
+	public static Field getField(Class<?> clazz, int i) {
+		// 判断对象和字段名是否为空
+		if (clazz == null || i < 0)
+			return null;
+		try {
+			// 获得字段
+			return clazz.getDeclaredFields()[i];
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
+	/**
+	 * 获得对象的字段
+	 * 
+	 * @param  object 对象
+	 * @param  name   字段名
+	 * @return        字段
 	 */
 	public static Field getField(Object object, String name) {
 		return getField(object.getClass(), name);
@@ -297,9 +358,10 @@ public class BeanUtil {
 
 	/**
 	 * 获得Class的字段
-	 * @param clazz Class
-	 * @param name 字段名
-	 * @return 字段
+	 * 
+	 * @param  clazz Class
+	 * @param  name  字段名
+	 * @return       字段
 	 */
 	public static Field getField(Class<?> clazz, String name) {
 		// 判断对象和字段名是否为空
@@ -307,23 +369,27 @@ public class BeanUtil {
 			return null;
 		// 如果有复杂字段
 		if (name.indexOf(StringConstants.POINT) > -1)
-			return getField(getField(clazz, StringUtil.subStringEnd(name, StringConstants.POINT)), StringUtil.subString(name, StringConstants.POINT));
+			return getField(getField(clazz, StringUtil.subStringEnd(name, StringConstants.POINT)),
+					StringUtil.subString(name, StringConstants.POINT));
 		// 声明字段
 		Field f = null;
-		// 循环对象类
-		for (; clazz != Object.class && f == null; clazz = clazz.getSuperclass())
-			try {
-				// 获得字段
-				f = clazz.getDeclaredField(name);
-			} catch (Exception e) {}
+//		// 循环对象类
+//		for (; clazz != Object.class && f == null; clazz = clazz.getSuperclass())
+		try {
+			// 获得字段
+//				f = clazz.getDeclaredField(name); 
+			f = clazz.getField(name);
+		} catch (Exception e) {
+		}
 		// 返回null
 		return f;
 	}
 
 	/**
 	 * 循环向上转型, 获取对象的DeclaredField. 如向上转型到Object仍无法找到, 返回null.
-	 * @param clazz 类
-	 * @return 列表
+	 * 
+	 * @param  clazz 类
+	 * @return       列表
 	 */
 	public static List<Field> getFields(Class<?> clazz) {
 		// 判断对象和字段名是否为空
@@ -336,17 +402,19 @@ public class BeanUtil {
 			try {
 				// 添加字段列表
 				fields.addAll(Lists.newList(clazz.getDeclaredFields()));
-			} catch (Exception e) {}
+			} catch (Exception e) {
+			}
 		// 没有找到返回null
 		return fields;
 	}
 
 	/**
 	 * 获得对象的方法
-	 * @param obj 对象
-	 * @param name 方法
-	 * @param parameterTypes 参数类型
-	 * @return 方法
+	 * 
+	 * @param  obj            对象
+	 * @param  name           方法
+	 * @param  parameterTypes 参数类型
+	 * @return                方法
 	 */
 	public static Method getMethod(Object obj, String name, Class<?>... parameterTypes) {
 		// 判断对象和字段名是否为空
@@ -355,19 +423,22 @@ public class BeanUtil {
 		// 声明Method
 		Method method = null;
 		// 循环对象类
-		for (Class<?> superClass = obj instanceof Class<?> ? (Class<?>) obj : obj.getClass(); superClass != Object.class && method == null; superClass = superClass.getSuperclass())
+		for (Class<?> superClass = obj instanceof Class<?> ? (Class<?>) obj : obj.getClass(); superClass != Object.class
+				&& method == null; superClass = superClass.getSuperclass())
 			try {
 				// 返回方法
 				method = superClass.getDeclaredMethod(name, parameterTypes);
-			} catch (Exception e) {}
+			} catch (Exception e) {
+			}
 		// 返回方法
 		return method;
 	}
 
 	/**
 	 * 强行设置Field可访问.
-	 * @param field 字段
-	 * @return 字段
+	 * 
+	 * @param  field 字段
+	 * @return       字段
 	 */
 	private static Field makeAccessible(Field field) {
 		// 判断字段是否公有
@@ -380,8 +451,9 @@ public class BeanUtil {
 
 	/**
 	 * 强行设置Field可访问.
-	 * @param method 方法
-	 * @return 方法
+	 * 
+	 * @param  method 方法
+	 * @return        方法
 	 */
 	private static Method makeAccessible(Method method) {
 		// 判断字段是否公有
@@ -390,5 +462,5 @@ public class BeanUtil {
 			method.setAccessible(true);
 		// 返回方法
 		return method;
-	} 
+	}
 }

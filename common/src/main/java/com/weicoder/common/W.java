@@ -5,6 +5,7 @@ import com.weicoder.common.crypto.Decrypts;
 import com.weicoder.common.crypto.Digest;
 import com.weicoder.common.crypto.Encrypts;
 import com.weicoder.common.http.HttpEngine;
+import com.weicoder.common.init.Inits;
 import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.lang.Lists;
@@ -64,6 +65,13 @@ public final class W {
 	 * @author wudi
 	 */
 	public static class H extends HttpEngine {
+	}
+
+	/**
+	 * @see    Inits 初始化操作
+	 * @author wudi
+	 */
+	public static class I extends Inits {
 	}
 
 	/**

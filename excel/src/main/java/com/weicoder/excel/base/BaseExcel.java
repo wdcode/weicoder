@@ -7,11 +7,15 @@ import java.util.Map;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.U;
+import com.weicoder.common.U.B;
+import com.weicoder.common.U.C;
+import com.weicoder.common.W.L;
 import com.weicoder.excel.Excel;
 
 /**
  * Excel相关操作类,使用getExcelUtil或createExcelUtil获得实例
- * @author WD 
+ * 
+ * @author WD
  */
 public abstract class BaseExcel implements Excel {
 	// 第几个工作薄
@@ -19,6 +23,7 @@ public abstract class BaseExcel implements Excel {
 
 	/**
 	 * 获得第一张Sheet表内容
+	 * 
 	 * @return 返回List
 	 */
 	public final List<List<String>> readSheet() {
@@ -27,6 +32,7 @@ public abstract class BaseExcel implements Excel {
 
 	/**
 	 * 获得所有Sheet表内容
+	 * 
 	 * @return 返回List
 	 */
 	public final List<List<String>> readSheetByAll() {
@@ -43,10 +49,44 @@ public abstract class BaseExcel implements Excel {
 		return list;
 	}
 
+	@Override
+	public <E> List<E> reads(Class<E> cls) {
+		// 获得行数
+		int rows = getRows();
+		// 声明列表
+		List<E> list = L.newList(rows);
+		// 读取所有行
+		for (int i = 0; i < rows; i++)
+			list.add(read(i, cls));
+		// 返回列表
+		return list;
+	}
+
+	@Override
+	public <E> E read(int row, Class<E> cls) {
+		// 实例化对象
+		E e = C.newInstance(cls);
+		// 读取列按字段序列注入属性
+		for (int i = 0; i < getColumns(); i++)
+			B.setFieldValue(e, i, readContents(row, i));
+		// 返回对象
+		return e;
+	}
+
+	@Override
+	public List<String> readCol(int col) {
+		int rows = getRows();
+		List<String> cols = L.newList(rows);
+		for (int i = 0; i < rows; i++)
+			cols.add(readContents(i, col));
+		return cols;
+	}
+
 	/**
 	 * 获得指定页码Sheet表内容
-	 * @param index 页码
-	 * @return 返回List
+	 * 
+	 * @param  index 页码
+	 * @return       返回List
 	 */
 	public final List<List<String>> readSheet(int index) {
 		// 设置Sheet页码
@@ -78,8 +118,9 @@ public abstract class BaseExcel implements Excel {
 
 	/**
 	 * 获得指定名称Sheet表内容
-	 * @param sheetName Sheet名
-	 * @return 返回List
+	 * 
+	 * @param  sheetName Sheet名
+	 * @return           返回List
 	 */
 	public final List<List<String>> readSheet(String sheetName) {
 		// 获得Sheet位置
@@ -94,8 +135,9 @@ public abstract class BaseExcel implements Excel {
 
 	/**
 	 * 获得指定名称Sheet表内容
-	 * @param sheetName Sheet名
-	 * @return 返回List
+	 * 
+	 * @param  sheetName Sheet名
+	 * @return           返回List
 	 */
 	public final List<Map<String, String>> readSheetByCol(String sheetName) {
 		// 获得Sheet位置
@@ -110,6 +152,7 @@ public abstract class BaseExcel implements Excel {
 
 	/**
 	 * 获得第一张Sheet表内容
+	 * 
 	 * @return 返回List
 	 */
 	public final List<Map<String, String>> readSheetByCol() {
@@ -118,6 +161,7 @@ public abstract class BaseExcel implements Excel {
 
 	/**
 	 * 获得第一张Sheet表内容
+	 * 
 	 * @return 返回List
 	 */
 	public final List<Map<String, String>> readSheetByColByAll() {
@@ -136,8 +180,9 @@ public abstract class BaseExcel implements Excel {
 
 	/**
 	 * 获得指定页码Sheet表内容
-	 * @param index 页码
-	 * @return 返回List @ 读取失败
+	 * 
+	 * @param  index 页码
+	 * @return       返回List @ 读取失败
 	 */
 	public final List<Map<String, String>> readSheetByCol(int index) {
 		// 获得列名
@@ -178,6 +223,7 @@ public abstract class BaseExcel implements Excel {
 
 	/**
 	 * 获得Sheet，第一行第一列内容
+	 * 
 	 * @return 单元格内容
 	 */
 	public final String readContents() {
@@ -186,10 +232,11 @@ public abstract class BaseExcel implements Excel {
 
 	/**
 	 * 获得指定Sheet，指定行列内容
-	 * @param index Sheet码 注 添加了这个参数 就直接设置了Sheet 以后调用 getContents(int row,int col)就可获得这页内容
-	 * @param row 行码
-	 * @param col 列码
-	 * @return 单元格内容
+	 * 
+	 * @param  index Sheet码 注 添加了这个参数 就直接设置了Sheet 以后调用 getContents(int row,int col)就可获得这页内容
+	 * @param  row   行码
+	 * @param  col   列码
+	 * @return       单元格内容
 	 */
 	public final String readContents(int index, int row, int col) {
 		// 设置Sheet页码
@@ -200,7 +247,8 @@ public abstract class BaseExcel implements Excel {
 
 	/**
 	 * 写入第一张Sheet表内容
-	 * @param list 列表 
+	 * 
+	 * @param list 列表
 	 */
 	public final void writeSheet(List<List<String>> list) {
 		writeSheet(list, index);
@@ -208,8 +256,9 @@ public abstract class BaseExcel implements Excel {
 
 	/**
 	 * 写入数据到工作薄中
-	 * @param list List要写入的内容
-	 * @param index 页码 
+	 * 
+	 * @param list  List要写入的内容
+	 * @param index 页码
 	 */
 	public final void writeSheet(List<List<String>> list, int index) {
 		// 设置Sheet索引
@@ -230,7 +279,8 @@ public abstract class BaseExcel implements Excel {
 
 	/**
 	 * 获得第一张Sheet表内容
-	 * @param list 列表 
+	 * 
+	 * @param list 列表
 	 */
 	public final void writeSheetByCol(List<Map<String, String>> list) {
 		writeSheetByCol(list, index);
@@ -238,7 +288,8 @@ public abstract class BaseExcel implements Excel {
 
 	/**
 	 * 写Sheet，第一行第一列内容
-	 * @param content 单元格内容 
+	 * 
+	 * @param content 单元格内容
 	 */
 	public final void writeContents(String content) {
 		writeContents(0, 0, content);
@@ -246,8 +297,9 @@ public abstract class BaseExcel implements Excel {
 
 	/**
 	 * 写Sheet，新行第N列内容
-	 * @param col 第几列
-	 * @param content 单元格内容 
+	 * 
+	 * @param col     第几列
+	 * @param content 单元格内容
 	 */
 	public final void writeContentsByNewRow(int col, String content) {
 		writeContents(getRows() + 1, col, content);
@@ -255,7 +307,8 @@ public abstract class BaseExcel implements Excel {
 
 	/**
 	 * 写Sheet，新行第1列内容
-	 * @param content 单元格内容 
+	 * 
+	 * @param content 单元格内容
 	 */
 	public final void writeContentsByNewRow(String content) {
 		writeContents(getRows() + 1, 0, content);
@@ -263,8 +316,9 @@ public abstract class BaseExcel implements Excel {
 
 	/**
 	 * 写Sheet，N行新列内容
-	 * @param row 第几行
-	 * @param content 单元格内容 
+	 * 
+	 * @param row     第几行
+	 * @param content 单元格内容
 	 */
 	public final void writeContentsByNewCol(int row, String content) {
 		writeContents(row, getColumns() + 1, content);
@@ -272,7 +326,8 @@ public abstract class BaseExcel implements Excel {
 
 	/**
 	 * 写Sheet，1行新列内容
-	 * @param content 单元格内容 
+	 * 
+	 * @param content 单元格内容
 	 */
 	public final void writeContentsByNewCol(String content) {
 		writeContents(0, getColumns() + 1, content);
@@ -280,10 +335,11 @@ public abstract class BaseExcel implements Excel {
 
 	/**
 	 * 获得指定Sheet，指定行列内容
-	 * @param index Sheet码 注 添加了这个参数 就直接设置了Sheet 以后调用 getContents(int row,int col)就可获得这页内容
-	 * @param row 行码
-	 * @param col 列码
-	 * @param content 内容 
+	 * 
+	 * @param index   Sheet码 注 添加了这个参数 就直接设置了Sheet 以后调用 getContents(int row,int col)就可获得这页内容
+	 * @param row     行码
+	 * @param col     列码
+	 * @param content 内容
 	 */
 	public final void writeContents(int index, int row, int col, String content) {
 		// 设置Sheet页码
@@ -294,6 +350,7 @@ public abstract class BaseExcel implements Excel {
 
 	/**
 	 * 获得Sheet所有列名
+	 * 
 	 * @return 数组保存列名
 	 */
 	public final String[] getColumnNames() {
@@ -302,8 +359,9 @@ public abstract class BaseExcel implements Excel {
 
 	/**
 	 * 获得指定Sheet所有列名
-	 * @param name Sheet名
-	 * @return 数组保存列名
+	 * 
+	 * @param  name Sheet名
+	 * @return      数组保存列名
 	 */
 	public final String[] getColumnNames(String name) {
 		// 获得Sheet位置
@@ -318,8 +376,9 @@ public abstract class BaseExcel implements Excel {
 
 	/**
 	 * 获得指定Sheet所有列名
-	 * @param index Sheet索引
-	 * @return 数组保存列名
+	 * 
+	 * @param  index Sheet索引
+	 * @return       数组保存列名
 	 */
 	public final String[] getColumnNames(int index) {
 		// 设置Sheet页码
@@ -339,8 +398,9 @@ public abstract class BaseExcel implements Excel {
 
 	/**
 	 * 根据列名返回列索引
-	 * @param colName 列名
-	 * @return 列索引 -1 为没有这列
+	 * 
+	 * @param  colName 列名
+	 * @return         列索引 -1 为没有这列
 	 */
 	public final int getColumnIndexByName(String colName) {
 		// 列索引
@@ -363,6 +423,7 @@ public abstract class BaseExcel implements Excel {
 
 	/**
 	 * 返回正在使用的工作薄索引
+	 * 
 	 * @return int
 	 */
 	public final int getIndex() {
@@ -371,6 +432,7 @@ public abstract class BaseExcel implements Excel {
 
 	/**
 	 * 设置工作薄索引
+	 * 
 	 * @param index 工作薄索引
 	 */
 	public final void setIndex(int index) {
@@ -379,6 +441,7 @@ public abstract class BaseExcel implements Excel {
 
 	/**
 	 * 获取Sheet的名称
+	 * 
 	 * @return Sheet的名称
 	 */
 	public final String getSheetName() {
@@ -387,6 +450,7 @@ public abstract class BaseExcel implements Excel {
 
 	/**
 	 * 获取Sheet表中所包含的总列数
+	 * 
 	 * @return Sheet的总列数
 	 */
 	public final int getColumns() {
@@ -395,6 +459,7 @@ public abstract class BaseExcel implements Excel {
 
 	/**
 	 * 获取Sheet表中所包含的总行数
+	 * 
 	 * @return Sheet的总行数
 	 */
 	public final int getRows() {
@@ -403,8 +468,9 @@ public abstract class BaseExcel implements Excel {
 
 	/**
 	 * 写入数据到工作薄中
-	 * @param list List要写入的内容
-	 * @param sheetName 名 
+	 * 
+	 * @param list      List要写入的内容
+	 * @param sheetName 名
 	 */
 	public final void writeSheet(List<List<String>> list, String sheetName) {
 		writeSheet(list, getSheetIndex(sheetName));
@@ -412,8 +478,9 @@ public abstract class BaseExcel implements Excel {
 
 	/**
 	 * 写入数据到工作薄中
-	 * @param list List
-	 * @param sheetName 名 
+	 * 
+	 * @param list      List
+	 * @param sheetName 名
 	 */
 	public final void writeSheetByCol(List<Map<String, String>> list, String sheetName) {
 		writeSheetByCol(list, getSheetIndex(sheetName));
@@ -421,8 +488,9 @@ public abstract class BaseExcel implements Excel {
 
 	/**
 	 * 写入数据到工作薄中
-	 * @param list List
-	 * @param index 页码 
+	 * 
+	 * @param list  List
+	 * @param index 页码
 	 */
 	public final void writeSheetByCol(List<Map<String, String>> list, int index) {
 		// 设置Sheet索引
