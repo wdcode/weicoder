@@ -11,6 +11,8 @@ import com.weicoder.common.constants.RegexConstants;
 import com.weicoder.common.constants.StringConstants;
 
 import com.weicoder.common.U;
+import com.weicoder.common.U.T;
+import com.weicoder.common.W.C;
 import com.weicoder.common.W;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
@@ -116,7 +118,7 @@ public class DateUtil {
 	 * @return int
 	 */
 	public static int getTime() {
-		return W.C.toInt(System.currentTimeMillis() / 1000);
+		return W.C.toInt(time() / 1000);
 	}
 
 	/**
@@ -1058,7 +1060,26 @@ public class DateUtil {
 	 * @return      与当前时间差
 	 */
 	public static long diff(long time) {
-		return System.currentTimeMillis() - time;
+		return time() - time;
+	}
+
+	/**
+	 * 调用差异时间 按线程保存调用时间每次调用返回上次调用与本次相差时间
+	 * 
+	 * @return
+	 */
+	public static long dura() {
+		long time = time();
+		return time - C.toLong(T.put("time", time), time);
+	}
+
+	/**
+	 * 获得当前时间 System.currentTimeMillis()
+	 * 
+	 * @return 时间戳
+	 */
+	public static long time() {
+		return System.currentTimeMillis();
 	}
 
 	/**

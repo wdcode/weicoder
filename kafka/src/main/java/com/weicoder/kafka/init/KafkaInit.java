@@ -10,17 +10,17 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
-import org.apache.kafka.clients.consumer.KafkaConsumer; 
+import org.apache.kafka.clients.consumer.KafkaConsumer;
 
 import com.weicoder.common.concurrent.ScheduledUtil;
 import com.weicoder.common.init.Init;
 import com.weicoder.common.lang.Bytes;
-import com.weicoder.common.U; 
+import com.weicoder.common.U;
+import com.weicoder.common.U.C;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.log.Log;
-import com.weicoder.common.log.LogFactory;
-import com.weicoder.common.params.CommonParams;
+import com.weicoder.common.log.LogFactory; 
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.util.StringUtil;
@@ -58,8 +58,7 @@ public class KafkaInit implements Init {
 	@Override
 	public void init() {
 		// 获得所有kafka消费者
-		List<Class<Consumer>> consumers = ClassUtil.getAnnotationClass(CommonParams.getPackages("kafka"),
-				Consumer.class);
+		List<Class<Consumer>> consumers = C.from(Consumer.class);
 		if (U.E.isNotEmpty(consumers)) {
 			// 循环处理kafka类
 			consumers.forEach(c -> {
@@ -74,7 +73,7 @@ public class KafkaInit implements Init {
 					TOPIC_RECORDS.put(name, map = Maps.newConcurrentMap());
 				}
 				// 获得topic列表
-				List<String> topics = Maps.getList(TOPICS, name, String.class);
+				List<String> topics = Maps.getList(TOPICS, name);
 				// 处理所有方法
 				for (Method m : c.getDeclaredMethods()) {
 					// 方法有执行时间注解

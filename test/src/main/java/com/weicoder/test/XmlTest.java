@@ -1,6 +1,7 @@
 package com.weicoder.test; 
  
 import com.weicoder.common.U;
+import com.weicoder.common.U.D;
 import com.weicoder.xml.Document;
 import com.weicoder.xml.XmlEngine;
 import com.weicoder.xml.builder.XmlBuilder;
@@ -17,7 +18,7 @@ public class XmlTest {
 		// dom4j 9165 4545 5428 - 934 918 888
 		int n = 1;
 		String f = "user.xml";  
-		long curr = System.currentTimeMillis();
+		D.dura();
 		Document doc = XmlBuilder.readDocument(U.I.readString(U.R.loadResource(f)));
 //		Document doc = null;
 		System.out.println(doc.getRootElement().getName());
@@ -34,6 +35,6 @@ public class XmlTest {
 		System.out.println(doc.getRootElement().getName());
 		System.out.println(doc.getRootElement().getText());
 		System.out.println(doc.getRootElement().getElements().size());
-		System.out.println(System.currentTimeMillis() - curr);
+		System.out.println(D.dura());
 	}
 }

@@ -6,7 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.lookup.MainMapLookup;
 
-import com.weicoder.common.constants.StringConstants; 
+import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.W;
 import com.weicoder.common.log.Log;
 import com.weicoder.common.params.CommonParams;
@@ -23,7 +23,7 @@ public class Log4j2 implements Log {
 	private Logger log;
 
 	public Log4j2() {
-		MainMapLookup.setMainArguments(Log4j2Params.DIR, Log4j2Params.LEVEL,
+		MainMapLookup.setMainArguments(Log4j2Params.TEST ? "target" : Log4j2Params.DIR, Log4j2Params.LEVEL,
 				Log4j2Params.TEST ? Log4j2Params.LEVEL : "OFF");
 	}
 

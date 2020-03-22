@@ -1,5 +1,8 @@
 package com.weicoder.common.util;
 
+import java.util.Map;
+
+import com.weicoder.common.W.M;
 import com.weicoder.common.constants.DateConstants;
 import com.weicoder.common.log.Logs;
 
@@ -9,6 +12,36 @@ import com.weicoder.common.log.Logs;
  * @author WD
  */
 public class ThreadUtil {
+	// 保存线程属性
+	private final static Map<Thread, Map<String, Object>> ATTR = M.newMap();
+
+	/**
+	 * 为当前线程保存属性
+	 * 
+	 * @param key 键
+	 * @param val 值
+	 */
+	public static Object put(String key, Object val) {
+		return M.getMap(ATTR, current()).put(key, val);
+	}
+
+	/**
+	 * 获得当前线程的值
+	 * 
+	 * @param  key 键
+	 * @return     值
+	 */
+	public static Object get(String key) {
+		return M.getMap(ATTR, current()).get(key);
+	}
+
+	/**
+	 * 获得当前线程
+	 */
+	public static Thread current() {
+		return Thread.currentThread();
+	}
+
 	/**
 	 * 封装sleep异常处理
 	 * 

@@ -12,9 +12,14 @@ import java.lang.reflect.Proxy;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
-
+import java.util.stream.Collectors;
+ 
+import com.weicoder.common.U.C;
+import com.weicoder.common.W.L;
+import com.weicoder.common.W.M;
 import com.weicoder.common.U;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Lists;
@@ -27,6 +32,35 @@ import com.weicoder.common.params.CommonParams;
  * @author WD
  */
 public class ClassUtil {
+	// 保存指定报名下所有class
+	private final static Map<Class<?>, List<Class<?>>> CLASSES = init();
+
+	/**
+	 * 获取指定接口下的所有实现类
+	 * 
+	 * @param  c
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public static <E> List<Class<E>> from(Class<E> c) {
+//		List<Class<E>> list = L.newList(); 
+//		CLASSES.get(c).forEach(o -> list.add((Class<E>) o));
+//		return list;
+		return L.newList(CLASSES.get(c)).stream().map(o -> (Class<E>) o).collect(Collectors.toList());
+	}
+
+	/**
+	 * 获取指定接口下的所有实现类
+	 * 
+	 * @param  c 要指定接口或注解的类
+	 * @param  i 索引第几个
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public static <E> Class<E> from(Class<E> c, int i) {
+		return (Class<E>) L.get(CLASSES.get(c), i);
+	}
+
 	/**
 	 * 判断是否是基础类型
 	 * 
@@ -194,7 +228,7 @@ public class ClassUtil {
 			if (U.E.isEmpty(className))
 				return null;
 			Class<?> c = forName(className);
-			return c == null ? null : c.getDeclaredConstructor(parameterTypes).newInstance();
+			return c == null || c.isInterface() ? null : c.getDeclaredConstructor(parameterTypes).newInstance();
 		} catch (Exception e) {
 			return null;
 		}
@@ -226,7 +260,7 @@ public class ClassUtil {
 	 */
 	public static <T> T newInstance(Class<T> clazz, Class<?>... parameterTypes) {
 		try {
-			return clazz == null ? null : clazz.getConstructor(parameterTypes).newInstance();
+			return clazz == null || clazz.isInterface() ? null : clazz.getConstructor(parameterTypes).newInstance();
 		} catch (Exception e) {
 			Logs.error(e);
 			return null;
@@ -252,7 +286,7 @@ public class ClassUtil {
 	 * @return     类列表
 	 */
 	public static <E> Class<E> getAssignedClass(Class<E> cls, int i) {
-		return Lists.get(getAssignedClass(CommonParams.getPackages(StringConstants.EMPTY), cls), i);
+		return Lists.get(getAssignedClass(CommonParams.PACKAGES, cls), i);
 	}
 
 	/**
@@ -264,7 +298,7 @@ public class ClassUtil {
 	 * @return     类列表
 	 */
 	public static <E> List<Class<E>> getAssignedClass(Class<E> cls) {
-		return getAssignedClass(CommonParams.getPackages(StringConstants.EMPTY), cls);
+		return getAssignedClass(CommonParams.PACKAGES, cls);
 	}
 
 	/**
@@ -300,23 +334,16 @@ public class ClassUtil {
 	public static <E extends Annotation> Class<E> getAnnotationClass(String packageName, Class<E> cls, int i) {
 		return Lists.get(getAnnotationClass(packageName, cls), i);
 	}
-
+ 
 	/**
-	 * 获取本类下所有公用方法 不读取父类
+	 * 指定包下 指定类的实现
 	 * 
-	 * @param  c 类
-	 * @return   list
+	 * @param  cls 指定类
+	 * @param  <E> 泛型
+	 * @return     类列表
 	 */
-	public static List<Method> getPublicMethod(Class<?> c) {
-		// 返回的方法列表
-		List<Method> methods = Lists.newList();
-		// 处理所有方法
-		for (Method m : c.getDeclaredMethods())
-			// 判断是公有方法
-			if (Modifier.isPublic(m.getModifiers()))
-				methods.add(m);
-		// 返回
-		return methods;
+	public static <E extends Annotation> List<Class<E>> getAnnotationClass(Class<E> cls) {
+		return getAnnotationClass(CommonParams.PACKAGES, cls);
 	}
 
 	/**
@@ -338,6 +365,33 @@ public class ClassUtil {
 				classes.add((Class<E>) c);
 		// 返回列表
 		return classes;
+	}
+
+	/**
+	 * 获取本类下所有公用方法 不读取父类
+	 * 
+	 * @param  c 类
+	 * @return   list
+	 */
+	public static List<Method> getPublicMethod(Class<?> c) {
+		// 返回的方法列表
+		List<Method> methods = Lists.newList();
+		// 处理所有方法
+		for (Method m : c.getDeclaredMethods())
+			// 判断是公有方法
+			if (Modifier.isPublic(m.getModifiers()))
+				methods.add(m);
+		// 返回
+		return methods;
+	}
+
+	/**
+	 * 获得指定包下的所有Class
+	 * 
+	 * @return 类列表
+	 */
+	public static List<Class<?>> getPackageClasses() {
+		return getPackageClasses(CommonParams.PACKAGES);
 	}
 
 	/**
@@ -380,6 +434,16 @@ public class ClassUtil {
 		return classes;
 	}
 
+	/**
+	 * 获得当前ClassLoader
+	 * 
+	 * @return ClassLoader
+	 */
+	public static ClassLoader getClassLoader() {
+		ClassLoader cl = Thread.currentThread().getContextClassLoader();
+		return cl == null ? ClassLoader.getSystemClassLoader() : cl;
+	}
+
 	private static List<String> getClasses(String name, String packageName) {
 		// 获得文件名
 		File path = new File(name);
@@ -419,12 +483,23 @@ public class ClassUtil {
 	}
 
 	/**
-	 * 获得当前ClassLoader
+	 * 初始化
 	 * 
-	 * @return ClassLoader
+	 * @return
 	 */
-	public static ClassLoader getClassLoader() {
-		ClassLoader cl = Thread.currentThread().getContextClassLoader();
-		return cl == null ? ClassLoader.getSystemClassLoader() : cl;
+	private static Map<Class<?>, List<Class<?>>> init() {
+		// 声明class列表
+		Map<Class<?>, List<Class<?>>> map = M.newMap();
+		// 扫描指定包下的类
+		C.getPackageClasses().forEach(c -> {
+			// 处理接口类型
+			for (Class<?> i : c.getInterfaces())
+				M.getList(map, i).add(c);
+			// 处理注解类型
+			for (Annotation a : c.getAnnotations())
+				M.getList(map, a.annotationType()).add(c);
+		});
+		// 返回列表
+		return map;
 	}
 }

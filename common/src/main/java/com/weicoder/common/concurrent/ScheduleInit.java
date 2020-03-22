@@ -1,8 +1,8 @@
 package com.weicoder.common.concurrent;
 
+import com.weicoder.common.U.C;
 import com.weicoder.common.init.Init;
-import com.weicoder.common.log.Logs;
-import com.weicoder.common.params.CommonParams;
+import com.weicoder.common.log.Logs; 
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.ClassUtil;
 
@@ -15,7 +15,7 @@ public class ScheduleInit implements Init {
 	@Override
 	public void init() {
 		// 循环处理任务类
-		ClassUtil.getAnnotationClass(CommonParams.getPackages("schedule"), Schedule.class).forEach(c -> {
+		C.from(Schedule.class).forEach(c -> {
 			// 处理所有方法
 			ClassUtil.getPublicMethod(c).forEach(m -> {
 				// 处理delay

@@ -18,7 +18,7 @@ public final class Inits {
 	 */
 	public static void init() {
 		// 获得所有初始化接口
-		C.getAssignedClass(Init.class).forEach(c -> {
+		C.from(Init.class).forEach(c -> {
 			ES.execute(() -> {
 				// 获得接口类名称
 				String name = S.convert(S.replace(c.getSimpleName(), "Init", ""));

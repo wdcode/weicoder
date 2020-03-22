@@ -5,10 +5,10 @@ import java.util.Map;
 
 import com.weicer.rpc.annotation.Rpc;
 import com.weicer.rpc.params.RpcParams;
+import com.weicoder.common.U.C;
 import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.lang.Maps;
-import com.weicoder.common.log.Logs;
-import com.weicoder.common.params.CommonParams;
+import com.weicoder.common.log.Logs; 
 import com.weicoder.common.socket.TcpServers;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.ClassUtil;
@@ -31,9 +31,9 @@ public final class RpcServers {
 	 */
 	public static void init() {
 		// 获得所有rpc服务
-		ClassUtil.getAnnotationClass(CommonParams.getPackages("rpc"), Rpc.class).forEach(r -> {
+		C.from(Rpc.class).forEach(r -> {
 			// 获得rpc接口实现类
-			Class<?> c = ClassUtil.getAssignedClass(r, 0);
+			Class<?> c = C.from(r, 0);
 			// 处理所有方法
 			ClassUtil.getPublicMethod(c).forEach(m -> {
 				String name = m.getName();
@@ -87,9 +87,9 @@ public final class RpcServers {
 			com.alipay.sofa.rpc.config.ServerConfig config = new com.alipay.sofa.rpc.config.ServerConfig()
 					.setProtocol(RpcParams.PROTOCOL).setPort(RpcParams.PORT + 1).setDaemon(RpcParams.DAEMON);
 			// 循环发布rpc服务
-			ClassUtil.getAnnotationClass(CommonParams.getPackages("rpc"), Rpc.class).forEach(r -> {
+			C.from(Rpc.class).forEach(r -> {
 				new com.alipay.sofa.rpc.config.ProviderConfig<Object>().setInterfaceId(r.getNestHost().getName()) // 指定接口
-						.setRef(ClassUtil.newInstance(ClassUtil.getAssignedClass(r, 0))) // 指定实现
+						.setRef(ClassUtil.newInstance(C.from(r, 0))) // 指定实现
 						.setServer(config)// 指定服务端
 						.export(); // 发布服务
 			});

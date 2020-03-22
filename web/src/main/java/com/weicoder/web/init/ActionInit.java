@@ -3,10 +3,10 @@ package com.weicoder.web.init;
 import java.lang.reflect.Method;
 import java.util.Map;
 
+import com.weicoder.common.U.C;
 import com.weicoder.common.init.Init;
 import com.weicoder.common.lang.Maps;
-import com.weicoder.common.log.Logs;
-import com.weicoder.common.params.CommonParams;
+import com.weicoder.common.log.Logs; 
 import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.web.annotation.Action;
@@ -33,7 +33,7 @@ public class ActionInit implements Init {
 
 	private void aop() {
 		// 处理aop
-		ClassUtil.getAssignedClass(CommonParams.getPackages("aop"), Aops.class).forEach(c -> {
+		C.from(Aops.class).forEach(c -> {
 			// 不是接口
 			if (!c.isInterface()) {
 				// 获得action名结尾为aop去掉
@@ -61,7 +61,7 @@ public class ActionInit implements Init {
 
 	private void action() {
 		// 按包处理Action
-		ClassUtil.getAnnotationClass(CommonParams.getPackages("action"), Action.class).forEach(c -> {
+		C.from(Action.class).forEach(c -> {
 			try {
 				// 获得action名结尾为action去掉
 				String cname = StringUtil.convert(StringUtil.subStringLastEnd(c.getSimpleName(), "Action"));
@@ -98,7 +98,7 @@ public class ActionInit implements Init {
 
 	private void validator() {
 		// 循环所有验证类注解
-		ClassUtil.getAnnotationClass(CommonParams.getPackages("validator"), ValidatorClass.class).forEach(c -> {
+		C.from(ValidatorClass.class).forEach(c -> {
 			// 获得validator名结尾为validator去掉
 			String cname = StringUtil.convert(StringUtil.subStringLastEnd(c.getSimpleName(), "Validator"));
 			Logs.info("init validator sname={},cname={}", c.getSimpleName(), cname);

@@ -3,9 +3,9 @@ package com.weicoder.websocket.init;
 import com.weicoder.common.util.ClassUtil;
 import com.weicoder.websocket.annotation.WebSocket;
 import com.weicoder.websocket.common.WebSocketCommons;
+import com.weicoder.common.U.C;
 import com.weicoder.common.init.Init;
-import com.weicoder.common.log.Logs;
-import com.weicoder.common.params.CommonParams;
+import com.weicoder.common.log.Logs; 
 
 /**
  * 初始化监听器
@@ -16,7 +16,7 @@ public class WebSocketInit implements Init {
 	@Override
 	public void init() {
 		// 按包处理WebSocket
-		ClassUtil.getAnnotationClass(CommonParams.getPackages("websocket"), WebSocket.class).forEach(c -> {
+		C.from(WebSocket.class).forEach(c -> {
 			try {
 				// 实例化Action并放在context中
 				Object ws = ClassUtil.newInstance(c);

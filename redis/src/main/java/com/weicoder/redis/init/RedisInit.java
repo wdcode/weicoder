@@ -10,11 +10,11 @@ import com.weicoder.common.init.Init;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.log.Log;
-import com.weicoder.common.log.LogFactory;
-import com.weicoder.common.params.CommonParams;
+import com.weicoder.common.log.LogFactory; 
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.U;
+import com.weicoder.common.U.C;
 import com.weicoder.json.JsonEngine;
 import com.weicoder.redis.params.RedisParams;
 import com.weicoder.redis.RedisPool;
@@ -42,8 +42,7 @@ public class RedisInit implements Init {
 	@Override
 	public void init() {
 		// 获得所有redis订阅者
-		List<Class<Subscribes>> subscribes = ClassUtil.getAnnotationClass(CommonParams.getPackages("redis"),
-				Subscribes.class);
+		List<Class<Subscribes>> subscribes = C.from(Subscribes.class);
 		if (U.E.isNotEmpty(subscribes)) {
 			// 循环处理所有redis订阅类
 			int n = 0;
@@ -55,7 +54,7 @@ public class RedisInit implements Init {
 				if (!REDIS.containsKey(name))
 					REDIS.put(name, RedisFactory.getRedis(name));
 				// 获得channels列表
-				List<String> channels = Maps.getList(CHANNELS, name, String.class);
+				List<String> channels = Maps.getList(CHANNELS, name);
 				// 处理所有方法
 				ClassUtil.getPublicMethod(c).forEach(m -> {
 					// 方法有执行时间注解

@@ -19,7 +19,7 @@ import com.weicoder.common.util.BeanUtil;
  */
 @DisallowConcurrentExecution
 @PersistJobDataAfterExecution
-final class Jobs implements Job {
+public class Jobs implements Job {
 	// 日志
 	private final static Log LOG = LogFactory.getLog(Jobs.class);
 

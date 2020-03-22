@@ -1,8 +1,8 @@
 package com.weicoder.test;
 
 import com.weicoder.common.log.Logs;
-import com.weicoder.quartz.annotation.Job;
-import com.weicoder.quartz.annotation.Trigger;
+import com.weicoder.quartz.Job;
+import com.weicoder.quartz.Trigger;
 
 @Job
 public class QuartzJob {
@@ -12,5 +12,6 @@ public class QuartzJob {
 	@Trigger("0/1 * * * * ?")
 	public void test() {
 		Logs.info("test");
+		System.out.println(123);
 	}
 }

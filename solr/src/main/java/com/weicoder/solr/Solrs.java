@@ -8,12 +8,9 @@ import com.weicoder.solr.factory.SolrFactory;
 /**
  * @author wudi
  */
-public final class SolrEngine {
-	private final static Solr SOLR;
-	static {
-		SOLR = SolrFactory.getSolr();
-	}
-
+public final class Solrs {
+	private final static Solr SOLR = SolrFactory.getSolr();
+   
 	/**
 	 * 更新索引数据
 	 * 
@@ -58,6 +55,6 @@ public final class SolrEngine {
 		return SOLR.del(ids);
 	}
 
-	private SolrEngine() {
+	private Solrs() {
 	}
 }

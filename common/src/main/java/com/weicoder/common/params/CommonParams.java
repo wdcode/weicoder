@@ -2,6 +2,7 @@ package com.weicoder.common.params;
 
 import java.util.Set;
 
+import com.weicoder.common.C.S;
 import com.weicoder.common.U.E;
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.DateConstants;
@@ -62,8 +63,9 @@ public final class CommonParams {
 	public final static int         VERIFY_LENGTH        = Params.getInt("verify.length", 4);
 	/** 是否驻留程序 */
 	public final static boolean     MAIN                 = Params.getBoolean("main", false);
-	// 包名
-	private final static String PACKAGES = "com.weicoder";
+	/** 默认报名 */
+	private final static String     DEFAULT_PACKAGES     = "com.weicoder";
+	public final static String      PACKAGES             = getPackages(S.EMPTY);
 
 	/**
 	 * 获得初始化开关
@@ -85,10 +87,10 @@ public final class CommonParams {
 		// 获得包名
 		String pack = Params.getString(Params.getKey(StringConstants.EMPTY, name, "packages"));
 		// 如果包名为空返回默认包名 不为空加上本包名
-		if (E.isEmpty(pack) || PACKAGES.equals(pack))
-			return PACKAGES;
+		if (E.isEmpty(pack) || DEFAULT_PACKAGES.equals(pack))
+			return DEFAULT_PACKAGES;
 		else
-			return PACKAGES + StringConstants.COMMA + pack;
+			return DEFAULT_PACKAGES + StringConstants.COMMA + pack;
 	}
 
 	/**

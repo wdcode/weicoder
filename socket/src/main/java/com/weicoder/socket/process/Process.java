@@ -14,11 +14,11 @@ import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.util.CloseUtil;
 import com.weicoder.common.util.DateUtil;
 import com.weicoder.common.U;
+import com.weicoder.common.U.C;
 import com.weicoder.protobuf.Protobuf;
 import com.weicoder.protobuf.ProtobufEngine;
 import com.weicoder.common.log.Log;
-import com.weicoder.common.log.LogFactory;
-import com.weicoder.common.params.CommonParams;
+import com.weicoder.common.log.LogFactory; 
 import com.weicoder.socket.Event;
 import com.weicoder.socket.Session;
 import com.weicoder.socket.annotation.AllHead; 
@@ -55,7 +55,7 @@ public final class Process {
 		// 设置属性
 		this.name = name;
 		// 设置handler closed
-		ClassUtil.getAnnotationClass(CommonParams.getPackages("socket"), Handler.class).forEach(c -> {
+		C.from(Handler.class).forEach(c -> {
 			// 是本类使用
 			Object h = ClassUtil.newInstance(c);
 			if (name.equals(h.getClass().getAnnotation(Handler.class).value())) {
@@ -73,7 +73,7 @@ public final class Process {
 			}
 		});
 		// 获取事件处理器
-		event = ClassUtil.newInstance(ClassUtil.getAssignedClass(Event.class, 0));
+		event = ClassUtil.newInstance(C.from(Event.class, 0));
 		if (event == null)
 			event = new EmptyEvent();
 	}

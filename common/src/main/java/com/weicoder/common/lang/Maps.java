@@ -9,6 +9,7 @@ import java.util.concurrent.ConcurrentMap;
 
 import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.U;
+import com.weicoder.common.W.L;
 
 /**
  * Map的帮助类,获得Map的一些操作
@@ -50,16 +51,35 @@ public class Maps {
 	 * @param  <V> 泛型
 	 * @return     List
 	 */
-	public static <K, V> List<V> getList(Map<K, List<V>> map, K key, Class<V> c) {
+	public static <K, V> List<V> getList(Map<K, List<V>> map, K key) {
 		// 如果map和key val 为空
-		if (map == null || key == null || c == null)
-			return null;
+		if (map == null || key == null)
+			return L.emptyList();
 		// 获得值
 		List<V> val = map.get(key);
 		// 如果值为空
 		if (val == null)
 			// 实例化并保存
 			map.put(key, val = Lists.newList());
+		// 返回值
+		return val;
+	}
+
+	/**
+	 * @param  map
+	 * @param  key
+	 * @return
+	 */
+	public static <K, O, V> Map<O, V> getMap(Map<K, Map<O, V>> map, K key) {
+		// 如果map和key val 为空
+		if (map == null || key == null)
+			return emptyMap();
+		// 获得值
+		Map<O, V> val = map.get(key);
+		// 如果值为空
+		if (val == null)
+			// 实例化并保存
+			map.put(key, val = newMap());
 		// 返回值
 		return val;
 	}
@@ -237,5 +257,5 @@ public class Maps {
 	 */
 	public static int size(Map<?, ?> map) {
 		return U.E.isEmpty(map) ? 0 : map.size();
-	} 
+	}
 }

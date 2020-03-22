@@ -2,7 +2,7 @@ package com.weicoder.test;
 
 import com.weicoder.common.log.Logs;
 
-public class RpcS implements Irpc {
+public final class RpcS implements Irpc {
 
 	@Override
 	public String test(int i) {

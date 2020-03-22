@@ -9,11 +9,10 @@ import com.weicer.rpc.annotation.RpcBean;
 import com.weicer.rpc.params.RpcParams;
 import com.weicer.rpc.proxy.JDKInvocationHandler;
 import com.weicoder.common.lang.Bytes;
-import com.weicoder.common.lang.Maps;
-import com.weicoder.common.params.CommonParams;
-import com.weicoder.common.socket.TcpClient;
-import com.weicoder.common.util.ClassUtil;
-import com.weicoder.common.U; 
+import com.weicoder.common.lang.Maps; 
+import com.weicoder.common.socket.TcpClient; 
+import com.weicoder.common.U;
+import com.weicoder.common.U.C;
 import com.weicoder.common.util.StringUtil;
 
 /**
@@ -45,7 +44,7 @@ public final class RpcClients {
 	 */
 	public static <E> E client(Class<E> rpc, String host, int port) {
 		// 有sofa包返回 sofa client
-		if (ClassUtil.forName("com.alipay.sofa.rpc.config.ConsumerConfig") != null)
+		if (C.forName("com.alipay.sofa.rpc.config.ConsumerConfig") != null)
 			return sofa(rpc, host, port);
 		// 使用jdk调用
 		return U.C.newProxyInstance(rpc, new JDKInvocationHandler(new InetSocketAddress(host, port)));
@@ -124,14 +123,14 @@ public final class RpcClients {
 		// 是否需要初始化
 		if (INIT) {
 			// 循环处理rpc服务
-			ClassUtil.getAnnotationClass(CommonParams.getPackages("rpc"), Rpc.class).forEach(r -> {
+			C.from(Rpc.class).forEach(r -> {
 				// rpc服务地址
 				String addr = r.getAnnotation(Rpc.class).value();
 				if (U.E.isEmpty(addr))
 					addr = StringUtil.convert(r.getSimpleName()); 
 				ADDRESS.put(addr, new InetSocketAddress(RpcParams.getHost(addr), RpcParams.getPort(addr)));
 				// 处理所有方法
-				ClassUtil.getPublicMethod(r).forEach(m -> {
+				C.getPublicMethod(r).forEach(m -> {
 					String name = m.getName();
 					METHODS.put(name, m);
 					RESULTS.put(name, m.getReturnType());

@@ -1,4 +1,4 @@
-package com.weicoder.quartz.annotation;
+package com.weicoder.quartz;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
