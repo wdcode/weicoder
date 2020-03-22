@@ -2,6 +2,7 @@ package com.weicoder.common.params;
 
 import java.util.Set;
 
+import com.weicoder.common.U.E;
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.DateConstants;
 import com.weicoder.common.constants.EncryptConstants;
@@ -35,8 +36,6 @@ public final class CommonParams {
 	/** 加密使用摘要算法 */
 	public final static String      ENCRYPT_DIGEST       = Params.getString("encrypt.digest",
 			EncryptConstants.ALGO_SHA_1);
-	/** 包名 */
-	public final static String      PACKAGES             = Params.getString("packages", "com.weicoder");
 	/** 获得ips过滤组 */
 	public final static String[]    IPS                  = Params.getStringArray("ips", ArrayConstants.STRING_EMPTY);
 	/** token 验证长度 */
@@ -61,6 +60,10 @@ public final class CommonParams {
 			.getString("verify.code", "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ").toCharArray();
 	/** 验证码长度 */
 	public final static int         VERIFY_LENGTH        = Params.getInt("verify.length", 4);
+	/** 是否驻留程序 */
+	public final static boolean     MAIN                 = Params.getBoolean("main", false);
+	// 包名
+	private final static String PACKAGES = "com.weicoder";
 
 	/**
 	 * 获得初始化开关
@@ -79,7 +82,13 @@ public final class CommonParams {
 	 * @return      名称下的包名
 	 */
 	public static String getPackages(String name) {
-		return Params.getString(Params.getKey(StringConstants.EMPTY, name, "packages"), PACKAGES);
+		// 获得包名
+		String pack = Params.getString(Params.getKey(StringConstants.EMPTY, name, "packages"));
+		// 如果包名为空返回默认包名 不为空加上本包名
+		if (E.isEmpty(pack) || PACKAGES.equals(pack))
+			return PACKAGES;
+		else
+			return PACKAGES + StringConstants.COMMA + pack;
 	}
 
 	/**

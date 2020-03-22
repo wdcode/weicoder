@@ -129,6 +129,5 @@ public final class Nacos {
 	}
 
 	private Nacos() {
-	}
-
+	} 
 }

@@ -1,4 +1,4 @@
-package com.weicoder.kafka;
+package com.weicoder.kafka.producer;
 
 import java.util.Properties;
 import java.util.concurrent.Future;
@@ -7,11 +7,16 @@ import org.apache.kafka.clients.producer.Callback;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
 
+import com.weicoder.common.W;
+import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.log.Log;
 import com.weicoder.common.log.LogFactory;
 import com.weicoder.kafka.params.KafkaParams;
+import com.weicoder.protobuf.Protobuf;
+import com.weicoder.protobuf.ProtobufEngine;
 
 /**
  * kafka生产者
@@ -36,8 +41,10 @@ public class Producers {
 		props.put(ProducerConfig.COMPRESSION_TYPE_CONFIG, KafkaParams.getCompress(name));
 		props.put(ProducerConfig.RECONNECT_BACKOFF_MS_CONFIG, 20000);
 		props.put(ProducerConfig.RETRY_BACKOFF_MS_CONFIG, 20000);
-		props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.ByteArraySerializer");
-		props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.ByteArraySerializer");
+		props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,
+				"org.apache.kafka.common.serialization.ByteArraySerializer");
+		props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,
+				"org.apache.kafka.common.serialization.ByteArraySerializer");
 		LOG.info("KafkaProducers init complete props={}", props);
 		// 实例化生产者
 		producer = new KafkaProducer<>(props);
@@ -67,7 +74,8 @@ public class Producers {
 	 * @return       信息
 	 */
 	public Future<RecordMetadata> send(String topic, Object value) {
-		return send(topic, value, (metadata, exception) -> LOG.debug("kafka send producer metadata={} exception={} value={}", metadata, exception, value));
+		return send(topic, value, (metadata, exception) -> LOG
+				.debug("kafka send producer metadata={} exception={} value={}", metadata, exception, value));
 	}
 
 	/**
@@ -79,7 +87,9 @@ public class Producers {
 	 * @return       信息
 	 */
 	public Future<RecordMetadata> send(String topic, Object key, Object value) {
-		return send(topic, key, value, (metadata, exception) -> LOG.debug("kafka send producer metadata={} exception={} key={} value={}", metadata, exception, key, value));
+		return send(topic, key, value,
+				(metadata, exception) -> LOG.debug("kafka send producer metadata={} exception={} key={} value={}",
+						metadata, exception, key, value));
 	}
 
 	/**
@@ -91,7 +101,7 @@ public class Producers {
 	 * @return          信息
 	 */
 	public Future<RecordMetadata> send(String topic, Object value, Callback callback) {
-		return producer.send(Kafkas.newRecord(topic, value), callback);
+		return producer.send(newRecord(topic, value), callback);
 	}
 
 	/**
@@ -104,6 +114,45 @@ public class Producers {
 	 * @return          信息
 	 */
 	public Future<RecordMetadata> send(String topic, Object key, Object value, Callback callback) {
-		return producer.send(Kafkas.newRecord(topic, key, value), callback);
+		return producer.send(newRecord(topic, key, value), callback);
+	}
+
+	/**
+	 * 实例化一个消费数据
+	 * 
+	 * @param  topic topic
+	 * @param  value value
+	 * @return       ProducerRecord
+	 */
+	public ProducerRecord<byte[], byte[]> newRecord(String topic, Object value) {
+		return new ProducerRecord<byte[], byte[]>(topic, toBytes(value));
+	}
+
+	/**
+	 * 实例化一个消费数据
+	 * 
+	 * @param  topic topic
+	 * @param  key   key
+	 * @param  value value
+	 * @return       ProducerRecord
+	 */
+	public ProducerRecord<byte[], byte[]> newRecord(String topic, Object key, Object value) {
+		return new ProducerRecord<byte[], byte[]>(topic, toBytes(key), toBytes(value));
+	}
+
+	/**
+	 * 序列号对象为自己数组
+	 * 
+	 * @param  obj 对象
+	 * @return     自己数组
+	 */
+	private byte[] toBytes(Object obj) {
+		// 根据不同类型序列化
+		if (obj instanceof String)
+			return W.C.toString(obj).getBytes();
+		else if (obj.getClass().isAnnotationPresent(Protobuf.class))
+			return ProtobufEngine.toBytes(obj);
+		else
+			return Bytes.toBytes(obj);
 	}
 }

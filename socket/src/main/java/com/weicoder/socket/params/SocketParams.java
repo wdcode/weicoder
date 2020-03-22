@@ -2,7 +2,7 @@ package com.weicoder.socket.params;
 
 import com.weicoder.common.config.Config;
 import com.weicoder.common.config.ConfigFactory;
-import com.weicoder.common.constants.SystemConstants; 
+import com.weicoder.common.constants.SystemConstants;
 import com.weicoder.common.W;
 import com.weicoder.common.params.Params;
 

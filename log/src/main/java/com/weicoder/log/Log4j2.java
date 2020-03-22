@@ -29,7 +29,7 @@ public class Log4j2 implements Log {
 
 	@Override
 	public void setClass(Class<?> c) {
-		log = c == null ? LogManager.getLogger(getClass()) : LogManager.getLogger(c);
+		log = c == null ? LogManager.getLogger(getClass().getSimpleName()) : LogManager.getLogger(c.getSimpleName());
 	}
 
 	@Override

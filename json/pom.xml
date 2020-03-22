@@ -5,11 +5,10 @@
 	<parent>
 		<groupId>com.weicoder</groupId>
 		<artifactId>weicoder</artifactId>
-		<version>3.3.2</version>
+		<version>3.3.3</version>
 	</parent>
 	<artifactId>json</artifactId>
-	
-
+	 
 	<dependencies>
 		<dependency>
 			<groupId>com.weicoder</groupId>

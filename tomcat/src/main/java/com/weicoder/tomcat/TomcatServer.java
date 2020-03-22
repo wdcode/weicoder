@@ -6,9 +6,9 @@ import org.apache.catalina.core.AprLifecycleListener;
 import org.apache.catalina.startup.Tomcat;
 
 import com.weicoder.common.constants.SystemConstants;
+import com.weicoder.common.init.Inits;
 import com.weicoder.common.log.Logs;
-import com.weicoder.tomcat.params.TomcatParams;
-import com.weicoder.web.action.Actions;
+import com.weicoder.tomcat.params.TomcatParams; 
 import com.weicoder.web.servlet.BasicServlet;
 
 /**
@@ -69,7 +69,7 @@ public final class TomcatServer {
 			tomcat.enableNaming();
 
 			// 初始化
-			Actions.init();
+			Inits.init();
 			tomcat.init();
 
 			// 启动

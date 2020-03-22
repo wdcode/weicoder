@@ -1,7 +1,7 @@
 package com.weicoder.kafka.factory;
 
 import com.weicoder.common.factory.FactoryKey;
-import com.weicoder.kafka.Producers;
+import com.weicoder.kafka.producer.Producers;
 
 /**
  * kafka消费者工厂

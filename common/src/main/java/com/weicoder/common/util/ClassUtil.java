@@ -11,7 +11,6 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Proxy;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
-import java.net.URL;
 import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
@@ -259,6 +258,18 @@ public class ClassUtil {
 	/**
 	 * 指定包下 指定类的实现
 	 * 
+	 * @param  cls 指定类
+	 * @param  i   指定索引
+	 * @param  <E> 泛型
+	 * @return     类列表
+	 */
+	public static <E> List<Class<E>> getAssignedClass(Class<E> cls) {
+		return getAssignedClass(CommonParams.getPackages(StringConstants.EMPTY), cls);
+	}
+
+	/**
+	 * 指定包下 指定类的实现
+	 * 
 	 * @param  packageName 包名
 	 * @param  cls         指定类
 	 * @param  <E>         泛型
@@ -340,31 +351,30 @@ public class ClassUtil {
 		List<Class<?>> classes = Lists.newList();
 		// 转换报名为路径格式
 		for (String path : StringUtil.split(packageName, StringConstants.COMMA)) {
-			path = StringUtil.replace(path, StringConstants.POINT, StringConstants.BACKSLASH);
+			String p = StringUtil.replace(path, StringConstants.POINT, StringConstants.BACKSLASH);
 			// 获得目录资源
-			URL url = ResourceUtil.getResource(path);
-			if (url == null)
-				return classes;
-			// 循环目录下的所有文件与目录
-			for (String name : getClasses(url.getPath(), path)) {
-				// 如果是class文件
-				if (name.endsWith(".class")) {
-					try {
-						// 反射出类对象 并添加到列表中
-						name = path + StringConstants.POINT + StringUtil.subString(name, 0, name.length() - 6);
-						name = StringUtil.replace(name, StringConstants.BACKSLASH, StringConstants.POINT);
-						// 如果开始是.去掉
-						if (name.startsWith(StringConstants.POINT))
-							name = StringUtil.subString(name, 1);
-						classes.add(Class.forName(name));
-					} catch (ClassNotFoundException e) {
-						Logs.error(e);
-					}
-				} else
-					// 迭代调用本方法 获得类列表
-					classes.addAll(
-							getPackageClasses(U.E.isEmpty(path) ? name : path + StringConstants.BACKSLASH + name));
-			}
+			ResourceUtil.getResources(p).forEach(url -> {
+				// 循环目录下的所有文件与目录
+				for (String name : getClasses(url.getPath(), p)) {
+					// 如果是class文件
+					if (name.endsWith(".class")) {
+						try {
+							// 反射出类对象 并添加到列表中
+							name = p + StringConstants.POINT + StringUtil.subString(name, 0, name.length() - 6);
+							name = StringUtil.replace(name, StringConstants.BACKSLASH, StringConstants.POINT);
+							// 如果开始是.去掉
+							if (name.startsWith(StringConstants.POINT))
+								name = StringUtil.subString(name, 1);
+							classes.add(Class.forName(name, false, getClassLoader()));
+						} catch (ClassNotFoundException e) {
+							Logs.error(e);
+						}
+					} else
+						// 迭代调用本方法 获得类列表
+						classes.addAll(
+								getPackageClasses(U.E.isEmpty(p) ? name : path + StringConstants.BACKSLASH + name));
+				}
+			});
 		}
 		// 返回类列表
 		return classes;

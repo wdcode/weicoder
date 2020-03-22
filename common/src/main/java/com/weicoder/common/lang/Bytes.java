@@ -5,8 +5,7 @@ import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.nio.ByteBuffer;
 import java.nio.channels.ReadableByteChannel;
-import java.util.Arrays;
-import java.util.Collection;
+import java.util.Arrays; 
 import java.util.List;
 
 import com.weicoder.common.U;
@@ -107,18 +106,18 @@ public class Bytes {
 		return new byte[]{(byte) (b ? 1 : 0)};
 	}
 
-	/**
-	 * 转换Collection变成字节数组
-	 * 
-	 * @param  c 集合
-	 * @return   字节数组
-	 */
-	public static byte[] toBytes(Collection<?> c) {
-		// 获得列表长度
-		short size = W.C.toShort(U.E.isEmpty(c) ? 0 : c.size());
-		// 判断如果列表为0只返回长度
-		return size == 0 ? toBytes(size) : toBytes(size, c.toArray());
-	}
+//	/**
+//	 * 转换Collection变成字节数组
+//	 * 
+//	 * @param  c 集合
+//	 * @return   字节数组
+//	 */
+//	public static byte[] toBytes(Collection<?> c) {
+//		// 获得列表长度
+//		short size = W.C.toShort(U.E.isEmpty(c) ? 0 : c.size());
+//		// 判断如果列表为0只返回长度
+//		return size == 0 ? toBytes(size) : toBytes(size, c.toArray());
+//	}
 
 	/**
 	 * 转换Object变成字节数组
@@ -146,9 +145,9 @@ public class Bytes {
 		if (obj instanceof Object[])
 			// Byte
 			return toBytes((Object[]) obj);
-		if (obj instanceof Collection<?>)
-			// Byte
-			return toBytes((Collection<?>) obj);
+//		if (obj instanceof Collection<?>)
+//			// Byte
+//			return toBytes((Collection<?>) obj);
 		if (obj instanceof Byte)
 			// Byte
 			return new byte[]{(Byte) obj};

@@ -1,5 +1,6 @@
 package com.weicoder.common.concurrent;
 
+import com.weicoder.common.init.Init;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.util.BeanUtil;
@@ -10,11 +11,9 @@ import com.weicoder.common.util.ClassUtil;
  * 
  * @author WD
  */
-public final class Schedules {
-	/**
-	 * 初始化定时任务
-	 */
-	public static void init() {
+public class ScheduleInit implements Init {
+	@Override
+	public void init() {
 		// 循环处理任务类
 		ClassUtil.getAnnotationClass(CommonParams.getPackages("schedule"), Schedule.class).forEach(c -> {
 			// 处理所有方法
@@ -31,14 +30,11 @@ public final class Schedules {
 						Logs.info("add schedule name={},rate={}", m.getName(), rate);
 					}
 				} else {
-					ScheduledUtil.delay(() -> BeanUtil.invoke(ClassUtil.newInstance(c), m), delay.start(), delay.value(),
-							delay.unit());
+					ScheduledUtil.delay(() -> BeanUtil.invoke(ClassUtil.newInstance(c), m), delay.start(),
+							delay.value(), delay.unit());
 					Logs.info("add schedule name={},delay={}", m.getName(), delay);
 				}
 			});
 		});
-	}
-
-	private Schedules() {
-	}
+	} 
 }

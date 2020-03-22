@@ -4,7 +4,7 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
-import com.weicoder.web.action.Actions;
+import com.weicoder.common.init.Inits; 
 
 /**
  * 初始化监听器
@@ -17,6 +17,6 @@ public class InitListener implements ServletContextListener {
 	 * 初始化资源
 	 */
 	public void contextInitialized(ServletContextEvent event) {
-		Actions.init();
+		Inits.init();
 	}
 }

@@ -5,7 +5,7 @@ package com.weicoder.common.constants;
  * 
  * @author WD
  */
-public final class HttpConstants {
+public class HttpConstants {
 	/** Header 清除缓存 KEY "Expires" */
 	public final static String HEADER_KEY_EXPIRES       = "Expires";
 	/** HTTP头 KEY "Cache-Control" */
@@ -40,7 +40,4 @@ public final class HttpConstants {
 	public final static String METHOD_GET               = "GET";
 	/** http提交方法post */
 	public final static String METHOD_POST              = "POST";
-
-	private HttpConstants() {
-	}
 }

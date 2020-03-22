@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.weicoder</groupId>
 		<artifactId>weicoder</artifactId>
-		<version>3.3.2</version>
+		<version>3.3.3</version>
 	</parent>
 	<artifactId>test</artifactId>
 
@@ -92,8 +92,27 @@
 		</dependency>
 		<dependency>
 			<groupId>com.weicoder</groupId>
+			<artifactId>zookeeper</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.weicoder</groupId>
 			<artifactId>po</artifactId>
-			<version>3.3.2</version>
+			<version>3.3.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.curator</groupId>
+			<artifactId>curator-framework</artifactId>
+			<version>4.3.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.curator</groupId>
+			<artifactId>curator-recipes</artifactId>
+			<version>4.3.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.yetus</groupId>
+			<artifactId>audience-annotations</artifactId>
+			<version>0.11.1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ibeetl</groupId>
@@ -112,8 +131,8 @@
 		</dependency>
 		<dependency>
 			<groupId>org.smartboot.socket</groupId>
-			<artifactId>aio-core</artifactId>
-			<version>1.4.7</version>
+			<artifactId>aio-pro</artifactId>
+			<version>1.4.9</version>
 		</dependency>
 		<dependency>
 			<groupId>io.seata</groupId>
@@ -134,6 +153,11 @@
 			<groupId>org.t-io</groupId>
 			<artifactId>tio-core</artifactId>
 			<version>3.6.0.v20200315-RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>com.zaxxer</groupId>
+			<artifactId>HikariCP</artifactId>
+			<version>3.4.2</version>
 		</dependency>
 	</dependencies>
 </project>

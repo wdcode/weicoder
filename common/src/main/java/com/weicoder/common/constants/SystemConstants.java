@@ -8,7 +8,7 @@ import com.weicoder.common.util.StringUtil;
  * 
  * @author WD
  */
-public final class SystemConstants {
+public class SystemConstants {
 	/** JDK版本 */
 	public final static String JAVA_VERSION   = System.getProperty("java.version");
 	/** 系统名称 */
@@ -27,10 +27,6 @@ public final class SystemConstants {
 	public final static String PROJECT_NAME   = StringUtil.subStringLast(USER_DIR, FILE_SEPARATOR);
 	/** 项目运行class目录路径 */
 	public final static String BASE_DIR       = ResourceUtil.getResource(StringConstants.EMPTY).getPath();
-
 	/** CPU核心数量 */
-	public final static int CPU_NUM = Runtime.getRuntime().availableProcessors();
-
-	private SystemConstants() {
-	}
+	public final static int    CPU_NUM        = Runtime.getRuntime().availableProcessors();
 }

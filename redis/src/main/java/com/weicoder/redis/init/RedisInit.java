@@ -1,4 +1,4 @@
-package com.weicoder.redis;
+package com.weicoder.redis.init;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.weicoder.common.concurrent.ExecutorUtil;
+import com.weicoder.common.init.Init;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.log.Log;
@@ -16,6 +17,7 @@ import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.U;
 import com.weicoder.json.JsonEngine;
 import com.weicoder.redis.params.RedisParams;
+import com.weicoder.redis.RedisPool;
 import com.weicoder.redis.annotation.Channel;
 import com.weicoder.redis.annotation.Subscribes;
 import com.weicoder.redis.factory.RedisFactory;
@@ -25,22 +27,20 @@ import com.weicoder.redis.factory.RedisFactory;
  * 
  * @author WD
  */
-public final class Redis {
+public class RedisInit implements Init {
 	// 日志
-	private final static Log LOG = LogFactory.getLog(Redis.class);
+	private Log LOG = LogFactory.getLog(RedisInit.class);
 	// 保存Channel对应对象
-	private final static Map<String, Object> SUBSCRIBES = Maps.newMap();
+	private Map<String, Object> SUBSCRIBES = Maps.newMap();
 	// 保存Channel对应方法
-	private final static Map<String, Method> METHODS = Maps.newMap();
+	private Map<String, Method> METHODS = Maps.newMap();
 	// 保存Redis消费
-	private final static Map<String, RedisPool> REDIS = Maps.newMap();
+	private Map<String, RedisPool> REDIS = Maps.newMap();
 	// 保存Redis对应消费的Channel
-	private final static Map<String, List<String>> CHANNELS = Maps.newMap();
+	private Map<String, List<String>> CHANNELS = Maps.newMap();
 
-	/**
-	 * 初始化redis订阅
-	 */
-	public static void subscribes() {
+	@Override
+	public void init() {
 		// 获得所有redis订阅者
 		List<Class<Subscribes>> subscribes = ClassUtil.getAnnotationClass(CommonParams.getPackages("redis"),
 				Subscribes.class);
@@ -110,8 +110,5 @@ public final class Redis {
 				});
 			});
 		}
-	}
-
-	private Redis() {
 	}
 }

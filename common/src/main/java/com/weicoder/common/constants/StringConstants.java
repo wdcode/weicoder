@@ -5,7 +5,7 @@ package com.weicoder.common.constants;
  * 
  * @author WD
  */
-public final class StringConstants {
+public class StringConstants {
 	/** 常量字符串 "" */
 	public final static String EMPTY     = "";
 	/** 常量字符串 " " */
@@ -34,7 +34,4 @@ public final class StringConstants {
 	public final static String FAIL      = "fail";
 	/** 常量字符串 "error" */
 	public final static String ERROR     = "error";
-
-	private StringConstants() {
-	}
 }

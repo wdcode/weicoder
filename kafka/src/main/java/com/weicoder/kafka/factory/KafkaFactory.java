@@ -3,7 +3,7 @@ package com.weicoder.kafka.factory;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 
 import com.weicoder.common.constants.StringConstants;
-import com.weicoder.kafka.Producers;
+import com.weicoder.kafka.producer.Producers;
 
 /**
  * kafka工厂

@@ -45,6 +45,20 @@ public class RedisCache<V> extends Cache<String, V> {
 	/**
 	 * 构建一个新的RedisCache
 	 * 
+	 * @param  <V>   值类型
+	 * @param  redis Redis名
+	 * @param  key   缓存主key 在hset里的key
+	 * @param  cls   要缓存的类
+	 * @param  load  是否加载全部缓存
+	 * @return       一个新的RedisCache
+	 */
+	public static <V> RedisCache<V> build(String redis, String key, Class<V> cls, boolean load) {
+		return build(RedisFactory.getRedis(redis), key, cls, load);
+	}
+
+	/**
+	 * 构建一个新的RedisCache
+	 * 
 	 * @param  <V>     值类型
 	 * @param  redis   Redis名
 	 * @param  key     缓存主key 在hset里的key
@@ -53,7 +67,22 @@ public class RedisCache<V> extends Cache<String, V> {
 	 * @return         一个新的RedisCache
 	 */
 	public static <V> RedisCache<V> build(RedisPool redis, String key, Class<V> cls) {
-		return new RedisCache<>(redis, key, cls);
+		return build(redis, key, cls, true);
+	}
+
+	/**
+	 * 构建一个新的RedisCache
+	 * 
+	 * @param  <V>     值类型
+	 * @param  redis   Redis名
+	 * @param  key     缓存主key 在hset里的key
+	 * @param  channel 发布订阅的通道
+	 * @param  cls     要缓存的类
+	 * @param  load    是否加载全部缓存
+	 * @return         一个新的RedisCache
+	 */
+	public static <V> RedisCache<V> build(RedisPool redis, String key, Class<V> cls, boolean load) {
+		return new RedisCache<>(redis, key, cls, load);
 	}
 
 	/**
@@ -77,11 +106,26 @@ public class RedisCache<V> extends Cache<String, V> {
 		redis.publish(remove, key);
 	}
 
+	/**
+	 * 加载所以缓存
+	 */
+	public void load() {
+		redis.hgetAll(key).forEach((k, v) -> super.put(k, JsonEngine.toBean(v, cls)));
+	}
+
 	private V getRedis(String k) {
 		return JsonEngine.toBean(redis.hget(key, k), cls);
 	}
 
-	public RedisCache(RedisPool redis, String key, Class<V> cls) {
+	/**
+	 * 构造
+	 * 
+	 * @param redis 使用的redis
+	 * @param key   保存redis的键
+	 * @param cls   缓存的实体类
+	 * @param load  是否加载全部缓存
+	 */
+	private RedisCache(RedisPool redis, String key, Class<V> cls, boolean load) {
 		// 获得redis
 		this.redis = redis;
 		this.key = key;
@@ -98,6 +142,9 @@ public class RedisCache<V> extends Cache<String, V> {
 						return getRedis(key);
 					}
 				});
+		// 是否加载所以缓存
+		if (load)
+			load();
 		// 使用Redis发布订阅来更新缓存
 		ExecutorUtil.pool(RedisParams.PREFIX).execute(() -> {
 			this.redis.subscribe((c, m) -> {

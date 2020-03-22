@@ -8,19 +8,16 @@ import java.util.Map;
 
 import com.weicoder.common.bean.StateCode;
 import com.weicoder.common.U;
-import com.weicoder.common.W;
-import com.weicoder.common.lang.Maps;
+import com.weicoder.common.W; 
 import com.weicoder.common.log.Log;
-import com.weicoder.common.log.LogFactory;
-import com.weicoder.common.params.CommonParams;
+import com.weicoder.common.log.LogFactory; 
 import com.weicoder.common.params.StateParams;
 import com.weicoder.common.token.TokenBean;
 import com.weicoder.common.token.TokenEngine;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.ClassUtil; 
 import com.weicoder.common.util.IpUtil;
-import com.weicoder.common.util.RegexUtil;
-import com.weicoder.common.util.StringUtil;
+import com.weicoder.common.util.RegexUtil; 
 import com.weicoder.json.JsonEngine;
 import com.weicoder.web.common.WebCommons;
 import com.weicoder.web.params.ValidatorParams;
@@ -32,8 +29,7 @@ import com.weicoder.web.validator.annotation.NotNull;
 import com.weicoder.web.validator.annotation.Number;
 import com.weicoder.web.validator.annotation.Regex;
 import com.weicoder.web.validator.annotation.Token;
-import com.weicoder.web.validator.annotation.Validator;
-import com.weicoder.web.validator.annotation.ValidatorClass;
+import com.weicoder.web.validator.annotation.Validator; 
 
 /**
  * 验证框架使用 根据条件验证
@@ -244,45 +240,8 @@ public final class Validators {
 			return Validators.validator(vali, ps);
 		// 返回成功
 		return StateParams.SUCCESS;
-	}
-
-	/**
-	 * 初始化验证类
-	 */
-	public static void init() {
-		// 循环所有验证类注解
-		ClassUtil.getAnnotationClass(CommonParams.getPackages("validator"), ValidatorClass.class).forEach(c -> {
-			// 获得validator名结尾为validator去掉
-			String cname = StringUtil.convert(StringUtil.subStringLastEnd(c.getSimpleName(), "Validator"));
-			LOG.info("init validator sname={},cname={}", c.getSimpleName(), cname);
-			// 实例化Action并放在context中
-			Object validator = ClassUtil.newInstance(c);
-			WebCommons.VALIDATORS.put(cname, validator);
-			if (validator != null) {
-				// 循环判断方法
-				ClassUtil.getPublicMethod(c).forEach(m -> { 
-						// 获得方法名
-						String mname = m.getName();
-						// 放入validator里方法
-						Map<String, Method> map = WebCommons.VALIDATORS_METHODS.get(cname);
-						if (map == null)
-							WebCommons.VALIDATORS_METHODS.put(cname, map = Maps.newMap());
-						map.put(mname, m);
-						LOG.info("validator add method={} to validator={}", mname, cname);
-						// 放入总方法池
-						if (WebCommons.METHODS_VALIDATORS.containsKey(mname))
-							LOG.warn("validator method name exist! name={} action={}", mname, cname);
-						// 方法对应验证类
-						WebCommons.METHODS_VALIDATORS.put(mname, m);
-						// 方法对应METHOD_VALIDATOR
-						WebCommons.METHOD_VALIDATOR.put(mname, validator);
-						// 放入参数池
-						WebCommons.VALIDATORS_METHODS_PARAMES.put(m, m.getParameters()); 
-				});
-			}
-		});
-	}
-
+	} 
+	
 	private Validators() {
 	}
 }
