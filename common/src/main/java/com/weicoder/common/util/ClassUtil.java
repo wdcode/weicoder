@@ -16,13 +16,15 @@ import java.util.Map;
 import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
 import java.util.stream.Collectors;
- 
+
 import com.weicoder.common.U.C;
+import com.weicoder.common.U.S;
 import com.weicoder.common.W.L;
 import com.weicoder.common.W.M;
 import com.weicoder.common.U;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Lists;
+import com.weicoder.common.lang.Maps;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
 
@@ -31,9 +33,44 @@ import com.weicoder.common.params.CommonParams;
  * 
  * @author WD
  */
+@SuppressWarnings("unchecked")
 public class ClassUtil {
+	// 包名下的class
+	private final static Map<String, List<Class<?>>> PASSAGES = Maps.newMap();
+	// 对应class名称的Bean
+	private final static Map<String, Class<?>> BEANS = Maps.newMap();
 	// 保存指定报名下所有class
 	private final static Map<Class<?>, List<Class<?>>> CLASSES = init();
+
+	/**
+	 * 获得包名下指定接口的实现类
+	 * 
+	 * @param  <E>
+	 * @param  name 包名
+	 * @param  c    超类类型
+	 * @return      实现类列表
+	 */
+	public static <E> List<Class<E>> pack(String name, Class<E> cls) {
+		// 声明类别
+		List<Class<E>> list = L.newList();
+		// 接口
+		PASSAGES.get(name).forEach(c -> {
+			if (c.isAssignableFrom(cls) || c.isAnnotationPresent((Class<? extends Annotation>) cls))
+				list.add((Class<E>) c);
+		});
+		// 返回列表
+		return list;
+	}
+
+	/**
+	 * 根据类名称或则指定类
+	 * 
+	 * @param  name 类名称
+	 * @return
+	 */
+	public static <E> Class<E> bean(String name) {
+		return (Class<E>) BEANS.get(name);
+	}
 
 	/**
 	 * 获取指定接口下的所有实现类
@@ -41,11 +78,7 @@ public class ClassUtil {
 	 * @param  c
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
 	public static <E> List<Class<E>> from(Class<E> c) {
-//		List<Class<E>> list = L.newList(); 
-//		CLASSES.get(c).forEach(o -> list.add((Class<E>) o));
-//		return list;
 		return L.newList(CLASSES.get(c)).stream().map(o -> (Class<E>) o).collect(Collectors.toList());
 	}
 
@@ -56,9 +89,22 @@ public class ClassUtil {
 	 * @param  i 索引第几个
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
+
 	public static <E> Class<E> from(Class<E> c, int i) {
 		return (Class<E>) L.get(CLASSES.get(c), i);
+	}
+
+	/**
+	 * 根据给入的Class返回对应的空对象
+	 * 
+	 * @param  cls 声明的对象
+	 * @return     空对象
+	 */
+	public static Object empty(Class<?> cls) {
+		if (Number.class.isAssignableFrom(cls))
+			return 0;
+		else
+			return newInstance(cls);
 	}
 
 	/**
@@ -96,11 +142,26 @@ public class ClassUtil {
 	 * 获得指定类型的泛型
 	 * 
 	 * @param  clazz 指定的类型
+	 * @param  index 索引
 	 * @return       这个类的泛型
 	 */
-	public static Class<?> getGenericClass(Class<?> clazz) {
+	public static Class<?> getGenericClass(Class<?> clazz, int index) {
+		try {
+			return getGenericClass(clazz)[index];
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
+	/**
+	 * 获得指定类型的泛型
+	 * 
+	 * @param  clazz 指定的类型
+	 * @return       这个类的泛型
+	 */
+	public static Class<?>[] getGenericClass(Class<?> clazz) {
 		// 查询父类是否有泛型
-		Class<?> gc = getGenericClass(clazz.getGenericSuperclass(), 0);
+		Class<?>[] gc = getGenericClass(clazz.getGenericSuperclass());
 		// 如果没找到
 		if (gc == null) {
 			// 获得所有接口
@@ -110,7 +171,7 @@ public class ClassUtil {
 				// 循环接口
 				for (Type t : type) {
 					// 获得泛型
-					gc = getGenericClass(t, 0);
+					gc = getGenericClass(t);
 					// 泛型不为空 跳出循环
 					if (gc != null)
 						break;
@@ -197,7 +258,7 @@ public class ClassUtil {
 	 * @param  handler 代理方法处理器
 	 * @return         代理对象
 	 */
-	@SuppressWarnings("unchecked")
+
 	public static <E> E newProxyInstance(Class<E> cls, InvocationHandler handler) {
 		return (E) Proxy.newProxyInstance(ClassUtil.getClassLoader(), new Class[]{cls}, handler);
 	}
@@ -242,7 +303,7 @@ public class ClassUtil {
 	 * @param  <E>       泛型
 	 * @return           实例化对象
 	 */
-	@SuppressWarnings("unchecked")
+
 	public static <E> E newInstance(String className, E obj) {
 		// 实例化对象
 		E o = (E) newInstance(className);
@@ -277,95 +338,95 @@ public class ClassUtil {
 		return newInstance(forName(className));
 	}
 
-	/**
-	 * 指定包下 指定类的实现
-	 * 
-	 * @param  cls 指定类
-	 * @param  i   指定索引
-	 * @param  <E> 泛型
-	 * @return     类列表
-	 */
-	public static <E> Class<E> getAssignedClass(Class<E> cls, int i) {
-		return Lists.get(getAssignedClass(CommonParams.PACKAGES, cls), i);
-	}
-
-	/**
-	 * 指定包下 指定类的实现
-	 * 
-	 * @param  cls 指定类
-	 * @param  i   指定索引
-	 * @param  <E> 泛型
-	 * @return     类列表
-	 */
-	public static <E> List<Class<E>> getAssignedClass(Class<E> cls) {
-		return getAssignedClass(CommonParams.PACKAGES, cls);
-	}
-
-	/**
-	 * 指定包下 指定类的实现
-	 * 
-	 * @param  packageName 包名
-	 * @param  cls         指定类
-	 * @param  <E>         泛型
-	 * @return             类列表
-	 */
-	@SuppressWarnings("unchecked")
-	public static <E> List<Class<E>> getAssignedClass(String packageName, Class<E> cls) {
-		// 声明类列表
-		List<Class<E>> classes = Lists.newList();
-		// 循环包下所有类
-		for (Class<?> c : getPackageClasses(packageName))
-			// 是本类实现 并且不是本类
-			if (cls.isAssignableFrom(c) && !cls.equals(c))
-				classes.add((Class<E>) c);
-		// 返回列表
-		return classes;
-	}
-
-	/**
-	 * 指定包下 指定类的实现
-	 * 
-	 * @param  packageName 包名
-	 * @param  cls         指定类
-	 * @param  i           指定索引
-	 * @param  <E>         泛型
-	 * @return             类列表
-	 */
-	public static <E extends Annotation> Class<E> getAnnotationClass(String packageName, Class<E> cls, int i) {
-		return Lists.get(getAnnotationClass(packageName, cls), i);
-	}
- 
-	/**
-	 * 指定包下 指定类的实现
-	 * 
-	 * @param  cls 指定类
-	 * @param  <E> 泛型
-	 * @return     类列表
-	 */
-	public static <E extends Annotation> List<Class<E>> getAnnotationClass(Class<E> cls) {
-		return getAnnotationClass(CommonParams.PACKAGES, cls);
-	}
-
-	/**
-	 * 指定包下 指定类的实现
-	 * 
-	 * @param  packageName 包名
-	 * @param  cls         指定类
-	 * @param  <E>         泛型
-	 * @return             类列表
-	 */
-	@SuppressWarnings("unchecked")
-	public static <E extends Annotation> List<Class<E>> getAnnotationClass(String packageName, Class<E> cls) {
-		// 声明类列表
-		List<Class<E>> classes = Lists.newList();
-		// 循环包下所有类
-		for (Class<?> c : getPackageClasses(packageName))
-			// 是本类实现 并且不是本类
-			if (c.isAnnotationPresent(cls) && !cls.equals(c))
-				classes.add((Class<E>) c);
-		// 返回列表
-		return classes;
-	}
+//	/**
+//	 * 指定包下 指定类的实现
+//	 * 
+//	 * @param  cls 指定类
+//	 * @param  i   指定索引
+//	 * @param  <E> 泛型
+//	 * @return     类列表
+//	 */
+//	public static <E> Class<E> getAssignedClass(Class<E> cls, int i) {
+//		return Lists.get(getAssignedClass(CommonParams.PACKAGES, cls), i);
+//	}
+//
+//	/**
+//	 * 指定包下 指定类的实现
+//	 * 
+//	 * @param  cls 指定类
+//	 * @param  i   指定索引
+//	 * @param  <E> 泛型
+//	 * @return     类列表
+//	 */
+//	public static <E> List<Class<E>> getAssignedClass(Class<E> cls) {
+//		return getAssignedClass(CommonParams.PACKAGES, cls);
+//	}
+//
+//	/**
+//	 * 指定包下 指定类的实现
+//	 * 
+//	 * @param  packageName 包名
+//	 * @param  cls         指定类
+//	 * @param  <E>         泛型
+//	 * @return             类列表
+//	 */
+//
+//	public static <E> List<Class<E>> getAssignedClass(String packageName, Class<E> cls) {
+//		// 声明类列表
+//		List<Class<E>> classes = Lists.newList();
+//		// 循环包下所有类
+//		for (Class<?> c : getPackageClasses(packageName))
+//			// 是本类实现 并且不是本类
+//			if (cls.isAssignableFrom(c) && !cls.equals(c))
+//				classes.add((Class<E>) c);
+//		// 返回列表
+//		return classes;
+//	}
+//
+//	/**
+//	 * 指定包下 指定类的实现
+//	 * 
+//	 * @param  packageName 包名
+//	 * @param  cls         指定类
+//	 * @param  i           指定索引
+//	 * @param  <E>         泛型
+//	 * @return             类列表
+//	 */
+//	public static <E extends Annotation> Class<E> getAnnotationClass(String packageName, Class<E> cls, int i) {
+//		return Lists.get(getAnnotationClass(packageName, cls), i);
+//	}
+//
+//	/**
+//	 * 指定包下 指定类的实现
+//	 * 
+//	 * @param  cls 指定类
+//	 * @param  <E> 泛型
+//	 * @return     类列表
+//	 */
+//	public static <E extends Annotation> List<Class<E>> getAnnotationClass(Class<E> cls) {
+//		return getAnnotationClass(CommonParams.PACKAGES, cls);
+//	}
+//
+//	/**
+//	 * 指定包下 指定类的实现
+//	 * 
+//	 * @param  packageName 包名
+//	 * @param  cls         指定类
+//	 * @param  <E>         泛型
+//	 * @return             类列表
+//	 */
+//
+//	public static <E extends Annotation> List<Class<E>> getAnnotationClass(String packageName, Class<E> cls) {
+//		// 声明类列表
+//		List<Class<E>> classes = Lists.newList();
+//		// 循环包下所有类
+//		for (Class<?> c : getPackageClasses(packageName))
+//			// 是本类实现 并且不是本类
+//			if (c.isAnnotationPresent(cls) && !cls.equals(c))
+//				classes.add((Class<E>) c);
+//		// 返回列表
+//		return classes;
+//	}
 
 	/**
 	 * 获取本类下所有公用方法 不读取父类
@@ -498,6 +559,11 @@ public class ClassUtil {
 			// 处理注解类型
 			for (Annotation a : c.getAnnotations())
 				M.getList(map, a.annotationType()).add(c);
+			// 处理包名
+			M.getList(PASSAGES, c.getPackageName()).add(c);
+			// 处理类名Bean
+			for (String n : CommonParams.CLASS_NAMES)
+				BEANS.put(S.convert(c.getSimpleName(), n), c);
 		});
 		// 返回列表
 		return map;

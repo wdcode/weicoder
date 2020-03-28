@@ -50,7 +50,8 @@
 		<!-- 指定不同包得日志基本 -->
 		<logger name="org" level="warn"></logger> 
 		<logger name="io" level="warn"></logger> 
-		<logger name="com.zaxxer.hikari" level="warn"></logger> 
+		<logger name="com.zaxxer.hikari" level="warn"></logger>
+		<logger name="com.alipay" level="warn"></logger>
 		<!-- 异步日志 -->
 		<asyncRoot level="${log_level}">
 			<appender-ref ref="console" /> 

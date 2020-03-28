@@ -18,6 +18,7 @@ import com.weicoder.common.bean.StateCode;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.U;
 import com.weicoder.common.W;
+import com.weicoder.common.asyn.Asyn;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.log.Log;
@@ -28,11 +29,10 @@ import com.weicoder.common.token.TokenBean;
 import com.weicoder.common.token.TokenEngine;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.ClassUtil;
-import com.weicoder.common.util.DateUtil; 
+import com.weicoder.common.util.DateUtil;
 import com.weicoder.common.util.IpUtil;
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.web.annotation.Action;
-import com.weicoder.web.annotation.Async;
 import com.weicoder.web.annotation.Cookies;
 import com.weicoder.web.annotation.Forward;
 import com.weicoder.web.annotation.Get;
@@ -205,7 +205,8 @@ public class BasicServlet extends HttpServlet {
 			// try {
 			if (code == StateParams.SUCCESS) {
 				// 判断是否异步
-				if (a.async() || method.isAnnotationPresent(Async.class)) {
+				if (a.async() || method.isAnnotationPresent(Asyn.class)
+						|| action.getClass().isAnnotationPresent(Asyn.class)) {
 					// 获得异步全局
 					AsyncContext async = request.startAsync();
 					Object ac = action;
@@ -340,8 +341,11 @@ public class BasicServlet extends HttpServlet {
 			aops.forEach(aop -> aop.before(action, params, request, response));
 			// 执行方法返回结果
 			Object result = method.invoke(action, U.E.isEmpty(params) ? null : params);
+			if (result == null && void.class.equals(method.getReturnType()))
+				result = StateCode.SUCCESS;
 			// 后置执行
-			aops.forEach(aop -> aop.after(action, params, result, request, response));
+			for (Aops aop : aops)
+				aop.after(action, params, result, request, response);
 			// 返回结果
 			return result;
 		} catch (Exception e) {

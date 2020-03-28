@@ -135,6 +135,15 @@ public interface RedisPool {
 	String set(String key, String value);
 
 	/**
+	 * 设置键值 无论存储空间是否存在相同键，都保存
+	 * 
+	 * @param  key   键
+	 * @param  value 值
+	 * @return       状态码
+	 */
+	String set(String key, Object value);
+
+	/**
 	 * 根据哈希健 保存字段值
 	 * 
 	 * @param  key   键
@@ -143,6 +152,16 @@ public interface RedisPool {
 	 * @return       状态码 0 更新 1 新增 -1 错误
 	 */
 	long hset(String key, String field, String value);
+
+	/**
+	 * 根据哈希健 保存字段值
+	 * 
+	 * @param  key   键
+	 * @param  field 字段
+	 * @param  value 值
+	 * @return       状态码 0 更新 1 新增 -1 错误
+	 */
+	long hset(String key, Object field, Object value);
 
 	/**
 	 * 设置键值 无论存储空间是否存在相同键，都保存
@@ -284,8 +303,8 @@ public interface RedisPool {
 	/**
 	 * 订阅消息
 	 * 
-	 * @param sub 订阅类
-	 * @param channels    通道
+	 * @param sub      订阅类
+	 * @param channels 通道
 	 */
 	void subscribe(Subscribe sub, String... channels);
 
@@ -469,6 +488,7 @@ public interface RedisPool {
 	interface Callback {
 		/**
 		 * 回调
+		 * 
 		 * @param jedis
 		 */
 		void callback(Jedis jedis);
@@ -479,9 +499,10 @@ public interface RedisPool {
 	 * 
 	 * @author wudi
 	 */
-	interface Subscribe { 
+	interface Subscribe {
 		/**
 		 * 回调
+		 * 
 		 * @param channel
 		 * @param message
 		 */

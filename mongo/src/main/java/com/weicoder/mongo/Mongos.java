@@ -4,17 +4,19 @@ import com.weicoder.mongo.factory.MongoFactory;
 
 /**
  * MongoDB引擎
+ * 
  * @author WD
  */
-public final class MongoEngine {
+public final class Mongos {
 	// Mongo接口
 	private final static Mongo MONGO = MongoFactory.getMongo();
 
 	/**
 	 * 压缩值 当值能压缩时才压缩
-	 * @param key 键
-	 * @param value 值
-	 * @return 是否成功
+	 * 
+	 * @param  key   键
+	 * @param  value 值
+	 * @return       是否成功
 	 */
 	public static boolean compress(String key, Object value) {
 		return MONGO.compress(key, value);
@@ -22,8 +24,9 @@ public final class MongoEngine {
 
 	/**
 	 * 根据键获得压缩值 如果是压缩的返回解压缩的byte[] 否是返回Object
-	 * @param key 键
-	 * @return 值
+	 * 
+	 * @param  key 键
+	 * @return     值
 	 */
 	public static byte[] extract(String key) {
 		return MONGO.extract(key);
@@ -31,16 +34,28 @@ public final class MongoEngine {
 
 	/**
 	 * 设置键值 无论存储空间是否存在相同键，都保存
-	 * @param key 键
-	 * @param value 值
-	 * @return 是否成功
+	 * 
+	 * @param  key   键
+	 * @param  value 值
+	 * @return       是否成功
 	 */
 	public static boolean set(String key, Object value) {
 		return MONGO.set(key, value);
 	}
 
 	/**
+	 * 插入数据
+	 * 
+	 * @param name 数据集合
+	 * @param data json对象
+	 */
+	public static void insert(String key, Object value) {
+		MONGO.insert(key, value);
+	}
+
+	/**
 	 * 删除键值
+	 * 
 	 * @param key 键
 	 */
 	public static void remove(String key) {
@@ -49,12 +64,14 @@ public final class MongoEngine {
 
 	/**
 	 * 根据键获得值
-	 * @param key 键
-	 * @return 值
+	 * 
+	 * @param  key 键
+	 * @return     值
 	 */
 	public static Object get(String key) {
 		return MONGO.get(key);
 	}
 
-	private MongoEngine() {}
+	private Mongos() {
+	}
 }

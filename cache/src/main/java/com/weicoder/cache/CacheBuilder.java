@@ -2,7 +2,8 @@ package com.weicoder.cache;
 
 import static com.weicoder.cache.params.CacheParams.*;
 
-import com.weicoder.cache.Cache.CacheLoad;
+import com.weicoder.common.U;
+import com.weicoder.common.interfaces.Callback;
 
 /**
  * 缓存工厂
@@ -11,12 +12,25 @@ import com.weicoder.cache.Cache.CacheLoad;
  */
 public final class CacheBuilder {
 	/**
+	 * 实体类缓存构建
+	 * 
+	 * @param  <K>  键
+	 * @param  <V>  值
+	 * @param  name 缓存名称
+	 * @param  load 缓存加载
+	 * @return      实体类缓存
+	 */
+	public static <K, V> BeanCache<K, V> build(String name, Callback<K, V> load) {
+		return new BeanCache<>(name, U.C.bean(name), load);
+	}
+
+	/**
 	 * 构建缓存系统
 	 * 
 	 * @param  load 加载缓存
 	 * @return      缓存
 	 */
-	public static <K, V> Cache<K, V> build(CacheLoad<K, V> load) {
+	public static <K, V> LoadCache<K, V> build(Callback<K, V> load) {
 		return build(MAX, INIT, LEVEL, REFRESH, EXPIRE, load);
 	}
 
@@ -29,7 +43,7 @@ public final class CacheBuilder {
 	 * @param  load    加载缓存
 	 * @return         缓存
 	 */
-	public static <K, V> Cache<K, V> build(long max, long refresh, long expire, CacheLoad<K, V> load) {
+	public static <K, V> LoadCache<K, V> build(long max, long refresh, long expire, Callback<K, V> load) {
 		return build(max, INIT, LEVEL, refresh, expire, load);
 	}
 
@@ -44,9 +58,9 @@ public final class CacheBuilder {
 	 * @param  load    加载缓存
 	 * @return         缓存
 	 */
-	public static <K, V> Cache<K, V> build(long max, int init, int level, long refresh, long expire,
-			CacheLoad<K, V> load) {
-		return new Cache<K, V>(max, init, level, refresh, expire, load);
+	public static <K, V> LoadCache<K, V> build(long max, int init, int level, long refresh, long expire,
+			Callback<K, V> load) {
+		return new LoadCache<K, V>(max, init, level, refresh, expire, load);
 	}
 
 	private CacheBuilder() {

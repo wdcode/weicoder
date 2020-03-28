@@ -32,7 +32,6 @@ public class JsonType extends BaseType {
 	public void nullSafeSet(PreparedStatement st, Object value, int index, SharedSessionContractImplementor session) throws HibernateException, SQLException {
 		if (value == null)
 			st.setNull(index, Types.VARCHAR);
-		st.setString(index, JsonEngine.toJson(value));
-
+		st.setString(index, JsonEngine.toJson(value)); 
 	}
 }

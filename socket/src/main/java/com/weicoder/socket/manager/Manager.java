@@ -11,8 +11,8 @@ import com.weicoder.common.util.DateUtil;
 import com.weicoder.common.U;
 import com.weicoder.common.log.Logs;
 import com.weicoder.socket.params.SocketParams;
-import com.weicoder.socket.Session;
-import com.weicoder.socket.Sockets;
+import com.weicoder.socket.Session; 
+import com.weicoder.socket.message.Messages;
 
 /**
  * Session管理类
@@ -145,7 +145,7 @@ public final class Manager {
 	 * @param message 消息
 	 */
 	public void send(long sid, short id, Object message) {
-		send(id, Sockets.pack(id, message));
+		send(id, Messages.pack(id, message));
 	}
 
 	/**
@@ -220,7 +220,7 @@ public final class Manager {
 	 */
 	public static void broad(List<Session> sessions, short id, Object message) {
 		// 直接广播数据
-		broad(sessions, Sockets.pack(id, message));
+		broad(sessions, Messages.pack(id, message));
 	}
 
 	private Manager() {

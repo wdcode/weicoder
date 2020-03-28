@@ -10,6 +10,7 @@ import com.weicoder.common.constants.StringConstants;
 
 import com.weicoder.common.U;
 import com.weicoder.common.W;
+import com.weicoder.common.C.S;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
@@ -49,7 +50,8 @@ public class StringUtil {
 					return true;
 				if (0x3297 <= hs && hs <= 0x3299)
 					return true;
-				if (hs == 0xa9 || hs == 0xae || hs == 0x303d || hs == 0x3030 || hs == 0x2b55 || hs == 0x2b1c || hs == 0x2b1b || hs == 0x2b50 || hs == 0x231a)
+				if (hs == 0xa9 || hs == 0xae || hs == 0x303d || hs == 0x3030 || hs == 0x2b55 || hs == 0x2b1c
+						|| hs == 0x2b1b || hs == 0x2b50 || hs == 0x231a)
 					return true;
 				if (!isEmoji && source.length() > 1 && i < source.length() - 1)
 					if (source.charAt(i + 1) == 0x20e3)
@@ -96,8 +98,9 @@ public class StringUtil {
 	 * @return           是否Emoji表情
 	 */
 	public static boolean isEmojiCharacter(char codePoint) {
-		return (codePoint == 0x0) || (codePoint == 0x9) || (codePoint == 0xA) || (codePoint == 0xD) || ((codePoint >= 0x20) && (codePoint <= 0xD7FF))
-				|| ((codePoint >= 0xE000) && (codePoint <= 0xFFFD)) || ((codePoint >= 0x10000) && (codePoint <= 0x10FFFF));
+		return (codePoint == 0x0) || (codePoint == 0x9) || (codePoint == 0xA) || (codePoint == 0xD)
+				|| ((codePoint >= 0x20) && (codePoint <= 0xD7FF)) || ((codePoint >= 0xE000) && (codePoint <= 0xFFFD))
+				|| ((codePoint >= 0x10000) && (codePoint <= 0x10FFFF));
 	}
 
 	/**
@@ -245,11 +248,12 @@ public class StringUtil {
 	public static String subString(String str, int start) {
 		return U.E.isEmpty(str) ? StringConstants.EMPTY : subString(str, start, str.length());
 	}
-	
+
 	/**
 	 * 根据Map获得URL后的参数 连接 如果值为空不连接 对Key进行排序
-	 * @param map 参数列表
-	 * @return 参数
+	 * 
+	 * @param  map 参数列表
+	 * @return     参数
 	 */
 	public static String toParameters(Map<String, String> map) {
 		// 如果Map为空 返回空串
@@ -440,6 +444,17 @@ public class StringUtil {
 	}
 
 	/**
+	 * 把输入的其它命名法变成驼峰命名法,如 User_Id = userId User = user 可以输入regex替换掉如 Init Action Rpc Aop 等
+	 * 
+	 * @param  name  属性名
+	 * @param  regex 要替换掉的字符
+	 * @return       转换后的字符串
+	 */
+	public static String convert(String name, String regex) {
+		return convert(replace(name, regex));
+	}
+
+	/**
 	 * 把输入的其它命名法变成驼峰命名法,如 User_Id = userId User = user
 	 * 
 	 * @param  name 属性名
@@ -592,6 +607,17 @@ public class StringUtil {
 	}
 
 	/**
+	 * 替换字符串为""
+	 * 
+	 * @param  s     要替换的字符串
+	 * @param  regex 正则表达式
+	 * @return       替换后的字符
+	 */
+	public static String replace(String s, String regex) {
+		return U.E.isEmpty(s) ? StringConstants.EMPTY : s.replace(regex, S.EMPTY);
+	}
+
+	/**
 	 * 替换字符串
 	 * 
 	 * @param  s           要替换的字符串
@@ -600,7 +626,18 @@ public class StringUtil {
 	 * @return             替换后的字符
 	 */
 	public static String replace(String s, String regex, String replacement) {
-		return U.E.isEmpty(s) ? StringConstants.EMPTY : s.replace(regex, replacement);
+		return U.E.isEmpty(s) ? S.EMPTY : s.replace(regex, replacement);
+	}
+
+	/**
+	 * 替换字符串为""
+	 * 
+	 * @param  s     要替换的字符串
+	 * @param  regex 正则表达式
+	 * @return       替换后的字符
+	 */
+	public static String replaceAll(String s, String regex) {
+		return U.E.isEmpty(s) ? S.EMPTY : s.replaceAll(regex, S.EMPTY);
 	}
 
 	/**
@@ -672,7 +709,8 @@ public class StringUtil {
 	 * @return    返回聚合后字符串
 	 */
 	public static String combine(String s1, String s2) {
-		return U.E.isEmpty(s1) || U.E.isEmpty(s2) ? StringConstants.EMPTY : combine(s1, s2, (s1.length() + s2.length()) / s1.length());
+		return U.E.isEmpty(s1) || U.E.isEmpty(s2) ? StringConstants.EMPTY
+				: combine(s1, s2, (s1.length() + s2.length()) / s1.length());
 	}
 
 	/**
@@ -732,5 +770,5 @@ public class StringUtil {
 		} catch (Exception e) {
 			return ArrayConstants.STRING_EMPTY;
 		}
-	} 
+	}
 }

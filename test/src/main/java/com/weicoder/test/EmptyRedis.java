@@ -317,4 +317,15 @@ public class EmptyRedis implements RedisPool {
 		return null;
 	}
 
+	@Override
+	public String set(String key, Object value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public long hset(String key, Object field, Object value) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

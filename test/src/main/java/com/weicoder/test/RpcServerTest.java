@@ -1,11 +1,11 @@
 package com.weicoder.test;
-  
-import com.weicer.rpc.RpcServers; 
+
+import com.weicer.rpc.init.RpcInit; 
 
 public class RpcServerTest {
 
 	public static void main(String[] args) {
-		RpcServers.start();
-		System.out.println("rpc server start...");
+		new RpcInit().init();
+ 		System.out.println("rpc server start...");
 	}
 }

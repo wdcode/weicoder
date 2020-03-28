@@ -66,6 +66,9 @@ public final class CommonParams {
 	/** 默认报名 */
 	private final static String     DEFAULT_PACKAGES     = "com.weicoder";
 	public final static String      PACKAGES             = getPackages(S.EMPTY);
+	/** ClassUtil 排除Bean名称尾缀 */
+	public final static String[]    CLASS_NAMES          = Params.getStringArray("class.names",
+			new String[]{"Action", "Job", "Cache"});
 
 	/**
 	 * 获得初始化开关

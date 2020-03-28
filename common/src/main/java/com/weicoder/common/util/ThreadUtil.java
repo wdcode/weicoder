@@ -14,6 +14,10 @@ import com.weicoder.common.log.Logs;
 public class ThreadUtil {
 	// 保存线程属性
 	private final static Map<Thread, Map<String, Object>> ATTR = M.newMap();
+	
+	public static Map<Thread, Map<String, Object>> attr() {
+		return ATTR;
+	}
 
 	/**
 	 * 为当前线程保存属性

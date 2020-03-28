@@ -6,5 +6,8 @@ package com.weicoder.common.init;
  * @author wudi
  */
 public interface Init {
+	/**
+	 * 初始化实现方法
+	 */
 	void init();
 }

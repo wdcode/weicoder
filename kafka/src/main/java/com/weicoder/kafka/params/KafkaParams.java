@@ -1,5 +1,6 @@
 package com.weicoder.kafka.params;
 
+import com.weicoder.common.C.O;
 import com.weicoder.common.config.Config;
 import com.weicoder.common.config.ConfigFactory;
 import com.weicoder.common.params.Params;
@@ -51,8 +52,8 @@ public final class KafkaParams {
 	 * @return      组id
 	 */
 	public static String getGroup(String name) {
-		return CONFIG.getString(Params.getKey(name, GROUP),
-				String.format(Params.getString(Params.getKey(PREFIX, name, GROUP), IpUtil.CODE), IpUtil.CODE));
+		return String.format(CONFIG.getString(Params.getKey(name, GROUP),
+				Params.getString(Params.getKey(PREFIX, name, GROUP), O.PROJECT_NAME)), IpUtil.CODE);
 	}
 
 	/**

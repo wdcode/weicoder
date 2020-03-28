@@ -1,11 +1,12 @@
 package com.weicoder.common.init;
 
 import com.weicoder.common.U.C;
+import com.weicoder.common.U.D;
 import com.weicoder.common.U.ES;
 import com.weicoder.common.U.S;
+import com.weicoder.common.asyn.Asyn;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
-import com.weicoder.common.util.DateUtil;
 
 /**
  * 初始化工具
@@ -19,18 +20,18 @@ public final class Inits {
 	public static void init() {
 		// 获得所有初始化接口
 		C.from(Init.class).forEach(c -> {
-			ES.execute(() -> {
-				// 获得接口类名称
-				String name = S.convert(S.replace(c.getSimpleName(), "Init", ""));
-				// 初始化开始
-				long curr = System.currentTimeMillis();
-				Logs.info("init {} start...", name);
-				// 调用初始化方法
-				if (CommonParams.power(name))
+			// 获得接口类名称
+			String name = S.convert(c.getSimpleName(), "Init");
+			// 初始化开始
+			D.dura();
+			// 调用初始化方法
+			if (CommonParams.power(name))
+				if (c.isAnnotationPresent(Asyn.class))
+					ES.execute(() -> C.newInstance(c).init());
+				else
 					C.newInstance(c).init();
-				// 初始化结束
-				Logs.info("init {} end time={}", name, DateUtil.diff(curr));
-			});
+			// 初始化结束
+			Logs.info("init {} end time={}", name, D.dura());
 		});
 	}
 

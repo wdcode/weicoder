@@ -2,10 +2,12 @@ package com.weicoder.redis.base;
 
 import java.util.List;
 
+import com.weicoder.common.W.C;
 import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.util.ThreadUtil;
 import com.weicoder.common.zip.ZipEngine;
+import com.weicoder.json.JsonEngine;
 import com.weicoder.redis.RedisPool;
 
 /**
@@ -69,6 +71,16 @@ public abstract class BaseRedis implements RedisPool {
 	}
 
 	@Override
+	public String set(String key, Object value) {
+		return set(key, toString(value));
+	}
+
+	@Override
+	public long hset(String key, Object field, Object value) {
+		return hset(key, toString(key), toString(value));
+	}
+
+	@Override
 	public void lock(String key) {
 		lock(key, -1L);
 	}
@@ -114,5 +126,15 @@ public abstract class BaseRedis implements RedisPool {
 		} catch (Exception e) {
 			return false;
 		}
+	}
+
+	/**
+	 * 根据传入类型转换成String
+	 * 
+	 * @param  o
+	 * @return
+	 */
+	protected String toString(Object o) {
+		return o instanceof Number || o instanceof String ? C.toString(o) : JsonEngine.toJson(o);
 	}
 }

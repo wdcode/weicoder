@@ -8,7 +8,9 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import com.weicoder.common.U;
+import com.weicoder.common.U.B;
 import com.weicoder.common.W;
+import com.weicoder.common.W.C;
 import com.weicoder.common.util.ArrayUtil;
 
 /**
@@ -17,6 +19,20 @@ import com.weicoder.common.util.ArrayUtil;
  * @author WD
  */
 public class Lists {
+	/**
+	 * 对
+	 * 
+	 * @param  <E>
+	 * @param  list
+	 * @param  cls
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public static <E> List<E> toList(Collection<?> list, Class<E> cls) {
+		return (List<E>) newList(list).stream().map(l -> U.C.isBaseType(cls) ? C.to(l, cls) : B.copy(l, cls))
+				.collect(Collectors.toList());
+	}
+
 	/**
 	 * 去除list的所有null
 	 * 

@@ -5,19 +5,19 @@ import java.util.List;
 import java.util.Map;
 
 import javax.persistence.Entity;
-
+ 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl;
 import org.hibernate.cfg.Configuration;
-
+ 
 import com.weicoder.hibernate.interceptor.EntityInterceptor;
 import com.weicoder.hibernate.naming.ImprovedNamingStrategy;
+import com.weicoder.common.U.C;
 import com.weicoder.common.W;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
-import com.weicoder.common.log.Logs;
-import com.weicoder.common.util.ClassUtil;
+import com.weicoder.common.log.Logs; 
 import com.weicoder.common.util.ResourceUtil;
 import com.weicoder.common.util.StringUtil;
 
@@ -111,8 +111,13 @@ public final class SessionFactorys {
 				config.setProperty("hibernate.hikari.jdbcUrl", String.format(config.getProperty("hibernate.hikari.jdbcUrl"), W.C.toString(config.getProperty("url"))));
 				config.setProperty("hibernate.hikari.username", W.C.toString(config.getProperty("username")));
 				config.setProperty("hibernate.hikari.password", W.C.toString(config.getProperty("password")));
+//				config.getEntityTuplizerFactory().registerDefaultTuplizerClass(EntityMode.POJO, ModPojoEntityTuplizer.class);
+//				config.getEntityTuplizerFactory().registerDefaultTuplizerClass(entityMode, tuplizerClass);
+//				// 声明实体列表
+//				List<Class<Entity>> list = C.getAnnotationClass(config.getProperty("package"), Entity.class);
+				List<Class<Entity>> list = C.pack(config.getProperty("package"), Entity.class);
 				// 声明实体列表
-				List<Class<Entity>> list = ClassUtil.getAnnotationClass(config.getProperty("package"), Entity.class);
+//				List<Class<com.weicoder.hibernate.entity.Entity>> list = ClassUtil.getAssignedClass(config.getProperty("package"), com.weicoder.hibernate.entity.Entity.class);
 				// 根据包名获取对象实体
 				list.forEach(e -> config.addAnnotatedClass(e));
 				Logs.info("load hibernate name={}", name);

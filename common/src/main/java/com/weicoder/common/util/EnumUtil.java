@@ -20,7 +20,7 @@ public class EnumUtil {
 		if (e == null || o == null)
 			return false;
 		// 如果是数字
-		if (o instanceof Integer || o instanceof Short || o instanceof Long)
+		if (o instanceof Number)
 			return W.C.toInt(o) == e.ordinal();
 		// 是字符串
 		if (o instanceof String || o.getClass().equals(e.getClass()))

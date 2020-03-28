@@ -1,12 +1,9 @@
 package com.weicoder.web.init;
-
-import java.lang.reflect.Method;
-import java.util.Map;
-
+ 
 import com.weicoder.common.U.C;
-import com.weicoder.common.init.Init;
-import com.weicoder.common.lang.Maps;
-import com.weicoder.common.log.Logs; 
+import com.weicoder.common.W.M;
+import com.weicoder.common.init.Init; 
+import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.web.annotation.Action;
@@ -42,7 +39,7 @@ public class ActionInit implements Init {
 				// 实例化Action并放在context中
 				if (AopAll.class.isAssignableFrom(c))
 					WebCommons.AOP_ALL.add(ClassUtil.newInstance(c));
-				else 
+				else
 					WebCommons.AOPS.put(cname, ClassUtil.newInstance(c));
 //				Aops aop = ClassUtil.newInstance(c);
 //				if (aop != null)
@@ -75,10 +72,7 @@ public class ActionInit implements Init {
 						// 获得方法名
 						String mname = m.getName();
 						// 放入action里方法
-						Map<String, Method> map = WebCommons.ACTIONS_METHODS.get(cname);
-						if (map == null)
-							WebCommons.ACTIONS_METHODS.put(cname, map = Maps.newMap());
-						map.put(mname, m);
+						M.getMap(WebCommons.ACTIONS_METHODS, cname).put(mname, m);
 						Logs.info("add method={} to action={}", mname, cname);
 						// 放入总方法池
 						if (WebCommons.METHODS.containsKey(mname))
@@ -87,7 +81,7 @@ public class ActionInit implements Init {
 						// 方法对应action
 						WebCommons.METHODS_ACTIONS.put(mname, action);
 						// 放入参数池
-						WebCommons.METHODS_PARAMES.put(m, m.getParameters());
+						WebCommons.METHODS_PARAMES.put(m, m.getParameters()); 
 					});
 				}
 			} catch (Exception ex) {
@@ -111,10 +105,7 @@ public class ActionInit implements Init {
 					// 获得方法名
 					String mname = m.getName();
 					// 放入validator里方法
-					Map<String, Method> map = WebCommons.VALIDATORS_METHODS.get(cname);
-					if (map == null)
-						WebCommons.VALIDATORS_METHODS.put(cname, map = Maps.newMap());
-					map.put(mname, m);
+					M.getMap(WebCommons.VALIDATORS_METHODS,cname).put(mname, m);
 					Logs.info("validator add method={} to validator={}", mname, cname);
 					// 放入总方法池
 					if (WebCommons.METHODS_VALIDATORS.containsKey(mname))

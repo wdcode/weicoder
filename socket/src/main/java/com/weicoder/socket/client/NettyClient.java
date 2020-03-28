@@ -1,6 +1,6 @@
 package com.weicoder.socket.client;
 
-import io.netty.bootstrap.Bootstrap;
+import io.netty.bootstrap.Bootstrap; 
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -13,38 +13,26 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import com.weicoder.common.log.Logs;
-import com.weicoder.common.util.CloseUtil;
 import com.weicoder.socket.Client;
-import com.weicoder.socket.Session;
 import com.weicoder.socket.handler.NettyHandler;
 
 /**
  * netty客户端
+ * 
  * @author WD
  */
-public final class NettyClient implements Client {
-	// 保存Netty客户端 Bootstrap
-	private Bootstrap		bootstrap;
-	// 保存Netty服务器 ChannelFuture
-	private ChannelFuture	future;
-	// NettyHandler
-	private NettyHandler	handler;
-	// Session
-	private Session			session;
-	// 名称
-	private String			name;
-
+public final class NettyClient extends NettySession implements Client {
 	/**
 	 * 构造方法
+	 * 
 	 * @param name 名称
 	 */
 	public NettyClient(String name) {
-		// 名称
-		this.name = name;
+		super(name);
 		// 实例化ClientBootstrap
-		bootstrap = new Bootstrap();
+		Bootstrap bootstrap = new Bootstrap();
 		// NettyHandler
-		handler = new NettyHandler(name);
+		NettyHandler handler = new NettyHandler(name);
 		// 设置group
 		bootstrap.group(new NioEventLoopGroup(1));
 		// 设置属性
@@ -57,37 +45,17 @@ public final class NettyClient implements Client {
 		bootstrap.channel(NioSocketChannel.class);
 		// 设置初始化 handler
 		bootstrap.handler(handler);
-		// 设置监听端口
+		// 设置监听端口 并连接远程服务器
 		bootstrap.remoteAddress(SocketParams.CLINET_HOST, SocketParams.CLINET_PORT);
-	}
-
-	@Override
-	public void connect() {
-		future = bootstrap.connect().awaitUninterruptibly();
-		session = new NettySession(name, future.channel());
+		ChannelFuture future = bootstrap.connect().awaitUninterruptibly();
+		channel(future.channel());
 		// 定时检测
 		if (SocketParams.HEART) {
 			Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> {
 				// 发送心跳
-				session.send(SocketParams.HEART_ID, null);
+				send(SocketParams.HEART_ID, null);
 				Logs.trace("testing heart client");
 			}, 0, SocketParams.TIME / 2, TimeUnit.SECONDS);
 		}
-	}
-
-	@Override
-	public Session session() {
-		// 如果session为空 或 未连接
-		if (session == null)
-			// 连接
-			connect();
-		// 返回session
-		return session;
-	}
-
-	@Override
-	public void close() throws Exception {
-		CloseUtil.close(session);
-		future.channel().close();
 	}
 }

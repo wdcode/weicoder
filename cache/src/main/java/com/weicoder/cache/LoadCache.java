@@ -1,5 +1,7 @@
 package com.weicoder.cache;
- 
+
+import static com.weicoder.cache.params.CacheParams.*;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -8,7 +10,8 @@ import java.util.concurrent.TimeUnit;
 
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
+import com.google.common.cache.LoadingCache; 
+import com.weicoder.common.interfaces.Callback;
 import com.weicoder.common.lang.Lists;
 
 /**
@@ -16,9 +19,20 @@ import com.weicoder.common.lang.Lists;
  * 
  * @author WD
  */
-public class Cache<K, V> {
+public class LoadCache<K, V> {
 	// 保存 缓存
 	protected LoadingCache<K, V> cache;
+//	// 保存空对象
+//	protected V empty;
+
+	/**
+	 * 构造
+	 * 
+	 * @param load 加载缓存
+	 */
+	protected LoadCache(Callback<K, V> load) {
+		this(MAX, INIT, LEVEL, REFRESH, EXPIRE, load);
+	}
 
 	/**
 	 * 构造
@@ -30,19 +44,16 @@ public class Cache<K, V> {
 	 * @param expire  有效期(时间内无访问) 秒
 	 * @param load    加载缓存
 	 */
-	public Cache(long max, int init, int level, long refresh, long expire, CacheLoad<K, V> load) {
+	LoadCache(long max, int init, int level, long refresh, long expire, Callback<K, V> load) {
 		// 初始化取缓存
 		cache = CacheBuilder.newBuilder().maximumSize(max).initialCapacity(init).concurrencyLevel(level)
 				.refreshAfterWrite(refresh, TimeUnit.SECONDS).expireAfterAccess(expire, TimeUnit.SECONDS)
 				.build(new CacheLoader<K, V>() {
 					// 读取缓存
 					public V load(K key) throws Exception {
-						return load.load(key);
+						return load.callback(key);
 					}
 				});
-	}
-
-	protected Cache() {
 	}
 
 	/**
@@ -132,20 +143,5 @@ public class Cache<K, V> {
 	 */
 	public void remove(K key) {
 		cache.invalidate(key);
-	}
-
-	/**
-	 * 缓存加载捷克
-	 * 
-	 * @author WD
-	 */
-	public static interface CacheLoad<K, V> {
-		/**
-		 * 根据key 加载缓存
-		 * 
-		 * @param  key 键
-		 * @return     值
-		 */
-		V load(K key);
 	}
 }

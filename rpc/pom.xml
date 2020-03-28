@@ -8,18 +8,22 @@
 		<version>3.3.3</version>
 	</parent>
 	<artifactId>rpc</artifactId>
-	
+
 
 	<dependencies>
 		<dependency>
 			<groupId>com.weicoder</groupId>
 			<artifactId>common</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.weicoder</groupId>
+			<artifactId>nacos</artifactId>
+		</dependency>
 	</dependencies>
 
 	<profiles>
 		<profile>
-			<id>opt</id> 
+			<id>opt</id>
 			<activation>
 				<activeByDefault>true</activeByDefault>
 			</activation>
@@ -31,7 +35,7 @@
 			</dependencies>
 		</profile>
 		<profile>
-			<id>native</id> 
+			<id>native</id>
 			<dependencies>
 				<dependency>
 					<groupId>com.alipay.sofa</groupId>
@@ -41,7 +45,7 @@
 			</dependencies>
 		</profile>
 		<profile>
-			<id>jdk11</id> 
+			<id>jdk11</id>
 			<dependencies>
 				<dependency>
 					<groupId>com.weicoder.fork</groupId>

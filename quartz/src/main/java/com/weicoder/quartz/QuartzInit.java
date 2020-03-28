@@ -10,9 +10,8 @@ import org.quartz.Scheduler;
 import org.quartz.SchedulerException; 
 import org.quartz.TriggerBuilder;
 import org.quartz.impl.DirectSchedulerFactory; 
-
-import com.weicoder.common.log.Log;
-import com.weicoder.common.log.LogFactory; 
+ 
+import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.U;
 import com.weicoder.common.U.C;
@@ -25,9 +24,7 @@ import com.weicoder.quartz.params.QuartzParams;
  * 
  * @author WD
  */
-public class QuartzInit implements Init {
-	private final static Log LOG = LogFactory.getLog(QuartzInit.class);
-
+public class QuartzInit implements Init {  
 	@Override
 	public void init() {
 		try {
@@ -63,17 +60,18 @@ public class QuartzInit implements Init {
 														.cronSchedule(QuartzParams.getTrigger(m.getName(), t.value())))
 												.build());
 							} catch (SchedulerException e) {
-								LOG.error(e);
+								Logs.error(e);
 							}
-							LOG.info("add quartz job={}", job);
+//							LOG.info("add quartz job={}", job);
 						}
 					});
 				});
 				// 执行任务
 				scheduler.start();
+				Logs.info("add quartz jobs={}", jobs);
 			}
 		} catch (Exception e) {
-			LOG.error(e);
+			Logs.error(e);
 		}
 	}
 }

@@ -7,8 +7,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.weicoder.common.constants.ArrayConstants;
-import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.lang.Lists;
+import com.weicoder.common.constants.StringConstants; 
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.U;
@@ -158,7 +157,7 @@ public final class JsonEngine {
 	 * @return       List
 	 */
 	public static <E> List<E> toList(String json, Class<E> clazz) {
-		return U.E.isEmpty(json) ? Lists.emptyList() : JSON.parseArray(json, clazz);
+		return L.newList(JSON.parseArray(json, clazz));
 	}
 
 	/**

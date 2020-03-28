@@ -1,56 +1,58 @@
-package com.weicer.rpc;
+package com.weicer.rpc.init;
 
 import java.lang.reflect.Method;
 import java.util.Map;
 
 import com.weicer.rpc.annotation.Rpc;
+import com.weicer.rpc.annotation.RpcServer;
 import com.weicer.rpc.params.RpcParams;
+import com.weicoder.common.C.O;
 import com.weicoder.common.U.C;
+import com.weicoder.common.init.Init;
 import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.lang.Maps;
-import com.weicoder.common.log.Logs; 
+import com.weicoder.common.log.Logs;
 import com.weicoder.common.socket.TcpServers;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.ClassUtil;
+import com.weicoder.common.util.IpUtil;
 
 /**
- * rpc服务端
+ * rpc初始化
  * 
  * @author wudi
  */
-public final class RpcServers {
-	// 保存rpc对象
-	private final static Map<String, Object> PRCS = Maps.newMap();
+public class RpcInit implements Init {
 	// 保存rpc对应方法
 	private final static Map<String, Method> METHODS = Maps.newMap();
+	// 保存rpc对象
+	private final static Map<String, Object> PRCS = Maps.newMap();
 	// 回调方法对应参数
 	private final static Map<String, Class<?>> PARAMES = Maps.newMap();
+	// 记录初始化多少个rpc服务
+	private static int num = 0;
 
-	/**
-	 * 初始化
-	 */
-	public static void init() {
+	@Override
+	public void init() {
 		// 获得所有rpc服务
-		C.from(Rpc.class).forEach(r -> {
-			// 获得rpc接口实现类
-			Class<?> c = C.from(r, 0);
-			// 处理所有方法
-			ClassUtil.getPublicMethod(c).forEach(m -> {
-				String name = m.getName();
-				PRCS.put(name, ClassUtil.newInstance(c));
-				METHODS.put(name, m);
-				PARAMES.put(name, m.getParameterCount() > 0 ? m.getParameters()[0].getType() : null);
-			});
-		});
-		Logs.info("rpc jdk server init success");
+		C.from(RpcServer.class).forEach(r ->
+		// 处理所有方法
+		C.getPublicMethod(r).forEach(m -> {
+			String name = m.getName();
+			PRCS.put(name, ClassUtil.newInstance(r));
+			METHODS.put(name, m);
+			PARAMES.put(name, m.getParameterCount() > 0 ? m.getParameters()[0].getType() : null);
+			num++;
+		}));
+		// 有rpc服务 启动监听
+		if (num > 0)
+			start();
 	}
 
 	/**
 	 * 启动rpc服务
 	 */
-	public static void start() {
-		// 初始化
-		init();
+	private void start() {
 		// 启动tcp server
 		TcpServers.aio(RpcParams.PORT, b -> {
 			// 获得rpc方法名
@@ -64,7 +66,7 @@ public final class RpcServers {
 			}
 			// 参数字节数组
 			byte[] data = Bytes.copy(b, name.length() + 2, b.length);
-//			// 获得参数
+			// 获得参数
 			Class<?> c = PARAMES.get(name);
 			Object p = c == null ? null : Bytes.to(data, c);
 			// 调用方法并返回对象
@@ -72,7 +74,9 @@ public final class RpcServers {
 			Logs.info("rpc server invoke method={} parame={} result={}", name, p, o);
 			return Bytes.toBytes(o);
 		});
-		Logs.info("rpc jdk server start success port={}", RpcParams.PORT);
+		// 如果有nacos包 注册
+		if (C.forName("com.weicoder.nacos.Nacos") != null)
+			com.weicoder.nacos.Nacos.register(O.PROJECT_NAME, IpUtil.SERVER_IP, RpcParams.PORT);
 		// 启动sofa rpc服务
 		sofa();
 	}
@@ -80,9 +84,9 @@ public final class RpcServers {
 	/**
 	 * 启动sofa rpc服务
 	 */
-	public static void sofa() {
+	private static void sofa() {
 		// sofa包存在
-		if (ClassUtil.forName("com.alipay.sofa.rpc.config.ServerConfig") != null) {
+		if (C.forName("com.alipay.sofa.rpc.config.ServerConfig") != null) {
 			// 实例化一个参数
 			com.alipay.sofa.rpc.config.ServerConfig config = new com.alipay.sofa.rpc.config.ServerConfig()
 					.setProtocol(RpcParams.PROTOCOL).setPort(RpcParams.PORT + 1).setDaemon(RpcParams.DAEMON);
@@ -97,6 +101,4 @@ public final class RpcServers {
 		}
 	}
 
-	private RpcServers() {
-	}
 }

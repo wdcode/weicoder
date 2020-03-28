@@ -10,7 +10,7 @@ import com.weicoder.common.util.StringUtil;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.token.TokenBean;
 import com.weicoder.socket.Session;
-import com.weicoder.socket.Sockets;
+import com.weicoder.socket.message.Messages; 
 
 /**
  * 基础Socket Session实现
@@ -64,22 +64,22 @@ public abstract class BaseSession implements Session {
 
 	@Override
 	public void send(short id, Object message) {
-		send(Sockets.pack(id, message));
+		send(Messages.pack(id, message));
 	}
 
 	@Override
 	public void send(Object message) {
-		send(Sockets.pack(message));
+		send(Messages.pack(message));
 	}
 
 	@Override
 	public void write(short id, Object message) {
-		write(Sockets.pack(id, message));
+		write(Messages.pack(id, message));
 	}
 
 	@Override
 	public void write(Object message) {
-		write(Sockets.pack(message));
+		write(Messages.pack(message));
 	}
 
 	@Override

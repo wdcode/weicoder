@@ -1,7 +1,7 @@
 package com.weicoder.common.util;
 
 import java.net.InetAddress;
-import java.net.NetworkInterface;
+import java.net.NetworkInterface; 
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Set;
@@ -152,7 +152,7 @@ public class IpUtil {
 			for (int i = 1; i < ips.length; i++) {
 				// 不是内网IP
 				String tmp = ips[i];
-				if (!tmp.startsWith("192.168") && !tmp.startsWith("10.")) {
+				if (!tmp.startsWith("192.168") && !tmp.startsWith("10.") && !tmp.startsWith("172.")) {
 					ip = tmp;
 					break;
 				}
