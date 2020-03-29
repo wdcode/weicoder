@@ -25,7 +25,7 @@ import com.weicoder.core.params.QuartzParams;
  */
 public final class QuartzEngine {
 	// 保存任务列表
-	private final static Map<JobDetail, Set<? extends Trigger>>	MAP_JOB	= Maps.getConcurrentMap();
+	private final static Map<JobDetail, Set<? extends Trigger>>	MAP_JOB	= Maps.newConcurrentMap();
 	// 任务执行器
 	private static Scheduler									scheduler;
 
@@ -63,7 +63,7 @@ public final class QuartzEngine {
 		// 获得任务
 		JobDetail job = JobBuilder.newJob(jobClass).build();
 		// 声明任务执行时间列表
-		Set<Trigger> triggers = Sets.getSet(trigger.length);
+		Set<Trigger> triggers = Sets.newSet(trigger.length);
 		// 循环获得任务执行时间对象
 		for (int i = 0; i < trigger.length; i++) {
 			triggers.add(TriggerBuilder.newTrigger().withSchedule(CronScheduleBuilder.cronSchedule(trigger[i])).build());

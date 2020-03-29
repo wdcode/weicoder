@@ -29,8 +29,8 @@ import com.weicoder.common.util.DateUtil;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.core.json.JsonEngine;
-import com.weicoder.common.log.Logs;
-import com.weicoder.common.token.AuthToken;
+import com.weicoder.common.log.Logs; 
+import com.weicoder.common.token.TokenBean;
 import com.weicoder.web.util.IpUtil;
 
 /**
@@ -56,7 +56,7 @@ public abstract class SuperAction extends BasicAction {
 	@Resource
 	protected QueryService			query;
 	// 验证登录标识
-	protected AuthToken				token;
+	protected TokenBean				token;
 	// 通用实体
 	protected Entity				entity;
 	// 实体列表
@@ -87,9 +87,9 @@ public abstract class SuperAction extends BasicAction {
 	protected HttpServletResponse	response;
 
 	// 错误信息
-	protected List<String>			error		= Lists.getList();
+	protected List<String>			error		= Lists.newList();
 	// 错误信息
-	protected List<String>			message		= Lists.getList();
+	protected List<String>			message		= Lists.newList();
 
 	/**
 	 * 初始化Action
@@ -119,7 +119,7 @@ public abstract class SuperAction extends BasicAction {
 				mode = "call";
 			}
 			// 初始化空排序
-			orders = Maps.getMap();
+			orders = Maps.newMap();
 			// 获得实体类
 			entityClass = Contexts.getClass(module);
 			// 获得ContentType
@@ -252,7 +252,7 @@ public abstract class SuperAction extends BasicAction {
 			// 获得列表长度
 			int size = entitys.size();
 			// 声明修改实体数组
-			List<Entity> es = Lists.getList(size);
+			List<Entity> es = Lists.newList(size);
 			// 循环获取持久化数据实体
 			for (int i = 0; i < size; i++) {
 				// 获得修改实体
@@ -325,7 +325,7 @@ public abstract class SuperAction extends BasicAction {
 		// 查询实体列表
 		entitys = (entity == null ? service.list(entityClass, pager) : service.list(entity, pager));
 		// 声明返回列表
-		Map<String, Object> map = Maps.getMap();
+		Map<String, Object> map = Maps.newMap();
 		map.put("pager", pager);
 		map.put("entitys", entitys);
 		// 返回列表
@@ -611,7 +611,7 @@ public abstract class SuperAction extends BasicAction {
 	 * 获得验证登录标识
 	 * @return 验证登录标识
 	 */
-	public AuthToken getToken() {
+	public TokenBean getToken() {
 		return token;
 	}
 
@@ -820,7 +820,7 @@ public abstract class SuperAction extends BasicAction {
 	/**
 	 * 获得验证登录凭证
 	 */
-	protected AuthToken auth() {
+	protected TokenBean auth() {
 		return LoginEngine.getLoginBean(request, "user");
 	}
 }

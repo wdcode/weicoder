@@ -43,7 +43,7 @@ public final class Contexts {
 		// 获得所有实体
 		Map<String, Entity> map = getBeans(Entity.class);
 		// 实例化短类名对应的类对象Map
-		entitys = Maps.getConcurrentMap();
+		entitys = Maps.newConcurrentMap();
 		// 循环赋值
 		for (Map.Entry<String, ? extends Entity> e : map.entrySet()) {
 			// 设置实体名对应类
@@ -72,7 +72,7 @@ public final class Contexts {
 	 * @return 类列表
 	 */
 	public static List<Class<? extends Entity>> getEntitys() {
-		return Lists.getList(entitys.values());
+		return Lists.newList(entitys.values());
 	}
 
 	/**

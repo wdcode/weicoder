@@ -183,6 +183,7 @@ public final class ExcelJXL extends BaseExcel {
 	 * @param name Sheet名
 	 * @return 位置
 	 */
+	@SuppressWarnings("unlikely-arg-type")
 	public int getSheetIndex(String name) {
 		// 声明索引
 		int index = -1;

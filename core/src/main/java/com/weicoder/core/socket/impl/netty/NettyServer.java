@@ -54,8 +54,8 @@ public final class NettyServer extends BaseServer {
 
 	@Override
 	public void close() {
-		bootstrap.group().shutdownGracefully();
-		bootstrap.childGroup().shutdownGracefully();
+		bootstrap.config().group().shutdownGracefully();
+		bootstrap.config().childGroup().shutdownGracefully();
 	}
 
 	@Override

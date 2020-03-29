@@ -67,7 +67,7 @@ public final class RequestUtil {
 	 */
 	public static Map<String, String> getParameters(ServletRequest request) {
 		// 声明空Map
-		Map<String, String> map = Maps.getMap();
+		Map<String, String> map = Maps.newMap();
 		// 获得提交的所以参数名
 		for (Enumeration<String> e = request.getParameterNames(); e.hasMoreElements();) {
 			// 获得参数Key

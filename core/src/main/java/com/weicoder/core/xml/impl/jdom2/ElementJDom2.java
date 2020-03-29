@@ -139,7 +139,7 @@ public final class ElementJDom2 implements Element {
 		// 获得列表长度
 		int size = list.size();
 		// 声明属性列表
-		List<Attribute> attributes = Lists.getList(size);
+		List<Attribute> attributes = Lists.newList(size);
 		// 循环属性
 		for (int i = 0; i < size; i++) {
 			// 添加到Element接口集合
@@ -254,7 +254,7 @@ public final class ElementJDom2 implements Element {
 		// 获得列表大小
 		int size = list.size();
 		// 声明节点集合
-		List<Element> lsElement = Lists.getList(size);
+		List<Element> lsElement = Lists.newList(size);
 		// 循环JDom节点集合
 		for (int i = 0; i < size; i++) {
 			// 添加到Element接口集合

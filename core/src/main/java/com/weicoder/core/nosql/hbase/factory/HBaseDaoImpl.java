@@ -72,7 +72,7 @@ final class HBaseDaoImpl implements HBaseDao {
 	 */
 	public void delete(String... rowkey) {
 		// 声明列表
-		List<Delete> list = Lists.getList(rowkey.length);
+		List<Delete> list = Lists.newList(rowkey.length);
 		// 循环获得删除对象
 		for (int i = 0; i < rowkey.length; i++) {
 			// 添加到列表
@@ -121,13 +121,13 @@ final class HBaseDaoImpl implements HBaseDao {
 			// 获得查询结果
 			ResultScanner ss = table.getScanner(s);
 			// 声明列表
-			List<Map<String, String>> list = Lists.getList();
+			List<Map<String, String>> list = Lists.newList();
 			// 循环获得所以结果
 			for (Result r : ss) {
 				// 获得所有键值
 				for (Cell cell : r.rawCells()) {
 					// 声明Map
-					Map<String, String> map = Maps.getMap();
+					Map<String, String> map = Maps.newMap();
 					// 设置键值
 					map.put(StringUtil.toString(CellUtil.cloneQualifier(cell)), StringUtil.toString(CellUtil.cloneValue(cell)));
 					// 把结果添加到列表

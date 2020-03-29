@@ -91,7 +91,7 @@ public final class Sms implements Pay {
 	public Map<String, String> getParameters(HttpServletRequest request, PayBean pay) {
 		// 设置提交参数
 		StringBuilder sb = new StringBuilder();
-		Map<String, String> data = Maps.getMap();
+		Map<String, String> data = Maps.newMap();
 		data.put("sp", PayParams.SMS_ID);
 		sb.append(PayParams.SMS_ID);
 		data.put("od", pay.getNo());

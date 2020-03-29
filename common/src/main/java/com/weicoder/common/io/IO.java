@@ -5,8 +5,7 @@ import java.io.OutputStream;
 
 /**
  * IO方法接口 内部使用
- * @author WD 
- * @version 1.0 
+ * @author WD
  */
 interface IO {
 	/**
@@ -67,7 +66,7 @@ interface IO {
 	/**
 	 * 把字节数组写入到os中
 	 * @param out 输出流
-	 * @param in 输入流
+	 * @param b 字节数组
 	 * @param isClose 是否关闭流
 	 * @return true false
 	 */

@@ -40,7 +40,7 @@ public final class HttpJava extends BaseHttp {
 	 * @param value Cookie值
 	 */
 	public void addCookie(String name, String value) {
-		// cookieClient.setCookies(connection, new CookieJar(Lists.getList(new Cookie(name, value,
+		// cookieClient.setCookies(connection, new CookieJar(Lists.newList(new Cookie(name, value,
 		// connection.getURL()))));
 	}
 
@@ -120,13 +120,13 @@ public final class HttpJava extends BaseHttp {
 		// // 获得Cookie数量
 		// int size = cookieJar.size();
 		// // /获得CookieList
-		// List<Map<String, String>> list = Lists.getList(size);
+		// List<Map<String, String>> list = Lists.newList(size);
 		// // 循环获得Cookie
 		// for (Iterator<Object> it = cookieJar.iterator(); it.hasNext();) {
 		// // 获得Cookie
 		// Cookie cookie = (Cookie) it.next();
 		// // 声明Map
-		// Map<String, String> map = Maps.getMap(4);
+		// Map<String, String> map = Maps.newMap(4);
 		// // 设置属性
 		// map.put("name", cookie.getName());
 		// map.put("value", cookie.getValue());

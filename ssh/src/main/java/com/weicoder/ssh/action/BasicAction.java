@@ -19,7 +19,7 @@ import com.weicoder.web.util.ResponseUtil;
  */
 public abstract class BasicAction {
 	// 回调方法处理
-	protected final static Map<String, Method> METHODS = Maps.getMap();
+	protected final static Map<String, Method> METHODS = Maps.newMap();
 
 	/**
 	 * 以ajax模式输出数据到客户端方法

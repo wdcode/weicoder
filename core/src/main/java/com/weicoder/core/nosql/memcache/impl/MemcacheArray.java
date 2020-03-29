@@ -42,7 +42,7 @@ public final class MemcacheArray extends BaseMemcache {
 		// 初始化线程池
 		service = Executors.newFixedThreadPool(num);
 		// 实例化集群使用列表
-		ces = Lists.getList(num);
+		ces = Lists.newList(num);
 		// 初始化实例化集群使用列表
 		for (int i = 0; i < num; i++) {
 			ces.add(new ClientEntity(i));

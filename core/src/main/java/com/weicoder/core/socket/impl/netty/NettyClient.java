@@ -7,6 +7,7 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 
 import com.weicoder.common.log.Logs;
+import com.weicoder.common.util.CloseUtil;
 import com.weicoder.core.params.SocketParams;
 import com.weicoder.core.socket.base.BaseClient;
 
@@ -57,8 +58,8 @@ public final class NettyClient extends BaseClient {
 
 	@Override
 	public void close() {
-		session.close();
-		bootstrap.group().shutdownGracefully();
+		CloseUtil.close(session);
+		bootstrap.config().group().shutdownGracefully();
 		Logs.info("client close name=" + name);
 	}
 }

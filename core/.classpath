@@ -17,13 +17,11 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="D:/.m2/repository/io/netty/netty-all/4.0.35.Final/netty-all-4.0.35.Final.jar">
+	<classpathentry kind="src" output="target/test-classes" path="src/test/java">
 		<attributes>
+			<attribute name="optional" value="true"/>
 			<attribute name="maven.pomderived" value="true"/>
-			<attribute name="maven.groupId" value="io.netty"/>
-			<attribute name="maven.artifactId" value="netty-all"/>
-			<attribute name="maven.version" value="4.0.35.Final"/>
-			<attribute name="maven.scope" value="provided"/>
+			<attribute name="test" value="true"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="output" path="target/classes"/>

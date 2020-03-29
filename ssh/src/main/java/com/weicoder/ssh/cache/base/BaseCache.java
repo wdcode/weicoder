@@ -25,7 +25,7 @@ public abstract class BaseCache<E extends Entity> implements Cache<E> {
 	 * @return 缓存Value
 	 */
 	public List<E> get(Serializable... keys) {
-		return get(Lists.getList(keys));
+		return get(Lists.newList(keys));
 	}
 
 	/**

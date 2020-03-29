@@ -40,7 +40,7 @@ final class QuartzStarter {
 		// 定时任务
 		if (QuartzParams.SPRING) {
 			// 声明定时对象
-			List<Trigger> triggers = Lists.getList();
+			List<Trigger> triggers = Lists.newList();
 			// 循环设置
 			for (Job job : context.getBeansOfType(Job.class).values()) {
 				// 设置任务

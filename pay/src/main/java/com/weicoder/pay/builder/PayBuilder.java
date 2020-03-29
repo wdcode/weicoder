@@ -29,7 +29,7 @@ public final class PayBuilder {
 	@PostConstruct
 	protected void init() {
 		// 实例化支付Map
-		maps = Maps.getConcurrentMap();
+		maps = Maps.newConcurrentMap();
 		// 获得支付接口实现
 		for (Map.Entry<String, Pay> e : context.getBeansOfType(Pay.class).entrySet()) {
 			maps.put(e.getValue().type(), e.getValue());

@@ -1,13 +1,11 @@
 package com.weicoder.common.token;
-
-import com.weicoder.common.binary.BytesBean;
-
+ 
 /**
  * 获得当前网站用户 可获得是是否登录 和用户基本信息接口
  * @author WD 
  * @version 1.0  
  */
-public interface AuthToken extends BytesBean {
+public interface AuthToken   {
 	/**
 	 * 是否登录 不验证是IP和登录时间
 	 * @return true 登录 false 未登录

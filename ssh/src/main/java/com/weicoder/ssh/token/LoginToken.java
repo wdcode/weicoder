@@ -1,13 +1,10 @@
 package com.weicoder.ssh.token;
 
 import com.weicoder.ssh.entity.EntityUser;
-import com.weicoder.ssh.params.SiteParams;
-import com.weicoder.common.lang.Bytes;
+import com.weicoder.ssh.params.SiteParams; 
 import com.weicoder.common.token.AuthToken;
-import com.weicoder.common.util.DateUtil;
-import com.weicoder.common.util.EmptyUtil;
-import com.weicoder.core.json.JsonEngine;
-import com.weicoder.web.util.IpUtil;
+import com.weicoder.common.util.DateUtil; 
+import com.weicoder.core.json.JsonEngine; 
 
 /**
  * 登录信息封装
@@ -81,22 +78,5 @@ public class LoginToken implements AuthToken {
 	@Override
 	public String toString() {
 		return JsonEngine.toJson(this);
-	}
-
-	@Override
-	public byte[] array() {
-		return Bytes.toBytes(id, time, IpUtil.encode(loginIp));
-	}
-
-	@Override
-	public LoginToken array(byte[] b) {
-		// 判断字节数组不为空
-		if (!EmptyUtil.isEmpty(b)) {
-			this.id = Bytes.toLong(b);
-			this.time = Bytes.toInt(b, 8);
-			this.loginIp = IpUtil.decode(Bytes.toInt(b, 12));
-		}
-		// 返回自身
-		return this;
-	}
+	} 
 }

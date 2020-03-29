@@ -1,62 +1,95 @@
 package com.weicoder.common.token;
 
-import com.weicoder.common.codec.Hex;
-import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.crypto.Decrypts;
-import com.weicoder.common.crypto.Digest;
-import com.weicoder.common.crypto.Encrypts;
-import com.weicoder.common.token.AuthToken;
-import com.weicoder.common.util.EmptyUtil;
-import com.weicoder.common.util.StringUtil;
+import com.weicoder.common.params.CommonParams;
 
 /**
  * Token令牌处理器
- * @author WD 
- * @version 1.0 
+ * 
+ * @author WD
  */
-public final class TokenEngine {
-	// 验证长度
-	private final static int LENGHT = 8;
+public class TokenEngine {
+	/** 空登录信息 */
+	public final static TokenBean EMPTY = new TokenBean();
 
 	/**
 	 * 加密信息
-	 * @param token 登录凭证
-	 * @return 加密信息
+	 * 
+	 * @param  id   用户ID
+	 * @param  ip   用户IP
+	 * @param  time 有效时间 当前时间戳加上time 单位秒
+	 * @return      Token
 	 */
-	public static String encrypt(AuthToken token) {
-		// 加密登录凭证字符串
-		String info = Hex.encode(Encrypts.rc4(token.array()));
-		// 返回加密字符串
-		return StringUtil.combine(Digest.absolute(info, LENGHT), info).toUpperCase();
+	public static TokenBean newToken(long id, String ip) {
+		return newToken(id, ip, CommonParams.TOKEN_EXPIRE);
+	}
+
+	/**
+	 * 加密信息
+	 * 
+	 * @param  id   用户ID
+	 * @param  ip   用户IP
+	 * @param  time 有效时间 当前时间戳加上time 单位秒
+	 * @return      Token
+	 */
+	public static TokenBean newToken(long id, String ip, int time) {
+		return newToken(id, ip, time, false);
+	}
+
+	/**
+	 * 加密信息
+	 * 
+	 * @param  id   用户ID
+	 * @param  ip   用户IP
+	 * @param  time 有效时间 当前时间戳加上time 单位秒
+	 * @param  ban  是否被禁用
+	 * @return      Token
+	 */
+	public static TokenBean newToken(long id, String ip, int time, boolean ban) {
+		return new TokenBean(id, ip, time, ban, Byte.MAX_VALUE);
+	}
+
+	/**
+	 * 加密信息
+	 * 
+	 * @param  id 用户ID
+	 * @param  ip 用户IP
+	 * @return    加密token字符串
+	 */
+	public static String encrypt(long id, String ip) {
+		return newToken(id, ip).getToken();
+	}
+
+	/**
+	 * 加密信息
+	 * 
+	 * @param  id   用户ID
+	 * @param  ip   用户IP
+	 * @param  time 有效时间 当前时间戳加上time 单位秒
+	 * @return      加密token字符串
+	 */
+	public static String encrypt(long id, String ip, int time) {
+		return newToken(id, ip, time).getToken();
+	}
+
+	/**
+	 * 加密信息
+	 * 
+	 * @param  id   用户ID
+	 * @param  ip   用户IP
+	 * @param  time 有效时间 当前时间戳加上time 单位秒
+	 * @return      加密token字符串
+	 */
+	public static String encrypt(long id, String ip, int time, boolean ban) {
+		return newToken(id, ip, time, ban).getToken();
 	}
 
 	/**
 	 * 验证登录凭证
-	 * @return 登录实体
+	 * 
+	 * @param  info 登陆信息
+	 * @return      登录实体
 	 */
-	public static <E extends AuthToken> E decrypt(String info, E token) {
-		// 验证去掉"""
-		info = StringUtil.replace(info, StringConstants.DOUBLE_QUOT, StringConstants.EMPTY);
-		// 判断验证串是否符合标准
-		if (!EmptyUtil.isEmpty(info) && info.length() > LENGHT) {
-			// 变为小写
-			info = info.toLowerCase();
-			// 拆分字符串
-			String[] temp = StringUtil.separate(info, info.length() / LENGHT);
-			if (!EmptyUtil.isEmpty(temp) && temp.length == 2) {
-				// 验证串
-				String ver = temp[0];// StringUtil.subString(info, 0, LENGHT);
-				// 信息串
-				String user = temp[1];// StringUtil.subString(info, LENGHT);
-				// 判断校验串是否合法
-				if (ver.equals(Digest.absolute(user, LENGHT))) {
-					token.array(Decrypts.rc4(Hex.decode(user)));
-				}
-			}
-		}
-		// 返回token
-		return token;
+	public static TokenBean decrypt(String info) {
+		return new TokenBean(info);
 	}
-
-	private TokenEngine() {}
 }

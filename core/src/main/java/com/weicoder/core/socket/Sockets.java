@@ -6,6 +6,7 @@ import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.ClassUtil;
+import com.weicoder.common.util.CloseUtil;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.log.Logs;
 import com.weicoder.core.params.SocketParams;
@@ -24,11 +25,11 @@ import com.weicoder.core.socket.manager.Manager;
  */
 public final class Sockets {
 	// 保存SocketServer
-	private final static Map<String, Server>	SERVERS		= Maps.getConcurrentMap();
+	private final static Map<String, Server>	SERVERS		= Maps.newConcurrentMap();
 	// 保存SocketClient
-	private final static Map<String, Client>	CLIENTS		= Maps.getConcurrentMap();
+	private final static Map<String, Client>	CLIENTS		= Maps.newConcurrentMap();
 	// 保存Manager Session管理器 一般给Server使用
-	private final static Map<String, Manager>	MANAGERS	= Maps.getConcurrentMap();
+	private final static Map<String, Manager>	MANAGERS	= Maps.newConcurrentMap();
 
 	/**
 	 * 初始化Mina
@@ -71,7 +72,7 @@ public final class Sockets {
 		// 按包处理
 		for (String p : SocketParams.getPackages(name)) {
 			// Handler
-			for (Class<?> c : ClassUtil.getAssignedClass(p, Handler.class)) {
+			for (Class<?> c : ClassUtil.pack(p, Handler.class)) {
 				try {
 					socket.addHandler((Handler<?>) BeanUtil.newInstance(c));
 				} catch (Exception ex) {
@@ -247,7 +248,7 @@ public final class Sockets {
 		// 判断acceptor不为空
 		if (!EmptyUtil.isEmpty(client)) {
 			// 关闭Session
-			client.close();
+			CloseUtil.close(client);
 			// 删除Map中的引用
 			CLIENTS.remove(name);
 		}
@@ -263,7 +264,7 @@ public final class Sockets {
 		// 判断acceptor不为空
 		if (!EmptyUtil.isEmpty(server)) {
 			// 关闭server
-			server.close();
+			CloseUtil.close(server);
 			// 删除Map中的引用
 			SERVERS.remove(name);
 		}

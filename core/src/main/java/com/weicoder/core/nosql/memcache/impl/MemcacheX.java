@@ -79,7 +79,7 @@ public final class MemcacheX extends BaseMemcache {
 	 */
 	public Map<String, Object> getMap(String... keys) {
 		try {
-			return client.get(Lists.getList(keys));
+			return client.get(Lists.newList(keys));
 		} catch (Exception e) {
 			// 记录日志
 			Logs.warn(e);

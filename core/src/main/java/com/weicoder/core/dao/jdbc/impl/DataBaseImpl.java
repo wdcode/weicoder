@@ -111,7 +111,7 @@ public final class DataBaseImpl implements DataBase {
 	 */
 	public int execute(String[] sql, Object[]... parame) {
 		// 声明一个列表 长度为1
-		List<Object[][]> list = Lists.getList(parame.length);
+		List<Object[][]> list = Lists.newList(parame.length);
 		// 循环参数
 		for (int i = 0; i < parame.length; i++) {
 			// 添加二唯数组
@@ -240,7 +240,7 @@ public final class DataBaseImpl implements DataBase {
 			// 获得列名的名称
 			String[] colName = getColName(rs);
 			// 声明List用于保存结果集
-			List<Map<String, Object>> list = Lists.getList();
+			List<Map<String, Object>> list = Lists.newList();
 			// 循环结果集
 			while (rs.next()) {
 				// 添加行记录
@@ -373,7 +373,7 @@ public final class DataBaseImpl implements DataBase {
 			// 获得结果集
 			rs = pstmt.executeQuery();
 			// 实例化列表
-			List<Object> list = Lists.getList();
+			List<Object> list = Lists.newList();
 			// 循环结果集
 			while (rs.next()) {
 				// 添加结果
@@ -415,7 +415,7 @@ public final class DataBaseImpl implements DataBase {
 			// 获得列名的名称
 			String[] colName = getColName(rs);
 			// 声明列表
-			List<Map<String, Object>> list = Lists.getList();
+			List<Map<String, Object>> list = Lists.newList();
 			// 循环结果集
 			while (rs.next()) {
 				// 添加行数据
@@ -584,7 +584,7 @@ public final class DataBaseImpl implements DataBase {
 	 */
 	private Map<String, Object> getRowValue(String[] colName, ResultSet rs) {
 		// 声明Map 用于保存返回结果
-		Map<String, Object> map = Maps.getMap();
+		Map<String, Object> map = Maps.newMap();
 		try {
 			// 循环列
 			for (int i = 0; i < colName.length; i++) {

@@ -99,7 +99,7 @@ public final class JsonEngine extends FactoryKey<String, Json> {
 	 */
 	@SuppressWarnings("unchecked")
 	public static <E> List<E> toList(String json, Class<E> clazz) {
-		return EmptyUtil.isEmpty(json) ? (List<E>) Lists.getList() : JSON.toList(json, clazz);
+		return EmptyUtil.isEmpty(json) ? (List<E>) Lists.newList() : JSON.toList(json, clazz);
 	}
 
 	/**
@@ -123,9 +123,9 @@ public final class JsonEngine extends FactoryKey<String, Json> {
 		// 获得Map
 		Map<String, Object> map = toBean(json, Map.class);
 		// 如果map为空
-		if (EmptyUtil.isEmpty(map)) { return Maps.getMap(); }
+		if (EmptyUtil.isEmpty(map)) { return Maps.newMap(); }
 		// 声明返回map
-		Map<String, E> data = Maps.getMap(map.size());
+		Map<String, E> data = Maps.newMap(map.size());
 		// 循环生成类
 		for (Map.Entry<String, Object> e : map.entrySet()) {
 			// 声明值

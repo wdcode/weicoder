@@ -66,7 +66,7 @@ public final class CacheNoSQL<E extends Entity> extends BaseCache<E> {
 		// 判断值为空
 		if (EmptyUtil.isEmpty(objs)) { return Lists.emptyList(); }
 		// 声明返回列表
-		List<E> list = Lists.getList(objs.length);
+		List<E> list = Lists.newList(objs.length);
 		// 循环转换对象
 		for (Object o : objs) {
 			if (o != null) {
@@ -86,7 +86,7 @@ public final class CacheNoSQL<E extends Entity> extends BaseCache<E> {
 		// 减数量
 		NOSQL.set(getKeySize(), size() - 1);
 		// 减key
-		List<String> keys = Lists.getList(getKeys());
+		List<String> keys = Lists.newList(getKeys());
 		// 删除key
 		keys.remove(key);
 		// 重新写入key
@@ -98,7 +98,7 @@ public final class CacheNoSQL<E extends Entity> extends BaseCache<E> {
 	@Override
 	public List<E> remove(Serializable... keys) {
 		// 声明删除列表
-		List<E> list = Lists.getList(keys.length);
+		List<E> list = Lists.newList(keys.length);
 		// 循环删除
 		for (Serializable key : keys) {
 			list.add(remove(key));
@@ -112,7 +112,7 @@ public final class CacheNoSQL<E extends Entity> extends BaseCache<E> {
 		// 获得全部key
 		String[] keys = getKeys();
 		// 获得键
-		List<Serializable> list = Lists.getList(keys.length);
+		List<Serializable> list = Lists.newList(keys.length);
 		// 循环键
 		for (String key : keys) {
 			list.add(key);

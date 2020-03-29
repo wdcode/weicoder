@@ -115,7 +115,7 @@ public final class Yeepay implements Pay {
 	 */
 	public Map<String, String> getParameters(HttpServletRequest request, PayBean pay) {
 		// 设置提交参数
-		Map<String, String> data = Maps.getMap();
+		Map<String, String> data = Maps.newMap();
 		data.put("p0_Cmd", "Buy");
 		data.put("p1_MerId", PayParams.YEEPAY_ID);
 		data.put("p2_Order", Conversion.toString(pay.getNo()));

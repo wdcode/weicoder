@@ -72,7 +72,7 @@ public final class Alipay implements Pay {
 	 */
 	public Map<String, String> getParameters(HttpServletRequest request, PayBean pay) {
 		// 设置提交参数
-		Map<String, String> data = Maps.getMap();
+		Map<String, String> data = Maps.newMap();
 		data.put("service", "create_direct_pay_by_user");
 		data.put("partner", PayParams.ALIPAY_ID);
 		data.put("return_url", PayParams.ALIPAY_REDIRECT);

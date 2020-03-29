@@ -31,7 +31,7 @@ public final class CacheMap<E extends Entity> extends BaseCache<E> {
 	 * 构造函数
 	 */
 	public CacheMap() {
-		this.mapCache = Maps.getConcurrentMap();
+		this.mapCache = Maps.newConcurrentMap();
 		this.emptyValueList = Lists.emptyList();
 	}
 
@@ -40,7 +40,7 @@ public final class CacheMap<E extends Entity> extends BaseCache<E> {
 	 * @return
 	 */
 	public List<E> list() {
-		return isValid() ? Lists.sort(Lists.getList(mapCache.values())) : emptyValueList;
+		return isValid() ? Lists.sort(Lists.newList(mapCache.values())) : emptyValueList;
 	}
 
 	/**
@@ -58,7 +58,7 @@ public final class CacheMap<E extends Entity> extends BaseCache<E> {
 	 * @return 缓存Value
 	 */
 	public List<E> get(Serializable... keys) {
-		return get(Lists.getList(keys));
+		return get(Lists.newList(keys));
 	}
 
 	/**
@@ -72,7 +72,7 @@ public final class CacheMap<E extends Entity> extends BaseCache<E> {
 			// 获得列表数量
 			int size = keys.size();
 			// 声明列表
-			List<E> list = Lists.getList(size);
+			List<E> list = Lists.newList(size);
 			// 循环获得值
 			for (int i = 0; i < size; i++) {
 				// 添加到列表
@@ -117,7 +117,7 @@ public final class CacheMap<E extends Entity> extends BaseCache<E> {
 			mapCache.putAll(caches);
 		}
 		// 返回缓存
-		return Lists.getList(caches.values());
+		return Lists.newList(caches.values());
 	}
 
 	/**
@@ -146,7 +146,7 @@ public final class CacheMap<E extends Entity> extends BaseCache<E> {
 			// 获得列表数量
 			int size = keys.length;
 			// 获得值列表
-			List<E> lsValue = Lists.getList(size);
+			List<E> lsValue = Lists.newList(size);
 			// 循环Key数组
 			for (int i = 0; i < size; i++) {
 				// 删除缓存并添加到值列表中

@@ -74,7 +74,7 @@ public final class HttpApache4Async extends BaseHttp implements Http {
 			builder = HttpAsyncClientBuilder.create();
 			builder.setDefaultRequestConfig(config.build());
 			builder.setConnectionManager(pool);
-			builder.setDefaultHeaders(Lists.getList(new BasicHeader(USER_AGENT_KEY, USER_AGENT_VAL)));
+			builder.setDefaultHeaders(Lists.newList(new BasicHeader(USER_AGENT_KEY, USER_AGENT_VAL)));
 			builder.setDefaultCookieStore(cookie = new BasicCookieStore());
 			builder.setRedirectStrategy(strategy = DefaultRedirectStrategy.INSTANCE);
 			builder.setDefaultConnectionConfig(ConnectionConfig.custom().setCharset(Charset.forName(encoding)).build());
@@ -150,7 +150,7 @@ public final class HttpApache4Async extends BaseHttp implements Http {
 		// 获得列表大小
 		int size = lsCookie.size();
 		// 声明Map列表
-		List<Map<String, String>> lsMap = Lists.getList(size);
+		List<Map<String, String>> lsMap = Lists.newList(size);
 		// 声明Cookie
 		Cookie cookie = null;
 		// 声明Map
@@ -160,7 +160,7 @@ public final class HttpApache4Async extends BaseHttp implements Http {
 			// 获得Cookie
 			cookie = lsCookie.get(i);
 			// 获得Map
-			map = Maps.getMap();
+			map = Maps.newMap();
 			// 设置属性
 			map.put("name", cookie.getName());
 			map.put("value", cookie.getValue());
@@ -226,7 +226,7 @@ public final class HttpApache4Async extends BaseHttp implements Http {
 			// 如果参数列表为空 data为空map
 			if (!EmptyUtil.isEmpty(data)) {
 				// 声明参数列表
-				List<NameValuePair> list = Lists.getList(data.size());
+				List<NameValuePair> list = Lists.newList(data.size());
 				// 设置参数
 				for (Map.Entry<String, Object> entry : data.entrySet()) {
 					// 添加参数

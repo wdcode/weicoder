@@ -10,6 +10,7 @@ import org.jboss.netty.channel.Channels;
 import org.jboss.netty.channel.socket.nio.NioClientSocketChannelFactory;
 
 import com.weicoder.common.log.Logs;
+import com.weicoder.common.util.CloseUtil;
 import com.weicoder.core.params.SocketParams;
 import com.weicoder.core.socket.base.BaseClient;
 
@@ -58,7 +59,7 @@ public final class Netty3Client extends BaseClient {
 
 	@Override
 	public void close() {
-		session.close();
+		CloseUtil.close(session);
 		bootstrap.releaseExternalResources();
 		bootstrap.shutdown();
 		Logs.info("client close name=" + name);

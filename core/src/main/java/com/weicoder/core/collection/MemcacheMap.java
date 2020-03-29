@@ -91,7 +91,7 @@ public final class MemcacheMap<K, V> implements Map<K, V> {
 		// 减数量
 		memcache.set(getKeySize(), size() - 1);
 		// 减key
-		List<String> keys = Lists.getList(getKeys());
+		List<String> keys = Lists.newList(getKeys());
 		// 删除key
 		keys.remove(key);
 		// 重新写入key
@@ -122,13 +122,13 @@ public final class MemcacheMap<K, V> implements Map<K, V> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public Set<K> keySet() {
-		return (Set<K>) Sets.getSet(getKeys());
+		return (Set<K>) Sets.newSet(getKeys());
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public Collection<V> values() {
-		return (Collection<V>) Lists.getList(memcache.get(getKeys()));
+		return (Collection<V>) Lists.newList(memcache.get(getKeys()));
 	}
 
 	@Override
@@ -144,7 +144,7 @@ public final class MemcacheMap<K, V> implements Map<K, V> {
 	public Map<K, V> map() {
 		String[] keys = getKeys();
 		Object[] values = memcache.get(getKey(keys));
-		Map<K, V> map = Maps.getMap();
+		Map<K, V> map = Maps.newMap();
 		for (int i = 0; i < keys.length; i++) {
 			if (values[i] != null) {
 				map.put((K) keys[i], (V) values[i]);

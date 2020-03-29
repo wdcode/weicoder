@@ -4,6 +4,7 @@ import java.util.Map;
 
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.lang.Maps;
+import com.weicoder.common.util.CloseUtil;
 import com.weicoder.common.util.DateUtil;
 import com.weicoder.common.util.ScheduledUtile;
 import com.weicoder.common.log.Logs;
@@ -35,8 +36,8 @@ public final class Heart implements Handler<Null> {
 		this.id = id;
 		this.heart = time;
 		this.isPack = isPack;
-		times = Maps.getConcurrentMap();
-		sessions = Maps.getConcurrentMap();
+		times = Maps.newConcurrentMap();
+		sessions = Maps.newConcurrentMap();
 		// 定时检测
 		ScheduledUtile.delay(() -> {
 			// 获得当前时间
@@ -49,7 +50,7 @@ public final class Heart implements Handler<Null> {
 				// 如果心跳时间超过发送时间
 				if (curr - t > heart) {
 					// 关闭Session
-					sessions.get(e.getKey()).close();
+					CloseUtil.close(sessions.get(e.getKey()));
 					sessions.remove(e.getKey());
 					times.remove(e.getKey());
 					Logs.info("heart close session=" + e.getKey());

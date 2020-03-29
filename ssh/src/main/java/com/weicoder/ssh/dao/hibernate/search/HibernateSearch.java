@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Example;
 import org.hibernate.search.FullTextQuery;
 import org.hibernate.search.FullTextSession;
@@ -21,16 +22,17 @@ import com.weicoder.common.util.EmptyUtil;
 
 /**
  * Hibernate 使用lucene搜索数据
- * @author WD 
- * @version 1.0 
+ * 
+ * @author  WD
+ * @version 1.0
  */
 public final class HibernateSearch {
-	//ApplicationContext
+	// ApplicationContext
 	@Resource
-	private ApplicationContext	context;
+	private ApplicationContext context;
 	// Session工厂
 	@Resource
-	private SessionFactorys		factorys;
+	private SessionFactorys factorys;
 
 	/**
 	 * 初始化
@@ -43,16 +45,18 @@ public final class HibernateSearch {
 
 	/**
 	 * 使用索引查询
-	 * @param session Hibernate Session
-	 * @param entityClass 实体类
-	 * @param property 属性名
-	 * @param value 属性值
-	 * @param firstResult 重第几条开始查询
-	 * @param maxResults 一共查回多少条
-	 * @return 数据列表
+	 * 
+	 * @param  session     Hibernate Session
+	 * @param  entityClass 实体类
+	 * @param  property    属性名
+	 * @param  value       属性值
+	 * @param  firstResult 重第几条开始查询
+	 * @param  maxResults  一共查回多少条
+	 * @return             数据列表
 	 */
 	@SuppressWarnings("unchecked")
-	public <E> List<E> search(Session session, Class<E> entityClass, final String property, final Object value, final int firstResult, final int maxResults) {
+	public <E> List<E> search(Session session, Class<E> entityClass, final String property, final Object value,
+			final int firstResult, final int maxResults) {
 		// 通过Hibernate的Session获取FullTextSession对象
 		FullTextSession fullTextSession = Search.getFullTextSession(session);
 		// 获取特定类的特定QueryBuilder对象
@@ -77,24 +81,27 @@ public final class HibernateSearch {
 
 	/**
 	 * 使用索引查询
-	 * @param session Hibernate Session
-	 * @param entity 实体
-	 * @param firstResult 重第几条开始查询
-	 * @param maxResults 一共查回多少条
-	 * @return 数据列表
+	 * 
+	 * @param  session     Hibernate Session
+	 * @param  entity      实体
+	 * @param  firstResult 重第几条开始查询
+	 * @param  maxResults  一共查回多少条
+	 * @return             数据列表
 	 */
 	@SuppressWarnings("unchecked")
 	public <E> List<E> search(Session session, E entity, int firstResult, int maxResults) {
 		// 通过Hibernate的Session获取FullTextSession对象
 		FullTextSession fullTextSession = Search.getFullTextSession(session);
 		// 获取特定类的特定QueryBuilder对象
-		QueryBuilder queryBuilder = fullTextSession.getSearchFactory().buildQueryBuilder().forEntity(entity.getClass()).get();
+		QueryBuilder queryBuilder = fullTextSession.getSearchFactory().buildQueryBuilder().forEntity(entity.getClass())
+				.get();
 		// 得到search query
 		org.apache.lucene.search.Query query = queryBuilder.all().createQuery();
 		// 这里使用FullTextQuery和org.hibernate.Query来分装org.apache.lucene.search.Query都是可以的，
 		// 但FullTextQuery的功能比org.hibernate.Query的功能要强大一点，究竟什么时候要用org.hibernate.Query而不能用
 		// org.apache.lucene.search.Query这个我暂时还没有发现！
-		FullTextQuery fullTextQuery = fullTextSession.createFullTextQuery(query, entity.getClass()).setCriteriaQuery(fullTextSession.createCriteria(entity.getClass()).add(Example.create(entity)));
+		FullTextQuery fullTextQuery = fullTextSession.createFullTextQuery(query, entity.getClass())
+				.setCriteriaQuery(DetachedCriteria.forClass(entity.getClass()).getExecutableCriteria(fullTextSession).add(Example.create(entity))); 
 		// 开始结果大于等于0
 		if (firstResult >= 0) {
 			fullTextQuery.setFirstResult(firstResult);
@@ -112,7 +119,7 @@ public final class HibernateSearch {
 	 */
 	public void createIndex() {
 		// 获得带索引的实体
-		List<Object> list = Lists.getList(context.getBeansWithAnnotation(Indexed.class).values());
+		List<Object> list = Lists.newList(context.getBeansWithAnnotation(Indexed.class).values());
 		// 如果有索引列表
 		if (!EmptyUtil.isEmpty(list)) {
 			// 获得列表长度
@@ -134,7 +141,8 @@ public final class HibernateSearch {
 					// 获得Session
 					session = factory.openSession();
 					Search.getFullTextSession(session).createIndexer(entityClass).startAndWait();
-				} catch (Exception e) {} finally {
+				} catch (Exception e) {
+				} finally {
 					if (session != null) {
 						session.close();
 					}

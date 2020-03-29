@@ -33,17 +33,17 @@ import com.weicoder.core.socket.message.Null;
  */
 public final class Process {
 	// Handler列表
-	private Map<Short, Handler<Object>>	handlers	= Maps.getMap();
+	private Map<Short, Handler<Object>>	handlers	= Maps.newMap();
 	// 保存Session
-	private Map<Integer, Session>		sessions	= Maps.getConcurrentMap();
+	private Map<Integer, Session>		sessions	= Maps.newConcurrentMap();
 	// 保存Session
-	private Map<Integer, Integer>		times		= Maps.getConcurrentMap();
+	private Map<Integer, Integer>		times		= Maps.newConcurrentMap();
 	// 保存全局IoBuffer
-	private Map<Integer, Buffer>		buffers		= Maps.getConcurrentMap();
+	private Map<Integer, Buffer>		buffers		= Maps.newConcurrentMap();
 	// 限制IP连接
-	private Map<String, Boolean>		limits		= Maps.getConcurrentMap();
+	private Map<String, Boolean>		limits		= Maps.newConcurrentMap();
 	// 连接超时错误
-	private Map<String, Integer>		overs		= Maps.getConcurrentMap();
+	private Map<String, Integer>		overs		= Maps.newConcurrentMap();
 	// 管理器
 	private Manager						manager;
 	// 心跳处理
@@ -150,7 +150,7 @@ public final class Process {
 	public void connected(Session session) {
 		// 是否拒绝连接
 		if (Conversion.toBoolean(limits.get(session.ip()))) {
-			session.close();
+			CloseUtil.close(session);
 			Logs.info(StringUtil.add("name=", name, ";limits ip=", session.ip(), " close id=", session.id()));
 			return;
 		}
@@ -245,17 +245,17 @@ public final class Process {
 			if (times.containsKey(sid)) {
 				times.remove(sid);
 			}
-			// 是否存在
-			if (limits.containsKey(sid)) {
-				limits.remove(sid);
-			}
+//			// 是否存在
+//			if (limits.containsKey(sid)) {
+//				limits.remove(sid);
+//			}
 			// 获得信息长度
 			// int length = Integer.reverseBytes(buff.getInt());
 			//			int length = buff.readInt();
 			short length = buff.readShort();
 			// 无长度 发送消息不符合 关掉连接
 			if (length < 2 || length > Short.MAX_VALUE) {
-				session.close();
+				CloseUtil.close(session);
 				Logs.info(StringUtil.add("name=", name, ";error len close id=", session.id(), ";len=" + length));
 				return;
 			}
@@ -321,7 +321,7 @@ public final class Process {
 						}
 					} else {
 						// 获得处理器消息类
-						Class<?> type = ClassUtil.getGenericClass(handler.getClass());
+						Class<?> type = ClassUtil.getGenericClass(handler.getClass(),0);
 						// 消息实体
 						Object mess = null;
 						// 判断消息实体类型
@@ -330,7 +330,7 @@ public final class Process {
 							mess = StringUtil.toString(data);
 						} else if (Binary.class.isAssignableFrom(type)) {
 							// 字节流
-							mess = Bytes.toBinary((Binary) ClassUtil.newInstance(type), data);
+							mess = Bytes.toBinary(data,type);
 						} else if (ByteArray.class.isAssignableFrom(type)) {
 							// 字节流
 							mess = ((ByteArray) ClassUtil.newInstance(type)).array(data);

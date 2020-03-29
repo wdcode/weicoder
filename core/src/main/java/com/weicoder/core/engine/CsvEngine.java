@@ -92,10 +92,10 @@ public final class CsvEngine {
 		// 获得列数组
 		String[] cols = list.get(0);
 		// 声明实体列表
-		List<E> entitys = Lists.getList(list.size());
+		List<E> entitys = Lists.newList(list.size());
 		// 循环获得实体列表
 		for (int i = 1; i < size; i++) {
-			entitys.add(BeanUtil.copy(Maps.getMap(cols, list.get(i)), entityClass));
+			entitys.add(BeanUtil.copy(Maps.newMap(cols, list.get(i)), entityClass));
 		}
 		// 返回实体列表
 		return entitys;

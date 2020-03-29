@@ -11,8 +11,8 @@ import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.crypto.Decrypts;
 import com.weicoder.common.crypto.Digest;
 import com.weicoder.common.crypto.Encrypts;
-import com.weicoder.common.lang.Conversion;
-import com.weicoder.common.token.AuthToken;
+import com.weicoder.common.lang.Conversion; 
+import com.weicoder.common.token.TokenBean;
 import com.weicoder.common.util.DateUtil;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.core.email.EmailEngine;
@@ -60,7 +60,7 @@ public class SiteAction<U extends EntityUser> extends StrutsAction {
 	 */
 	public void setToken(String token) {
 		// 解析登录凭证
-		AuthToken login = LoginEngine.decrypt(token);
+		TokenBean login = LoginEngine.decrypt(token);
 		// 登录凭证不为空
 		if (!EmptyUtil.isEmpty(login)) {
 			this.token = login;
@@ -412,7 +412,7 @@ public class SiteAction<U extends EntityUser> extends StrutsAction {
 	}
 
 	@Override
-	protected AuthToken auth() {
+	protected TokenBean auth() {
 		return LoginEngine.getLoginBean(request, getLoginKey());
 	}
 }

@@ -12,13 +12,13 @@ import com.weicoder.common.lang.Maps;
  */
 public final class Contexts {
 	// Action列表
-	public final static Map<String, Object>					ACTIONS			= Maps.getMap();
+	public final static Map<String, Object>					ACTIONS			= Maps.newMap();
 	// 回调方法处理
-	public final static Map<String, Map<String, Method>>	ACTIONS_METHODS	= Maps.getMap();
+	public final static Map<String, Map<String, Method>>	ACTIONS_METHODS	= Maps.newMap();
 	// 回调方法处理
-	public final static Map<String, Object>					METHODS_ACTIONS	= Maps.getMap();
+	public final static Map<String, Object>					METHODS_ACTIONS	= Maps.newMap();
 	// 回调方法处理
-	public final static Map<String, Method>					METHODS			= Maps.getMap();
+	public final static Map<String, Method>					METHODS			= Maps.newMap();
 
 	private Contexts() {}
 }

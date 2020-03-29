@@ -12,7 +12,7 @@ import com.weicoder.common.util.EmptyUtil;
  */
 public abstract class FactoryKey<K, E> extends Factory<E> {
 	// 产品仓库
-	protected ConcurrentMap<K, E> map = Maps.getConcurrentMap();
+	protected ConcurrentMap<K, E> map = Maps.newConcurrentMap();
 
 	/**
 	 * 获得实例 单例模式

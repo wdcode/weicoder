@@ -26,7 +26,7 @@ public class MethodsInterceptor<E extends SuperAction> extends BasicInterceptor<
 	 * @param methods
 	 */
 	public void setMethods(String methods) {
-		this.methods = Lists.getList(StringUtil.split(methods, StringConstants.COMMA));
+		this.methods = Lists.newList(StringUtil.split(methods, StringConstants.COMMA));
 	}
 
 	@Override

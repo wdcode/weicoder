@@ -78,7 +78,7 @@ public final class IpUtil {
 	public static String[] getIps() {
 		try {
 			// 声明IP列表
-			List<String> list = Lists.getList();
+			List<String> list = Lists.newList();
 			// 获得网络接口迭代
 			Enumeration<NetworkInterface> netInterfaces = NetworkInterface.getNetworkInterfaces();
 			// 循环所以网络接口 获得IP

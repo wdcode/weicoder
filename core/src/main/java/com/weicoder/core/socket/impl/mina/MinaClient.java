@@ -9,6 +9,7 @@ import org.apache.mina.transport.socket.SocketSessionConfig;
 import org.apache.mina.transport.socket.nio.NioSocketConnector;
 
 import com.weicoder.common.log.Logs;
+import com.weicoder.common.util.CloseUtil;
 import com.weicoder.core.params.SocketParams;
 import com.weicoder.core.socket.base.BaseClient;
 
@@ -67,7 +68,7 @@ public final class MinaClient extends BaseClient {
 
 	@Override
 	public void close() {
-		session.close();
+		CloseUtil.close(session); 
 		connector.dispose();
 		Logs.info("client close name=" + name);
 	}

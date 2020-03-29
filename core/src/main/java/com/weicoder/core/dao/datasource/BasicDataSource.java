@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.SQLFeatureNotSupportedException;
 import java.util.logging.Logger;
 
+import com.weicoder.common.util.CloseUtil;
 import com.weicoder.core.dao.datasource.impl.Bonecp;
 import com.weicoder.core.dao.datasource.impl.C3P0;
 import com.weicoder.core.dao.datasource.impl.DBCP;
@@ -258,7 +259,7 @@ public final class BasicDataSource implements DataSource {
 	 * 关闭资源
 	 */
 	public void close() {
-		ds.close();
+		CloseUtil.close(ds);
 	}
 
 	/**

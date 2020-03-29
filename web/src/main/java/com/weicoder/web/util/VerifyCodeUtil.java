@@ -8,8 +8,7 @@ import java.awt.image.BufferedImage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.weicoder.common.constants.HttpConstants;
-import com.weicoder.common.constants.ImageConstants;
+import com.weicoder.common.constants.HttpConstants; 
 import com.weicoder.common.crypto.Decrypts;
 import com.weicoder.common.crypto.Encrypts;
 import com.weicoder.common.lang.Conversion;
@@ -124,7 +123,7 @@ public final class VerifyCodeUtil {
 			AttributeUtil.set(request, response, key, Encrypts.encrypt(rand));
 
 			// 写文字到response
-			ImageUtil.write(image, ImageConstants.JPEG, response.getOutputStream(), isClose);
+			ImageUtil.write(image,  response.getOutputStream() );
 		} catch (Exception e) {
 			// 记录异常
 			Logs.error(e);

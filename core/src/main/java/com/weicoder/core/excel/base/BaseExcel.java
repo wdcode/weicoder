@@ -34,7 +34,7 @@ public abstract class BaseExcel implements Excel {
 		// 获得Sheet数量
 		int num = getSheets();
 		// 声明列表 保存所有数据
-		List<List<String>> list = Lists.getList();
+		List<List<String>> list = Lists.newList();
 		// 循环Sheet
 		for (int i = 0; i < num; i++) {
 			// 获得指定Sheet页值 添加到列表
@@ -57,14 +57,14 @@ public abstract class BaseExcel implements Excel {
 		// 获得列数
 		int cols = getColumns();
 		// 声明行 列表
-		List<List<String>> lsRow = Lists.getList(rows);
+		List<List<String>> lsRow = Lists.newList(rows);
 		// 声明列 列表
 		List<String> lsCol = null;
 		// 获得Sheet所有行和列内容
 		// 行循环
 		for (int i = 0; i < rows; i++) {
 			// 实例化行 列表
-			lsCol = Lists.getList(cols);
+			lsCol = Lists.newList(cols);
 			// 列循环
 			for (int j = 0; j < cols; j++) {
 				// 添加内容到列 列表
@@ -121,7 +121,7 @@ public abstract class BaseExcel implements Excel {
 		// 获得Sheet数量
 		int num = getSheets();
 		// 声明列表保存数据
-		List<Map<String, String>> list = Lists.getList();
+		List<Map<String, String>> list = Lists.newList();
 		// 循环Sheet
 		for (int i = 0; i < num; i++) {
 			// 获得指定Sheet页值 添加到列表
@@ -146,7 +146,7 @@ public abstract class BaseExcel implements Excel {
 		// 列表大小
 		int size = lsList.size();
 		// 声明列表 保存所有数据
-		List<Map<String, String>> lsMap = Lists.getList(size - 1);
+		List<Map<String, String>> lsMap = Lists.newList(size - 1);
 		// 声明列表 保存行数据
 		List<String> list = null;
 		// 声明Map 保存行数据
@@ -158,7 +158,7 @@ public abstract class BaseExcel implements Excel {
 			// 获得行内容
 			list = lsList.get(i);
 			// 实例化Map
-			map = Maps.getMap();
+			map = Maps.newMap();
 			// 循环
 			for (int j = 0; j < num; j++) {
 				// 设置列名与列值

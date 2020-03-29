@@ -24,7 +24,7 @@ public final class SecurityInterceptor extends BasicInterceptor<StrutsAction> {
 	@Override
 	public void init() {
 		// 实例化Map
-		methods = Maps.getMap();
+		methods = Maps.newMap();
 		// 安全验证方法
 		for (String method : SecurityParams.SECURITY_METHODS) {
 			methods.put(method, SecurityParams.getModules(method));

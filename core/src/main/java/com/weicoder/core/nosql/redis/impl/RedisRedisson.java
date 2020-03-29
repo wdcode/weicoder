@@ -1,8 +1,8 @@
 package com.weicoder.core.nosql.redis.impl;
-
-import org.redisson.Config;
+ 
 import org.redisson.Redisson;
-import org.redisson.RedissonClient;
+import org.redisson.api.RedissonClient;
+import org.redisson.config.Config;
 
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.core.nosql.base.BaseNoSQL;

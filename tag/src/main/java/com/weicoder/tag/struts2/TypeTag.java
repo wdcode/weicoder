@@ -11,8 +11,7 @@ import org.apache.struts2.views.jsp.ComponentTagSupport;
 import org.apache.struts2.views.jsp.SetTag;
 import org.apache.struts2.views.jsp.ui.AbstractUITag;
 import org.apache.struts2.views.jsp.ui.CheckboxListTag;
-import org.apache.struts2.views.jsp.ui.CheckboxTag;
-import org.apache.struts2.views.jsp.ui.DivTag;
+import org.apache.struts2.views.jsp.ui.CheckboxTag; 
 import org.apache.struts2.views.jsp.ui.FileTag;
 import org.apache.struts2.views.jsp.ui.LabelTag;
 import org.apache.struts2.views.jsp.ui.PasswordTag;
@@ -47,12 +46,10 @@ public final class TypeTag extends AbstractUITag {
 	private final static String	TYPE_CHECKBOX_LIST	= "checkboxlist";
 	private final static String	TYPE_SUBMIT			= "submit";
 	private final static String	TYPE_SET			= "set";
-	private final static String	DIV					= "div";
+//	private final static String	DIV					= "div";
 
 	// 声明一个AbstractUITag
-	private ComponentTagSupport	tag;
-	// 声明DivTag
-	private DivTag				divTag;
+	private ComponentTagSupport	tag; 
 
 	/**
 	 * 获得Bean
@@ -71,11 +68,11 @@ public final class TypeTag extends AbstractUITag {
 		if (!EmptyUtil.isEmpty(tag)) {
 			flag = tag.doEndTag();
 		}
-		// 标签不为空设置属性
-		if (!EmptyUtil.isEmpty(divTag)) {
-			divTag.setBodyContent(tag.getBodyContent());
-			divTag.doEndTag();
-		}
+//		// 标签不为空设置属性
+//		if (!EmptyUtil.isEmpty(divTag)) {
+//			divTag.setBodyContent(tag.getBodyContent());
+//			divTag.doEndTag();
+//		}
 		return flag;
 	}
 
@@ -87,11 +84,11 @@ public final class TypeTag extends AbstractUITag {
 		int flag = SKIP_BODY;
 		// 初始化
 		init();
-		// 标签不为空设置属性
-		if (!EmptyUtil.isEmpty(divTag)) {
-			divTag.setPageContext(pageContext);
-			divTag.doStartTag();
-		}
+//		// 标签不为空设置属性
+//		if (!EmptyUtil.isEmpty(divTag)) {
+//			divTag.setPageContext(pageContext);
+//			divTag.doStartTag();
+//		}
 		// 标签不为空设置属性
 		if (!EmptyUtil.isEmpty(tag)) {
 			tag.setPageContext(pageContext);
@@ -108,7 +105,7 @@ public final class TypeTag extends AbstractUITag {
 	protected void init() {
 		// 设置标签为空
 		tag = null;
-		divTag = null;
+//		divTag = null;
 		// 获得映射Map
 		Map<String, String> map = (Map<String, String>) getStack().findValue(value);
 		// 获得类型
@@ -139,12 +136,12 @@ public final class TypeTag extends AbstractUITag {
 			tag = new SetTag();
 		}
 		// 是否有div
-		String div = map.get(DIV);
-		// 判断是否有div包围
-		if (div != null) {
-			divTag = new DivTag();
-			divTag.setCssClass(div);
-		}
+//		String div = map.get(DIV);
+//		// 判断是否有div包围
+//		if (div != null) {
+//			divTag = new DivTag();
+//			divTag.setCssClass(div);
+//		}
 		// 判断标签不为空
 		if (!EmptyUtil.isEmpty(tag)) {
 			// 对标签赋值

@@ -44,7 +44,7 @@ public final class JsonGson implements Json {
 			// 如果返回列表类型与传入类型不同
 			if (!EmptyUtil.isEmpty(list) && !list.get(0).getClass().equals(clazz)) {
 				// 声明列表
-				List<E> ls = Lists.getList(list.size());
+				List<E> ls = Lists.newList(list.size());
 				// 转换列表
 				for (Object o : list) {
 					ls.add(BeanUtil.copy(o, clazz));
@@ -56,7 +56,7 @@ public final class JsonGson implements Json {
 			return list;
 		} catch (Exception e) {
 			Logs.debug("JsonGson toList=" + e.toString());
-			return Lists.getList();
+			return Lists.newList();
 		}
 	}
 }

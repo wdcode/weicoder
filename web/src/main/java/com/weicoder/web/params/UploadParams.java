@@ -24,11 +24,11 @@ public final class UploadParams {
 	/** 是否需要上传后缀名 */
 	public final static boolean			SUFFIX					= Params.getBoolean("upload.suffix", true);
 	/** 是否需要上传后缀名 */
-	public final static List<String>	POSTFIX					= Params.getList("upload.postfix", Lists.getList(StringConstants.EMPTY));
+	public final static List<String>	POSTFIX					= Params.getList("upload.postfix", Lists.newList(StringConstants.EMPTY));
 	/** 是否需要上传后压缩图片 */
 	public final static boolean			IMAGE_COMPRESS_POWER	= Params.getBoolean("upload.image.compress.power", false);
 	/** 是否需要上传后压缩图片 */
-	public final static List<String>	IMAGE_COMPRESS_NAMES	= Params.getList("upload.image.compress.names", Lists.getList(StringConstants.EMPTY));
+	public final static List<String>	IMAGE_COMPRESS_NAMES	= Params.getList("upload.image.compress.names", Lists.newList(StringConstants.EMPTY));
 
 	/**
 	 * 获得压缩图片宽度<br/>

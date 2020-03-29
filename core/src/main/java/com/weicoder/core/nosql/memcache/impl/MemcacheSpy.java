@@ -109,7 +109,7 @@ public final class MemcacheSpy extends BaseMemcache {
 	 */
 	private List<InetSocketAddress> getAddress(String[] servers) {
 		// 声明地址列表
-		List<InetSocketAddress> address = Lists.getList(servers.length);
+		List<InetSocketAddress> address = Lists.newList(servers.length);
 		// 循环服务器生成地址
 		for (String server : servers) {
 			String[] host = server.split(StringConstants.COLON);

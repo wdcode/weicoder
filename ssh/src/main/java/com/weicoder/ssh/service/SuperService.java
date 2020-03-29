@@ -20,7 +20,7 @@ import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.EmptyUtil;
-import com.weicoder.common.util.ExecutorUtil;
+import com.weicoder.common.concurrent.ExecutorUtil;
 import com.weicoder.ssh.dao.Dao;
 
 /**
@@ -52,9 +52,9 @@ public class SuperService {
 		// 获得所有带缓存实体
 		Map<String, Object> map = context.getBeansWithAnnotation(com.weicoder.ssh.annotation.Cache.class);
 		// 实例化缓存
-		caches = Maps.getConcurrentMap();
+		caches = Maps.newConcurrentMap();
 		// 实例化缓存加载
-		loads = Maps.getConcurrentMap();
+		loads = Maps.newConcurrentMap();
 		// 实例化空缓存
 		empty = new CacheEmpty();
 		// 循环赋值
@@ -191,7 +191,7 @@ public class SuperService {
 		// 获得缓存
 		Cache<E> cache = getCache(entityClass);
 		// 声明列表
-		List<E> list = Lists.getList();
+		List<E> list = Lists.newList();
 		// 缓存存在
 		if (cache.isValid()) {
 			// 循环赋值
@@ -413,7 +413,7 @@ public class SuperService {
 	 */
 	@SuppressWarnings("unchecked")
 	public <E extends Entity> List<E> in(Class<E> entityClass, String property, List<?> values, int firstResult, int maxResults) {
-		return (List<E>) (EmptyUtil.isEmpty(values) ? Lists.getList() : dao.in(entityClass, property, values, firstResult, maxResults));
+		return (List<E>) (EmptyUtil.isEmpty(values) ? Lists.newList() : dao.in(entityClass, property, values, firstResult, maxResults));
 	}
 
 	/**
@@ -721,11 +721,11 @@ public class SuperService {
 		// 声明列表
 		List<E> list = eq(entity, property, value, -1, -1);
 		// 声明返回列表
-		List<E> ls = Lists.getList(list.size());
+		List<E> ls = Lists.newList(list.size());
 		// 添加指定实体
 		ls.add(get(entity, (Serializable) value));
 		// 循环添加
-		for (E obj : Lists.getList(list)) {
+		for (E obj : Lists.newList(list)) {
 			ls.addAll(next(entity, property, obj.getKey()));
 		}
 		// 返回列表
@@ -741,7 +741,7 @@ public class SuperService {
 	 */
 	public <E extends Entity> List<E> prev(Class<E> entity, String property, Serializable pk) {
 		// 声明列表
-		List<E> list = Lists.getList();
+		List<E> list = Lists.newList();
 		// 获得相当对象
 		E obj = get(entity, pk);
 		// 对象不为空

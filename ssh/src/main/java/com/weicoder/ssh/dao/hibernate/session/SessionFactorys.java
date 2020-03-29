@@ -5,6 +5,7 @@ import java.util.Properties;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+import javax.persistence.EntityManagerFactory;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -47,11 +48,11 @@ public final class SessionFactorys implements Close {
 	@PostConstruct
 	protected void init() {
 		// 实例化表列表
-		factorys = Maps.getConcurrentMap();
+		factorys = Maps.newConcurrentMap();
 		// 初始化SessionFactory
 		initSessionFactory();
 		// 获得所有SessionFactory
-		Map<String, SessionFactory> map = context.getBeansOfType(SessionFactory.class);
+		Map<String, EntityManagerFactory> map = context.getBeansOfType(EntityManagerFactory.class);
 		// 如果只有一个SessionFactory
 		if (map.size() == 1) {
 			factory = map.values().toArray(new SessionFactory[1])[0];
@@ -59,10 +60,10 @@ public final class SessionFactorys implements Close {
 		// 循环获得表名
 		for (Entity e : context.getBeansOfType(Entity.class).values()) {
 			// 循环获得SessionFactory
-			for (SessionFactory sessionFactory : map.values()) {
+			for (EntityManagerFactory sessionFactory : map.values()) {
 				try {
-					if (sessionFactory.getClassMetadata(e.getClass()) != null) {
-						factorys.put(e.getClass(), sessionFactory);
+					if (sessionFactory.getMetamodel().entity(e.getClass()) != null) {
+						factorys.put(e.getClass(), (SessionFactory) sessionFactory);
 					}
 				} catch (Exception ex) {}
 			}

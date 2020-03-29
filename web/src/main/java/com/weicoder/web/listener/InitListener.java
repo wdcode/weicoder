@@ -56,7 +56,7 @@ public class InitListener implements ServletContextListener {
 		// 判断是否开启Servlet
 		if (ServletParams.POWER) {
 			// 按包处理
-			for (Class<?> c : ClassUtil.getAnnotationClass(Action.class)) {
+			for (Class<?> c : ClassUtil.from(Action.class)) {
 				try {
 					// 获得action名结尾为action去掉
 					String cname = StringUtil.convert(StringUtil.subStringLastEnd(c.getSimpleName(), "Action"));
@@ -73,7 +73,7 @@ public class InitListener implements ServletContextListener {
 								// 放入action里方法
 								Map<String, Method> map = Contexts.ACTIONS_METHODS.get(cname);
 								if (map == null) {
-									Contexts.ACTIONS_METHODS.put(cname, map = Maps.getMap());
+									Contexts.ACTIONS_METHODS.put(cname, map = Maps.newMap());
 								}
 								map.put(mname, m);
 								// 放入总方法池

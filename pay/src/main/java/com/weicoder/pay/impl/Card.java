@@ -107,7 +107,7 @@ public final class Card implements Pay {
 	 */
 	public Map<String, String> getParameters(HttpServletRequest request, PayBean pay) {
 		// 设置提交参数
-		Map<String, String> data = Maps.getMap();
+		Map<String, String> data = Maps.newMap();
 		data.put("p0_Cmd", "ChargeCardDirect");
 		data.put("p1_MerId", PayParams.CARD_ID);
 		data.put("p2_Order", Conversion.toString(pay.getNo()));

@@ -94,7 +94,7 @@ public final class HttpUtil {
 		// 声明字符串缓存
 		StringBuilder sb = new StringBuilder();
 		// 获得Key列表
-		List<String> keys = Lists.sort(Lists.getList(map.keySet()));
+		List<String> keys = Lists.sort(Lists.newList(map.keySet()));
 		// 排序
 		Lists.sort(keys);
 		// 根据Key列表获得值

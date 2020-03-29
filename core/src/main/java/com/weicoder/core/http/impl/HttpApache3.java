@@ -69,7 +69,7 @@ public final class HttpApache3 extends BaseHttp {
 		params.setParameter(HttpMethodParams.RETRY_HANDLER, new DefaultHttpMethodRetryHandler());
 
 		// 设置提交头
-		List<Header> headers = Lists.getList(7);
+		List<Header> headers = Lists.newList(7);
 		headers.add(new Header(CONTENT_TYPE_KEY, CONTENT_TYPE_VAL));
 		headers.add(new Header(USER_AGENT_KEY, USER_AGENT_VAL));
 		headers.add(new Header(ACCEPT_KEY, ACCEPT_VAL));
@@ -200,7 +200,7 @@ public final class HttpApache3 extends BaseHttp {
 		// 判断数组不为空
 		if (!EmptyUtil.isEmpty(cookies)) {
 			// 获得列表
-			List<Map<String, String>> list = Lists.getList(cookies.length);
+			List<Map<String, String>> list = Lists.newList(cookies.length);
 			// 声明Map
 			Map<String, String> map = null;
 			// 声明Cookie
@@ -210,7 +210,7 @@ public final class HttpApache3 extends BaseHttp {
 				// 获得Cookie
 				cookie = cookies[i];
 				// 获得Map
-				map = Maps.getMap();
+				map = Maps.newMap();
 				// 添加名称
 				map.put("name", cookie.getName());
 				// 添加值

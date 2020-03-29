@@ -224,7 +224,7 @@ public final class QueryService {
 	 * @return 数据列表
 	 */
 	public List<? extends Entity> list(String entity, List<String> keys, List<Object> values, int firstResult, int maxResults) {
-		return service.eq(Contexts.getClass(entity), Maps.getMap(keys, values), firstResult, maxResults);
+		return service.eq(Contexts.getClass(entity), Maps.newMap(keys, values), firstResult, maxResults);
 	}
 
 	/**

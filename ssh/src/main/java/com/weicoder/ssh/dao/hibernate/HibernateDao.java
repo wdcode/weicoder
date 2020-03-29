@@ -7,7 +7,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.hibernate.Criteria;
-import org.hibernate.Query;
+import org.hibernate.query.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Conjunction;
@@ -71,7 +71,7 @@ public final class HibernateDao implements Dao {
 	 * @return 返回插入数据的唯一标识(主键) 出现异常返回0
 	 */
 	public <E> E insert(final E entity) {
-		return insert(Lists.getList(entity)).get(0);
+		return insert(Lists.newList(entity)).get(0);
 	}
 
 	/**
@@ -96,7 +96,7 @@ public final class HibernateDao implements Dao {
 	 * @return 是否成功
 	 */
 	public <E> E update(final E entity) {
-		return update(Lists.getList(entity)).get(0);
+		return update(Lists.newList(entity)).get(0);
 	}
 
 	/**
@@ -125,7 +125,7 @@ public final class HibernateDao implements Dao {
 	 * @return 列表对象
 	 */
 	public <E> E insertOrUpdate(E entity) {
-		return insertOrUpdate(Lists.getList(entity)).get(0);
+		return insertOrUpdate(Lists.newList(entity)).get(0);
 	}
 
 	/**
@@ -152,7 +152,7 @@ public final class HibernateDao implements Dao {
 	 * @return 是否成功
 	 */
 	public <E> E delete(E entity) {
-		return delete(Lists.getList(entity)).get(0);
+		return delete(Lists.newList(entity)).get(0);
 	}
 
 	/**
@@ -199,7 +199,7 @@ public final class HibernateDao implements Dao {
 		return execute(entityClass, new Callback<List<E>>() {
 			public List<E> callback(Session session) {
 				// 声明返回对象
-				List<E> list = Lists.getList(pks.length);
+				List<E> list = Lists.newList(pks.length);
 				// 循环获得实体列表
 				for (Serializable pk : pks) {
 					list.add((E) session.get(entityClass, pk));
@@ -256,7 +256,7 @@ public final class HibernateDao implements Dao {
 			@SuppressWarnings("unchecked")
 			public List<E> callback(Session session) {
 				// 获得Criteria
-				Criteria criteria = session.createCriteria(entity.getClass());
+				Criteria criteria = DetachedCriteria.forClass(entity.getClass()).getExecutableCriteria(session);
 				// 添加实体参数
 				criteria.add(Example.create(entity));
 				// 开始结果大于等于0
@@ -431,7 +431,7 @@ public final class HibernateDao implements Dao {
 		return execute(entityClass, new Callback<Integer>() {
 			public Integer callback(Session session) {
 				// 创建查询条件
-				Criteria criteria = session.createCriteria(entityClass);
+				Criteria criteria = DetachedCriteria.forClass(entityClass).getExecutableCriteria(session);
 				// 设置参数
 				if (!EmptyUtil.isEmpty(property) && !EmptyUtil.isEmpty(value)) {
 					criteria.add(Restrictions.eq(property, value));
@@ -455,7 +455,7 @@ public final class HibernateDao implements Dao {
 		return execute(entityClass, new Callback<Integer>() {
 			public Integer callback(Session session) {
 				// 创建查询条件
-				Criteria criteria = session.createCriteria(entityClass);
+				Criteria criteria = DetachedCriteria.forClass(entityClass).getExecutableCriteria(session);
 				// 判断属性名不为空
 				if (!EmptyUtil.isEmpty(map)) {
 					criteria.add(Restrictions.allEq(map));
@@ -477,7 +477,7 @@ public final class HibernateDao implements Dao {
 		return execute(entity.getClass(), new Callback<Integer>() {
 			public Integer callback(Session session) {
 				// 创建查询条件
-				Criteria criteria = session.createCriteria(entity.getClass());
+				Criteria criteria = DetachedCriteria.forClass(entity.getClass()).getExecutableCriteria(session);
 				// 添加实体对象
 				criteria.add(Example.create(entity));
 				// 设置获得总行数
@@ -507,11 +507,7 @@ public final class HibernateDao implements Dao {
 	 * @return 返回影响的行数 异常返回-1
 	 */
 	public int execute(Class<?> entityClass, final String sql, final Object... values) {
-		return execute(entityClass, new Callback<Integer>() {
-			public Integer callback(Session session) {
-				return setParameter(session.createSQLQuery(sql), Lists.getList(values), -1, -1).executeUpdate();
-			}
-		});
+		return execute(entityClass, session -> setParameter(session.createNativeQuery(sql, entityClass), Lists.newList(values), -1, -1).executeUpdate());
 	}
 
 	/**
@@ -547,7 +543,7 @@ public final class HibernateDao implements Dao {
 	 * @param maxResults 最大结果
 	 * @return Query
 	 */
-	private Query setParameter(Query query, List<Object> values, int firstResult, int maxResults) {
+	private <R> Query<R> setParameter(Query<R> query, List<Object> values, int firstResult, int maxResults) {
 		// 是否有参数
 		if (!EmptyUtil.isEmpty(values)) {
 			// 循环参数

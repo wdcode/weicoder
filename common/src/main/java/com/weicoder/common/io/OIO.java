@@ -5,15 +5,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.util.CloseUtil;
-import com.weicoder.common.util.EmptyUtil;
 
 /**
  * 堵塞IO操作
- * @author WD 
- * @version 1.0  
+ * @author WD
  */
 public final class OIO extends BaseIO {
 	/**
@@ -23,6 +22,10 @@ public final class OIO extends BaseIO {
 	 * @return 字节数组
 	 */
 	public byte[] read(InputStream in, boolean isClose) {
+		// 如果流为空 返回空字节数组
+		if (in == null) {
+			return ArrayConstants.BYTES_EMPTY;
+		}
 		// 创建结果字节缓存
 		ByteArrayOutputStream out = new ByteArrayOutputStream(CommonParams.IO_BUFFERSIZE * 10);
 		try {
@@ -36,7 +39,7 @@ public final class OIO extends BaseIO {
 				out.write(buffer, 0, length);
 			}
 		} catch (IOException e) {
-			Logs.debug("OIO read=" + e.toString());
+			Logs.error(e);
 		} finally {
 			// 关闭资源
 			if (isClose) {
@@ -56,7 +59,9 @@ public final class OIO extends BaseIO {
 	 */
 	public boolean write(OutputStream out, InputStream in, boolean isClose) {
 		// 判断如果流为空 直接返回
-		if (EmptyUtil.isEmpty(out) || EmptyUtil.isEmpty(in)) { return false; }
+		if (out == null || in == null) {
+			return false;
+		}
 		try {
 			// 声明字节数组 当缓存用
 			byte[] buffer = new byte[CommonParams.IO_BUFFERSIZE];
@@ -72,7 +77,7 @@ public final class OIO extends BaseIO {
 			// 返回成功
 			return true;
 		} catch (IOException e) {
-			Logs.debug("OIO write=" + e.toString());
+			Logs.error(e);
 		} finally {
 			// 关闭资源
 			if (isClose) {

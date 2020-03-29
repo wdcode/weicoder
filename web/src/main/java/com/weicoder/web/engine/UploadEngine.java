@@ -1,5 +1,6 @@
 package com.weicoder.web.engine;
 
+import java.awt.Image;
 import java.io.File;
 
 import javax.servlet.http.HttpServletRequest;
@@ -109,7 +110,7 @@ public final class UploadEngine {
 			// 是否开启图片压缩 并且是图片
 			if (UploadParams.IMAGE_COMPRESS_POWER) {
 				// 获得文件
-				File img = FileUtil.getFile(fn);
+				File img = FileUtil.newFile(fn);
 				// 是图片
 				if (ImageUtil.isImage(img)) {
 					// 循环压缩图片
@@ -117,7 +118,7 @@ public final class UploadEngine {
 						// 获取压缩文件保存文件名
 						String f = StringUtil.subStringLastEnd(fn, StringConstants.BACKSLASH) + StringConstants.BACKSLASH + compress + StringConstants.BACKSLASH + StringUtil.subStringLast(fn, StringConstants.BACKSLASH);
 						// 写入压缩图片
-						ImageUtil.compress(img, FileUtil.getOutputStream(f), UploadParams.getWidth(compress), UploadParams.getHeight(compress), true);
+						ImageUtil.compress(img, FileUtil.getOutputStream(f), UploadParams.getWidth(compress), UploadParams.getHeight(compress), Image.SCALE_DEFAULT);
 					}
 				}
 			}
