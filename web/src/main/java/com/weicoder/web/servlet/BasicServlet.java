@@ -3,27 +3,35 @@ package com.weicoder.web.servlet;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
+import javax.servlet.AsyncContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.weicoder.common.bean.StateCode;
 import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.lang.Conversion;
+import com.weicoder.common.U;
+import com.weicoder.common.W;
+import com.weicoder.common.asyn.Asyn;
+import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.log.Log;
 import com.weicoder.common.log.LogFactory;
+import com.weicoder.common.log.Logs;
+import com.weicoder.common.params.StateParams;
 import com.weicoder.common.token.TokenBean;
 import com.weicoder.common.token.TokenEngine;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.ClassUtil;
-import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.util.DateUtil;
 import com.weicoder.common.util.IpUtil;
 import com.weicoder.common.util.StringUtil;
-import com.weicoder.core.params.ErrorCodeParams;
 import com.weicoder.web.annotation.Action;
 import com.weicoder.web.annotation.Cookies;
 import com.weicoder.web.annotation.Forward;
@@ -31,6 +39,8 @@ import com.weicoder.web.annotation.Get;
 import com.weicoder.web.annotation.Post;
 import com.weicoder.web.annotation.Redirect;
 import com.weicoder.web.annotation.State;
+import com.weicoder.web.aop.Aop;
+import com.weicoder.web.aop.Aops;
 import com.weicoder.web.common.WebCommons;
 import com.weicoder.web.params.WebParams;
 import com.weicoder.web.util.CookieUtil;
@@ -40,16 +50,18 @@ import com.weicoder.web.validator.Validators;
 
 /**
  * 基础Servlet 3
+ * 
  * @author WD
  */
-@WebServlet("/*")
+@WebServlet(value = "/*", asyncSupported = true)
 public class BasicServlet extends HttpServlet {
-	private static final long	serialVersionUID	= 3117468121294921856L;
+	private static final long serialVersionUID = 3117468121294921856L;
 	// 日志
-	private final static Log	LOG					= LogFactory.getLog(BasicServlet.class);
+	private final static Log LOG = LogFactory.getLog(BasicServlet.class);
 
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		long curr = System.currentTimeMillis();
 		// 获得客户端IP
 		String ip = RequestUtil.getIp(request);
@@ -58,14 +70,16 @@ public class BasicServlet extends HttpServlet {
 		// 提交方法
 		String m = request.getMethod();
 		// 获得path
-		String path = request.getPathInfo(); 
-		LOG.debug("request ip={} path={} Method={} scheme={} queryString={}", ip, path, m, request.getScheme(), request.getQueryString());
-		if (EmptyUtil.isNotEmpty(path)) {
+		String path = request.getPathInfo();
+		LOG.debug("request ip={} path={} Method={} scheme={} queryString={}", ip, path, m, request.getScheme(),
+				request.getQueryString());
+		if (U.E.isNotEmpty(path)) {
 			// 分解提交action 去处开头的/ 并且按/或者_分解出数组
 			String actionName = StringUtil.subString(path, 1, path.length());
-			String[] actions = StringUtil.contains(actionName, StringConstants.BACKSLASH) ? StringUtil.split(actionName, StringConstants.BACKSLASH)
+			String[] actions = StringUtil.contains(actionName, StringConstants.BACKSLASH)
+					? StringUtil.split(actionName, StringConstants.BACKSLASH)
 					: StringUtil.split(actionName, StringConstants.UNDERLINE);
-			if (EmptyUtil.isEmpty(actions)) {
+			if (U.E.isEmpty(actions)) {
 				LOG.debug("this path={}", path);
 				ResponseUtil.json(response, callback, "action is null path");
 				return;
@@ -93,7 +107,8 @@ public class BasicServlet extends HttpServlet {
 			// action为空
 			if (action == null) {
 				// 还是为空
-				LOG.warn("request ip={},path={},name={},actionName={},ma={},no action and method", ip, path, name, actionName, WebCommons.METHODS_ACTIONS);
+				LOG.warn("request ip={},path={},name={},actionName={},ma={},no action and method", ip, path, name,
+						actionName, WebCommons.METHODS_ACTIONS);
 				ResponseUtil.json(response, callback, "no action and method");
 				return;
 			}
@@ -109,7 +124,7 @@ public class BasicServlet extends HttpServlet {
 			}
 			// 获得方法
 			Map<String, Method> methods = WebCommons.ACTIONS_METHODS.get(name);
-			if (EmptyUtil.isEmpty(methods))
+			if (U.E.isEmpty(methods))
 				methods = WebCommons.METHODS;
 			Method method = methods.get(actions[actions.length - 1]);
 			if (method == null) {
@@ -138,55 +153,107 @@ public class BasicServlet extends HttpServlet {
 			LOG.debug("action={} params={}", actionName, ps);
 			// 验证
 			int code = Validators.validator(method, action, ps, ip);
-			if (EmptyUtil.isNotEmpty(pars)) {
+			if (U.E.isNotEmpty(pars)) {
 				// 参数不为空 设置参数
 				params = new Object[pars.length];
-				if (EmptyUtil.isEmpty(ps.get("ip")))
+				// ip没有传 注入当前客户端IP
+				if (U.E.isEmpty(ps.get("ip")))
 					ps.put("ip", ip);
+				// 当前时间time没有传注入time
+				if (U.E.isEmpty(ps.get("time")))
+					ps.put("time", W.C.toString(DateUtil.getTime()));
 				LOG.trace("request all ip={} params={}", ip, params);
 				// token验证通过在执行
-				if (code == WebParams.STATE_SUCCESS) {
-					// action全部参数下标
-					int i = 0;
-					for (; i < pars.length; i++) {
-						// 判断类型并设置
-						Parameter p = pars[i];
-						// 参数的类型
-						Class<?> cs = p.getType();
-						if (HttpServletRequest.class.equals(cs))
-							params[i] = request;
-						else if (HttpServletResponse.class.equals(cs))
-							params[i] = response;
-						else if (TokenBean.class.equals(cs))
-							// 设置Token
-							params[i] = TokenEngine.decrypt(ps.get(p.getName()));
-						else if (Map.class.equals(cs))
-							params[i] = ps;
-						else if (ClassUtil.isBaseType(cs)) {
-							// 获得参数
-							params[i] = Conversion.to(ps.get(p.getName()), cs);
-							// 验证参数
-							if ((code = Validators.validator(p, params[i])) != WebParams.STATE_SUCCESS)
+//				if (code == StateParams.SUCCESS) {
+				// action全部参数下标
+				int i = 0;
+				for (; i < pars.length; i++) {
+					// 判断类型并设置
+					Parameter p = pars[i];
+					// 获得参数值
+					String v = ps.get(p.getName());
+					// 参数的类型
+					Class<?> cs = p.getType();
+					if (HttpServletRequest.class.equals(cs))
+						params[i] = request;
+					else if (HttpServletResponse.class.equals(cs))
+						params[i] = response;
+					else if (TokenBean.class.equals(cs))
+						// 设置Token
+						params[i] = TokenEngine.decrypt(v);
+					else if (Map.class.equals(cs))
+						params[i] = ps;
+					else if (ClassUtil.isBaseType(cs)) {
+						// 获得参数
+						params[i] = W.C.to(v, cs);
+						// 验证参数
+						if (code == StateParams.SUCCESS)
+							if ((code = Validators.validator(p, params[i])) != StateParams.SUCCESS)
 								break;
-						} else {
-							// 设置属性
-							params[i] = BeanUtil.copy(ps, cs);
-							// 验证参数
-							if ((code = Validators.validator(params[i])) != WebParams.STATE_SUCCESS)
+					} else {
+						// 设置属性
+						params[i] = BeanUtil.copy(ps, cs);
+						// 验证参数
+						if (code == StateParams.SUCCESS)
+							if ((code = Validators.validator(params[i])) != StateParams.SUCCESS)
 								break;
-						}
 					}
 				}
+//				}
 			}
 			// 调用方法
 			// try {
-			Object res = null;
-			if (code == WebParams.STATE_SUCCESS)
-				res = BeanUtil.invoke(action, method, params);
-			else
-				res = code;
+			if (code == StateParams.SUCCESS) {
+				// 判断是否异步
+				if (a.async() || method.isAnnotationPresent(Asyn.class)
+						|| action.getClass().isAnnotationPresent(Asyn.class)) {
+					// 获得异步全局
+					AsyncContext async = request.startAsync();
+					Object ac = action;
+					Object[] p = params;
+					// 异步执行
+					async.start(() -> {
+						// 执行方法并返回结果
+						result(method, ac, invoke(ac, method, p, request, response), callback, request, response, ip,
+								actionName, p, pars, curr);
+						// 通知主线程完成
+						async.complete();
+					});
+//					// 异步处理
+//					ExecutorUtil.pool("async").execute(() -> {
+//						// 执行方法并返回结果
+//						try {
+//							result(method, ac, invoke(ac, method, p, request, response), callback, request, response, ip, actionName, p, pars, curr);
+//						} catch (Exception e) {
+//							Logs.error(e);
+//						}
+//						// 通知主线程完成
+//						async.complete();
+//					});
+				} else
+					result(method, action, invoke(action, method, params, request, response), callback, request,
+							response, ip, actionName, params, pars, curr);
+			} else
+				result(method, action, StateCode.build(code), callback, request, response, ip, actionName, params, pars,
+						curr);
+		}
+	}
+
+	@Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		if (WebParams.GET)
+			doPost(request, response);
+		else
+			ResponseUtil.json(response, "not supported get");
+	}
+
+	private void result(Method method, Object action, Object res, String callback, HttpServletRequest request,
+			HttpServletResponse response, String ip, String actionName, Object[] params, Parameter[] pars, long curr) {
+		try {
 			// 判断是否需要写cookie
-			boolean cookie = method.isAnnotationPresent(Cookies.class) || action.getClass().isAnnotationPresent(Cookies.class);
+			boolean cookie = method.isAnnotationPresent(Cookies.class)
+					|| action.getClass().isAnnotationPresent(Cookies.class);
 			String[] names = null;
 			Cookies c = null;
 			if (cookie) {
@@ -198,19 +265,22 @@ public class BasicServlet extends HttpServlet {
 			}
 			// 判断是否跳转url
 			if (method.isAnnotationPresent(Redirect.class) || action.getClass().isAnnotationPresent(Redirect.class)) {
-				String url = Conversion.toString(res);
-				if (EmptyUtil.isEmpty(url))
+				String url = W.C.toString(res);
+				if (U.E.isEmpty(url)) {
 					ResponseUtil.json(response, callback, "Redirect is null");
-				else {
+					return;
+				} else {
 					LOG.debug("redirect url:{}", url);
 					response.sendRedirect(url);
 					return;
 				}
-			} else if (method.isAnnotationPresent(Forward.class) || action.getClass().isAnnotationPresent(Forward.class)) {
-				String url = Conversion.toString(res);
-				if (EmptyUtil.isEmpty(url))
+			} else if (method.isAnnotationPresent(Forward.class)
+					|| action.getClass().isAnnotationPresent(Forward.class)) {
+				String url = W.C.toString(res);
+				if (U.E.isEmpty(url)) {
 					ResponseUtil.json(response, callback, "Forward is null");
-				else {
+					return;
+				} else {
 					LOG.debug("forward url:{}", url);
 					request.getRequestDispatcher(url).forward(request, response);
 					return;
@@ -227,20 +297,22 @@ public class BasicServlet extends HttpServlet {
 				// 如果res为状态码
 				if (res == null)
 					// 写空信息
-					ResponseUtil.json(response, callback,
-							Maps.newMap(new String[] { status, error }, new Object[] { WebParams.STATE_ERROR_NULL, ErrorCodeParams.getMessage(WebParams.STATE_ERROR_NULL) }));
-				else if (res instanceof Integer) {
+					res = Maps.newMap(new String[]{status, error}, StateCode.NULL.to());
+//				else if (res instanceof Integer) {
+//					// 写错误信息
+//					int errorcode = Conversion.toInt(res);
+//					res = Maps.newMap(new String[]{status, errorcode == StateParams.SUCCESS ? success : error},
+//							new Object[]{errorcode, errorcode == StateParams.SUCCESS ? StateParams.SUCCESS_MSG : StateParams.getMessage(errorcode)});
+//				}
+				else if (res instanceof StateCode)
 					// 写错误信息
-					int errorcode = Conversion.toInt(res);
-					// 写入到前端
-					ResponseUtil.json(response, callback, Maps.newMap(new String[] { status, errorcode == WebParams.STATE_SUCCESS ? success : error },
-							new Object[] { errorcode, errorcode == WebParams.STATE_SUCCESS ? WebParams.STATE_SUCCESS_MSG : ErrorCodeParams.getMessage(errorcode) }));
-				} else {
+					res = Maps.newMap(new String[]{status, error}, ((StateCode) res).to());
+				else {
 					// 是否写cookie
 					if (cookie)
 						CookieUtil.adds(response, c.maxAge(), res, names);
 					// 写入到前端
-					res = Maps.newMap(new String[] { status, success }, new Object[] { WebParams.STATE_SUCCESS, res });
+					res = Maps.newMap(new String[]{status, success}, new Object[]{StateCode.SUCCESS.getCode(), res});
 				}
 			} else {
 				// 如果结果为空
@@ -252,18 +324,59 @@ public class BasicServlet extends HttpServlet {
 					CookieUtil.adds(response, c.maxAge(), res, names);
 			}
 			// 写到前端
-			LOG.info("request ip={} name={}  params={} pars={} time={} res={} end", ip, actionName, params, pars, System.currentTimeMillis() - curr, ResponseUtil.json(response, callback, res));
+			LOG.info("request ip={} name={} time={} params={} pars={} method={} type={} res={} end", ip, actionName,
+					System.currentTimeMillis() - curr, params, pars, request.getMethod(), request.getContentType(),
+					ResponseUtil.json(response, callback, res));
+		} catch (Exception e) {
+			Logs.error(e);
 		}
 	}
 
-	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if (WebParams.GET)
-			doPost(request, response);
-		else
-			ResponseUtil.json(response, "not supported get");
+	private Object invoke(Object action, Method method, Object[] params, HttpServletRequest request,
+			HttpServletResponse response) {
+		// 获得所有aop
+		List<Aops> aops = aops(action, method);
+		try {
+			// 前置执行
+			aops.forEach(aop -> aop.before(action, params, request, response));
+			// 执行方法返回结果
+			Object result = method.invoke(action, U.E.isEmpty(params) ? null : params);
+			if (result == null && void.class.equals(method.getReturnType()))
+				result = StateCode.SUCCESS;
+			// 后置执行
+			for (Aops aop : aops)
+				aop.after(action, params, result, request, response);
+			// 返回结果
+			return result;
+		} catch (Exception e) {
+			Logs.error(e, "action invoke method={} args={} params={}", method.getName(), Arrays.toString(params),
+					Arrays.toString(method.getParameters()));
+			// 异常执行
+			aops.forEach(aop -> aop.exception(e, action, params, request, response));
+			// 返回错误
+			return StateCode.ERROR;
+		}
 	}
-	
+
+	private List<Aops> aops(Object obj, Method method) {
+		// 声明aop列表
+		List<Aops> aops = Lists.newList(WebCommons.AOP_ALL);
+		// 检查action是否有aop
+		if (obj.getClass().isAnnotationPresent(Aop.class)) {
+			Aop aop = obj.getClass().getAnnotation(Aop.class);
+			if (aop != null && U.E.isNotEmpty(aop.value()))
+				aops.add(WebCommons.AOPS.get(aop.value()));
+		}
+		// 检查method是否有aop
+		if (method.isAnnotationPresent(Aop.class)) {
+			Aop aop = method.getClass().getAnnotation(Aop.class);
+			if (aop != null && U.E.isNotEmpty(aop.value()))
+				aops.add(WebCommons.AOPS.get(aop.value()));
+		}
+		// 返回列表
+		return Lists.notNull(aops);
+	}
+
 //	/**
 //	 * 获得Action
 //	 * 
@@ -279,7 +392,7 @@ public class BasicServlet extends HttpServlet {
 //			HttpServletResponse response) {
 //		// 声明action
 //		Object action = null;
-//		if (EmptyUtil.isEmpty(actions)) {
+//		if (U.E.isEmpty(actions)) {
 //			LOG.debug("this path={}", path);
 //			ResponseUtil.json(response, callback, "action is null path");
 //			return null;

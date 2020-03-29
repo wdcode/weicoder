@@ -5,35 +5,39 @@ import java.net.SocketAddress;
 
 import com.weicoder.common.binary.Buffer;
 import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.lang.Bytes;
-import com.weicoder.common.lang.Conversion;
+import com.weicoder.common.W;
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.common.log.Logs;
+import com.weicoder.common.token.TokenBean;
 import com.weicoder.socket.Session;
-import com.weicoder.socket.Sockets;
+import com.weicoder.socket.message.Messages; 
 
 /**
  * 基础Socket Session实现
+ * 
  * @author WD
  */
 public abstract class BaseSession implements Session {
 	// 名称
-	protected String	name;
+	protected String name;
 	// SessionId
-	protected long		id;
+	protected long id;
 	// 保存IP
-	protected String	ip;
+	protected String ip;
 	// 保存端口
-	protected int		port;
+	protected int port;
 	// 心跳存活时间
-	protected int		heart;
+	protected int heart;
 	// 写缓存
-	protected Buffer	buffer;
+	protected Buffer buffer;
+	// 用户Token
+	protected TokenBean token; 
 	// 保存属性 一般为绑定的对象
-	protected Object	obj;
+	protected Object obj;
 
 	/**
 	 * 构造
+	 * 
 	 * @param name 名称
 	 */
 	public BaseSession(String name) {
@@ -60,22 +64,22 @@ public abstract class BaseSession implements Session {
 
 	@Override
 	public void send(short id, Object message) {
-		send(Sockets.pack(id, message));
+		send(Messages.pack(id, message));
 	}
 
 	@Override
 	public void send(Object message) {
-		send(Sockets.pack(message));
+		send(Messages.pack(message));
 	}
 
 	@Override
 	public void write(short id, Object message) {
-		write(Sockets.pack(id, message));
+		write(Messages.pack(id, message));
 	}
 
 	@Override
 	public void write(Object message) {
-		write(Sockets.pack(message));
+		write(Messages.pack(message));
 	}
 
 	@Override
@@ -98,7 +102,17 @@ public abstract class BaseSession implements Session {
 		// 发送数据
 		write(data);
 		flush();
-		Logs.info("name={};socket={};send len={};id={}", name, id, data.length, Bytes.toShort(data, 4));
+		Logs.info("name={};socket={};send len={}", name, id, data.length);
+	}
+	
+	@Override
+	public TokenBean getToken() {
+		return token;
+	}
+
+	@Override
+	public void setToken(TokenBean token) {
+		this.token = token;
 	}
 
 	@Override
@@ -136,6 +150,7 @@ public abstract class BaseSession implements Session {
 
 	/**
 	 * 设置IP与端口
+	 * 
 	 * @param address Socket地址
 	 */
 	protected void address(SocketAddress address) {
@@ -148,7 +163,7 @@ public abstract class BaseSession implements Session {
 			// 普通SocketAddress
 			String host = address.toString();
 			this.ip = StringUtil.subString(host, StringConstants.BACKSLASH, StringConstants.COLON);
-			this.port = Conversion.toInt(StringUtil.subString(host, StringConstants.COLON));
+			this.port = W.C.toInt(StringUtil.subString(host, StringConstants.COLON));
 		}
 	}
 }

@@ -12,7 +12,7 @@ import java.nio.channels.FileChannel;
 import java.nio.file.Paths;
 
 import com.weicoder.common.constants.ArrayConstants;
-import com.weicoder.common.lang.Conversion;
+import com.weicoder.common.W;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
 
@@ -20,18 +20,20 @@ import com.weicoder.common.util.StringUtil;
 
 /**
  * 对文件进行一些处理。
+ * 
  * @author WD
  */
-public final class FileUtil {
+public class FileUtil {
 	// IO模式
-	private final static boolean	IO	= "io".equalsIgnoreCase(CommonParams.IO_MODE);
+	private final static boolean IO = "io".equalsIgnoreCase(CommonParams.IO_MODE);
 	// AIO模式
-	private final static boolean	AIO	= "aio".equalsIgnoreCase(CommonParams.IO_MODE);
+	private final static boolean AIO = "aio".equalsIgnoreCase(CommonParams.IO_MODE);
 
 	/**
 	 * 创建目录
-	 * @param path 目录路径
-	 * @return true 成功 false 失败
+	 * 
+	 * @param  path 目录路径
+	 * @return      true 成功 false 失败
 	 */
 	public static boolean mkdirs(String path) {
 		return newFile(StringUtil.subStringLastEnd(path, File.separator)).mkdirs();
@@ -39,8 +41,9 @@ public final class FileUtil {
 
 	/**
 	 * 文件是否存在
-	 * @param name 文件名
-	 * @return true 存在 false 不存在
+	 * 
+	 * @param  name 文件名
+	 * @return      true 存在 false 不存在
 	 */
 	public static boolean exists(String name) {
 		return newFile(name).exists();
@@ -48,8 +51,9 @@ public final class FileUtil {
 
 	/**
 	 * 删除文件
-	 * @param fileName 文件名
-	 * @return true 成功 false 失败
+	 * 
+	 * @param  fileName 文件名
+	 * @return          true 成功 false 失败
 	 */
 	public static boolean delete(String fileName) {
 		return delete(newFile(fileName));
@@ -57,8 +61,9 @@ public final class FileUtil {
 
 	/**
 	 * 删除文件
-	 * @param file 文件名
-	 * @return true 成功 false 失败
+	 * 
+	 * @param  file 文件名
+	 * @return      true 成功 false 失败
 	 */
 	public static boolean delete(File file) {
 		return file.delete();
@@ -66,9 +71,10 @@ public final class FileUtil {
 
 	/**
 	 * 复制文件
-	 * @param src 原文件
-	 * @param target 目标文件
-	 * @return boolean
+	 * 
+	 * @param  src    原文件
+	 * @param  target 目标文件
+	 * @return        boolean
 	 */
 	public static boolean copy(String src, String target) {
 		return write(target, getInputStream(src));
@@ -76,9 +82,10 @@ public final class FileUtil {
 
 	/**
 	 * 复制文件
-	 * @param src 原文件
-	 * @param target 目标文件
-	 * @return boolean
+	 * 
+	 * @param  src    原文件
+	 * @param  target 目标文件
+	 * @return        boolean
 	 */
 	public static boolean copy(File src, File target) {
 		return IOUtil.write(getOutputStream(target), getInputStream(src));
@@ -86,8 +93,9 @@ public final class FileUtil {
 
 	/**
 	 * 读取文件 默认使用UTF-8编码
-	 * @param fileName 要读取的文件
-	 * @return String 读取出的字符串
+	 * 
+	 * @param  fileName 要读取的文件
+	 * @return          String 读取出的字符串
 	 */
 	public static String readString(String fileName) {
 		return readString(fileName, CommonParams.ENCODING);
@@ -95,9 +103,10 @@ public final class FileUtil {
 
 	/**
 	 * 读取文件
-	 * @param fileName 要读取的文件
-	 * @param charsetName 编码格式
-	 * @return 读取文件的内容
+	 * 
+	 * @param  fileName    要读取的文件
+	 * @param  charsetName 编码格式
+	 * @return             读取文件的内容
 	 */
 	public static String readString(String fileName, String charsetName) {
 		return IOUtil.readString(getInputStream(fileName), charsetName);
@@ -105,16 +114,17 @@ public final class FileUtil {
 
 	/**
 	 * 读取文件为字节数组 可指定开始读取位置
-	 * @param fileName 文件名
-	 * @param pos 偏移
-	 * @return 字节数组
+	 * 
+	 * @param  fileName 文件名
+	 * @param  pos      偏移
+	 * @return          字节数组
 	 */
 	public static byte[] read(String fileName, long pos) {
 		if (IO)
 			// 获得随机读写文件
 			try (RandomAccessFile file = getRandomAccessFile(fileName, "rw", pos);) {
 				// 声明字节数组
-				byte[] b = new byte[Conversion.toInt(file.length() - pos)];
+				byte[] b = new byte[W.C.toInt(file.length() - pos)];
 				// 读取文件
 				file.read(b);
 				// 返回字节数组
@@ -126,7 +136,7 @@ public final class FileUtil {
 			// 获得文件通道
 			try (AsynchronousFileChannel channel = AsynchronousFileChannel.open(Paths.get(fileName));) {
 				// 声明字节数组
-				ByteBuffer buf = ByteBuffer.allocate(Conversion.toInt(channel.size() - pos));
+				ByteBuffer buf = ByteBuffer.allocate(W.C.toInt(channel.size() - pos));
 				// 读取字节数组
 				channel.read(buf, pos);
 				// 返回字节数组
@@ -138,7 +148,7 @@ public final class FileUtil {
 			// 获得文件通道
 			try (FileChannel channel = FileChannel.open(Paths.get(fileName));) {
 				// 声明字节数组
-				ByteBuffer buf = ByteBuffer.allocate(Conversion.toInt(channel.size() - pos));
+				ByteBuffer buf = ByteBuffer.allocate(W.C.toInt(channel.size() - pos));
 				// 读取字节数组
 				channel.read(buf, pos);
 				// 返回字节数组
@@ -152,8 +162,9 @@ public final class FileUtil {
 
 	/**
 	 * 读取文件
-	 * @param fileName 要读取的文件
-	 * @return 读取文件字节数组
+	 * 
+	 * @param  fileName 要读取的文件
+	 * @return          读取文件字节数组
 	 */
 	public static byte[] read(String fileName) {
 		return IOUtil.read(getInputStream(fileName));
@@ -161,8 +172,9 @@ public final class FileUtil {
 
 	/**
 	 * 读取文件
-	 * @param file 要读取的文件
-	 * @return 读取文件字节数组
+	 * 
+	 * @param  file 要读取的文件
+	 * @return      读取文件字节数组
 	 */
 	public static byte[] read(File file) {
 		return IOUtil.read(getInputStream(file));
@@ -170,9 +182,10 @@ public final class FileUtil {
 
 	/**
 	 * 把InputStream流中的内容保存到文件中
-	 * @param fileName 文件名
-	 * @param is 流
-	 * @return true 成功 false 失败
+	 * 
+	 * @param  fileName 文件名
+	 * @param  is       流
+	 * @return          true 成功 false 失败
 	 */
 	public static boolean write(String fileName, InputStream is) {
 		return IOUtil.write(getOutputStream(fileName), is);
@@ -180,9 +193,10 @@ public final class FileUtil {
 
 	/**
 	 * 把文件写指定路径中
-	 * @param fileName 文件名
-	 * @param file 文件
-	 * @return true 成功 false 失败
+	 * 
+	 * @param  fileName 文件名
+	 * @param  file     文件
+	 * @return          true 成功 false 失败
 	 */
 	public static boolean write(String fileName, File file) {
 		return IOUtil.write(getOutputStream(fileName), getInputStream(file));
@@ -190,9 +204,10 @@ public final class FileUtil {
 
 	/**
 	 * 把文件写指定路径中
-	 * @param fileName 文件名
-	 * @param b 字节数组
-	 * @return true 成功 false 失败
+	 * 
+	 * @param  fileName 文件名
+	 * @param  b        字节数组
+	 * @return          true 成功 false 失败
 	 */
 	public static boolean write(String fileName, byte[] b) {
 		return write(fileName, b, false);
@@ -200,10 +215,11 @@ public final class FileUtil {
 
 	/**
 	 * 把文件写指定路径中
-	 * @param fileName 文件名
-	 * @param b 字节数组
-	 * @param append 是否追加
-	 * @return true 成功 false 失败
+	 * 
+	 * @param  fileName 文件名
+	 * @param  b        字节数组
+	 * @param  append   是否追加
+	 * @return          true 成功 false 失败
 	 */
 	public static boolean write(String fileName, byte[] b, boolean append) {
 		return IOUtil.write(FileUtil.getOutputStream(fileName, append), b);
@@ -211,9 +227,10 @@ public final class FileUtil {
 
 	/**
 	 * 把字节写到文件中 可指定写入位置
+	 * 
 	 * @param fileName 文件名
-	 * @param b 字节数组
-	 * @param pos 偏移
+	 * @param b        字节数组
+	 * @param pos      偏移
 	 */
 	public static void write(String fileName, byte[] b, long pos) {
 		if (IO)
@@ -244,9 +261,10 @@ public final class FileUtil {
 
 	/**
 	 * 写文件 默认使用UTF-8编码
-	 * @param text 写入的内容
-	 * @param fileName 文件名
-	 * @return true false
+	 * 
+	 * @param  text     写入的内容
+	 * @param  fileName 文件名
+	 * @return          true false
 	 */
 	public static boolean write(String fileName, String text) {
 		return write(fileName, text, true);
@@ -254,10 +272,11 @@ public final class FileUtil {
 
 	/**
 	 * 写文件 默认使用UTF-8编码
-	 * @param text 写入的内容
-	 * @param fileName 文件名
-	 * @param append 是否追加
-	 * @return true false
+	 * 
+	 * @param  text     写入的内容
+	 * @param  fileName 文件名
+	 * @param  append   是否追加
+	 * @return          true false
 	 */
 	public static boolean write(String fileName, String text, boolean append) {
 		return write(fileName, text, CommonParams.ENCODING, append);
@@ -265,10 +284,11 @@ public final class FileUtil {
 
 	/**
 	 * 写文件
-	 * @param text 写入的内容
-	 * @param fileName 文件名
-	 * @param charsetName 编码格式
-	 * @return true false
+	 * 
+	 * @param  text        写入的内容
+	 * @param  fileName    文件名
+	 * @param  charsetName 编码格式
+	 * @return             true false
 	 */
 	public static boolean write(String fileName, String text, String charsetName) {
 		return write(fileName, text, charsetName, true);
@@ -276,11 +296,12 @@ public final class FileUtil {
 
 	/**
 	 * 写文件
-	 * @param text 写入的内容
-	 * @param fileName 文件名
-	 * @param charsetName 编码格式
-	 * @param append 是否追加
-	 * @return true false
+	 * 
+	 * @param  text        写入的内容
+	 * @param  fileName    文件名
+	 * @param  charsetName 编码格式
+	 * @param  append      是否追加
+	 * @return             true false
 	 */
 	public static boolean write(String fileName, String text, String charsetName, boolean append) {
 		return IOUtil.write(getOutputStream(fileName, append), text, charsetName);
@@ -288,8 +309,9 @@ public final class FileUtil {
 
 	/**
 	 * 获得文件
-	 * @param fileName 文件名含路径
-	 * @return File对象
+	 * 
+	 * @param  fileName 文件名含路径
+	 * @return          File对象
 	 */
 	public static File newFile(String fileName) {
 		return new File(fileName);
@@ -297,10 +319,11 @@ public final class FileUtil {
 
 	/**
 	 * 获得文件
-	 * @param fileName 文件名含路径
-	 * @param mode 打开模式
-	 * @param pos 偏移
-	 * @return RandomAccessFile对象
+	 * 
+	 * @param  fileName 文件名含路径
+	 * @param  mode     打开模式
+	 * @param  pos      偏移
+	 * @return          RandomAccessFile对象
 	 */
 	public static RandomAccessFile getRandomAccessFile(String fileName, String mode, long pos) {
 		// 声明RandomAccessFile
@@ -325,8 +348,9 @@ public final class FileUtil {
 
 	/**
 	 * 获得文件输入流 如果失败返回null
-	 * @param fileName 文件名
-	 * @return 输入流
+	 * 
+	 * @param  fileName 文件名
+	 * @return          输入流
 	 */
 	public static FileInputStream getInputStream(String fileName) {
 		return getInputStream(newFile(fileName));
@@ -334,8 +358,9 @@ public final class FileUtil {
 
 	/**
 	 * 获得文件输出流 如果失败返回null
-	 * @param fileName 文件名
-	 * @return 输出流
+	 * 
+	 * @param  fileName 文件名
+	 * @return          输出流
 	 */
 	public static FileOutputStream getOutputStream(String fileName) {
 		return getOutputStream(newFile(fileName));
@@ -343,9 +368,10 @@ public final class FileUtil {
 
 	/**
 	 * 获得文件输出流 如果失败返回null
-	 * @param fileName 文件名
-	 * @param append 是否追加
-	 * @return 输出流
+	 * 
+	 * @param  fileName 文件名
+	 * @param  append   是否追加
+	 * @return          输出流
 	 */
 	public static FileOutputStream getOutputStream(String fileName, boolean append) {
 		return getOutputStream(newFile(fileName), append);
@@ -353,8 +379,9 @@ public final class FileUtil {
 
 	/**
 	 * 获得文件输入流 如果失败返回null
-	 * @param file 文件
-	 * @return 输入流
+	 * 
+	 * @param  file 文件
+	 * @return      输入流
 	 */
 	public static FileInputStream getInputStream(File file) {
 		try {
@@ -367,8 +394,9 @@ public final class FileUtil {
 
 	/**
 	 * 获得文件输出流 如果失败返回null
-	 * @param file 文件
-	 * @return 输出流
+	 * 
+	 * @param  file 文件
+	 * @return      输出流
 	 */
 	public static FileOutputStream getOutputStream(File file) {
 		return getOutputStream(file, false);
@@ -376,9 +404,10 @@ public final class FileUtil {
 
 	/**
 	 * 获得文件输出流 如果失败返回null
-	 * @param file 文件
-	 * @param append 是否追加
-	 * @return 输出流
+	 * 
+	 * @param  file   文件
+	 * @param  append 是否追加
+	 * @return        输出流
 	 */
 	public static FileOutputStream getOutputStream(File file, boolean append) {
 		try {
@@ -393,6 +422,4 @@ public final class FileUtil {
 			return null;
 		}
 	}
-
-	private FileUtil() {}
 }

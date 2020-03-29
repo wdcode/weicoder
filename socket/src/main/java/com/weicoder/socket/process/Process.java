@@ -1,141 +1,114 @@
 package com.weicoder.socket.process;
 
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.lang.reflect.Parameter;
 import java.util.Arrays;
 import java.util.Map;
 
-import com.weicoder.common.binary.Binary;
 import com.weicoder.common.binary.Buffer;
-import com.weicoder.common.binary.ByteArray;
+import com.weicoder.common.concurrent.ExecutorUtil;
 import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.util.CloseUtil;
 import com.weicoder.common.util.DateUtil;
-import com.weicoder.common.util.EmptyUtil;
-import com.weicoder.common.util.StringUtil;
-import com.weicoder.common.zip.ZipEngine;
-import com.weicoder.core.protobuf.Protobuf;
-import com.weicoder.core.protobuf.ProtobufEngine;
+import com.weicoder.common.U;
+import com.weicoder.common.U.C;
+import com.weicoder.protobuf.Protobuf;
+import com.weicoder.protobuf.ProtobufEngine;
 import com.weicoder.common.log.Log;
-import com.weicoder.common.log.LogFactory;
-import com.weicoder.common.params.CommonParams;
-import com.weicoder.socket.params.SocketParams;
+import com.weicoder.common.log.LogFactory; 
+import com.weicoder.socket.Event;
 import com.weicoder.socket.Session;
-import com.weicoder.socket.Sockets;
-import com.weicoder.socket.annotation.Closed;
-import com.weicoder.socket.annotation.Connected;
+import com.weicoder.socket.annotation.AllHead; 
 import com.weicoder.socket.annotation.Handler;
-import com.weicoder.socket.annotation.Head;
+import com.weicoder.socket.annotation.Head; 
 import com.weicoder.socket.manager.Manager;
+import com.weicoder.socket.params.SocketParams;
 
 /**
  * Socket 数据处理器实现
+ * 
  * @author WD
  */
 public final class Process {
 	// 日志
-	private final static Log	LOG	= LogFactory.getLog(Process.class);
+	private final static Log LOG = LogFactory.getLog(Process.class);
 	// Handler列表
-	private Map<Short, Object>	handlers;
+	private Map<Short, Object> handlers = Maps.newMap();
 	// head 对应方法
-	private Map<Short, Method>	methods;
-	// 关闭处理器
-	private Map<Object, Method>	closeds;
-	// 连接处理器
-	private Map<Object, Method>	connected;
-	// 管理器
-	private Manager				manager;
+	private Map<Short, Method> methods = Maps.newMap();
+	// 所有Handler列表
+	private Map<Object, Method> all = Maps.newMap();
+	// 事件处理器
+	private Event event;
 	// 处理器名字
-	private String				name;
-	// 是否使用压缩
-	private boolean				zip;
+	private String name;
 
 	/**
 	 * 构造
+	 * 
 	 * @param name 名称
 	 */
 	public Process(String name) {
 		// 设置属性
-		handlers = Maps.newMap();
-		methods = Maps.newMap();
-		closeds = Maps.newMap();
 		this.name = name;
-		// 获得是否压缩
-		this.zip = SocketParams.isZip(name);
-		// 获得管理器
-		this.manager = Sockets.manager();
-
 		// 设置handler closed
-		ClassUtil.getAnnotationClass(CommonParams.getPackages("socket"), Handler.class).forEach(c -> {
+		C.from(Handler.class).forEach(c -> {
 			// 是本类使用
-			Object h = BeanUtil.newInstance(c);
+			Object h = ClassUtil.newInstance(c);
 			if (name.equals(h.getClass().getAnnotation(Handler.class).value())) {
 				// 所有方法
-				for (Method m : c.getDeclaredMethods())
-					// 判断是公有方法
-					if (Modifier.isPublic(m.getModifiers()))
-						// 是head 头的
-						if (m.isAnnotationPresent(Head.class)) {
-							// 添加到map中
-							short id = m.getAnnotation(Head.class).id();
-							methods.put(id, m);
-							handlers.put(id, h);
-						} else if (m.isAnnotationPresent(Closed.class))
-							// Closed 头
-							closeds.put(h, m);
-						else if (m.isAnnotationPresent(Connected.class))
-							// Closed 头
-							connected.put(h, m);
+				ClassUtil.getPublicMethod(c).forEach(m -> {
+					// 是head 头的
+					if (m.isAnnotationPresent(Head.class)) {
+						// 添加到map中
+						short id = m.getAnnotation(Head.class).id();
+						methods.put(id, m);
+						handlers.put(id, h);
+					} else if (m.isAnnotationPresent(AllHead.class))
+						all.put(h, m);
+				});
 			}
 		});
+		// 获取事件处理器
+		event = ClassUtil.newInstance(C.from(Event.class, 0));
+		if (event == null)
+			event = new EmptyEvent();
 	}
 
 	/**
 	 * Session连接时
+	 * 
 	 * @param session Session
 	 */
 	public void connected(Session session) {
 		// 管理器注册Session
-		manager.register(session);
+		Manager.register(session);
 		// 如果连接处理器不为空
-		for (Map.Entry<Object, Method> e : connected.entrySet()) {
-			// 获得关闭方法
-			Method m = e.getValue();
-			if (m.getParameterCount() == 1)
-				BeanUtil.invoke(e.getKey(), m, session);
-			else
-				BeanUtil.invoke(e.getKey(), m);
-		}
+		event.connected(session);
 		// 日志
 		LOG.info("name={};socket conn={};ip={};", name, session.getId(), session.getIp());
 	}
 
 	/**
 	 * Session关闭时
+	 * 
 	 * @param session Session
 	 */
 	public void closed(Session session) {
 		// 关闭处理器
-		for (Map.Entry<Object, Method> e : closeds.entrySet()) {
-			// 获得关闭方法
-			Method m = e.getValue();
-			if (m.getParameterCount() == 1)
-				BeanUtil.invoke(e.getKey(), m, session);
-			else
-				BeanUtil.invoke(e.getKey(), m);
-		}
+		event.closed(session);
 		// 删除管理器注册Session
-		manager.remove(session.getId());
+		Manager.remove(session.getId());
 		// 删除缓存
 		LOG.info("name={};socket close={};ip={}", name, session.getId(), session.getIp());
 	}
 
 	/**
 	 * 处理数据 消息处理 short(消息长度不算本身2字节) short(ID) byte[]
+	 * 
 	 * @param session Session
 	 * @param message 字节流
 	 */
@@ -172,16 +145,29 @@ public final class Process {
 			// 消息长度
 			int len = length - 2;
 			// 读取指定长度的字节数
-			byte[] data = new byte[len];
+			final byte[] data = new byte[len];
 			// 读取指定长度字节数组
 			if (len > 0) {
 				// 读取字节数组
 				buff.read(data);
-				// 启用压缩
-				if (zip)
-					// 解压缩
-					data = ZipEngine.extract(data);
+//				// 启用压缩
+//				if (zip)
+//					// 解压缩
+//					data = ZipEngine.extract(data);
 			}
+			// 检测是否是心跳检测
+			if (id == SocketParams.HEART_ID) {
+				// 设置心跳时间
+				session.setHeart(DateUtil.getTime());
+				// 心跳处理器
+				event.heart(session);
+				continue;
+			}
+			// 如果有接受所有头方法 使用异步方式执行
+			if (U.E.isNotEmpty(all))
+				ExecutorUtil.pool()
+						.execute(() -> all.forEach((h, m) -> BeanUtil.invoke(h, m, getParames(m, data, session))));
+
 			// 获得相应的方法
 			Method m = methods.get(id);
 			// 如果处理器为空
@@ -190,7 +176,8 @@ public final class Process {
 				LOG.warn("name={};socket={};handler message discard id={};message len={}", name, sid, id, len);
 				return;
 			}
-			LOG.info("name={};socket={};receive len={};id={};method={};time={}", name, sid, length, id, m, DateUtil.getTheDate());
+			LOG.info("name={};socket={};receive len={};id={};method={};time={}", name, sid, length, id, m,
+					DateUtil.getTheDate());
 			try {
 				// 当前时间
 				long curr = System.currentTimeMillis();
@@ -213,12 +200,12 @@ public final class Process {
 
 	private Object[] getParames(Method m, byte[] data, Session session) {
 		// 如果数据为空
-		if (EmptyUtil.isEmpty(data))
+		if (U.E.isEmpty(data))
 			return null;
 		// 设置参数
 		Parameter[] pars = m.getParameters();
 		Object[] params = null;
-		if (EmptyUtil.isNotEmpty(pars)) {
+		if (U.E.isNotEmpty(pars)) {
 			// 参数不为空 设置参数
 			params = new Object[pars.length];
 			// action全部参数下标
@@ -231,50 +218,63 @@ public final class Process {
 				if (Session.class.isAssignableFrom(type))
 					// Session
 					params[i] = session;
-				else if (Manager.class.equals(type))
-					// Manager
-					params[i] = Sockets.manager();
 				else if (type.isAnnotationPresent(Protobuf.class))
 					// 字节流
 					params[i] = ProtobufEngine.toBean(data, type);
-				else if (type.equals(String.class))
-					// 字符串
-					params[i] = StringUtil.toString(data);
-				else if (Binary.class.isAssignableFrom(type))
-					// 字节流
-					params[i] = Bytes.toBinary(type, data);
-				else if (ByteArray.class.isAssignableFrom(type))
-					// 字节流
-					params[i] = ((ByteArray) ClassUtil.newInstance(type)).array(data);
-				else if (type.equals(Buffer.class))
-					// 字节流
-					params[i] = new Buffer(data);
-				else if (type.equals(int.class) || type.equals(Integer.class))
-					// 整型
-					params[i] = Bytes.toInt(data);
-				else if (type.equals(long.class) || type.equals(Long.class))
-					// 长整型
-					params[i] = Bytes.toLong(data);
-				else if (type.equals(boolean.class) || type.equals(Boolean.class))
-					// 布尔
-					params[i] = Bytes.toBoolean(data);
-				else if (type.equals(float.class) || type.equals(Float.class))
-					// float型
-					params[i] = Bytes.toFloat(data);
-				else if (type.equals(double.class) || type.equals(Double.class))
-					// Double型
-					params[i] = Bytes.toDouble(data);
-				else if (type.equals(byte.class) || type.equals(Byte.class))
-					// 字节流
-					params[i] = data[0];
-				else if (type.equals(byte[].class))
-					// 字节流
-					params[i] = data;
 				else
-					params[i] = null;
+					params[i] = Bytes.to(data, type);
+//				if (type.equals(String.class))
+//					// 字符串
+//					params[i] = StringUtil.toString(data);
+//				else if (Binary.class.isAssignableFrom(type))
+//					// 字节流
+//					params[i] = Bytes.toBinary(data, type);
+//				else if (ByteArray.class.isAssignableFrom(type))
+//					// 字节流
+//					params[i] = ((ByteArray) ClassUtil.newInstance(type)).array(data);
+//				else if (type.equals(Buffer.class))
+//					// 字节流
+//					params[i] = new Buffer(data);
+//				else if (type.equals(int.class) || type.equals(Integer.class))
+//					// 整型
+//					params[i] = Bytes.toInt(data);
+//				else if (type.equals(long.class) || type.equals(Long.class))
+//					// 长整型
+//					params[i] = Bytes.toLong(data);
+//				else if (type.equals(boolean.class) || type.equals(Boolean.class))
+//					// 布尔
+//					params[i] = Bytes.toBoolean(data);
+//				else if (type.equals(float.class) || type.equals(Float.class))
+//					// float型
+//					params[i] = Bytes.toFloat(data);
+//				else if (type.equals(double.class) || type.equals(Double.class))
+//					// Double型
+//					params[i] = Bytes.toDouble(data);
+//				else if (type.equals(byte.class) || type.equals(Byte.class))
+//					// 字节流
+//					params[i] = data[0];
+//				else if (type.equals(byte[].class))
+//					// 字节流
+//					params[i] = data;
+//				else
+//					params[i] = null;
 			}
 		}
 		// 返回参数
 		return params;
+	}
+
+	class EmptyEvent implements Event {
+		@Override
+		public void connected(Session session) {
+		}
+
+		@Override
+		public void closed(Session session) {
+		}
+
+		@Override
+		public void heart(Session session) {
+		}
 	}
 }

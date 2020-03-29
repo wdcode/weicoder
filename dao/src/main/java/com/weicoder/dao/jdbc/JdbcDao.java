@@ -5,11 +5,10 @@ import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 
+import com.weicoder.common.U.C;
 import com.weicoder.common.lang.Maps;
-import com.weicoder.common.log.Logs;
-import com.weicoder.common.params.CommonParams;
-import com.weicoder.common.util.BeanUtil;
-import com.weicoder.common.util.ClassUtil;
+import com.weicoder.common.log.Logs; 
+import com.weicoder.common.util.BeanUtil; 
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.dao.Dao;
 import com.weicoder.dao.Transactional;
@@ -31,7 +30,7 @@ public final class JdbcDao implements Dao {
 		db = DataBaseFactory.getDataBase();
 		insert = Maps.newMap();
 		// 加载所有类对应的SQL语句
-		ClassUtil.getAnnotationClass(CommonParams.getPackages("jdbc"), Table.class).forEach(c -> {
+		C.from(Table.class).forEach(c -> {
 			// 声明SQL INSERT INTO t(f1,f2,...) VALUES(?,?)
 			StringBuilder sql = new StringBuilder("insert into ");
 			// 反射类名为表名
@@ -302,6 +301,11 @@ public final class JdbcDao implements Dao {
 
 	@Override
 	public <E> List<E> le(Class<E> entityClass, String property, Object value, int firstResult, int maxResults) {
+		return null;
+	}
+
+	@Override
+	public Class<?> entity(String name) { 
 		return null;
 	}
 }

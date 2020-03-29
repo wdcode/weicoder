@@ -3,10 +3,10 @@ package com.weicoder.oauth.wechat;
 import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
-import com.weicoder.common.lang.Conversion;
-import com.weicoder.common.util.EmptyUtil; 
-import com.weicoder.core.json.JsonEngine;
-import com.weicoder.core.http.HttpClient;
+import com.weicoder.common.http.HttpEngine;
+import com.weicoder.common.U; 
+import com.weicoder.common.W;
+import com.weicoder.json.JsonEngine;
 import com.weicoder.oauth.OAuthInfo;
 import com.weicoder.oauth.base.BaseOAuth;
 import com.weicoder.oauth.params.OAuthParams; 
@@ -21,7 +21,7 @@ public class OAuthWeChatWeb extends BaseOAuth {
 
 	@Override
 	protected String redirect() {
-		return OAuthParams.OAUTH_WECHAT_WEB_REDIRECT;
+		return OAuthParams.WECHAT_WEB_REDIRECT;
 	}
 
 	@Override
@@ -31,12 +31,12 @@ public class OAuthWeChatWeb extends BaseOAuth {
 
 	@Override
 	protected String appid() {
-		return OAuthParams.OAUTH_WECHAT_WEB_APPID;
+		return OAuthParams.WECHAT_WEB_APPID;
 	}
 
 	@Override
 	protected String appsecret() {
-		return OAuthParams.OAUTH_WECHAT_WEB_APPSECRET;
+		return OAuthParams.WECHAT_WEB_APPSECRET;
 	}
 
 	@Override
@@ -53,18 +53,18 @@ public class OAuthWeChatWeb extends BaseOAuth {
 	@Override
 	public OAuthInfo getInfoByToken(String token, String openid) {
 		// openid不为空 请求用户信息
-		String res = HttpClient.get(String.format(GET_USER_URL, token, openid));
+		String res = HttpEngine.get(String.format(GET_USER_URL, token, openid));
 		// 返回信息
 		Map<String, Object> map = JsonEngine.toMap(res);
 		OAuthInfo info = new OAuthInfo();
 		info.setOpenid(openid);
 		info.setType("wechat");
 		info.setData(res);
-		info.setNickname(Conversion.toString(map.get("nickname")));
-		info.setHead(Conversion.toString(map.get("headimgurl")));
-		info.setSex("1".equals(Conversion.toString(map.get("sex"))) ? 1 : 0);
-		if (EmptyUtil.isEmpty(info.getUnionid()))
-			info.setUnionid(Conversion.toString(map.get("unionid")));
+		info.setNickname(W.C.toString(map.get("nickname")));
+		info.setHead(W.C.toString(map.get("headimgurl")));
+		info.setSex("1".equals(W.C.toString(map.get("sex"))) ? 1 : 0);
+		if (U.E.isEmpty(info.getUnionid()))
+			info.setUnionid(W.C.toString(map.get("unionid")));
 		return info;
 	}
 }

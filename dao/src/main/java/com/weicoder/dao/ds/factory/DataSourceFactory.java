@@ -2,8 +2,8 @@ package com.weicoder.dao.ds.factory;
 
 import javax.sql.DataSource;
 
-import com.weicoder.common.factory.FactoryKey;
-import com.weicoder.dao.ds.impl.Druid;
+import com.weicoder.common.factory.FactoryKey; 
+import com.weicoder.dao.ds.impl.HikariCP;
 
 /**
  * 获得数据源 DataSource 的工厂类
@@ -34,7 +34,8 @@ public final class DataSourceFactory extends FactoryKey<String, DataSource> {
 	 * 实例化一个新对象
 	 */
 	public DataSource newInstance(String key) {
-		return new Druid(key).getDataSource();
+//		return new Druid(key).getDataSource();
+		return new HikariCP(key).getDataSource();
 	}
 
 	private DataSourceFactory() {}

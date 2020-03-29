@@ -4,10 +4,10 @@ import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
 import com.weicoder.common.codec.URLCode;
-import com.weicoder.common.lang.Conversion;
+import com.weicoder.common.http.HttpEngine; 
+import com.weicoder.common.W;
 import com.weicoder.common.lang.Maps; 
-import com.weicoder.core.json.JsonEngine;
-import com.weicoder.core.http.HttpClient;
+import com.weicoder.json.JsonEngine; 
 import com.weicoder.oauth.OAuthInfo;
 import com.weicoder.oauth.base.BaseOAuth;
 import com.weicoder.oauth.params.OAuthParams; 
@@ -19,7 +19,7 @@ import com.weicoder.oauth.params.OAuthParams;
 public class OAuthWeiboWeb extends BaseOAuth {
 	@Override
 	protected String redirect() {
-		return OAuthParams.OAUTH_WEIBO_WEB_REDIRECT;
+		return OAuthParams.WEIBO_WEB_REDIRECT;
 	}
 
 	@Override
@@ -34,12 +34,12 @@ public class OAuthWeiboWeb extends BaseOAuth {
 
 	@Override
 	protected String appid() {
-		return OAuthParams.OAUTH_WEIBO_WEB_APPID;
+		return OAuthParams.WEIBO_WEB_APPID;
 	}
 
 	@Override
 	protected String appsecret() {
-		return OAuthParams.OAUTH_WEIBO_WEB_APPSECRET;
+		return OAuthParams.WEIBO_WEB_APPSECRET;
 	}
 
 	@Override
@@ -49,7 +49,7 @@ public class OAuthWeiboWeb extends BaseOAuth {
 
 	@Override
 	protected String http(String url) {
-		return HttpClient.post(url, Maps.newMap());
+		return HttpEngine.post(url, Maps.newMap());
 	}
 
 	@Override
@@ -61,15 +61,15 @@ public class OAuthWeiboWeb extends BaseOAuth {
 	@Override
 	public OAuthInfo getInfoByToken(String token, String openid) {
 		String url = "https://api.weibo.com/2/users/show.json?access_token=" + token + "&uid=" + openid;
-		String res = HttpClient.get(url);
+		String res = HttpEngine.get(url);
 		Map<String, Object> map = JsonEngine.toMap(res);
 		// 返回信息
 		OAuthInfo info = new OAuthInfo();
-		info.setOpenid(Conversion.toString(map.get("id")));
+		info.setOpenid(W.C.toString(map.get("id")));
 		info.setType("weibo");
-		info.setHead(Conversion.toString(map.get("profile_image_url")));
-		info.setNickname(Conversion.toString(map.get("screen_name")));
-		info.setSex("m".equals(Conversion.toString(map.get("gender"))) ? 1 : 0);
+		info.setHead(W.C.toString(map.get("profile_image_url")));
+		info.setNickname(W.C.toString(map.get("screen_name")));
+		info.setSex("m".equals(W.C.toString(map.get("gender"))) ? 1 : 0);
 		info.setData(res);
 		return info;
 	}

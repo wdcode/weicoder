@@ -1,0 +1,64 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.weicoder</groupId>
+		<artifactId>weicoder</artifactId>
+		<version>2.6.0</version>
+	</parent>
+	<artifactId>log</artifactId>
+	
+
+	<dependencies>
+		<dependency>
+			<groupId>com.weicoder</groupId>
+			<artifactId>common</artifactId>
+		</dependency>
+	</dependencies>
+
+	<profiles>
+		<profile>
+			<id>opt</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>com.weicoder.extend</groupId>
+					<artifactId>log-extend</artifactId>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>native</id>
+			<dependencies>
+				<dependency>
+					<groupId>org.apache.logging.log4j</groupId>
+					<artifactId>log4j-core</artifactId>
+					<version>${log4j-core}</version>
+				</dependency>
+				<dependency>
+					<groupId>com.lmax</groupId>
+					<artifactId>disruptor</artifactId>
+					<version>${disruptor}</version>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>jdk11</id>
+			<dependencies>
+				<dependency>
+					<groupId>com.weicoder.fork</groupId>
+					<artifactId>log4j-jdk11</artifactId>
+					<version>${log4j-core}</version>
+				</dependency>
+				<dependency>
+					<groupId>com.weicoder.fork</groupId>
+					<artifactId>disruptor-jdk11</artifactId>
+					<version>${disruptor}</version>
+				</dependency>
+			</dependencies>
+		</profile>
+	</profiles>
+</project>

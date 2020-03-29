@@ -1,0 +1,54 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<parent>
+		<groupId>com.weicoder</groupId>
+		<artifactId>weicoder</artifactId>
+		<version>2.6.0</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>quartz</artifactId>
+	
+
+	<dependencies>
+		<dependency>
+			<groupId>com.weicoder</groupId>
+			<artifactId>common</artifactId>
+		</dependency>
+	</dependencies>
+
+	<profiles>
+		<profile>
+			<id>opt</id> 
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>com.weicoder.extend</groupId>
+					<artifactId>quartz-extend</artifactId>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>native</id>  
+			<dependencies>
+				<dependency>
+					<groupId>org.quartz-scheduler</groupId>
+					<artifactId>quartz</artifactId>
+					<version>${quartz}</version>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>jdk11</id>  
+			<dependencies>
+				<dependency>
+					<groupId>com.weicoder.fork</groupId>
+					<artifactId>quartz-jdk11</artifactId>
+					<version>${quartz}</version>
+				</dependency>
+			</dependencies>
+		</profile>
+	</profiles>
+</project>

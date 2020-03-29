@@ -2,31 +2,36 @@ package com.weicoder.common.constants;
 
 /**
  * 字符串常量
+ * 
  * @author WD
  */
-public final class StringConstants {
+public class StringConstants {
 	/** 常量字符串 "" */
-	public final static String	EMPTY		= "";
+	public final static String EMPTY     = "";
 	/** 常量字符串 " " */
-	public final static String	BLANK		= " ";
+	public final static String BLANK     = " ";
 	/** 常量字符串 "." */
-	public final static String	POINT		= ".";
+	public final static String POINT     = ".";
 	/** 常量字符串 "_" */
-	public final static String	UNDERLINE	= "_";
+	public final static String UNDERLINE = "_";
 	/** 常量字符串 "-" */
-	public final static String	LINE		= "-";
+	public final static String LINE      = "-";
 	/** 常量字符串 "," */
-	public final static String	COMMA		= ",";
+	public final static String COMMA     = ",";
 	/** 常量字符串 ":" */
-	public final static String	COLON		= ":";
+	public final static String COLON     = ":";
 	/** 常量字符串 "/" */
-	public final static String	BACKSLASH	= "/";
+	public final static String BACKSLASH = "/";
 	/** 常量字符串 "key" */
-	public final static String	KEY			= "key";
+	public final static String KEY       = "key";
 	/** 常量字符串 "*" */
-	public final static String	ASTERISK	= "*";
+	public final static String ASTERISK  = "*";
 	/** 常量字符串 "key" */
-	public final static String	SEPA		= "`";
-
-	private StringConstants() {}
+	public final static String SEPA      = "`";
+	/** 常量字符串 "success" */
+	public final static String SUCCESS   = "success";
+	/** 常量字符串 "fail" */
+	public final static String FAIL      = "fail";
+	/** 常量字符串 "error" */
+	public final static String ERROR     = "error";
 }

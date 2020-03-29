@@ -1,8 +1,7 @@
 package com.weicoder.web.util;
 
 import java.io.IOException;
-import java.io.OutputStream;
-import java.util.List;
+import java.io.OutputStream; 
 import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.zip.GZIPOutputStream;
@@ -13,22 +12,23 @@ import javax.servlet.http.HttpServletResponse;
 import com.weicoder.common.constants.DateConstants;
 import com.weicoder.common.constants.HttpConstants;
 import com.weicoder.common.constants.StringConstants;
-
-import com.weicoder.common.lang.Lists;
+ 
 import com.weicoder.common.log.Logs;
-import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.U;
 import com.weicoder.common.util.StringUtil;
 
 /**
  * HTTP一些相关操作类
+ * 
  * @author WD
  */
 public final class HttpUtil {
 	/**
 	 * 根据url和Map获得URL提交 连接 如果值为空不连接 对Key进行排序
-	 * @param url 要提交的url
-	 * @param parameters 参数列表
-	 * @return 参数
+	 * 
+	 * @param  url        要提交的url
+	 * @param  parameters 参数列表
+	 * @return            参数
 	 */
 	public static String toUrl(String url, Map<String, String> parameters) {
 		return StringUtil.add(url, "?", toParameters(parameters));
@@ -36,10 +36,11 @@ public final class HttpUtil {
 
 	/**
 	 * 根据url和Map获得表单提交 连接 如果值为空不连接 对Key进行排序
-	 * @param url 要提交的url
-	 * @param parameters 参数列表
-	 * @param charset 编码
-	 * @return 参数
+	 * 
+	 * @param  url        要提交的url
+	 * @param  parameters 参数列表
+	 * @param  charset    编码
+	 * @return            参数
 	 */
 	public static String toForm(String url, Map<String, String> parameters, String charset) {
 		// 声明表单字符串缓冲
@@ -69,56 +70,42 @@ public final class HttpUtil {
 
 	/**
 	 * 判断字符串是否是HTTP请求
-	 * @param str 字符串
-	 * @return 是否
+	 * 
+	 * @param  str 字符串
+	 * @return     是否
 	 */
 	public static boolean isHttp(String str) {
-		return EmptyUtil.isEmpty(str) ? false : str.startsWith("http://") || str.startsWith("https://");
+		return U.E.isEmpty(str) ? false : str.startsWith("http://") || str.startsWith("https://");
 	}
 
 	/**
 	 * 根据Map获得URL后的参数 连接 如果值为空不连接 对Key进行排序
-	 * @param map 参数列表
-	 * @return 参数
+	 * 
+	 * @param  map 参数列表
+	 * @return     参数
 	 */
 	public static String toParameters(Map<String, String> map) {
-		// 如果Map为空 返回空串
-		if (EmptyUtil.isEmpty(map))
-			return StringConstants.EMPTY;
-		// 声明字符串缓存
-		StringBuilder sb = new StringBuilder();
-		// 获得Key列表并排序
-		List<String> keys = Lists.sort(Lists.newList(map.keySet()));
-		// 根据Key列表获得值
-		for (int i = 0; i < keys.size(); i++) {
-			// 获得Key
-			String key = keys.get(i);
-			// 获得值
-			String val = map.get(key);
-			// 判断值不为空
-			if (EmptyUtil.isNotEmpty(val)) {
-				sb.append(key).append("=");
-				sb.append(val).append("&");
-			}
-		}
 		// 返回组合后的字符串
-		return StringUtil.subString(sb.toString(), 0, sb.length() - 1);
+		return StringUtil.toParameters(map);
 	}
 
 	/**
 	 * 设置客户端缓存过期时间 Header.
-	 * @param response HttpServletResponse
+	 * 
+	 * @param response       HttpServletResponse
 	 * @param expiresSeconds 过期时间
 	 */
 	public static void setExpiresHeader(HttpServletResponse response, long expiresSeconds) {
 		// Http 1.0 header
-		response.setDateHeader(HttpConstants.HEADER_KEY_EXPIRES, System.currentTimeMillis() + expiresSeconds * DateConstants.TIME_SECOND);
+		response.setDateHeader(HttpConstants.HEADER_KEY_EXPIRES,
+				System.currentTimeMillis() + expiresSeconds * DateConstants.TIME_SECOND);
 		// Http 1.1 header
 		response.setHeader(HttpConstants.HEADER_KEY_CACHE_CONTROL, "max-age=" + expiresSeconds);
 	}
 
 	/**
 	 * 设置客户端无缓存Header.
+	 * 
 	 * @param response HttpServletResponse
 	 */
 	public static void setNoCacheHeader(HttpServletResponse response) {
@@ -130,7 +117,8 @@ public final class HttpUtil {
 
 	/**
 	 * 设置LastModified Header.
-	 * @param response HttpServletResponse
+	 * 
+	 * @param response         HttpServletResponse
 	 * @param lastModifiedDate LastModified时间
 	 */
 	public static void setLastModifiedHeader(HttpServletResponse response, long lastModifiedDate) {
@@ -139,8 +127,9 @@ public final class HttpUtil {
 
 	/**
 	 * 设置Etag Header
+	 * 
 	 * @param response HttpServletResponse
-	 * @param etag Etag
+	 * @param etag     Etag
 	 */
 	public static void setEtag(HttpServletResponse response, String etag) {
 		response.setHeader("ETag", etag);
@@ -148,12 +137,14 @@ public final class HttpUtil {
 
 	/**
 	 * 根据浏览器If-Modified-Since Header, 计算文件是否已被修改. 如果无修改, checkIfModify返回false,设置304 not modify status.
-	 * @param request HttpServletRequest
-	 * @param response HttpServletResponse
-	 * @param lastModified 内容的最后修改时间.
-	 * @return true false
+	 * 
+	 * @param  request      HttpServletRequest
+	 * @param  response     HttpServletResponse
+	 * @param  lastModified 内容的最后修改时间.
+	 * @return              true false
 	 */
-	public static boolean checkIfModifiedSince(HttpServletRequest request, HttpServletResponse response, long lastModified) {
+	public static boolean checkIfModifiedSince(HttpServletRequest request, HttpServletResponse response,
+			long lastModified) {
 		// 获得 If-Modified-Since时间
 		long ifModifiedSince = request.getDateHeader("If-Modified-Since");
 		// 判断时间
@@ -169,15 +160,16 @@ public final class HttpUtil {
 
 	/**
 	 * 根据浏览器 If-None-Match Header, 计算Etag是否已无效. 如果Etag有效, checkIfNoneMatch返回false, 设置304 not modify status.
-	 * @param request HttpServletRequest
-	 * @param response HttpServletResponse
-	 * @param etag 内容的ETag
-	 * @return true false
+	 * 
+	 * @param  request  HttpServletRequest
+	 * @param  response HttpServletResponse
+	 * @param  etag     内容的ETag
+	 * @return          true false
 	 */
 	public static boolean checkIfNoneMatchEtag(HttpServletRequest request, HttpServletResponse response, String etag) {
 		// 获得If-None-Match
 		String headerValue = request.getHeader("If-None-Match");
-		if (EmptyUtil.isNotEmpty(headerValue)) {
+		if (U.E.isNotEmpty(headerValue)) {
 			// 声明Boolean变量
 			boolean conditionSatisfied = false;
 			// 判断headerValue不等于 *
@@ -212,8 +204,9 @@ public final class HttpUtil {
 
 	/**
 	 * 检查浏览器客户端是否支持gzip编码.
-	 * @param request HttpServletRequest
-	 * @return true false
+	 * 
+	 * @param  request HttpServletRequest
+	 * @return         true false
 	 */
 	public static boolean checkAccetptGzip(HttpServletRequest request) {
 		// 获得Accept-Encoding
@@ -224,8 +217,9 @@ public final class HttpUtil {
 
 	/**
 	 * 设置Gzip Header并返回GZIPOutputStream.
-	 * @param response HttpServletResponse
-	 * @return OutputStream
+	 * 
+	 * @param  response HttpServletResponse
+	 * @return          OutputStream
 	 */
 	public static OutputStream buildGzipOutputStream(HttpServletResponse response) {
 		// 设置gizp
@@ -245,6 +239,7 @@ public final class HttpUtil {
 
 	/**
 	 * 设置让浏览器弹出下载对话框的Header.
+	 * 
 	 * @param response HttpServletResponse
 	 * @param fileName 下载后的文件名
 	 */
@@ -252,5 +247,6 @@ public final class HttpUtil {
 		response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
 	}
 
-	private HttpUtil() {}
+	private HttpUtil() {
+	}
 }

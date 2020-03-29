@@ -3,9 +3,8 @@ package com.weicoder.oauth.base;
 import java.util.Map;
 
 import com.weicoder.common.codec.URLCode;
-import com.weicoder.common.util.StringUtil;
-import com.weicoder.core.http.HttpClient;
-import com.weicoder.web.util.HttpUtil;
+import com.weicoder.common.http.HttpEngine;
+import com.weicoder.common.util.StringUtil;  
 
 import com.weicoder.oauth.OAuth;
 import com.weicoder.oauth.OAuthInfo;
@@ -19,7 +18,7 @@ public abstract class BaseOAuth implements OAuth {
 	@Override
 	public String getAuthorize(Map<String, String> params) {
 		return String.format(url(), appid(),
-				URLCode.encode(StringUtil.add(redirect(), "&", HttpUtil.toParameters(params))), OAuthParams.OAUTH_STATE);
+				URLCode.encode(StringUtil.add(redirect(), "&", StringUtil.toParameters(params))), OAuthParams.STATE);
 	}
 
 	@Override
@@ -38,7 +37,7 @@ public abstract class BaseOAuth implements OAuth {
 	 * @return
 	 */
 	protected String http(String url) {
-		return HttpClient.get(url);
+		return HttpEngine.get(url);
 	}
 
 	/**

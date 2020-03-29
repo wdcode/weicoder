@@ -2,9 +2,9 @@ package com.weicoder.oauth.impl;
 
 import java.util.Map;
 
-import com.weicoder.common.lang.Conversion;
-import com.weicoder.core.http.HttpClient;
-import com.weicoder.core.json.JsonEngine; 
+import com.weicoder.common.http.HttpEngine; 
+import com.weicoder.common.W;
+import com.weicoder.json.JsonEngine; 
 import com.weicoder.oauth.OAuthInfo;
 import com.weicoder.oauth.base.BaseOAuth;
 import com.weicoder.oauth.params.OAuthParams; 
@@ -20,7 +20,7 @@ public final class OAuth360Web extends BaseOAuth {
 
 	@Override
 	protected String redirect() {
-		return OAuthParams.OAUTH_360_WEB_REDIRECT;
+		return OAuthParams._360_WEB_REDIRECT;
 	}
 
 	@Override
@@ -30,12 +30,12 @@ public final class OAuth360Web extends BaseOAuth {
 
 	@Override
 	protected String appid() {
-		return OAuthParams.OAUTH_360_WEB_APPKEY;
+		return OAuthParams._360_WEB_APPKEY;
 	}
 
 	@Override
 	protected String appsecret() {
-		return OAuthParams.OAUTH_360_WEB_APPSECRET;
+		return OAuthParams._360_WEB_APPSECRET;
 	}
 
 	@Override
@@ -54,14 +54,14 @@ public final class OAuth360Web extends BaseOAuth {
 		// 获得openid url
 		String url = String.format(OPEN_ID_URL, token);
 		// 获得提交返回结果
-		String res = HttpClient.get(url);
+		String res = HttpEngine.get(url);
 		Map<String, Object> map = JsonEngine.toMap(res);
 		// 返回信息
 		OAuthInfo info = new OAuthInfo();
-		info.setOpenid(Conversion.toString(map.get("id")));
-		info.setNickname(Conversion.toString(map.get("name")));
-		info.setHead(Conversion.toString(map.get("avatar")));
-		info.setSex(Conversion.toInt(map.get("sex")));
+		info.setOpenid(W.C.toString(map.get("id")));
+		info.setNickname(W.C.toString(map.get("name")));
+		info.setHead(W.C.toString(map.get("avatar")));
+		info.setSex(W.C.toInt(map.get("sex")));
 		info.setType("360");
 		info.setData(res);
 		return info;
