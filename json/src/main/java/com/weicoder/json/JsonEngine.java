@@ -7,9 +7,9 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.weicoder.common.constants.ArrayConstants;
-import com.weicoder.common.constants.StringConstants; 
+import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Maps;
-import com.weicoder.common.util.BeanUtil;
+import com.weicoder.common.util.BeanUtil; 
 import com.weicoder.common.U;
 import com.weicoder.common.W.L;
 
@@ -19,6 +19,9 @@ import com.weicoder.common.W.L;
  * @author WD
  */
 public final class JsonEngine {
+//	// 默认Json解析
+//	private final static Json JSON = new JsonFast();
+
 	/**
 	 * 是否是json串
 	 * 

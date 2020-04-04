@@ -4,17 +4,12 @@
 	<parent>
 		<groupId>com.weicoder</groupId>
 		<artifactId>weicoder</artifactId>
-		<version>2.6.0</version>
+		<version>2.6.1</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>socket</artifactId>
-	
 
-	<dependencies> 
-		<dependency>
-			<groupId>com.weicoder</groupId>
-			<artifactId>log</artifactId>
-		</dependency>
+	<dependencies>
 		<dependency>
 			<groupId>com.weicoder</groupId>
 			<artifactId>protobuf</artifactId>
@@ -23,19 +18,19 @@
 
 	<profiles>
 		<profile>
-			<id>opt</id> 
+			<id>opt</id>
 			<activation>
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<dependencies>
 				<dependency>
 					<groupId>com.weicoder.extend</groupId>
-					<artifactId>socket-extend</artifactId>
+					<artifactId>netty-extend</artifactId>
 				</dependency>
 			</dependencies>
 		</profile>
 		<profile>
-			<id>native</id> 
+			<id>native</id>
 			<dependencies>
 				<dependency>
 					<groupId>io.netty</groupId>
@@ -45,7 +40,7 @@
 			</dependencies>
 		</profile>
 		<profile>
-			<id>jdk11</id> 
+			<id>jdk11</id>
 			<dependencies>
 				<dependency>
 					<groupId>com.weicoder.fork</groupId>

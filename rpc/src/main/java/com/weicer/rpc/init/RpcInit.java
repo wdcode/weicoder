@@ -92,7 +92,7 @@ public class RpcInit implements Init {
 					.setProtocol(RpcParams.PROTOCOL).setPort(RpcParams.PORT + 1).setDaemon(RpcParams.DAEMON);
 			// 循环发布rpc服务
 			C.from(Rpc.class).forEach(r -> {
-				new com.alipay.sofa.rpc.config.ProviderConfig<Object>().setInterfaceId(r.getName()) // 指定接口 .h.getNestHost().getName()
+				new com.alipay.sofa.rpc.config.ProviderConfig<Object>().setInterfaceId(r.getCanonicalName()) // 指定接口
 						.setRef(ClassUtil.newInstance(C.from(r, 0))) // 指定实现
 						.setServer(config)// 指定服务端
 						.export(); // 发布服务

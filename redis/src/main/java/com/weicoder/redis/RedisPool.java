@@ -14,6 +14,13 @@ import redis.clients.jedis.Tuple;
  */
 public interface RedisPool {
 	/**
+	 * 返回redis名称
+	 * 
+	 * @return redis名
+	 */
+	String name();
+
+	/**
 	 * 集群模式会跟据key返回Jedis连接 pool模式直接返回Jedis
 	 * 
 	 * @return Jedis

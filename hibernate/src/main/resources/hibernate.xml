@@ -6,26 +6,29 @@
 		<property name="show_sql">false</property> 
 		 <!-- druid 
 		<property name="connection.provider_class">com.alibaba.druid.support.hibernate.DruidConnectionProvider</property>
-		<property name="url">jdbc:mysql://mysql.test:3306/user?useLocalSessionState=true&amp;characterEncoding=utf8&amp;useSSL=true&amp;verifyServerCertificate=false&amp;serverTimezone=UTC</property>
+		<property name="url">jdbc:mysql://%s</property>
 		<property name="username">root</property>
-		<property name="password">langyemysql##123</property>  
-		<property name="driverClassName">com.mysql.cj.jdbc.Driver</property> 
+		<property name="password">123456789</property>  
+		<property name="driverClassName">com.mysql.cj.jdbc.Driver</property>  
 		-->
 		<!-- 配置监控统计拦截的filters，去掉后监控界面sql无法统计 
 		<property name="filters">stat</property> 
-		-->
-		<!-- hikaricp com.zaxxer.hikari.hibernate.HikariConnectionProvider-->
-		<property name="connection.provider_class">org.hibernate.hikaricp.internal.HikariCPConnectionProvider</property>  
+		-->  
+		<!-- hikaricp com.zaxxer.hikari.hibernate.HikariConnectionProvider -->
+		<property name="connection.provider_class">org.hibernate.hikaricp.internal.HikariCPConnectionProvider</property>
 		<property name="hikari.jdbcUrl">jdbc:mysql://%s?useLocalSessionState=true&amp;characterEncoding=utf8&amp;useSSL=true&amp;verifyServerCertificate=false&amp;serverTimezone=UTC</property>
 		<property name="hikari.username">root</property>
 		<property name="hikari.password">123456789</property>  
 		<property name="hikari.driverClassName">com.mysql.cj.jdbc.Driver</property> 
+		
 		<!-- 连接参数  
-		<property name="connection.characterEncoding">UTF-8</property>
+		<property name="connection.useLocalSessionState">true</property>
+		<property name="connection.characterEncoding">utf8</property>
 		<property name="connection.useSSL">true</property>
 		<property name="connection.verifyServerCertificate">false</property>
 		<property name="connection.serverTimezone">UTC</property>
 		-->
+		
 		<!-- 方言 -->
 		<property name="dialect">org.hibernate.dialect.MySQL8Dialect</property>
 		<!-- 设置hibernate中session与线程绑定  本地事务thread 分布式事务jta-->

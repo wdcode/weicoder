@@ -5,19 +5,19 @@ import java.util.List;
 import java.util.Map;
 
 import javax.persistence.Entity;
- 
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl;
 import org.hibernate.cfg.Configuration;
- 
+
 import com.weicoder.hibernate.interceptor.EntityInterceptor;
 import com.weicoder.hibernate.naming.ImprovedNamingStrategy;
 import com.weicoder.common.U.C;
 import com.weicoder.common.W;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
-import com.weicoder.common.log.Logs; 
+import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.ResourceUtil;
 import com.weicoder.common.util.StringUtil;
 
@@ -108,7 +108,11 @@ public final class SessionFactorys {
 				} catch (Exception e) {
 					Logs.error(e);
 				}
-				config.setProperty("hibernate.hikari.jdbcUrl", String.format(config.getProperty("hibernate.hikari.jdbcUrl"), W.C.toString(config.getProperty("url"))));
+				config.setProperty("hibernate.hikari.jdbcUrl",
+						String.format(W.C.toString(config.getProperty("hibernate.hikari.jdbcUrl")),
+								W.C.toString(config.getProperty("url"))));
+				String url = "jdbc:mysql://%s?useLocalSessionState=true&haracterEncoding=utf8&useSSL=true&verifyServerCertificate=false&serverTimezone=UTC";
+				config.setProperty("url", String.format(url, W.C.toString(config.getProperty("url"))));
 				config.setProperty("hibernate.hikari.username", W.C.toString(config.getProperty("username")));
 				config.setProperty("hibernate.hikari.password", W.C.toString(config.getProperty("password")));
 //				config.getEntityTuplizerFactory().registerDefaultTuplizerClass(EntityMode.POJO, ModPojoEntityTuplizer.class);

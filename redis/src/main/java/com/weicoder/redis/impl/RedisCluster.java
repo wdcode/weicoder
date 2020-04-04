@@ -31,6 +31,7 @@ public final class RedisCluster extends BaseRedis {
 	 * @param name 名称
 	 */
 	public RedisCluster(String name) {
+		super(name);
 		cluster = JedisBuilder.buildCluster(name);
 	}
 

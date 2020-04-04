@@ -16,6 +16,19 @@ import com.weicoder.redis.RedisPool;
  * @author WD
  */
 public abstract class BaseRedis implements RedisPool {
+	// redismingc
+	private String name;
+
+	public BaseRedis(String name) {
+		super();
+		this.name = name;
+	}
+
+	@Override
+	public String name() {
+		return name;
+	}
+
 	/**
 	 * 压缩值 当值能压缩时才压缩
 	 * 

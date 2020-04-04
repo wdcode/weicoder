@@ -5,10 +5,10 @@
 	<parent>
 		<groupId>com.weicoder</groupId>
 		<artifactId>weicoder</artifactId>
-		<version>2.6.0</version>
+		<version>2.6.1</version>
 	</parent>
 	<artifactId>json</artifactId>
-	 
+
 	<dependencies>
 		<dependency>
 			<groupId>com.weicoder</groupId>
@@ -25,7 +25,12 @@
 			<dependencies>
 				<dependency>
 					<groupId>com.weicoder.extend</groupId>
-					<artifactId>json-extend</artifactId>
+					<artifactId>fastjson-extend</artifactId>
+				</dependency>
+				<dependency>
+					<groupId>com.weicoder.extend</groupId>
+					<artifactId>gson-extend</artifactId>
+					<optional>true</optional>
 				</dependency>
 			</dependencies>
 		</profile>
@@ -37,6 +42,12 @@
 					<artifactId>fastjson</artifactId>
 					<version>${fastjson}</version>
 				</dependency>
+				<dependency>
+					<groupId>com.google.code.gson</groupId>
+					<artifactId>gson</artifactId>
+					<version>${gson}</version>
+					<optional>true</optional>
+				</dependency>
 			</dependencies>
 		</profile>
 		<profile>
@@ -46,6 +57,12 @@
 					<groupId>com.weicoder.fork</groupId>
 					<artifactId>fastjson-jdk11</artifactId>
 					<version>${fastjson}</version>
+				</dependency>
+				<dependency>
+					<groupId>com.weicoder.fork</groupId>
+					<artifactId>gson-jdk11</artifactId>
+					<version>${gson}</version>
+					<optional>true</optional>
 				</dependency>
 			</dependencies>
 		</profile>
