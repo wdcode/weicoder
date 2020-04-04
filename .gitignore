@@ -5,6 +5,8 @@
 *.pydevproject 
 bin/
 tmp/
+.idea/
+*.iml
 *.tmp
 *.bak
 *.swp
@@ -12,11 +14,10 @@ tmp/
 local.properties 
 .loadpath
 target/
-META-INF/
 .DS_Store/
-#.settings/
-#.classpath
-#.project
+.settings/
+.classpath
+.project
 
 # External tool builders
 .externalToolBuilders/
@@ -100,8 +101,7 @@ publish
 
 # Others
 [Bb]in
-[Oo]bj
-sql
+[Oo]bj 
 TestResults
 *.Cache
 ClientBin
