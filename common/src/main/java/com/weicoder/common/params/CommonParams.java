@@ -18,7 +18,7 @@ import com.weicoder.common.lang.Sets;
  */
 public final class CommonParams {
 	/** log实现 */
-	public final static String      LOG_CLASS            = Params.getString("log.class", "com.weicoder.log.Log4j2");
+	public final static String      LOG_CLASS            = Params.getString("log.class", "com.weicoder.log4j.Log4j2");
 	/** IO缓冲区大小 */
 	public final static int         IO_BUFFERSIZE        = Params.getInt("io.buffer", 8192);
 	/** IO模式 */
@@ -68,7 +68,7 @@ public final class CommonParams {
 	public final static String      PACKAGES             = getPackages(S.EMPTY);
 	/** ClassUtil 排除Bean名称尾缀 */
 	public final static String[]    CLASS_NAMES          = Params.getStringArray("class.names",
-			new String[]{"Action", "Job", "Cache"});
+			new String[]{"Action", "Job", "Cache", "Impl"});
 
 	/**
 	 * 获得初始化开关

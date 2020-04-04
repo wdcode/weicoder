@@ -5,6 +5,8 @@
 *.pydevproject 
 bin/
 tmp/
+.idea/
+*.iml
 *.tmp
 *.bak
 *.swp
@@ -13,9 +15,9 @@ local.properties
 .loadpath
 target/
 .DS_Store/
-#.settings/
-#.classpath
-#.project
+.settings/
+.classpath
+.project
 
 # External tool builders
 .externalToolBuilders/

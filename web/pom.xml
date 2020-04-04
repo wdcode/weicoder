@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.weicoder</groupId>
 		<artifactId>weicoder</artifactId> 
-		<version>3.3.3</version> 
+		<version>3.3.4</version> 
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>web</artifactId> 
@@ -17,7 +17,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.weicoder</groupId>
-			<artifactId>log</artifactId>
+			<artifactId>log4j</artifactId>
 		</dependency>
 	</dependencies>
 </project>

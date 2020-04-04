@@ -59,7 +59,7 @@ public class RedisCache<K, V> extends BeanCache<K, V> {
 	 * @return       一个新的RedisCache
 	 */
 	public static <K, V> RedisCache<K, V> build(RedisPool redis, String key) {
-		return build(redis, key, true);
+		return build(redis, key, RedisParams.getCacheFill(redis.name()));
 	}
 
 	/**

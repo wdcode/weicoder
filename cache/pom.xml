@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.weicoder</groupId>
 		<artifactId>weicoder</artifactId>
-		<version>3.3.3</version>
+		<version>3.3.4</version>
 	</parent>
 	<artifactId>cache</artifactId>
 	
@@ -26,7 +26,7 @@
 			<dependencies>
 				<dependency>
 					<groupId>com.weicoder.extend</groupId>
-					<artifactId>cache-extend</artifactId>
+					<artifactId>guava-extend</artifactId>
 				</dependency>
 			</dependencies>
 		</profile>

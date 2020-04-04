@@ -1,0 +1,64 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.weicoder</groupId>
+		<artifactId>weicoder</artifactId>
+		<version>3.3.4</version>
+	</parent>
+	<artifactId>hbase</artifactId>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.weicoder</groupId>
+			<artifactId>common</artifactId>
+		</dependency>
+	</dependencies>
+
+	<profiles>
+		<profile>
+			<id>opt</id>
+			
+			<dependencies>
+				<dependency> 
+					<groupId>com.weicoder.extend</groupId>
+					<artifactId>hbase-extend</artifactId>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>native</id> 
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>org.hbase</groupId>
+					<artifactId>asynchbase</artifactId>
+					<version>${asynchbase}</version>
+				</dependency>
+				<dependency>
+					<groupId>org.apache.hbase</groupId>
+					<artifactId>hbase-client</artifactId>
+					<version>${hbase-client}</version>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>jdk11</id>
+			<dependencies>
+				<dependency>
+					<groupId>org.hbase</groupId>
+					<artifactId>asynchbase</artifactId>
+					<version>${asynchbase}</version>
+				</dependency>
+				<dependency>
+					<groupId>org.apache.hbase</groupId>
+					<artifactId>hbase-client</artifactId>
+					<version>${hbase-client}</version>
+				</dependency>
+			</dependencies>
+		</profile>
+	</profiles>
+</project>

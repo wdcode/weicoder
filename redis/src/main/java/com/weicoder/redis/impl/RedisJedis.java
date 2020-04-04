@@ -4,9 +4,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.weicoder.common.lang.Bytes; 
+import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.W;
-import com.weicoder.common.log.Logs; 
+import com.weicoder.common.log.Logs;
 import com.weicoder.redis.base.BaseRedis;
 import com.weicoder.redis.builder.JedisBuilder;
 
@@ -25,6 +25,7 @@ public final class RedisJedis extends BaseRedis {
 	private JedisPool pool;
 
 	public RedisJedis(String name) {
+		super(name);
 		pool = JedisBuilder.buildPool(name);
 	}
 

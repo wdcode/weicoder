@@ -17,16 +17,27 @@ public final class RedisParams {
 	/** redis前缀 */
 	public final static String PREFIX = "redis";
 	// Properties配置
-	private final static Config CONFIG   = ConfigFactory.getConfig(PREFIX);
-	private final static String CLUSTER  = "cluster"; 
-	private final static String HOST     = "host";
-	private final static String TIMEOUT  = "timeout";
-	private final static String PORT     = "port";
-	private final static String MAXTOTAL = "maxTotal";
-	private final static String MAXIDLE  = "maxIdle";
-	private final static String PASSWORD = "password";
-	private final static String DB       = "db";
-	private final static String MAXWAIT  = "maxWait";
+	private final static Config CONFIG     = ConfigFactory.getConfig(PREFIX);
+	private final static String CLUSTER    = "cluster";
+	private final static String HOST       = "host";
+	private final static String TIMEOUT    = "timeout";
+	private final static String PORT       = "port";
+	private final static String MAXTOTAL   = "maxTotal";
+	private final static String MAXIDLE    = "maxIdle";
+	private final static String PASSWORD   = "password";
+	private final static String DB         = "db";
+	private final static String MAXWAIT    = "maxWait";
+	private final static String CACHE_FILL = "cache.fill";
+
+	/**
+	 * Redis缓存是否自动填充
+	 * 
+	 * @param  name 名
+	 * @return      是否填充
+	 */
+	public static boolean getCacheFill(String name) {
+		return CONFIG.getBoolean(Params.getKey(name, CACHE_FILL), Params.getBoolean(getKey(name, CACHE_FILL), false));
+	}
 
 	/**
 	 * Redis集群地址

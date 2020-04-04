@@ -8,39 +8,47 @@
 		<version>1.3</version>
 	</parent>
 	<artifactId>weicoder</artifactId>
-	<version>3.3.3</version>
+	<version>3.3.4</version>
 	<packaging>pom</packaging>
 
 	<properties>
-		<extend>3.3.7</extend>
+		<extend>3.3.8</extend>
 		<lombok>1.18.12</lombok>
 		<jetty-maven-plugin>9.4.27.v20200227</jetty-maven-plugin>
 		<log4j-core>2.13.1</log4j-core>
-		<fastjson>1.2.66</fastjson>
-		<hibernate-core>5.4.12.Final</hibernate-core>
+		<fastjson>1.2.68</fastjson>
+		<druid>1.1.21</druid>
+		<commons-dbcp2>2.7.0</commons-dbcp2>
+		<gson>2.8.6</gson>
+		<hibernate-core>5.4.13.Final</hibernate-core>
 		<mysql-connector-java>8.0.19</mysql-connector-java>
-		<netty-all>4.1.47.Final</netty-all>
+		<netty-all>4.1.48.Final</netty-all>
 		<mongo-java-driver>3.12.2</mongo-java-driver>
 		<jedis>3.2.0</jedis>
 		<kafka-clients>2.4.1</kafka-clients>
 		<sofa-rpc>5.6.5</sofa-rpc>
 		<tomcat-embed>9.0.33</tomcat-embed>
 		<guava>28.2-jre</guava>
-		<elasticsearch>7.6.1</elasticsearch>
+		<elasticsearch>7.6.2</elasticsearch>
 		<poi>4.1.2</poi>
-		<nacos-client>1.2.0</nacos-client>
+		<nacos-client>1.2.1</nacos-client>
 		<protobuf-java>3.11.4</protobuf-java>
 		<curator-framework>4.3.0</curator-framework>
 		<HikariCP>3.4.2</HikariCP>
-		<solr-solrj>8.4.1</solr-solrj>
+		<solr-solrj>8.5.0</solr-solrj>
 		<httpclient5>5.0</httpclient5>
 		<httpclient>4.5.12</httpclient>
 		<httpmime>4.5.12</httpmime>
 		<httpcore>4.4.13</httpcore>
 		<httpcore-nio>4.4.13</httpcore-nio>
 		<httpasyncclient>4.1.4</httpasyncclient>
+		<asynchbase>1.8.2</asynchbase>
+		<hbase-client>2.2.4</hbase-client>
 		<quartz>2.3.2</quartz>
+		<opencsv>5.1</opencsv>
+		<mina-core>2.1.3</mina-core>
 		<disruptor>3.4.2</disruptor>
+		<commons-compress>1.20</commons-compress>
 		<commons-email>1.5</commons-email>
 		<dom4j>2.1.1</dom4j>
 		<jdom2>2.0.6</jdom2>
@@ -52,19 +60,27 @@
 		<module>admin</module>
 		<module>common</module>
 		<module>cache</module>
+		<module>csv</module>
 		<module>dao</module>
+		<module>database</module>
+		<module>datasource</module>
 		<module>elasticsearch</module>
 		<module>email</module>
 		<module>excel</module>
+		<module>hbase</module>
 		<module>hibernate</module>
 		<module>http</module>
 		<module>http4</module>
+		<module>jdbc</module>
 		<module>json</module>
 		<module>kafka</module>
-		<module>log</module>
+		<module>log4j</module>
 		<module>memcache</module>
 		<module>mongo</module>
+		<module>mina</module>
 		<module>nacos</module>
+		<module>netty</module>
+		<module>netty3</module>
 		<module>oauth</module>
 		<module>pay</module>
 		<module>protobuf</module>
@@ -78,6 +94,7 @@
 		<module>websocket</module>
 		<module>xml</module>
 		<module>zookeeper</module>
+		<module>zip</module>
 	</modules>
 
 	<build>
@@ -161,7 +178,22 @@
 			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
+				<artifactId>csv</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.weicoder</groupId>
 				<artifactId>dao</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.weicoder</groupId>
+				<artifactId>database</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.weicoder</groupId>
+				<artifactId>datasource</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
@@ -181,6 +213,11 @@
 			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
+				<artifactId>hbase</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.weicoder</groupId>
 				<artifactId>hibernate</artifactId>
 				<version>${project.version}</version>
 			</dependency>
@@ -196,6 +233,11 @@
 			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
+				<artifactId>jdbc</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.weicoder</groupId>
 				<artifactId>json</artifactId>
 				<version>${project.version}</version>
 			</dependency>
@@ -206,7 +248,7 @@
 			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
-				<artifactId>log</artifactId>
+				<artifactId>log4j</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
@@ -221,7 +263,22 @@
 			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
+				<artifactId>mina</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.weicoder</groupId>
 				<artifactId>nacos</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.weicoder</groupId>
+				<artifactId>netty</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.weicoder</groupId>
+				<artifactId>netty3</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
@@ -287,6 +344,11 @@
 			<dependency>
 				<groupId>com.weicoder</groupId>
 				<artifactId>zookeeper</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.weicoder</groupId>
+				<artifactId>zip</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>

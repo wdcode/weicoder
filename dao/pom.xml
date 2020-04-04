@@ -4,22 +4,21 @@
 	<parent>
 		<groupId>com.weicoder</groupId>
 		<artifactId>weicoder</artifactId>
-		<version>3.3.3</version>
+		<version>3.3.4</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>dao</artifactId>
-	
 
 	<dependencies>
-		<dependency> 
+		<dependency>
 			<groupId>com.weicoder</groupId>
-			<artifactId>json</artifactId>
+			<artifactId>common</artifactId>
 		</dependency>
 	</dependencies>
 
 	<profiles>
 		<profile>
-			<id>opt</id>  
+			<id>opt</id>
 			<activation>
 				<activeByDefault>true</activeByDefault>
 			</activation>
@@ -31,7 +30,7 @@
 			</dependencies>
 		</profile>
 		<profile>
-			<id>native</id> 
+			<id>native</id>
 			<dependencies>
 				<dependency>
 					<groupId>com.zaxxer</groupId>
@@ -46,7 +45,7 @@
 			</dependencies>
 		</profile>
 		<profile>
-			<id>jdk11</id> 
+			<id>jdk11</id>
 			<dependencies>
 				<dependency>
 					<groupId>com.weicoder.fork</groupId>
