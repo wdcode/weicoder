@@ -8,8 +8,7 @@
 		<version>2.6.1</version>
 	</parent>
 	<artifactId>rpc</artifactId>
-
-
+ 
 	<dependencies>
 		<dependency>
 			<groupId>com.weicoder</groupId>
@@ -19,40 +18,10 @@
 			<groupId>com.weicoder</groupId>
 			<artifactId>nacos</artifactId>
 		</dependency>
-	</dependencies>
-
-	<profiles>
-		<profile>
-			<id>opt</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<dependencies>
-				<dependency>
-					<groupId>com.weicoder.extend</groupId>
-					<artifactId>rpc-extend</artifactId>
-				</dependency>
-			</dependencies>
-		</profile>
-		<profile>
-			<id>native</id>
-			<dependencies>
-				<dependency>
-					<groupId>com.alipay.sofa</groupId>
-					<artifactId>sofa-rpc-all</artifactId>
-					<version>${sofa-rpc}</version>
-				</dependency>
-			</dependencies>
-		</profile>
-		<profile>
-			<id>jdk11</id>
-			<dependencies>
-				<dependency>
-					<groupId>com.weicoder.fork</groupId>
-					<artifactId>sofa-rpc-all-jdk11</artifactId>
-					<version>${sofa-rpc}</version>
-				</dependency>
-			</dependencies>
-		</profile>
-	</profiles>
+		<dependency>
+			<groupId>com.alipay.sofa</groupId>
+			<artifactId>sofa-rpc-all</artifactId>
+			<version>${sofa-rpc}</version>
+		</dependency>
+	</dependencies> 
 </project>

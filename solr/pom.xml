@@ -8,47 +8,16 @@
 		<version>2.6.1</version>
 	</parent>
 	<artifactId>solr</artifactId>
-	
-
+	 
 	<dependencies>
 		<dependency>
 			<groupId>com.weicoder</groupId>
 			<artifactId>common</artifactId>
 		</dependency>
-	</dependencies>
-
-	<profiles>
-		<profile>
-			<id>opt</id> 
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<dependencies>
-				<dependency>
-					<groupId>com.weicoder.extend</groupId>
-					<artifactId>solr-extend</artifactId>
-				</dependency>
-			</dependencies>
-		</profile>
-		<profile>
-			<id>native</id> 
-			<dependencies>
-				<dependency>
-					<groupId>org.apache.solr</groupId>
-					<artifactId>solr-solrj</artifactId>
-					<version>${solr-solrj}</version>
-				</dependency>
-			</dependencies>
-		</profile>
-		<profile>
-			<id>jdk11</id> 
-			<dependencies>
-				<dependency>
-					<groupId>com.weicoder.fork</groupId>
-					<artifactId>solr-solrj-jdk11</artifactId>
-					<version>${solr-solrj}</version>
-				</dependency>
-			</dependencies>
-		</profile>
-	</profiles>
+		<dependency>
+			<groupId>org.apache.solr</groupId>
+			<artifactId>solr-solrj</artifactId>
+			<version>${solr-solrj}</version>
+		</dependency>
+	</dependencies> 
 </project>

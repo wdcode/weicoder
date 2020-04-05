@@ -8,47 +8,16 @@
 		<version>2.6.1</version>
 	</parent>
 	<artifactId>nacos</artifactId>
-	
-
+	 
 	<dependencies>
 		<dependency>
 			<groupId>com.weicoder</groupId>
 			<artifactId>common</artifactId>
 		</dependency>
-	</dependencies>
-
-	<profiles>
-		<profile>
-			<id>opt</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<dependencies>
-				<dependency>
-					<groupId>com.weicoder.extend</groupId>
-					<artifactId>nacos-extend</artifactId>
-				</dependency>
-			</dependencies>
-		</profile>
-		<profile>
-			<id>native</id>
-			<dependencies>
-				<dependency>
-					<groupId>com.alibaba.nacos</groupId>
-					<artifactId>nacos-client</artifactId>
-					<version>${nacos-client}</version>
-				</dependency>
-			</dependencies>
-		</profile>
-		<profile>
-			<id>jdk11</id>
-			<dependencies>
-				<dependency>
-					<groupId>com.weicoder.fork</groupId>
-					<artifactId>nacos-client-jdk11</artifactId>
-					<version>${nacos-client}</version>
-				</dependency>
-			</dependencies>
-		</profile>
-	</profiles>
+		<dependency>
+			<groupId>com.alibaba.nacos</groupId>
+			<artifactId>nacos-client</artifactId>
+			<version>${nacos-client}</version>
+		</dependency>
+	</dependencies> 
 </project>

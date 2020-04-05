@@ -14,40 +14,10 @@
 			<groupId>com.weicoder</groupId>
 			<artifactId>socket</artifactId>
 		</dependency>
-	</dependencies>
-
-	<profiles>
-		<profile>
-			<id>opt</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<dependencies>
-				<dependency>
-					<groupId>com.weicoder.extend</groupId>
-					<artifactId>netty-extend</artifactId>
-				</dependency>
-			</dependencies>
-		</profile>
-		<profile>
-			<id>native</id>
-			<dependencies>
-				<dependency>
-					<groupId>io.netty</groupId>
-					<artifactId>netty-all</artifactId>
-					<version>${netty-all}</version>
-				</dependency>
-			</dependencies>
-		</profile>
-		<profile>
-			<id>jdk11</id>
-			<dependencies>
-				<dependency>
-					<groupId>com.weicoder.fork</groupId>
-					<artifactId>netty-all-jdk11</artifactId>
-					<version>${netty-all}</version>
-				</dependency>
-			</dependencies>
-		</profile>
-	</profiles>
+		<dependency>
+			<groupId>io.netty</groupId>
+			<artifactId>netty-all</artifactId>
+			<version>${netty-all}</version>
+		</dependency>
+	</dependencies> 
 </project>

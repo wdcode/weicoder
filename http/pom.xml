@@ -15,40 +15,10 @@
 			<groupId>com.weicoder</groupId>
 			<artifactId>json</artifactId>
 		</dependency>
-	</dependencies>
-
-	<profiles>
-		<profile>
-			<id>opt</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<dependencies>
-				<dependency>
-					<groupId>com.weicoder.extend</groupId>
-					<artifactId>http-extend</artifactId>
-				</dependency>
-			</dependencies>
-		</profile>
-		<profile>
-			<id>native</id>
-			<dependencies>
-				<dependency>
-					<groupId>org.apache.httpcomponents.client5</groupId>
-					<artifactId>httpclient5</artifactId>
-					<version>${httpclient5}</version>
-				</dependency>
-			</dependencies>
-		</profile>
-		<profile>
-			<id>jdk11</id>
-			<dependencies>
-				<dependency>
-					<groupId>com.weicoder.fork</groupId>
-					<artifactId>httpclient5-jdk11</artifactId>
-					<version>${httpclient5}</version>
-				</dependency>
-			</dependencies>
-		</profile>
-	</profiles>
+		<dependency>
+			<groupId>org.apache.httpcomponents.client5</groupId>
+			<artifactId>httpclient5</artifactId>
+			<version>${httpclient5}</version>
+		</dependency>
+	</dependencies> 
 </project>

@@ -24,6 +24,7 @@
 		<hibernate-core>5.4.13.Final</hibernate-core>
 		<mysql-connector-java>8.0.19</mysql-connector-java>
 		<netty-all>4.1.48.Final</netty-all>
+		<netty>3.10.6.Final</netty>
 		<mongo-java-driver>3.12.2</mongo-java-driver>
 		<jedis>3.2.0</jedis>
 		<kafka-clients>2.4.1</kafka-clients>
