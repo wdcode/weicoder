@@ -30,7 +30,7 @@
 			</dependencies>
 		</profile>
 		<profile>
-			<id>native</id> 
+			<id>native</id>
 			<dependencies>
 				<dependency>
 					<groupId>com.opencsv</groupId>
@@ -43,8 +43,8 @@
 			<id>jdk11</id>
 			<dependencies>
 				<dependency>
-					<groupId>com.opencsv</groupId>
-					<artifactId>opencsv</artifactId>
+					<groupId>com.weicoder.fork</groupId>
+					<artifactId>opencsv-jdk11</artifactId>
 					<version>${opencsv}</version>
 				</dependency>
 			</dependencies>

@@ -8,8 +8,7 @@
 		<version>3.3.5</version>
 	</parent>
 	<artifactId>rpc</artifactId>
-
-
+ 
 	<dependencies>
 		<dependency>
 			<groupId>com.weicoder</groupId>
@@ -18,6 +17,7 @@
 		<dependency>
 			<groupId>com.weicoder</groupId>
 			<artifactId>nacos</artifactId>
+			<optional>true</optional>
 		</dependency>
 	</dependencies>
 

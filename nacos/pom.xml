@@ -8,8 +8,7 @@
 		<version>3.3.5</version>
 	</parent>
 	<artifactId>nacos</artifactId>
-	
-
+	 
 	<dependencies>
 		<dependency>
 			<groupId>com.weicoder</groupId>

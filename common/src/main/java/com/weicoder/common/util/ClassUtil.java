@@ -560,7 +560,8 @@ public class ClassUtil {
 			for (Annotation a : c.getAnnotations())
 				M.getList(map, a.annotationType()).add(c);
 			// 处理包名
-			M.getList(PASSAGES, c.getPackageName()).add(c);
+//			M.getList(PASSAGES, c.getPackageName()).add(c);
+			M.getList(PASSAGES, c.getPackage().getName()).add(c);
 			// 处理类名Bean
 			for (String n : CommonParams.CLASS_NAMES)
 				BEANS.put(S.convert(c.getSimpleName(), n), c);

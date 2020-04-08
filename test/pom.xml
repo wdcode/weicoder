@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.weicoder</groupId>
 		<artifactId>weicoder</artifactId>
-		<version>3.3.4</version>
+		<version>3.3.5</version>
 	</parent>
 	<artifactId>test</artifactId>
 
@@ -96,8 +96,17 @@
 		</dependency>
 		<dependency>
 			<groupId>com.weicoder</groupId>
+			<artifactId>hibernate</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+		</dependency>
+		<!-- 
+		<dependency>
+			<groupId>com.weicoder</groupId>
 			<artifactId>po</artifactId>
-			<version>3.3.3</version>
+			<version>3.3.5</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.curator</groupId>
@@ -179,5 +188,6 @@
 			<artifactId>javax.annotation-api</artifactId>
 			<version>1.3.2</version>
 		</dependency>
+		 -->
 	</dependencies>
 </project>

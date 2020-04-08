@@ -3,7 +3,7 @@ package com.weicoder.cache;
 import java.lang.reflect.Field;
 import java.util.List;
 
-import com.weicoder.cache.annotation.Key;
+import com.weicoder.cache.annotation.Cache;
 import com.weicoder.common.U.B;
 import com.weicoder.common.W.C;
 import com.weicoder.common.interfaces.Callback;
@@ -17,28 +17,6 @@ import com.weicoder.common.interfaces.Callback;
  */
 @SuppressWarnings("unchecked")
 public class BeanCache<K, V> extends LoadCache<K, V> {
-//	// 获得所有Cache Bean
-//	protected final static Map<String, Class<?>> CACHES = M.newMap();
-//	// 获得所有Cache Bean
-//	private final static Map<String, Field> FIELDS = M.newMap();
-//	static {
-//		// 获得所有Cache缓存实体
-//		U.C.from(Cache.class).forEach(c -> {
-//			// 获得缓存名称
-//			String name = S.convert(c.getSimpleName(), "Cache");
-//			// 添加到缓存类列表
-//			CACHES.put(name, c);
-//			// 获得所有字段
-//			for (Field f : c.getFields())
-//				// 判断是否主键
-//				if (f.isAnnotationPresent(Key.class)) {
-//					// 是主键添加并跳出
-//					FIELDS.put(name, f);
-//					break;
-//				}
-//		});
-//	}
-
 	// 缓存实体名
 	protected String name;
 	// 缓存键值的Class
@@ -59,15 +37,17 @@ public class BeanCache<K, V> extends LoadCache<K, V> {
 		super(load);
 		this.name = name;
 		this.val = val;
-//		this.field = FIELDS.get(name);
-		// 获得所有字段
-		for (Field f : val.getFields())
-			// 判断是否主键
-			if (f.isAnnotationPresent(Key.class)) {
-				this.field = f;
-				break;
-			}
+		this.field = B.getField(val, val.getAnnotation(Cache.class).key());
 		this.key = (Class<K>) this.field.getClass();
+	}
+
+	/**
+	 * 获得缓存实体名
+	 * 
+	 * @return 缓存实体名
+	 */
+	public String name() {
+		return name;
 	}
 
 	/**

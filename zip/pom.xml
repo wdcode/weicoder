@@ -44,7 +44,7 @@
 			<dependencies>
 				<dependency>
 					<groupId>com.weicoder.fork</groupId>
-					<artifactId>compress-jdk11</artifactId>
+					<artifactId>commons-compress-jdk11</artifactId>
 					<version>${commons-compress}</version>
 				</dependency>
 			</dependencies>

@@ -90,7 +90,7 @@ public final class SuperService {
 	 * @param  objs 对象列表
 	 * @return      是否添加成功
 	 */
-	public static boolean adds(List<Object> objs) {
+	public static boolean adds(List<?> objs) {
 		return U.E.isEmpty(objs) ? false : QueueFactory.get(objs.get(0).getClass()).addAll(objs);
 	}
 

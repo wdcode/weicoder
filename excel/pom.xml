@@ -57,13 +57,6 @@
 					<artifactId>poi-ooxml</artifactId>
 					<version>${poi}</version>
 				</dependency>
-				<!-- 
-				<dependency>
-					<groupId>com.weicoder.fork</groupId>
-					<artifactId>poi-jdk11</artifactId>
-					<version>${poi}</version>
-				</dependency>
-				 -->
 			</dependencies>
 		</profile>
 	</profiles>

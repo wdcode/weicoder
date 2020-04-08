@@ -23,14 +23,14 @@
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<dependencies>
-				<dependency> 
+				<dependency>
 					<groupId>com.weicoder.extend</groupId>
 					<artifactId>hbase-extend</artifactId>
 				</dependency>
 			</dependencies>
 		</profile>
 		<profile>
-			<id>native</id>  
+			<id>native</id>
 			<dependencies>
 				<dependency>
 					<groupId>org.hbase</groupId>
@@ -48,13 +48,13 @@
 			<id>jdk11</id>
 			<dependencies>
 				<dependency>
-					<groupId>org.hbase</groupId>
-					<artifactId>asynchbase</artifactId>
+					<groupId>com.weicoder.fork</groupId>
+					<artifactId>asynchbase-jdk11</artifactId>
 					<version>${asynchbase}</version>
 				</dependency>
 				<dependency>
-					<groupId>org.apache.hbase</groupId>
-					<artifactId>hbase-client</artifactId>
+					<groupId>com.weicoder.fork</groupId>
+					<artifactId>hbase-client-jdk11</artifactId>
 					<version>${hbase-client}</version>
 				</dependency>
 			</dependencies>

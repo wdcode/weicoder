@@ -114,7 +114,7 @@ public class BasicServlet extends HttpServlet {
 			}
 			// 过滤IP
 			Action a = action.getClass().getAnnotation(Action.class);
-			if (a.ips()) {
+			if (a.ips() || WebParams.IPS) {
 				// 如果在允许列表继续 否则退出
 				if (!IpUtil.contains(ip)) {
 					LOG.debug("this ip={}", ip);

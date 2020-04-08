@@ -78,10 +78,19 @@ public class RedisCache<K, V> extends BeanCache<K, V> {
 	}
 
 	// redis
-	private RedisPool redis;
+	protected RedisPool redis;
 	// redis channel
-	private String put;
-	private String remove;
+	protected String put;
+	protected String remove;
+
+	/**
+	 * 获得当前redis缓存使用的redis
+	 * 
+	 * @return
+	 */
+	public RedisPool redis() {
+		return redis;
+	}
 
 	/**
 	 * 加入缓存
@@ -124,6 +133,15 @@ public class RedisCache<K, V> extends BeanCache<K, V> {
 	}
 
 	/**
+	 * 如果本地数量与redis数量一致返回super.map() 不一致返回all()
+	 * 
+	 * @return 缓存list
+	 */
+	public Map<K, V> map() {
+		return size() == len() ? super.map() : all();
+	}
+
+	/**
 	 * 如果本地数量与redis数量一致返回values() 不一致返回all().values()
 	 * 
 	 * @return 缓存list
@@ -155,7 +173,7 @@ public class RedisCache<K, V> extends BeanCache<K, V> {
 	 * @param cls   缓存值Class
 	 * @param load  是否加载全部缓存
 	 */
-	private RedisCache(RedisPool redis, String key, Class<V> cls, boolean fill) {
+	protected RedisCache(RedisPool redis, String key, Class<V> cls, boolean fill) {
 		super(key, cls, new Callback<K, V>() {
 			@Override
 			public V callback(K result) {

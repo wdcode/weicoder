@@ -1,7 +1,6 @@
 package com.weicoder.test;
 
-import com.weicoder.dao.service.SuperService;
-import com.weicoder.po.user.User;
+import com.weicoder.dao.service.SuperService; 
 
 public class DaoTest {
 

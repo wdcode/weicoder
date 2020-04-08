@@ -1,7 +1,6 @@
 package com.weicoder.test;
 
-import com.weicoder.cache.annotation.Cache;
-import com.weicoder.cache.annotation.Key;
+import com.weicoder.cache.annotation.Cache; 
 import com.weicoder.common.binary.Binary;
 import com.weicoder.protobuf.Protobuf;
 
@@ -20,9 +19,9 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 @Protobuf 
 @Accessors(chain = true)
-@Cache
+@Cache(key = "uid")
 public class Users implements Binary{
-	@Key
+ 
 	private long    uid;
 	private boolean anchor;
 	private byte    admin;

@@ -46,7 +46,7 @@ public final class Messages {
 	 * @param  message 消息
 	 * @return         字节数组
 	 */
-	public static byte[] toBytes(Object message) {
+	private static byte[] toBytes(Object message) {
 		// 判断类型
 		if (message == null)
 			// 空
