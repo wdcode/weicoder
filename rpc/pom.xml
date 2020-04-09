@@ -8,7 +8,7 @@
 		<version>3.3.5</version>
 	</parent>
 	<artifactId>rpc</artifactId>
- 
+
 	<dependencies>
 		<dependency>
 			<groupId>com.weicoder</groupId>
@@ -40,7 +40,6 @@
 				<dependency>
 					<groupId>com.alipay.sofa</groupId>
 					<artifactId>sofa-rpc-all</artifactId>
-					<version>${sofa-rpc}</version>
 				</dependency>
 			</dependencies>
 		</profile>
@@ -50,7 +49,6 @@
 				<dependency>
 					<groupId>com.weicoder.fork</groupId>
 					<artifactId>sofa-rpc-all-jdk11</artifactId>
-					<version>${sofa-rpc}</version>
 				</dependency>
 			</dependencies>
 		</profile>

@@ -35,7 +35,6 @@
 				<dependency>
 					<groupId>org.apache.mina</groupId>
 					<artifactId>mina-core</artifactId>
-					<version>${mina-core}</version>
 				</dependency>
 			</dependencies>
 		</profile>
@@ -45,7 +44,6 @@
 				<dependency>
 					<groupId>com.weicoder.fork</groupId>
 					<artifactId>mina-jdk11</artifactId>
-					<version>${mina-core}</version>
 				</dependency>
 			</dependencies>
 		</profile>

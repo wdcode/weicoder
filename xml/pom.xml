@@ -8,12 +8,12 @@
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>xml</artifactId>
- 
+
 	<dependencies>
 		<dependency>
 			<groupId>com.weicoder</groupId>
 			<artifactId>common</artifactId>
-		</dependency> 
+		</dependency>
 	</dependencies>
 
 	<profiles>
@@ -35,17 +35,14 @@
 				<dependency>
 					<groupId>org.dom4j</groupId>
 					<artifactId>dom4j</artifactId>
-					<version>${dom4j}</version>
 				</dependency>
 				<dependency>
 					<groupId>org.jdom</groupId>
 					<artifactId>jdom2</artifactId>
-					<version>${jdom2}</version>
 				</dependency>
 				<dependency>
 					<groupId>com.thoughtworks.xstream</groupId>
 					<artifactId>xstream</artifactId>
-					<version>${xstream}</version>
 				</dependency>
 			</dependencies>
 		</profile>
@@ -55,17 +52,14 @@
 				<dependency>
 					<groupId>com.weicoder.fork</groupId>
 					<artifactId>dom4j-jdk11</artifactId>
-					<version>${dom4j}</version>
 				</dependency>
 				<dependency>
 					<groupId>com.weicoder.fork</groupId>
 					<artifactId>jdom2-jdk11</artifactId>
-					<version>${jdom2}</version>
 				</dependency>
 				<dependency>
 					<groupId>com.weicoder.fork</groupId>
 					<artifactId>xstream-jdk11</artifactId>
-					<version>${xstream}</version>
 				</dependency>
 			</dependencies>
 		</profile>

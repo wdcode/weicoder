@@ -5,6 +5,7 @@
 *.pydevproject 
 bin/
 tmp/
+.vscode/
 .idea/
 *.iml
 *.tmp

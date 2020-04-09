@@ -8,7 +8,7 @@
 		<version>3.3.5</version>
 	</parent>
 	<artifactId>nacos</artifactId>
-	 
+
 	<dependencies>
 		<dependency>
 			<groupId>com.weicoder</groupId>
@@ -35,7 +35,6 @@
 				<dependency>
 					<groupId>com.alibaba.nacos</groupId>
 					<artifactId>nacos-client</artifactId>
-					<version>${nacos-client}</version>
 				</dependency>
 			</dependencies>
 		</profile>
@@ -45,7 +44,6 @@
 				<dependency>
 					<groupId>com.weicoder.fork</groupId>
 					<artifactId>nacos-client-jdk11</artifactId>
-					<version>${nacos-client}</version>
 				</dependency>
 			</dependencies>
 		</profile>

@@ -8,7 +8,7 @@
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>redis</artifactId>
- 
+
 	<dependencies>
 		<dependency>
 			<groupId>com.weicoder</groupId>
@@ -48,7 +48,6 @@
 				<dependency>
 					<groupId>redis.clients</groupId>
 					<artifactId>jedis</artifactId>
-					<version>${jedis}</version>
 				</dependency>
 			</dependencies>
 		</profile>
@@ -58,7 +57,6 @@
 				<dependency>
 					<groupId>com.weicoder.fork</groupId>
 					<artifactId>jedis-jdk11</artifactId>
-					<version>${jedis}</version>
 				</dependency>
 			</dependencies>
 		</profile>

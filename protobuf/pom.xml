@@ -8,7 +8,7 @@
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>protobuf</artifactId>
-	 
+
 	<dependencies>
 		<dependency>
 			<groupId>com.weicoder</groupId>
@@ -35,7 +35,6 @@
 				<dependency>
 					<groupId>com.google.protobuf</groupId>
 					<artifactId>protobuf-java</artifactId>
-					<version>${protobuf-java}</version>
 				</dependency>
 			</dependencies>
 		</profile>
@@ -45,7 +44,6 @@
 				<dependency>
 					<groupId>com.weicoder.fork</groupId>
 					<artifactId>protobuf-java-jdk11</artifactId>
-					<version>${protobuf-java}</version>
 				</dependency>
 			</dependencies>
 		</profile>

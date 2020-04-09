@@ -45,18 +45,15 @@
 				<dependency>
 					<groupId>com.zaxxer</groupId>
 					<artifactId>HikariCP</artifactId>
-					<version>${HikariCP}</version> 
 				</dependency>
 				<dependency>
 					<groupId>com.alibaba</groupId>
 					<artifactId>druid</artifactId>
-					<version>${druid}</version>
 					<optional>true</optional>
 				</dependency>
 				<dependency>
 					<groupId>org.apache.commons</groupId>
 					<artifactId>commons-dbcp2</artifactId>
-					<version>${commons-dbcp2}</version>
 					<optional>true</optional>
 				</dependency>
 			</dependencies>
@@ -67,18 +64,15 @@
 				<dependency>
 					<groupId>com.weicoder.fork</groupId>
 					<artifactId>HikariCP-jdk11</artifactId>
-					<version>${HikariCP}</version> 
 				</dependency>
 				<dependency>
 					<groupId>com.weicoder.fork</groupId>
 					<artifactId>druid-jdk11</artifactId>
-					<version>${druid}</version>
 					<optional>true</optional>
 				</dependency>
 				<dependency>
 					<groupId>com.weicoder.fork</groupId>
 					<artifactId>dbcp2-jdk11</artifactId>
-					<version>${commons-dbcp2}</version>
 					<optional>true</optional>
 				</dependency>
 			</dependencies>

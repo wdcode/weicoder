@@ -40,12 +40,10 @@
 				<dependency>
 					<groupId>com.alibaba</groupId>
 					<artifactId>fastjson</artifactId>
-					<version>${fastjson}</version>
 				</dependency>
 				<dependency>
 					<groupId>com.google.code.gson</groupId>
 					<artifactId>gson</artifactId>
-					<version>${gson}</version>
 					<optional>true</optional>
 				</dependency>
 			</dependencies>
@@ -56,12 +54,10 @@
 				<dependency>
 					<groupId>com.weicoder.fork</groupId>
 					<artifactId>fastjson-jdk11</artifactId>
-					<version>${fastjson}</version>
 				</dependency>
 				<dependency>
 					<groupId>com.weicoder.fork</groupId>
 					<artifactId>gson-jdk11</artifactId>
-					<version>${gson}</version>
 					<optional>true</optional>
 				</dependency>
 			</dependencies>

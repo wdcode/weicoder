@@ -8,7 +8,7 @@
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>email</artifactId>
-	 
+
 	<dependencies>
 		<dependency>
 			<groupId>com.weicoder</groupId>
@@ -18,7 +18,7 @@
 
 	<profiles>
 		<profile>
-			<id>opt</id> 
+			<id>opt</id>
 			<activation>
 				<activeByDefault>true</activeByDefault>
 			</activation>
@@ -30,22 +30,20 @@
 			</dependencies>
 		</profile>
 		<profile>
-			<id>native</id> 
+			<id>native</id>
 			<dependencies>
 				<dependency>
 					<groupId>org.apache.commons</groupId>
 					<artifactId>commons-email</artifactId>
-					<version>${commons-email}</version>
 				</dependency>
 			</dependencies>
 		</profile>
 		<profile>
-			<id>jdk11</id> 
+			<id>jdk11</id>
 			<dependencies>
 				<dependency>
 					<groupId>com.weicoder.fork</groupId>
 					<artifactId>commons-email-jdk11</artifactId>
-					<version>${commons-email}</version>
 				</dependency>
 			</dependencies>
 		</profile>

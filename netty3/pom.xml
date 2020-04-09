@@ -34,8 +34,7 @@
 			<dependencies>
 				<dependency>
 					<groupId>io.netty</groupId>
-					<artifactId>netty</artifactId>
-					<version>3.10.6.Final</version>
+					<artifactId>netty</artifactId> 
 				</dependency>
 			</dependencies>
 		</profile>
@@ -44,8 +43,7 @@
 			<dependencies>
 				<dependency>
 					<groupId>com.weicoder.fork</groupId>
-					<artifactId>netty3-jdk11</artifactId>
-					<version>3.10.6</version>
+					<artifactId>netty3-jdk11</artifactId> 
 				</dependency>
 			</dependencies>
 		</profile>

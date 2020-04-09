@@ -8,7 +8,7 @@
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>excel</artifactId>
-	 
+
 	<dependencies>
 		<dependency>
 			<groupId>com.weicoder</groupId>
@@ -18,7 +18,7 @@
 
 	<profiles>
 		<profile>
-			<id>opt</id> 
+			<id>opt</id>
 			<activation>
 				<activeByDefault>true</activeByDefault>
 			</activation>
@@ -30,32 +30,24 @@
 			</dependencies>
 		</profile>
 		<profile>
-			<id>native</id> 
+			<id>native</id>
 			<dependencies>
 				<dependency>
 					<groupId>org.apache.poi</groupId>
 					<artifactId>poi</artifactId>
-					<version>${poi}</version>
 				</dependency>
 				<dependency>
 					<groupId>org.apache.poi</groupId>
 					<artifactId>poi-ooxml</artifactId>
-					<version>${poi}</version>
 				</dependency>
 			</dependencies>
 		</profile>
 		<profile>
-			<id>jdk11</id> 
+			<id>jdk11</id>
 			<dependencies>
 				<dependency>
-					<groupId>org.apache.poi</groupId>
+					<groupId>com.weicoder.fork</groupId>
 					<artifactId>poi</artifactId>
-					<version>${poi}</version>
-				</dependency>
-				<dependency>
-					<groupId>org.apache.poi</groupId>
-					<artifactId>poi-ooxml</artifactId>
-					<version>${poi}</version>
 				</dependency>
 			</dependencies>
 		</profile>

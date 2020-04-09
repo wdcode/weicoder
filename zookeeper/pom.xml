@@ -35,12 +35,10 @@
 				<dependency>
 					<groupId>org.apache.curator</groupId>
 					<artifactId>curator-framework</artifactId>
-					<version>${curator-framework}</version>
 				</dependency>
 				<dependency>
 					<groupId>org.apache.curator</groupId>
 					<artifactId>curator-recipes</artifactId>
-					<version>${curator-framework}</version>
 				</dependency>
 			</dependencies>
 		</profile>
@@ -50,7 +48,6 @@
 				<dependency>
 					<groupId>com.weicoder.fork</groupId>
 					<artifactId>curator-framework-jdk11</artifactId>
-					<version>${curator-framework}</version>
 				</dependency>
 			</dependencies>
 		</profile>

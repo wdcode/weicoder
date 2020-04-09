@@ -42,13 +42,11 @@
 			<dependencies>
 				<dependency>
 					<groupId>org.hibernate</groupId>
-					<artifactId>hibernate-core</artifactId>
-					<version>${hibernate-core}</version>
+					<artifactId>hibernate-core</artifactId> 
 				</dependency>
 				<dependency>
 					<groupId>org.hibernate</groupId>
-					<artifactId>hibernate-hikaricp</artifactId>
-					<version>${hibernate-core}</version>
+					<artifactId>hibernate-hikaricp</artifactId> 
 				</dependency>
 			</dependencies>
 		</profile>
@@ -57,8 +55,7 @@
 			<dependencies>
 				<dependency>
 					<groupId>com.weicoder.fork</groupId>
-					<artifactId>hibernate-jdk11</artifactId>
-					<version>${hibernate-core}</version>
+					<artifactId>hibernate-jdk11</artifactId> 
 				</dependency>
 			</dependencies>
 		</profile>

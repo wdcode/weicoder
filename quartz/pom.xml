@@ -8,7 +8,7 @@
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>quartz</artifactId>
-	 
+
 	<dependencies>
 		<dependency>
 			<groupId>com.weicoder</groupId>
@@ -18,7 +18,7 @@
 
 	<profiles>
 		<profile>
-			<id>opt</id> 
+			<id>opt</id>
 			<activation>
 				<activeByDefault>true</activeByDefault>
 			</activation>
@@ -30,22 +30,20 @@
 			</dependencies>
 		</profile>
 		<profile>
-			<id>native</id>  
+			<id>native</id>
 			<dependencies>
 				<dependency>
 					<groupId>org.quartz-scheduler</groupId>
 					<artifactId>quartz</artifactId>
-					<version>${quartz}</version>
 				</dependency>
 			</dependencies>
 		</profile>
 		<profile>
-			<id>jdk11</id>  
+			<id>jdk11</id>
 			<dependencies>
 				<dependency>
 					<groupId>com.weicoder.fork</groupId>
 					<artifactId>quartz-jdk11</artifactId>
-					<version>${quartz}</version>
 				</dependency>
 			</dependencies>
 		</profile>

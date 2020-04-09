@@ -35,12 +35,10 @@
 				<dependency>
 					<groupId>com.zaxxer</groupId>
 					<artifactId>HikariCP</artifactId>
-					<version>${HikariCP}</version>
 				</dependency>
 				<dependency>
 					<groupId>mysql</groupId>
 					<artifactId>mysql-connector-java</artifactId>
-					<version>${mysql-connector-java}</version>
 				</dependency>
 			</dependencies>
 		</profile>
@@ -50,12 +48,10 @@
 				<dependency>
 					<groupId>com.weicoder.fork</groupId>
 					<artifactId>HikariCP-jdk11</artifactId>
-					<version>${HikariCP}</version>
 				</dependency>
 				<dependency>
 					<groupId>com.weicoder.fork</groupId>
 					<artifactId>mysql-connector-java-jdk11</artifactId>
-					<version>${mysql-connector-java}</version>
 				</dependency>
 			</dependencies>
 		</profile>

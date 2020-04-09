@@ -35,7 +35,6 @@
 				<dependency>
 					<groupId>com.opencsv</groupId>
 					<artifactId>opencsv</artifactId>
-					<version>${opencsv}</version>
 				</dependency>
 			</dependencies>
 		</profile>
@@ -45,7 +44,6 @@
 				<dependency>
 					<groupId>com.weicoder.fork</groupId>
 					<artifactId>opencsv-jdk11</artifactId>
-					<version>${opencsv}</version>
 				</dependency>
 			</dependencies>
 		</profile>
