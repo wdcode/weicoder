@@ -15,18 +15,18 @@
 		<extend>3.3.8</extend>
 		<log4j-core>2.13.1</log4j-core>
 		<fastjson>1.2.68</fastjson>
-		<druid>1.1.21</druid>
+		<druid>1.1.22</druid>
 		<commons-dbcp2>2.7.0</commons-dbcp2>
 		<gson>2.8.6</gson>
-		<hibernate-core>5.4.13.Final</hibernate-core>
+		<hibernate-core>5.4.14.Final</hibernate-core>
 		<mysql-connector-java>8.0.19</mysql-connector-java>
 		<netty-all>4.1.48.Final</netty-all>
 		<netty3>3.10.6.Final</netty3>
-		<mongo-java-driver>3.12.2</mongo-java-driver>
+		<mongo-java-driver>3.12.3</mongo-java-driver>
 		<jedis>3.2.0</jedis>
 		<kafka-clients>2.4.1</kafka-clients>
 		<sofa-rpc>5.6.5</sofa-rpc>
-		<tomcat-embed>9.0.33</tomcat-embed>
+		<tomcat-embed>9.0.34</tomcat-embed>
 		<guava>28.2-jre</guava>
 		<elasticsearch>7.6.2</elasticsearch>
 		<poi>4.1.2</poi>
