@@ -8,50 +8,48 @@
 		<version>1.4</version>
 	</parent>
 	<artifactId>weicoder</artifactId>
-	<version>3.3.5</version>
+	<version>3.3.6</version>
 	<packaging>pom</packaging>
 
 	<properties>
 		<extend>3.3.8</extend>
 		<log4j-core>2.13.1</log4j-core>
 		<fastjson>1.2.68</fastjson>
-		<druid>1.1.22</druid>
-		<commons-dbcp2>2.7.0</commons-dbcp2>
-		<gson>2.8.6</gson>
 		<hibernate-core>5.4.14.Final</hibernate-core>
 		<mysql-connector-java>8.0.19</mysql-connector-java>
 		<netty-all>4.1.48.Final</netty-all>
-		<netty3>3.10.6.Final</netty3>
 		<mongo-java-driver>3.12.3</mongo-java-driver>
 		<jedis>3.2.0</jedis>
-		<kafka-clients>2.4.1</kafka-clients>
+		<kafka-clients>2.5.0</kafka-clients>
 		<sofa-rpc>5.6.5</sofa-rpc>
 		<tomcat-embed>9.0.34</tomcat-embed>
-		<guava>28.2-jre</guava>
+		<guava>29.0-jre</guava>
 		<elasticsearch>7.6.2</elasticsearch>
 		<poi>4.1.2</poi>
 		<nacos-client>1.2.1</nacos-client>
 		<protobuf-java>3.11.4</protobuf-java>
 		<curator-framework>4.3.0</curator-framework>
 		<HikariCP>3.4.2</HikariCP>
-		<solr-solrj>8.5.0</solr-solrj>
+		<solr-solrj>8.5.1</solr-solrj>
 		<httpclient5>5.0</httpclient5>
 		<httpclient>4.5.12</httpclient>
-		<httpmime>4.5.12</httpmime>
 		<httpcore>4.4.13</httpcore>
-		<httpcore-nio>4.4.13</httpcore-nio>
 		<httpasyncclient>4.1.4</httpasyncclient>
 		<asynchbase>1.8.2</asynchbase>
 		<hbase-client>2.2.4</hbase-client>
+		<dom4j>2.1.3</dom4j>
+		<xstream>1.4.12</xstream>
 		<quartz>2.3.2</quartz>
 		<opencsv>5.1</opencsv>
 		<mina-core>2.1.3</mina-core>
 		<disruptor>3.4.2</disruptor>
+		<druid>1.1.22</druid>
+		<netty3>3.10.6.Final</netty3>
+		<commons-dbcp2>2.7.0</commons-dbcp2>
+		<gson>2.8.6</gson>
 		<commons-compress>1.20</commons-compress>
 		<commons-email>1.5</commons-email>
-		<dom4j>2.1.1</dom4j>
 		<jdom2>2.0.6</jdom2>
-		<xstream>1.4.11.1</xstream>
 		<Memcached-Java-Client>3.0.2</Memcached-Java-Client>
 	</properties>
 
@@ -65,6 +63,7 @@
 		<module>elasticsearch</module>
 		<module>email</module>
 		<module>excel</module>
+		<module>gson</module>
 		<module>hbase</module>
 		<module>hibernate</module>
 		<module>http</module>
@@ -77,7 +76,6 @@
 		<module>mongo</module>
 		<module>mina</module>
 		<module>nacos</module>
-		<module>netty</module>
 		<module>netty3</module>
 		<module>protobuf</module>
 		<module>quartz</module>
@@ -99,9 +97,6 @@
 			<activation>
 				<activeByDefault>true</activeByDefault>
 			</activation>
-			<properties>
-				<suffix>-opt</suffix>
-			</properties>
 			<dependencyManagement>
 				<dependencies>
 					<dependency>
@@ -115,10 +110,7 @@
 			</dependencyManagement>
 		</profile>
 		<profile>
-			<id>native</id>
-			<properties>
-				<suffix></suffix>
-			</properties>
+			<id>release</id>
 			<dependencyManagement>
 				<dependencies>
 					<dependency>
@@ -204,7 +196,7 @@
 					<dependency>
 						<groupId>org.apache.httpcomponents</groupId>
 						<artifactId>httpmime</artifactId>
-						<version>${httpmime}</version>
+						<version>${httpclient}</version>
 					</dependency>
 					<dependency>
 						<groupId>org.apache.httpcomponents</groupId>
@@ -214,7 +206,7 @@
 					<dependency>
 						<groupId>org.apache.httpcomponents</groupId>
 						<artifactId>httpcore-nio</artifactId>
-						<version>${httpcore-nio}</version>
+						<version>${httpcore}</version>
 					</dependency>
 					<dependency>
 						<groupId>org.apache.httpcomponents</groupId>
@@ -300,7 +292,7 @@
 						<groupId>com.alipay.sofa</groupId>
 						<artifactId>sofa-rpc-all</artifactId>
 						<version>${sofa-rpc}</version>
-					</dependency> 
+					</dependency>
 					<dependency>
 						<groupId>org.apache.solr</groupId>
 						<artifactId>solr-solrj</artifactId>
@@ -344,196 +336,6 @@
 					<dependency>
 						<groupId>org.apache.curator</groupId>
 						<artifactId>curator-recipes</artifactId>
-						<version>${curator-framework}</version>
-					</dependency>
-				</dependencies>
-			</dependencyManagement>
-		</profile>
-		<profile>
-			<id>jdk11</id>
-			<properties>
-				<suffix>-jdk11</suffix>
-			</properties>
-			<dependencyManagement>
-				<dependencies>
-					<dependency>
-						<groupId>com.weicoder.fork</groupId>
-						<artifactId>guava-jdk11</artifactId>
-						<version>${guava}</version>
-					</dependency>
-					<dependency>
-						<groupId>com.weicoder.fork</groupId>
-						<artifactId>opencsv-jdk11</artifactId>
-						<version>${opencsv}</version>
-					</dependency>
-					<dependency>
-						<groupId>com.weicoder.fork</groupId>
-						<artifactId>protobuf-java-jdk11</artifactId>
-						<version>${protobuf-java}</version>
-					</dependency>
-					<dependency>
-						<groupId>com.weicoder.fork</groupId>
-						<artifactId>netty3-jdk11</artifactId>
-						<version>${netty3}</version>
-					</dependency>
-					<dependency>
-						<groupId>com.weicoder.fork</groupId>
-						<artifactId>netty-all-jdk11</artifactId>
-						<version>${netty-all}</version>
-					</dependency>
-					<dependency>
-						<groupId>com.weicoder.fork</groupId>
-						<artifactId>nacos-client-jdk11</artifactId>
-						<version>${nacos-client}</version>
-					</dependency>
-					<dependency>
-						<groupId>com.weicoder.fork</groupId>
-						<artifactId>mongo-java-driver-jdk11</artifactId>
-						<version>${mongo-java-driver}</version>
-					</dependency>
-					<dependency>
-						<groupId>com.weicoder.fork</groupId>
-						<artifactId>mina-jdk11</artifactId>
-						<version>${mina-core}</version>
-					</dependency>
-					<dependency>
-						<groupId>com.weicoder.fork</groupId>
-						<artifactId>Memcached-Java-Client-jdk11</artifactId>
-						<version>${Memcached-Java-Client}</version>
-					</dependency>
-					<dependency>
-						<groupId>com.weicoder.fork</groupId>
-						<artifactId>log4j-jdk11</artifactId>
-						<version>${log4j-core}</version>
-					</dependency>
-					<dependency>
-						<groupId>com.weicoder.fork</groupId>
-						<artifactId>disruptor-jdk11</artifactId>
-						<version>${disruptor}</version>
-					</dependency>
-					<dependency>
-						<groupId>com.weicoder.fork</groupId>
-						<artifactId>kafka-clients-jdk11</artifactId>
-						<version>${kafka-clients}</version>
-					</dependency>
-					<dependency>
-						<groupId>com.weicoder.fork</groupId>
-						<artifactId>fastjson-jdk11</artifactId>
-						<version>${fastjson}</version>
-					</dependency>
-					<dependency>
-						<groupId>com.weicoder.fork</groupId>
-						<artifactId>gson-jdk11</artifactId>
-						<version>${gson}</version>
-					</dependency>
-					<dependency>
-						<groupId>com.weicoder.fork</groupId>
-						<artifactId>httpclient4-jdk11</artifactId>
-						<version>${httpclient}</version>
-					</dependency>
-					<dependency>
-						<groupId>com.weicoder.fork</groupId>
-						<artifactId>httpclient5-jdk11</artifactId>
-						<version>${httpclient5}</version>
-					</dependency>
-					<dependency>
-						<groupId>com.weicoder.fork</groupId>
-						<artifactId>hibernate-jdk11</artifactId>
-						<version>${hibernate-core}</version>
-					</dependency>
-					<dependency>
-						<groupId>com.weicoder.fork</groupId>
-						<artifactId>asynchbase-jdk11</artifactId>
-						<version>${asynchbase}</version>
-					</dependency>
-					<dependency>
-						<groupId>com.weicoder.fork</groupId>
-						<artifactId>hbase-client-jdk11</artifactId>
-						<version>${hbase-client}</version>
-					</dependency>
-					<dependency>
-						<groupId>com.weicoder.fork</groupId>
-						<artifactId>poi</artifactId>
-						<version>${poi}</version>
-					</dependency>
-					<dependency>
-						<groupId>com.weicoder.fork</groupId>
-						<artifactId>commons-email-jdk11</artifactId>
-						<version>${commons-email}</version>
-					</dependency>
-					<dependency>
-						<groupId>com.weicoder.fork</groupId>
-						<artifactId>elasticsearch-client-jdk11</artifactId>
-						<version>${elasticsearch}</version>
-					</dependency>
-					<dependency>
-						<groupId>com.weicoder.fork</groupId>
-						<artifactId>HikariCP-jdk11</artifactId>
-						<version>${HikariCP}</version>
-					</dependency>
-					<dependency>
-						<groupId>com.weicoder.fork</groupId>
-						<artifactId>druid-jdk11</artifactId>
-						<version>${druid}</version>
-					</dependency>
-					<dependency>
-						<groupId>com.weicoder.fork</groupId>
-						<artifactId>dbcp2-jdk11</artifactId>
-						<version>${commons-dbcp2}</version>
-					</dependency>
-					<dependency>
-						<groupId>com.weicoder.fork</groupId>
-						<artifactId>mysql-connector-java-jdk11</artifactId>
-						<version>${mysql-connector-java}</version>
-					</dependency>
-					<dependency>
-						<groupId>com.weicoder.fork</groupId>
-						<artifactId>quartz-jdk11</artifactId>
-						<version>${quartz}</version>
-					</dependency>
-					<dependency>
-						<groupId>com.weicoder.fork</groupId>
-						<artifactId>jedis-jdk11</artifactId>
-						<version>${jedis}</version>
-					</dependency>
-					<dependency>
-						<groupId>com.weicoder.fork</groupId>
-						<artifactId>sofa-rpc-all-jdk11</artifactId>
-						<version>${sofa-rpc}</version>
-					</dependency> 
-					<dependency>
-						<groupId>com.weicoder.fork</groupId>
-						<artifactId>solr-solrj-jdk11</artifactId>
-						<version>${solr-solrj}</version>
-					</dependency>
-					<dependency>
-						<groupId>com.weicoder.fork</groupId>
-						<artifactId>tomcat-embed-jdk11</artifactId>
-						<version>${tomcat-embed}</version>
-					</dependency>
-					<dependency>
-						<groupId>com.weicoder.fork</groupId>
-						<artifactId>dom4j-jdk11</artifactId>
-						<version>${dom4j}</version>
-					</dependency>
-					<dependency>
-						<groupId>com.weicoder.fork</groupId>
-						<artifactId>jdom2-jdk11</artifactId>
-						<version>${jdom2}</version>
-					</dependency>
-					<dependency>
-						<groupId>com.weicoder.fork</groupId>
-						<artifactId>xstream-jdk11</artifactId>
-						<version>${xstream}</version>
-					</dependency>
-					<dependency>
-						<groupId>com.weicoder.fork</groupId>
-						<artifactId>commons-compress-jdk11</artifactId>
-						<version>${commons-compress}</version>
-					</dependency>
-					<dependency>
-						<groupId>com.weicoder.fork</groupId>
-						<artifactId>curator-framework-jdk11</artifactId>
 						<version>${curator-framework}</version>
 					</dependency>
 				</dependencies>
@@ -598,6 +400,11 @@
 			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
+				<artifactId>gson</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.weicoder</groupId>
 				<artifactId>hbase</artifactId>
 				<version>${project.version}</version>
 			</dependency>
@@ -654,11 +461,6 @@
 			<dependency>
 				<groupId>com.weicoder</groupId>
 				<artifactId>nacos</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.weicoder</groupId>
-				<artifactId>netty</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>

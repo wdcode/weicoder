@@ -3,7 +3,7 @@ package com.weicoder.cache;
 import java.lang.reflect.Field;
 import java.util.List;
 
-import com.weicoder.cache.annotation.Cache;
+import com.weicoder.cache.annotation.Cache; 
 import com.weicoder.common.U.B;
 import com.weicoder.common.W.C;
 import com.weicoder.common.interfaces.Callback;
@@ -34,7 +34,7 @@ public class BeanCache<K, V> extends LoadCache<K, V> {
 	 * @param load 缓存加载回调
 	 */
 	protected BeanCache(String name, Class<V> val, Callback<K, V> load) {
-		super(load);
+		super(load); 
 		this.name = name;
 		this.val = val;
 		this.field = B.getField(val, val.getAnnotation(Cache.class).key());
@@ -51,12 +51,31 @@ public class BeanCache<K, V> extends LoadCache<K, V> {
 	}
 
 	/**
+	 * 设置对象到缓存值 只用Bean拷贝 暂时没做基础类型处理 调用可以异常
+	 * 
+	 * @param  key 键
+	 * @param  obj 赋值给缓存
+	 * @return
+	 */
+	public V of(K key, Object obj) {
+		// 获取值
+		V v = get(key);
+		// 值为空 声明新的 不为空 拷贝属性
+		if (v == null)
+			v = B.copy(obj, val);
+		else
+			v = B.copy(obj, v);
+		// 返回值
+		return put(key, v);
+	}
+
+	/**
 	 * 添加缓存
 	 * 
 	 * @param val
 	 */
-	public void put(V val) {
-		put(key(val), val);
+	public V put(V val) {
+		return put(key(val), val);
 	}
 
 	/**

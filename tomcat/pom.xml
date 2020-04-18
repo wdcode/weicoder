@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.weicoder</groupId>
 		<artifactId>weicoder</artifactId>
-		<version>3.3.5</version>
+		<version>3.3.6</version>
 	</parent>
 	<artifactId>tomcat</artifactId>
 
@@ -46,7 +46,7 @@
 			</dependencies>
 		</profile>
 		<profile>
-			<id>native</id>
+			<id>release</id>
 			<dependencies>
 				<dependency>
 					<groupId>org.apache.tomcat.embed</groupId>
@@ -57,15 +57,6 @@
 					<artifactId>tomcat-embed-jasper</artifactId>
 				</dependency>
 			</dependencies>
-		</profile>
-		<profile>
-			<id>jdk11</id>
-			<dependencies>
-				<dependency>
-					<groupId>com.weicoder.fork</groupId>
-					<artifactId>tomcat-embed-jdk11</artifactId>
-				</dependency>
-			</dependencies>
-		</profile>
+		</profile> 
 	</profiles>
 </project>

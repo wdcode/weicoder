@@ -62,8 +62,9 @@ public class LoadCache<K, V> {
 	 * @param key   键
 	 * @param value 值
 	 */
-	public void put(K key, V value) {
+	public V put(K key, V value) {
 		cache.put(key, value);
+		return value;
 	}
 
 	/**
@@ -73,11 +74,27 @@ public class LoadCache<K, V> {
 	 * @return     值
 	 */
 	public V get(K key) {
-		try {
-			return cache.get(key);
-		} catch (Exception e) {
-			return null;
-		}
+		return cache.getUnchecked(key);
+	}
+
+	/**
+	 * 获得值
+	 * 
+	 * @param  key  键
+	 * @param  call 如果获取的值为空 处理类 处理后不为空还会填充回内存
+	 * @return      值
+	 */
+	public V get(K key, Callback<K, V> call) {
+		// 获取值
+		V val = get(key);
+		// 值为空 回调处理
+		if (val == null)
+			val = call.callback(key);
+		// 处理后的值不为空 放回缓存
+		if (val != null)
+			put(key, val);
+		// 返回值
+		return val;
 	}
 
 	/**

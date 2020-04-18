@@ -15,7 +15,7 @@ import com.weicoder.common.zip.base.BaseCompressor;
  * 
  * @author WD
  */
-public final class XZImpl extends BaseCompressor {
+public final class XzImpl extends BaseCompressor {
 
 	@Override
 	protected InputStream is(ByteArrayInputStream bis) throws Exception {

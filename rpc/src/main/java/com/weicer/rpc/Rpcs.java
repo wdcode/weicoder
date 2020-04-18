@@ -37,7 +37,7 @@ public final class Rpcs {
 
 	static {
 		// 循环处理rpc服务
-		C.from(Rpc.class).forEach(r -> {
+		C.list(Rpc.class).forEach(r -> {
 			// rpc服务地址
 			String name = getName(r);
 			ADDRESS.put(name, new InetSocketAddress(RpcParams.getHost(name), RpcParams.getPort(name)));

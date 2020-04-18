@@ -1,5 +1,5 @@
 package com.weicoder.test;
-  
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -15,10 +15,10 @@ import lombok.experimental.Accessors;
  * 用户
  * 
  * @author WD
- */ 
-@Entity
+ */
 @DynamicInsert
 @DynamicUpdate
+@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

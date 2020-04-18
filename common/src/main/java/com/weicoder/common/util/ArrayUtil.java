@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.weicoder.common.constants.StringConstants;
+import com.weicoder.common.C;
 import com.weicoder.common.U;
 import com.weicoder.common.W;
 
@@ -15,6 +16,44 @@ import com.weicoder.common.W;
  * @author WD
  */
 public class ArrayUtil {
+	/**
+	 * 根据传入的字符串转换成字符数组
+	 * 
+	 * @param  s 字符串
+	 * @param  c 要转换的类型
+	 * @return   字符数组
+	 */
+	public static Object array(String s, Class<?> c) {
+		return array(s, C.S.AMP, c);
+	}
+
+	/**
+	 * 根据传入的字符串转换成字符数组
+	 * 
+	 * @param  s    字符串
+	 * @param  sepa 分隔符
+	 * @param  c    要转换的类型
+	 * @return      字符数组
+	 */
+	public static Object array(String s, String sepa, Class<?> c) {
+		// 判断参数不对返回Null
+		if (U.E.isEmpty(s) || c == null)
+			return null;
+		// 分隔出数组
+		String[] t = U.S.split(s, sepa);
+		Class<?> type = c.isArray() ? c.getComponentType() : c;
+		// 如果是字符串数组 直接返回
+		if (String.class.equals(type))
+			return t;
+		// 根据类型声明数组对象
+		Object arr = Array.get(type, t.length);
+		// 循环转换类型
+		for (int i = 0; i < t.length; i++)
+			Array.set(arr, i, W.C.to(t[i], type));
+		// 返回数组对象
+		return arr;
+	}
+
 	/**
 	 * 判断是否数组
 	 * 

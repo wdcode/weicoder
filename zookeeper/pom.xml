@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.weicoder</groupId>
 		<artifactId>weicoder</artifactId>
-		<version>3.3.5</version>
+		<version>3.3.6</version>
 	</parent>
 	<artifactId>zookeeper</artifactId>
 
@@ -30,7 +30,7 @@
 			</dependencies>
 		</profile>
 		<profile>
-			<id>native</id>
+			<id>release</id>
 			<dependencies>
 				<dependency>
 					<groupId>org.apache.curator</groupId>
@@ -41,15 +41,6 @@
 					<artifactId>curator-recipes</artifactId>
 				</dependency>
 			</dependencies>
-		</profile>
-		<profile>
-			<id>jdk11</id>
-			<dependencies>
-				<dependency>
-					<groupId>com.weicoder.fork</groupId>
-					<artifactId>curator-framework-jdk11</artifactId>
-				</dependency>
-			</dependencies>
-		</profile>
+		</profile> 
 	</profiles>
 </project>

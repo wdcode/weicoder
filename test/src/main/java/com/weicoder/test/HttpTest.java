@@ -1,13 +1,18 @@
 package com.weicoder.test;
   
+import com.weicoder.common.http.factory.HttpFactory; 
+
 public class HttpTest {
 
-	public static void main(String[] args) {
-		String url = "https://www.baidu.com/sugrec";
-		String r1 = com.weicoder.http4.HttpClient.get(url);
-		String r2 = com.weicoder.http.HttpClient.get(url);
-		System.out.println("http=" + r1);
-		System.out.println("http2=" + r2);
+	public static void main(String[] args) {   
+		System.out.println(HttpFactory.getHttp());
+		System.out.println(HttpFactory.getHttp("jdk11"));
+		System.out.println(HttpFactory.getHttp("jdk8"));
+//		String url = "https://www.baidu.com/sugrec";
+//		String r1 = com.weicoder.http4.HttpClient.get(url);
+//		String r2 = com.weicoder.http.HttpClient.get(url);
+//		System.out.println("http=" + r1);
+//		System.out.println("http2=" + r2);
 //		System.out.println(r1.equals(r2));
 //		System.out.println(r1.length() == r2.length());
 //		int n = 100;

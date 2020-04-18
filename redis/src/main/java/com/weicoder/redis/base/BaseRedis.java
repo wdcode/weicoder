@@ -8,14 +8,14 @@ import com.weicoder.common.lang.Lists;
 import com.weicoder.common.util.ThreadUtil;
 import com.weicoder.common.zip.ZipEngine;
 import com.weicoder.json.JsonEngine;
-import com.weicoder.redis.RedisPool;
+import com.weicoder.redis.Redis;
 
 /**
  * Redis基类
  * 
  * @author WD
  */
-public abstract class BaseRedis implements RedisPool {
+public abstract class BaseRedis implements Redis {
 	// redismingc
 	private String name;
 
@@ -59,11 +59,20 @@ public abstract class BaseRedis implements RedisPool {
 		// 声明列表
 		Object[] objs = new Object[keys.length];
 		// 循环解压数据
-		for (int i = 0; i < keys.length; i++) {
+		for (int i = 0; i < keys.length; i++)
 			objs[i] = get(keys[i]);
-		}
 		// 返回列表
 		return objs;
+	}
+
+	@Override
+	public boolean hexists(String key, Object field) {
+		return hexists(key, toString(field));
+	}
+
+	@Override
+	public boolean sexists(String key, Object member) {
+		return sexists(key, toString(member));
 	}
 
 	/**
@@ -76,9 +85,8 @@ public abstract class BaseRedis implements RedisPool {
 		// 声明列表
 		List<byte[]> list = Lists.newList(keys.length);
 		// 循环解压数据
-		for (Object o : get(keys)) {
+		for (Object o : get(keys))
 			list.add(ZipEngine.extract(o));
-		}
 		// 返回列表
 		return list;
 	}

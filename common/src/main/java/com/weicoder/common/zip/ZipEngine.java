@@ -1,11 +1,8 @@
 package com.weicoder.common.zip;
 
-import com.weicoder.common.constants.ArrayConstants;
-import com.weicoder.common.lang.Bytes;
-import com.weicoder.common.params.ZipParams;
-import com.weicoder.common.zip.impl.GzipImpl;
-import com.weicoder.common.zip.impl.ZipImpl;
-import com.weicoder.common.zip.impl.ZlibImpl;
+import com.weicoder.common.C.A;
+import com.weicoder.common.W.B; 
+import com.weicoder.common.zip.factory.ZipFactory; 
 
 /**
  * 压缩引擎
@@ -14,13 +11,14 @@ import com.weicoder.common.zip.impl.ZlibImpl;
  */
 public class ZipEngine {
 	/** Zlib压缩器 */
-	public final static Zip ZLIB = new ZlibImpl();
+	public final static Zip ZLIB = ZipFactory.getZip("zlib");// new ZlibImpl();
 	/** gzip压缩器 */
-	public final static Zip GZIP = new GzipImpl();
+	public final static Zip GZIP = ZipFactory.getZip("gzip");// new GzipImpl();
 	/** zip压缩器 */
-	public final static Zip ZIP  = new ZipImpl();
+	public final static Zip ZIP  = ZipFactory.getZip("zip"); // new ZipImpl();
 	// 压缩器
-	private final static Zip Z = "gzip".equals(ZipParams.IMPL) ? GZIP : "zip".equals(ZipParams.IMPL) ? ZIP : ZLIB;
+	private final static Zip Z = ZipFactory.getZip();// "gzip".equals(ZipParams.IMPL) ? GZIP :
+														// "zip".equals(ZipParams.IMPL) ? ZIP : ZLIB;
 
 	/**
 	 * 压缩数据
@@ -29,7 +27,7 @@ public class ZipEngine {
 	 * @return     压缩后的字节数组或则原对象的字节数组
 	 */
 	public static byte[] compress(Object obj) {
-		return obj == null ? ArrayConstants.BYTES_EMPTY : Z.compress(Bytes.toBytes(obj));
+		return obj == null ? A.BYTES_EMPTY : Z.compress(B.toBytes(obj));
 	}
 
 	/**
@@ -39,6 +37,6 @@ public class ZipEngine {
 	 * @return     解压后数据
 	 */
 	public static byte[] extract(Object obj) {
-		return obj == null ? ArrayConstants.BYTES_EMPTY : Z.extract(Bytes.toBytes(obj));
+		return obj == null ? A.BYTES_EMPTY : Z.extract(B.toBytes(obj));
 	}
 }

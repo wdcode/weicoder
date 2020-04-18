@@ -14,7 +14,7 @@ import com.weicoder.common.zip.base.BaseCompressor;
  * 
  * @author WD
  */
-public final class LZ4FramedImpl extends BaseCompressor {
+public final class Lz4FramedImpl extends BaseCompressor {
 	@Override
 	protected InputStream is(ByteArrayInputStream bis) throws Exception {
 		return new FramedLZ4CompressorInputStream(bis);

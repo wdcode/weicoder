@@ -254,7 +254,9 @@ public class BeanUtil {
 		// 设置字段值
 		try {
 			makeAccessible(field).set(object, W.C.to(value, field.getType()));
+//			makeAccessible(field).set(object, value);
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -374,13 +376,13 @@ public class BeanUtil {
 		// 声明字段
 		Field f = null;
 //		// 循环对象类
-//		for (; clazz != Object.class && f == null; clazz = clazz.getSuperclass())
-		try {
-			// 获得字段
-//				f = clazz.getDeclaredField(name); 
-			f = clazz.getField(name);
-		} catch (Exception e) {
-		}
+		for (; clazz != Object.class && f == null; clazz = clazz.getSuperclass())
+			try {
+				// 获得字段
+				f = clazz.getDeclaredField(name);
+//			f = clazz.getField(name);
+			} catch (Exception e) {
+			}
 		// 返回null
 		return f;
 	}

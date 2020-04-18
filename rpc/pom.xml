@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.weicoder</groupId>
 		<artifactId>weicoder</artifactId>
-		<version>3.3.5</version>
+		<version>3.3.6</version>
 	</parent>
 	<artifactId>rpc</artifactId>
 
@@ -35,22 +35,13 @@
 			</dependencies>
 		</profile>
 		<profile>
-			<id>native</id>
+			<id>release</id>
 			<dependencies>
 				<dependency>
 					<groupId>com.alipay.sofa</groupId>
 					<artifactId>sofa-rpc-all</artifactId>
 				</dependency>
 			</dependencies>
-		</profile>
-		<profile>
-			<id>jdk11</id>
-			<dependencies>
-				<dependency>
-					<groupId>com.weicoder.fork</groupId>
-					<artifactId>sofa-rpc-all-jdk11</artifactId>
-				</dependency>
-			</dependencies>
-		</profile>
+		</profile> 
 	</profiles>
 </project>

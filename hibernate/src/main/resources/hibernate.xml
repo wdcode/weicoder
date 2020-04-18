@@ -3,7 +3,7 @@
 <hibernate-configuration>
 	<session-factory> 
 		<!-- 显示实际操作数据库时的SQL -->
-		<property name="show_sql">false</property> 
+		<property name="show_sql">true</property> 
 		 <!-- druid 
 		<property name="connection.provider_class">com.alibaba.druid.support.hibernate.DruidConnectionProvider</property>
 		<property name="url">jdbc:mysql://%s</property>
@@ -14,7 +14,7 @@
 		<!-- 配置监控统计拦截的filters，去掉后监控界面sql无法统计 
 		<property name="filters">stat</property> 
 		-->  
-		<!-- hikaricp com.zaxxer.hikari.hibernate.HikariConnectionProvider -->
+		<!-- hikaricp -->
 		<property name="connection.provider_class">org.hibernate.hikaricp.internal.HikariCPConnectionProvider</property>
 		<property name="hikari.jdbcUrl">jdbc:mysql://%s?useLocalSessionState=true&amp;characterEncoding=utf8&amp;useSSL=true&amp;verifyServerCertificate=false&amp;serverTimezone=UTC</property>
 		<property name="hikari.username">root</property>

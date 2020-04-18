@@ -28,7 +28,7 @@ public class QuartzInit implements Init {
 	@Override
 	public void init() {
 		try {
-			List<Class<Job>> jobs = C.from(Job.class);
+			List<Class<Job>> jobs = C.list(Job.class);
 			if (U.E.isNotEmpty(jobs)) {
 				// 任务执行器
 //				Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();

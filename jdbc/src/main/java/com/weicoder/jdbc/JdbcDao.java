@@ -31,7 +31,7 @@ public final class JdbcDao implements Dao {
 		db = DataBaseFactory.getDataBase();
 		insert = Maps.newMap();
 		// 加载所有类对应的SQL语句
-		C.from(Table.class).forEach(c -> {
+		C.list(Table.class).forEach(c -> {
 			// 声明SQL INSERT INTO t(f1,f2,...) VALUES(?,?)
 			StringBuilder sql = new StringBuilder("insert into ");
 			// 反射类名为表名

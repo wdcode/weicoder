@@ -23,10 +23,10 @@ public class EnumUtil {
 		if (o instanceof Number)
 			return W.C.toInt(o) == e.ordinal();
 		// 是字符串
-		if (o instanceof String || o.getClass().equals(e.getClass()))
-			return e.name().equals(o);
-		// 返回false
-		return false;
+		if (o instanceof String)
+			return e.name().equalsIgnoreCase(W.C.toString(o));
+		// 判断
+		return e.equals(o);
 	}
 
 	/**
@@ -42,18 +42,15 @@ public class EnumUtil {
 		// 为null
 		if (type == null || o == null)
 			return null;
-		try {
-			// 如果是本枚举
-			if (o.getClass().equals(type))
-				return (Enum<E>) o;
-			// 如果是数字
-			if (o instanceof Integer || o instanceof Short || o instanceof Long)
-				return type.getEnumConstants()[W.C.toInt(o)];
-			// 是字符串
-			if (o instanceof String)
-				return Enum.valueOf(type, W.C.toString(o));
-		} catch (Exception e) {
-		}
+		// 如果是本枚举
+		if (o.getClass().equals(type))
+			return (Enum<E>) o;
+		// 如果是数字
+		if (o instanceof Number)
+			return type.getEnumConstants()[W.C.toInt(o)];
+		// 是字符串
+		if (o instanceof String)
+			return Enum.valueOf(type, W.C.toString(o));
 		// 没有找到 对应枚举 返回 null
 		return null;
 	}

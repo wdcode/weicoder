@@ -14,7 +14,7 @@ import com.weicoder.common.zip.base.BaseCompressor;
  * 
  * @author WD
  */
-public final class LZ4BlockImpl extends BaseCompressor {
+public final class Lz4BlockImpl extends BaseCompressor {
 
 	@Override
 	protected InputStream is(ByteArrayInputStream bis) throws Exception {

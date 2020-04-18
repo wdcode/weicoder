@@ -16,8 +16,6 @@ public class RegexConstants {
 	public final static String PWD              = "^(\\w){6,20}$";
 	/** 普通电话、传真号码：可以“+”开头，除数字外，可含有“-” */
 	public final static String PHONE            = "^[+]{0,1}(\\d){1,3}[   ]?([-]?((\\d)|[   ]){1,12})+$";
-	/** 手机号码 13x 15x 188 189 开头 */
-	public final static String MOBILE           = "^(13[0-9]|15[0-9]|17[0-9]|18[0-9])\\d{8}$";
 	/** 邮政编码 */
 	public final static String POST             = "^[a-zA-Z0-9   ]{3,6}$";
 	/** IP */
@@ -40,6 +38,8 @@ public class RegexConstants {
 	public final static String PASSWORD         = "^[a-zA-Z0-9.!#$%&^*-_=+~?><]+$";
 	/** 联通、电信号段 */
 	public final static String CUQMOBILE        = "^(13[0-3]|15[36]|189)(\\d){8}$";
+	/** 手机号码 13x 15x 188 189 开头 */
+	public final static String MOBILE           = "^(1[0-9][0-9])\\d{8}$";
 	/** 电信号段 */
 	public final static String TELEMOBILE       = "^(133)(\\d){8}$";
 	/** 字母 */

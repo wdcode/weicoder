@@ -1,6 +1,6 @@
 package com.weicoder.socket;
-
-import com.weicoder.socket.client.NettyClient;
+ 
+import com.weicoder.netty.client.NettyClient;
 import com.weicoder.socket.params.SocketParams;
 
 /**
@@ -14,7 +14,8 @@ public final class Sockets {
 	static {
 		// 如果客户端为空 初始化
 		if (client == null && SocketParams.CLINET_PORT > 0)
-			client = new NettyClient("client");
+//			client = (Client) C.newInstance("com.weicoder.netty.client.NettyClient");
+			client = new NettyClient();
 	}
 
 	/**

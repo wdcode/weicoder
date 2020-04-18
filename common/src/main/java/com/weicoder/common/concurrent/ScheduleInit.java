@@ -15,7 +15,7 @@ public class ScheduleInit implements Init {
 	@Override
 	public void init() {
 		// 循环处理任务类
-		C.from(Schedule.class).forEach(c -> {
+		C.list(Schedule.class).forEach(c -> {
 			// 处理所有方法
 			ClassUtil.getPublicMethod(c).forEach(m -> {
 				// 处理delay

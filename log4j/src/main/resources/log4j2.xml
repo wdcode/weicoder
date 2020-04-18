@@ -10,7 +10,8 @@
 		<property name="error_file_pattern">error_%d{yyyy-MM-dd}.log.xz</property>  
 		<property name="log_dir">${main:0}</property> 
 		<property name="log_level">${main:1}</property>  
-		<property name="log_test">${main:2}</property>  
+		<property name="log_test">${main:2}</property> 
+		<property name="logger">${main:3}</property> 
 	</Properties> 
 	 	
 	<!--先定义所有的appender MemoryMappedFile File RandomAccessFile RollingRandomAccessFile-->
@@ -48,10 +49,10 @@
 	</appenders>
 	<loggers>
 		<!-- 指定不同包得日志基本 -->
-		<logger name="org" level="warn"></logger> 
-		<logger name="io" level="warn"></logger> 
-		<logger name="com.zaxxer.hikari" level="warn"></logger>
-		<logger name="com.alipay" level="warn"></logger>
+		<logger name="org" level="${logger}"></logger> 
+		<logger name="io" level="${logger}"></logger> 
+		<logger name="com.zaxxer.hikari" level="${logger}"></logger>
+		<logger name="com.alipay" level="${logger}"></logger>
 		<!-- 异步日志 -->
 		<asyncRoot level="${log_level}">
 			<appender-ref ref="console" /> 

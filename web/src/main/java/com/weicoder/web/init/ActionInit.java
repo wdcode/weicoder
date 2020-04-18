@@ -30,7 +30,7 @@ public class ActionInit implements Init {
 
 	private void aop() {
 		// 处理aop
-		C.from(Aops.class).forEach(c -> {
+		C.list(Aops.class).forEach(c -> {
 			// 不是接口
 			if (!c.isInterface()) {
 				// 获得action名结尾为aop去掉
@@ -58,7 +58,7 @@ public class ActionInit implements Init {
 
 	private void action() {
 		// 按包处理Action
-		C.from(Action.class).forEach(c -> {
+		C.list(Action.class).forEach(c -> {
 			try {
 				// 获得action名结尾为action去掉
 				String cname = StringUtil.convert(StringUtil.subStringLastEnd(c.getSimpleName(), "Action"));
@@ -92,7 +92,7 @@ public class ActionInit implements Init {
 
 	private void validator() {
 		// 循环所有验证类注解
-		C.from(ValidatorClass.class).forEach(c -> {
+		C.list(ValidatorClass.class).forEach(c -> {
 			// 获得validator名结尾为validator去掉
 			String cname = StringUtil.convert(StringUtil.subStringLastEnd(c.getSimpleName(), "Validator"));
 			Logs.info("init validator sname={},cname={}", c.getSimpleName(), cname);

@@ -24,7 +24,7 @@ public class Log4j2 implements Log {
 
 	public Log4j2() {
 		MainMapLookup.setMainArguments(Log4j2Params.TEST ? "target" : Log4j2Params.DIR, Log4j2Params.LEVEL,
-				Log4j2Params.TEST ? Log4j2Params.LEVEL : "OFF");
+				Log4j2Params.TEST ? Log4j2Params.LEVEL : "OFF", Log4j2Params.LOGGER);
 	}
 
 	@Override
@@ -34,57 +34,68 @@ public class Log4j2 implements Log {
 
 	@Override
 	public void trace(String msg, Object... params) {
-		log.trace(msg, params(params));
+		if (isTrace())
+			log.trace(msg, params(params));
 	}
 
 	@Override
 	public void trace(Throwable t) {
-		log.trace(StringConstants.EMPTY, t);
+		if (isTrace())
+			log.trace(StringConstants.EMPTY, t);
 	}
 
 	@Override
 	public void debug(String msg, Object... params) {
-		log.debug(msg, params(params));
+		if (isDebug())
+			log.debug(msg, params(params));
 	}
 
 	@Override
 	public void debug(Throwable t) {
-		log.debug(StringConstants.EMPTY, t);
+		if (isDebug())
+			log.debug(StringConstants.EMPTY, t);
 	}
 
 	@Override
 	public void info(String msg, Object... params) {
-		log.info(msg, params(params));
+		if (isInfo())
+			log.info(msg, params(params));
 	}
 
 	@Override
 	public void info(Throwable t) {
-		log.info(StringConstants.EMPTY, t);
+		if (isInfo())
+			log.info(StringConstants.EMPTY, t);
 	}
 
 	@Override
 	public void warn(String msg, Object... params) {
-		log.warn(msg, params(params));
+		if (isWarn())
+			log.warn(msg, params(params));
 	}
 
 	@Override
 	public void warn(Throwable t) {
-		log.warn(StringConstants.EMPTY, t);
+		if (isWarn())
+			log.warn(StringConstants.EMPTY, t);
 	}
 
 	@Override
 	public void error(String msg, Object... params) {
-		log.error(msg, params(params));
+		if (isError())
+			log.error(msg, params(params));
 	}
 
 	@Override
 	public void error(Throwable t) {
-		error(StringConstants.EMPTY, t);
+		if (isError())
+			error(StringConstants.EMPTY, t);
 	}
 
 	@Override
 	public void error(String msg, Throwable t) {
-		log.error(msg, t);
+		if (isError())
+			log.error(msg, t);
 	}
 
 	@Override

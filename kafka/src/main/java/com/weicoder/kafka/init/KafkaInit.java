@@ -60,7 +60,7 @@ public class KafkaInit implements Init {
 	@Override
 	public void init() {
 		// 获得所有kafka消费者
-		List<Class<Consumer>> consumers = C.from(Consumer.class);
+		List<Class<Consumer>> consumers = C.list(Consumer.class);
 		if (U.E.isNotEmpty(consumers)) {
 			// 循环处理kafka类
 			consumers.forEach(c -> {

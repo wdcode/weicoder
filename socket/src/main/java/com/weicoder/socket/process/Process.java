@@ -55,7 +55,7 @@ public final class Process {
 		// 设置属性
 		this.name = name;
 		// 设置handler closed
-		C.from(Handler.class).forEach(c -> {
+		C.list(Handler.class).forEach(c -> {
 			// 是本类使用
 			Object h = ClassUtil.newInstance(c);
 			if (name.equals(h.getClass().getAnnotation(Handler.class).value())) {
