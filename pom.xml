@@ -60,6 +60,8 @@
 		<module>dao</module>
 		<module>database</module>
 		<module>datasource</module>
+		<module>dbcp2</module>
+		<module>druid</module>
 		<module>elasticsearch</module>
 		<module>email</module>
 		<module>excel</module>
@@ -82,6 +84,7 @@
 		<module>redis</module>
 		<module>rpc</module>
 		<module>socket</module>
+		<module>sofa</module>
 		<module>solr</module>
 		<module>tomcat</module>
 		<module>web</module>
@@ -385,6 +388,16 @@
 			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
+				<artifactId>dbcp2</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.weicoder</groupId>
+				<artifactId>druid</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.weicoder</groupId>
 				<artifactId>elasticsearch</artifactId>
 				<version>${project.version}</version>
 			</dependency>
@@ -491,6 +504,11 @@
 			<dependency>
 				<groupId>com.weicoder</groupId>
 				<artifactId>socket</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.weicoder</groupId>
+				<artifactId>sofa</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>

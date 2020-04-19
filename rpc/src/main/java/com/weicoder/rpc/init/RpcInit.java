@@ -1,11 +1,11 @@
-package com.weicer.rpc.init;
+package com.weicoder.rpc.init;
 
 import java.lang.reflect.Method;
 import java.util.Map;
 
-import com.weicer.rpc.annotation.Rpc;
-import com.weicer.rpc.annotation.RpcServer;
-import com.weicer.rpc.params.RpcParams;
+//import com.weicoder.rpc.annotation.Rpc;
+import com.weicoder.rpc.annotation.RpcServer;
+import com.weicoder.rpc.params.RpcParams;
 import com.weicoder.common.C.O;
 import com.weicoder.common.U.C;
 import com.weicoder.common.init.Init;
@@ -78,27 +78,26 @@ public class RpcInit implements Init {
 		if (C.forName("com.weicoder.nacos.Nacos") != null)
 			com.weicoder.nacos.Nacos.register(O.PROJECT_NAME, IpUtil.SERVER_IP, RpcParams.PORT);
 		// 启动sofa rpc服务
-		sofa();
+//		sofa();
 	}
 
-	/**
-	 * 启动sofa rpc服务
-	 */
-	private static void sofa() {
-		// sofa包存在
-		if (C.forName("com.alipay.sofa.rpc.config.ServerConfig") != null) {
-			// 实例化一个参数
-			com.alipay.sofa.rpc.config.ServerConfig config = new com.alipay.sofa.rpc.config.ServerConfig()
-					.setProtocol(RpcParams.PROTOCOL).setPort(RpcParams.PORT + 1).setDaemon(RpcParams.DAEMON);
-			// 循环发布rpc服务
-			C.list(Rpc.class).forEach(r -> {
-				new com.alipay.sofa.rpc.config.ProviderConfig<Object>().setInterfaceId(r.getNestHost().getName()) // 指定接口
-						.setRef(ClassUtil.newInstance(C.from(r, 0))) // 指定实现
-						.setServer(config)// 指定服务端
-						.export(); // 发布服务
-			});
-			Logs.info("rpc sofa server start success port={} protocol={}", RpcParams.PORT, RpcParams.PROTOCOL);
-		}
-	}
-
+//	/**
+//	 * 启动sofa rpc服务
+//	 */
+//	private static void sofa() {
+//		// sofa包存在
+//		if (C.forName("com.alipay.sofa.rpc.config.ServerConfig") != null) {
+//			// 实例化一个参数
+//			com.alipay.sofa.rpc.config.ServerConfig config = new com.alipay.sofa.rpc.config.ServerConfig()
+//					.setProtocol(RpcParams.PROTOCOL).setPort(RpcParams.PORT + 1).setDaemon(RpcParams.DAEMON);
+//			// 循环发布rpc服务
+//			C.list(Rpc.class).forEach(r -> {
+//				new com.alipay.sofa.rpc.config.ProviderConfig<Object>().setInterfaceId(r.getNestHost().getName()) // 指定接口
+//						.setRef(ClassUtil.newInstance(C.from(r, 0))) // 指定实现
+//						.setServer(config)// 指定服务端
+//						.export(); // 发布服务
+//			});
+//			Logs.info("rpc sofa server start success port={} protocol={}", RpcParams.PORT, RpcParams.PROTOCOL);
+//		}
+//	}
 }

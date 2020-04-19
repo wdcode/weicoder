@@ -1,48 +1,42 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.weicoder</groupId>
 		<artifactId>weicoder</artifactId>
 		<version>3.3.6</version>
 	</parent>
-	<artifactId>rpc</artifactId>
+	<artifactId>dbcp2</artifactId>
 
 	<dependencies>
 		<dependency>
 			<groupId>com.weicoder</groupId>
-			<artifactId>common</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.weicoder</groupId>
-			<artifactId>nacos</artifactId>
-			<optional>true</optional>
+			<artifactId>datasource</artifactId>
 		</dependency>
 	</dependencies>
-<!-- 
+
 	<profiles>
 		<profile>
 			<id>opt</id>
 			<activation>
 				<activeByDefault>true</activeByDefault>
 			</activation>
-			<dependencies>
+			<dependencies> 
 				<dependency>
 					<groupId>com.weicoder.extend</groupId>
-					<artifactId>rpc-extend</artifactId>
+					<artifactId>dbcp2-extend</artifactId> 
 				</dependency>
 			</dependencies>
 		</profile>
 		<profile>
 			<id>release</id>
-			<dependencies>
+			<dependencies> 
 				<dependency>
-					<groupId>com.alipay.sofa</groupId>
-					<artifactId>sofa-rpc-all</artifactId>
+					<groupId>org.apache.commons</groupId>
+					<artifactId>commons-dbcp2</artifactId> 
 				</dependency>
 			</dependencies>
-		</profile> 
+		</profile>
 	</profiles>
-	 -->
 </project>

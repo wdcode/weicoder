@@ -1,13 +1,13 @@
-package com.weicer.rpc;
+package com.weicoder.rpc;
 
 import java.lang.reflect.Method;
 import java.net.InetSocketAddress;
 import java.util.List;
 import java.util.Map;
 
-import com.weicer.rpc.annotation.Rpc;
-import com.weicer.rpc.annotation.RpcBean;
-import com.weicer.rpc.params.RpcParams;
+import com.weicoder.rpc.annotation.Rpc;
+import com.weicoder.rpc.annotation.RpcBean;
+import com.weicoder.rpc.params.RpcParams;
 import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.socket.TcpClient;
@@ -18,7 +18,6 @@ import com.weicoder.common.U.S;
 import com.weicoder.common.W.L;
 import com.weicoder.common.W.M;
 import com.weicoder.common.interfaces.CallbackVoid;
-import com.weicoder.common.util.StringUtil;
 
 /**
  * rpc客户端
@@ -145,9 +144,9 @@ public final class Rpcs {
 	 * @return      rpc客户端代理类
 	 */
 	public static <E> E client(Class<E> rpc, InetSocketAddress addr) {
-		// 有sofa包返回 sofa client
-		if (C.forName("com.alipay.sofa.rpc.config.ConsumerConfig") != null)
-			return sofa(rpc, addr);
+//		// 有sofa包返回 sofa client
+//		if (C.forName("com.alipay.sofa.rpc.config.ConsumerConfig") != null)
+//			return sofa(rpc, addr);
 		// 使用jdk调用
 		return U.C.newProxyInstance(rpc, (proxy, method, args) -> rpc(addr, method.getName(), args[0]));
 	}
@@ -216,31 +215,31 @@ public final class Rpcs {
 		return Bytes.to(TcpClient.asyn(addr, Bytes.toBytes(true, method, param), true), RESULTS.get(method));
 	}
 
-	/**
-	 * 根据sofa rpc接口返回客户端
-	 * 
-	 * @param  cls  rpc接口
-	 * @param  addr 远程地址
-	 * @return      client
-	 */
-	public static <E> E sofa(Class<E> cls, InetSocketAddress addr) {
-		return sofa(cls, addr.getAddress().getHostAddress(), addr.getPort());
-	}
+//	/**
+//	 * 根据sofa rpc接口返回客户端
+//	 * 
+//	 * @param  cls  rpc接口
+//	 * @param  addr 远程地址
+//	 * @return      client
+//	 */
+//	public static <E> E sofa(Class<E> cls, InetSocketAddress addr) {
+//		return sofa(cls, addr.getAddress().getHostAddress(), addr.getPort());
+//	}
 
-	/**
-	 * 根据sofa rpc接口返回客户端
-	 * 
-	 * @param  <E> client
-	 * @param  cls rpc接口
-	 * @return     client
-	 */
-	public static <E> E sofa(Class<E> cls, String host, int port) {
-		// 生成消费配置
-		return new com.alipay.sofa.rpc.config.ConsumerConfig<E>().setInterfaceId(cls.getName()) // 指定接口
-				.setProtocol(RpcParams.PROTOCOL) // 指定协议
-				.setDirectUrl(StringUtil.add(RpcParams.PROTOCOL, "://", host, ":", port + 1))// 指定地址
-				.refer();
-	}
+//	/**
+//	 * 根据sofa rpc接口返回客户端
+//	 * 
+//	 * @param  <E> client
+//	 * @param  cls rpc接口
+//	 * @return     client
+//	 */
+//	public static <E> E sofa(Class<E> cls, String host, int port) {
+//		// 生成消费配置
+//		return new com.alipay.sofa.rpc.config.ConsumerConfig<E>().setInterfaceId(cls.getName()) // 指定接口
+//				.setProtocol(RpcParams.PROTOCOL) // 指定协议
+//				.setDirectUrl(StringUtil.add(RpcParams.PROTOCOL, "://", host, ":", port + 1))// 指定地址
+//				.refer();
+//	}
 
 	private static String getName(Class<?> r) {
 		// rpc服务地址

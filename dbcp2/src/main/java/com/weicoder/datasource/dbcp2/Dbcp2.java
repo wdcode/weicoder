@@ -1,35 +1,35 @@
-package com.weicoder.datasource.impl;
+package com.weicoder.datasource.dbcp2;
+
+import javax.sql.DataSource;
+
+import org.apache.commons.dbcp2.BasicDataSource;
 
 import com.weicoder.datasource.base.BaseDataSource;
 import com.weicoder.datasource.params.DataSourceParams;
 
-import javax.sql.DataSource;
-
-import com.alibaba.druid.pool.DruidDataSource;
-
 /**
- * 淘宝 druid连接池 实现
+ * DBCP连接池实现
  * 
- * @author WD
+ * @author  WD
+ * @version 1.0
  */
-public final class Druid extends BaseDataSource {
-	// DruidDataSource数据源
-	private DruidDataSource ds;
+public final class Dbcp2 extends BaseDataSource {
+	// BasicDataSource数据源
+	private BasicDataSource ds;
 
-	public Druid(String name) {
+	public Dbcp2(String name) {
 		super(name);
-		System.setProperty("druid.logType", "log4j2");
-		ds = new DruidDataSource();
+		ds = new BasicDataSource();
 		ds.setDriverClassName((DataSourceParams.getDriver(name)));
 		ds.setUrl(DataSourceParams.getUrl(name));
 		ds.setUsername(DataSourceParams.getUser(name));
 		ds.setPassword(DataSourceParams.getPassword(name));
-		ds.setMaxActive(DataSourceParams.getMaxPoolSize(name));
+		ds.setMaxTotal(DataSourceParams.getMaxPoolSize(name));
 		ds.setMinIdle(DataSourceParams.getMinPoolSize(name));
 		ds.setValidationQueryTimeout(300000);
 		ds.setTimeBetweenEvictionRunsMillis(60000);
 		ds.setInitialSize(DataSourceParams.getInitialPoolSize(name));
-		ds.setMaxWait(DataSourceParams.getMaxIdleTime(name));
+		ds.setMaxWaitMillis(DataSourceParams.getMaxIdleTime(name));
 		ds.setValidationQuery("SELECT 1");
 	}
 

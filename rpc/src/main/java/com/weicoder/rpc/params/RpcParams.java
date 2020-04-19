@@ -1,4 +1,4 @@
-package com.weicer.rpc.params;
+package com.weicoder.rpc.params;
 
 import com.weicoder.common.config.Config;
 import com.weicoder.common.config.ConfigFactory;

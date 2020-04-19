@@ -1,4 +1,4 @@
-package com.weicoder.datasource.impl;
+package com.weicoder.datasource.hikaricp;
 
 import javax.sql.DataSource;
 
@@ -11,11 +11,11 @@ import com.zaxxer.hikari.HikariDataSource;
  * 
  * @author wudi
  */
-public class HikariCP extends BaseDataSource {
+public class Hikaricp extends BaseDataSource {
 	//HikariCP 连接池
 	private HikariDataSource ds;
 
-	public HikariCP(String name) {
+	public Hikaricp(String name) {
 		super(name); 
 		ds = new HikariDataSource();
 		ds.setDriverClassName((DataSourceParams.getDriver(name)));
