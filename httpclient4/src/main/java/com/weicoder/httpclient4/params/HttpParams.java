@@ -1,4 +1,4 @@
-package com.weicoder.http4.params;
+package com.weicoder.httpclient4.params;
 
 import com.weicoder.common.constants.SystemConstants;
 import com.weicoder.common.params.Params;

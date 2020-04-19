@@ -7,7 +7,7 @@
 		<artifactId>weicoder</artifactId>
 		<version>3.3.6</version>
 	</parent>
-	<artifactId>http4</artifactId>
+	<artifactId>httpclient4</artifactId>
 
 	<dependencies>
 		<dependency>

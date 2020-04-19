@@ -1,4 +1,4 @@
-package com.weicoder.http;
+package com.weicoder.httpclient5;
  
 import java.util.List;
 import java.util.Map;
@@ -29,7 +29,7 @@ import com.weicoder.common.log.LogFactory;
 import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.util.CloseUtil; 
 import com.weicoder.common.util.StringUtil;
-import com.weicoder.http.params.HttpParams;
+import com.weicoder.httpclient5.params.HttpParams;
 
 /**
  * HTTP异步客户端

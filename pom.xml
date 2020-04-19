@@ -68,8 +68,8 @@
 		<module>gson</module>
 		<module>hbase</module>
 		<module>hibernate</module>
-		<module>http</module>
-		<module>http4</module>
+		<module>httpclient4</module>
+		<module>httpclient5</module>
 		<module>jdbc</module>
 		<module>json</module>
 		<module>kafka</module>
@@ -428,12 +428,12 @@
 			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
-				<artifactId>http</artifactId>
+				<artifactId>httpclient4</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
-				<artifactId>http4</artifactId>
+				<artifactId>httpclient5</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
