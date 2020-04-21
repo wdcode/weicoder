@@ -5,6 +5,7 @@
 *.pydevproject 
 bin/
 tmp/
+.vscode/
 .idea/
 *.iml
 *.tmp
@@ -14,7 +15,7 @@ tmp/
 local.properties 
 .loadpath
 target/
-.DS_Store/
+.DS_Store
 .settings/
 .classpath
 .project

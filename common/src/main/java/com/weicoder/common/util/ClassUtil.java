@@ -17,6 +17,7 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
 import java.util.stream.Collectors;
 
+import com.weicoder.common.U.B;
 import com.weicoder.common.U.C;
 import com.weicoder.common.U.S;
 import com.weicoder.common.W.L;
@@ -24,7 +25,6 @@ import com.weicoder.common.W.M;
 import com.weicoder.common.U;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Lists;
-import com.weicoder.common.lang.Maps;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
 
@@ -36,11 +36,53 @@ import com.weicoder.common.params.CommonParams;
 @SuppressWarnings("unchecked")
 public class ClassUtil {
 	// 包名下的class
-	private final static Map<String, List<Class<?>>> PASSAGES = Maps.newMap();
+	private final static Map<String, List<Class<?>>> PASSAGES = M.newMap();
 	// 对应class名称的Bean
-	private final static Map<String, Class<?>> BEANS = Maps.newMap();
+	private final static Map<String, Class<?>>                BEANS       = M.newMap();
+	private final static Map<Class<?>, Map<String, Class<?>>> CLASS_BEANS = M.newMap();
+	// ioc使用
+	private final static Map<Class<?>, Object> IOC_BEANS = M.newMap();
 	// 保存指定报名下所有class
 	private final static Map<Class<?>, List<Class<?>>> CLASSES = init();
+
+	/**
+	 * 对传入的类进行实例化并进行类型注入 非基础类型
+	 * 
+	 * @param c 要注入的类
+	 */
+	public static Object ioc(Class<?> c) {
+		return ioc(newInstance(c));
+	}
+
+	/**
+	 * 对传入的对象进行类型注入 非基础类型
+	 * 
+	 * @param o 要注入的对象
+	 */
+	public static Object ioc(Object o) {
+		// 对象不为空
+		if (o != null) {
+			// 获得对象内的字段
+			B.getFields(o.getClass()).forEach(f -> {
+				// 不是基础类型才注入
+				Class<?> type = f.getType();
+				if (!isBaseType(type)) {
+					// 声明类对象
+					Object val = null;
+					if (IOC_BEANS.containsKey(type))
+						// 已经存在IOC列表中 直接获取使用
+						val = IOC_BEANS.get(type);
+					else
+						// 不在列表 声明新对象放入列表
+						IOC_BEANS.put(type, val = ioc(from(type)));
+					// 注入到字段
+					B.setFieldValue(o, f, val);
+				}
+			});
+		}
+		// 返回对象
+		return o;
+	}
 
 	/**
 	 * 获得包名下指定接口的实现类
@@ -65,6 +107,17 @@ public class ClassUtil {
 	/**
 	 * 根据类名称或则指定类
 	 * 
+	 * @param  c    指定类下的
+	 * @param  name 类名称
+	 * @return
+	 */
+	public static <E> Class<E> bean(Class<E> c, String name) {
+		return (Class<E>) CLASS_BEANS.get(c).get(name);
+	}
+
+	/**
+	 * 根据类名称或则指定类
+	 * 
 	 * @param  name 类名称
 	 * @return
 	 */
@@ -78,12 +131,23 @@ public class ClassUtil {
 	 * @param  c
 	 * @return
 	 */
-	public static <E> List<Class<E>> from(Class<E> c) {
+	public static <E> List<Class<E>> list(Class<E> c) {
 		return L.newList(CLASSES.get(c)).stream().map(o -> (Class<E>) o).collect(Collectors.toList());
 	}
 
 	/**
-	 * 获取指定接口下的所有实现类
+	 * 获取指定接口下的最后一个实现类
+	 * 
+	 * @param  c 要指定接口或注解的类
+	 * @return
+	 */
+
+	public static <E> Class<E> from(Class<E> c) {
+		return from(c, CLASSES.get(c).size() - 1);
+	}
+
+	/**
+	 * 获取指定接口下的指定索引的实现类
 	 * 
 	 * @param  c 要指定接口或注解的类
 	 * @param  i 索引第几个
@@ -264,14 +328,34 @@ public class ClassUtil {
 	}
 
 	/**
-	 * 获得Class
+	 * 获得Class 会处理基础类型
 	 * 
 	 * @param  className Class名称
 	 * @return           Class
 	 */
 	public static Class<?> forName(String className) {
 		try {
-			return U.E.isEmpty(className) ? null : Class.forName(className);
+			// 判断为空和基础类型
+			if (U.E.isEmpty(className))
+				return null;
+			if ("byte".equals(className))
+				return byte.class;
+			if ("short".equals(className))
+				return short.class;
+			if ("int".equals(className))
+				return int.class;
+			if ("long".equals(className))
+				return long.class;
+			if ("float".equals(className))
+				return float.class;
+			if ("double".equals(className))
+				return double.class;
+			if ("boolean".equals(className))
+				return boolean.class;
+			if ("char".equals(className))
+				return char.class;
+			// 不是基础类型生成
+			return Class.forName(className);
 		} catch (Exception e) {
 			return null;
 		}
@@ -544,6 +628,43 @@ public class ClassUtil {
 	}
 
 	/**
+	 * 获得本类下的所有实现接口
+	 * 
+	 * @param  c 要获取的类
+	 * @return   本类实现的所有接口
+	 */
+	public static List<Class<?>> getInterfaces(Class<?> c) {
+		// 声明列表
+		List<Class<?>> list = L.newList();
+		if (c == null)
+			return list;
+		// 如果超类不为Object 获取超类迭代
+		if (!Object.class.equals(c) && !Object.class.equals(c.getSuperclass()))
+			list.addAll(getInterfaces(c.getSuperclass()));
+		// 获得本类的接口
+		for (Class<?> i : c.getInterfaces())
+			list.add(i);
+		// 返回列表
+		return list;
+	}
+
+	/**
+	 * 获得本类实现的注解
+	 * 
+	 * @param  c 要获取的类
+	 * @return   本类实现的所有注解
+	 */
+	public static List<Annotation> getAnnotations(Class<?> c) {
+		// 声明列表
+		List<Annotation> list = L.newList();
+		// 获得本类的所有注解
+		for (Annotation a : c.getAnnotations())
+			list.add(a);
+		// 返回列表
+		return list;
+	}
+
+	/**
 	 * 初始化
 	 * 
 	 * @return
@@ -554,16 +675,22 @@ public class ClassUtil {
 		// 扫描指定包下的类
 		C.getPackageClasses().forEach(c -> {
 			// 处理接口类型
-			for (Class<?> i : c.getInterfaces())
+			getInterfaces(c).forEach(i -> {
 				M.getList(map, i).add(c);
+				M.getMap(CLASS_BEANS, i).put(S.convert(c.getSimpleName(), i.getSimpleName(), "Impl"), c);
+			});
 			// 处理注解类型
 			for (Annotation a : c.getAnnotations())
 				M.getList(map, a.annotationType()).add(c);
 			// 处理包名
+//			M.getList(PASSAGES, c.getPackageName()).add(c);
 			M.getList(PASSAGES, c.getPackage().getName()).add(c);
 			// 处理类名Bean
-			for (String n : CommonParams.CLASS_NAMES)
-				BEANS.put(S.convert(c.getSimpleName(), n), c);
+//			String name = c.getSimpleName();
+//			for (String n : CommonParams.CLASS_NAMES)
+//				name = S.convert(name, n);
+			BEANS.put(S.convert(c.getSimpleName(), CommonParams.CLASS_NAMES), c);
+			// 对ioc注解的类进行注入
 		});
 		// 返回列表
 		return map;

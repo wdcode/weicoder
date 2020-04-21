@@ -118,7 +118,7 @@ public class DateUtil {
 	 * @return int
 	 */
 	public static int getTime() {
-		return W.C.toInt(time() / 1000);
+		return W.C.toInt(now() / 1000);
 	}
 
 	/**
@@ -1060,7 +1060,7 @@ public class DateUtil {
 	 * @return      与当前时间差
 	 */
 	public static long diff(long time) {
-		return time() - time;
+		return now() - time;
 	}
 
 	/**
@@ -1069,16 +1069,25 @@ public class DateUtil {
 	 * @return
 	 */
 	public static long dura() {
-		long time = time();
+		long time = now();
 		return time - C.toLong(T.put("time", time), time);
 	}
 
 	/**
-	 * 获得当前时间 System.currentTimeMillis()
+	 * 获得当前时间 秒 System.currentTimeMillis()/1000
 	 * 
 	 * @return 时间戳
 	 */
-	public static long time() {
+	public static int time() {
+		return W.C.toInt(now() / 1000);
+	}
+
+	/**
+	 * 获得当前时间 毫秒 System.currentTimeMillis()
+	 * 
+	 * @return 时间戳
+	 */
+	public static long now() {
 		return System.currentTimeMillis();
 	}
 

@@ -102,6 +102,8 @@ public class StringConstants {
 	public final static String DATE              = "date";
 	/** 常量字符串 "month" */
 	public final static String MONTH             = "month";
+	/** 常量字符串 "result" */
+	public final static String RESULT            = "result";
 	/** 常量字符串 "classpath:" */
 	public final static String CLASS_PATH        = "classpath:";
 	/** 常量字符串 "=" */

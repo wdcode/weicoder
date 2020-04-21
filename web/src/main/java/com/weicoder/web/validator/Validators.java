@@ -2,22 +2,23 @@ package com.weicoder.web.validator;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.lang.reflect.Method; 
+import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.Map;
 
 import com.weicoder.common.bean.StateCode;
+import com.weicoder.common.exception.StateException;
 import com.weicoder.common.U;
-import com.weicoder.common.W; 
+import com.weicoder.common.W;
 import com.weicoder.common.log.Log;
-import com.weicoder.common.log.LogFactory; 
+import com.weicoder.common.log.LogFactory;
 import com.weicoder.common.params.StateParams;
 import com.weicoder.common.token.TokenBean;
 import com.weicoder.common.token.TokenEngine;
 import com.weicoder.common.util.BeanUtil;
-import com.weicoder.common.util.ClassUtil; 
+import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.util.IpUtil;
-import com.weicoder.common.util.RegexUtil; 
+import com.weicoder.common.util.RegexUtil;
 import com.weicoder.json.JsonEngine;
 import com.weicoder.web.common.WebCommons;
 import com.weicoder.web.params.ValidatorParams;
@@ -29,7 +30,7 @@ import com.weicoder.web.validator.annotation.NotNull;
 import com.weicoder.web.validator.annotation.Number;
 import com.weicoder.web.validator.annotation.Regex;
 import com.weicoder.web.validator.annotation.Token;
-import com.weicoder.web.validator.annotation.Validator; 
+import com.weicoder.web.validator.annotation.Validator;
 
 /**
  * 验证框架使用 根据条件验证
@@ -98,14 +99,14 @@ public final class Validators {
 			} else if (a instanceof NotEmpty) {
 				// 不为空
 				if (U.E.isEmpty(value))
-					return ((NotEmpty) a).error();
+					return ((NotEmpty) a).value();
 			} else if (a instanceof NotNull) {
 				// 不为null
 				if (value == null)
 					return ((NotNull) a).error();
 			} else if (a instanceof Regex) {
 				// 判断正则
-				if (!RegexUtil.is(((Regex) a).value(), W.C.toString(value)))
+				if (!RegexUtil.is(((Regex) a).regex(), W.C.toString(value)))
 					return ((Regex) a).error();
 			}
 		}
@@ -131,7 +132,8 @@ public final class Validators {
 				// 获得验证类
 				Object obj = U.E.isEmpty(name) ? WebCommons.METHOD_VALIDATOR.get(val) : WebCommons.VALIDATORS.get(name);
 				// 获得验证方法
-				Method method = U.E.isEmpty(name) ? WebCommons.METHODS_VALIDATORS.get(val) : WebCommons.VALIDATORS_METHODS.get(name).get(val);
+				Method method = U.E.isEmpty(name) ? WebCommons.METHODS_VALIDATORS.get(val)
+						: WebCommons.VALIDATORS_METHODS.get(name).get(val);
 				// 获得所有参数类型
 				Parameter[] pars = WebCommons.VALIDATORS_METHODS_PARAMES.get(method);
 				Object[] params = new Object[pars.length];
@@ -151,7 +153,12 @@ public final class Validators {
 					LOG.debug("validator Parameter index={},name={},type={},value={}", i, p.getName(), cs, params[i]);
 				}
 				// 调用并返回验证结果
-				Object rs = BeanUtil.invoke(obj, method, params);
+				Object rs = null;
+				try {
+					rs = method.invoke(obj, params); // BeanUtil.invoke(obj, method, params);
+				} catch (StateException e) {
+					rs = e.state();
+				}
 				// 如果不是正确结果
 				// 判断状态码对象
 				if (rs instanceof StateCode && (res = ((StateCode) rs).getCode()) != StateParams.SUCCESS)
@@ -240,8 +247,8 @@ public final class Validators {
 			return Validators.validator(vali, ps);
 		// 返回成功
 		return StateParams.SUCCESS;
-	} 
-	
+	}
+
 	private Validators() {
 	}
 }

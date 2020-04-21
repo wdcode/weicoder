@@ -17,7 +17,12 @@ public final class RedisParams {
 	/** redis前缀 */
 	public final static String PREFIX = "redis";
 	// Properties配置
-	private final static Config CONFIG     = ConfigFactory.getConfig(PREFIX);
+	private final static Config CONFIG = ConfigFactory.getConfig(PREFIX);
+	/** 定时更新时间 秒 */
+	public final static int     DELAY  = CONFIG.getInt("dao.delay", Params.getInt(getKey(PREFIX, "dao.delay"), 5));
+	/** 执行步长 */
+	public final static int     SETP   = CONFIG.getInt("dao.setp", Params.getInt(getKey(PREFIX, "dao.setp"), 200));
+	// 参数
 	private final static String CLUSTER    = "cluster";
 	private final static String HOST       = "host";
 	private final static String TIMEOUT    = "timeout";

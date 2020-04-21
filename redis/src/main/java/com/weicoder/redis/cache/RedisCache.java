@@ -6,14 +6,13 @@ import com.weicoder.common.W.C;
 import com.weicoder.common.W.L;
 import com.weicoder.common.W.M;
 import com.weicoder.common.concurrent.ExecutorUtil;
-import com.weicoder.common.interfaces.Callback;
 
 import java.util.List;
 import java.util.Map;
 
 import com.weicoder.cache.BeanCache;
 import com.weicoder.json.JsonEngine;
-import com.weicoder.redis.RedisPool;
+import com.weicoder.redis.Redis;
 import com.weicoder.redis.factory.RedisFactory;
 import com.weicoder.redis.params.RedisParams;
 
@@ -58,7 +57,7 @@ public class RedisCache<K, V> extends BeanCache<K, V> {
 	 * @param  cls   要缓存的类
 	 * @return       一个新的RedisCache
 	 */
-	public static <K, V> RedisCache<K, V> build(RedisPool redis, String key) {
+	public static <K, V> RedisCache<K, V> build(Redis redis, String key) {
 		return build(redis, key, RedisParams.getCacheFill(redis.name()));
 	}
 
@@ -73,15 +72,28 @@ public class RedisCache<K, V> extends BeanCache<K, V> {
 	 * @param  fill    是否加载全部缓存
 	 * @return         一个新的RedisCache
 	 */
-	public static <K, V> RedisCache<K, V> build(RedisPool redis, String key, boolean fill) {
+	public static <K, V> RedisCache<K, V> build(Redis redis, String key, boolean fill) {
 		return new RedisCache<>(redis, key, U.C.bean(S.convert(key)), fill);
 	}
 
 	// redis
-	private RedisPool redis;
+	protected Redis redis;
 	// redis channel
-	private String put;
-	private String remove;
+	protected String put;
+	protected String remove;
+	// 是否基础类型
+	protected boolean base;
+	// 基础类型传递分隔符
+	protected final static String SEPA = "||";
+
+	/**
+	 * 获得当前redis缓存使用的redis
+	 * 
+	 * @return
+	 */
+	public Redis redis() {
+		return redis;
+	}
 
 	/**
 	 * 加入缓存
@@ -89,11 +101,13 @@ public class RedisCache<K, V> extends BeanCache<K, V> {
 	 * @param rkey  键
 	 * @param value 值
 	 */
-	public void put(K key, V value) {
+	public V put(K key, V value) {
 		super.put(key, value);
-		String json = JsonEngine.toJson(value);
-		redis.hset(this.name, C.toString(key), json);
-		redis.publish(put, json);
+		String k = C.toString(key);
+		String v = base ? C.toString(value) : JsonEngine.toJson(value);
+		redis.hset(this.name, k, v);
+		redis.publish(put, base ? k + SEPA + v : v);
+		return value;
 	}
 
 	/**
@@ -121,6 +135,15 @@ public class RedisCache<K, V> extends BeanCache<K, V> {
 		Map<K, V> map = M.newMap();
 		redis.hgetAll(name).forEach((k, v) -> map.put((K) C.to(k, key), JsonEngine.toBean(v, val)));
 		return map;
+	}
+
+	/**
+	 * 如果本地数量与redis数量一致返回super.map() 不一致返回all()
+	 * 
+	 * @return 缓存list
+	 */
+	public Map<K, V> map() {
+		return size() == len() ? super.map() : all();
 	}
 
 	/**
@@ -155,16 +178,13 @@ public class RedisCache<K, V> extends BeanCache<K, V> {
 	 * @param cls   缓存值Class
 	 * @param load  是否加载全部缓存
 	 */
-	private RedisCache(RedisPool redis, String key, Class<V> cls, boolean fill) {
-		super(key, cls, new Callback<K, V>() {
-			@Override
-			public V callback(K result) {
-				return JsonEngine.toBean(redis.hget(key, key), cls);
-			}
-		});
+	protected RedisCache(Redis redis, String key, Class<V> cls, boolean fill) {
+		super(key, cls, r -> cls == null || U.C.isBaseType(cls) ? (V) C.to(redis.hget(key, C.toString(r)), cls)
+				: JsonEngine.toBean(redis.hget(key, C.toString(r)), cls));
 		// 获得redis
 		this.val = cls;
 		this.redis = redis;
+		this.base = cls == null || U.C.isBaseType(cls);
 		this.put = key + "_put";
 		this.remove = key + "_remove";
 		// 是否加载所以缓存
@@ -175,7 +195,11 @@ public class RedisCache<K, V> extends BeanCache<K, V> {
 			this.redis.subscribe((c, m) -> {
 				if (put.equals(c))
 					// 更新
-					super.put(JsonEngine.toBean(m, val));
+					if (base) {
+						String[] t = U.S.split(m, SEPA);
+						super.put((K) C.to(t[0], this.key), (V) C.to(t[1], this.val));
+					} else
+						super.put(JsonEngine.toBean(m, this.val));
 				else if (remove.equals(c))
 					// 删除
 					super.remove((K) C.to(m, this.key));

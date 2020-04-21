@@ -5,10 +5,10 @@
 	<parent>
 		<groupId>com.weicoder</groupId>
 		<artifactId>weicoder</artifactId>
-		<version>2.6.1</version>
+		<version>3.3.6</version>
 	</parent>
 	<artifactId>rpc</artifactId>
- 
+
 	<dependencies>
 		<dependency>
 			<groupId>com.weicoder</groupId>
@@ -17,11 +17,32 @@
 		<dependency>
 			<groupId>com.weicoder</groupId>
 			<artifactId>nacos</artifactId>
+			<optional>true</optional>
 		</dependency>
-		<dependency>
-			<groupId>com.alipay.sofa</groupId>
-			<artifactId>sofa-rpc-all</artifactId>
-			<version>${sofa-rpc}</version>
-		</dependency>
-	</dependencies> 
+	</dependencies>
+<!-- 
+	<profiles>
+		<profile>
+			<id>opt</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>com.weicoder.extend</groupId>
+					<artifactId>rpc-extend</artifactId>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>release</id>
+			<dependencies>
+				<dependency>
+					<groupId>com.alipay.sofa</groupId>
+					<artifactId>sofa-rpc-all</artifactId>
+				</dependency>
+			</dependencies>
+		</profile> 
+	</profiles>
+	 -->
 </project>

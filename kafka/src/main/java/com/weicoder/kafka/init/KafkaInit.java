@@ -17,10 +17,12 @@ import com.weicoder.common.init.Init;
 import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.U;
 import com.weicoder.common.U.C;
+import com.weicoder.common.U.S;
+import com.weicoder.common.W.B;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.log.Log;
-import com.weicoder.common.log.LogFactory; 
+import com.weicoder.common.log.LogFactory;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.util.StringUtil;
@@ -58,7 +60,7 @@ public class KafkaInit implements Init {
 	@Override
 	public void init() {
 		// 获得所有kafka消费者
-		List<Class<Consumer>> consumers = C.from(Consumer.class);
+		List<Class<Consumer>> consumers = C.list(Consumer.class);
 		if (U.E.isNotEmpty(consumers)) {
 			// 循环处理kafka类
 			consumers.forEach(c -> {
@@ -211,10 +213,7 @@ public class KafkaInit implements Init {
 	private static Object toParam(byte[] b, Class<?> c) {
 		// 字符串
 		if (String.class.equals(c))
-			return StringUtil.toString(b);
-		// 普通对象
-		if (Object.class.equals(c))
-			return b;
+			return S.toString(b);
 		// Map
 		if (Map.class.equals(c))
 			return JsonEngine.toMap(StringUtil.toString(b));
@@ -222,9 +221,12 @@ public class KafkaInit implements Init {
 		if (List.class.equals(c))
 			return JsonEngine.toList(StringUtil.toString(b));
 		// Protobuf
-		else if (c.isAnnotationPresent(Protobuf.class))
+		if (c.isAnnotationPresent(Protobuf.class))
 			return ProtobufEngine.toBean(b, c);
-		// 序列化
-		return Bytes.to(b, c);
+		// 基础类型与可用Bytes序列化类型
+		if (B.isType(c))
+			return Bytes.to(b, c);
+		// 使用json返序列化
+		return JsonEngine.toBean(S.toString(b), c);
 	}
 }

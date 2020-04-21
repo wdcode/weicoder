@@ -5,6 +5,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import com.weicoder.common.C.S;
+
 /**
  * 标注AOP注解
  * 
@@ -18,7 +20,7 @@ public @interface Aop {
 	 * 
 	 * @return 拦截的aop类
 	 */
-	String value() default "";
+	String value() default S.EMPTY;
 
 //	/**
 //	 * 前置方法

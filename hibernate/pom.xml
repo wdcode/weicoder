@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.weicoder</groupId>
 		<artifactId>weicoder</artifactId>
-		<version>2.6.1</version>
+		<version>3.3.6</version>
 	</parent>
 	<artifactId>hibernate</artifactId>
 
@@ -21,12 +21,10 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
-			<version>${hibernate-core}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-hikaricp</artifactId>
-			<version>${hibernate-core}</version>
 		</dependency>
-	</dependencies> 
+	</dependencies>
 </project>

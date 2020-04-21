@@ -11,9 +11,13 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
 
 import com.weicoder.common.W;
+import com.weicoder.common.C.A;
+import com.weicoder.common.U.S;
+import com.weicoder.common.W.B;
 import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.log.Log;
 import com.weicoder.common.log.LogFactory;
+import com.weicoder.json.JsonEngine;
 import com.weicoder.kafka.params.KafkaParams;
 import com.weicoder.protobuf.Protobuf;
 import com.weicoder.protobuf.ProtobufEngine;
@@ -148,11 +152,15 @@ public class Producers {
 	 */
 	private byte[] toBytes(Object obj) {
 		// 根据不同类型序列化
+		if (obj == null)
+			return A.BYTES_EMPTY;
 		if (obj instanceof String)
 			return W.C.toString(obj).getBytes();
-		else if (obj.getClass().isAnnotationPresent(Protobuf.class))
+		if (obj.getClass().isAnnotationPresent(Protobuf.class))
 			return ProtobufEngine.toBytes(obj);
-		else
+		if (B.isType(obj.getClass()))
 			return Bytes.toBytes(obj);
+		// 没有对应类型 转换成json返回
+		return S.toBytes(JsonEngine.toJson(obj));
 	}
 }

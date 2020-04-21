@@ -3,13 +3,11 @@ package com.weicoder.json;
 import java.util.List;
 import java.util.Map;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Maps;
-import com.weicoder.common.util.BeanUtil; 
+import com.weicoder.common.util.BeanUtil;
+import com.weicoder.fastjson.JsonFast;
 import com.weicoder.common.U;
 import com.weicoder.common.W.L;
 
@@ -19,8 +17,8 @@ import com.weicoder.common.W.L;
  * @author WD
  */
 public final class JsonEngine {
-//	// 默认Json解析
-//	private final static Json JSON = new JsonFast();
+	// 默认Json解析
+	private final static Json JSON = new JsonFast();
 
 	/**
 	 * 是否是json串
@@ -89,7 +87,7 @@ public final class JsonEngine {
 	 * @return     转换后的字符串
 	 */
 	public static String toJson(Object obj) {
-		return obj == null ? StringConstants.EMPTY : JSON.toJSONString(obj);
+		return obj == null ? StringConstants.EMPTY : JSON.toJson(obj);// JSON.toJSONString(obj);
 	}
 
 	/**
@@ -119,25 +117,25 @@ public final class JsonEngine {
 		return array;
 	}
 
-	/**
-	 * 把json变成 JSONArray
-	 * 
-	 * @param  json json字符串
-	 * @return      JSONArray
-	 */
-	public static JSONArray toJSONArray(String json) {
-		return JSON.parseArray(json);
-	}
-
-	/**
-	 * 把json变成 JSONObject
-	 * 
-	 * @param  json json字符串
-	 * @return      JSONObject
-	 */
-	public static JSONObject toJSONObject(String json) {
-		return JSON.parseObject(json);
-	}
+//	/**
+//	 * 把json变成 JSONArray
+//	 * 
+//	 * @param  json json字符串
+//	 * @return      JSONArray
+//	 */
+//	public static JSONArray toJSONArray(String json) {
+//		return JSON.parseArray(json);
+//	}
+//
+//	/**
+//	 * 把json变成 JSONObject
+//	 * 
+//	 * @param  json json字符串
+//	 * @return      JSONObject
+//	 */
+//	public static JSONObject toJSONObject(String json) {
+//		return JSON.parseObject(json);
+//	}
 
 	/**
 	 * 转换JSON根据传入的Class反射生成回实体Bean
@@ -148,7 +146,7 @@ public final class JsonEngine {
 	 * @return       对象
 	 */
 	public static <E> E toBean(String json, Class<E> clazz) {
-		return U.E.isEmpty(json) ? null : JSON.parseObject(json, clazz);
+		return U.E.isEmpty(json) ? null : JSON.toBean(json, clazz); // JSON.parseObject(json, clazz);
 	}
 
 	/**
@@ -160,7 +158,7 @@ public final class JsonEngine {
 	 * @return       List
 	 */
 	public static <E> List<E> toList(String json, Class<E> clazz) {
-		return L.newList(JSON.parseArray(json, clazz));
+		return L.newList(JSON.toList(json, clazz));// JSON.parseArray(json, clazz)
 	}
 
 	/**

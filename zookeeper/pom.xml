@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.weicoder</groupId>
 		<artifactId>weicoder</artifactId>
-		<version>2.6.1</version>
+		<version>3.3.6</version>
 	</parent>
 	<artifactId>zookeeper</artifactId>
 
@@ -17,12 +17,10 @@
 		<dependency>
 			<groupId>org.apache.curator</groupId>
 			<artifactId>curator-framework</artifactId>
-			<version>${curator-framework}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.curator</groupId>
 			<artifactId>curator-recipes</artifactId>
-			<version>${curator-framework}</version>
 		</dependency>
-	</dependencies> 
+	</dependencies>
 </project>

@@ -17,7 +17,7 @@ import com.weicoder.common.U;
 import com.weicoder.common.U.C;
 import com.weicoder.json.JsonEngine;
 import com.weicoder.redis.params.RedisParams;
-import com.weicoder.redis.RedisPool;
+import com.weicoder.redis.Redis;
 import com.weicoder.redis.annotation.Channel;
 import com.weicoder.redis.annotation.Subscribes;
 import com.weicoder.redis.factory.RedisFactory;
@@ -35,14 +35,14 @@ public class RedisInit implements Init {
 	// 保存Channel对应方法
 	private Map<String, Method> METHODS = Maps.newMap();
 	// 保存Redis消费
-	private Map<String, RedisPool> REDIS = Maps.newMap();
+	private Map<String, Redis> REDIS = Maps.newMap();
 	// 保存Redis对应消费的Channel
 	private Map<String, List<String>> CHANNELS = Maps.newMap();
 
 	@Override
 	public void init() {
 		// 获得所有redis订阅者
-		List<Class<Subscribes>> subscribes = C.from(Subscribes.class);
+		List<Class<Subscribes>> subscribes = C.list(Subscribes.class);
 		if (U.E.isNotEmpty(subscribes)) {
 			// 循环处理所有redis订阅类
 			int n = 0;

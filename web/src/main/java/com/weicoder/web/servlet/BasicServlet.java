@@ -15,10 +15,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.weicoder.common.bean.StateCode;
-import com.weicoder.common.constants.StringConstants;
+import com.weicoder.common.exception.StateException;
+import com.weicoder.common.C;
 import com.weicoder.common.U;
 import com.weicoder.common.W;
-import com.weicoder.common.asyn.Asyn;
+import com.weicoder.common.annotation.Asyn;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.log.Log;
@@ -76,9 +77,9 @@ public class BasicServlet extends HttpServlet {
 		if (U.E.isNotEmpty(path)) {
 			// 分解提交action 去处开头的/ 并且按/或者_分解出数组
 			String actionName = StringUtil.subString(path, 1, path.length());
-			String[] actions = StringUtil.contains(actionName, StringConstants.BACKSLASH)
-					? StringUtil.split(actionName, StringConstants.BACKSLASH)
-					: StringUtil.split(actionName, StringConstants.UNDERLINE);
+			String[] actions = StringUtil.contains(actionName, C.S.BACKSLASH)
+					? StringUtil.split(actionName, C.S.BACKSLASH)
+					: StringUtil.split(actionName, C.S.UNDERLINE);
 			if (U.E.isEmpty(actions)) {
 				LOG.debug("this path={}", path);
 				ResponseUtil.json(response, callback, "action is null path");
@@ -114,7 +115,7 @@ public class BasicServlet extends HttpServlet {
 			}
 			// 过滤IP
 			Action a = action.getClass().getAnnotation(Action.class);
-			if (a.ips()) {
+			if (a.ips() || WebParams.IPS) {
 				// 如果在允许列表继续 否则退出
 				if (!IpUtil.contains(ip)) {
 					LOG.debug("this ip={}", ip);
@@ -183,6 +184,8 @@ public class BasicServlet extends HttpServlet {
 						params[i] = TokenEngine.decrypt(v);
 					else if (Map.class.equals(cs))
 						params[i] = ps;
+					else if (cs.isArray())
+						params[i] = U.A.array(v, cs);
 					else if (ClassUtil.isBaseType(cs)) {
 						// 获得参数
 						params[i] = W.C.to(v, cs);
@@ -340,7 +343,8 @@ public class BasicServlet extends HttpServlet {
 			// 前置执行
 			aops.forEach(aop -> aop.before(action, params, request, response));
 			// 执行方法返回结果
-			Object result = method.invoke(action, U.E.isEmpty(params) ? null : params);
+			Object result = method.invoke(action, params);
+//			Object result = method.invoke(action, U.E.isEmpty(params) ? null : params);
 			if (result == null && void.class.equals(method.getReturnType()))
 				result = StateCode.SUCCESS;
 			// 后置执行
@@ -348,6 +352,8 @@ public class BasicServlet extends HttpServlet {
 				aop.after(action, params, result, request, response);
 			// 返回结果
 			return result;
+		} catch (StateException e) {
+			return e.state();
 		} catch (Exception e) {
 			Logs.error(e, "action invoke method={} args={} params={}", method.getName(), Arrays.toString(params),
 					Arrays.toString(method.getParameters()));

@@ -4,7 +4,7 @@ import com.weicoder.common.U.C;
 import com.weicoder.common.U.D;
 import com.weicoder.common.U.ES;
 import com.weicoder.common.U.S;
-import com.weicoder.common.asyn.Asyn;
+import com.weicoder.common.annotation.Asyn;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
 
@@ -19,7 +19,7 @@ public final class Inits {
 	 */
 	public static void init() {
 		// 获得所有初始化接口
-		C.from(Init.class).forEach(c -> {
+		C.list(Init.class).forEach(c -> {
 			// 获得接口类名称
 			String name = S.convert(c.getSimpleName(), "Init");
 			// 初始化开始

@@ -16,7 +16,7 @@ public class WebSocketInit implements Init {
 	@Override
 	public void init() {
 		// 按包处理WebSocket
-		C.from(WebSocket.class).forEach(c -> {
+		C.list(WebSocket.class).forEach(c -> {
 			try {
 				// 实例化Action并放在context中
 				Object ws = ClassUtil.newInstance(c);

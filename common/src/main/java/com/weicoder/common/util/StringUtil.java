@@ -11,6 +11,7 @@ import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.U;
 import com.weicoder.common.W;
 import com.weicoder.common.C.S;
+import com.weicoder.common.W.C;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
@@ -255,7 +256,7 @@ public class StringUtil {
 	 * @param  map 参数列表
 	 * @return     参数
 	 */
-	public static String toParameters(Map<String, String> map) {
+	public static String toParameters(Map<String, ?> map) {
 		// 如果Map为空 返回空串
 		if (U.E.isEmpty(map))
 			return StringConstants.EMPTY;
@@ -268,7 +269,7 @@ public class StringUtil {
 			// 获得Key
 			String key = keys.get(i);
 			// 获得值
-			String val = map.get(key);
+			String val = C.toString(map.get(key));
 			// 判断值不为空
 			if (U.E.isNotEmpty(val)) {
 				sb.append(key).append("=");
@@ -450,8 +451,10 @@ public class StringUtil {
 	 * @param  regex 要替换掉的字符
 	 * @return       转换后的字符串
 	 */
-	public static String convert(String name, String regex) {
-		return convert(replace(name, regex));
+	public static String convert(String name, String... regex) {
+		for (String n : regex)
+			name = convert(name, n);
+		return name;
 	}
 
 	/**

@@ -18,7 +18,7 @@ public @interface Regex {
 	 * 要验证的正则表达式
 	 * @return 验证正则表达式
 	 */
-	String value();
+	String regex();
 
 	/**
 	 * 验证不通过的错误码

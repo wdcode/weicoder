@@ -4,30 +4,27 @@
 	<parent>
 		<groupId>com.weicoder</groupId>
 		<artifactId>weicoder</artifactId>
-		<version>2.6.1</version>
+		<version>3.3.6</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>xml</artifactId>
- 
+
 	<dependencies>
 		<dependency>
 			<groupId>com.weicoder</groupId>
 			<artifactId>common</artifactId>
-		</dependency> 
+		</dependency>
 		<dependency>
 			<groupId>org.dom4j</groupId>
 			<artifactId>dom4j</artifactId>
-			<version>${dom4j}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jdom</groupId>
 			<artifactId>jdom2</artifactId>
-			<version>${jdom2}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.thoughtworks.xstream</groupId>
 			<artifactId>xstream</artifactId>
-			<version>${xstream}</version>
 		</dependency>
-	</dependencies> 
+	</dependencies>
 </project>

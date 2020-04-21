@@ -1,8 +1,7 @@
 package com.weicoder.common.log;
 
-import com.weicoder.common.factory.FactoryKey;
-import com.weicoder.common.params.CommonParams;
-import com.weicoder.common.util.ClassUtil;
+import com.weicoder.common.U.C;
+import com.weicoder.common.factory.FactoryKey; 
 
 /**
  * 日志工厂
@@ -31,7 +30,8 @@ public final class LogFactory extends FactoryKey<Class<?>, Log> {
 
 	@Override
 	public Log newInstance(Class<?> key) {
-		Log log = ClassUtil.newInstance(CommonParams.LOG_CLASS, new LogJdk());
+//		Log log = ClassUtil.newInstance(CommonParams.LOG_CLASS, new LogJdk());
+		Log log = C.newInstance(C.from(Log.class));
 		log.setClass(key);
 		return log;
 	}
