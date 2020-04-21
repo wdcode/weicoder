@@ -2,7 +2,6 @@ package com.weicoder.common.util;
 
 import java.io.OutputStream;
 
-import com.weicoder.common.U;
 import com.weicoder.common.log.Logs;
 
 /**
@@ -19,7 +18,7 @@ public final class CloseUtil {
 		for (AutoCloseable c : cs) {
 			try {
 				// 判断不为空
-				if (!U.E.isEmpty(c)) {
+				if (!EmptyUtil.isEmpty(c)) {
 					// 是输出流
 					if (c instanceof OutputStream)
 						((OutputStream) c).flush();

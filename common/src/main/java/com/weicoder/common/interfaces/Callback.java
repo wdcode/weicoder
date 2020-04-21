@@ -2,14 +2,12 @@ package com.weicoder.common.interfaces;
 
 /**
  * 回调方法
- * 
  * @author WD
  */
-public interface Callback<E, R> {
+public interface Callback<E> {
 	/**
 	 * 回调方法
-	 * 
 	 * @param result 结果
 	 */
-	R callback(E result);
+	void callback(E result);
 }

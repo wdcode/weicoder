@@ -1,6 +1,6 @@
 package com.weicoder.common.zip.base;
 
-import com.weicoder.common.U;
+import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.zip.Zip;
 
 /**
@@ -28,7 +28,7 @@ public abstract class BaseZip implements Zip {
 			// 解压缩
 			byte[] data = extract0(b);
 			// 如果解压缩的为空 返回原数据
-			return U.E.isEmpty(data) ? b : data;
+			return EmptyUtil.isEmpty(data) ? b : data;
 		} catch (Exception e) {
 			// 如果异常或则无法解压 返回原数据
 			return b;

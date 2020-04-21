@@ -1,7 +1,7 @@
 package com.weicoder.dao.util;
 
 import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.U;
+import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
 
 /**
@@ -33,7 +33,7 @@ public final class SqlUtil {
 	 * @return 过滤后的语句
 	 */
 	public static String sqlFilterHigh(String sql) {
-		return U.E.isEmpty(sql) ? StringConstants.EMPTY : sql.replaceAll("'", "''");
+		return EmptyUtil.isEmpty(sql) ? StringConstants.EMPTY : sql.replaceAll("'", "''");
 	}
 
 	/**

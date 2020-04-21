@@ -5,8 +5,8 @@ import java.util.Enumeration;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
-import com.weicoder.common.U; 
-import com.weicoder.common.W;
+import com.weicoder.common.lang.Conversion;
+import com.weicoder.common.util.EmptyUtil;
 
 /**
  * Session一些相关操作类
@@ -19,16 +19,16 @@ public final class SessionUtil {
 	 */
 	public static void close(HttpSession session) {
 		// 判断不为空
-		if (U.E.isNotEmpty(session))
+		if (EmptyUtil.isNotEmpty(session))
 			try {
 				// 获得session中的所有属性集合
 				Enumeration<?> e = session.getAttributeNames();
 				// 判断属性集合不为空
-				if (U.E.isNotEmpty(e))
+				if (EmptyUtil.isNotEmpty(e))
 					// 循环删除属性
 					while (e.hasMoreElements())
 						// 删除
-						session.removeAttribute(W.C.toString(e.nextElement()));
+						session.removeAttribute(Conversion.toString(e.nextElement()));
 				// 销毁Session
 				session.invalidate();
 			} catch (Exception e) {}
@@ -54,7 +54,7 @@ public final class SessionUtil {
 	 */
 	@SuppressWarnings("unchecked")
 	public static <E> E getAttribute(HttpSession session, String key, E defaultValue) {
-		return U.E.isEmpty(session) ? defaultValue : (E) session.getAttribute(key);
+		return EmptyUtil.isEmpty(session) ? defaultValue : (E) session.getAttribute(key);
 	}
 
 	/**
@@ -65,7 +65,7 @@ public final class SessionUtil {
 	 * @param maxAge 保存多少秒
 	 */
 	public static void setAttribute(HttpSession session, String key, Object value, int maxAge) {
-		if (U.E.isNotEmpty(session)) {
+		if (EmptyUtil.isNotEmpty(session)) {
 			session.setMaxInactiveInterval(maxAge);
 			session.setAttribute(key, value);
 		}
@@ -77,7 +77,7 @@ public final class SessionUtil {
 	 * @param key 属性值
 	 */
 	public static void removeAttribute(HttpSession session, String key) {
-		if (U.E.isNotEmpty(session))
+		if (EmptyUtil.isNotEmpty(session))
 			session.removeAttribute(key);
 	}
 
@@ -87,7 +87,7 @@ public final class SessionUtil {
 	 * @return ServletContext
 	 */
 	public static ServletContext getServletContext(HttpSession session) {
-		return U.E.isEmpty(session) ? null : session.getServletContext();
+		return EmptyUtil.isEmpty(session) ? null : session.getServletContext();
 	}
 
 	private SessionUtil() {}

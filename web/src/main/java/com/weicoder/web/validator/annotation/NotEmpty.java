@@ -18,5 +18,5 @@ public @interface NotEmpty {
 	 * 验证不通过的错误码
 	 * @return 错误码
 	 */
-	int value();
+	int error();
 }

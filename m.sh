@@ -1,1 +1,1 @@
-mvn clean install deploy -Prelease
+mvn clean install deploy -T8 -Prelease -Dgpg.passphrase=WWW123sss

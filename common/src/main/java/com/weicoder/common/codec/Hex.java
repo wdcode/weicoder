@@ -3,7 +3,7 @@ package com.weicoder.common.codec;
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Bytes;
-import com.weicoder.common.U;
+import com.weicoder.common.util.EmptyUtil;
 
 /**
  * Hex 编码解码
@@ -32,7 +32,7 @@ public final class Hex {
 	 */
 	public static String encode(byte[] data) {
 		// 如果为空返回字符串
-		if (U.E.isEmpty(data)) {
+		if (EmptyUtil.isEmpty(data)) {
 			return StringConstants.EMPTY;
 		}
 		// 声明字符数组
@@ -55,7 +55,7 @@ public final class Hex {
 	 */
 	public static byte[] decode(String str) {
 		// 如果要解码的字符串为空 返回字节数组
-		if (U.E.isEmpty(str))
+		if (EmptyUtil.isEmpty(str))
 			return ArrayConstants.BYTES_EMPTY;
 		// 声明字节数组
 		char[] data = str.toCharArray();

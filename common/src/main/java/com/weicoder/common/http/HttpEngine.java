@@ -19,15 +19,13 @@ import com.weicoder.common.zip.ZipEngine;
 
 /**
  * http客户端通讯
- * 
  * @author WD
  */
-public class HttpEngine {
+public final class HttpEngine {
 	/**
 	 * 使用get提交url
-	 * 
-	 * @param  url 网址
-	 * @return     返回的结果
+	 * @param url 网址
+	 * @return 返回的结果
 	 */
 	public static byte[] download(String url) {
 		return download(url, Maps.emptyMap());
@@ -35,10 +33,9 @@ public class HttpEngine {
 
 	/**
 	 * 使用get提交url
-	 * 
-	 * @param  url    网址
-	 * @param  header http头列表
-	 * @return        返回的结果
+	 * @param url 网址
+	 * @param header http头列表
+	 * @return 返回的结果
 	 */
 	public static byte[] download(String url, Map<String, Object> header) {
 		HttpURLConnection conn = null;
@@ -68,9 +65,8 @@ public class HttpEngine {
 
 	/**
 	 * 使用get提交url
-	 * 
-	 * @param  url 网址
-	 * @return     返回的结果
+	 * @param url 网址
+	 * @return 返回的结果
 	 */
 	public static String get(String url) {
 		// 使用GZIP一般服务器支持解压获得的流 然后转成字符串 一般为UTF-8
@@ -82,10 +78,9 @@ public class HttpEngine {
 
 	/**
 	 * 使用get提交url
-	 * 
-	 * @param  url    网址
-	 * @param  header http头列表
-	 * @return        返回的结果
+	 * @param url 网址
+	 * @param header http头列表
+	 * @return 返回的结果
 	 */
 	public static String get(String url, Map<String, Object> header) {
 		// 使用GZIP一般服务器支持解压获得的流 然后转成字符串 一般为UTF-8
@@ -97,10 +92,9 @@ public class HttpEngine {
 
 	/**
 	 * 使用post提交url
-	 * 
-	 * @param  url  网址
-	 * @param  data 参数
-	 * @return      返回的结果
+	 * @param url 网址
+	 * @param data 参数
+	 * @return 返回的结果
 	 */
 	public static String post(String url, Map<String, Object> data) {
 		return post(url, data, Maps.emptyMap());
@@ -108,11 +102,10 @@ public class HttpEngine {
 
 	/**
 	 * 使用post提交url
-	 * 
-	 * @param  url    网址
-	 * @param  data   参数
-	 * @param  header http头列表
-	 * @return        返回的结果
+	 * @param url 网址
+	 * @param data 参数
+	 * @param header http头列表
+	 * @return 返回的结果
 	 */
 	public static String post(String url, Map<String, Object> data, Map<String, Object> header) {
 		HttpURLConnection conn = null;
@@ -145,7 +138,8 @@ public class HttpEngine {
 				IOUtil.write(conn.getOutputStream(), sb.substring(0, sb.length() - 1));
 			}
 			// 使用GZIP一般服务器支持解压获得的流 然后转成字符串 一般为UTF-8
-			String res = StringUtil.toString(ZipEngine.GZIP.extract(IOUtil.read(conn.getInputStream())));
+			String res = StringUtil
+					.toString(ZipEngine.GZIP.extract(IOUtil.read(conn.getInputStream())));
 			Logs.debug("HttpEngine post url={} data={} header={} res={}", url, data, header, res);
 			return res;
 		} catch (IOException e) {
@@ -160,9 +154,8 @@ public class HttpEngine {
 
 	/**
 	 * 获得连接
-	 * 
-	 * @param  url URL连接
-	 * @return     HttpURLConnection
+	 * @param url URL连接
+	 * @return HttpURLConnection
 	 */
 	private static HttpURLConnection getConnection(String url) {
 		HttpURLConnection conn = null;
@@ -172,9 +165,11 @@ public class HttpEngine {
 			// // 设置属性
 			conn.setRequestProperty(HttpConstants.USER_AGENT_KEY, HttpConstants.USER_AGENT_VAL);
 			conn.setRequestProperty(HttpConstants.ACCEPT_KEY, HttpConstants.ACCEPT_VAL);
-			conn.setRequestProperty(HttpConstants.ACCEPT_LANGUAGE_KEY, HttpConstants.ACCEPT_LANGUAGE_VAL);
+			conn.setRequestProperty(HttpConstants.ACCEPT_LANGUAGE_KEY,
+					HttpConstants.ACCEPT_LANGUAGE_VAL);
 			conn.setRequestProperty("Accept-Encoding", "gzip,deflate");
-			conn.setRequestProperty(HttpConstants.ACCEPT_CHARSET_KEY, HttpConstants.ACCEPT_CHARSET_VAL);
+			conn.setRequestProperty(HttpConstants.ACCEPT_CHARSET_KEY,
+					HttpConstants.ACCEPT_CHARSET_VAL);
 			// conn.addRequestProperty(HttpConstants.CONTENT_TYPE_KEY, HttpConstants.CONTENT_TYPE_VAL);
 			conn.setRequestProperty("Connection", "Keep-Alive");
 			// 设置超时
@@ -185,5 +180,7 @@ public class HttpEngine {
 		}
 		// 返回连接connection
 		return conn;
-	} 
+	}
+
+	private HttpEngine() {}
 }

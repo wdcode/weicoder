@@ -6,7 +6,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.params.CommonParams;
-import com.weicoder.common.U; 
+import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
 
 /**
@@ -424,7 +424,7 @@ public final class Buffer implements ByteArray {
 	 * @param s 字符串
 	 */
 	public void writeString(String s) {
-		if (U.E.isEmpty(s))
+		if (EmptyUtil.isEmpty(s))
 			writeShort(0);
 		else {
 			byte[] temp = StringUtil.toBytes(s);

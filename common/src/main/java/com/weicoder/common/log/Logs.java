@@ -14,7 +14,7 @@ public final class Logs {
 	 * @param params 字符串格式化参数
 	 */
 	public static void trace(String msg, Object... params) {
-//		if (LOG.isTrace())
+		if (LOG.isTrace())
 			LOG.trace(msg, params);
 	}
 
@@ -23,7 +23,7 @@ public final class Logs {
 	 * @param t 异常
 	 */
 	public static void trace(Throwable t) {
-//		if (LOG.isTrace())
+		if (LOG.isTrace())
 			LOG.trace(t);
 	}
 
@@ -33,7 +33,7 @@ public final class Logs {
 	 * @param params 字符串格式化参数
 	 */
 	public static void debug(String msg, Object... params) {
-//		if (LOG.isDebug())
+		if (LOG.isDebug())
 			LOG.debug(msg, params);
 	}
 
@@ -42,7 +42,7 @@ public final class Logs {
 	 * @param t 异常
 	 */
 	public static void debug(Throwable t) {
-//		if (LOG.isDebug())
+		if (LOG.isDebug())
 			LOG.debug(t);
 	}
 
@@ -52,7 +52,7 @@ public final class Logs {
 	 * @param params 字符串格式化参数
 	 */
 	public static void info(String msg, Object... params) {
-//		if (LOG.isInfo())
+		if (LOG.isInfo())
 			LOG.info(msg, params);
 	}
 
@@ -61,7 +61,7 @@ public final class Logs {
 	 * @param t 异常
 	 */
 	public static void info(Throwable t) {
-//		if (LOG.isInfo())
+		if (LOG.isInfo())
 			LOG.info(t);
 	}
 
@@ -71,7 +71,7 @@ public final class Logs {
 	 * @param params 字符串格式化参数
 	 */
 	public static void warn(String msg, Object... params) {
-//		if (LOG.isWarn())
+		if (LOG.isWarn())
 			LOG.warn(msg, params);
 	}
 
@@ -80,7 +80,7 @@ public final class Logs {
 	 * @param t 异常
 	 */
 	public static void warn(Throwable t) {
-//		if (LOG.isWarn())
+		if (LOG.isWarn())
 			LOG.warn(t);
 	}
 
@@ -90,7 +90,7 @@ public final class Logs {
 	 * @param params 字符串格式化参数
 	 */
 	public static void error(String msg, Object... params) {
-//		if (LOG.isError())
+		if (LOG.isError())
 			LOG.error(msg, params);
 	}
 
@@ -99,7 +99,7 @@ public final class Logs {
 	 * @param t 异常
 	 */
 	public static void error(Throwable t) {
-//		if (LOG.isError())
+		if (LOG.isError())
 			LOG.error(t);
 	}
 
@@ -109,7 +109,7 @@ public final class Logs {
 	 * @param t 异常
 	 */
 	public static void error(String msg, Throwable t) {
-//		if (LOG.isError())
+		if (LOG.isError())
 			LOG.error(msg, t);
 	}
 
@@ -120,7 +120,7 @@ public final class Logs {
 	 * @param params 字符串格式化参数
 	 */
 	public static void error(Throwable t, String msg, Object... params) {
-//		if (LOG.isError())
+		if (LOG.isError())
 			LOG.error(t, msg, params);
 	}
 

@@ -2,7 +2,7 @@ package com.weicoder.dao.service;
 
 import com.weicoder.common.factory.FactoryKey;
 import com.weicoder.common.lang.Queues;
-import com.weicoder.common.queue.AsynQueueList;
+import com.weicoder.common.util.AsynQueueList;
 import com.weicoder.dao.params.DaoParams;
 
 /**

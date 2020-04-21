@@ -7,13 +7,12 @@ import com.weicoder.common.constants.StringConstants;
 
 /**
  * JDK实现
- * 
  * @author WD
  */
 public class LogJdk implements Log {
 	// JDK日志
 	private Logger log;
-	 
+
 	@Override
 	public void setClass(Class<?> c) {
 		log = c == null ? Logger.getLogger(StringConstants.EMPTY) : Logger.getLogger(c.getSimpleName());
@@ -21,56 +20,47 @@ public class LogJdk implements Log {
 
 	@Override
 	public void trace(String msg, Object... params) {
-		if (isTrace())
-			log.log(Level.ALL, msg, params);
+		log.log(Level.ALL, msg, params);
 	}
 
 	@Override
 	public void trace(Throwable t) {
-		if (isTrace())
-			log.log(Level.ALL, StringConstants.EMPTY, t);
+		log.log(Level.ALL, StringConstants.EMPTY, t);
 	}
 
 	@Override
 	public void debug(String msg, Object... params) {
-		if (isDebug())
-			log.log(Level.CONFIG, msg, params);
+		log.log(Level.CONFIG, msg, params);
 	}
 
 	@Override
 	public void debug(Throwable t) {
-		if (isDebug())
-			log.log(Level.CONFIG, StringConstants.EMPTY, t);
+		log.log(Level.CONFIG, StringConstants.EMPTY, t);
 	}
 
 	@Override
 	public void info(String msg, Object... params) {
-		if (isInfo())
-			log.log(Level.INFO, msg, params);
+		log.log(Level.INFO, msg, params);
 	}
 
 	@Override
 	public void info(Throwable t) {
-		if (isInfo())
-			log.log(Level.INFO, StringConstants.EMPTY, t);
+		log.log(Level.INFO, StringConstants.EMPTY, t);
 	}
 
 	@Override
 	public void warn(String msg, Object... params) {
-		if (isWarn())
-			log.log(Level.WARNING, msg, params);
+		log.log(Level.WARNING, msg, params);
 	}
 
 	@Override
 	public void warn(Throwable t) {
-		if (isWarn())
-			log.log(Level.WARNING, StringConstants.EMPTY, t);
+		log.log(Level.WARNING, StringConstants.EMPTY, t);
 	}
 
 	@Override
 	public void error(String msg, Object... params) {
-		if (isError())
-			log.log(Level.SEVERE, msg, params);
+		log.log(Level.SEVERE, msg, params);
 	}
 
 	@Override
@@ -80,8 +70,7 @@ public class LogJdk implements Log {
 
 	@Override
 	public void error(String msg, Throwable t) {
-		if (isError())
-			log.log(Level.SEVERE, msg, t);
+		log.log(Level.SEVERE, msg, t);
 	}
 
 	@Override

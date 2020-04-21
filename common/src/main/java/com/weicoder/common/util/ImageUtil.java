@@ -20,16 +20,15 @@ import com.weicoder.common.log.Logs;
 
 /**
  * 对普通图片处理
- * 
  * @author WD
  */
-public class ImageUtil {
+public final class ImageUtil {
 	// 图片格式名
-	private final static String FORMAT;
+	private final static String	FORMAT;
 	// 字体
-	private final static Font FONT;
+	private final static Font	FONT;
 	// 颜色
-	private final static Color COLOR;
+	private final static Color	COLOR;
 	static {
 		FORMAT = "JPEG";
 		FONT = new Font("宋体", Font.PLAIN, 15);
@@ -38,9 +37,8 @@ public class ImageUtil {
 
 	/**
 	 * 判断是否为图片
-	 * 
-	 * @param  img 图片文件
-	 * @return     是否为图片
+	 * @param img 图片文件
+	 * @return 是否为图片
 	 */
 	public static boolean isImage(File img) {
 		try {
@@ -52,9 +50,8 @@ public class ImageUtil {
 
 	/**
 	 * 判断图片是否为空
-	 * 
-	 * @param  img 图片对象
-	 * @return     是否为空
+	 * @param img 图片对象
+	 * @return 是否为空
 	 */
 	public static boolean isImage(Image img) {
 		return img != null && img.getWidth(null) > -1 && img.getHeight(null) > -1;
@@ -62,10 +59,9 @@ public class ImageUtil {
 
 	/**
 	 * 压缩图片 rate 比例 * rate / 100
-	 * 
 	 * @param input 图片文件
-	 * @param out   输出流
-	 * @param rate  缩小比例
+	 * @param out 输出流
+	 * @param rate 缩小比例
 	 * @param scale 压缩级别 参照Image.SCALE_*
 	 */
 	public static void compress(File input, OutputStream out, int rate, int scale) {
@@ -74,12 +70,11 @@ public class ImageUtil {
 
 	/**
 	 * 压缩图片
-	 * 
-	 * @param input  图片文件
-	 * @param out    输出流
-	 * @param width  宽度
+	 * @param input 图片文件
+	 * @param out 输出流
+	 * @param width 宽度
 	 * @param height 高度
-	 * @param scale  压缩级别 参照Image.SCALE_*
+	 * @param scale 压缩级别 参照Image.SCALE_*
 	 */
 	public static void compress(File input, OutputStream out, int width, int height, int scale) {
 		try {
@@ -107,13 +102,11 @@ public class ImageUtil {
 
 	/**
 	 * 抓屏保存图片
-	 * 
 	 * @param out 输出流
 	 */
 	public static void captureScreen(OutputStream out) {
 		try {
-			ImageIO.write(new Robot().createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize())),
-					FORMAT, out);
+			ImageIO.write(new Robot().createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize())), FORMAT, out);
 		} catch (Exception e) {
 			Logs.warn(e);
 		}
@@ -121,7 +114,6 @@ public class ImageUtil {
 
 	/**
 	 * 添加文字到图片
-	 * 
 	 * @param text 要添加的文字
 	 * @param file 添加文字的图片文件
 	 */
@@ -131,11 +123,10 @@ public class ImageUtil {
 
 	/**
 	 * 添加文字到图片
-	 * 
 	 * @param text 要添加的文字
 	 * @param file 添加文字的图片文件
-	 * @param x    添加位置的X轴
-	 * @param y    添加位置的Y轴
+	 * @param x 添加位置的X轴
+	 * @param y 添加位置的Y轴
 	 */
 	public static void writeString(String text, File file, int x, int y) {
 		try {
@@ -148,10 +139,9 @@ public class ImageUtil {
 
 	/**
 	 * 添加文字到图片
-	 * 
-	 * @param text  要添加的文字
+	 * @param text 要添加的文字
 	 * @param image 添加文字的图片对象
-	 * @param out   输出流
+	 * @param out 输出流
 	 */
 	public static void writeString(String text, BufferedImage image, OutputStream out) {
 		writeString(text, image, out, -1, -1);
@@ -159,12 +149,11 @@ public class ImageUtil {
 
 	/**
 	 * 添加文字到图片
-	 * 
-	 * @param text  要添加的文字
+	 * @param text 要添加的文字
 	 * @param image 添加文字的图片对象
-	 * @param out   输出流 把图片输出到这个流上
-	 * @param x     添加位置的X轴
-	 * @param y     添加位置的Y轴
+	 * @param out 输出流 把图片输出到这个流上
+	 * @param x 添加位置的X轴
+	 * @param y 添加位置的Y轴
 	 */
 	public static void writeString(String text, BufferedImage image, OutputStream out, int x, int y) {
 		// 获得Graphics 用于写图片
@@ -191,9 +180,8 @@ public class ImageUtil {
 
 	/**
 	 * 写图片
-	 * 
 	 * @param image 图片对象
-	 * @param out   输出流
+	 * @param out 输出流
 	 */
 	public static void write(BufferedImage image, OutputStream out) {
 		try {
@@ -205,8 +193,7 @@ public class ImageUtil {
 
 	/**
 	 * 添加图片到图片上
-	 * 
-	 * @param draw  要添加的图片
+	 * @param draw 要添加的图片
 	 * @param image 写到的图片
 	 */
 	public static void writeImage(File draw, File image) {
@@ -215,11 +202,10 @@ public class ImageUtil {
 
 	/**
 	 * 添加图片到图片上
-	 * 
-	 * @param draw  要添加的图片
+	 * @param draw 要添加的图片
 	 * @param image 写到的图片
-	 * @param x     X坐标
-	 * @param y     Y坐标
+	 * @param x X坐标
+	 * @param y Y坐标
 	 */
 	public static void writeImage(File draw, File image, int x, int y) {
 		try {
@@ -231,10 +217,9 @@ public class ImageUtil {
 
 	/**
 	 * 添加图片到图片上
-	 * 
-	 * @param draw  要添加的图片
+	 * @param draw 要添加的图片
 	 * @param image 写到的图片
-	 * @param out   输出流
+	 * @param out 输出流
 	 */
 	public static void writeImage(Image draw, BufferedImage image, OutputStream out) {
 		writeImage(draw, image, out, -1, -1);
@@ -242,12 +227,11 @@ public class ImageUtil {
 
 	/**
 	 * 添加图片到图片上
-	 * 
-	 * @param draw  要添加的图片
+	 * @param draw 要添加的图片
 	 * @param image 写到的图片
-	 * @param out   输出流
-	 * @param x     添加位置的X轴
-	 * @param y     添加位置的Y轴
+	 * @param out 输出流
+	 * @param x 添加位置的X轴
+	 * @param y 添加位置的Y轴
 	 */
 	public static void writeImage(Image draw, BufferedImage image, OutputStream out, int x, int y) {
 		// 获得Graphics 用于写图片
@@ -274,10 +258,9 @@ public class ImageUtil {
 
 	/**
 	 * 获得文字高度
-	 * 
-	 * @param  text 文字内容
-	 * @param  fm   FontMetrics对象
-	 * @return      宽度
+	 * @param text 文字内容
+	 * @param fm FontMetrics对象
+	 * @return 宽度
 	 */
 	private static int getStringWidth(String text, FontMetrics fm) {
 		// 初始化宽度值
@@ -291,4 +274,6 @@ public class ImageUtil {
 		// 返回宽度
 		return intReturn;
 	}
+
+	private ImageUtil() {}
 }
