@@ -5,23 +5,18 @@
 		<groupId>com.weicoder</groupId>
 		<artifactId>weicoder</artifactId>
 		<version>2.5.1</version>
-		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>oauth</artifactId>
-	<packaging>jar</packaging>
-	<name>oauth</name>
-	<description>java oauth</description>
-	<url>https://github.com/wdcode/weicoder</url>
 
 	<dependencies>
 		<dependency>
 			<groupId>com.weicoder</groupId>
 			<artifactId>web</artifactId>
-		</dependency> 
+		</dependency>
 		<dependency>
 			<groupId>com.alibaba</groupId>
-			<artifactId>fastjson</artifactId> 
+			<artifactId>fastjson</artifactId>
 		</dependency>
 	</dependencies>
 </project>

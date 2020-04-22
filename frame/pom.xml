@@ -1,31 +1,22 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<parent>
 		<groupId>com.weicoder</groupId>
 		<artifactId>weicoder</artifactId>
 		<version>2.5.1</version>
-		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>frame</artifactId> 
-	<packaging>jar</packaging>
-	<name>frame</name>
-	<description>java frame tools</description>
-	<url>https://github.com/wdcode/weicoder</url> 
+	<artifactId>frame</artifactId>
 
 	<dependencies>
 		<dependency>
-			<groupId>javax</groupId>
-			<artifactId>javaee-api</artifactId> 
-			<scope>provided</scope>
+			<groupId>com.weicoder</groupId>
+			<artifactId>web</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.weicoder</groupId>
-			<artifactId>web</artifactId> 
-		</dependency>  
-		<dependency>
-			<groupId>com.weicoder</groupId>
-			<artifactId>dao</artifactId> 
-		</dependency>    
+			<artifactId>dao</artifactId>
+		</dependency>
 	</dependencies>
 </project>
