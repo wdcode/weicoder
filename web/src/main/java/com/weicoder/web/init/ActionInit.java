@@ -64,7 +64,8 @@ public class ActionInit implements Init {
 				String cname = StringUtil.convert(StringUtil.subStringLastEnd(c.getSimpleName(), "Action"));
 				Logs.info("init action sname={},cname={}", c.getSimpleName(), cname);
 				// 实例化Action并放在context中
-				Object action = ClassUtil.newInstance(c);
+//				Object action = ClassUtil.newInstance(c);
+				Object action = C.ioc(c);
 				if (action != null) {
 					WebCommons.ACTIONS.put(cname, action);
 					// 循环判断方法
@@ -97,7 +98,8 @@ public class ActionInit implements Init {
 			String cname = StringUtil.convert(StringUtil.subStringLastEnd(c.getSimpleName(), "Validator"));
 			Logs.info("init validator sname={},cname={}", c.getSimpleName(), cname);
 			// 实例化Action并放在context中
-			Object validator = ClassUtil.newInstance(c);
+//			Object validator = ClassUtil.newInstance(c);
+			Object validator = C.ioc(c);
 			WebCommons.VALIDATORS.put(cname, validator);
 			if (validator != null) {
 				// 循环判断方法

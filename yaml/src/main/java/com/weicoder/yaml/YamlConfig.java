@@ -1,5 +1,6 @@
 package com.weicoder.yaml;
 
+import java.util.Map;
 import java.util.Properties;
 
 import org.yaml.snakeyaml.Yaml;
@@ -16,5 +17,10 @@ public final class YamlConfig {
 
 	public Config getConfig() {
 		return config;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public Map<String,Object> get(String key){
+		return (Map<String, Object>) config.getProperties().get(key);
 	}
 }

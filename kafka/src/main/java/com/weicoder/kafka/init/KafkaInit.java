@@ -65,7 +65,8 @@ public class KafkaInit implements Init {
 			// 循环处理kafka类
 			consumers.forEach(c -> {
 				// 执行对象
-				Object consumer = ClassUtil.newInstance(c);
+//				Object consumer = ClassUtil.newInstance(c);
+				Object consumer = C.ioc(c);
 				String name = consumer.getClass().getAnnotation(Consumer.class).value();
 				// 消费者队列
 				Map<String, Queue<ConsumerRecord<byte[], byte[]>>> map = TOPIC_RECORDS.get(name);

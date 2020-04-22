@@ -48,7 +48,8 @@ public class RedisInit implements Init {
 			int n = 0;
 			for (Class<Subscribes> c : subscribes) {
 				// 执行对象
-				Object subscribe = ClassUtil.newInstance(c);
+//				Object subscribe = ClassUtil.newInstance(c);
+				Object subscribe = C.ioc(c);
 				Subscribes a = subscribe.getClass().getAnnotation(Subscribes.class);
 				String name = a.value();
 				if (!REDIS.containsKey(name))
