@@ -1,6 +1,6 @@
 package com.weicoder.test;
 
-import com.weicer.rpc.annotation.Rpc;
+import com.weicoder.rpc.annotation.Rpc;
 
 @Rpc("rpct")
 public interface Irpc {

@@ -1,7 +1,7 @@
 package com.weicoder.test;
 
 import com.weicoder.common.io.FileUtil; 
-import com.weicoder.http.HttpUpload;
+import com.weicoder.httpclient5.HttpUpload;
 
 public class UploadTest {
 

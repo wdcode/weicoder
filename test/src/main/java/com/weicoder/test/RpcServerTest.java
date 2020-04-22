@@ -1,6 +1,6 @@
 package com.weicoder.test;
 
-import com.weicer.rpc.init.RpcInit; 
+import com.weicoder.rpc.init.RpcInit; 
 
 public class RpcServerTest {
 

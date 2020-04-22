@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.weicoder</groupId>
 		<artifactId>weicoder</artifactId>
-		<version>3.3.6</version>
+		<version>3.3.7</version>
 	</parent>
 	<artifactId>test</artifactId>
 
@@ -28,11 +28,11 @@
 		</dependency>
 		<dependency>
 			<groupId>com.weicoder</groupId>
-			<artifactId>http</artifactId>
+			<artifactId>httpclient4</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.weicoder</groupId>
-			<artifactId>http4</artifactId>
+			<artifactId>httpclient5</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.weicoder</groupId>
@@ -107,101 +107,47 @@
 			<artifactId>gson</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>com.weicoder</groupId>
+			<artifactId>yaml</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<version>1.18.12</version>
-		</dependency>  
+		</dependency>
 		<dependency>
 			<groupId>org.dom4j</groupId>
 			<artifactId>dom4j</artifactId>
-			<version>2.1.3</version>
-		</dependency>  
-		<!-- 
-		<dependency>
-			<groupId>com.weicoder</groupId>
-			<artifactId>po</artifactId>
-			<version>3.3.6</version>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.curator</groupId>
-			<artifactId>curator-framework</artifactId>
-			<version>4.3.0</version>
+			<groupId>org.apache.shardingsphere</groupId>
+			<artifactId>shardingsphere</artifactId>
+			<version>4.0.1</version>
+			<type>pom</type>
 		</dependency>
-		<dependency>
-			<groupId>org.apache.curator</groupId>
-			<artifactId>curator-recipes</artifactId>
-			<version>4.3.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.yetus</groupId>
-			<artifactId>audience-annotations</artifactId>
-			<version>0.11.1</version>
-		</dependency>
-		<dependency>
-			<groupId>com.ibeetl</groupId>
-			<artifactId>beetlsql</artifactId>
-			<version>2.12.19.RELEASE</version>
-		</dependency>
-		<dependency>
-			<groupId>com.ibeetl</groupId>
-			<artifactId>beetl</artifactId>
-			<version>3.1.2.RELEASE</version>
-		</dependency>
-		<dependency>
-			<groupId>com.squareup.okhttp3</groupId>
-			<artifactId>okhttp</artifactId>
-			<version>4.3.1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.smartboot.socket</groupId>
-			<artifactId>aio-pro</artifactId>
-			<version>1.4.9</version>
-		</dependency>
-		<dependency>
-			<groupId>io.seata</groupId>
-			<artifactId>seata-all</artifactId>
-			<version>1.1.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.teasoft</groupId>
-			<artifactId>bee</artifactId>
-			<version>1.7.1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.jsoup</groupId>
-			<artifactId>jsoup</artifactId>
-			<version>1.13.1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.t-io</groupId>
-			<artifactId>tio-core</artifactId>
-			<version>3.6.0.v20200315-RELEASE</version>
-		</dependency>
-		<dependency>
-			<groupId>net.bull.javamelody</groupId>
-			<artifactId>javamelody-core</artifactId>
-			<version>1.82.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.jdom</groupId>
-			<artifactId>jdom</artifactId>
-			<version>1.1.3</version>
-		</dependency> 
-		<dependency>
-			<groupId>javax.xml.bind</groupId>
-			<artifactId>jaxb-api</artifactId>
-			<version>2.3.1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.glassfish.jaxb</groupId>
-			<artifactId>jaxb-runtime</artifactId>
-			<version>2.3.2</version>
-		</dependency> 
-		<dependency>
-			<groupId>javax.annotation</groupId>
-			<artifactId>javax.annotation-api</artifactId>
-			<version>1.3.2</version>
-		</dependency>
-		 -->
+		<!-- <dependency> <groupId>com.weicoder</groupId> <artifactId>po</artifactId> 
+			<version>3.3.6</version> </dependency> <dependency> <groupId>org.apache.curator</groupId> 
+			<artifactId>curator-framework</artifactId> <version>4.3.0</version> </dependency> 
+			<dependency> <groupId>org.apache.curator</groupId> <artifactId>curator-recipes</artifactId> 
+			<version>4.3.0</version> </dependency> <dependency> <groupId>org.apache.yetus</groupId> 
+			<artifactId>audience-annotations</artifactId> <version>0.11.1</version> </dependency> 
+			<dependency> <groupId>com.ibeetl</groupId> <artifactId>beetlsql</artifactId> 
+			<version>2.12.19.RELEASE</version> </dependency> <dependency> <groupId>com.ibeetl</groupId> 
+			<artifactId>beetl</artifactId> <version>3.1.2.RELEASE</version> </dependency> 
+			<dependency> <groupId>com.squareup.okhttp3</groupId> <artifactId>okhttp</artifactId> 
+			<version>4.3.1</version> </dependency> <dependency> <groupId>org.smartboot.socket</groupId> 
+			<artifactId>aio-pro</artifactId> <version>1.4.9</version> </dependency> <dependency> 
+			<groupId>io.seata</groupId> <artifactId>seata-all</artifactId> <version>1.1.0</version> 
+			</dependency> <dependency> <groupId>org.teasoft</groupId> <artifactId>bee</artifactId> 
+			<version>1.7.1</version> </dependency> <dependency> <groupId>org.jsoup</groupId> 
+			<artifactId>jsoup</artifactId> <version>1.13.1</version> </dependency> <dependency> 
+			<groupId>org.t-io</groupId> <artifactId>tio-core</artifactId> <version>3.6.0.v20200315-RELEASE</version> 
+			</dependency> <dependency> <groupId>net.bull.javamelody</groupId> <artifactId>javamelody-core</artifactId> 
+			<version>1.82.0</version> </dependency> <dependency> <groupId>org.jdom</groupId> 
+			<artifactId>jdom</artifactId> <version>1.1.3</version> </dependency> <dependency> 
+			<groupId>javax.xml.bind</groupId> <artifactId>jaxb-api</artifactId> <version>2.3.1</version> 
+			</dependency> <dependency> <groupId>org.glassfish.jaxb</groupId> <artifactId>jaxb-runtime</artifactId> 
+			<version>2.3.2</version> </dependency> <dependency> <groupId>javax.annotation</groupId> 
+			<artifactId>javax.annotation-api</artifactId> <version>1.3.2</version> </dependency> -->
 	</dependencies>
 </project>

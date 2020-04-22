@@ -33,6 +33,8 @@ public final class Rpcs {
 	private final static Map<String, InetSocketAddress> ADDRESS = Maps.newMap();
 	// 保存nacos rpc address
 	private final static Map<String, List<InetSocketAddress>> RPCS = Maps.newMap();
+	// rpc客户端
+	private final static RpcClient CLIENT;
 
 	static {
 		// 循环处理rpc服务
@@ -60,6 +62,8 @@ public final class Rpcs {
 				RESULTS.put(mn, m.getReturnType());
 			});
 		});
+		// 获取生成Rpc客户端
+		CLIENT = C.newInstance(C.from(RpcClient.class));
 	}
 
 	/**
@@ -148,7 +152,8 @@ public final class Rpcs {
 //		if (C.forName("com.alipay.sofa.rpc.config.ConsumerConfig") != null)
 //			return sofa(rpc, addr);
 		// 使用jdk调用
-		return U.C.newProxyInstance(rpc, (proxy, method, args) -> rpc(addr, method.getName(), args[0]));
+//		return U.C.newProxyInstance(rpc, (proxy, method, args) -> rpc(addr, method.getName(), args[0]));
+		return CLIENT.client(rpc, addr);
 	}
 
 	/**

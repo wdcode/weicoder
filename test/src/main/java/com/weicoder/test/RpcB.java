@@ -1,6 +1,6 @@
 package com.weicoder.test;
 
-import com.weicer.rpc.annotation.RpcBean;
+import com.weicoder.rpc.annotation.RpcBean;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

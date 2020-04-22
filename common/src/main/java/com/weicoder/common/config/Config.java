@@ -6,11 +6,11 @@ import java.util.List;
 import java.util.Properties;
 
 import com.weicoder.common.U;
+import com.weicoder.common.U.R;
 import com.weicoder.common.W;
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.lang.Lists;
-import com.weicoder.common.util.ResourceUtil;
+import com.weicoder.common.lang.Lists; 
 import com.weicoder.common.util.StringUtil;
 
 /**
@@ -32,7 +32,7 @@ public final class Config {
 		ps = new Properties();
 		// 循环加载文件
 //		for (String name : StringUtil.split(fileName, StringConstants.COMMA)) {
-		try (InputStream in = ResourceUtil.loadResource(fileName)) {
+		try (InputStream in = R.loadResource(fileName)) {
 			// 有配置文件加载
 			if (in != null) {
 				ps.load(in);
@@ -41,6 +41,15 @@ public final class Config {
 		} catch (IOException e) {
 		}
 //		}
+	}
+
+	/**
+	 * 构造参数
+	 * 
+	 * @param ps
+	 */
+	public Config(Properties ps) {
+		this.ps = ps;
 	}
 
 	/**

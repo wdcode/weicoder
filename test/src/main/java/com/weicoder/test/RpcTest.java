@@ -1,6 +1,6 @@
 package com.weicoder.test;
  
-import com.weicer.rpc.Rpcs; 
+import com.weicoder.rpc.Rpcs; 
 import com.weicoder.common.W;
 
 public class RpcTest {

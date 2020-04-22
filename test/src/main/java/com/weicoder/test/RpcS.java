@@ -1,6 +1,6 @@
 package com.weicoder.test;
 
-import com.weicer.rpc.annotation.RpcServer;
+import com.weicoder.rpc.annotation.RpcServer;
 import com.weicoder.common.log.Logs;
 
 @RpcServer
