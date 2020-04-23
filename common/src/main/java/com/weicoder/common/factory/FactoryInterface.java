@@ -13,8 +13,8 @@ public abstract class FactoryInterface<E> extends FactoryKey<String, E> {
 	@Override
 	public E newInstance(String key) {
 		if (U.E.isEmpty(key))
-			return (E) C.newInstance(C.from(C.getGenericClass(this.getClass(), 0)));
+			return (E) C.ioc(C.from(C.getGenericClass(this.getClass(), 0)));
 		else
-			return (E) C.newInstance(C.bean(C.getGenericClass(this.getClass(), 0), key));
+			return (E) C.ioc(C.bean(C.getGenericClass(this.getClass(), 0), key));
 	}
 }

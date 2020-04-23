@@ -105,21 +105,13 @@
 			<id>opt</id>
 			<activation>
 				<activeByDefault>true</activeByDefault>
-			</activation>
-			<dependencyManagement>
-				<dependencies>
-				</dependencies>
-			</dependencyManagement>
+			</activation> 
 		</profile>
 		<profile>
 			<id>jdk8</id>
-			<dependencyManagement>
-				<dependencies>
-				</dependencies>
-			</dependencyManagement>
-			<build>
-				<finalName>${project.artifactId}-${project.version}-jdk8</finalName>
-			</build>
+			<properties>
+				<jdk>1.8</jdk>
+			</properties>
 		</profile>
 	</profiles>
 

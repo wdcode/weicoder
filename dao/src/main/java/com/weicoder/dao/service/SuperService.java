@@ -21,7 +21,7 @@ import com.weicoder.dao.Dao;
  */
 public final class SuperService {
 	/** Dao 接口 */
-	public final static Dao DAO = DaoFactory.FACTORY.getInstance();
+	public final static Dao DAO = DaoFactory.getDao();
 
 	/**
 	 * 根据传入的实体名获取到实体类，并且根据传入的参数注入值
