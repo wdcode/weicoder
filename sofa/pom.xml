@@ -18,29 +18,9 @@
 			<groupId>com.weicoder</groupId>
 			<artifactId>nacos</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.alipay.sofa</groupId>
+			<artifactId>sofa-rpc-all</artifactId>
+		</dependency>
 	</dependencies>
-
-	<profiles>
-		<profile>
-			<id>opt</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<dependencies>
-				<dependency>
-					<groupId>com.weicoder.extend</groupId>
-					<artifactId>rpc-extend</artifactId>
-				</dependency>
-			</dependencies>
-		</profile>
-		<profile>
-			<id>release</id>
-			<dependencies>
-				<dependency>
-					<groupId>com.alipay.sofa</groupId>
-					<artifactId>sofa-rpc-all</artifactId>
-				</dependency>
-			</dependencies>
-		</profile>
-	</profiles>
 </project>

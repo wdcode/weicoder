@@ -17,7 +17,7 @@ import com.google.gson.reflect.TypeToken;
  * @author WD 
  * @version 1.0 
  */
-public final class JsonGson implements Json {
+public final class GsonJson implements Json {
 	// Gson
 	private final static Gson GSON = new GsonBuilder().create();
 

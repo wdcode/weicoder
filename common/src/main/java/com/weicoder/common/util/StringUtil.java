@@ -453,7 +453,7 @@ public class StringUtil {
 	 */
 	public static String convert(String name, String... regex) {
 		for (String n : regex)
-			name = convert(name, n);
+			name = convert(replaceAll(name, n));
 		return name;
 	}
 

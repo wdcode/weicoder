@@ -19,20 +19,4 @@
 			<artifactId>redisson</artifactId>
 		</dependency>
 	</dependencies>
-
-	<profiles>
-		<profile>
-			<id>opt</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<dependencies>
-			</dependencies>
-		</profile>
-		<profile>
-			<id>release</id>
-			<dependencies>
-			</dependencies>
-		</profile>
-	</profiles>
 </project>

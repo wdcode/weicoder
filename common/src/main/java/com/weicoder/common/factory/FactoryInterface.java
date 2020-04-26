@@ -8,7 +8,7 @@ import com.weicoder.common.U.C;
  * 
  * @author WD
  */
-public abstract class FactoryInterface<E> extends FactoryKey<String, E> {
+public class FactoryInterface<E> extends FactoryKey<String, E> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public E newInstance(String key) {

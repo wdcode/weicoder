@@ -12,7 +12,7 @@ import com.alibaba.fastjson.JSON;
  * @author  WD
  * @version 1.0
  */
-public final class JsonFast implements Json {
+public final class FastJson implements Json {
 	@Override
 	public String toJson(Object obj) {
 		return JSON.toJSONString(obj);

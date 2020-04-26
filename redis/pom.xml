@@ -23,33 +23,13 @@
 			<artifactId>json</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>redis.clients</groupId>
+			<artifactId>jedis</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>com.weicoder</groupId>
 			<artifactId>dao</artifactId>
 			<optional>true</optional>
 		</dependency>
 	</dependencies>
-
-	<profiles>
-		<profile>
-			<id>opt</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<dependencies>
-				<dependency>
-					<groupId>com.weicoder.extend</groupId>
-					<artifactId>redis-extend</artifactId>
-				</dependency>
-			</dependencies>
-		</profile>
-		<profile>
-			<id>release</id>
-			<dependencies>
-				<dependency>
-					<groupId>redis.clients</groupId>
-					<artifactId>jedis</artifactId>
-				</dependency>
-			</dependencies>
-		</profile> 
-	</profiles>
 </project>

@@ -50,7 +50,7 @@ public class ClassUtil {
 	 * 
 	 * @param c 要注入的类
 	 */
-	public static Object ioc(Class<?> c) {
+	public static <E> E ioc(Class<E> c) {
 		return ioc(newInstance(c));
 	}
 
@@ -59,7 +59,7 @@ public class ClassUtil {
 	 * 
 	 * @param o 要注入的对象
 	 */
-	public static Object ioc(Object o) {
+	public static <E> E ioc(E o) {
 		// 对象不为空
 		if (o != null) {
 			// 获得对象内的字段
@@ -73,8 +73,11 @@ public class ClassUtil {
 						// 已经存在IOC列表中 直接获取使用
 						val = IOC_BEANS.get(type);
 					else
-						// 不在列表 声明新对象放入列表
+					// 不在列表 声明新对象放入列表
+					if (type.isInterface() || type.isAnnotation())
 						IOC_BEANS.put(type, val = ioc(from(type)));
+					else
+						IOC_BEANS.put(type, val = ioc(type));
 					// 注入到字段
 					B.setFieldValue(o, f, val);
 				}
@@ -140,10 +143,29 @@ public class ClassUtil {
 	 * 
 	 * @param  c 要指定接口或注解的类
 	 * @return
-	 */
-
+	 */ 
 	public static <E> Class<E> from(Class<E> c) {
 		return from(c, CLASSES.get(c).size() - 1);
+	}
+
+	/**
+	 * 获取指定接口下的一个实现类 当实现大于2个不使用默认
+	 * 
+	 * @param  c   要指定接口或注解的类
+	 * @param  def 默认实现
+	 * @return
+	 */
+	public static <E> Class<E> from(Class<E> c, Class<? extends E> def) {
+		// 获得接口类列表
+		List<Class<?>> list = CLASSES.get(c);
+		// 实现超过2个 并且默认不为空
+		if (list.size() > 1 && def != null)
+			// 获取实现 并且不是默认实现返回
+			for (Class<?> cs : list)
+				if (!cs.equals(def))
+					return (Class<E>) cs;
+		// 返回默认实现
+		return def == null ? (Class<E>) list.get(0) : (Class<E>) def;
 	}
 
 	/**
@@ -153,7 +175,6 @@ public class ClassUtil {
 	 * @param  i 索引第几个
 	 * @return
 	 */
-
 	public static <E> Class<E> from(Class<E> c, int i) {
 		return (Class<E>) L.get(CLASSES.get(c), i);
 	}

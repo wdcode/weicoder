@@ -18,29 +18,9 @@
 			<groupId>com.weicoder</groupId>
 			<artifactId>json</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.elasticsearch.client</groupId>
+			<artifactId>elasticsearch-rest-high-level-client</artifactId>
+		</dependency>
 	</dependencies>
-
-	<profiles>
-		<profile>
-			<id>opt</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<dependencies>
-				<dependency>
-					<groupId>com.weicoder.extend</groupId>
-					<artifactId>elasticsearch-extend</artifactId>
-				</dependency>
-			</dependencies>
-		</profile>
-		<profile>
-			<id>release</id>  
-			<dependencies>
-				<dependency>
-					<groupId>org.elasticsearch.client</groupId>
-					<artifactId>elasticsearch-rest-high-level-client</artifactId>
-				</dependency>
-			</dependencies>
-		</profile> 
-	</profiles>
 </project>
