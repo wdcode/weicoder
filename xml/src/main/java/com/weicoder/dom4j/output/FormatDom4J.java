@@ -1,4 +1,4 @@
-package com.weicoder.xml.dom4j.output;
+package com.weicoder.dom4j.output;
 
 import org.dom4j.io.OutputFormat;
 

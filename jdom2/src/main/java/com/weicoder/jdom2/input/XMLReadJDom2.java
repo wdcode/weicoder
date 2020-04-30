@@ -1,4 +1,4 @@
-package com.weicoder.xml.jdom2.input;
+package com.weicoder.jdom2.input;
 
 import java.io.File;
 import java.io.InputStream;
@@ -8,7 +8,7 @@ import org.jdom2.input.SAXBuilder;
 
 import com.weicoder.xml.input.XMLRead;
 import com.weicoder.xml.Document;
-import com.weicoder.xml.jdom2.DocumentJDom2;
+import com.weicoder.jdom2.DocumentJDom2;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.CloseUtil;
 

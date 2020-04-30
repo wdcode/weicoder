@@ -1,44 +1,42 @@
-package com.weicoder.xml.dom4j;
- 
+package com.weicoder.jdom2;
+
+import java.util.Collections;
 import java.util.List;
 
-import org.dom4j.DocumentHelper;
-
-import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.U;
 import com.weicoder.xml.Attribute;
 import com.weicoder.xml.Document;
-import com.weicoder.xml.Element; 
+import com.weicoder.xml.Element;
 
 /**
- * XML节点接口 Dom4J实现
+ * Element接口 JDom实现
  * @author WD 
  */
-public final class ElementDom4J implements Element {
+public final class ElementJDom2 implements Element {
 	// Document对象
 	private Document			doc;
 	// Dom4J节点对象
-	private org.dom4j.Element	element;
+	private org.jdom2.Element	element;
 
 	/**
 	 * 构造方法
 	 * @param name 根节点名
 	 */
-	public ElementDom4J(String name) {
-		element = DocumentHelper.createElement(name);
+	public ElementJDom2(String name) {
+		element = new org.jdom2.Element(name);
 	}
 
 	/**
 	 * 构造方法
-	 * @param e Element
+	 * @param e 节点
 	 */
-	public ElementDom4J(org.dom4j.Element e) {
+	public ElementJDom2(org.jdom2.Element e) {
 		element = e;
 	}
 
 	/**
-	 * 获得Document
+	 * 获得本元素的Document
 	 * @return Document
 	 */
 	public Document getDocument() {
@@ -46,8 +44,8 @@ public final class ElementDom4J implements Element {
 	}
 
 	/**
-	 * 设置Document
-	 * @param doc Document
+	 * 设置本元素的Document
+	 * @param doc Document对象
 	 */
 	public Element setDocument(Document doc) {
 		this.doc = doc;
@@ -60,7 +58,7 @@ public final class ElementDom4J implements Element {
 	 * @return this
 	 */
 	public Element add(Element e) {
-		element.add(((ElementDom4J) e).getElement());
+		element.addContent(((ElementJDom2) e).getElement());
 		return this;
 	}
 
@@ -71,7 +69,7 @@ public final class ElementDom4J implements Element {
 	 * @return this
 	 */
 	public Element addElement(String name, String text) {
-		element.add(DocumentHelper.createElement(name).addText(text));
+		element.addContent(name).setText(text);
 		return this;
 	}
 
@@ -81,7 +79,8 @@ public final class ElementDom4J implements Element {
 	 * @return this
 	 */
 	public Element addElement(String name) {
-		return addElement(name, StringConstants.EMPTY);
+		element.addContent(name);
+		return this;
 	}
 
 	/**
@@ -90,7 +89,7 @@ public final class ElementDom4J implements Element {
 	 * @return this
 	 */
 	public Element add(Attribute a) {
-		element.add(((AttributeDom4J) a).getAttribute());
+		element.setAttribute(((AttributeJDom2) a).getAttribute());
 		return this;
 	}
 
@@ -101,17 +100,27 @@ public final class ElementDom4J implements Element {
 	 * @return this
 	 */
 	public Element addAttribute(String name, String value) {
-		element.addAttribute(name, value);
+		element.setAttribute(name, value);
 		return this;
 	}
 
 	/**
 	 * 设置本元素名
 	 * @param name 元素名
+	 * @return this
 	 */
 	public Element setName(String name) {
 		element.setName(name);
 		return this;
+	}
+
+	/**
+	 * 获得本元素下的node的全部元素集合
+	 * @param node 元素名
+	 * @return 元素集合
+	 */
+	public List<Element> getElements(String node) {
+		return getElementList(element.getChildren(node));
 	}
 
 	/**
@@ -120,7 +129,7 @@ public final class ElementDom4J implements Element {
 	 */
 	public List<Attribute> getAttributes() {
 		// 获得所以属性
-		List<?> list = element.attributes();
+		List<?> list = element.getAttributes();
 		// 列表不为空
 		if (U.E.isEmpty(list)) {
 			// 返回空列表
@@ -133,7 +142,7 @@ public final class ElementDom4J implements Element {
 		// 循环属性
 		for (int i = 0; i < size; i++) {
 			// 添加到Element接口集合
-			attributes.add(new AttributeDom4J((org.dom4j.Attribute) list.get(i)));
+			attributes.add(new AttributeJDom2((org.jdom2.Attribute) list.get(i)));
 		}
 		// 返回集合
 		return attributes;
@@ -141,19 +150,10 @@ public final class ElementDom4J implements Element {
 
 	/**
 	 * 获得本元素下的node的全部元素集合
-	 * @param node 元素名
-	 * @return 元素集合
-	 */
-	public List<Element> getElements(String node) {
-		return getElementList(element.elements(node));
-	}
-
-	/**
-	 * 获得本元素下的全部元素集合
 	 * @return 元素集合
 	 */
 	public List<Element> getElements() {
-		return getElementList(element.elements());
+		return getElementList(element.getChildren());
 	}
 
 	/**
@@ -162,7 +162,7 @@ public final class ElementDom4J implements Element {
 	 * @return 查找的元素
 	 */
 	public Element getElement(String node) {
-		return new ElementDom4J(element.element(node));
+		return new ElementJDom2(element.getChild(node));
 	}
 
 	/**
@@ -190,37 +190,25 @@ public final class ElementDom4J implements Element {
 	}
 
 	/**
-	 * 设置属性
-	 * @param a 属性
-	 */
-	public Element setAttribute(Attribute a) {
-		element.add(((AttributeDom4J) a).getAttribute());
-		return this;
-	}
-
-	/**
-	 * 设置节点属性
+	 * 获得属性值
 	 * @param name 属性name
-	 * @param value 属性 value
+	 * @return 属性值
 	 */
-	public Element setAttribute(String name, String value) {
-		element.addAttribute(name, value);
-		return this;
+	public String getAttributeValue(String name) {
+		return element.getAttributeValue(name);
 	}
 
 	/**
 	 * 获得属性值
 	 * @param name 属性name
-	 * @return 属性value
+	 * @return 属性
 	 */
-	public String getAttributeValue(String name) {
-		return element.attributeValue(name);
+	public Attribute getAttribute(String name) {
+		return new AttributeJDom2(element.getAttribute(name));
 	}
 
 	/**
-	 * 设置元素内容
-	 * @param text 元素内容
-	 * @return this
+	 * 设置文本节点内容
 	 */
 	public Element setText(String text) {
 		// 设置文本节点内容
@@ -230,54 +218,46 @@ public final class ElementDom4J implements Element {
 	}
 
 	/**
-	 * 获得Dom4J Element
-	 * @return Element
+	 * 获得JDom Element
+	 * @return org.jdom2.Element
 	 */
-	public org.dom4j.Element getElement() {
+	public org.jdom2.Element getElement() {
 		return element;
 	}
 
 	/**
-	 * 设置Dom4J Element
+	 * 设置JDom Element
+	 * @param e org.jdom2.Element
 	 */
-	public void setElement(org.dom4j.Element e) {
+	public void setElement(org.jdom2.Element e) {
 		element = e;
-	}
-
-	/**
-	 * 获得属性值
-	 * @param name 属性name
-	 * @return 属性
-	 */
-	public Attribute getAttribute(String name) {
-		return new AttributeDom4J(element.attribute(name));
 	}
 
 	/**
 	 * 返回对象字符串
 	 */
 	public String toString() {
-		return element.asXML();
+		return element.toString();
 	}
 
 	/**
-	 * 把Dom4J节点集合 变成Element接口集合
+	 * 把JDom节点集合 变成Element接口集合
 	 * @param list
 	 * @return
 	 */
 	private List<Element> getElementList(List<?> list) {
 		// 判断列表不为空
 		if (U.E.isEmpty(list)) {
-			return Lists.emptyList();
+			Collections.emptyList();
 		}
 		// 获得列表大小
 		int size = list.size();
 		// 声明节点集合
 		List<Element> lsElement = Lists.newList(size);
-		// 循环Dom4J节点集合
+		// 循环JDom节点集合
 		for (int i = 0; i < size; i++) {
 			// 添加到Element接口集合
-			lsElement.add(new ElementDom4J((org.dom4j.Element) list.get(i)));
+			lsElement.add(new ElementJDom2((org.jdom2.Element) list.get(i)));
 		}
 		// 返回集合
 		return lsElement;

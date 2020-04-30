@@ -1,4 +1,4 @@
-package com.weicoder.xml.dom4j.input;
+package com.weicoder.dom4j.input;
 
 import java.io.File;
 import java.io.InputStream;
@@ -10,7 +10,7 @@ import org.dom4j.io.SAXReader;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.CloseUtil;
 import com.weicoder.xml.Document;
-import com.weicoder.xml.dom4j.DocumentDom4J;
+import com.weicoder.dom4j.DocumentDom4J;
 import com.weicoder.xml.input.XMLRead;
 
 /**

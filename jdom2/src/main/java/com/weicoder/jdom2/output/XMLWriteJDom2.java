@@ -1,4 +1,4 @@
-package com.weicoder.xml.jdom2.output;
+package com.weicoder.jdom2.output;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -8,7 +8,7 @@ import org.jdom2.output.XMLOutputter;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.CloseUtil;
 import com.weicoder.xml.Document;
-import com.weicoder.xml.jdom2.DocumentJDom2;
+import com.weicoder.jdom2.DocumentJDom2;
 import com.weicoder.xml.output.Format;
 import com.weicoder.xml.output.XMLWrite;
 

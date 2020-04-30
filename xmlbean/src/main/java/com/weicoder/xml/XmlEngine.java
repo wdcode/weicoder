@@ -3,7 +3,7 @@ package com.weicoder.xml;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.Dom4JDriver;
 import com.thoughtworks.xstream.io.xml.JDom2Driver;
-import com.weicoder.xml.params.XmlParams;
+import com.weicoder.common.U.C;
 
 /**
  * XML处理引擎
@@ -13,7 +13,7 @@ import com.weicoder.xml.params.XmlParams;
 public final class XmlEngine {
 	// XStream
 	private final static XStream STREAM = new XStream(
-			"jdom2".equals(XmlParams.PARSE) ? new JDom2Driver() : new Dom4JDriver());
+			C.forName("org.dom4j.Document") == null ? new JDom2Driver() : new Dom4JDriver());
 
 	/**
 	 * 把实体对象转换成xml字符串

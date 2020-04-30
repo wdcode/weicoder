@@ -1,4 +1,4 @@
-package com.weicoder.xml.dom4j.output;
+package com.weicoder.dom4j.output;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -8,7 +8,7 @@ import org.dom4j.io.XMLWriter;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
 import com.weicoder.xml.Document;
-import com.weicoder.xml.dom4j.DocumentDom4J;
+import com.weicoder.dom4j.DocumentDom4J;
 import com.weicoder.xml.output.Format;
 import com.weicoder.xml.output.XMLWrite;
 

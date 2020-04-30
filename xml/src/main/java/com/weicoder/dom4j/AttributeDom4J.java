@@ -1,4 +1,4 @@
-package com.weicoder.xml.dom4j;
+package com.weicoder.dom4j;
 
 import org.dom4j.DocumentHelper;
 
