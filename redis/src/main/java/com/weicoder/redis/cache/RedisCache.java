@@ -81,6 +81,7 @@ public class RedisCache<K, V> extends BeanCache<K, V> {
 	// redis channel
 	protected String put;
 	protected String remove;
+	protected String push;
 	// 是否基础类型
 	protected boolean base;
 	// 基础类型传递分隔符
@@ -105,8 +106,11 @@ public class RedisCache<K, V> extends BeanCache<K, V> {
 		super.put(key, value);
 		String k = C.toString(key);
 		String v = base ? C.toString(value) : JsonEngine.toJson(value);
-		redis.hset(this.name, k, v);
-		redis.publish(put, base ? k + SEPA + v : v);
+		redis.multi(r -> {
+			r.hset(this.name, k, v);
+			r.lpush(push, k);
+			r.publish(put, base ? k + SEPA + v : v);
+		});
 		return value;
 	}
 
@@ -115,8 +119,10 @@ public class RedisCache<K, V> extends BeanCache<K, V> {
 	 */
 	public void remove(K key) {
 		super.remove(key);
-		redis.hdel(this.name, C.toString(key));
-		redis.publish(remove, C.toString(key));
+		redis.multi(r -> {
+			r.hdel(this.name, C.toString(key));
+			r.publish(remove, C.toString(key));
+		});
 	}
 
 	/**
@@ -187,6 +193,7 @@ public class RedisCache<K, V> extends BeanCache<K, V> {
 		this.base = cls == null || U.C.isBaseType(cls);
 		this.put = key + "_put";
 		this.remove = key + "_remove";
+		this.push = key + "_push";
 		// 是否加载所以缓存
 		if (fill)
 			fill();

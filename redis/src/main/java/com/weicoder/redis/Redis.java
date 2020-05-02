@@ -4,7 +4,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.weicoder.common.interfaces.CallbackVoid;
+
 import redis.clients.jedis.Jedis;
+import redis.clients.jedis.Transaction;
 import redis.clients.jedis.Tuple;
 
 /**
@@ -26,6 +29,13 @@ public interface Redis {
 	 * @return Jedis
 	 */
 	Jedis getResource(String key);
+
+	/**
+	 * 执行Redis 回调使用 内部处理jedis的关闭问题带事务功能
+	 * 
+	 * @param callback
+	 */
+	void multi(CallbackVoid<Transaction> callback);
 
 	/**
 	 * 执行Redis 回调使用 内部处理jedis的关闭问题

@@ -6,6 +6,7 @@ import java.util.Set;
 
 import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.W;
+import com.weicoder.common.interfaces.CallbackVoid;
 import com.weicoder.common.log.Logs;
 import com.weicoder.redis.base.BaseRedis;
 import com.weicoder.redis.builder.JedisBuilder;
@@ -13,6 +14,7 @@ import com.weicoder.redis.builder.JedisBuilder;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPubSub;
+import redis.clients.jedis.Transaction;
 import redis.clients.jedis.Tuple;
 
 /**
@@ -335,6 +337,22 @@ public final class RedisJedis extends BaseRedis {
 	public String rpop(String key) {
 		try (Jedis jedis = pool.getResource()) {
 			return jedis.rpop(key);
+		}
+	}
+
+	@Override
+	public void multi(CallbackVoid<Transaction> callback) {
+		try (Jedis jedis = pool.getResource()) {
+			Transaction t = jedis.multi();
+			try {
+				callback.callback(t);
+				t.exec();
+			} catch (Exception e) {
+				t.discard();
+				Logs.error(e);
+			} finally {
+				t.close();
+			}
 		}
 	}
 }

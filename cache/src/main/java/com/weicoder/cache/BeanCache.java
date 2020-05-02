@@ -3,7 +3,7 @@ package com.weicoder.cache;
 import java.lang.reflect.Field;
 import java.util.List;
 
-import com.weicoder.cache.annotation.Cache; 
+import com.weicoder.cache.annotation.Cache;
 import com.weicoder.common.U.B;
 import com.weicoder.common.W.C;
 import com.weicoder.common.interfaces.Callback;
@@ -34,10 +34,13 @@ public class BeanCache<K, V> extends LoadCache<K, V> {
 	 * @param load 缓存加载回调
 	 */
 	protected BeanCache(String name, Class<V> val, Callback<K, V> load) {
-		super(load); 
+		super(load);
 		this.name = name;
 		this.val = val;
-		this.field = B.getField(val, val.getAnnotation(Cache.class).key());
+		if (val.isAnnotationPresent(Cache.class))
+			this.field = B.getField(val, val.getAnnotation(Cache.class).key());
+		else
+			this.field = B.getField(val, 0);
 		this.key = (Class<K>) this.field.getClass();
 	}
 
@@ -83,6 +86,13 @@ public class BeanCache<K, V> extends LoadCache<K, V> {
 	 */
 	public void fill(List<V> vals) {
 		vals.forEach(v -> put(v));
+	}
+
+	/**
+	 * 传入任意类型的key 内部转换成K获取V
+	 */
+	public V get(Object k) {
+		return super.get((K) C.to(k, key));
 	}
 
 	/**
