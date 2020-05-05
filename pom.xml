@@ -15,11 +15,11 @@
 		<log4j-core>2.13.2</log4j-core>
 		<lombok>1.18.12</lombok>
 		<fastjson>1.2.68</fastjson>
-		<hibernate-core>5.4.14.Final</hibernate-core>
-		<mysql-connector-java>8.0.19</mysql-connector-java>
+		<hibernate-core>5.4.15.Final</hibernate-core>
+		<mysql-connector-java>8.0.20</mysql-connector-java>
 		<netty-all>4.1.49.Final</netty-all>
 		<mongo-java-driver>3.12.3</mongo-java-driver>
-		<jedis>3.2.0</jedis>
+		<jedis>3.3.0</jedis>
 		<kafka-clients>2.5.0</kafka-clients>
 		<sofa-rpc>5.7.0</sofa-rpc>
 		<tomcat-embed>9.0.34</tomcat-embed>
