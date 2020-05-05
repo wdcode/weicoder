@@ -7,11 +7,13 @@ import java.util.Set;
 import com.weicoder.redis.params.RedisParams;
 import com.weicoder.redis.base.BaseRedis;
 import com.weicoder.common.W.C;
+import com.weicoder.common.interfaces.CallbackVoid;
 import com.weicoder.lettuce.builder.LettuceBuilder;
 
 import io.lettuce.core.RedisClient;
 import io.lettuce.core.cluster.RedisClusterClient;
 import redis.clients.jedis.Jedis;
+import redis.clients.jedis.Transaction;
 import redis.clients.jedis.Tuple;
 
 /**
@@ -287,6 +289,12 @@ public final class LettuceRedis extends BaseRedis {
 	public Double zincrby(String key, double increment, String member) {
 
 		return null;
+	}
+
+	@Override
+	public void multi(CallbackVoid<Transaction> callback) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

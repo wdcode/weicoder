@@ -6,10 +6,12 @@ import java.util.Set;
 
 import org.redisson.api.RedissonClient;
 
+import com.weicoder.common.interfaces.CallbackVoid;
 import com.weicoder.redis.base.BaseRedis;
 import com.weicoder.redisson.builder.RedissonBuilder;
 
-import redis.clients.jedis.Jedis; 
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.Transaction;
 import redis.clients.jedis.Tuple;
 
 /**
@@ -279,5 +281,11 @@ public final class RedissonRedis extends BaseRedis {
 	public Double zincrby(String key, double increment, String member) {
 		
 		return null;
+	}
+
+	@Override
+	public void multi(CallbackVoid<Transaction> callback) {
+		// TODO Auto-generated method stub
+		
 	}
 }

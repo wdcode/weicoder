@@ -5,14 +5,15 @@
 	<parent>
 		<groupId>com.weicoder</groupId>
 		<artifactId>build</artifactId>
-		<version>1.4</version>
+		<version>1.5</version>
 	</parent>
 	<artifactId>weicoder</artifactId>
 	<version>3.3.8</version>
 	<packaging>pom</packaging>
 
-	<properties> 
+	<properties>
 		<log4j-core>2.13.2</log4j-core>
+		<lombok>1.18.12</lombok>
 		<fastjson>1.2.68</fastjson>
 		<hibernate-core>5.4.14.Final</hibernate-core>
 		<mysql-connector-java>8.0.19</mysql-connector-java>
@@ -20,7 +21,7 @@
 		<mongo-java-driver>3.12.3</mongo-java-driver>
 		<jedis>3.2.0</jedis>
 		<kafka-clients>2.5.0</kafka-clients>
-		<sofa-rpc>5.6.5</sofa-rpc>
+		<sofa-rpc>5.7.0</sofa-rpc>
 		<tomcat-embed>9.0.34</tomcat-embed>
 		<guava>29.0-jre</guava>
 		<elasticsearch>7.6.2</elasticsearch>
@@ -29,16 +30,16 @@
 		<protobuf-java>3.11.4</protobuf-java>
 		<curator-framework>4.3.0</curator-framework>
 		<HikariCP>3.4.3</HikariCP>
-		<solr-solrj>8.5.1</solr-solrj> 
+		<solr-solrj>8.5.1</solr-solrj>
 		<asynchbase>1.8.2</asynchbase>
-		<hbase-client>2.2.4</hbase-client> 
+		<hbase-client>2.2.4</hbase-client>
 		<druid>1.1.22</druid>
 		<httpclient5>5.0</httpclient5>
 		<httpclient>4.5.12</httpclient>
 		<httpcore>4.4.13</httpcore>
 		<httpasyncclient>4.1.4</httpasyncclient>
 		<lettuce-core>5.2.2.RELEASE</lettuce-core>
-		<redisson>3.12.5</redisson>  
+		<redisson>3.12.5</redisson>
 		<gson>2.8.6</gson>
 		<commons-dbcp2>2.7.0</commons-dbcp2>
 		<snakeyaml>1.26</snakeyaml>
@@ -92,13 +93,16 @@
 		<module>solr</module>
 		<module>tomcat</module>
 		<module>web</module>
-		<module>websocket</module> 
+		<module>websocket</module>
 		<module>jdom2</module>
 		<module>xml</module>
 		<module>xmlbean</module>
 		<module>yaml</module>
 		<module>zookeeper</module>
 		<module>zip</module>
+		<module>admin</module>
+		<module>oauth</module>
+		<module>pay</module>
 	</modules>
 
 	<dependencies>
@@ -300,7 +304,7 @@
 				<groupId>com.weicoder</groupId>
 				<artifactId>xml</artifactId>
 				<version>${project.version}</version>
-			</dependency> 
+			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
 				<artifactId>jdom2</artifactId>
@@ -325,7 +329,22 @@
 				<groupId>com.weicoder</groupId>
 				<artifactId>zip</artifactId>
 				<version>${project.version}</version>
-			</dependency> 
+			</dependency>
+			<dependency>
+				<groupId>com.weicoder</groupId>
+				<artifactId>admin</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.weicoder</groupId>
+				<artifactId>oauth</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.weicoder</groupId>
+				<artifactId>pay</artifactId>
+				<version>${project.version}</version>
+			</dependency>
 			<dependency>
 				<groupId>com.google.guava</groupId>
 				<artifactId>guava</artifactId>
@@ -460,7 +479,7 @@
 				<groupId>org.apache.hbase</groupId>
 				<artifactId>hbase-client</artifactId>
 				<version>${hbase-client}</version>
-			</dependency> 
+			</dependency>
 			<dependency>
 				<groupId>org.apache.poi</groupId>
 				<artifactId>poi-ooxml</artifactId>
@@ -560,6 +579,11 @@
 				<groupId>org.apache.curator</groupId>
 				<artifactId>curator-recipes</artifactId>
 				<version>${curator-framework}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.projectlombok</groupId>
+				<artifactId>lombok</artifactId>
+				<version>${lombok}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
