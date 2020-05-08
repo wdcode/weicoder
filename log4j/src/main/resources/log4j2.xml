@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?> 
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration PUBLIC "-//log4j/log4j Configuration//EN" "log4j.dtd">
 <!-- status=debug off不查看 可以查看log4j的装配过程   monitorInterval="60"-->
 <configuration status="off">
 	<!-- 定义下面的引用名 -->
