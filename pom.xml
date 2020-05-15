@@ -112,8 +112,7 @@
 				<plugins>
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-compiler-plugin</artifactId>
-						<version>${maven-compiler-plugin}</version>
+						<artifactId>maven-compiler-plugin</artifactId> 
 						<configuration>
 							<compilerArgument>-parameters</compilerArgument>
 							<source>1.8</source>
@@ -122,6 +121,29 @@
 							<skip>true</skip>
 							<excludes> 
 								<exclude>**/*Jdk11*.java</exclude>
+							</excludes>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>android</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-compiler-plugin</artifactId> 
+						<configuration>
+							<compilerArgument>-parameters</compilerArgument>
+							<source>1.8</source>
+							<target>1.8</target>
+							<encoding>${encoding}</encoding>
+							<skip>true</skip>
+							<excludes> 
+								<exclude>**/*Jdk11*.java</exclude>
+								<exclude>**/*Image*.java</exclude>
+								<exclude>**/*VerifyCode*.java</exclude>
 							</excludes>
 						</configuration>
 					</plugin>

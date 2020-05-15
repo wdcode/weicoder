@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.weicoder</groupId>
 		<artifactId>weicoder</artifactId>
-		<version>3.3.7</version>
+		<version>3.3.9</version>
 	</parent>
 	<artifactId>test</artifactId>
 
@@ -109,18 +109,21 @@
 		<dependency>
 			<groupId>com.weicoder</groupId>
 			<artifactId>yaml</artifactId>
-		</dependency>
+		</dependency> 
+		<dependency>
+			<groupId>com.weicoder</groupId>
+			<artifactId>xmlbean</artifactId>
+		</dependency> 
 		<dependency>
 			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<version>1.18.12</version>
+			<artifactId>lombok</artifactId> 
 		</dependency>
 		<dependency>
 			<groupId>org.apache.shardingsphere</groupId>
 			<artifactId>shardingsphere</artifactId>
 			<version>4.0.1</version>
 			<type>pom</type>
-		</dependency> 
+		</dependency>
 		<dependency>
 			<groupId>org.apache.yetus</groupId>
 			<artifactId>audience-annotations</artifactId>
@@ -164,12 +167,12 @@
 		<dependency>
 			<groupId>org.t-io</groupId>
 			<artifactId>tio-core</artifactId>
-			<version>3.6.0.v20200315-RELEASE</version>
+			<version>3.6.1.v20200512-RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>net.bull.javamelody</groupId>
 			<artifactId>javamelody-core</artifactId>
 			<version>1.82.0</version>
-		</dependency> 
+		</dependency>
 	</dependencies>
 </project>
