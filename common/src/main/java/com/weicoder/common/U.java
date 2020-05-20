@@ -11,8 +11,7 @@ import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.util.DateUtil;
 import com.weicoder.common.util.EmptyUtil;
-import com.weicoder.common.util.EnumUtil;
-import com.weicoder.common.util.ImageUtil;
+import com.weicoder.common.util.EnumUtil; 
 import com.weicoder.common.util.IpUtil;
 import com.weicoder.common.util.MathUtil;
 import com.weicoder.common.util.RegexUtil;
@@ -120,12 +119,12 @@ public final class U {
 	public static class IP extends IpUtil {
 	}
 
-	/**
-	 * @see    ImageUtil 图片工具类引用
-	 * @author wudi
-	 */
-	public static class Image extends ImageUtil {
-	}
+//	/**
+//	 * @see    ImageUtil 图片工具类引用
+//	 * @author wudi
+//	 */
+//	public static class Image extends ImageUtil {
+//	}
 
 	/**
 	 * @see    ResourceUtil 资源工具类引用

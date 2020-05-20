@@ -19,5 +19,10 @@
 			<artifactId>nacos</artifactId>
 			<optional>true</optional>
 		</dependency>
+		<dependency>
+			<groupId>com.alipay.sofa</groupId>
+			<artifactId>sofa-rpc-all</artifactId>
+			<optional>true</optional>
+		</dependency>
 	</dependencies>
 </project>

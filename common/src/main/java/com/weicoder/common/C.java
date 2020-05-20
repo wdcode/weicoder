@@ -5,8 +5,7 @@ import com.weicoder.common.constants.DateConstants;
 import com.weicoder.common.constants.EncodingConstants;
 import com.weicoder.common.constants.EncryptConstants;
 import com.weicoder.common.constants.FileConstants;
-import com.weicoder.common.constants.HttpConstants;
-import com.weicoder.common.constants.ImageConstants;
+import com.weicoder.common.constants.HttpConstants; 
 import com.weicoder.common.constants.RegexConstants;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.constants.SystemConstants;
@@ -60,12 +59,12 @@ public final class C {
 	public static class H extends HttpConstants {
 	}
 
-	/**
-	 * @see    ImageConstants 图像常量类引用
-	 * @author wudi
-	 */
-	public static class I extends ImageConstants {
-	}
+//	/**
+//	 * @see    ImageConstants 图像常量类引用
+//	 * @author wudi
+//	 */
+//	public static class I extends ImageConstants {
+//	}
 
 	/**
 	 * @see    RegexConstants 正则常量类引用
