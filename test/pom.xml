@@ -25,11 +25,7 @@
 		<dependency>
 			<groupId>com.weicoder</groupId>
 			<artifactId>hibernate</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.weicoder</groupId>
-			<artifactId>httpclient4</artifactId>
-		</dependency>
+		</dependency> 
 		<dependency>
 			<groupId>com.weicoder</groupId>
 			<artifactId>httpclient5</artifactId>
@@ -101,19 +97,11 @@
 		<dependency>
 			<groupId>com.weicoder</groupId>
 			<artifactId>log4j</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.weicoder</groupId>
-			<artifactId>gson</artifactId>
-		</dependency>
+		</dependency> 
 		<dependency>
 			<groupId>com.weicoder</groupId>
 			<artifactId>yaml</artifactId>
-		</dependency> 
-		<dependency>
-			<groupId>com.weicoder</groupId>
-			<artifactId>xmlbean</artifactId>
-		</dependency> 
+		</dependency>  
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId> 

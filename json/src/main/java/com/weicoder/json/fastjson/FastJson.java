@@ -1,4 +1,4 @@
-package com.weicoder.fastjson;
+package com.weicoder.json.fastjson;
 
 import java.util.List;
 

@@ -586,6 +586,7 @@ public class ClassUtil {
 							if (name.startsWith(StringConstants.POINT))
 								name = StringUtil.subString(name, 1);
 							classes.add(Class.forName(name, false, getClassLoader()));
+//							classes.add(forName(name));
 						} catch (ClassNotFoundException e) {
 							Logs.error(e);
 						}

@@ -11,9 +11,9 @@ import com.weicoder.common.interfaces.Callback;
 /**
  * 实体类的缓存 需要标记一个@see {@link Key} 用户缓存key
  * 
- * @author     wudi
- * @param  <K> 键
- * @param  <V> 值
+ * @author wudi
+ * @param <K> 键
+ * @param <V> 值
  */
 @SuppressWarnings("unchecked")
 public class BeanCache<K, V> extends LoadCache<K, V> {
@@ -56,8 +56,8 @@ public class BeanCache<K, V> extends LoadCache<K, V> {
 	/**
 	 * 设置对象到缓存值 只用Bean拷贝 暂时没做基础类型处理 调用可以异常
 	 * 
-	 * @param  key 键
-	 * @param  obj 赋值给缓存
+	 * @param key 键
+	 * @param obj 赋值给缓存
 	 * @return
 	 */
 	public V of(K key, Object obj) {
@@ -85,7 +85,7 @@ public class BeanCache<K, V> extends LoadCache<K, V> {
 	 * 加载所以缓存
 	 */
 	public void fill(List<V> vals) {
-		vals.forEach(v -> put(v));
+		vals.forEach(v -> super.put(key(v), v));
 	}
 
 	/**
@@ -98,8 +98,8 @@ public class BeanCache<K, V> extends LoadCache<K, V> {
 	/**
 	 * 根据val获得key值
 	 * 
-	 * @param  val 缓存值实体
-	 * @return     缓存key
+	 * @param val 缓存值实体
+	 * @return 缓存key
 	 */
 	protected K key(V val) {
 		return (K) C.to(B.getFieldValue(val, field), key);

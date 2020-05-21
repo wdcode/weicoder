@@ -29,34 +29,20 @@
 		<nacos-client>1.2.1</nacos-client>
 		<protobuf-java>3.11.4</protobuf-java>
 		<curator-framework>4.3.0</curator-framework>
+		<httpclient5>5.0</httpclient5>
 		<HikariCP>3.4.3</HikariCP>
 		<solr-solrj>8.5.1</solr-solrj>
 		<asynchbase>1.8.2</asynchbase>
-		<hbase-client>2.2.4</hbase-client>
-		<druid>1.1.22</druid>
-		<httpclient5>5.0</httpclient5>
-		<httpclient>4.5.12</httpclient>
-		<httpcore>4.4.13</httpcore>
-		<httpasyncclient>4.1.4</httpasyncclient>
-		<lettuce-core>5.2.2.RELEASE</lettuce-core>
-		<redisson>3.12.5</redisson>
-		<gson>2.8.6</gson>
-		<commons-dbcp2>2.7.0</commons-dbcp2>
+		<hbase-client>2.2.4</hbase-client>  
 		<snakeyaml>1.26</snakeyaml>
 		<opencsv>5.1</opencsv>
 		<xstream>1.4.12</xstream>
 		<dom4j>2.1.3</dom4j>
-		<quartz>2.3.2</quartz>
-		<mina-core>2.1.3</mina-core>
+		<quartz>2.3.2</quartz> 
 		<disruptor>3.4.2</disruptor>
-		<struts2>2.5.2</struts2>
-		<xwork-core>2.3.37</xwork-core>
-		<spring>5.2.6.RELEASE</spring>
-		<hibernate-search>5.11.5.Final</hibernate-search>
 		<commons-compress>1.20</commons-compress>
 		<commons-email>1.5</commons-email>
-		<jdom2>2.0.6</jdom2>
-		<netty3>3.10.6.Final</netty3>
+		<jdom2>2.0.6</jdom2> 
 		<Memcached-Java-Client>3.0.2</Memcached-Java-Client>
 	</properties>
 
@@ -69,8 +55,7 @@
 		<module>email</module>
 		<module>excel</module> 
 		<module>hbase</module>
-		<module>hibernate</module>
-		<module>httpclient4</module>
+		<module>hibernate</module> 
 		<module>httpclient5</module>
 		<module>image</module> 
 		<module>json</module>
@@ -151,12 +136,7 @@
 				<groupId>com.weicoder</groupId>
 				<artifactId>hibernate</artifactId>
 				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.weicoder</groupId>
-				<artifactId>httpclient4</artifactId>
-				<version>${project.version}</version>
-			</dependency>
+			</dependency> 
 			<dependency>
 				<groupId>com.weicoder</groupId>
 				<artifactId>httpclient5</artifactId>
@@ -291,12 +271,7 @@
 				<groupId>com.google.protobuf</groupId>
 				<artifactId>protobuf-java</artifactId>
 				<version>${protobuf-java}</version>
-			</dependency>
-			<dependency>
-				<groupId>io.netty</groupId>
-				<artifactId>netty</artifactId>
-				<version>${netty3}</version>
-			</dependency>
+			</dependency> 
 			<dependency>
 				<groupId>io.netty</groupId>
 				<artifactId>netty-all</artifactId>
@@ -311,22 +286,7 @@
 				<groupId>org.mongodb</groupId>
 				<artifactId>mongo-java-driver</artifactId>
 				<version>${mongo-java-driver}</version>
-			</dependency>
-			<dependency>
-				<groupId>io.lettuce</groupId>
-				<artifactId>lettuce-core</artifactId>
-				<version>${lettuce-core}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.redisson</groupId>
-				<artifactId>redisson</artifactId>
-				<version>${redisson}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.mina</groupId>
-				<artifactId>mina-core</artifactId>
-				<version>${mina-core}</version>
-			</dependency>
+			</dependency> 
 			<dependency>
 				<groupId>com.whalin</groupId>
 				<artifactId>Memcached-Java-Client</artifactId>
@@ -356,37 +316,7 @@
 				<groupId>com.alibaba</groupId>
 				<artifactId>fastjson</artifactId>
 				<version>${fastjson}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.google.code.gson</groupId>
-				<artifactId>gson</artifactId>
-				<version>${gson}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.httpcomponents</groupId>
-				<artifactId>httpclient</artifactId>
-				<version>${httpclient}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.httpcomponents</groupId>
-				<artifactId>httpmime</artifactId>
-				<version>${httpclient}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.httpcomponents</groupId>
-				<artifactId>httpcore</artifactId>
-				<version>${httpcore}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.httpcomponents</groupId>
-				<artifactId>httpcore-nio</artifactId>
-				<version>${httpcore}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.httpcomponents</groupId>
-				<artifactId>httpasyncclient</artifactId>
-				<version>${httpasyncclient}</version>
-			</dependency>
+			</dependency> 
 			<dependency>
 				<groupId>org.apache.httpcomponents.client5</groupId>
 				<artifactId>httpclient5</artifactId>
@@ -431,17 +361,7 @@
 				<groupId>com.zaxxer</groupId>
 				<artifactId>HikariCP</artifactId>
 				<version>${HikariCP}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.alibaba</groupId>
-				<artifactId>druid</artifactId>
-				<version>${druid}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.commons</groupId>
-				<artifactId>commons-dbcp2</artifactId>
-				<version>${commons-dbcp2}</version>
-			</dependency>
+			</dependency> 
 			<dependency>
 				<groupId>mysql</groupId>
 				<artifactId>mysql-connector-java</artifactId>

@@ -9,7 +9,7 @@
 	</parent>
 	<artifactId>elasticsearch</artifactId>
 
-	<dependencies> 
+	<dependencies>  
 		<dependency>
 			<groupId>com.weicoder</groupId>
 			<artifactId>json</artifactId>

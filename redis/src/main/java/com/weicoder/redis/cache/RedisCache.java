@@ -1,7 +1,6 @@
 package com.weicoder.redis.cache;
 
 import com.weicoder.common.U;
-import com.weicoder.common.U.S;
 import com.weicoder.common.W.C;
 import com.weicoder.common.W.L;
 import com.weicoder.common.W.M;
@@ -26,54 +25,53 @@ public class RedisCache<K, V> extends BeanCache<K, V> {
 	/**
 	 * 构建一个新的RedisCache
 	 * 
-	 * @param  <V>   值类型
-	 * @param  redis Redis名
-	 * @param  key   缓存主key 在hset里的key
-	 * @return       一个新的RedisCache
+	 * @param <V>   值类型
+	 * @param redis Redis名
+	 * @param key   缓存主key 在hset里的key
+	 * @return 一个新的RedisCache
 	 */
-	public static <K, V> RedisCache<K, V> build(String redis, String key) {
-		return build(RedisFactory.getRedis(redis), key);
+	public static <K, V> RedisCache<K, V> build(String redis, String key, Class<V> cls) {
+		return build(RedisFactory.getRedis(redis), key, cls);
 	}
 
 	/**
 	 * 构建一个新的RedisCache
 	 * 
-	 * @param  <V>   值类型
-	 * @param  redis Redis名
-	 * @param  key   缓存主key 在hset里的key
-	 * @param  load  是否加载全部缓存
-	 * @return       一个新的RedisCache
+	 * @param <V>   值类型
+	 * @param redis Redis名
+	 * @param key   缓存主key 在hset里的key
+	 * @param load  是否加载全部缓存
+	 * @return 一个新的RedisCache
 	 */
-	public static <K, V> RedisCache<K, V> build(String redis, String key, boolean fill) {
-		return build(RedisFactory.getRedis(redis), key, fill);
+	public static <K, V> RedisCache<K, V> build(String redis, String key, Class<V> cls, boolean fill) {
+		return build(RedisFactory.getRedis(redis), key, cls, fill);
 	}
 
 	/**
 	 * 构建一个新的RedisCache
 	 * 
-	 * @param  <V>   值类型
-	 * @param  redis Redis名
-	 * @param  key   缓存主key 在hset里的key
-	 * @param  cls   要缓存的类
-	 * @return       一个新的RedisCache
+	 * @param <V>   值类型
+	 * @param redis Redis名
+	 * @param key   缓存主key 在hset里的key
+	 * @param cls   要缓存的类
+	 * @return 一个新的RedisCache
 	 */
-	public static <K, V> RedisCache<K, V> build(Redis redis, String key) {
-		return build(redis, key, RedisParams.getCacheFill(redis.name()));
+	public static <K, V> RedisCache<K, V> build(Redis redis, String key, Class<V> cls) {
+		return build(redis, key, cls, RedisParams.getCacheFill(redis.name()));
 	}
 
 	/**
 	 * 构建一个新的RedisCache
 	 * 
-	 * @param  <V>     值类型
-	 * @param  redis   Redis名
-	 * @param  rkey    缓存主key 在hset里的key
-	 * @param  channel 发布订阅的通道
-	 * @param  cls     要缓存的类
-	 * @param  fill    是否加载全部缓存
-	 * @return         一个新的RedisCache
+	 * @param <V>   值类型
+	 * @param redis Redis名
+	 * @param key   缓存主key 在hset里的key
+	 * @param cls   要缓存的类
+	 * @param fill  是否加载全部缓存
+	 * @return 一个新的RedisCache
 	 */
-	public static <K, V> RedisCache<K, V> build(Redis redis, String key, boolean fill) {
-		return new RedisCache<>(redis, key, U.C.bean(S.convert(key)), fill);
+	public static <K, V> RedisCache<K, V> build(Redis redis, String key, Class<V> cls, boolean fill) {
+		return new RedisCache<>(redis, key, cls, fill);
 	}
 
 	// redis
@@ -172,8 +170,11 @@ public class RedisCache<K, V> extends BeanCache<K, V> {
 
 	@Override
 	public void fill(List<V> vals) {
-		super.fill(vals);
-		vals.forEach(v -> redis.hset(name, key(v), v));
+		vals.forEach(v -> {
+			K k = key(v);
+			cache.put(k, v);
+			redis.hset(name, k, v);
+		});
 	}
 
 	/**
@@ -204,9 +205,11 @@ public class RedisCache<K, V> extends BeanCache<K, V> {
 					// 更新
 					if (base) {
 						String[] t = U.S.split(m, SEPA);
-						super.put((K) C.to(t[0], this.key), (V) C.to(t[1], this.val));
-					} else
-						super.put(JsonEngine.toBean(m, this.val));
+						cache.put((K) C.to(t[0], this.key), (V) C.to(t[1], this.val));
+					} else {
+						V v = JsonEngine.toBean(m, this.val);
+						cache.put(key(v), v);
+					}
 				else if (remove.equals(c))
 					// 删除
 					super.remove((K) C.to(m, this.key));

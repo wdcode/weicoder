@@ -98,7 +98,7 @@ public abstract class BaseRedis implements Redis {
 
 	@Override
 	public long hset(String key, Object field, Object value) {
-		return hset(key, toString(key), toString(value));
+		return hset(key, toString(field), toString(value));
 	}
 
 	@Override

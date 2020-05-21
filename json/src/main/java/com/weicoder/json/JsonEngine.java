@@ -7,7 +7,7 @@ import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.util.BeanUtil;
-import com.weicoder.fastjson.FastJson;
+import com.weicoder.json.fastjson.FastJson;
 import com.weicoder.common.U;
 import com.weicoder.common.W.L;
 

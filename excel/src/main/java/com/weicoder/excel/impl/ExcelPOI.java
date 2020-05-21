@@ -117,7 +117,7 @@ public final class ExcelPOI extends BaseExcel {
 	 * @return Sheet的总行数
 	 */
 	public int getRows(int num) {
-		return workbook.getSheetAt(getIndex()).getPhysicalNumberOfRows();
+		return workbook.getSheetAt(num).getPhysicalNumberOfRows();
 	}
 
 	/**

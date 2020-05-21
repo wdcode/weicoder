@@ -14,5 +14,5 @@
 			<groupId>com.weicoder</groupId>
 			<artifactId>json</artifactId>
 		</dependency>
-	</dependencies>
+	</dependencies> 
 </project>

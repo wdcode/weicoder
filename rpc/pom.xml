@@ -16,13 +16,11 @@
 		</dependency>
 		<dependency>
 			<groupId>com.weicoder</groupId>
-			<artifactId>nacos</artifactId>
-			<optional>true</optional>
+			<artifactId>nacos</artifactId> 
 		</dependency>
 		<dependency>
 			<groupId>com.alipay.sofa</groupId>
-			<artifactId>sofa-rpc-all</artifactId>
-			<optional>true</optional>
+			<artifactId>sofa-rpc-all</artifactId> 
 		</dependency>
 	</dependencies>
 </project>

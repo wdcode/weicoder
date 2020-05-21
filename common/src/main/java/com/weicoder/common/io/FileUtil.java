@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.RandomAccessFile;
+import java.net.URI;
 import java.nio.ByteBuffer;
 import java.nio.channels.AsynchronousFileChannel;
 import java.nio.channels.FileChannel;
@@ -315,6 +316,16 @@ public class FileUtil {
 	 */
 	public static File newFile(String fileName) {
 		return new File(fileName);
+	}
+	
+	/**
+	 * 获得文件
+	 * 
+	 * @param  URI uri 文件名含路径
+	 * @return          File对象
+	 */
+	public static File newFile(URI uri) {
+		return new File(uri);
 	}
 
 	/**

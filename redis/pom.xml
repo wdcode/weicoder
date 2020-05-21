@@ -30,16 +30,6 @@
 			<groupId>com.weicoder</groupId>
 			<artifactId>dao</artifactId>
 			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>org.redisson</groupId>
-			<artifactId>redisson</artifactId>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>io.lettuce</groupId>
-			<artifactId>lettuce-core</artifactId>
-			<optional>true</optional>
-		</dependency>
+		</dependency> 
 	</dependencies>
 </project>

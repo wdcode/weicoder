@@ -1,8 +1,9 @@
 package com.weicoder.excel.builder;
 
 import java.io.File;
+import java.net.URISyntaxException;
 
-import com.weicoder.common.io.FileUtil;
+import com.weicoder.common.U; 
 import com.weicoder.excel.Excel;
 import com.weicoder.excel.impl.ExcelPOI;
 
@@ -16,8 +17,12 @@ public final class ExcelBuilder {
 	 * @param fileName 文件路径
 	 * @return Excel对象
 	 */
-	public static Excel getExcel(String fileName) {
-		return getExcel(FileUtil.newFile(fileName));
+	public static Excel getExcel(String fileName) { 
+		try {
+			return getExcel(U.F.newFile(U.R.getResource(fileName).toURI()));
+		} catch (URISyntaxException e) {
+			return getExcel(U.F.newFile(fileName));
+		}
 	}
 
 	/**
