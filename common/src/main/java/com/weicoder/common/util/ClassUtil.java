@@ -17,6 +17,8 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
 import java.util.stream.Collectors;
 
+import javax.annotation.Resource;
+
 import com.weicoder.common.U.B;
 import com.weicoder.common.U.C;
 import com.weicoder.common.U.S;
@@ -66,7 +68,7 @@ public class ClassUtil {
 			B.getFields(o.getClass()).forEach(f -> {
 				// 不是基础类型才注入
 				Class<?> type = f.getType();
-				if (!isBaseType(type)) {
+				if (!isBaseType(type) && f.isAnnotationPresent(Resource.class)) {
 					// 声明类对象
 					Object val = null;
 					if (IOC_BEANS.containsKey(type))

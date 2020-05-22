@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.weicoder</groupId>
 		<artifactId>build</artifactId>
-		<version>1.5</version>
+		<version>1.6</version>
 	</parent>
 	<artifactId>weicoder</artifactId>
 	<version>3.3.9</version>
@@ -28,10 +28,10 @@
 		<poi>4.1.2</poi>
 		<nacos-client>1.2.1</nacos-client>
 		<protobuf-java>3.11.4</protobuf-java>
-		<curator-framework>4.3.0</curator-framework>
 		<httpclient5>5.0</httpclient5>
 		<HikariCP>3.4.3</HikariCP>
 		<solr-solrj>8.5.1</solr-solrj>
+		<curator-framework>4.3.0</curator-framework>  
 		<asynchbase>1.8.2</asynchbase>
 		<hbase-client>2.2.4</hbase-client>  
 		<snakeyaml>1.26</snakeyaml>
@@ -51,6 +51,7 @@
 		<module>cache</module>
 		<module>csv</module>
 		<module>dao</module>  
+		<module>jdbc</module>  
 		<module>elasticsearch</module>
 		<module>email</module>
 		<module>excel</module> 
@@ -110,6 +111,11 @@
 			<dependency>
 				<groupId>com.weicoder</groupId>
 				<artifactId>dao</artifactId>
+				<version>${project.version}</version>
+			</dependency>  
+			<dependency>
+				<groupId>com.weicoder</groupId>
+				<artifactId>jdbc</artifactId>
 				<version>${project.version}</version>
 			</dependency>  
 			<dependency>

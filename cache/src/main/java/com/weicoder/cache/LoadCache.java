@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache; 
+import com.google.common.cache.LoadingCache;
 import com.weicoder.common.interfaces.Callback;
 import com.weicoder.common.lang.Lists;
 
@@ -68,21 +68,26 @@ public class LoadCache<K, V> {
 	}
 
 	/**
-	 * 获得值
+	 * 获得
+	 * 值
 	 * 
-	 * @param  key 键
-	 * @return     值
+	 * @param key 键
+	 * @return 值
 	 */
 	public V get(K key) {
-		return cache.getUnchecked(key);
+		try {
+			return cache.get(key);
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
 	/**
 	 * 获得值
 	 * 
-	 * @param  key  键
-	 * @param  call 如果获取的值为空 处理类 处理后不为空还会填充回内存
-	 * @return      值
+	 * @param key  键
+	 * @param call 如果获取的值为空 处理类 处理后不为空还会填充回内存
+	 * @return 值
 	 */
 	public V get(K key, Callback<K, V> call) {
 		// 获取值
@@ -109,7 +114,7 @@ public class LoadCache<K, V> {
 	/**
 	 * 查询缓存是否存在
 	 * 
-	 * @param  uid 用户id
+	 * @param uid 用户id
 	 * @return
 	 */
 	public boolean exists(K key) {

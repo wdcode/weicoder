@@ -26,9 +26,9 @@ public class Role {
 	// 名称
 	private String name;
 	// 操作列表
-	@Type(type = "com.weicoder.dao.hibernate.type.JsonType")
+	@Type(type = "com.weicoder.hibernate.type.JsonType")
 	private List<String> operates;
 	// 菜单
-	@Type(type = "com.weicoder.dao.hibernate.type.JsonType")
+	@Type(type = "com.weicoder.hibernate.type.JsonType")
 	private List<Integer> menus;
 }
