@@ -8,7 +8,7 @@ import com.weicoder.cache.CacheBuilder;
 import com.weicoder.common.U;
 import com.weicoder.common.U.B;
 import com.weicoder.common.U.C;
-import com.weicoder.common.annotation.Ico;
+import com.weicoder.common.annotation.Ioc;
 import com.weicoder.common.annotation.Service;
 import com.weicoder.common.http.factory.HttpFactory;
 import com.weicoder.common.log.Logs;
@@ -22,7 +22,7 @@ public class Test {
 //		C.ioc(s);
 //		System.out.println(User.class.getField("uid"));
 		System.out.println(Serv.class.isAnnotationPresent(Service.class));
-		System.out.println(Serv.class.isAnnotationPresent(Ico.class));
+		System.out.println(Serv.class.isAnnotationPresent(Ioc.class));
 		System.out.println(C.getGenericClass(HttpFactory.class, 0));
 		System.out.println(User.class.getDeclaredField("uid"));
 		BeanCache<Long, Users> c = CacheBuilder.build("users", k -> {

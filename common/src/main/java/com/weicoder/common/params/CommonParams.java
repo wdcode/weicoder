@@ -62,7 +62,7 @@ public final class CommonParams {
 	/** 验证码长度 */
 	public final static int         VERIFY_LENGTH        = Params.getInt("verify.length", 4);
 	/** 是否驻留程序 */
-	public final static boolean     MAIN                 = Params.getBoolean("main", false);
+	public final static boolean     MAIN                 = Params.getBoolean("main", true);
 	/** 默认报名 */
 	private final static String     DEFAULT_PACKAGES     = "com.weicoder";
 	public final static String      PACKAGES             = getPackages(S.EMPTY);

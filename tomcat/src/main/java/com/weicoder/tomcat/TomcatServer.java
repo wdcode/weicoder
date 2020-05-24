@@ -5,7 +5,7 @@ import org.apache.catalina.connector.Connector;
 import org.apache.catalina.core.AprLifecycleListener;
 import org.apache.catalina.startup.Tomcat;
 
-import com.weicoder.common.constants.SystemConstants;
+import com.weicoder.common.C;
 import com.weicoder.common.init.Inits;
 import com.weicoder.common.log.Logs;
 import com.weicoder.tomcat.params.TomcatParams; 
@@ -55,7 +55,7 @@ public final class TomcatServer {
 		try {
 			// 声明tomcat 设置参数
 			tomcat = new Tomcat();
-			tomcat.setBaseDir(SystemConstants.BASE_DIR);
+			tomcat.setBaseDir(C.O.BASE_DIR);
 			tomcat.setPort(port);
 			// 声明Connector 设置参数
 			Connector connector = new Connector(TomcatParams.PROTOCOL);
@@ -64,7 +64,7 @@ public final class TomcatServer {
 			tomcat.setConnector(connector);
 
 			// 添加路径与servlet
-			tomcat.addWebapp(path, SystemConstants.BASE_DIR).setReloadable(false);
+			tomcat.addWebapp(path, C.O.BASE_DIR).setReloadable(false);
 			tomcat.addServlet(path, "basic", new BasicServlet()).addMapping("/*");
 			tomcat.enableNaming();
 

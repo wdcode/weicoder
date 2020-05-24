@@ -4,16 +4,13 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-
-import com.weicoder.common.annotation.Ico;
-
+ 
 /**
  * Action 注解
  * @author WD
  */
 @Target(ElementType.TYPE)
-@Retention(RetentionPolicy.RUNTIME)
-@Ico
+@Retention(RetentionPolicy.RUNTIME) 
 public @interface Action {
 	/**
 	 * 是否启用ip验证 只允许servlet.ips 配置的ip

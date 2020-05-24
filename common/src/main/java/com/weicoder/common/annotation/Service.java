@@ -12,8 +12,7 @@ import java.lang.annotation.Target;
  * @author wudi
  */
 @Target(ElementType.TYPE)
-@Retention(RetentionPolicy.RUNTIME)
-@Ico
+@Retention(RetentionPolicy.RUNTIME) 
 @Inherited
 public @interface Service {
 }

@@ -24,6 +24,7 @@ import com.weicoder.common.U.C;
 import com.weicoder.common.U.S;
 import com.weicoder.common.W.L;
 import com.weicoder.common.W.M;
+import com.weicoder.common.annotation.Ioc;
 import com.weicoder.common.U;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Lists;
@@ -40,7 +41,7 @@ public class ClassUtil {
 	// 包名下的class
 	private final static Map<String, List<Class<?>>> PASSAGES = M.newMap();
 	// 对应class名称的Bean
-	private final static Map<String, Class<?>>                BEANS       = M.newMap();
+	private final static Map<String, Class<?>> BEANS = M.newMap();
 	private final static Map<Class<?>, Map<String, Class<?>>> CLASS_BEANS = M.newMap();
 	// ioc使用
 	private final static Map<Class<?>, Object> IOC_BEANS = M.newMap();
@@ -68,7 +69,7 @@ public class ClassUtil {
 			B.getFields(o.getClass()).forEach(f -> {
 				// 不是基础类型才注入
 				Class<?> type = f.getType();
-				if (!isBaseType(type) && f.isAnnotationPresent(Resource.class)) {
+				if (!isBaseType(type) && (f.isAnnotationPresent(Resource.class) || f.isAnnotationPresent(Ioc.class))) {
 					// 声明类对象
 					Object val = null;
 					if (IOC_BEANS.containsKey(type))
@@ -92,10 +93,10 @@ public class ClassUtil {
 	/**
 	 * 获得包名下指定接口的实现类
 	 * 
-	 * @param  <E>
-	 * @param  name 包名
-	 * @param  c    超类类型
-	 * @return      实现类列表
+	 * @param <E>
+	 * @param name 包名
+	 * @param c    超类类型
+	 * @return 实现类列表
 	 */
 	public static <E> List<Class<E>> pack(String name, Class<E> cls) {
 		// 声明类别
@@ -112,8 +113,8 @@ public class ClassUtil {
 	/**
 	 * 根据类名称或则指定类
 	 * 
-	 * @param  c    指定类下的
-	 * @param  name 类名称
+	 * @param c    指定类下的
+	 * @param name 类名称
 	 * @return
 	 */
 	public static <E> Class<E> bean(Class<E> c, String name) {
@@ -123,7 +124,7 @@ public class ClassUtil {
 	/**
 	 * 根据类名称或则指定类
 	 * 
-	 * @param  name 类名称
+	 * @param name 类名称
 	 * @return
 	 */
 	public static <E> Class<E> bean(String name) {
@@ -133,7 +134,7 @@ public class ClassUtil {
 	/**
 	 * 获取指定接口下的所有实现类
 	 * 
-	 * @param  c
+	 * @param c
 	 * @return
 	 */
 	public static <E> List<Class<E>> list(Class<E> c) {
@@ -143,9 +144,9 @@ public class ClassUtil {
 	/**
 	 * 获取指定接口下的最后一个实现类
 	 * 
-	 * @param  c 要指定接口或注解的类
+	 * @param c 要指定接口或注解的类
 	 * @return
-	 */ 
+	 */
 	public static <E> Class<E> from(Class<E> c) {
 		return from(c, CLASSES.get(c).size() - 1);
 	}
@@ -153,8 +154,8 @@ public class ClassUtil {
 	/**
 	 * 获取指定接口下的一个实现类 当实现大于2个不使用默认
 	 * 
-	 * @param  c   要指定接口或注解的类
-	 * @param  def 默认实现
+	 * @param c   要指定接口或注解的类
+	 * @param def 默认实现
 	 * @return
 	 */
 	public static <E> Class<E> from(Class<E> c, Class<? extends E> def) {
@@ -173,8 +174,8 @@ public class ClassUtil {
 	/**
 	 * 获取指定接口下的指定索引的实现类
 	 * 
-	 * @param  c 要指定接口或注解的类
-	 * @param  i 索引第几个
+	 * @param c 要指定接口或注解的类
+	 * @param i 索引第几个
 	 * @return
 	 */
 	public static <E> Class<E> from(Class<E> c, int i) {
@@ -184,8 +185,8 @@ public class ClassUtil {
 	/**
 	 * 根据给入的Class返回对应的空对象
 	 * 
-	 * @param  cls 声明的对象
-	 * @return     空对象
+	 * @param cls 声明的对象
+	 * @return 空对象
 	 */
 	public static Object empty(Class<?> cls) {
 		if (Number.class.isAssignableFrom(cls))
@@ -197,8 +198,8 @@ public class ClassUtil {
 	/**
 	 * 判断是否是基础类型
 	 * 
-	 * @param  clazz 要检查的类
-	 * @return       是否基础类型
+	 * @param clazz 要检查的类
+	 * @return 是否基础类型
 	 */
 	public static boolean isBaseType(Class<?> clazz) {
 		if (clazz == null)
@@ -228,9 +229,9 @@ public class ClassUtil {
 	/**
 	 * 获得指定类型的泛型
 	 * 
-	 * @param  clazz 指定的类型
-	 * @param  index 索引
-	 * @return       这个类的泛型
+	 * @param clazz 指定的类型
+	 * @param index 索引
+	 * @return 这个类的泛型
 	 */
 	public static Class<?> getGenericClass(Class<?> clazz, int index) {
 		try {
@@ -243,8 +244,8 @@ public class ClassUtil {
 	/**
 	 * 获得指定类型的泛型
 	 * 
-	 * @param  clazz 指定的类型
-	 * @return       这个类的泛型
+	 * @param clazz 指定的类型
+	 * @return 这个类的泛型
 	 */
 	public static Class<?>[] getGenericClass(Class<?> clazz) {
 		// 查询父类是否有泛型
@@ -272,8 +273,8 @@ public class ClassUtil {
 	/**
 	 * 获得指定类型的泛型
 	 * 
-	 * @param  type 指定的类型
-	 * @return      这个类的泛型
+	 * @param type 指定的类型
+	 * @return 这个类的泛型
 	 */
 	public static Class<?>[] getGenericClass(Type type) {
 		// 类型不对
@@ -296,9 +297,9 @@ public class ClassUtil {
 	/**
 	 * 获得指定类型的泛型
 	 * 
-	 * @param  type  指定的类型
-	 * @param  index 索引
-	 * @return       这个类型的泛型
+	 * @param type  指定的类型
+	 * @param index 索引
+	 * @return 这个类型的泛型
 	 */
 	public static Class<?> getGenericClass(Type type, int index) {
 		try {
@@ -311,8 +312,8 @@ public class ClassUtil {
 	/**
 	 * 加载类
 	 * 
-	 * @param  className 类名
-	 * @return           获得的类
+	 * @param className 类名
+	 * @return 获得的类
 	 */
 	public static Class<?> loadClass(String className) {
 		// 声明类
@@ -340,21 +341,21 @@ public class ClassUtil {
 	/**
 	 * 使用JDK代理生成代理类
 	 * 
-	 * @param  <E>
-	 * @param  cls     要生成代理的类接口
-	 * @param  handler 代理方法处理器
-	 * @return         代理对象
+	 * @param <E>
+	 * @param cls     要生成代理的类接口
+	 * @param handler 代理方法处理器
+	 * @return 代理对象
 	 */
 
 	public static <E> E newProxyInstance(Class<E> cls, InvocationHandler handler) {
-		return (E) Proxy.newProxyInstance(ClassUtil.getClassLoader(), new Class[]{cls}, handler);
+		return (E) Proxy.newProxyInstance(ClassUtil.getClassLoader(), new Class[] { cls }, handler);
 	}
 
 	/**
 	 * 获得Class 会处理基础类型
 	 * 
-	 * @param  className Class名称
-	 * @return           Class
+	 * @param className Class名称
+	 * @return Class
 	 */
 	public static Class<?> forName(String className) {
 		try {
@@ -387,9 +388,9 @@ public class ClassUtil {
 	/**
 	 * 实例化对象
 	 * 
-	 * @param  className      类名
-	 * @param  parameterTypes 参数类型
-	 * @return                实例化对象
+	 * @param className      类名
+	 * @param parameterTypes 参数类型
+	 * @return 实例化对象
 	 */
 	public static Object newInstance(String className, Class<?>... parameterTypes) {
 		try {
@@ -405,10 +406,10 @@ public class ClassUtil {
 	/**
 	 * 实例化对象
 	 * 
-	 * @param  className 类名
-	 * @param  obj       默认值
-	 * @param  <E>       泛型
-	 * @return           实例化对象
+	 * @param className 类名
+	 * @param obj       默认值
+	 * @param <E>       泛型
+	 * @return 实例化对象
 	 */
 
 	public static <E> E newInstance(String className, E obj) {
@@ -421,10 +422,10 @@ public class ClassUtil {
 	/**
 	 * 实例化对象
 	 * 
-	 * @param  clazz          类
-	 * @param  <T>            泛型
-	 * @param  parameterTypes 参数类型
-	 * @return                实例化对象
+	 * @param clazz          类
+	 * @param <T>            泛型
+	 * @param parameterTypes 参数类型
+	 * @return 实例化对象
 	 */
 	public static <T> T newInstance(Class<T> clazz, Class<?>... parameterTypes) {
 		try {
@@ -438,8 +439,8 @@ public class ClassUtil {
 	/**
 	 * 使用Class的newInstance()方法实例一个对象 封装异常为运行时异常
 	 * 
-	 * @param  className 对象的类
-	 * @return           实例的对象
+	 * @param className 对象的类
+	 * @return 实例的对象
 	 */
 	public static Object newInstance(String className) {
 		return newInstance(forName(className));
@@ -538,8 +539,8 @@ public class ClassUtil {
 	/**
 	 * 获取本类下所有公用方法 不读取父类
 	 * 
-	 * @param  c 类
-	 * @return   list
+	 * @param c 类
+	 * @return list
 	 */
 	public static List<Method> getPublicMethod(Class<?> c) {
 		// 返回的方法列表
@@ -565,8 +566,8 @@ public class ClassUtil {
 	/**
 	 * 获得指定包下的所有Class
 	 * 
-	 * @param  packageName 报名
-	 * @return             类列表
+	 * @param packageName 报名
+	 * @return 类列表
 	 */
 	public static List<Class<?>> getPackageClasses(String packageName) {
 		// 声明返回类列表
@@ -654,8 +655,8 @@ public class ClassUtil {
 	/**
 	 * 获得本类下的所有实现接口
 	 * 
-	 * @param  c 要获取的类
-	 * @return   本类实现的所有接口
+	 * @param c 要获取的类
+	 * @return 本类实现的所有接口
 	 */
 	public static List<Class<?>> getInterfaces(Class<?> c) {
 		// 声明列表
@@ -675,8 +676,8 @@ public class ClassUtil {
 	/**
 	 * 获得本类实现的注解
 	 * 
-	 * @param  c 要获取的类
-	 * @return   本类实现的所有注解
+	 * @param c 要获取的类
+	 * @return 本类实现的所有注解
 	 */
 	public static List<Annotation> getAnnotations(Class<?> c) {
 		// 声明列表

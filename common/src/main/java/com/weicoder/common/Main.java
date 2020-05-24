@@ -1,11 +1,11 @@
 package com.weicoder.common;
 
 import com.weicoder.common.U.D;
-import com.weicoder.common.U.T;
-import com.weicoder.common.constants.DateConstants;
-import com.weicoder.common.constants.SystemConstants;
+import com.weicoder.common.U.E;
+import com.weicoder.common.U.T;  
 import com.weicoder.common.init.Inits;
-import com.weicoder.common.log.Logs; 
+import com.weicoder.common.log.Logs;
+import com.weicoder.common.params.CommonParams;
 
 /**
  * 通用主入口
@@ -17,11 +17,19 @@ public class Main {
 	public static void main(String[] args) {
 		D.dura();
 		Inits.init();
-		Logs.info("{} start end time={}", SystemConstants.PROJECT_NAME, D.dura());
+		Logs.info("{} start end time={}", C.O.PROJECT_NAME, D.dura());
+		//是否驻留线程
+		boolean main = CommonParams.MAIN;
+		//等待时间
+		int wait = 0;
+		if (E.isNotEmpty(args))
+			wait = W.C.toInt(args[0]);
+		if (wait == 0)
+			wait = C.D.DAY;
 		// 为了保留驻留程序 因为本包线程是守护线程 主线程结束就会结束
-		while (true) {
+		while (main) {
 			// 因为驻留程序 大时间延迟
-			T.sleep(DateConstants.DAY);
+			T.sleep(wait);
 		}
 	}
 }
