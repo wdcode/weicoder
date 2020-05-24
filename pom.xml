@@ -8,7 +8,7 @@
 		<version>1.5</version>
 	</parent>
 	<artifactId>weicoder</artifactId>
-	<version>1.2.1</version>
+	<version>1.2.2</version>
 	<packaging>pom</packaging> 
 	
 	<modules>
@@ -21,23 +21,22 @@
 	</modules>
 
 	<properties> 
-		<jdk>1.8</jdk>  
+		<jdk>1.8</jdk>   
 		<fastjson>1.2.68</fastjson>
-		<hibernate-core>5.4.15.Final</hibernate-core>  
-		<netty-all>4.1.49.Final</netty-all>
+		<hibernate-core>5.4.16.Final</hibernate-core> 
+		<netty-all>4.1.50.Final</netty-all> 
+		<mongo-java-driver>3.12.4</mongo-java-driver>
+		<jedis>3.3.0</jedis> 
+		<poi>4.1.2</poi> 
 		<druid>1.1.22</druid>
 		<quartz>2.3.2</quartz>
+		<slf4j-api>1.7.30</slf4j-api>
 		<httpclient>4.5.12</httpclient>
 		<httpmime>4.5.12</httpmime>
 		<httpcore>4.4.13</httpcore>
 		<httpcore-nio>4.4.13</httpcore-nio>
 		<httpasyncclient>4.1.4</httpasyncclient> 
-		<netty>3.10.6.Final</netty> 
-		<mongo-java-driver>3.12.3</mongo-java-driver>
-		<jedis>3.3.0</jedis>    
-		<redisson>3.12.5</redisson>
-		<commons-email>1.5</commons-email>
-		<poi>4.1.2</poi>
+		<netty>3.10.6.Final</netty>  
 		<jdom>1.1.3</jdom>
 		<jdom2>2.0.6</jdom2> 
 		<dom4j>2.1.3</dom4j>
@@ -45,12 +44,13 @@
 		<Memcached-Java-Client>3.0.2</Memcached-Java-Client> 
 		<spymemcached>2.12.3</spymemcached>
 		<jxl>2.6.12</jxl>
-		<commons-compress>1.20</commons-compress>
-		<slf4j-api>1.7.30</slf4j-api>
+		<commons-compress>1.20</commons-compress> 
 		<commons-httpclient>3.1</commons-httpclient>
 		<hbase-client>2.2.4</hbase-client>
 		<asynchbase>1.8.2</asynchbase>
 		<mina-core>2.1.3</mina-core> 
+		<redisson>3.13.0</redisson>
+		<commons-email>1.5</commons-email>
 		<commons-dbcp>1.4</commons-dbcp>
 		<commons-dbcp2>2.7.0</commons-dbcp2>
 		<c3p0>0.9.1.2</c3p0>
@@ -60,7 +60,7 @@
 		<gson>2.8.6</gson>
 		<json-smart>2.3</json-smart>
 		<xmemcached>2.4.6</xmemcached>
-		<struts2>2.5.2</struts2>
+		<struts2>2.5.22</struts2>
 		<xwork-core>2.3.37</xwork-core>
 		<spring>5.2.6.RELEASE</spring>
 		<hibernate-search>5.11.5.Final</hibernate-search>
