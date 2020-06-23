@@ -16,7 +16,7 @@ import com.weicoder.common.W.L;
  * 
  * @author WD
  */
-public final class JsonEngine {
+public class JsonEngine {
 	// 默认Json解析
 	private final static Json JSON = new FastJson();
 
@@ -213,8 +213,5 @@ public final class JsonEngine {
 	 */
 	public static List<Object> toList(String json) {
 		return toList(json, Object.class);
-	}
-
-	private JsonEngine() {
-	}
+	} 
 }

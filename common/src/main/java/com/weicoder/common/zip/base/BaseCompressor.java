@@ -6,8 +6,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import com.weicoder.common.constants.ArrayConstants;
-import com.weicoder.common.io.IOUtil;
-import com.weicoder.common.zip.base.BaseZip;
+import com.weicoder.common.io.IOUtil; 
 
 /**
  * apache 基础 compress 包实现

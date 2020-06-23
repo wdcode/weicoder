@@ -6,6 +6,7 @@ import java.lang.reflect.Type;
 import com.weicoder.cache.BeanCache;
 import com.weicoder.cache.CacheBuilder;
 import com.weicoder.common.U;
+import com.weicoder.common.C.O;
 import com.weicoder.common.U.B;
 import com.weicoder.common.U.C;
 import com.weicoder.common.annotation.Ioc;
@@ -15,8 +16,9 @@ import com.weicoder.common.log.Logs;
   
 public class Test {
 
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) throws Exception { 
 		Logs.info("123321");
+		System.out.println(O.BASE_DIR);
 //		Serv s = new Serv();
 //		System.out.println(s.dao());
 //		C.ioc(s);

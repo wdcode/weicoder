@@ -7,6 +7,7 @@ import java.lang.annotation.Target;
 
 /**
  * 返回状态码
+ * 
  * @author WD
  */
 @Target({ ElementType.METHOD, ElementType.TYPE })
@@ -14,19 +15,22 @@ import java.lang.annotation.Target;
 public @interface State {
 	/**
 	 * 返回状态的字段名 默认state
+	 * 
 	 * @return 返回信息的字段名
 	 */
-	String state() default "state";
+	String code() default "code";
 
 	/**
 	 * 返回成功内容的字段名 默认content
+	 * 
 	 * @return 返回信息的字段名
 	 */
-	String success() default "content";
+	String content() default "content";
 
 	/**
 	 * 返回错误的字段名 默认msg
+	 * 
 	 * @return 返回错误的字段名
 	 */
-	String error() default "msg";
+	String message() default "message";
 }

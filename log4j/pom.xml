@@ -15,6 +15,10 @@
 			<artifactId>common</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>com.weicoder</groupId>
+			<artifactId>zip</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-core</artifactId>
 		</dependency>
@@ -25,6 +29,6 @@
 		<dependency>
 			<groupId>com.lmax</groupId>
 			<artifactId>disruptor</artifactId>
-		</dependency>
+		</dependency> 
 	</dependencies>
 </project>

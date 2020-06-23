@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.weicoder</groupId>
 		<artifactId>weicoder</artifactId>
-		<version>3.3.9</version>
+		<version>3.4.0</version>
 	</parent>
 	<artifactId>test</artifactId>
 
@@ -29,6 +29,14 @@
 		<dependency>
 			<groupId>com.weicoder</groupId>
 			<artifactId>httpclient5</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.weicoder</groupId>
+			<artifactId>okhttp</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.weicoder</groupId>
+			<artifactId>http</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.weicoder</groupId>
@@ -101,11 +109,7 @@
 		<dependency>
 			<groupId>com.weicoder</groupId>
 			<artifactId>yaml</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-		</dependency>
+		</dependency> 
 		<dependency>
 			<groupId>org.apache.shardingsphere</groupId>
 			<artifactId>shardingsphere</artifactId>
@@ -126,12 +130,7 @@
 			<groupId>com.ibeetl</groupId>
 			<artifactId>beetl</artifactId>
 			<version>3.1.2.RELEASE</version>
-		</dependency>
-		<dependency>
-			<groupId>com.squareup.okhttp3</groupId>
-			<artifactId>okhttp</artifactId>
-			<version>4.3.1</version>
-		</dependency>
+		</dependency> 
 		<dependency>
 			<groupId>org.smartboot.socket</groupId>
 			<artifactId>aio-pro</artifactId>

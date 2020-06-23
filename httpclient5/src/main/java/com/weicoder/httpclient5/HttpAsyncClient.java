@@ -20,6 +20,7 @@ import org.apache.hc.core5.util.Timeout;
 
 import com.weicoder.common.constants.HttpConstants;
 import com.weicoder.common.constants.SystemConstants;
+import com.weicoder.common.http.params.HttpParams;
 import com.weicoder.common.interfaces.CallbackVoid; 
 import com.weicoder.common.U;
 import com.weicoder.common.W;
@@ -29,7 +30,6 @@ import com.weicoder.common.log.LogFactory;
 import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.util.CloseUtil; 
 import com.weicoder.common.util.StringUtil;
-import com.weicoder.httpclient5.params.HttpParams;
 
 /**
  * HTTP异步客户端

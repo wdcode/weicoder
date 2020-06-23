@@ -294,13 +294,13 @@ public class BasicServlet extends HttpServlet {
 				if (state == null)
 					state = action.getClass().getAnnotation(State.class);
 				// 字段名
-				String status = state.state();
-				String success = state.success();
-				String error = state.error();
+				String code = state.code();
+				String content = state.content();
+				String message = state.message();
 				// 如果res为状态码
 				if (res == null)
 					// 写空信息
-					res = Maps.newMap(new String[]{status, error}, StateCode.NULL.to());
+					res = Maps.newMap(new String[]{code, message}, StateCode.NULL.to());
 //				else if (res instanceof Integer) {
 //					// 写错误信息
 //					int errorcode = Conversion.toInt(res);
@@ -309,13 +309,13 @@ public class BasicServlet extends HttpServlet {
 //				}
 				else if (res instanceof StateCode)
 					// 写错误信息
-					res = Maps.newMap(new String[]{status, error}, ((StateCode) res).to());
+					res = Maps.newMap(new String[]{code, message}, ((StateCode) res).to());
 				else {
 					// 是否写cookie
 					if (cookie)
 						CookieUtil.adds(response, c.maxAge(), res, names);
 					// 写入到前端
-					res = Maps.newMap(new String[]{status, success}, new Object[]{StateCode.SUCCESS.getCode(), res});
+					res = Maps.newMap(new String[]{code, content}, new Object[]{StateCode.SUCCESS.getCode(), res});
 				}
 			} else {
 				// 如果结果为空

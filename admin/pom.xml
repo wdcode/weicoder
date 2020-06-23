@@ -18,9 +18,5 @@
 			<groupId>com.weicoder</groupId>
 			<artifactId>hibernate</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-		</dependency>
 	</dependencies>
 </project>

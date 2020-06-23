@@ -4,11 +4,14 @@ import java.util.List;
 
 import com.weicoder.common.params.CommonParams;
 
+import lombok.Data;
+
 /**
  * 分页信息保存的实体Bean
  * 
  * @author WD
  */
+@Data
 public final class Pages {
 	// 总数量
 	private int total;
@@ -20,7 +23,7 @@ public final class Pages {
 	/**
 	 * 返回包括本身的分页结果
 	 * 
-	 * @param  list
+	 * @param list
 	 * @return
 	 */
 	public PageResult result(List<?> list) {
@@ -35,60 +38,6 @@ public final class Pages {
 //	public int getTotalPage() {
 //		return total < size ? 0 : total % size == 0 ? total / size : total / size + 1;
 //	}
-
-	/**
-	 * 获得每页显示数量
-	 * 
-	 * @return 每页显示数量
-	 */
-	public int getSize() {
-		return size;
-	}
-
-	/**
-	 * 设置每页显示数量
-	 * 
-	 * @param size 每页显示数量
-	 */
-	public void setSize(int size) {
-		this.size = size;
-	}
-
-	/**
-	 * 获得总数量
-	 * 
-	 * @return 总数量
-	 */
-	public int getTotal() {
-		return total;
-	}
-
-	/**
-	 * 设置总数量
-	 * 
-	 * @param total 总数量
-	 */
-	public void setTotal(int total) {
-		this.total = total;
-	}
-
-	/**
-	 * 获得当前显示页
-	 * 
-	 * @return 当前显示页
-	 */
-	public int getPage() {
-		return page;
-	}
-
-	/**
-	 * 设置当前显示页
-	 * 
-	 * @param page 当前显示页
-	 */
-	public void setPage(int page) {
-		this.page = page;
-	}
 
 //	/**
 //	 * 获得开始页码
@@ -129,10 +78,5 @@ public final class Pages {
 	 */
 	public int getStart() {
 		return getPage() * getSize();
-	}
-
-	@Override
-	public String toString() {
-		return "Pages [page=" + page + ", size=" + size + "]";
 	}
 }

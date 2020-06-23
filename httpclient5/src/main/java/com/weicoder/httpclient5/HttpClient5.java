@@ -19,10 +19,10 @@ import com.weicoder.common.C;
 import com.weicoder.common.U;
 import com.weicoder.common.W;  
 import com.weicoder.common.http.base.BaseHttp;
+import com.weicoder.common.http.params.HttpParams;
 import com.weicoder.common.io.IOUtil;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.log.Logs;
-import com.weicoder.httpclient5.params.HttpParams;
 
 /**
  * HttpClient5的实现

@@ -1,13 +1,22 @@
 package com.weicoder.test;
   
-import com.weicoder.common.http.factory.HttpFactory; 
+import com.weicoder.common.bean.Result; 
+import com.weicoder.http.HttpManager; 
 
 public class HttpTest {
 
 	public static void main(String[] args) {   
-		System.out.println(HttpFactory.getHttp());
-		System.out.println(HttpFactory.getHttp("jdk11"));
-		System.out.println(HttpFactory.getHttp("jdk8"));
+		UserHttp user = HttpManager.create(UserHttp.class);
+		Result<User> u = user.info(10001004);
+		System.out.println(u);
+		System.out.println(u.getContent());
+		System.out.println(u.getContent().getUid());
+		u = user.info(111123414);
+		System.out.println(u);
+		
+//		System.out.println(HttpFactory.getHttp());
+//		System.out.println(HttpFactory.getHttp("jdk11"));
+//		System.out.println(HttpFactory.getHttp("jdk8"));
 //		String url = "https://www.baidu.com/sugrec";
 //		String r1 = com.weicoder.http4.HttpClient.get(url);
 //		String r2 = com.weicoder.http.HttpClient.get(url);

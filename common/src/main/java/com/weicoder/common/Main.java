@@ -15,7 +15,7 @@ import com.weicoder.common.params.CommonParams;
 public class Main {
 
 	public static void main(String[] args) {
-		D.dura();
+		Logs.debug("{} start time={}", C.O.PROJECT_NAME, D.dura());
 		Inits.init();
 		Logs.info("{} start end time={}", C.O.PROJECT_NAME, D.dura());
 		//是否驻留线程

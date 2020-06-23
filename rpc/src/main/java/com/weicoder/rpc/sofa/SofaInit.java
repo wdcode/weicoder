@@ -1,6 +1,6 @@
 package com.weicoder.rpc.sofa;
-
-import com.weicoder.rpc.annotation.Rpc;
+ 
+import com.weicoder.rpc.annotation.RpcServer;
 import com.weicoder.rpc.params.RpcParams;
 import com.alipay.sofa.rpc.config.ProviderConfig;
 import com.alipay.sofa.rpc.config.ServerConfig;
@@ -21,7 +21,7 @@ public class SofaInit implements Init {
 		ServerConfig config = new ServerConfig().setProtocol(RpcParams.PROTOCOL).setPort(RpcParams.PORT + 1)
 				.setDaemon(RpcParams.DAEMON);
 		// 循环发布rpc服务
-		C.list(Rpc.class).forEach(r -> new ProviderConfig<Object>().setInterfaceId(r.getName()) // 指定接口
+		C.list(RpcServer.class).forEach(r -> new ProviderConfig<Object>().setInterfaceId(r.getName()) // 指定接口
 				.setRef(ClassUtil.newInstance(C.from(r, 0))) // 指定实现
 				.setServer(config)// 指定服务端
 				.export() // 发布服务

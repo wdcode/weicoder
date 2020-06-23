@@ -64,6 +64,7 @@ public final class TomcatServer {
 			tomcat.setConnector(connector);
 
 			// 添加路径与servlet
+			tomcat.addContext(path, C.O.BASE_DIR);
 			tomcat.addWebapp(path, C.O.BASE_DIR).setReloadable(false);
 			tomcat.addServlet(path, "basic", new BasicServlet()).addMapping("/*");
 			tomcat.enableNaming();

@@ -23,8 +23,10 @@ public class Log4j2 implements Log {
 	private Logger log;
 
 	public Log4j2() {
+//		MainMapLookup.setMainArguments(Log4j2Params.TEST ? "target" : Log4j2Params.DIR, Log4j2Params.LEVEL,
+//				Log4j2Params.TEST ? Log4j2Params.LEVEL : "OFF", Log4j2Params.LOGGER);
 		MainMapLookup.setMainArguments(Log4j2Params.TEST ? "target" : Log4j2Params.DIR, Log4j2Params.LEVEL,
-				Log4j2Params.TEST ? Log4j2Params.LEVEL : "OFF", Log4j2Params.LOGGER);
+				Log4j2Params.LEVEL, Log4j2Params.LOGGER);
 	}
 
 	@Override
@@ -131,8 +133,8 @@ public class Log4j2 implements Log {
 	/**
 	 * 转换日志 1 把字符串长于一定程度的信息截取 2把数组变成字符串 并截取一定长度
 	 * 
-	 * @param  params 写日志参数
-	 * @return        参数
+	 * @param params 写日志参数
+	 * @return 参数
 	 */
 	private static Object[] params(Object... params) {
 		// 开启日志截取
