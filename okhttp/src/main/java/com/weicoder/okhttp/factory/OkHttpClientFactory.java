@@ -1,14 +1,10 @@
 package com.weicoder.okhttp.factory;
 
-import java.io.File;
 import java.util.concurrent.TimeUnit;
 
-import com.weicoder.common.C.O;
 import com.weicoder.common.factory.Factory;
 import com.weicoder.common.http.params.HttpParams;
-import com.weicoder.common.params.CommonParams;
 
-import okhttp3.Cache;
 import okhttp3.ConnectionPool;
 import okhttp3.OkHttpClient;
 
@@ -36,7 +32,8 @@ public class OkHttpClientFactory extends Factory<OkHttpClient> {
 				.readTimeout(HttpParams.HTTP_TIMEOUT, TimeUnit.SECONDS)
 				.writeTimeout(HttpParams.HTTP_TIMEOUT, TimeUnit.SECONDS)
 				.connectionPool(new ConnectionPool(HttpParams.HTTP_MAX, HttpParams.HTTP_TIMEOUT, TimeUnit.SECONDS))
-				.cache(new Cache(new File(O.BASE_DIR, "OkHttpCache"), CommonParams.IO_BUFFERSIZE)).build();
+//				.cache(new Cache(new File(O.BASE_DIR, "OkHttpCache"), CommonParams.IO_BUFFERSIZE))
+				.build();
 		// .addNetworkInterceptor(new NetworkInterceptor())
 	}
 
