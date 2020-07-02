@@ -6,5 +6,5 @@ package com.weicoder.json;
  * @author wdcode
  *
  */
-public class J extends JsonEngine {
+public final class J extends JsonEngine {
 }
