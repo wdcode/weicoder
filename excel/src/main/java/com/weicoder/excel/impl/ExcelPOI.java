@@ -11,7 +11,8 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.weicoder.common.io.FileUtil;
-import com.weicoder.common.U; 
+import com.weicoder.common.U;
+import com.weicoder.common.W;
 import com.weicoder.common.log.Logs; 
 import com.weicoder.excel.base.BaseExcel;
 
@@ -99,7 +100,7 @@ public final class ExcelPOI extends BaseExcel {
 		// 获得Cell
 		Cell cell = hRow == null ? null : hRow.getCell(col);
 		// 返回单元格内容
-		return cell.getStringCellValue();//W.C.toString(cell);
+		return W.C.toString(cell);
 	}
 
 	/**

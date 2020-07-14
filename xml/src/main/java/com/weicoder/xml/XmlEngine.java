@@ -1,9 +1,7 @@
 package com.weicoder.xml;
 
 import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.Dom4JDriver;
-import com.thoughtworks.xstream.io.xml.JDom2Driver;
-import com.weicoder.common.U.C;
+import com.thoughtworks.xstream.io.xml.Dom4JDriver; 
 
 /**
  * XML处理引擎
@@ -12,8 +10,7 @@ import com.weicoder.common.U.C;
  */
 public final class XmlEngine {
 	// XStream
-	private final static XStream STREAM = new XStream(
-			C.forName("org.dom4j.Document") == null ? new JDom2Driver() : new Dom4JDriver());
+	private final static XStream STREAM = new XStream(new Dom4JDriver());
 
 	/**
 	 * 把实体对象转换成xml字符串

@@ -41,8 +41,7 @@
 		<quartz>2.3.2</quartz>
 		<disruptor>3.4.2</disruptor>
 		<commons-compress>1.20</commons-compress>
-		<commons-email>1.5</commons-email>
-		<jdom2>2.0.6</jdom2>
+		<commons-email>1.5</commons-email> 
 		<Memcached-Java-Client>3.0.2</Memcached-Java-Client>
 	</properties>
 
@@ -386,12 +385,7 @@
 				<groupId>org.dom4j</groupId>
 				<artifactId>dom4j</artifactId>
 				<version>${dom4j}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.jdom</groupId>
-				<artifactId>jdom2</artifactId>
-				<version>${jdom2}</version>
-			</dependency>
+			</dependency> 
 			<dependency>
 				<groupId>com.thoughtworks.xstream</groupId>
 				<artifactId>xstream</artifactId>
