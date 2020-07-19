@@ -1,7 +1,6 @@
 package com.weicoder.excel.builder;
 
-import java.io.File;
-import java.net.URISyntaxException;
+import java.io.File; 
 
 import com.weicoder.common.U; 
 import com.weicoder.excel.Excel;
@@ -20,7 +19,7 @@ public final class ExcelBuilder {
 	public static Excel getExcel(String fileName) { 
 		try {
 			return getExcel(U.F.newFile(U.R.getResource(fileName).toURI()));
-		} catch (URISyntaxException e) {
+		} catch (Exception e) {
 			return getExcel(U.F.newFile(fileName));
 		}
 	}
