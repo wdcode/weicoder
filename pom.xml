@@ -48,6 +48,10 @@
 		<commons-compress>1.20</commons-compress>
 		<commons-email>1.5</commons-email>
 		<Memcached-Java-Client>3.0.2</Memcached-Java-Client>
+		<struts2>2.5.22</struts2>
+		<xwork-core>2.3.37</xwork-core>
+		<spring>5.2.8.RELEASE</spring>
+		<hibernate-search>5.11.5.Final</hibernate-search>
 	</properties>
 
 	<modules>
@@ -66,14 +70,14 @@
 		<module>kafka</module>
 		<module>log4j</module>
 		<module>memcache</module>
-		<module>mongo</module> 
+		<module>mongo</module>
 		<module>nacos</module>
 		<module>protobuf</module>
 		<module>quartz</module>
 		<module>redis</module>
 		<module>rpc</module>
-		<module>socket</module> 
-		<module>solr</module> 
+		<module>socket</module>
+		<module>solr</module>
 		<module>tomcat</module>
 		<module>web</module>
 		<module>websocket</module>
@@ -84,11 +88,13 @@
 		<module>admin</module>
 		<module>hadoop</module>
 		<module>influxdb</module>
-		<!--  
+		<!-- -->
+		<module>ssh</module>
+		<module>frame</module>
 		<module>spark</module>
 		<module>flink</module>
-		<module>seata</module> 
-		 -->
+		<module>seata</module>
+
 	</modules>
 
 	<dependencyManagement>
@@ -187,7 +193,7 @@
 				<groupId>com.weicoder</groupId>
 				<artifactId>quartz</artifactId>
 				<version>${project.version}</version>
-			</dependency> 
+			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
 				<artifactId>redis</artifactId>
@@ -207,7 +213,7 @@
 				<groupId>com.weicoder</groupId>
 				<artifactId>solr</artifactId>
 				<version>${project.version}</version>
-			</dependency> 
+			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
 				<artifactId>tomcat</artifactId>
@@ -252,7 +258,7 @@
 				<groupId>com.weicoder</groupId>
 				<artifactId>seata</artifactId>
 				<version>${project.version}</version>
-			</dependency> 
+			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
 				<artifactId>influxdb</artifactId>
@@ -472,6 +478,41 @@
 				<groupId>io.seata</groupId>
 				<artifactId>seata-all</artifactId>
 				<version>${seata}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.struts</groupId>
+				<artifactId>struts2-core</artifactId>
+				<version>${struts2}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.struts.xwork</groupId>
+				<artifactId>xwork-core</artifactId>
+				<version>${xwork-core}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-orm</artifactId>
+				<version>${spring}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context</artifactId>
+				<version>${spring}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context-support</artifactId>
+				<version>${spring}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-web</artifactId>
+				<version>${spring}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-search</artifactId>
+				<version>${hibernate-search}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

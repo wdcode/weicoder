@@ -4,11 +4,12 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-
+ 
 /**
- * 支持post方法
- * @author WD
+ * 是否启用ip验证 只允许servlet.ips 配置的ip
+ * @author wdcode
+ *
  */
-@Target({ ElementType.METHOD, ElementType.TYPE })
+@Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Post {}
+public @interface Ips {}

@@ -37,6 +37,8 @@ import com.weicoder.web.annotation.Action;
 import com.weicoder.web.annotation.Cookies;
 import com.weicoder.web.annotation.Forward;
 import com.weicoder.web.annotation.Get;
+import com.weicoder.web.annotation.Ips;
+import com.weicoder.web.annotation.Json;
 import com.weicoder.web.annotation.Post;
 import com.weicoder.web.annotation.Redirect;
 import com.weicoder.web.annotation.State;
@@ -56,13 +58,12 @@ import com.weicoder.web.validator.Validators;
  */
 @WebServlet(value = "/*", asyncSupported = true)
 public class BasicServlet extends HttpServlet {
-	private static final long serialVersionUID = 3117468121294921856L;
+	private static final long	serialVersionUID	= 3117468121294921856L;
 	// 日志
-	private final static Log LOG = LogFactory.getLog(BasicServlet.class);
+	private final static Log	LOG					= LogFactory.getLog(BasicServlet.class);
 
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		long curr = System.currentTimeMillis();
 		// 获得客户端IP
 		String ip = RequestUtil.getIp(request);
@@ -72,14 +73,11 @@ public class BasicServlet extends HttpServlet {
 		String m = request.getMethod();
 		// 获得path
 		String path = request.getPathInfo();
-		LOG.debug("request ip={} path={} Method={} scheme={} queryString={}", ip, path, m, request.getScheme(),
-				request.getQueryString());
+		LOG.debug("request ip={} path={} Method={} scheme={} queryString={}", ip, path, m, request.getScheme(), request.getQueryString());
 		if (U.E.isNotEmpty(path)) {
 			// 分解提交action 去处开头的/ 并且按/或者_分解出数组
 			String actionName = StringUtil.subString(path, 1, path.length());
-			String[] actions = StringUtil.contains(actionName, C.S.BACKSLASH)
-					? StringUtil.split(actionName, C.S.BACKSLASH)
-					: StringUtil.split(actionName, C.S.UNDERLINE);
+			String[] actions = StringUtil.contains(actionName, C.S.BACKSLASH) ? StringUtil.split(actionName, C.S.BACKSLASH) : StringUtil.split(actionName, C.S.UNDERLINE);
 			if (U.E.isEmpty(actions)) {
 				LOG.debug("this path={}", path);
 				ResponseUtil.json(response, callback, "action is null path");
@@ -108,14 +106,13 @@ public class BasicServlet extends HttpServlet {
 			// action为空
 			if (action == null) {
 				// 还是为空
-				LOG.warn("request ip={},path={},name={},actionName={},ma={},no action and method", ip, path, name,
-						actionName, WebCommons.METHODS_ACTIONS);
+				LOG.warn("request ip={},path={},name={},actionName={},ma={},no action and method", ip, path, name, actionName, WebCommons.METHODS_ACTIONS);
 				ResponseUtil.json(response, callback, "no action and method");
 				return;
 			}
 			// 过滤IP
 			Action a = action.getClass().getAnnotation(Action.class);
-			if (a.ips() || WebParams.IPS) {
+			if (WebParams.IPS||a.ips() || action.getClass().isAnnotationPresent(Ips.class)) {
 				// 如果在允许列表继续 否则退出
 				if (!IpUtil.contains(ip)) {
 					LOG.debug("this ip={}", ip);
@@ -208,8 +205,7 @@ public class BasicServlet extends HttpServlet {
 			// try {
 			if (code == StateParams.SUCCESS) {
 				// 判断是否异步
-				if (a.async() || method.isAnnotationPresent(Asyn.class)
-						|| action.getClass().isAnnotationPresent(Asyn.class)) {
+				if (a.async() || method.isAnnotationPresent(Asyn.class) || action.getClass().isAnnotationPresent(Asyn.class)) {
 					// 获得异步全局
 					AsyncContext async = request.startAsync();
 					Object ac = action;
@@ -217,8 +213,7 @@ public class BasicServlet extends HttpServlet {
 					// 异步执行
 					async.start(() -> {
 						// 执行方法并返回结果
-						result(method, ac, invoke(ac, method, p, request, response), callback, request, response, ip,
-								actionName, p, pars, curr);
+						result(method, ac, invoke(ac, method, p, request, response), callback, request, response, ip, actionName, p, pars, curr);
 						// 通知主线程完成
 						async.complete();
 					});
@@ -234,29 +229,25 @@ public class BasicServlet extends HttpServlet {
 //						async.complete();
 //					});
 				} else
-					result(method, action, invoke(action, method, params, request, response), callback, request,
-							response, ip, actionName, params, pars, curr);
+					result(method, action, invoke(action, method, params, request, response), callback, request, response, ip, actionName, params, pars, curr);
 			} else
-				result(method, action, StateCode.build(code), callback, request, response, ip, actionName, params, pars,
-						curr);
+				result(method, action, StateCode.build(code), callback, request, response, ip, actionName, params, pars, curr);
 		}
 	}
 
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if (WebParams.GET)
 			doPost(request, response);
 		else
 			ResponseUtil.json(response, "not supported get");
 	}
 
-	private void result(Method method, Object action, Object res, String callback, HttpServletRequest request,
-			HttpServletResponse response, String ip, String actionName, Object[] params, Parameter[] pars, long curr) {
+	private void result(Method method, Object action, Object res, String callback, HttpServletRequest request, HttpServletResponse response, String ip, String actionName, Object[] params,
+			Parameter[] pars, long curr) {
 		try {
 			// 判断是否需要写cookie
-			boolean cookie = method.isAnnotationPresent(Cookies.class)
-					|| action.getClass().isAnnotationPresent(Cookies.class);
+			boolean cookie = method.isAnnotationPresent(Cookies.class) || action.getClass().isAnnotationPresent(Cookies.class);
 			String[] names = null;
 			Cookies c = null;
 			if (cookie) {
@@ -269,26 +260,22 @@ public class BasicServlet extends HttpServlet {
 			// 判断是否跳转url
 			if (method.isAnnotationPresent(Redirect.class) || action.getClass().isAnnotationPresent(Redirect.class)) {
 				String url = W.C.toString(res);
-				if (U.E.isEmpty(url)) {
+				if (U.E.isEmpty(url))
 					ResponseUtil.json(response, callback, "Redirect is null");
-					return;
-				} else {
-					LOG.debug("redirect url:{}", url);
+				else
 					response.sendRedirect(url);
-					return;
-				}
-			} else if (method.isAnnotationPresent(Forward.class)
-					|| action.getClass().isAnnotationPresent(Forward.class)) {
+			}
+			// 是否Forward跳转
+			if (method.isAnnotationPresent(Forward.class) || action.getClass().isAnnotationPresent(Forward.class)) {
 				String url = W.C.toString(res);
-				if (U.E.isEmpty(url)) {
+				if (U.E.isEmpty(url))
 					ResponseUtil.json(response, callback, "Forward is null");
-					return;
-				} else {
-					LOG.debug("forward url:{}", url);
+				else
 					request.getRequestDispatcher(url).forward(request, response);
-					return;
-				}
-			} else if (method.isAnnotationPresent(State.class) || action.getClass().isAnnotationPresent(State.class)) {
+			}
+			// 是否json
+			if (method.isAnnotationPresent(Json.class) || action.getClass().isAnnotationPresent(Json.class)) {
+			} else if (WebParams.STATE || method.isAnnotationPresent(State.class) || action.getClass().isAnnotationPresent(State.class)) {
 				// 状态码对象
 				State state = method.getAnnotation(State.class);
 				if (state == null)
@@ -300,43 +287,31 @@ public class BasicServlet extends HttpServlet {
 				// 如果res为状态码
 				if (res == null)
 					// 写空信息
-					res = Maps.newMap(new String[]{code, message}, StateCode.NULL.to());
-//				else if (res instanceof Integer) {
-//					// 写错误信息
-//					int errorcode = Conversion.toInt(res);
-//					res = Maps.newMap(new String[]{status, errorcode == StateParams.SUCCESS ? success : error},
-//							new Object[]{errorcode, errorcode == StateParams.SUCCESS ? StateParams.SUCCESS_MSG : StateParams.getMessage(errorcode)});
-//				}
+					res = Maps.newMap(new String[] { code, message }, StateCode.NULL.to());
 				else if (res instanceof StateCode)
 					// 写错误信息
-					res = Maps.newMap(new String[]{code, message}, ((StateCode) res).to());
-				else {
-					// 是否写cookie
-					if (cookie)
-						CookieUtil.adds(response, c.maxAge(), res, names);
+					res = Maps.newMap(new String[] { code, message }, ((StateCode) res).to());
+				else
 					// 写入到前端
-					res = Maps.newMap(new String[]{code, content}, new Object[]{StateCode.SUCCESS.getCode(), res});
-				}
+					res = Maps.newMap(new String[] { code, content }, new Object[] { StateCode.SUCCESS.getCode(), res });
 			} else {
 				// 如果结果为空
 				if (res == null)
 					// 结果设置为空map
 					res = Maps.emptyMap();
-				else if (cookie)
-					// 写cookie
-					CookieUtil.adds(response, c.maxAge(), res, names);
 			}
+			// 是否写cookie
+			if (cookie)
+				CookieUtil.adds(response, c.maxAge(), res, names);
 			// 写到前端
-			LOG.info("request ip={} name={} time={} params={} pars={} method={} type={} res={} end", ip, actionName,
-					System.currentTimeMillis() - curr, params, pars, request.getMethod(), request.getContentType(),
-					ResponseUtil.json(response, callback, res));
+			LOG.info("request ip={} name={} time={} params={} pars={} method={} type={} res={} end", ip, actionName, System.currentTimeMillis() - curr, params, pars, request.getMethod(),
+					request.getContentType(), ResponseUtil.json(response, callback, res));
 		} catch (Exception e) {
 			Logs.error(e);
 		}
 	}
 
-	private Object invoke(Object action, Method method, Object[] params, HttpServletRequest request,
-			HttpServletResponse response) {
+	private Object invoke(Object action, Method method, Object[] params, HttpServletRequest request, HttpServletResponse response) {
 		// 获得所有aop
 		List<Aops> aops = aops(action, method);
 		try {
@@ -355,8 +330,7 @@ public class BasicServlet extends HttpServlet {
 		} catch (StateException e) {
 			return e.state();
 		} catch (Exception e) {
-			Logs.error(e, "action invoke method={} args={} params={}", method.getName(), Arrays.toString(params),
-					Arrays.toString(method.getParameters()));
+			Logs.error(e, "action invoke method={} args={} params={}", method.getName(), Arrays.toString(params), Arrays.toString(method.getParameters()));
 			// 异常执行
 			aops.forEach(aop -> aop.exception(e, action, params, request, response));
 			// 返回错误
