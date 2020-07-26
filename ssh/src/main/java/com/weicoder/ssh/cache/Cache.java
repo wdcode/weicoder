@@ -3,16 +3,14 @@ package com.weicoder.ssh.cache;
 import java.io.Serializable;
 import java.util.List;
 
-import com.weicoder.ssh.entity.Entity;
-import com.weicoder.common.interfaces.Clear;
-import com.weicoder.common.interfaces.Empty;
+import com.weicoder.ssh.entity.Entity; 
 
 /**
  * 所有缓存的基础接口
  * @author WD 
  * @version 1.0 
  */
-public interface Cache<E extends Entity> extends Clear, Empty {
+public interface Cache<E extends Entity>   {
 	/**
 	 * 添加缓存
 	 * @param entity 缓存的Value

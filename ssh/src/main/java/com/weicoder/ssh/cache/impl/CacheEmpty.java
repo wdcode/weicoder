@@ -13,14 +13,7 @@ import com.weicoder.common.lang.Lists;
  * @version 1.0 
  */
 public final class CacheEmpty implements Cache<Entity> {
-	@Override
-	public void clear() {}
-
-	@Override
-	public boolean isEmpty() {
-		return true;
-	}
-
+  
 	@Override
 	public Entity set(Entity entity) {
 		return entity;

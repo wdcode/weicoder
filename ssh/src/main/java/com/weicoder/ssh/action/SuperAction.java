@@ -16,6 +16,8 @@ import com.weicoder.ssh.entity.EntityTime;
 import com.weicoder.ssh.entity.EntityUserId;
 import com.weicoder.ssh.service.QueryService;
 import com.weicoder.ssh.service.SuperService;
+import com.weicoder.ssh.token.LoginToken;
+import com.weicoder.ssh.util.RequestUtil;
 import com.weicoder.common.constants.DateConstants;
 import com.weicoder.common.constants.HttpConstants;
 import com.weicoder.common.constants.StringConstants;
@@ -28,15 +30,14 @@ import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.DateUtil;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
-import com.weicoder.core.json.JsonEngine;
+import com.weicoder.json.JsonEngine;
 import com.weicoder.common.log.Logs; 
-import com.weicoder.common.token.TokenBean;
-import com.weicoder.web.util.IpUtil;
 
 /**
  * 超级通用Action
- * @author WD 
- * @version 1.0  
+ * 
+ * @author WD
+ * @version 1.0
  */
 public abstract class SuperAction extends BasicAction {
 	// 成功
@@ -56,7 +57,7 @@ public abstract class SuperAction extends BasicAction {
 	@Resource
 	protected QueryService			query;
 	// 验证登录标识
-	protected TokenBean				token;
+	protected LoginToken			token;
 	// 通用实体
 	protected Entity				entity;
 	// 实体列表
@@ -93,8 +94,9 @@ public abstract class SuperAction extends BasicAction {
 
 	/**
 	 * 初始化Action
-	 * @param request HttpServletRequest
-	 * @param response HttpServletResponse
+	 * 
+	 * @param request    HttpServletRequest
+	 * @param response   HttpServletResponse
 	 * @param actionName action名称
 	 * @param module
 	 * @param method
@@ -154,6 +156,7 @@ public abstract class SuperAction extends BasicAction {
 
 	/**
 	 * 重置缓存
+	 * 
 	 * @return 跳转
 	 * @throws Exception
 	 */
@@ -170,6 +173,7 @@ public abstract class SuperAction extends BasicAction {
 
 	/**
 	 * 重置缓存
+	 * 
 	 * @return 跳转
 	 * @throws Exception
 	 */
@@ -186,6 +190,7 @@ public abstract class SuperAction extends BasicAction {
 
 	/**
 	 * 添加
+	 * 
 	 * @return 跳转
 	 * @throws Exception
 	 */
@@ -196,6 +201,7 @@ public abstract class SuperAction extends BasicAction {
 
 	/**
 	 * 添加或修改
+	 * 
 	 * @return 跳转
 	 * @throws Exception
 	 */
@@ -206,6 +212,7 @@ public abstract class SuperAction extends BasicAction {
 
 	/**
 	 * 添加
+	 * 
 	 * @return 跳转
 	 * @throws Exception
 	 */
@@ -225,6 +232,7 @@ public abstract class SuperAction extends BasicAction {
 
 	/**
 	 * 修改
+	 * 
 	 * @return 跳转
 	 * @throws Exception
 	 */
@@ -238,6 +246,7 @@ public abstract class SuperAction extends BasicAction {
 
 	/**
 	 * 修改
+	 * 
 	 * @return 跳转
 	 * @throws Exception
 	 */
@@ -269,6 +278,7 @@ public abstract class SuperAction extends BasicAction {
 
 	/**
 	 * 删除
+	 * 
 	 * @return 跳转
 	 * @throws Exception
 	 */
@@ -296,6 +306,7 @@ public abstract class SuperAction extends BasicAction {
 
 	/**
 	 * 删除多个
+	 * 
 	 * @return 跳转
 	 * @throws Exception
 	 */
@@ -308,6 +319,7 @@ public abstract class SuperAction extends BasicAction {
 
 	/**
 	 * 查询所有
+	 * 
 	 * @return 跳转list
 	 * @throws Exception
 	 */
@@ -317,6 +329,7 @@ public abstract class SuperAction extends BasicAction {
 
 	/**
 	 * 分页查询
+	 * 
 	 * @return 跳转list
 	 * @throws Exception
 	 */
@@ -334,6 +347,7 @@ public abstract class SuperAction extends BasicAction {
 
 	/**
 	 * 分页查询
+	 * 
 	 * @return 跳转list
 	 * @throws Exception
 	 */
@@ -344,6 +358,7 @@ public abstract class SuperAction extends BasicAction {
 
 	/**
 	 * 分页查询
+	 * 
 	 * @return 跳转list
 	 * @throws Exception
 	 */
@@ -371,6 +386,7 @@ public abstract class SuperAction extends BasicAction {
 
 	/**
 	 * 实体条件查询出所有
+	 * 
 	 * @return 跳转SUCCESS
 	 * @throws Exception
 	 */
@@ -381,6 +397,7 @@ public abstract class SuperAction extends BasicAction {
 
 	/**
 	 * 实体条件查询出所有
+	 * 
 	 * @return 跳转SUCCESS
 	 * @throws Exception
 	 */
@@ -391,6 +408,7 @@ public abstract class SuperAction extends BasicAction {
 
 	/**
 	 * 实体条件查询出所有
+	 * 
 	 * @return 跳转SUCCESS
 	 * @throws Exception
 	 */
@@ -401,6 +419,7 @@ public abstract class SuperAction extends BasicAction {
 
 	/**
 	 * 实体条件查询出所有
+	 * 
 	 * @return 跳转list
 	 * @throws Exception
 	 */
@@ -411,6 +430,7 @@ public abstract class SuperAction extends BasicAction {
 
 	/**
 	 * 跳转到修改页
+	 * 
 	 * @return 跳转
 	 * @throws Exception
 	 */
@@ -421,6 +441,7 @@ public abstract class SuperAction extends BasicAction {
 
 	/**
 	 * 跳转到列表页
+	 * 
 	 * @return 跳转
 	 * @throws Exception
 	 */
@@ -438,6 +459,7 @@ public abstract class SuperAction extends BasicAction {
 
 	/**
 	 * 获得数量
+	 * 
 	 * @return 跳转
 	 * @throws Exception
 	 */
@@ -448,6 +470,7 @@ public abstract class SuperAction extends BasicAction {
 
 	/**
 	 * 跳转到列表页
+	 * 
 	 * @return 跳转
 	 * @throws Exception
 	 */
@@ -471,6 +494,7 @@ public abstract class SuperAction extends BasicAction {
 
 	/**
 	 * 直接跳转
+	 * 
 	 * @return
 	 * @throws Exception
 	 */
@@ -480,6 +504,7 @@ public abstract class SuperAction extends BasicAction {
 
 	/**
 	 * 直接跳转
+	 * 
 	 * @return
 	 * @throws Exception
 	 */
@@ -489,14 +514,16 @@ public abstract class SuperAction extends BasicAction {
 
 	/**
 	 * 获得提交IP
+	 * 
 	 * @return 提交IP
 	 */
 	public String getIp() {
-		return IpUtil.getIp(request);
+		return RequestUtil.getIp(request);
 	}
 
 	/**
 	 * 获得通用实体
+	 * 
 	 * @return 通用实体
 	 */
 	public Entity getEntity() {
@@ -505,6 +532,7 @@ public abstract class SuperAction extends BasicAction {
 
 	/**
 	 * 设置通用实体
+	 * 
 	 * @param entity 通用实体
 	 */
 	public void setEntity(Entity entity) {
@@ -513,6 +541,7 @@ public abstract class SuperAction extends BasicAction {
 
 	/**
 	 * 获得通用实体列表
+	 * 
 	 * @return 通用实体列表
 	 */
 	public List<Entity> getEntitys() {
@@ -521,6 +550,7 @@ public abstract class SuperAction extends BasicAction {
 
 	/**
 	 * 设置通用实体列表
+	 * 
 	 * @param entitys 通用实体列表
 	 */
 	public void setEntitys(List<Entity> entitys) {
@@ -529,6 +559,7 @@ public abstract class SuperAction extends BasicAction {
 
 	/**
 	 * 获得开始时间
+	 * 
 	 * @return 开始时间
 	 */
 	public String getStartDate() {
@@ -537,6 +568,7 @@ public abstract class SuperAction extends BasicAction {
 
 	/**
 	 * 设置开始时间
+	 * 
 	 * @param startDate 开始时间
 	 */
 	public void setStartDate(String startDate) {
@@ -545,6 +577,7 @@ public abstract class SuperAction extends BasicAction {
 
 	/**
 	 * 获得结束时间
+	 * 
 	 * @return 结束时间
 	 */
 	public String getEndDate() {
@@ -553,6 +586,7 @@ public abstract class SuperAction extends BasicAction {
 
 	/**
 	 * 设置结束时间
+	 * 
 	 * @param endDate 结束时间
 	 */
 	public void setEndDate(String endDate) {
@@ -561,6 +595,7 @@ public abstract class SuperAction extends BasicAction {
 
 	/**
 	 * 获得分页Bean
+	 * 
 	 * @return 分页Bean
 	 */
 	public Pagination getPager() {
@@ -569,6 +604,7 @@ public abstract class SuperAction extends BasicAction {
 
 	/**
 	 * 设置分页Bean
+	 * 
 	 * @param pager 分页Bean
 	 */
 	public void setPager(Pagination pager) {
@@ -577,6 +613,7 @@ public abstract class SuperAction extends BasicAction {
 
 	/**
 	 * 获得排序参数
+	 * 
 	 * @return 排序参数
 	 */
 	public Map<String, Object> getOrders() {
@@ -585,6 +622,7 @@ public abstract class SuperAction extends BasicAction {
 
 	/**
 	 * 设置排序参数
+	 * 
 	 * @param orders 排序参数
 	 */
 	public void setOrders(String orders) {
@@ -593,6 +631,7 @@ public abstract class SuperAction extends BasicAction {
 
 	/**
 	 * 获得业务
+	 * 
 	 * @return 业务
 	 */
 	public SuperService getService() {
@@ -601,6 +640,7 @@ public abstract class SuperAction extends BasicAction {
 
 	/**
 	 * 获得查询器
+	 * 
 	 * @return 查询器
 	 */
 	public QueryService getQuery() {
@@ -609,14 +649,16 @@ public abstract class SuperAction extends BasicAction {
 
 	/**
 	 * 获得验证登录标识
+	 * 
 	 * @return 验证登录标识
 	 */
-	public TokenBean getToken() {
+	public LoginToken getToken() {
 		return token;
 	}
 
 	/**
 	 * 获得主键
+	 * 
 	 * @return 主键
 	 */
 	public Serializable getKey() {
@@ -625,6 +667,7 @@ public abstract class SuperAction extends BasicAction {
 
 	/**
 	 * 设置主键
+	 * 
 	 * @param key 主键
 	 */
 	public void setKey(Serializable key) {
@@ -655,6 +698,7 @@ public abstract class SuperAction extends BasicAction {
 
 	/**
 	 * 获得主键数组
+	 * 
 	 * @return 主键数组
 	 */
 	public Serializable[] getKeys() {
@@ -663,6 +707,7 @@ public abstract class SuperAction extends BasicAction {
 
 	/**
 	 * 设置主键数组
+	 * 
 	 * @param keys 主键数组
 	 */
 	public void setKeys(Serializable[] keys) {
@@ -671,6 +716,7 @@ public abstract class SuperAction extends BasicAction {
 
 	/**
 	 * 方法回调 所有直接Action回调的方法 一边统一处理
+	 * 
 	 * @param obj 处理对象
 	 * @return 返回标识
 	 */
@@ -680,8 +726,9 @@ public abstract class SuperAction extends BasicAction {
 
 	/**
 	 * 方法回调 所有直接Action回调的方法 一边统一处理
+	 * 
 	 * @param response
-	 * @param obj 处理对象
+	 * @param obj      处理对象
 	 * @return 返回标识
 	 */
 	public String call(HttpServletResponse response, Object obj) {
@@ -703,6 +750,7 @@ public abstract class SuperAction extends BasicAction {
 
 	/**
 	 * 添加错误信息 错误Field=key value=国际化value
+	 * 
 	 * @param key 国际化文件的Key
 	 */
 	public String addError(String key) {
@@ -712,6 +760,7 @@ public abstract class SuperAction extends BasicAction {
 
 	/**
 	 * 添加信息 调用addActionMessage做国际化处理
+	 * 
 	 * @param key 国际化文件的Key
 	 */
 	public String addMessage(String key) {
@@ -721,12 +770,15 @@ public abstract class SuperAction extends BasicAction {
 
 	/**
 	 * 添加实体
+	 * 
 	 * @param e
 	 * @return
 	 */
 	protected Entity theme(Entity e) {
 		// 判断e==null 直接返回
-		if (e == null) { return e; }
+		if (e == null) {
+			return e;
+		}
 		// 判断是否EntityStartEndTime
 		if (e instanceof EntityStartEndTime) {
 			// 开始时间
@@ -743,6 +795,7 @@ public abstract class SuperAction extends BasicAction {
 
 	/**
 	 * 添加实体
+	 * 
 	 * @param e
 	 * @return
 	 */
@@ -775,6 +828,7 @@ public abstract class SuperAction extends BasicAction {
 
 	/**
 	 * 上传文件
+	 * 
 	 * @param request
 	 * @param e
 	 * @return
@@ -801,8 +855,9 @@ public abstract class SuperAction extends BasicAction {
 
 	/**
 	 * 以sign模式输出数据到客户端方法
+	 * 
 	 * @param response
-	 * @param json 对象
+	 * @param json     对象
 	 */
 	protected String sign(HttpServletResponse response, Object obj) {
 		return ajax(response, obj instanceof String || obj instanceof Number ? obj : EmptyUtil.isEmpty(obj) ? ERROR : SUCCESS);
@@ -810,8 +865,9 @@ public abstract class SuperAction extends BasicAction {
 
 	/**
 	 * 以key模式输出数据到客户端方法
+	 * 
 	 * @param response
-	 * @param json 对象
+	 * @param json     对象
 	 */
 	protected String key(HttpServletResponse response, Object obj) {
 		return ajax(response, obj instanceof String || obj instanceof Number ? obj : obj instanceof Entity ? ((Entity) obj).getKey() : ERROR);
@@ -820,7 +876,7 @@ public abstract class SuperAction extends BasicAction {
 	/**
 	 * 获得验证登录凭证
 	 */
-	protected TokenBean auth() {
+	protected LoginToken auth() {
 		return LoginEngine.getLoginBean(request, "user");
 	}
 }

@@ -13,7 +13,7 @@ import com.weicoder.frame.entity.EntityIp;
 import com.weicoder.frame.entity.EntityStartEndTime;
 import com.weicoder.frame.entity.EntityTime;
 import com.weicoder.frame.entity.EntityUserId; 
-import com.weicoder.frame.util.RequestUtil; 
+import com.weicoder.web.util.RequestUtil; 
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.lang.Lists;
@@ -24,8 +24,8 @@ import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.DateUtil;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
-import com.weicoder.core.bean.Pagination;
-import com.weicoder.core.json.JsonEngine;
+import com.weicoder.common.bean.Pages;
+import com.weicoder.json.JsonEngine;
 import com.weicoder.dao.service.SuperService;
 
 /**
@@ -59,7 +59,7 @@ public class SuperAction extends BasicAction {
 	// 实体类
 	protected Class<Entity>			entityClass;
 	// 分页Bean 
-	protected Pagination			pager;
+	protected Pages			pager;
 	// 排序参数
 	protected Map<String, Object>	orders;
 	// 实体是否初始化
@@ -322,7 +322,7 @@ public class SuperAction extends BasicAction {
 	 */
 	public String order() {
 		Logs.info("page entity=" + entity + ";pager=" + pager);
-		return callback(entitys = entity == null ? SuperService.order(entityClass, orders, pager)
+		return callback(entity == null ? SuperService.order(entityClass, orders, pager).getList()
 				: SuperService.order(entity, orders, pager)); 
 	}
 
@@ -540,7 +540,7 @@ public class SuperAction extends BasicAction {
 	 * 获得分页Bean
 	 * @return 分页Bean
 	 */
-	public Pagination getPager() {
+	public Pages getPager() {
 		return pager;
 	}
 
@@ -548,7 +548,7 @@ public class SuperAction extends BasicAction {
 	 * 设置分页Bean
 	 * @param pager 分页Bean
 	 */
-	public void setPager(Pagination pager) {
+	public void setPager(Pages pager) {
 		this.pager = pager;
 	}
 

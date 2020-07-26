@@ -1,4 +1,4 @@
-package com.weicoder.frame.util;
+package com.weicoder.ssh.util;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;

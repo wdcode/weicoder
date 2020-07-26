@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.weicoder.ssh.action.StrutsAction;
 import com.weicoder.ssh.params.SecurityParams;
-import com.weicoder.web.util.IpUtil;
+import com.weicoder.ssh.util.RequestUtil;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.util.EmptyUtil;
 
@@ -36,7 +36,7 @@ public final class SecurityInterceptor extends BasicInterceptor<StrutsAction> {
 		// 过滤IP
 		if (SecurityParams.SECURITY_POWER_IP) {
 			// 获得IP
-			String ip = IpUtil.getIp(request);
+			String ip = RequestUtil.getIp(request);
 			// 如果不存在允许列表中
 			if (!SecurityParams.SECURITY_IPS.contains(ip)) { return false; }
 		}

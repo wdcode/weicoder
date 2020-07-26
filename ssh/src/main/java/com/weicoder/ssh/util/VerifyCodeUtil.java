@@ -1,4 +1,4 @@
-package com.weicoder.frame.util;
+package com.weicoder.ssh.util;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -14,10 +14,8 @@ import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.MathUtil;
-import com.weicoder.image.ImageUtil;
-import com.weicoder.web.util.AttributeUtil;
-import com.weicoder.web.util.ResponseUtil;
-import com.weicoder.frame.params.FrameParams;
+import com.weicoder.image.ImageUtil; 
+import com.weicoder.ssh.params.FrameParams;
 
 /**
  * 生成验证图片,并把验证码保存到sessin中

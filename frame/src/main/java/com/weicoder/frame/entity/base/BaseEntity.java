@@ -7,7 +7,7 @@ import javax.persistence.MappedSuperclass;
 import com.weicoder.frame.entity.Entity;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.util.EmptyUtil;
-import com.weicoder.core.json.JsonEngine;
+import com.weicoder.json.JsonEngine;
 
 /**
  * Entity接口基础实现

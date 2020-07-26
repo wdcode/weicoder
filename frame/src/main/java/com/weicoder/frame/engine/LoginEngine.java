@@ -5,8 +5,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.weicoder.frame.entity.EntityUser;
 import com.weicoder.frame.params.SiteParams;
-import com.weicoder.frame.util.AttributeUtil;
-import com.weicoder.frame.util.RequestUtil;
+import com.weicoder.web.util.AttributeUtil;
+import com.weicoder.web.util.RequestUtil;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.token.TokenBean;
 import com.weicoder.common.token.TokenEngine;

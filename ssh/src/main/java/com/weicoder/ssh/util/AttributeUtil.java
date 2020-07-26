@@ -1,4 +1,4 @@
-package com.weicoder.frame.util;
+package com.weicoder.ssh.util;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -9,8 +9,7 @@ import com.weicoder.common.util.EmptyUtil;
 /**
  * 保存属性工具类
  * @author WD
- * 
- * @version 1.0 2010-03-07
+ *  
  */
 public final class AttributeUtil {
 	/**

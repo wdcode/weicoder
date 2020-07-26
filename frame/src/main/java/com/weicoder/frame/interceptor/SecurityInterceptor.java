@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.weicoder.frame.action.StrutsAction;
 import com.weicoder.frame.params.SecurityParams;
-import com.weicoder.frame.util.RequestUtil;
+import com.weicoder.web.util.RequestUtil;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.util.EmptyUtil;
 

@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.io.IOUtil;
 import com.weicoder.common.util.ResourceUtil;
-import com.weicoder.frame.util.HttpUtil;
-import com.weicoder.frame.util.ResponseUtil;
+import com.weicoder.web.util.HttpUtil;
+import com.weicoder.web.util.ResponseUtil;
 import com.weicoder.frame.util.UrlUtil; 
 
 /**

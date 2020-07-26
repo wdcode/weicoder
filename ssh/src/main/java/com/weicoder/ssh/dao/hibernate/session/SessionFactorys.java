@@ -1,5 +1,6 @@
 package com.weicoder.ssh.dao.hibernate.session;
 
+import java.io.Closeable;
 import java.util.Map;
 import java.util.Properties;
 
@@ -18,12 +19,11 @@ import org.springframework.stereotype.Component;
 import com.weicoder.ssh.dao.hibernate.naming.ImprovedNamingStrategy;
 import com.weicoder.ssh.dao.hibernate.search.HibernateSearch;
 import com.weicoder.ssh.entity.Entity;
-import com.weicoder.ssh.params.DaoParams;
-import com.weicoder.common.interfaces.Close;
+import com.weicoder.ssh.params.DaoParams; 
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.util.EmptyUtil;
-import com.weicoder.core.dao.datasource.BasicDataSource;
-import com.weicoder.core.dao.datasource.DataSource;
+import com.weicoder.ssh.dao.datasource.BasicDataSource;
+import com.weicoder.ssh.dao.datasource.DataSource;
 
 /**
  * SessionFactory包装类
@@ -31,7 +31,7 @@ import com.weicoder.core.dao.datasource.DataSource;
  * @version 1.0 
  */
 @Component
-public final class SessionFactorys implements Close {
+public final class SessionFactorys implements Closeable {
 	//ApplicationContext
 	@Resource
 	private ApplicationContext				context;

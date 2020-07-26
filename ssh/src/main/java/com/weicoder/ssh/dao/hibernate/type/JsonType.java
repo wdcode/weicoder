@@ -9,7 +9,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
 
 import com.weicoder.common.lang.Lists;
-import com.weicoder.core.json.JsonEngine;
+import com.weicoder.json.JsonEngine;
 import com.weicoder.common.U; 
 
 /**

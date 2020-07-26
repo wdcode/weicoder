@@ -10,7 +10,7 @@ import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.util.BeanUtil;
-import com.weicoder.frame.util.ResponseUtil;
+import com.weicoder.web.util.ResponseUtil;
 
 /**
  * 基础action实现 

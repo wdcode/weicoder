@@ -10,7 +10,7 @@ import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.util.BeanUtil;
-import com.weicoder.web.util.ResponseUtil;
+import com.weicoder.ssh.util.ResponseUtil;
 
 /**
  * Struts2 Action 的抽象实现 其它Struts2 Action可继承此类

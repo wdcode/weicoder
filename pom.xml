@@ -52,6 +52,11 @@
 		<xwork-core>2.3.37</xwork-core>
 		<spring>5.2.8.RELEASE</spring>
 		<hibernate-search>5.11.5.Final</hibernate-search>
+		<druid>1.1.23</druid>
+		<commons-dbcp2>2.7.0</commons-dbcp2>
+		<httpclient>4.5.12</httpclient>
+		<httpcore>4.4.13</httpcore>
+		<httpasyncclient>4.1.4</httpasyncclient>
 	</properties>
 
 	<modules>
@@ -63,6 +68,7 @@
 		<module>email</module>
 		<module>excel</module>
 		<module>hbase</module>
+		<module>httpclient4</module>
 		<module>httpclient5</module>
 		<module>http</module>
 		<module>image</module>
@@ -88,13 +94,13 @@
 		<module>admin</module>
 		<module>hadoop</module>
 		<module>influxdb</module>
-		<!-- -->
-		<module>ssh</module>
 		<module>frame</module>
+		<module>ssh</module>
+		<!--
 		<module>spark</module>
 		<module>flink</module>
 		<module>seata</module>
-
+ 		--> 
 	</modules>
 
 	<dependencyManagement>
@@ -252,6 +258,21 @@
 			<dependency>
 				<groupId>com.weicoder</groupId>
 				<artifactId>admin</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.weicoder</groupId>
+				<artifactId>httpclient4</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.weicoder</groupId>
+				<artifactId>ssh</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.weicoder</groupId>
+				<artifactId>frame</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
@@ -513,6 +534,41 @@
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-search</artifactId>
 				<version>${hibernate-search}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>druid</artifactId>
+				<version>${druid}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-dbcp2</artifactId>
+				<version>${commons-dbcp2}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.httpcomponents</groupId>
+				<artifactId>httpclient</artifactId>
+				<version>${httpclient}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.httpcomponents</groupId>
+				<artifactId>httpmime</artifactId>
+				<version>${httpclient}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.httpcomponents</groupId>
+				<artifactId>httpcore</artifactId>
+				<version>${httpcore}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.httpcomponents</groupId>
+				<artifactId>httpcore-nio</artifactId>
+				<version>${httpcore}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.httpcomponents</groupId>
+				<artifactId>httpasyncclient</artifactId>
+				<version>${httpasyncclient}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

@@ -10,12 +10,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.weicoder.common.constants.DateConstants;
+import com.weicoder.common.constants.FileConstants;
 import com.weicoder.common.constants.HttpConstants;
 import com.weicoder.common.constants.StringConstants;
  
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.U;
-import com.weicoder.common.util.StringUtil;
+import com.weicoder.common.util.StringUtil; 
 
 /**
  * HTTP一些相关操作类
@@ -32,6 +33,37 @@ public final class HttpUtil {
 	 */
 	public static String toUrl(String url, Map<String, String> parameters) {
 		return StringUtil.add(url, "?", toParameters(parameters));
+	}
+	
+	/**
+	 * 根据传进来的url判断ContentType
+	 * @param url URL路径
+	 * @return ContentType
+	 */
+	public static String getContentType(String url) {
+		// 如果有?把?去掉 并获得后缀
+		String suf = StringUtil
+				.subStringLast(StringUtil.subStringEnd(url, StringConstants.QUESTION_MARK),
+						StringConstants.POINT)
+				.toLowerCase();
+		// 判断是什么类型的文件
+		if (FileConstants.SUFFIX_JS.equals(suf)) {
+			return HttpConstants.CONTENT_TYPE_JS;
+		} else if (FileConstants.SUFFIX_CSS.equals(suf)) {
+			return HttpConstants.CONTENT_TYPE_CSS;
+		} else if (FileConstants.SUFFIX_HTML.equals(suf)) {
+			return HttpConstants.CONTENT_TYPE_HTML;
+		} else if (FileConstants.SUFFIX_TXT.equals(suf)) {
+			return HttpConstants.CONTENT_TYPE_TXT;
+		} else if (FileConstants.SUFFIX_GIF.equals(suf)) {
+			return HttpConstants.CONTENT_TYPE_GIF;
+		} else if (FileConstants.SUFFIX_JPG.equals(suf) || FileConstants.SUFFIX_JPEG.equals(suf)) {
+			return HttpConstants.CONTENT_TYPE_JPEG;
+		} else if (FileConstants.SUFFIX_PNG.equals(suf)) {
+			return HttpConstants.CONTENT_TYPE_PNG;
+		} else {
+			return StringConstants.EMPTY;
+		}
 	}
 
 	/**

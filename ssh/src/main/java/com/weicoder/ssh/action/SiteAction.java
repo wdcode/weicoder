@@ -7,16 +7,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.weicoder.ssh.engine.LoginEngine;
 import com.weicoder.ssh.entity.EntityUser;
 import com.weicoder.ssh.params.SiteParams;
+import com.weicoder.ssh.token.LoginToken;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.crypto.Decrypts;
 import com.weicoder.common.crypto.Digest;
 import com.weicoder.common.crypto.Encrypts;
-import com.weicoder.common.lang.Conversion; 
-import com.weicoder.common.token.TokenBean;
+import com.weicoder.common.lang.Conversion;  
 import com.weicoder.common.util.DateUtil;
 import com.weicoder.common.util.EmptyUtil;
-import com.weicoder.core.email.EmailEngine;
-import com.weicoder.web.util.VerifyCodeUtil;
+import com.weicoder.email.EmailEngine;
+import com.weicoder.ssh.util.VerifyCodeUtil;
 
 /**
  * 登录Action
@@ -60,7 +60,7 @@ public class SiteAction<U extends EntityUser> extends StrutsAction {
 	 */
 	public void setToken(String token) {
 		// 解析登录凭证
-		TokenBean login = LoginEngine.decrypt(token);
+		LoginToken login = LoginEngine.decrypt(token);
 		// 登录凭证不为空
 		if (!EmptyUtil.isEmpty(login)) {
 			this.token = login;
@@ -412,7 +412,7 @@ public class SiteAction<U extends EntityUser> extends StrutsAction {
 	}
 
 	@Override
-	protected TokenBean auth() {
+	protected LoginToken auth() {
 		return LoginEngine.getLoginBean(request, getLoginKey());
 	}
 }

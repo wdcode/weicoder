@@ -10,31 +10,31 @@ import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.ApplicationContext;
 
 import com.weicoder.ssh.cache.Cache;
-import com.weicoder.ssh.cache.impl.CacheMap;
-import com.weicoder.ssh.cache.impl.CacheNoSQL;
-import com.weicoder.ssh.entity.Entity;
-import com.weicoder.ssh.params.FrameParams;
+import com.weicoder.ssh.cache.impl.CacheMap; 
+import com.weicoder.ssh.entity.Entity; 
 import com.weicoder.ssh.service.SuperService;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
 
 /**
  * 全局Context控制
- * @author WD 
- * @version 1.0 
+ * 
+ * @author WD
+ * @version 1.0
  */
 public final class Contexts {
-	//WebApplicationContext
+	// WebApplicationContext
 	private static ApplicationContext								context;
-	//SuperService
+	// SuperService
 	private static SuperService										service;
-	// DefaultListableBeanFactory 
+	// DefaultListableBeanFactory
 	private static DefaultListableBeanFactory						factory;
 	// 短类名对应的类对象Map
 	private static ConcurrentMap<String, Class<? extends Entity>>	entitys;
 
 	/**
 	 * 初始化
+	 * 
 	 * @param context
 	 */
 	public static void init(ApplicationContext context) {
@@ -53,6 +53,7 @@ public final class Contexts {
 
 	/**
 	 * 获得ApplicationContext
+	 * 
 	 * @return ApplicationContext
 	 */
 	public static ApplicationContext getContext() {
@@ -61,6 +62,7 @@ public final class Contexts {
 
 	/**
 	 * 获得SuperService
+	 * 
 	 * @return SuperService
 	 */
 	public static SuperService getService() {
@@ -69,6 +71,7 @@ public final class Contexts {
 
 	/**
 	 * 获得所有实体类列表
+	 * 
 	 * @return 类列表
 	 */
 	public static List<Class<? extends Entity>> getEntitys() {
@@ -77,6 +80,7 @@ public final class Contexts {
 
 	/**
 	 * 根据实体名对应的类对象
+	 * 
 	 * @param entity 实体名
 	 * @return 类对象
 	 */
@@ -87,7 +91,8 @@ public final class Contexts {
 
 	/**
 	 * 根据名称和类获得实体
-	 * @param name 名称
+	 * 
+	 * @param name         名称
 	 * @param requiredType 类型
 	 * @return 实体
 	 */
@@ -97,6 +102,7 @@ public final class Contexts {
 
 	/**
 	 * 根据类获得实体
+	 * 
 	 * @param requiredType 类型
 	 * @return 实体
 	 */
@@ -106,6 +112,7 @@ public final class Contexts {
 
 	/**
 	 * 根据类获得实体
+	 * 
 	 * @param requiredType 类型
 	 * @param 参数
 	 * @return 实体
@@ -117,16 +124,18 @@ public final class Contexts {
 
 	/**
 	 * 根据类获得缓存
+	 * 
 	 * @param type 实体类型
 	 * @return 缓存
 	 */
 	@SuppressWarnings("unchecked")
 	public static <E extends Entity> Cache<E> getCache() {
-		return "map".equals(FrameParams.CACHE_TYPE) ? getBean(CacheMap.class) : getBean(CacheNoSQL.class);
+		return getBean(CacheMap.class);
 	}
 
 	/**
 	 * 根据传入的注解类获得 名-对象 Map列表
+	 * 
 	 * @param annotationType 注解类
 	 * @return Map列表
 	 */
@@ -136,6 +145,7 @@ public final class Contexts {
 
 	/**
 	 * 根据传入的注解类获得 名-对象 Map列表
+	 * 
 	 * @param annotationType 注解类
 	 * @return Map列表
 	 */
@@ -145,12 +155,14 @@ public final class Contexts {
 
 	/**
 	 * 注册一个新Bean
-	 * @param beanName Bean名称
+	 * 
+	 * @param beanName       Bean名称
 	 * @param beanDefinition Bean
 	 */
 	public static void registerBeanDefinition(String beanName, BeanDefinition beanDefinition) {
 		factory.registerBeanDefinition(beanName, beanDefinition);
 	}
 
-	private Contexts() {}
+	private Contexts() {
+	}
 }

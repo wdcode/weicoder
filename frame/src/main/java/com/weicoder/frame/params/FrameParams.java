@@ -4,14 +4,11 @@ import com.weicoder.common.params.Params;
 
 /**
  * WdBase包所用参数读取类
- * @author WD
- * 
- * @version 1.0 2010-01-05
+ * @author WD  
  */
 public final class FrameParams {
 	/** 验证码出现的字符集 */
-	public final static String	VERIFY_CODE			= Params.getString("verify.code",
-			"abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+	public final static String	VERIFY_CODE			= Params.getString("verify.code", "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 	/** 验证码出现的字符集 */
 	public final static char[]	VERIFY_CODE_CHARS	= VERIFY_CODE.toCharArray();
 	/** 验证码长度 */
@@ -19,8 +16,7 @@ public final class FrameParams {
 	/** 保存到session中的key */
 	public final static String	VERIFY_KEY			= Params.getString("verify.key", "verifyCode");
 	/** 验证码字体 */
-	public final static String	VERIFY_FONT			= Params.getString("verify.font",
-			"Times New Roman");
+	public final static String	VERIFY_FONT			= Params.getString("verify.font", "Times New Roman");
 	/** 分页使用当前页的标识 */
 	public final static String	PAGE_FLAG			= Params.getString("page.flag",
 			"pager.currentPage");
