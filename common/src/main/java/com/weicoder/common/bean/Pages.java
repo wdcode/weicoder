@@ -30,37 +30,37 @@ public final class Pages {
 		return new PageResult(list, this);
 	}
 
-//	/**
-//	 * 获得总页数
-//	 * 
-//	 * @return 总页数
-//	 */
-//	public int getTotalPage() {
-//		return total < size ? 0 : total % size == 0 ? total / size : total / size + 1;
-//	}
+	/**
+	 * 获得总页数
+	 * 
+	 * @return 总页数
+	 */
+	public int getTotalPage() {
+		return total < size ? 0 : total % size == 0 ? total / size : total / size + 1;
+	}
 
-//	/**
-//	 * 获得开始页码
-//	 * 
-//	 * @return 开始页码
-//	 */
-//	public int getStartPage() {
-//		return page - 5 > 0 ? page - 5 : 0;
-//	}
+	/**
+	 * 获得开始页码
+	 * 
+	 * @return 开始页码
+	 */
+	public int getStartPage() {
+		return page - 5 > 0 ? page - 5 : 0;
+	}
 
-//	/**
-//	 * 获得结束页码
-//	 * 
-//	 * @return 结束页码
-//	 */
-//	public int getEndPage() {
-//		// 开始页
-//		int current = getPage();
-//		// 总页数
-//		int total = getTotalPage();
-//		// 返回结束页
-//		return (current == 1 || current < 6) ? (total > 10 ? 10 : total) : (current + 5 <= total ? current + 5 : total);
-//	}
+	/**
+	 * 获得结束页码
+	 * 
+	 * @return 结束页码
+	 */
+	public int getEndPage() {
+		// 开始页
+		int current = getPage();
+		// 总页数
+		int total = getTotalPage();
+		// 返回结束页
+		return (current == 1 || current < 6) ? (total > 10 ? 10 : total) : (current + 5 <= total ? current + 5 : total);
+	}
 
 	/**
 	 * 获得最大结果数

@@ -23,7 +23,7 @@ public final class ConfigFactory extends FactoryKey<String, Config> {
 
 	@Override
 	public Config newInstance(String key) {
-		return new Config(key + ".properties");
+		return new ConfigProperties(key);
 	}
 
 	private ConfigFactory() {

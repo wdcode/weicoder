@@ -1,6 +1,7 @@
 package com.weicoder.ssh.params;
 
 import com.weicoder.common.config.Config;
+import com.weicoder.common.config.ConfigFactory;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.util.EmptyUtil; 
 
@@ -11,7 +12,7 @@ import com.weicoder.common.util.EmptyUtil;
  */
 public final class DaoParams {
 	// Properties配置
-	private static Config			config	= new Config(FrameParams.DATA_SOURCE_CONFIG);
+	private static Config			config	= ConfigFactory.getConfig(FrameParams.DATA_SOURCE_CONFIG);
 	/** 多库名称 */
 	public final static String[]	NAMES	= config.getStringArray("names", new String[] { StringConstants.EMPTY });
 
