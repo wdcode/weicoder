@@ -90,8 +90,7 @@
 		<module>xml</module>
 		<module>yaml</module>
 		<module>zookeeper</module>
-		<module>zip</module>
-		<module>admin</module>
+		<module>zip</module> 
 		<module>hadoop</module>
 		<module>influxdb</module>
 		<module>frame</module>
@@ -254,12 +253,7 @@
 				<groupId>com.weicoder</groupId>
 				<artifactId>zip</artifactId>
 				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.weicoder</groupId>
-				<artifactId>admin</artifactId>
-				<version>${project.version}</version>
-			</dependency>
+			</dependency> 
 			<dependency>
 				<groupId>com.weicoder</groupId>
 				<artifactId>httpclient4</artifactId>
