@@ -8,7 +8,7 @@ import com.alibaba.druid.pool.DruidDataSource;
 /**
  * 淘宝 druid连接池 实现
  * @author WD 
- * @version 1.0 
+ *  
  */
 public final class Druid extends BaseDataSource {
 	// DruidDataSource数据源

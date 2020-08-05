@@ -8,32 +8,12 @@
 		<version>3.4.3</version>
 	</parent>
 	<artifactId>tomcat</artifactId>
-
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<configuration>
-					<archive>
-						<manifest>
-							<mainClass>com.weicoder.tomcat.Main</mainClass>
-						</manifest>
-					</archive>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
-
+  
 	<dependencies>
 		<dependency>
 			<groupId>com.weicoder</groupId>
 			<artifactId>web</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.tomcat.embed</groupId>
-			<artifactId>tomcat-embed-core</artifactId>
-		</dependency>
+		</dependency> 
 		<dependency>
 			<groupId>org.apache.tomcat.embed</groupId>
 			<artifactId>tomcat-embed-jasper</artifactId>

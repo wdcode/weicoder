@@ -9,7 +9,7 @@ import com.weicoder.json.JsonEngine;
  * 登录信息封装
  * 
  * @author WD
- * @version 1.0
+ * 
  */
 public class LoginToken {
 	// 用户ID

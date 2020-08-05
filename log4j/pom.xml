@@ -13,13 +13,11 @@
 		<dependency>
 			<groupId>com.weicoder</groupId>
 			<artifactId>common</artifactId>
-		</dependency>
-		<!-- 
+		</dependency> 
 		<dependency>
 			<groupId>com.weicoder</groupId>
 			<artifactId>zip</artifactId>
-		</dependency>
-		 -->
+		</dependency> 
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-core</artifactId>

@@ -8,7 +8,7 @@ import com.weicoder.common.params.Params;
 /**
  * 安全配置
  * @author WD 
- * @version 1.0 
+ *  
  */
 public final class SecurityParams {
 	/** 安全方法过滤 */

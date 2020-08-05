@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  * 通用Dao接口
  * @author WD 
- * @version 1.0 
+ *  
  */
 public interface Dao extends Closeable {
 	/**

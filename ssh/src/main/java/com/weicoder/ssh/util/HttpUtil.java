@@ -24,7 +24,7 @@ import com.weicoder.common.constants.StringConstants;
 /**
  * HTTP一些相关操作类
  * @author WD
- * @version 1.0
+ * 
  */
 public final class HttpUtil {
 

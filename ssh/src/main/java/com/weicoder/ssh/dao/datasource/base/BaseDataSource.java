@@ -11,7 +11,7 @@ import com.weicoder.ssh.dao.datasource.DataSource;
 /**
  * 基础数据源实现
  * @author WD 
- * @version 1.0  
+ *   
  */
 public abstract class BaseDataSource implements DataSource {
 	@Override

@@ -5,7 +5,7 @@ import java.util.Map;
 /**
  * Spring继承任务
  * @author WD 
- * @version 1.0  
+ *   
  */
 public interface Job {
 	/**

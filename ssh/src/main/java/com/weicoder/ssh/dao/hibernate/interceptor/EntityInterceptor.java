@@ -11,7 +11,7 @@ import com.weicoder.common.util.DateUtil;
 /**
  * hibernate 实体拦截器
  * @author WD 
- * @version 1.0  
+ *   
  */
 public class EntityInterceptor extends EmptyInterceptor {
 	private static final long serialVersionUID = 2314652107885146870L;

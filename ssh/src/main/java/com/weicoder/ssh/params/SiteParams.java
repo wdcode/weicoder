@@ -6,7 +6,7 @@ import com.weicoder.common.params.Params;
 /**
  * WdLogs包参数读取类
  * @author WD 
- * @version 1.0  
+ *   
  */
 public final class SiteParams {
 	/** email验证是否开启 */

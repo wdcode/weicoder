@@ -25,7 +25,7 @@ public final class FrameParams {
 	/** 缓存是否有效 */
 	public final static boolean	CACHE_VALID_POWER	= Params.getBoolean("cache.valid.power", true); 
 	/** 数据源配置 */
-	public final static String	DATA_SOURCE_CONFIG	= Params.getString("datasource.config", "db/db.properties");
+	public final static String	DATA_SOURCE_CONFIG	= Params.getString("datasource.config", "db/db");
 
 	/**
 	 * 获得是否使用缓存<br/>

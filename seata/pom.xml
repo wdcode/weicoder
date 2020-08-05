@@ -5,14 +5,38 @@
 	<parent>
 		<groupId>com.weicoder</groupId>
 		<artifactId>weicoder</artifactId>
-		<version>3.4.2</version>
+		<version>3.4.3</version>
 	</parent>
 	<artifactId>seata</artifactId>
 
 	<dependencies>
 		<dependency>
+			<groupId>com.weicoder</groupId>
+			<artifactId>log4j</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>io.seata</groupId>
-			<artifactId>seata-all</artifactId>
+			<artifactId>seata-tm</artifactId> 
+		</dependency>
+		<dependency>
+			<groupId>io.seata</groupId>
+			<artifactId>seata-rm-datasource</artifactId> 
+		</dependency>
+		<dependency>
+			<groupId>io.seata</groupId>
+			<artifactId>seata-serializer-seata</artifactId> 
+		</dependency>
+		<dependency>
+			<groupId>io.seata</groupId>
+			<artifactId>seata-sqlparser-druid</artifactId> 
+		</dependency>
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
 	</dependencies>
 </project>

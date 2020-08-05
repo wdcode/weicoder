@@ -14,7 +14,7 @@ import com.weicoder.ssh.dao.datasource.impl.Druid;
  * 封装 DataSource类 主要给Spring注入用
  * 
  * @author WD
- * @version 1.0
+ * 
  */
 public final class BasicDataSource implements DataSource {
 	// 数据源

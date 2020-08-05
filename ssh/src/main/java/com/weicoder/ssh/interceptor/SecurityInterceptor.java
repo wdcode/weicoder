@@ -14,7 +14,7 @@ import com.weicoder.common.util.EmptyUtil;
 /**
  * 基于动态映射方法的安全拦截器 出来掉不合法的一些请求
  * @author WD 
- * @version 1.0 
+ *  
  */
 public final class SecurityInterceptor extends BasicInterceptor<StrutsAction> {
 	private static final long			serialVersionUID	= -7879736892830147087L;

@@ -15,7 +15,7 @@ import com.weicoder.ssh.util.ResponseUtil;
 /**
  * Struts2 Action 的抽象实现 其它Struts2 Action可继承此类
  * @author WD 
- * @version 1.0 
+ *  
  */
 public abstract class BasicAction {
 	// 回调方法处理

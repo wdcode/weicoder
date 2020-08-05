@@ -21,7 +21,7 @@ import java.io.IOException;
 /**
  * 检测用户是否登陆
  * @author WD 
- * @version 1.0 
+ *  
  */
 public final class LoginFilter<L extends EntityUser> implements Filter {
 	// 常量

@@ -12,7 +12,7 @@ import com.weicoder.json.JsonEngine;
 /**
  * Entity接口基础实现
  * @author WD 
- * @version 1.0 
+ *  
  */
 @MappedSuperclass
 public abstract class BaseEntity implements Entity {

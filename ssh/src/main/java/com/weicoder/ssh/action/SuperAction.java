@@ -37,7 +37,7 @@ import com.weicoder.common.log.Logs;
  * 超级通用Action
  * 
  * @author WD
- * @version 1.0
+ * 
  */
 public abstract class SuperAction extends BasicAction {
 	// 成功

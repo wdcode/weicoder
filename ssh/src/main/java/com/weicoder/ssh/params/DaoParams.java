@@ -8,7 +8,7 @@ import com.weicoder.common.util.EmptyUtil;
 /**
  * 读取Dao配置
  * @author WD 
- * @version 1.0  
+ *   
  */
 public final class DaoParams {
 	// Properties配置
@@ -22,7 +22,7 @@ public final class DaoParams {
 	 * @return
 	 */
 	public static String getParse(String name) {
-		return config.getString(getKey(name, "parse"), "dbcp");
+		return config.getString(getKey(name, "parse"), "dbcp2");
 	}
 
 	/**
@@ -31,7 +31,7 @@ public final class DaoParams {
 	 * @return
 	 */
 	public static String getDialect(String name) {
-		return config.getString(getKey(name, "dialect"), "org.hibernate.dialect.MySQL5Dialect");
+		return config.getString(getKey(name, "dialect"), "org.hibernate.dialect.MySQL8Dialect");
 	}
 
 	/**
@@ -40,7 +40,7 @@ public final class DaoParams {
 	 * @return
 	 */
 	public static String getDriver(String name) {
-		return config.getString(getKey(name, "driver"), "com.mysql.jdbc.Driver");
+		return config.getString(getKey(name, "driver"), "com.mysql.cj.jdbc.Driver");
 	}
 
 	/**

@@ -14,5 +14,9 @@
 			<groupId>com.weicoder</groupId>
 			<artifactId>json</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.weicoder</groupId>
+			<artifactId>log4j</artifactId>
+		</dependency>
 	</dependencies>
 </project> 
