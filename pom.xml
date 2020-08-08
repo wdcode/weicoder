@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.weicoder</groupId>
 		<artifactId>build</artifactId>
-		<version>1.7</version>
+		<version>1.8</version>
 	</parent>
 	<artifactId>weicoder</artifactId>
 	<version>3.4.3</version>
@@ -97,7 +97,7 @@
 		<module>frame</module>
 		<module>ssh</module>
 		<module>flink</module>
-		<!-- <module>seata</module> -->
+		<module>seata</module> 
 	</modules>
 
 	<dependencyManagement>

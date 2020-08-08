@@ -9,7 +9,7 @@ import com.weicoder.common.C;
 import com.weicoder.common.init.Inits;
 import com.weicoder.common.log.Logs;
 import com.weicoder.tomcat.params.TomcatParams; 
-import com.weicoder.web.servlet.BasicServlet;
+import com.weicoder.web.servlet.BasicServlet;  
 
 /**
  * tomcat server
@@ -67,6 +67,8 @@ public final class TomcatServer {
 			tomcat.addContext(path, C.O.BASE_DIR);
 			tomcat.addWebapp(path, C.O.BASE_DIR).setReloadable(false);
 			tomcat.addServlet(path, "basic", new BasicServlet()).addMapping("/*");
+//			tomcat.addServlet(path, "basic", new TomcatServlet()).addMapping("/*");
+//			tomcat.addServlet(path, "basic", "com.weicoder.web.servlet.BasicServlet").addMapping("/*");
 			tomcat.enableNaming();
 
 			// 初始化

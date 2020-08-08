@@ -14,8 +14,7 @@ import com.weicoder.common.util.EmptyUtil;
 /**
  * 基于动态映射方法的安全拦截器 出来掉不合法的一些请求
  * @author WD
- * 
- * @version 1.0 2013-12-25
+ *  
  */
 public final class SecurityInterceptor extends BasicInterceptor<StrutsAction> {
 	// 方法对应实体Map

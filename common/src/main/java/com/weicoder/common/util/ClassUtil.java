@@ -162,7 +162,7 @@ public class ClassUtil {
 		// 获得接口类列表
 		List<Class<?>> list = CLASSES.get(c);
 		// 实现超过2个 并且默认不为空
-		if (list.size() > 1 && def != null)
+		if (U.E.isNotEmpty(list) && def != null)
 			// 获取实现 并且不是默认实现返回
 			for (Class<?> cs : list)
 				if (!cs.equals(def))
