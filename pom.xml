@@ -97,7 +97,9 @@
 		<module>frame</module>
 		<module>ssh</module>
 		<module>flink</module>
+		<!-- 
 		<module>seata</module> 
+		 -->
 	</modules>
 
 	<dependencyManagement>
