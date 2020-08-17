@@ -14,7 +14,7 @@
 	<properties>
 		<log4j-core>2.13.3</log4j-core>
 		<fastjson>1.2.73</fastjson>
-		<hibernate-core>5.4.19.Final</hibernate-core>
+		<hibernate-core>5.4.20.Final</hibernate-core>
 		<mysql-connector-java>8.0.21</mysql-connector-java>
 		<netty-all>4.1.51.Final</netty-all>
 		<mongo-java-driver>3.12.7</mongo-java-driver>
@@ -35,7 +35,7 @@
 		<okhttp>4.8.1</okhttp>
 		<retrofit>2.9.0</retrofit>
 		<HikariCP>3.4.5</HikariCP>
-		<solr-solrj>8.6.0</solr-solrj>
+		<solr-solrj>8.6.1</solr-solrj>
 		<snakeyaml>1.26</snakeyaml>
 		<opencsv>5.2</opencsv>
 		<xstream>1.4.12</xstream>
@@ -46,13 +46,7 @@
 		<disruptor>3.4.2</disruptor>
 		<commons-compress>1.20</commons-compress>
 		<commons-email>1.5</commons-email>
-		<Memcached-Java-Client>3.0.2</Memcached-Java-Client>
-		<struts2>2.5.22</struts2>
-		<xwork-core>2.3.37</xwork-core>
-		<spring>5.2.8.RELEASE</spring>
-		<hibernate-search>5.11.5.Final</hibernate-search>
-		<druid>1.1.23</druid>
-		<commons-dbcp2>2.7.0</commons-dbcp2>
+		<Memcached-Java-Client>3.0.2</Memcached-Java-Client>   
 		<httpclient>4.5.12</httpclient>
 		<httpcore>4.4.13</httpcore>
 		<httpasyncclient>4.1.4</httpasyncclient>
@@ -94,8 +88,7 @@
 		<module>zip</module>
 		<module>hadoop</module>
 		<module>influxdb</module>
-		<module>frame</module>
-		<module>ssh</module>
+		<module>frame</module> 
 		<module>flink</module>
 		<!-- 
 		<module>seata</module> 
@@ -268,12 +261,7 @@
 				<groupId>com.weicoder</groupId>
 				<artifactId>httpclient4</artifactId>
 				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.weicoder</groupId>
-				<artifactId>ssh</artifactId>
-				<version>${project.version}</version>
-			</dependency>
+			</dependency> 
 			<dependency>
 				<groupId>com.weicoder</groupId>
 				<artifactId>frame</artifactId>
@@ -509,51 +497,7 @@
 				<artifactId>seata-sqlparser-druid</artifactId>
 				<version>${seata}</version>
 			</dependency>
-			<dependency>
-				<groupId>org.apache.struts</groupId>
-				<artifactId>struts2-core</artifactId>
-				<version>${struts2}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.struts.xwork</groupId>
-				<artifactId>xwork-core</artifactId>
-				<version>${xwork-core}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-orm</artifactId>
-				<version>${spring}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-context</artifactId>
-				<version>${spring}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-context-support</artifactId>
-				<version>${spring}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-web</artifactId>
-				<version>${spring}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.hibernate</groupId>
-				<artifactId>hibernate-search</artifactId>
-				<version>${hibernate-search}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.alibaba</groupId>
-				<artifactId>druid</artifactId>
-				<version>${druid}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.commons</groupId>
-				<artifactId>commons-dbcp2</artifactId>
-				<version>${commons-dbcp2}</version>
-			</dependency>
+		     
 			<dependency>
 				<groupId>org.apache.httpcomponents</groupId>
 				<artifactId>httpclient</artifactId>

@@ -16,7 +16,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.weicoder</groupId>
-			<artifactId>dao</artifactId>
+			<artifactId>hibernate</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.weicoder</groupId>
