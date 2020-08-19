@@ -5,10 +5,10 @@
 	<parent>
 		<groupId>com.weicoder</groupId>
 		<artifactId>build</artifactId>
-		<version>1.7</version>
+		<version>1.8</version>
 	</parent>
 	<artifactId>weicoder</artifactId>
-	<version>1.2.3</version>
+	<version>1.2.4</version>
 	<packaging>pom</packaging> 
 	
 	<modules>
@@ -22,10 +22,10 @@
 
 	<properties> 
 		<jdk>1.8</jdk>   
-		<fastjson>1.2.72</fastjson>
-		<hibernate-core>5.4.18.Final</hibernate-core> 
+		<fastjson>1.2.73</fastjson>
+		<hibernate-core>5.4.20.Final</hibernate-core> 
 		<netty-all>4.1.51.Final</netty-all> 
-		<mongo-java-driver>3.12.6</mongo-java-driver>
+		<mongo-java-driver>3.12.7</mongo-java-driver>
 		<jedis>3.3.0</jedis> 
 		<poi>4.1.2</poi> 
 		<druid>1.1.23</druid>
