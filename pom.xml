@@ -8,7 +8,7 @@
 		<version>1.8</version>
 	</parent>
 	<artifactId>weicoder</artifactId>
-	<version>3.4.4</version>
+	<version>3.4.5</version>
 	<packaging>pom</packaging>
 
 	<properties>
@@ -27,6 +27,7 @@
 		<guava>29.0-jre</guava>
 		<elasticsearch>7.9.0</elasticsearch>
 		<poi>4.1.2</poi>
+		<druid>1.1.23</druid>
 		<tomcat-embed>9.0.37</tomcat-embed>
 		<nacos-client>1.3.2</nacos-client>
 		<hadoop-client>3.3.0</hadoop-client>
@@ -46,7 +47,7 @@
 		<disruptor>3.4.2</disruptor>
 		<commons-compress>1.20</commons-compress>
 		<commons-email>1.5</commons-email>
-		<Memcached-Java-Client>3.0.2</Memcached-Java-Client>    
+		<Memcached-Java-Client>3.0.2</Memcached-Java-Client>
 	</properties>
 
 	<modules>
@@ -59,7 +60,7 @@
 		<module>elasticsearch</module>
 		<module>email</module>
 		<module>excel</module>
-		<module>hbase</module> 
+		<module>hbase</module>
 		<module>httpclient5</module>
 		<module>http</module>
 		<module>image</module>
@@ -84,11 +85,9 @@
 		<module>zip</module>
 		<module>hadoop</module>
 		<module>influxdb</module>
-		<module>frame</module> 
+		<module>frame</module>
 		<module>flink</module>
-		<!-- 
-		<module>seata</module> 
-		 -->
+		<module>seata</module>
 	</modules>
 
 	<dependencyManagement>
@@ -252,7 +251,7 @@
 				<groupId>com.weicoder</groupId>
 				<artifactId>zip</artifactId>
 				<version>${project.version}</version>
-			</dependency> 
+			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
 				<artifactId>frame</artifactId>
@@ -467,7 +466,7 @@
 				<groupId>org.apache.flink</groupId>
 				<artifactId>flink-clients_2.12</artifactId>
 				<version>${flink-java}</version>
-			</dependency> 
+			</dependency>
 			<dependency>
 				<groupId>io.seata</groupId>
 				<artifactId>seata-tm</artifactId>
@@ -487,6 +486,11 @@
 				<groupId>io.seata</groupId>
 				<artifactId>seata-sqlparser-druid</artifactId>
 				<version>${seata}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>druid</artifactId>
+				<version>${druid}</version>
 			</dependency> 
 		</dependencies>
 	</dependencyManagement>
