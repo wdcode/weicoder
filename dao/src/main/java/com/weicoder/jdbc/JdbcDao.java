@@ -23,12 +23,12 @@ import com.weicoder.database.factory.DataBaseFactory;
  */
 public final class JdbcDao implements Dao {
 	// DataBase 对象
-	private DataBase db;
+	private Map<String, DataBase>				dbs;
 	// 保存INSERT INTN TO 语句
-	private Map<Class<? extends Table>, String> insert;
+	private Map<Class<? extends Table>, String>	insert;
 
 	public JdbcDao() {
-		db = DataBaseFactory.getDataBase();
+		dbs = DataBaseFactory.getDataBase();
 		insert = Maps.newMap();
 		// 加载所有类对应的SQL语句
 		C.list(Table.class).forEach(c -> {
@@ -55,13 +55,13 @@ public final class JdbcDao implements Dao {
 
 	@Override
 	public <E> E insert(E entity) {
-		db.execute(insert.get(entity.getClass()), getParame(entity));
+		db(entity.getClass()).execute(insert.get(entity.getClass()), getParame(entity));
 		return entity;
 	}
 
 	@Override
 	public <E> List<E> insert(List<E> entitys) {
-		db.execute(insert.get(entitys.get(0).getClass()), getParames(entitys));
+		db(entitys.get(0).getClass()).execute(insert.get(entitys.get(0).getClass()), getParames(entitys));
 		return entitys;
 	}
 
@@ -151,8 +151,7 @@ public final class JdbcDao implements Dao {
 	}
 
 	@Override
-	public <E> List<E> in(Class<E> entityClass, String property, List<Object> values, Map<String, Object> orders,
-			int firstResult, int maxResults) {
+	public <E> List<E> in(Class<E> entityClass, String property, List<Object> values, Map<String, Object> orders, int firstResult, int maxResults) {
 		return null;
 	}
 
@@ -167,8 +166,7 @@ public final class JdbcDao implements Dao {
 	}
 
 	@Override
-	public <E> List<E> between(Class<E> entity, String property, Object lo, Object hi, int firstResult,
-			int maxResults) {
+	public <E> List<E> between(Class<E> entity, String property, Object lo, Object hi, int firstResult, int maxResults) {
 		return null;
 	}
 
@@ -220,8 +218,8 @@ public final class JdbcDao implements Dao {
 	/**
 	 * 根据实体类获得参数
 	 * 
-	 * @param  e 实体
-	 * @return   参数
+	 * @param e 实体
+	 * @return 参数
 	 */
 	private <E> Object[] getParame(E e) {
 		Field[] f = e.getClass().getDeclaredFields();
@@ -234,8 +232,8 @@ public final class JdbcDao implements Dao {
 	/**
 	 * 根据实体类获得参数
 	 * 
-	 * @param  e 实体
-	 * @return   参数
+	 * @param e 实体
+	 * @return 参数
 	 */
 	private <E> Object[][] getParames(List<E> e) {
 		Object[][] o = new Object[e.size()][];
@@ -312,5 +310,13 @@ public final class JdbcDao implements Dao {
 	@Override
 	public Class<?> entity(String name) {
 		return null;
+	}
+	
+	private DataBase db(Class<?> entityClass) {
+		return dbs.get(name(entityClass));
+	}
+	
+	private String name(Class<?> entityClass) {
+		return entityClass.getCanonicalName();
 	}
 }

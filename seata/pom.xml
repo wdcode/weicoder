@@ -16,7 +16,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.weicoder</groupId>
-			<artifactId>jdbc</artifactId>
+			<artifactId>dao</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>io.seata</groupId>

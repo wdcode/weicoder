@@ -54,9 +54,7 @@
 		<module>common</module>
 		<module>cache</module>
 		<module>csv</module>
-		<module>dao</module>
-		<module>jdbc</module>
-		<module>hibernate</module>
+		<module>dao</module> 
 		<module>elasticsearch</module>
 		<module>email</module>
 		<module>excel</module>
@@ -111,17 +109,7 @@
 				<groupId>com.weicoder</groupId>
 				<artifactId>dao</artifactId>
 				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.weicoder</groupId>
-				<artifactId>jdbc</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.weicoder</groupId>
-				<artifactId>hibernate</artifactId>
-				<version>${project.version}</version>
-			</dependency>
+			</dependency> 
 			<dependency>
 				<groupId>com.weicoder</groupId>
 				<artifactId>elasticsearch</artifactId>

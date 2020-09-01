@@ -112,7 +112,7 @@ public class BasicServlet extends HttpServlet {
 			}
 			// 过滤IP
 			Action a = action.getClass().getAnnotation(Action.class);
-			if (WebParams.IPS||a.ips() || action.getClass().isAnnotationPresent(Ips.class)) {
+			if (WebParams.IPS || a.ips() || action.getClass().isAnnotationPresent(Ips.class)) {
 				// 如果在允许列表继续 否则退出
 				if (!IpUtil.contains(ip)) {
 					LOG.debug("this ip={}", ip);
@@ -281,9 +281,9 @@ public class BasicServlet extends HttpServlet {
 				if (state == null)
 					state = action.getClass().getAnnotation(State.class);
 				// 字段名
-				String code = state.code();
-				String content = state.content();
-				String message = state.message();
+				String code = state == null ? "code" : state.code();
+				String content = state == null ? "content" :state.content();
+				String message = state == null ? "message" :state.message();
 				// 如果res为状态码
 				if (res == null)
 					// 写空信息

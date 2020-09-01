@@ -1,5 +1,7 @@
 package com.weicoder.common.config;
 
+import java.util.Properties;
+
 import com.weicoder.common.factory.FactoryKey;
 
 /**
@@ -14,11 +16,21 @@ public final class ConfigFactory extends FactoryKey<String, Config> {
 	/**
 	 * 获得配置
 	 * 
-	 * @param  key 键
-	 * @return     Config
+	 * @param key 键
+	 * @return Config
 	 */
 	public static Config getConfig(String key) {
 		return FACTORY.getInstance(key);
+	}
+
+	/**
+	 * 使用Properties加载Config
+	 * 
+	 * @param ps Properties
+	 * @return Config
+	 */
+	public static Config getConfig(Properties ps) {
+		return new ConfigProperties(ps);
 	}
 
 	@Override
