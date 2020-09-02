@@ -73,85 +73,88 @@ import org.quartz.utils.DBConnectionManager;
 public abstract class JobStoreSupport implements JobStore, Constants {
 
 	/*
-	 * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Constants. ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	 * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Constants.
+	 * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	 */
 
-	protected static final String LOCK_TRIGGER_ACCESS = "TRIGGER_ACCESS";
+	protected static final String				LOCK_TRIGGER_ACCESS							= "TRIGGER_ACCESS";
 
-	protected static final String LOCK_STATE_ACCESS = "STATE_ACCESS";
+	protected static final String				LOCK_STATE_ACCESS							= "STATE_ACCESS";
 
 	/*
-	 * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Data members. ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	 * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Data members.
+	 * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	 */
 
-	protected String dsName;
+	protected String							dsName;
 
-	protected String tablePrefix = DEFAULT_TABLE_PREFIX;
+	protected String							tablePrefix									= DEFAULT_TABLE_PREFIX;
 
-	protected boolean useProperties = false;
+	protected boolean							useProperties								= false;
 
-	protected String instanceId;
+	protected String							instanceId;
 
-	protected String instanceName;
+	protected String							instanceName;
 
-	protected String delegateClassName;
+	protected String							delegateClassName;
 
-	protected String delegateInitString;
+	protected String							delegateInitString;
 
-	protected Class<? extends DriverDelegate> delegateClass = StdJDBCDelegate.class;
+	protected Class<? extends DriverDelegate>	delegateClass								= StdJDBCDelegate.class;
 
-	protected HashMap<String, Calendar> calendarCache = new HashMap<String, Calendar>();
+	protected HashMap<String, Calendar>			calendarCache								= new HashMap<String, Calendar>();
 
-	private DriverDelegate delegate;
+	private DriverDelegate						delegate;
 
-	private long misfireThreshold = 60000L; // one minute
+	private long								misfireThreshold							= 60000L;							// one minute
 
-	private boolean dontSetAutoCommitFalse = false;
+	private boolean								dontSetAutoCommitFalse						= false;
 
-	private boolean isClustered = false;
+	private boolean								isClustered									= false;
 
-	private boolean useDBLocks = false;
+	private boolean								useDBLocks									= false;
 
-	private boolean lockOnInsert = true;
+	private boolean								lockOnInsert								= true;
 
-	private Semaphore lockHandler = null; // set in initialize() method...
+	private Semaphore							lockHandler									= null;								// set in initialize() method...
 
-	private String selectWithLockSQL = null;
+	private String								selectWithLockSQL							= null;
 
-	private long clusterCheckinInterval = 7500L;
+	private long								clusterCheckinInterval						= 7500L;
 
-	private ClusterManager clusterManagementThread = null;
+	private ClusterManager						clusterManagementThread						= null;
 
-	private MisfireHandler misfireHandler = null;
+	private MisfireHandler						misfireHandler								= null;
 
-	private ClassLoadHelper classLoadHelper;
+	private ClassLoadHelper						classLoadHelper;
 
-	private SchedulerSignaler schedSignaler;
+	private SchedulerSignaler					schedSignaler;
 
-	protected int maxToRecoverAtATime = 20;
+	protected int								maxToRecoverAtATime							= 20;
 
-	private boolean setTxIsolationLevelSequential = false;
+	private boolean								setTxIsolationLevelSequential				= false;
 
-	private boolean acquireTriggersWithinLock = false;
+	private boolean								acquireTriggersWithinLock					= false;
 
-	private long dbRetryInterval = 15000L; // 15 secs
+	private long								dbRetryInterval								= 15000L;							// 15 secs
 
-	private boolean makeThreadsDaemons = false;
+	private boolean								makeThreadsDaemons							= false;
 
-	private boolean     threadsInheritInitializersClassLoadContext = false;
-	private ClassLoader initializersLoader                         = null;
+	private boolean								threadsInheritInitializersClassLoadContext	= false;
+	private ClassLoader							initializersLoader							= null;
 
-	private boolean doubleCheckLockMisfireHandler = true;
+	private boolean								doubleCheckLockMisfireHandler				= true;
 
-	private final Logger log = LogManager.getLogger(getClass());
+	private final Logger						log											= LogManager.getLogger(getClass());
 
-	private ThreadExecutor threadExecutor = new DefaultThreadExecutor();
+	private ThreadExecutor						threadExecutor								= new DefaultThreadExecutor();
 
-	private volatile boolean schedulerRunning = false;
-	private volatile boolean shutdown         = false;
+	private volatile boolean					schedulerRunning							= false;
+	private volatile boolean					shutdown									= false;
 
 	/*
-	 * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Interface. ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	 * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Interface.
+	 * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	 */
 
 	/**
@@ -287,7 +290,8 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 
 	/**
 	 * <p>
-	 * Get the frequency (in milliseconds) at which this instance "checks-in" with the other instances of the cluster. -- Affects the rate of detecting failed instances.
+	 * Get the frequency (in milliseconds) at which this instance "checks-in" with the other instances of the cluster. --
+	 * Affects the rate of detecting failed instances.
 	 * </p>
 	 */
 	public long getClusterCheckinInterval() {
@@ -296,7 +300,8 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 
 	/**
 	 * <p>
-	 * Set the frequency (in milliseconds) at which this instance "checks-in" with the other instances of the cluster. -- Affects the rate of detecting failed instances.
+	 * Set the frequency (in milliseconds) at which this instance "checks-in" with the other instances of the cluster. --
+	 * Affects the rate of detecting failed instances.
 	 * </p>
 	 */
 
@@ -306,7 +311,8 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 
 	/**
 	 * <p>
-	 * Get the maximum number of misfired triggers that the misfire handling thread will try to recover at one time (within one transaction). The default is 20.
+	 * Get the maximum number of misfired triggers that the misfire handling thread will try to recover at one time (within
+	 * one transaction). The default is 20.
 	 * </p>
 	 */
 	public int getMaxMisfiresToHandleAtATime() {
@@ -315,7 +321,8 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 
 	/**
 	 * <p>
-	 * Set the maximum number of misfired triggers that the misfire handling thread will try to recover at one time (within one transaction). The default is 20.
+	 * Set the maximum number of misfired triggers that the misfire handling thread will try to recover at one time (within
+	 * one transaction). The default is 20.
 	 * </p>
 	 */
 
@@ -362,11 +369,13 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 	/**
 	 * Whether or not to obtain locks when inserting new jobs/triggers.
 	 * <p>
-	 * Defaults to <code>true</code>, which is safest. Some databases (such as MS SQLServer) seem to require this to avoid deadlocks under high load, while others seem to do fine without. Settings
-	 * this to false means isolation guarantees between job scheduling and trigger acquisition are entirely enforced by the database. Depending on the database and it's configuration this may cause
-	 * unusual scheduling behaviors.
+	 * Defaults to <code>true</code>, which is safest. Some databases (such as MS SQLServer) seem to require this to avoid
+	 * deadlocks under high load, while others seem to do fine without. Settings this to false means isolation guarantees
+	 * between job scheduling and trigger acquisition are entirely enforced by the database. Depending on the database and
+	 * it's configuration this may cause unusual scheduling behaviors.
 	 * <p>
-	 * Setting this property to <code>false</code> will provide a significant performance increase during the addition of new jobs and triggers.
+	 * Setting this property to <code>false</code> will provide a significant performance increase during the addition of
+	 * new jobs and triggers.
 	 * </p>
 	 * 
 	 * @param lockOnInsert whether locking should be used when inserting new jobs/triggers
@@ -381,7 +390,8 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 	}
 
 	/**
-	 * The the number of milliseconds by which a trigger must have missed its next-fire-time, in order for it to be considered "misfired" and thus have its misfire instruction applied.
+	 * The the number of milliseconds by which a trigger must have missed its next-fire-time, in order for it to be
+	 * considered "misfired" and thus have its misfire instruction applied.
 	 * 
 	 * @param misfireThreshold the misfire threshold to use, in millis
 	 */
@@ -398,8 +408,8 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 	}
 
 	/**
-	 * Don't call set autocommit(false) on connections obtained from the DataSource. This can be helpful in a few situations, such as if you have a driver that complains if it is called when it is
-	 * already off.
+	 * Don't call set autocommit(false) on connections obtained from the DataSource. This can be helpful in a few
+	 * situations, such as if you have a driver that complains if it is called when it is already off.
 	 * 
 	 * @param b whether or not autocommit should be set to false on db connections
 	 */
@@ -423,16 +433,20 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 	}
 
 	/**
-	 * Whether or not the query and update to acquire a Trigger for firing should be performed after obtaining an explicit DB lock (to avoid possible race conditions on the trigger's db row). This is
-	 * the behavior prior to Quartz 1.6.3, but is considered unnecessary for most databases (due to the nature of the SQL update that is performed), and therefore a superfluous performance hit.
+	 * Whether or not the query and update to acquire a Trigger for firing should be performed after obtaining an explicit
+	 * DB lock (to avoid possible race conditions on the trigger's db row). This is the behavior prior to Quartz 1.6.3, but
+	 * is considered unnecessary for most databases (due to the nature of the SQL update that is performed), and therefore a
+	 * superfluous performance hit.
 	 */
 	public boolean isAcquireTriggersWithinLock() {
 		return acquireTriggersWithinLock;
 	}
 
 	/**
-	 * Whether or not the query and update to acquire a Trigger for firing should be performed after obtaining an explicit DB lock. This is the behavior prior to Quartz 1.6.3, but is considered
-	 * unnecessary for most databases, and therefore a superfluous performance hit. However, if batch acquisition is used, it is important for this behavior to be used for all dbs.
+	 * Whether or not the query and update to acquire a Trigger for firing should be performed after obtaining an explicit
+	 * DB lock. This is the behavior prior to Quartz 1.6.3, but is considered unnecessary for most databases, and therefore
+	 * a superfluous performance hit. However, if batch acquisition is used, it is important for this behavior to be used
+	 * for all dbs.
 	 */
 
 	public void setAcquireTriggersWithinLock(boolean acquireTriggersWithinLock) {
@@ -507,7 +521,8 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 	}
 
 	/**
-	 * Get whether the threads spawned by this JobStore should be marked as daemon. Possible threads include the <code>MisfireHandler</code> and the <code>ClusterManager</code>.
+	 * Get whether the threads spawned by this JobStore should be marked as daemon. Possible threads include the
+	 * <code>MisfireHandler</code> and the <code>ClusterManager</code>.
 	 * 
 	 * @see Thread#setDaemon(boolean)
 	 */
@@ -516,7 +531,8 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 	}
 
 	/**
-	 * Set whether the threads spawned by this JobStore should be marked as daemon. Possible threads include the <code>MisfireHandler</code> and the <code>ClusterManager</code>.
+	 * Set whether the threads spawned by this JobStore should be marked as daemon. Possible threads include the
+	 * <code>MisfireHandler</code> and the <code>ClusterManager</code>.
 	 *
 	 * @see Thread#setDaemon(boolean)
 	 */
@@ -540,16 +556,16 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 	}
 
 	/**
-	 * Get whether to check to see if there are Triggers that have misfired before actually acquiring the lock to recover them. This should be set to false if the majority of the time, there are are
-	 * misfired Triggers.
+	 * Get whether to check to see if there are Triggers that have misfired before actually acquiring the lock to recover
+	 * them. This should be set to false if the majority of the time, there are are misfired Triggers.
 	 */
 	public boolean getDoubleCheckLockMisfireHandler() {
 		return doubleCheckLockMisfireHandler;
 	}
 
 	/**
-	 * Set whether to check to see if there are Triggers that have misfired before actually acquiring the lock to recover them. This should be set to false if the majority of the time, there are are
-	 * misfired Triggers.
+	 * Set whether to check to see if there are Triggers that have misfired before actually acquiring the lock to recover
+	 * them. This should be set to false if the majority of the time, there are are misfired Triggers.
 	 */
 
 	public void setDoubleCheckLockMisfireHandler(boolean doubleCheckLockMisfireHandler) {
@@ -653,7 +669,8 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 
 	/**
 	 * <p>
-	 * Called by the QuartzScheduler to inform the <code>JobStore</code> that it should free up all of it's resources because the scheduler is shutting down.
+	 * Called by the QuartzScheduler to inform the <code>JobStore</code> that it should free up all of it's resources
+	 * because the scheduler is shutting down.
 	 * </p>
 	 */
 	public void shutdown() {
@@ -695,10 +712,11 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 	protected abstract Connection getNonManagedTXConnection() throws JobPersistenceException;
 
 	/**
-	 * Wrap the given <code>Connection</code> in a Proxy such that attributes that might be set will be restored before the connection is closed (and potentially restored to a pool).
+	 * Wrap the given <code>Connection</code> in a Proxy such that attributes that might be set will be restored before the
+	 * connection is closed (and potentially restored to a pool).
 	 */
 	protected Connection getAttributeRestoringConnection(Connection conn) {
-		return (Connection) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class[]{Connection.class}, new AttributeRestoringConnectionInvocationHandler(conn));
+		return (Connection) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class[] { Connection.class }, new AttributeRestoringConnectionInvocationHandler(conn));
 	}
 
 	protected Connection getConnection() throws JobPersistenceException {
@@ -825,11 +843,11 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 	 * Helper class for returning the composite result of trying to recover misfired jobs.
 	 */
 	protected static class RecoverMisfiredJobsResult {
-		public static final RecoverMisfiredJobsResult NO_OP = new RecoverMisfiredJobsResult(false, 0, Long.MAX_VALUE);
+		public static final RecoverMisfiredJobsResult	NO_OP	= new RecoverMisfiredJobsResult(false, 0, Long.MAX_VALUE);
 
-		private boolean _hasMoreMisfiredTriggers;
-		private int     _processedMisfiredTriggerCount;
-		private long    _earliestNewTime;
+		private boolean									_hasMoreMisfiredTriggers;
+		private int										_processedMisfiredTriggerCount;
+		private long									_earliestNewTime;
 
 		public RecoverMisfiredJobsResult(boolean hasMoreMisfiredTriggers, int processedMisfiredTriggerCount, long earliestNewTime) {
 			_hasMoreMisfiredTriggers = hasMoreMisfiredTriggers;
@@ -934,8 +952,8 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 	 * Store the given <code>{@link org.quartz.JobDetail}</code> and <code>{@link org.quartz.Trigger}</code>.
 	 * </p>
 	 * 
-	 * @param  newJob                       The <code>JobDetail</code> to be stored.
-	 * @param  newTrigger                   The <code>Trigger</code> to be stored.
+	 * @param newJob     The <code>JobDetail</code> to be stored.
+	 * @param newTrigger The <code>Trigger</code> to be stored.
 	 * @throws ObjectAlreadyExistsException if a <code>Job</code> with the same name/group already exists.
 	 */
 	public void storeJobAndTrigger(final JobDetail newJob, final OperableTrigger newTrigger) throws JobPersistenceException {
@@ -952,9 +970,11 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 	 * Store the given <code>{@link org.quartz.JobDetail}</code>.
 	 * </p>
 	 * 
-	 * @param  newJob                       The <code>JobDetail</code> to be stored.
-	 * @param  replaceExisting              If <code>true</code>, any <code>Job</code> existing in the <code>JobStore</code> with the same name & group should be over-written.
-	 * @throws ObjectAlreadyExistsException if a <code>Job</code> with the same name/group already exists, and replaceExisting is set to false.
+	 * @param newJob          The <code>JobDetail</code> to be stored.
+	 * @param replaceExisting If <code>true</code>, any <code>Job</code> existing in the <code>JobStore</code> with the same
+	 *                        name & group should be over-written.
+	 * @throws ObjectAlreadyExistsException if a <code>Job</code> with the same name/group already exists, and
+	 *                                      replaceExisting is set to false.
 	 */
 	public void storeJob(final JobDetail newJob, final boolean replaceExisting) throws JobPersistenceException {
 		executeInLock((isLockOnInsert() || replaceExisting) ? LOCK_TRIGGER_ACCESS : null, new VoidTransactionCallback() {
@@ -1006,9 +1026,11 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 	 * Store the given <code>{@link org.quartz.Trigger}</code>.
 	 * </p>
 	 * 
-	 * @param  newTrigger                   The <code>Trigger</code> to be stored.
-	 * @param  replaceExisting              If <code>true</code>, any <code>Trigger</code> existing in the <code>JobStore</code> with the same name & group should be over-written.
-	 * @throws ObjectAlreadyExistsException if a <code>Trigger</code> with the same name/group already exists, and replaceExisting is set to false.
+	 * @param newTrigger      The <code>Trigger</code> to be stored.
+	 * @param replaceExisting If <code>true</code>, any <code>Trigger</code> existing in the <code>JobStore</code> with the
+	 *                        same name & group should be over-written.
+	 * @throws ObjectAlreadyExistsException if a <code>Trigger</code> with the same name/group already exists, and
+	 *                                      replaceExisting is set to false.
 	 */
 	public void storeTrigger(final OperableTrigger newTrigger, final boolean replaceExisting) throws JobPersistenceException {
 		executeInLock((isLockOnInsert() || replaceExisting) ? LOCK_TRIGGER_ACCESS : null, new VoidTransactionCallback() {
@@ -1023,7 +1045,7 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 	 * Insert or update a trigger.
 	 * </p>
 	 */
-	
+
 	protected void storeTrigger(Connection conn, OperableTrigger newTrigger, JobDetail job, boolean replaceExisting, String state, boolean forceState, boolean recovering)
 			throws JobPersistenceException {
 
@@ -1089,17 +1111,19 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 
 	/**
 	 * <p>
-	 * Remove (delete) the <code>{@link org.quartz.Job}</code> with the given name, and any <code>{@link org.quartz.Trigger}</code> s that reference it.
+	 * Remove (delete) the <code>{@link org.quartz.Job}</code> with the given name, and any
+	 * <code>{@link org.quartz.Trigger}</code> s that reference it.
 	 * </p>
 	 * <p>
-	 * If removal of the <code>Job</code> results in an empty group, the group should be removed from the <code>JobStore</code>'s list of known group names.
+	 * If removal of the <code>Job</code> results in an empty group, the group should be removed from the
+	 * <code>JobStore</code>'s list of known group names.
 	 * </p>
 	 * 
 	 * @return <code>true</code> if a <code>Job</code> with the given name & group was found and removed from the store.
 	 */
 	public boolean removeJob(final JobKey jobKey) throws JobPersistenceException {
-		return (Boolean) executeInLock(LOCK_TRIGGER_ACCESS, new TransactionCallback<>() {
-			public Object execute(Connection conn) throws JobPersistenceException {
+		return executeInLock(LOCK_TRIGGER_ACCESS, new TransactionCallback<Boolean>() {
+			public Boolean execute(Connection conn) throws JobPersistenceException {
 				return removeJob(conn, jobKey) ? Boolean.TRUE : Boolean.FALSE;
 			}
 		});
@@ -1121,8 +1145,8 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 
 	public boolean removeJobs(final List<JobKey> jobKeys) throws JobPersistenceException {
 
-		return (Boolean) executeInLock(LOCK_TRIGGER_ACCESS, new TransactionCallback<>() {
-			public Object execute(Connection conn) throws JobPersistenceException {
+		return executeInLock(LOCK_TRIGGER_ACCESS, new TransactionCallback<Boolean>() {
+			public Boolean execute(Connection conn) throws JobPersistenceException {
 				boolean allFound = true;
 
 				// FUTURE_TODO: make this more efficient with a true bulk operation...
@@ -1135,8 +1159,8 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 	}
 
 	public boolean removeTriggers(final List<TriggerKey> triggerKeys) throws JobPersistenceException {
-		return (Boolean) executeInLock(LOCK_TRIGGER_ACCESS, new TransactionCallback<>() {
-			public Object execute(Connection conn) throws JobPersistenceException {
+		return executeInLock(LOCK_TRIGGER_ACCESS, new TransactionCallback<Boolean>() {
+			public Boolean execute(Connection conn) throws JobPersistenceException {
 				boolean allFound = true;
 
 				// FUTURE_TODO: make this more efficient with a true bulk operation...
@@ -1195,9 +1219,9 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 	 * @return The desired <code>Job</code>, or null if there is no match.
 	 */
 	public JobDetail retrieveJob(final JobKey jobKey) throws JobPersistenceException {
-		return (JobDetail) executeWithoutLock( // no locks necessary for read...
-				new TransactionCallback<>() {
-					public Object execute(Connection conn) throws JobPersistenceException {
+		return executeWithoutLock( // no locks necessary for read...
+				new TransactionCallback<JobDetail>() {
+					public JobDetail execute(Connection conn) throws JobPersistenceException {
 						return retrieveJob(conn, jobKey);
 					}
 				});
@@ -1221,17 +1245,19 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 	 * Remove (delete) the <code>{@link org.quartz.Trigger}</code> with the given name.
 	 * </p>
 	 * <p>
-	 * If removal of the <code>Trigger</code> results in an empty group, the group should be removed from the <code>JobStore</code>'s list of known group names.
+	 * If removal of the <code>Trigger</code> results in an empty group, the group should be removed from the
+	 * <code>JobStore</code>'s list of known group names.
 	 * </p>
 	 * <p>
-	 * If removal of the <code>Trigger</code> results in an 'orphaned' <code>Job</code> that is not 'durable', then the <code>Job</code> should be deleted also.
+	 * If removal of the <code>Trigger</code> results in an 'orphaned' <code>Job</code> that is not 'durable', then the
+	 * <code>Job</code> should be deleted also.
 	 * </p>
 	 * 
 	 * @return <code>true</code> if a <code>Trigger</code> with the given name & group was found and removed from the store.
 	 */
 	public boolean removeTrigger(final TriggerKey triggerKey) throws JobPersistenceException {
-		return (Boolean) executeInLock(LOCK_TRIGGER_ACCESS, new TransactionCallback<>() {
-			public Object execute(Connection conn) throws JobPersistenceException {
+		return  executeInLock(LOCK_TRIGGER_ACCESS, new TransactionCallback<Boolean>() {
+			public Boolean execute(Connection conn) throws JobPersistenceException {
 				return removeTrigger(conn, triggerKey) ? Boolean.TRUE : Boolean.FALSE;
 			}
 		});
@@ -1266,8 +1292,8 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 	 * @see org.quartz.spi.JobStore#replaceTrigger(TriggerKey, OperableTrigger)
 	 */
 	public boolean replaceTrigger(final TriggerKey triggerKey, final OperableTrigger newTrigger) throws JobPersistenceException {
-		return (Boolean) executeInLock(LOCK_TRIGGER_ACCESS, new TransactionCallback<>() {
-			public Object execute(Connection conn) throws JobPersistenceException {
+		return  executeInLock(LOCK_TRIGGER_ACCESS, new TransactionCallback<Boolean>() {
+			public Boolean execute(Connection conn) throws JobPersistenceException {
 				return replaceTrigger(conn, triggerKey, newTrigger) ? Boolean.TRUE : Boolean.FALSE;
 			}
 		});
@@ -1306,9 +1332,9 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 	 * @return The desired <code>Trigger</code>, or null if there is no match.
 	 */
 	public OperableTrigger retrieveTrigger(final TriggerKey triggerKey) throws JobPersistenceException {
-		return (OperableTrigger) executeWithoutLock( // no locks necessary for read...
-				new TransactionCallback<>() {
-					public Object execute(Connection conn) throws JobPersistenceException {
+		return executeWithoutLock( // no locks necessary for read...
+				new TransactionCallback<OperableTrigger>() {
+					public OperableTrigger execute(Connection conn) throws JobPersistenceException {
 						return retrieveTrigger(conn, triggerKey);
 					}
 				});
@@ -1335,9 +1361,9 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 	 * @see TriggerState#NONE
 	 */
 	public TriggerState getTriggerState(final TriggerKey triggerKey) throws JobPersistenceException {
-		return (TriggerState) executeWithoutLock( // no locks necessary for read...
-				new TransactionCallback<>() {
-					public Object execute(Connection conn) throws JobPersistenceException {
+		return executeWithoutLock( // no locks necessary for read...
+				new TransactionCallback<TriggerState>() {
+					public TriggerState execute(Connection conn) throws JobPersistenceException {
 						return getTriggerState(conn, triggerKey);
 					}
 				});
@@ -1383,12 +1409,15 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 	}
 
 	/**
-	 * Reset the current state of the identified <code>{@link Trigger}</code> from {@link TriggerState#ERROR} to {@link TriggerState#NORMAL} or {@link TriggerState#PAUSED} as appropriate.
+	 * Reset the current state of the identified <code>{@link Trigger}</code> from {@link TriggerState#ERROR} to
+	 * {@link TriggerState#NORMAL} or {@link TriggerState#PAUSED} as appropriate.
 	 * <p>
-	 * Only affects triggers that are in ERROR state - if identified trigger is not in that state then the result is a no-op.
+	 * Only affects triggers that are in ERROR state - if identified trigger is not in that state then the result is a
+	 * no-op.
 	 * </p>
 	 * <p>
-	 * The result will be the trigger returning to the normal, waiting to be fired state, unless the trigger's group has been paused, in which case it will go into the PAUSED state.
+	 * The result will be the trigger returning to the normal, waiting to be fired state, unless the trigger's group has
+	 * been paused, in which case it will go into the PAUSED state.
 	 * </p>
 	 */
 	public void resetTriggerFromErrorState(final TriggerKey triggerKey) throws JobPersistenceException {
@@ -1421,10 +1450,12 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 	 * Store the given <code>{@link org.quartz.Calendar}</code>.
 	 * </p>
 	 * 
-	 * @param  calName                      The name of the calendar.
-	 * @param  calendar                     The <code>Calendar</code> to be stored.
-	 * @param  replaceExisting              If <code>true</code>, any <code>Calendar</code> existing in the <code>JobStore</code> with the same name & group should be over-written.
-	 * @throws ObjectAlreadyExistsException if a <code>Calendar</code> with the same name already exists, and replaceExisting is set to false.
+	 * @param calName         The name of the calendar.
+	 * @param calendar        The <code>Calendar</code> to be stored.
+	 * @param replaceExisting If <code>true</code>, any <code>Calendar</code> existing in the <code>JobStore</code> with the
+	 *                        same name & group should be over-written.
+	 * @throws ObjectAlreadyExistsException if a <code>Calendar</code> with the same name already exists, and
+	 *                                      replaceExisting is set to false.
 	 */
 	public void storeCalendar(final String calName, final Calendar calendar, final boolean replaceExisting, final boolean updateTriggers) throws JobPersistenceException {
 		executeInLock((isLockOnInsert() || updateTriggers) ? LOCK_TRIGGER_ACCESS : null, new VoidTransactionCallback() {
@@ -1486,16 +1517,17 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 	 * Remove (delete) the <code>{@link org.quartz.Calendar}</code> with the given name.
 	 * </p>
 	 * <p>
-	 * If removal of the <code>Calendar</code> would result in <code>Trigger</code>s pointing to non-existent calendars, then a <code>JobPersistenceException</code> will be thrown.
+	 * If removal of the <code>Calendar</code> would result in <code>Trigger</code>s pointing to non-existent calendars,
+	 * then a <code>JobPersistenceException</code> will be thrown.
 	 * </p>
 	 * *
 	 * 
-	 * @param  calName The name of the <code>Calendar</code> to be removed.
-	 * @return         <code>true</code> if a <code>Calendar</code> with the given name was found and removed from the store.
+	 * @param calName The name of the <code>Calendar</code> to be removed.
+	 * @return <code>true</code> if a <code>Calendar</code> with the given name was found and removed from the store.
 	 */
 	public boolean removeCalendar(final String calName) throws JobPersistenceException {
-		return (Boolean) executeInLock(LOCK_TRIGGER_ACCESS, new TransactionCallback<>() {
-			public Object execute(Connection conn) throws JobPersistenceException {
+		return  executeInLock(LOCK_TRIGGER_ACCESS, new TransactionCallback<Boolean>() {
+			public Boolean execute(Connection conn) throws JobPersistenceException {
 				return removeCalendar(conn, calName) ? Boolean.TRUE : Boolean.FALSE;
 			}
 		});
@@ -1522,13 +1554,13 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 	 * Retrieve the given <code>{@link org.quartz.Trigger}</code>.
 	 * </p>
 	 * 
-	 * @param  calName The name of the <code>Calendar</code> to be retrieved.
-	 * @return         The desired <code>Calendar</code>, or null if there is no match.
+	 * @param calName The name of the <code>Calendar</code> to be retrieved.
+	 * @return The desired <code>Calendar</code>, or null if there is no match.
 	 */
 	public Calendar retrieveCalendar(final String calName) throws JobPersistenceException {
-		return (Calendar) executeWithoutLock( // no locks necessary for read...
-				new TransactionCallback<>() {
-					public Object execute(Connection conn) throws JobPersistenceException {
+		return executeWithoutLock( // no locks necessary for read...
+				new TransactionCallback<Calendar>() {
+					public Calendar execute(Connection conn) throws JobPersistenceException {
 						return retrieveCalendar(conn, calName);
 					}
 				});
@@ -1563,9 +1595,9 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 	 * </p>
 	 */
 	public int getNumberOfJobs() throws JobPersistenceException {
-		return (Integer) executeWithoutLock( // no locks necessary for read...
-				new TransactionCallback<>() {
-					public Object execute(Connection conn) throws JobPersistenceException {
+		return  executeWithoutLock( // no locks necessary for read...
+				new TransactionCallback<Integer>() {
+					public Integer execute(Connection conn) throws JobPersistenceException {
 						return getNumberOfJobs(conn);
 					}
 				});
@@ -1585,9 +1617,9 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 	 * </p>
 	 */
 	public int getNumberOfTriggers() throws JobPersistenceException {
-		return (Integer) executeWithoutLock( // no locks necessary for read...
-				new TransactionCallback<>() {
-					public Object execute(Connection conn) throws JobPersistenceException {
+		return  executeWithoutLock( // no locks necessary for read...
+				new TransactionCallback<Integer>() {
+					public Integer execute(Connection conn) throws JobPersistenceException {
 						return getNumberOfTriggers(conn);
 					}
 				});
@@ -1607,9 +1639,9 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 	 * </p>
 	 */
 	public int getNumberOfCalendars() throws JobPersistenceException {
-		return (Integer) executeWithoutLock( // no locks necessary for read...
-				new TransactionCallback<>() {
-					public Object execute(Connection conn) throws JobPersistenceException {
+		return executeWithoutLock( // no locks necessary for read...
+				new TransactionCallback<Integer>() {
+					public Integer execute(Connection conn) throws JobPersistenceException {
 						return getNumberOfCalendars(conn);
 					}
 				});
@@ -1630,12 +1662,11 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 	 * <p>
 	 * If there are no jobs in the given group name, the result should be an empty Set
 	 * </p>
-	 */
-	@SuppressWarnings("unchecked")
+	 */ 
 	public Set<JobKey> getJobKeys(final GroupMatcher<JobKey> matcher) throws JobPersistenceException {
-		return (Set<JobKey>) executeWithoutLock( // no locks necessary for read...
-				new TransactionCallback<>() {
-					public Object execute(Connection conn) throws JobPersistenceException {
+		return  executeWithoutLock( // no locks necessary for read...
+				new TransactionCallback<Set<JobKey>>() {
+					public Set<JobKey> execute(Connection conn) throws JobPersistenceException {
 						return getJobNames(conn, matcher);
 					}
 				});
@@ -1656,14 +1687,14 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 	/**
 	 * Determine whether a {@link Job} with the given identifier already exists within the scheduler.
 	 * 
-	 * @param  jobKey                  the identifier to check for
-	 * @return                         true if a Job exists with the given identifier
+	 * @param jobKey the identifier to check for
+	 * @return true if a Job exists with the given identifier
 	 * @throws JobPersistenceException
 	 */
 	public boolean checkExists(final JobKey jobKey) throws JobPersistenceException {
-		return (Boolean) executeWithoutLock( // no locks necessary for read...
-				new TransactionCallback<>() {
-					public Object execute(Connection conn) throws JobPersistenceException {
+		return executeWithoutLock( // no locks necessary for read...
+				new TransactionCallback<Boolean>() {
+					public Boolean execute(Connection conn) throws JobPersistenceException {
 						return checkExists(conn, jobKey);
 					}
 				});
@@ -1680,14 +1711,14 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 	/**
 	 * Determine whether a {@link Trigger} with the given identifier already exists within the scheduler.
 	 * 
-	 * @param  triggerKey              the identifier to check for
-	 * @return                         true if a Trigger exists with the given identifier
+	 * @param triggerKey the identifier to check for
+	 * @return true if a Trigger exists with the given identifier
 	 * @throws JobPersistenceException
 	 */
 	public boolean checkExists(final TriggerKey triggerKey) throws JobPersistenceException {
-		return (Boolean) executeWithoutLock( // no locks necessary for read...
-				new TransactionCallback<>() {
-					public Object execute(Connection conn) throws JobPersistenceException {
+		return executeWithoutLock( // no locks necessary for read...
+				new TransactionCallback<Boolean>() {
+					public Boolean execute(Connection conn) throws JobPersistenceException {
 						return checkExists(conn, triggerKey);
 					}
 				});
@@ -1729,12 +1760,11 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 	 * <p>
 	 * If there are no triggers in the given group name, the result should be a an empty Set (not <code>null</code>).
 	 * </p>
-	 */
-	@SuppressWarnings("unchecked")
+	 */ 
 	public Set<TriggerKey> getTriggerKeys(final GroupMatcher<TriggerKey> matcher) throws JobPersistenceException {
-		return (Set<TriggerKey>) executeWithoutLock( // no locks necessary for read...
-				new TransactionCallback<>() {
-					public Object execute(Connection conn) throws JobPersistenceException {
+		return executeWithoutLock( // no locks necessary for read...
+				new TransactionCallback<Set<TriggerKey>>() {
+					public Set<TriggerKey> execute(Connection conn) throws JobPersistenceException {
 						return getTriggerNames(conn, matcher);
 					}
 				});
@@ -1760,12 +1790,11 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 	 * <p>
 	 * If there are no known group names, the result should be a zero-length array (not <code>null</code>).
 	 * </p>
-	 */
-	@SuppressWarnings("unchecked")
+	 */ 
 	public List<String> getJobGroupNames() throws JobPersistenceException {
-		return (List<String>) executeWithoutLock( // no locks necessary for read...
-				new TransactionCallback<>() {
-					public Object execute(Connection conn) throws JobPersistenceException {
+		return  executeWithoutLock( // no locks necessary for read...
+				new TransactionCallback<List<String>>() {
+					public List<String> execute(Connection conn) throws JobPersistenceException {
 						return getJobGroupNames(conn);
 					}
 				});
@@ -1791,12 +1820,11 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 	 * <p>
 	 * If there are no known group names, the result should be a zero-length array (not <code>null</code>).
 	 * </p>
-	 */
-	@SuppressWarnings("unchecked")
+	 */ 
 	public List<String> getTriggerGroupNames() throws JobPersistenceException {
-		return (List<String>) executeWithoutLock( // no locks necessary for read...
-				new TransactionCallback<>() {
-					public Object execute(Connection conn) throws JobPersistenceException {
+		return executeWithoutLock( // no locks necessary for read...
+				new TransactionCallback<List<String>>() {
+					public List<String> execute(Connection conn) throws JobPersistenceException {
 						return getTriggerGroupNames(conn);
 					}
 				});
@@ -1822,12 +1850,11 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 	 * <p>
 	 * If there are no Calendars in the given group name, the result should be a zero-length array (not <code>null</code>).
 	 * </p>
-	 */
-	@SuppressWarnings("unchecked")
+	 */ 
 	public List<String> getCalendarNames() throws JobPersistenceException {
-		return (List<String>) executeWithoutLock( // no locks necessary for read...
-				new TransactionCallback<>() {
-					public Object execute(Connection conn) throws JobPersistenceException {
+		return executeWithoutLock( // no locks necessary for read...
+				new TransactionCallback<List<String>>() {
+					public List<String> execute(Connection conn) throws JobPersistenceException {
 						return getCalendarNames(conn);
 					}
 				});
@@ -1848,12 +1875,11 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 	 * <p>
 	 * If there are no matches, a zero-length array should be returned.
 	 * </p>
-	 */
-	@SuppressWarnings("unchecked")
+	 */ 
 	public List<OperableTrigger> getTriggersForJob(final JobKey jobKey) throws JobPersistenceException {
-		return (List<OperableTrigger>) executeWithoutLock( // no locks necessary for read...
-				new TransactionCallback<>() {
-					public Object execute(Connection conn) throws JobPersistenceException {
+		return executeWithoutLock( // no locks necessary for read...
+				new TransactionCallback<List<OperableTrigger>>() {
+					public List<OperableTrigger> execute(Connection conn) throws JobPersistenceException {
 						return getTriggersForJob(conn, jobKey);
 					}
 				});
@@ -1911,7 +1937,8 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 
 	/**
 	 * <p>
-	 * Pause the <code>{@link org.quartz.Job}</code> with the given name - by pausing all of its current <code>Trigger</code>s.
+	 * Pause the <code>{@link org.quartz.Job}</code> with the given name - by pausing all of its current
+	 * <code>Trigger</code>s.
 	 * </p>
 	 * 
 	 * @see #resumeJob(JobKey)
@@ -1929,14 +1956,14 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 
 	/**
 	 * <p>
-	 * Pause all of the <code>{@link org.quartz.Job}s</code> matching the given groupMatcher - by pausing all of their <code>Trigger</code>s.
+	 * Pause all of the <code>{@link org.quartz.Job}s</code> matching the given groupMatcher - by pausing all of their
+	 * <code>Trigger</code>s.
 	 * </p>
 	 * 
 	 * @see #resumeJobs(org.quartz.impl.matchers.GroupMatcher)
-	 */
-	@SuppressWarnings("unchecked")
+	 */ 
 	public Set<String> pauseJobs(final GroupMatcher<JobKey> matcher) throws JobPersistenceException {
-		return (Set<String>) executeInLock(LOCK_TRIGGER_ACCESS, new TransactionCallback<>() {
+		return executeInLock(LOCK_TRIGGER_ACCESS, new TransactionCallback<Set<String>>() {
 			public Set<String> execute(final Connection conn) throws JobPersistenceException {
 				Set<String> groupNames = new HashSet<String>();
 				Set<JobKey> jobNames = getJobNames(conn, matcher);
@@ -1955,7 +1982,8 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 	}
 
 	/**
-	 * Determines if a Trigger for the given job should be blocked. State can only transition to STATE_PAUSED_BLOCKED/BLOCKED from PAUSED/STATE_WAITING respectively.
+	 * Determines if a Trigger for the given job should be blocked. State can only transition to
+	 * STATE_PAUSED_BLOCKED/BLOCKED from PAUSED/STATE_WAITING respectively.
 	 * 
 	 * @return STATE_PAUSED_BLOCKED, BLOCKED, or the currentState.
 	 */
@@ -1988,7 +2016,8 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 	 * Resume (un-pause) the <code>{@link org.quartz.Trigger}</code> with the given name.
 	 * </p>
 	 * <p>
-	 * If the <code>Trigger</code> missed one or more fire-times, then the <code>Trigger</code>'s misfire instruction will be applied.
+	 * If the <code>Trigger</code> missed one or more fire-times, then the <code>Trigger</code>'s misfire instruction will
+	 * be applied.
 	 * </p>
 	 * 
 	 * @see #pauseTrigger(TriggerKey)
@@ -2006,7 +2035,8 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 	 * Resume (un-pause) the <code>{@link org.quartz.Trigger}</code> with the given name.
 	 * </p>
 	 * <p>
-	 * If the <code>Trigger</code> missed one or more fire-times, then the <code>Trigger</code>'s misfire instruction will be applied.
+	 * If the <code>Trigger</code> missed one or more fire-times, then the <code>Trigger</code>'s misfire instruction will
+	 * be applied.
 	 * </p>
 	 * 
 	 * @see #pauseTrigger(Connection, TriggerKey)
@@ -2051,7 +2081,8 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 	 * Resume (un-pause) the <code>{@link org.quartz.Job}</code> with the given name.
 	 * </p>
 	 * <p>
-	 * If any of the <code>Job</code>'s<code>Trigger</code> s missed one or more fire-times, then the <code>Trigger</code>'s misfire instruction will be applied.
+	 * If any of the <code>Job</code>'s<code>Trigger</code> s missed one or more fire-times, then the <code>Trigger</code>'s
+	 * misfire instruction will be applied.
 	 * </p>
 	 * 
 	 * @see #pauseJob(JobKey)
@@ -2072,14 +2103,14 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 	 * Resume (un-pause) all of the <code>{@link org.quartz.Job}s</code> in the given group.
 	 * </p>
 	 * <p>
-	 * If any of the <code>Job</code> s had <code>Trigger</code> s that missed one or more fire-times, then the <code>Trigger</code>'s misfire instruction will be applied.
+	 * If any of the <code>Job</code> s had <code>Trigger</code> s that missed one or more fire-times, then the
+	 * <code>Trigger</code>'s misfire instruction will be applied.
 	 * </p>
 	 * 
 	 * @see #pauseJobs(org.quartz.impl.matchers.GroupMatcher)
-	 */
-	@SuppressWarnings("unchecked")
+	 */ 
 	public Set<String> resumeJobs(final GroupMatcher<JobKey> matcher) throws JobPersistenceException {
-		return (Set<String>) executeInLock(LOCK_TRIGGER_ACCESS, new TransactionCallback<>() {
+		return  executeInLock(LOCK_TRIGGER_ACCESS, new TransactionCallback<Set<String>>() {
 			public Set<String> execute(Connection conn) throws JobPersistenceException {
 				Set<JobKey> jobKeys = getJobNames(conn, matcher);
 				Set<String> groupNames = new HashSet<String>();
@@ -2102,10 +2133,9 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 	 * </p>
 	 * 
 	 * @see #resumeTriggerGroup(java.sql.Connection, org.quartz.impl.matchers.GroupMatcher)
-	 */
-	@SuppressWarnings("unchecked")
+	 */ 
 	public Set<String> pauseTriggers(final GroupMatcher<TriggerKey> matcher) throws JobPersistenceException {
-		return (Set<String>) executeInLock(LOCK_TRIGGER_ACCESS, new TransactionCallback<>() {
+		return executeInLock(LOCK_TRIGGER_ACCESS, new TransactionCallback<Set<String>>() {
 			public Set<String> execute(Connection conn) throws JobPersistenceException {
 				return pauseTriggerGroup(conn, matcher);
 			}
@@ -2147,12 +2177,11 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 			throw new JobPersistenceException("Couldn't pause trigger group '" + matcher + "': " + e.getMessage(), e);
 		}
 	}
-
-	@SuppressWarnings("unchecked")
+ 
 	public Set<String> getPausedTriggerGroups() throws JobPersistenceException {
-		return (Set<String>) executeWithoutLock( // no locks necessary for read...
-				new TransactionCallback<>() {
-					public Object execute(Connection conn) throws JobPersistenceException {
+		return executeWithoutLock( // no locks necessary for read...
+				new TransactionCallback<Set<String>>() {
+					public Set<String> execute(Connection conn) throws JobPersistenceException {
 						return getPausedTriggerGroups(conn);
 					}
 				});
@@ -2179,14 +2208,14 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 	 * Resume (un-pause) all of the <code>{@link org.quartz.Trigger}s</code> matching the given groupMatcher.
 	 * </p>
 	 * <p>
-	 * If any <code>Trigger</code> missed one or more fire-times, then the <code>Trigger</code>'s misfire instruction will be applied.
+	 * If any <code>Trigger</code> missed one or more fire-times, then the <code>Trigger</code>'s misfire instruction will
+	 * be applied.
 	 * </p>
 	 * 
 	 * @see #pauseTriggers(org.quartz.impl.matchers.GroupMatcher)
-	 */
-	@SuppressWarnings("unchecked")
+	 */ 
 	public Set<String> resumeTriggers(final GroupMatcher<TriggerKey> matcher) throws JobPersistenceException {
-		return (Set<String>) executeInLock(LOCK_TRIGGER_ACCESS, new TransactionCallback<>() {
+		return executeInLock(LOCK_TRIGGER_ACCESS, new TransactionCallback<Set<String>>() {
 			public Set<String> execute(Connection conn) throws JobPersistenceException {
 				return resumeTriggerGroup(conn, matcher);
 			}
@@ -2199,7 +2228,8 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 	 * Resume (un-pause) all of the <code>{@link org.quartz.Trigger}s</code> matching the given groupMatcher.
 	 * </p>
 	 * <p>
-	 * If any <code>Trigger</code> missed one or more fire-times, then the <code>Trigger</code>'s misfire instruction will be applied.
+	 * If any <code>Trigger</code> missed one or more fire-times, then the <code>Trigger</code>'s misfire instruction will
+	 * be applied.
 	 * </p>
 	 * 
 	 * @see #pauseTriggers(org.quartz.impl.matchers.GroupMatcher)
@@ -2224,11 +2254,14 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 			// above)... logic below is broken because of
 			// findTriggersToBeBlocked()
 			/*
-			 * int res = getDelegate().updateTriggerGroupStateFromOtherState(conn, groupName, STATE_WAITING, PAUSED); if(res > 0) { long misfireTime = System.currentTimeMillis();
-			 * if(getMisfireThreshold() > 0) misfireTime -= getMisfireThreshold(); Key[] misfires = getDelegate().selectMisfiredTriggersInGroupInState(conn, groupName, STATE_WAITING, misfireTime);
-			 * List blockedTriggers = findTriggersToBeBlocked(conn, groupName); Iterator itr = blockedTriggers.iterator(); while(itr.hasNext()) { Key key = (Key)itr.next();
-			 * getDelegate().updateTriggerState(conn, key.getName(), key.getGroup(), BLOCKED); } for(int i=0; i < misfires.length; i++) { String newState = STATE_WAITING;
-			 * if(blockedTriggers.contains(misfires[i])) newState = BLOCKED; updateMisfiredTrigger(conn, misfires[i].getName(), misfires[i].getGroup(), newState, true); } }
+			 * int res = getDelegate().updateTriggerGroupStateFromOtherState(conn, groupName, STATE_WAITING, PAUSED); if(res > 0) {
+			 * long misfireTime = System.currentTimeMillis(); if(getMisfireThreshold() > 0) misfireTime -= getMisfireThreshold();
+			 * Key[] misfires = getDelegate().selectMisfiredTriggersInGroupInState(conn, groupName, STATE_WAITING, misfireTime);
+			 * List blockedTriggers = findTriggersToBeBlocked(conn, groupName); Iterator itr = blockedTriggers.iterator();
+			 * while(itr.hasNext()) { Key key = (Key)itr.next(); getDelegate().updateTriggerState(conn, key.getName(),
+			 * key.getGroup(), BLOCKED); } for(int i=0; i < misfires.length; i++) { String newState = STATE_WAITING;
+			 * if(blockedTriggers.contains(misfires[i])) newState = BLOCKED; updateMisfiredTrigger(conn, misfires[i].getName(),
+			 * misfires[i].getGroup(), newState, true); } }
 			 */
 
 		} catch (SQLException e) {
@@ -2290,7 +2323,8 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 	 * Resume (un-pause) all triggers - equivalent of calling <code>resumeTriggerGroup(group)</code> on every group.
 	 * </p>
 	 * <p>
-	 * If any <code>Trigger</code> missed one or more fire-times, then the <code>Trigger</code>'s misfire instruction will be applied.
+	 * If any <code>Trigger</code> missed one or more fire-times, then the <code>Trigger</code>'s misfire instruction will
+	 * be applied.
 	 * </p>
 	 * 
 	 * @see #pauseAll()
@@ -2309,7 +2343,8 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 	 * Resume (un-pause) all triggers - equivalent of calling <code>resumeTriggerGroup(group)</code> on every group.
 	 * </p>
 	 * <p>
-	 * If any <code>Trigger</code> missed one or more fire-times, then the <code>Trigger</code>'s misfire instruction will be applied.
+	 * If any <code>Trigger</code> missed one or more fire-times, then the <code>Trigger</code>'s misfire instruction will
+	 * be applied.
 	 * </p>
 	 * 
 	 * @see #pauseAll(Connection)
@@ -2341,7 +2376,7 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 	 * </p>
 	 * 
 	 * @see #releaseAcquiredTrigger(OperableTrigger)
-	 */ 
+	 */
 	public List<OperableTrigger> acquireNextTriggers(final long noLaterThan, final int maxCount, final long timeWindow) throws JobPersistenceException {
 
 		String lockName;
@@ -2477,7 +2512,8 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 
 	/**
 	 * <p>
-	 * Inform the <code>JobStore</code> that the scheduler no longer plans to fire the given <code>Trigger</code>, that it had previously acquired (reserved).
+	 * Inform the <code>JobStore</code> that the scheduler no longer plans to fire the given <code>Trigger</code>, that it
+	 * had previously acquired (reserved).
 	 * </p>
 	 */
 	public void releaseAcquiredTrigger(final OperableTrigger trigger) {
@@ -2500,11 +2536,13 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 
 	/**
 	 * <p>
-	 * Inform the <code>JobStore</code> that the scheduler is now firing the given <code>Trigger</code> (executing its associated <code>Job</code>), that it had previously acquired (reserved).
+	 * Inform the <code>JobStore</code> that the scheduler is now firing the given <code>Trigger</code> (executing its
+	 * associated <code>Job</code>), that it had previously acquired (reserved).
 	 * </p>
 	 * 
-	 * @return null if the trigger or its job or calendar no longer exist, or if the trigger was not successfully put into the 'executing' state.
-	 */ 
+	 * @return null if the trigger or its job or calendar no longer exist, or if the trigger was not successfully put into
+	 *         the 'executing' state.
+	 */
 	public List<TriggerFiredResult> triggersFired(final List<OperableTrigger> triggers) throws JobPersistenceException {
 		return executeInNonManagedTXLock(LOCK_TRIGGER_ACCESS, new TransactionCallback<List<TriggerFiredResult>>() {
 			public List<TriggerFiredResult> execute(Connection conn) throws JobPersistenceException {
@@ -2626,8 +2664,9 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 
 	/**
 	 * <p>
-	 * Inform the <code>JobStore</code> that the scheduler has completed the firing of the given <code>Trigger</code> (and the execution its associated <code>Job</code>), and that the
-	 * <code>{@link org.quartz.JobDataMap}</code> in the given <code>JobDetail</code> should be updated if the <code>Job</code> is stateful.
+	 * Inform the <code>JobStore</code> that the scheduler has completed the firing of the given <code>Trigger</code> (and
+	 * the execution its associated <code>Job</code>), and that the <code>{@link org.quartz.JobDataMap}</code> in the given
+	 * <code>JobDetail</code> should be updated if the <code>Job</code> is stateful.
 	 * </p>
 	 */
 	public void triggeredJobComplete(final OperableTrigger trigger, final JobDetail jobDetail, final CompletedExecutionInstruction triggerInstCode) {
@@ -2720,7 +2759,7 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 					throw new NoSuchDelegateException("Couldn't create delegate: " + e.getMessage(), e);
 				} catch (ClassNotFoundException e) {
 					throw new NoSuchDelegateException("Couldn't load delegate class: " + e.getMessage(), e);
-				}catch (Exception e) {
+				} catch (Exception e) {
 					throw new NoSuchDelegateException("Couldn't load delegate class: " + e.getMessage(), e);
 				}
 			}
@@ -2805,9 +2844,9 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 	// Cluster management methods
 	// ---------------------------------------------------------------------------
 
-	protected boolean firstCheckIn = true;
+	protected boolean	firstCheckIn	= true;
 
-	protected long lastCheckin = System.currentTimeMillis();
+	protected long		lastCheckin		= System.currentTimeMillis();
 
 	protected boolean doCheckin() throws JobPersistenceException {
 		boolean transOwner = false;
@@ -2866,7 +2905,8 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 	}
 
 	/**
-	 * Get a list of all scheduler instances in the cluster that may have failed. This includes this scheduler if it is checking in for the first time.
+	 * Get a list of all scheduler instances in the cluster that may have failed. This includes this scheduler if it is
+	 * checking in for the first time.
 	 */
 	protected List<SchedulerStateRecord> findFailedInstances(Connection conn) throws JobPersistenceException {
 		try {
@@ -2913,8 +2953,8 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 	}
 
 	/**
-	 * Create dummy <code>SchedulerStateRecord</code> objects for fired triggers that have no scheduler state record. Checkin timestamp and interval are left as zero on these dummy
-	 * <code>SchedulerStateRecord</code> objects.
+	 * Create dummy <code>SchedulerStateRecord</code> objects for fired triggers that have no scheduler state record.
+	 * Checkin timestamp and interval are left as zero on these dummy <code>SchedulerStateRecord</code> objects.
 	 * 
 	 * @param schedulerStateRecords List of all current <code>SchedulerStateRecords</code>
 	 */
@@ -2966,7 +3006,6 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 		return failedInstances;
 	}
 
-	
 	protected void clusterRecover(Connection conn, List<SchedulerStateRecord> failedInstances) throws JobPersistenceException {
 
 		if (failedInstances.size() > 0) {
@@ -3083,11 +3122,12 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 
 	/**
 	 * <p>
-	 * Cleanup the given database connection. This means restoring any modified auto commit or transaction isolation connection attributes, and then closing the underlying connection.
+	 * Cleanup the given database connection. This means restoring any modified auto commit or transaction isolation
+	 * connection attributes, and then closing the underlying connection.
 	 * </p>
 	 * <p>
-	 * This is separate from closeConnection() because the Spring integration relies on being able to overload closeConnection() and expects the same connection back that it originally returned from
-	 * the datasource.
+	 * This is separate from closeConnection() because the Spring integration relies on being able to overload
+	 * closeConnection() and expects the same connection back that it originally returned from the datasource.
 	 * </p>
 	 * 
 	 * @see #closeConnection(Connection)
@@ -3115,7 +3155,8 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 	/**
 	 * Closes the supplied <code>Connection</code>.
 	 * <p>
-	 * Ignores a <code>null Connection</code>. Any exception thrown trying to close the <code>Connection</code> is logged and ignored.
+	 * Ignores a <code>null Connection</code>. Any exception thrown trying to close the <code>Connection</code> is logged
+	 * and ignored.
 	 * </p>
 	 * 
 	 * @param conn The <code>Connection</code> to close (Optional).
@@ -3135,7 +3176,8 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 	/**
 	 * Rollback the supplied connection.
 	 * <p>
-	 * Logs any SQLException it gets trying to rollback, but will not propogate the exception lest it mask the exception that caused the caller to need to rollback in the first place.
+	 * Logs any SQLException it gets trying to rollback, but will not propogate the exception lest it mask the exception
+	 * that caused the caller to need to rollback in the first place.
 	 * </p>
 	 *
 	 * @param conn (Optional)
@@ -3153,7 +3195,7 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 	/**
 	 * Commit the supplied connection
 	 *
-	 * @param  conn                    (Optional)
+	 * @param conn (Optional)
 	 * @throws JobPersistenceException thrown if a SQLException occurs when the connection is committed
 	 */
 	protected void commitConnection(Connection conn) throws JobPersistenceException {
@@ -3168,7 +3210,8 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 	}
 
 	/**
-	 * Implement this interface to provide the code to execute within the a transaction template. If no return value is required, execute should just return null.
+	 * Implement this interface to provide the code to execute within the a transaction template. If no return value is
+	 * required, execute should just return null.
 	 * 
 	 * @see JobStoreSupport#executeInNonManagedTXLock(String, TransactionCallback, TransactionValidator)
 	 * @see JobStoreSupport#executeInLock(String, TransactionCallback)
@@ -3197,7 +3240,8 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 	}
 
 	/**
-	 * Execute the given callback in a transaction. Depending on the JobStore, the surrounding transaction may be assumed to be already present (managed).
+	 * Execute the given callback in a transaction. Depending on the JobStore, the surrounding transaction may be assumed to
+	 * be already present (managed).
 	 * <p>
 	 * This method just forwards to executeInLock() with a null lockName.
 	 * </p>
@@ -3209,9 +3253,11 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 	}
 
 	/**
-	 * Execute the given callback having acquired the given lock. Depending on the JobStore, the surrounding transaction may be assumed to be already present (managed).
+	 * Execute the given callback having acquired the given lock. Depending on the JobStore, the surrounding transaction may
+	 * be assumed to be already present (managed).
 	 * 
-	 * @param lockName The name of the lock to acquire, for example "TRIGGER_ACCESS". If null, then no lock is acquired, but the lockCallback is still executed in a transaction.
+	 * @param lockName The name of the lock to acquire, for example "TRIGGER_ACCESS". If null, then no lock is acquired, but
+	 *                 the lockCallback is still executed in a transaction.
 	 */
 	protected abstract <T> T executeInLock(String lockName, TransactionCallback<T> txCallback) throws JobPersistenceException;
 
@@ -3236,9 +3282,11 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 	}
 
 	/**
-	 * Execute the given callback having optionally acquired the given lock. This uses the non-managed transaction connection.
+	 * Execute the given callback having optionally acquired the given lock. This uses the non-managed transaction
+	 * connection.
 	 * 
-	 * @param lockName The name of the lock to acquire, for example "TRIGGER_ACCESS". If null, then no lock is acquired, but the lockCallback is still executed in a non-managed transaction.
+	 * @param lockName The name of the lock to acquire, for example "TRIGGER_ACCESS". If null, then no lock is acquired, but
+	 *                 the lockCallback is still executed in a non-managed transaction.
 	 */
 	protected <T> T executeInNonManagedTXLock(String lockName, TransactionCallback<T> txCallback, final TransactionValidator<T> txValidator) throws JobPersistenceException {
 		boolean transOwner = false;
@@ -3302,9 +3350,9 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 
 	class ClusterManager extends Thread {
 
-		private volatile boolean shutdown = false;
+		private volatile boolean	shutdown	= false;
 
-		private int numFails = 0;
+		private int					numFails	= 0;
 
 		ClusterManager() {
 			this.setPriority(Thread.NORM_PRIORITY + 2);
@@ -3379,9 +3427,9 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 
 	class MisfireHandler extends Thread {
 
-		private volatile boolean shutdown = false;
+		private volatile boolean	shutdown	= false;
 
-		private int numFails = 0;
+		private int					numFails	= 0;
 
 		MisfireHandler() {
 			this.setName("QuartzScheduler_" + instanceName + "-" + instanceId + "_MisfireHandler");
