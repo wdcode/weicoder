@@ -14,7 +14,7 @@
 	<properties>
 		<log4j-core>2.13.3</log4j-core>
 		<fastjson>1.2.73</fastjson>
-		<hibernate-core>5.4.20.Final</hibernate-core>
+		<hibernate-core>5.4.21.Final</hibernate-core>
 		<mysql-connector-java>8.0.21</mysql-connector-java>
 		<netty-all>4.1.51.Final</netty-all>
 		<mongo-java-driver>3.12.7</mongo-java-driver>
@@ -27,7 +27,6 @@
 		<guava>29.0-jre</guava>
 		<elasticsearch>7.9.0</elasticsearch>
 		<poi>4.1.2</poi>
-		<druid>1.1.23</druid>
 		<tomcat-embed>9.0.37</tomcat-embed>
 		<nacos-client>1.3.2</nacos-client>
 		<hadoop-client>3.3.0</hadoop-client>
@@ -36,25 +35,29 @@
 		<okhttp>4.8.1</okhttp>
 		<retrofit>2.9.0</retrofit>
 		<HikariCP>3.4.5</HikariCP>
-		<solr-solrj>8.6.1</solr-solrj>
+		<solr-solrj>8.6.2</solr-solrj>
 		<snakeyaml>1.26</snakeyaml>
 		<opencsv>5.2</opencsv>
-		<xstream>1.4.12</xstream>
-		<dom4j>2.1.3</dom4j>
+		<druid>1.1.23</druid> 
 		<curator-framework>5.1.0</curator-framework>
-		<hbase-client>2.3.1</hbase-client>
-		<quartz>2.3.2</quartz>
+		<hbase-client>2.3.1</hbase-client> 
+		<commons-compress>1.20</commons-compress> 
+		<xstream>1.4.12</xstream>
+		<dom4j>2.1.3</dom4j> 
+		<commons-pool2>2.8.1</commons-pool2> 
 		<disruptor>3.4.2</disruptor>
-		<commons-compress>1.20</commons-compress>
+		<!-- 
+		<quartz>2.3.2</quartz> 
 		<commons-email>1.5</commons-email>
 		<Memcached-Java-Client>3.0.2</Memcached-Java-Client>
+		 -->
 	</properties>
 
 	<modules>
 		<module>common</module>
 		<module>cache</module>
 		<module>csv</module>
-		<module>dao</module> 
+		<module>dao</module>
 		<module>elasticsearch</module>
 		<module>email</module>
 		<module>excel</module>
@@ -109,7 +112,7 @@
 				<groupId>com.weicoder</groupId>
 				<artifactId>dao</artifactId>
 				<version>${project.version}</version>
-			</dependency> 
+			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
 				<artifactId>elasticsearch</artifactId>
@@ -301,9 +304,9 @@
 				<version>${mongo-java-driver}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.whalin</groupId>
-				<artifactId>Memcached-Java-Client</artifactId>
-				<version>${Memcached-Java-Client}</version>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-pool2</artifactId>
+				<version>${commons-pool2}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.logging.log4j</groupId>
@@ -364,12 +367,7 @@
 				<groupId>org.apache.poi</groupId>
 				<artifactId>poi-ooxml</artifactId>
 				<version>${poi}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.commons</groupId>
-				<artifactId>commons-email</artifactId>
-				<version>${commons-email}</version>
-			</dependency>
+			</dependency> 
 			<dependency>
 				<groupId>org.elasticsearch.client</groupId>
 				<artifactId>elasticsearch-rest-high-level-client</artifactId>
@@ -384,12 +382,7 @@
 				<groupId>mysql</groupId>
 				<artifactId>mysql-connector-java</artifactId>
 				<version>${mysql-connector-java}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.quartz-scheduler</groupId>
-				<artifactId>quartz</artifactId>
-				<version>${quartz}</version>
-			</dependency>
+			</dependency> 
 			<dependency>
 				<groupId>redis.clients</groupId>
 				<artifactId>jedis</artifactId>
@@ -479,7 +472,7 @@
 				<groupId>com.alibaba</groupId>
 				<artifactId>druid</artifactId>
 				<version>${druid}</version>
-			</dependency> 
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 </project>

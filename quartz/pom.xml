@@ -12,11 +12,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.weicoder</groupId>
-			<artifactId>common</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.quartz-scheduler</groupId>
-			<artifactId>quartz</artifactId>
+			<artifactId>log4j</artifactId>
 		</dependency>
 	</dependencies>
 </project>
