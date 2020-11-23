@@ -2,14 +2,14 @@ package com.weicoder.common.config;
 
 import java.util.Properties;
 
-import com.weicoder.common.factory.FactoryKey;
+import com.weicoder.common.factory.FactoryInterface; 
 
 /**
  * 读取配置工厂类
  * 
  * @author WD
  */
-public final class ConfigFactory extends FactoryKey<String, Config> {
+public final class ConfigFactory extends FactoryInterface<Config> {
 	// 配置工厂
 	private final static ConfigFactory FACTORY = new ConfigFactory();
 
@@ -33,10 +33,10 @@ public final class ConfigFactory extends FactoryKey<String, Config> {
 		return new ConfigProperties(ps);
 	}
 
-	@Override
-	public Config newInstance(String key) {
-		return new ConfigProperties(key);
-	}
+//	@Override
+//	public Config newInstance(String key) {
+//		return new ConfigProperties(key);
+//	}
 
 	private ConfigFactory() {
 	}

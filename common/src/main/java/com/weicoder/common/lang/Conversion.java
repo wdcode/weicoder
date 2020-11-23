@@ -14,11 +14,23 @@ import com.weicoder.common.util.MathUtil;
  */
 public class Conversion {
 	/**
+	 * 根据传入的值判断返回
+	 * 
+	 * @param <E> 泛型
+	 * @param val 值
+	 * @param def 默认
+	 * @return val为空时返回默认def
+	 */
+	public static <E> E value(E val, E def) {
+		return U.E.isEmpty(val) ? def : val;
+	}
+
+	/**
 	 * 转换dest到src同类型
 	 * 
-	 * @param  obj 要转换的对象
-	 * @param  c   要转换的类型
-	 * @return     转换后的对象
+	 * @param obj 要转换的对象
+	 * @param c   要转换的类型
+	 * @return 转换后的对象
 	 */
 	public static Object to(Object obj, Class<?> c) {
 		// 判断类型
@@ -49,8 +61,8 @@ public class Conversion {
 	/**
 	 * 转换Object到字符串,如果参数为null返回"",否则返回obj.toString()
 	 * 
-	 * @param  obj 要转换为字符串的对象
-	 * @return     转换后的字符串
+	 * @param obj 要转换为字符串的对象
+	 * @return 转换后的字符串
 	 */
 	public static String toString(Object obj) {
 		return toString(obj, StringConstants.EMPTY);
@@ -59,20 +71,19 @@ public class Conversion {
 	/**
 	 * 转换Object到字符串,如果参数为null返回str,否则返回obj.toString()
 	 * 
-	 * @param  obj          要转换为字符串的对象
-	 * @param  defaultValue 默认值
-	 * @return              转换后的字符串
+	 * @param obj          要转换为字符串的对象
+	 * @param defaultValue 默认值
+	 * @return 转换后的字符串
 	 */
 	public static String toString(Object obj, String defaultValue) {
-		return U.E.isEmpty(obj) ? defaultValue
-				: obj instanceof Object[] ? Arrays.toString(((Object[]) obj)) : obj.toString();
+		return U.E.isEmpty(obj) ? defaultValue : obj instanceof Object[] ? Arrays.toString(((Object[]) obj)) : obj.toString();
 	}
 
 	/**
 	 * 转换Object为int,obj必须为能转换成int的对象,如果转换失败将返回0
 	 * 
-	 * @param  obj 要转换的对象
-	 * @return     转换后的数字
+	 * @param obj 要转换的对象
+	 * @return 转换后的数字
 	 */
 	public static int toInt(Object obj) {
 		return toInt(obj, 0);
@@ -81,9 +92,9 @@ public class Conversion {
 	/**
 	 * 转换Object为int,obj必须为能转换成int的对象,如果转换失败将返回i
 	 * 
-	 * @param  obj          要转换的对象
-	 * @param  defaultValue 默认值
-	 * @return              转换后的数字
+	 * @param obj          要转换的对象
+	 * @param defaultValue 默认值
+	 * @return 转换后的数字
 	 */
 	public static int toInt(Object obj, int defaultValue) {
 		try {
@@ -107,8 +118,8 @@ public class Conversion {
 	/**
 	 * 转换Object为long,obj必须为能转换成long的对象,如果转换失败将返回0
 	 * 
-	 * @param  obj 要转换的对象
-	 * @return     转换后的数字
+	 * @param obj 要转换的对象
+	 * @return 转换后的数字
 	 */
 	public static long toLong(Object obj) {
 		return toLong(obj, 0);
@@ -117,9 +128,9 @@ public class Conversion {
 	/**
 	 * 转换Object为long,obj必须为能转换成long的对象,如果转换失败将返回num
 	 * 
-	 * @param  obj          要转换的对象
-	 * @param  defaultValue 默认值
-	 * @return              转换后的数字
+	 * @param obj          要转换的对象
+	 * @param defaultValue 默认值
+	 * @return 转换后的数字
 	 */
 	public static long toLong(Object obj, long defaultValue) {
 		try {
@@ -143,8 +154,8 @@ public class Conversion {
 	/**
 	 * 转换Object为float,obj必须为能转换成float的对象,如果转换失败将返回0
 	 * 
-	 * @param  obj 要转换的对象
-	 * @return     转换后的数字
+	 * @param obj 要转换的对象
+	 * @return 转换后的数字
 	 */
 	public static float toFloat(Object obj) {
 		return toFloat(obj, 0);
@@ -153,9 +164,9 @@ public class Conversion {
 	/**
 	 * 转换Object为float,obj必须为能转换成float的对象,如果转换失败将返回num
 	 * 
-	 * @param  obj          要转换的对象
-	 * @param  defaultValue 默认值
-	 * @return              转换后的数字
+	 * @param obj          要转换的对象
+	 * @param defaultValue 默认值
+	 * @return 转换后的数字
 	 */
 	public static float toFloat(Object obj, float defaultValue) {
 		try {
@@ -183,8 +194,8 @@ public class Conversion {
 	/**
 	 * 转换Object为double,obj必须为能转换成double的对象,如果转换失败将返回0
 	 * 
-	 * @param  obj 要转换的对象
-	 * @return     转换后的数字
+	 * @param obj 要转换的对象
+	 * @return 转换后的数字
 	 */
 	public static double toDouble(Object obj) {
 		return toDouble(obj, 0);
@@ -193,9 +204,9 @@ public class Conversion {
 	/**
 	 * 转换Object为double,obj必须为能转换成double的对象,如果转换失败将返回num
 	 * 
-	 * @param  obj          要转换的对象
-	 * @param  defaultValue 默认值
-	 * @return              转换后的数字
+	 * @param obj          要转换的对象
+	 * @param defaultValue 默认值
+	 * @return 转换后的数字
 	 */
 	public static double toDouble(Object obj, double defaultValue) {
 		try {
@@ -223,8 +234,8 @@ public class Conversion {
 	/**
 	 * 转换Object为short,obj必须为能转换成short的对象,如果转换失败将返回0
 	 * 
-	 * @param  obj 要转换的对象
-	 * @return     转换后的数字
+	 * @param obj 要转换的对象
+	 * @return 转换后的数字
 	 */
 	public static short toShort(Object obj) {
 		return toShort(obj, (short) 0);
@@ -233,9 +244,9 @@ public class Conversion {
 	/**
 	 * 转换Object为short,obj必须为能转换成short的对象,如果转换失败将返回num
 	 * 
-	 * @param  obj          要转换的对象
-	 * @param  defaultValue 默认值
-	 * @return              转换后的数字
+	 * @param obj          要转换的对象
+	 * @param defaultValue 默认值
+	 * @return 转换后的数字
 	 */
 	public static short toShort(Object obj, short defaultValue) {
 		try {
@@ -263,8 +274,8 @@ public class Conversion {
 	/**
 	 * 转换Object为byte,obj必须为能转换成byte的对象,如果转换失败将返回0
 	 * 
-	 * @param  obj 要转换的对象
-	 * @return     转换后的数字
+	 * @param obj 要转换的对象
+	 * @return 转换后的数字
 	 */
 	public static byte toByte(Object obj) {
 		return toByte(obj, (byte) 0);
@@ -273,9 +284,9 @@ public class Conversion {
 	/**
 	 * 转换Object为byte,obj必须为能转换成byte的对象,如果转换失败将返回num
 	 * 
-	 * @param  obj          要转换的对象
-	 * @param  defaultValue 默认值
-	 * @return              转换后的数字
+	 * @param obj          要转换的对象
+	 * @param defaultValue 默认值
+	 * @return 转换后的数字
 	 */
 	public static byte toByte(Object obj, byte defaultValue) {
 		try {
@@ -303,8 +314,8 @@ public class Conversion {
 	/**
 	 * 转换Object为byte,obj必须为能转换成byte的对象,如果转换失败将返回0
 	 * 
-	 * @param  obj 要转换的对象
-	 * @return     转换后的数字
+	 * @param obj 要转换的对象
+	 * @return 转换后的数字
 	 */
 	public static BigDecimal toBigDecimal(Object obj) {
 		return toBigDecimal(obj, BigDecimal.ZERO);
@@ -313,9 +324,9 @@ public class Conversion {
 	/**
 	 * 转换Object为byte,obj必须为能转换成byte的对象,如果转换失败将返回num
 	 * 
-	 * @param  obj          要转换的对象
-	 * @param  defaultValue 默认值
-	 * @return              转换后的数字
+	 * @param obj          要转换的对象
+	 * @param defaultValue 默认值
+	 * @return 转换后的数字
 	 */
 	public static BigDecimal toBigDecimal(Object obj, BigDecimal defaultValue) {
 		try {
@@ -349,8 +360,8 @@ public class Conversion {
 	/**
 	 * 转换Object为boolean 转换失败或不能转换返回 false
 	 * 
-	 * @param  obj 转换为boolean的对象
-	 * @return     true false
+	 * @param obj 转换为boolean的对象
+	 * @return true false
 	 */
 	public static boolean toBoolean(Object obj) {
 		return toBoolean(obj, false);
@@ -359,9 +370,9 @@ public class Conversion {
 	/**
 	 * 转换Object为boolean 转换失败或不能转换返回 defaultValue
 	 * 
-	 * @param  obj          转换为boolean的对象
-	 * @param  defaultValue 默认值
-	 * @return              true false
+	 * @param obj          转换为boolean的对象
+	 * @param defaultValue 默认值
+	 * @return true false
 	 */
 	public static boolean toBoolean(Object obj, boolean defaultValue) {
 		try {
@@ -389,8 +400,8 @@ public class Conversion {
 	/**
 	 * 如果str等于""返回null,否则返回它本身
 	 * 
-	 * @param  str 要对比的字符串
-	 * @return     比较后的字符串
+	 * @param str 要对比的字符串
+	 * @return 比较后的字符串
 	 */
 	public static String stringToNull(String str) {
 		return stringToNull(str, StringConstants.EMPTY);
@@ -399,9 +410,9 @@ public class Conversion {
 	/**
 	 * 如果str等于eq返回null,否则返回它本身
 	 * 
-	 * @param  str 要对比的字符串
-	 * @param  eq  对比字符串
-	 * @return     比较后的字符串
+	 * @param str 要对比的字符串
+	 * @param eq  对比字符串
+	 * @return 比较后的字符串
 	 */
 	public static String stringToNull(String str, String eq) {
 		return toString(eq).equals(str) ? null : str;

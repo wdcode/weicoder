@@ -23,7 +23,7 @@ public final class NacosParams {
 	 * @return
 	 */
 	public static String getAddr(String name) {
-		return CONFIG.getString(Params.getKey(name, ADDR), Params.getString(Params.getKey(PREFIX, name, ADDR)));
+		return CONFIG.getString(Params.getKey(name, ADDR,"nacos"), Params.getString(Params.getKey(PREFIX, name, ADDR),"8848"));
 	}
 
 	private NacosParams() {
