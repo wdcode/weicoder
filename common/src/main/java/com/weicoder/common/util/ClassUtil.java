@@ -39,14 +39,14 @@ import com.weicoder.common.params.CommonParams;
 @SuppressWarnings("unchecked")
 public class ClassUtil {
 	// 包名下的class
-	private final static Map<String, List<Class<?>>> PASSAGES = M.newMap();
+	private final static Map<String, List<Class<?>>>			PASSAGES	= M.newMap();
 	// 对应class名称的Bean
-	private final static Map<String, Class<?>> BEANS = M.newMap();
-	private final static Map<Class<?>, Map<String, Class<?>>> CLASS_BEANS = M.newMap();
+	private final static Map<String, Class<?>>					BEANS		= M.newMap();
+	private final static Map<Class<?>, Map<String, Class<?>>>	CLASS_BEANS	= M.newMap();
 	// ioc使用
-	private final static Map<Class<?>, Object> IOC_BEANS = M.newMap();
+	private final static Map<Class<?>, Object>					IOC_BEANS	= M.newMap();
 	// 保存指定报名下所有class
-	private final static Map<Class<?>, List<Class<?>>> CLASSES = init();
+	private final static Map<Class<?>, List<Class<?>>>			CLASSES		= init();
 
 	/**
 	 * 对传入的类进行实例化并进行类型注入 非基础类型
@@ -118,7 +118,11 @@ public class ClassUtil {
 	 * @return
 	 */
 	public static <E> Class<E> bean(Class<E> c, String name) {
-		return (Class<E>) CLASS_BEANS.get(c).get(name);
+		try {
+			return (Class<E>) CLASS_BEANS.get(c).get(name);
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
 	/**
@@ -595,8 +599,7 @@ public class ClassUtil {
 						}
 					} else
 						// 迭代调用本方法 获得类列表
-						classes.addAll(
-								getPackageClasses(U.E.isEmpty(p) ? name : path + StringConstants.BACKSLASH + name));
+						classes.addAll(getPackageClasses(U.E.isEmpty(p) ? name : path + StringConstants.BACKSLASH + name));
 				}
 			});
 		}
@@ -623,8 +626,7 @@ public class ClassUtil {
 			return Lists.newList(path.list());
 		if (name.indexOf(".jar!") > -1)
 			// 是否jar文件内
-			return getClassesFromJARFile(StringUtil.subString(name, "file:/", "!"),
-					packageName + StringConstants.BACKSLASH);
+			return getClassesFromJARFile(StringUtil.subString(name, "file:/", "!"), packageName + StringConstants.BACKSLASH);
 		// 返回空列表
 		return Lists.emptyList();
 	}

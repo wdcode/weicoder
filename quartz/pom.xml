@@ -7,8 +7,8 @@
 		<version>3.4.6</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>quartz</artifactId>
-
+	<artifactId>quartz</artifactId> 
+	
 	<dependencies>
 		<dependency>
 			<groupId>com.weicoder</groupId>

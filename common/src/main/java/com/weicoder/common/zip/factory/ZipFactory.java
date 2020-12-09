@@ -2,6 +2,7 @@ package com.weicoder.common.zip.factory;
 
 import com.weicoder.common.factory.FactoryInterface;
 import com.weicoder.common.zip.Zip;
+import com.weicoder.common.zip.impl.ZlibImpl;
 
 /**
  * 压缩算法zip工厂
@@ -32,5 +33,10 @@ public class ZipFactory extends FactoryInterface<Zip> {
 	}
 
 	private ZipFactory() {
+	}
+
+	@Override
+	protected Class<? extends Zip> def() { 
+		return ZlibImpl.class;
 	}
 }

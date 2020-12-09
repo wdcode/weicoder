@@ -33,11 +33,16 @@ public final class ConfigFactory extends FactoryInterface<Config> {
 		return new ConfigProperties(ps);
 	}
 
-//	@Override
-//	public Config newInstance(String key) {
-//		return new ConfigProperties(key);
-//	}
+	@Override
+	public Config newInstance(String key) {
+		return new ConfigProperties(key);
+	}
 
 	private ConfigFactory() {
 	}
+
+	@Override
+	protected Class<? extends Config> def() { 
+		return ConfigProperties.class;
+	} 
 }

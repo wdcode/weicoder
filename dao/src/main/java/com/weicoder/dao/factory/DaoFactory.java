@@ -3,7 +3,8 @@ package com.weicoder.dao.factory;
 import com.weicoder.common.U;
 import com.weicoder.common.factory.FactoryInterface;
 import com.weicoder.dao.Dao;
-import com.weicoder.dao.params.DaoParams; 
+import com.weicoder.dao.params.DaoParams;
+import com.weicoder.hibernate.HibernateDao; 
 
 /**
  * Dao工厂
@@ -37,8 +38,15 @@ public final class DaoFactory extends FactoryInterface<Dao> {
 	public Dao newInstance() {
 		return (Dao) (DaoParams.JDBC ? U.C.newInstance("com.weicoder.jdbc.JdbcDao")
 				: U.C.newInstance("com.weicoder.hibernate.HibernateDao"));
+//		return (Dao) (DaoParams.JDBC ? U.C.newInstance("com.weicoder.jdbc.JdbcDao")
+//				: U.C.newInstance("com.weicoder.hibernate.HibernateDao"));
 	}
 
 	private DaoFactory() {
+	}
+
+	@Override
+	protected Class<? extends Dao> def() { 
+		return HibernateDao.class;
 	}
 }
