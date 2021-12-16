@@ -197,7 +197,7 @@ public interface Redis {
 	 * @param  value   值
 	 * @return         状态码
 	 */
-	String setex(String key, int seconds, String value);
+	String setex(String key, long seconds, String value);
 
 	/**
 	 * 根据键获得值

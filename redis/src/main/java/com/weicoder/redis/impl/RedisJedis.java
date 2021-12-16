@@ -81,7 +81,7 @@ public final class RedisJedis extends BaseRedis {
 	}
 
 	@Override
-	public String setex(String key, int seconds, String value) {
+	public String setex(String key, long seconds, String value) {
 		try (Jedis jedis = pool.getResource()) {
 			return jedis.setex(key, seconds, value);
 		}

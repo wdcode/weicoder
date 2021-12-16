@@ -58,7 +58,7 @@ public final class RedisCluster extends BaseRedis {
 	}
 
 	@Override
-	public String setex(String key, int seconds, String value) {
+	public String setex(String key, long seconds, String value) {
 		return cluster.setex(key, seconds, value);
 	}
 

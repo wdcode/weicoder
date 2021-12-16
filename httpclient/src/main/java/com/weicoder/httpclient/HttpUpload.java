@@ -1,4 +1,4 @@
-package com.weicoder.httpclient5;
+package com.weicoder.httpclient;
 
 import java.io.File;
 import java.util.List;

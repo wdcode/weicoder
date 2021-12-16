@@ -141,7 +141,7 @@ public abstract class BaseRedis implements Redis {
 				if (seconds == -1)
 					r.set(key, key);
 				else
-					r.setex(key, seconds, key);
+					r.setex(key,C.toLong(seconds), key);
 			});
 			return true;
 		} catch (Exception e) {

@@ -1,10 +1,10 @@
-package com.weicoder.httpclient5;
+package com.weicoder.httpclient;
  
 import java.util.List;
 import java.util.Map;
-
-import org.apache.hc.client5.http.async.methods.SimpleHttpRequest;
+ 
 import org.apache.hc.client5.http.async.methods.SimpleHttpResponse;
+import org.apache.hc.client5.http.async.methods.SimpleRequestBuilder;
 import org.apache.hc.client5.http.classic.methods.HttpGet;
 import org.apache.hc.client5.http.classic.methods.HttpPost;
 import org.apache.hc.client5.http.config.RequestConfig;
@@ -109,7 +109,7 @@ public final class HttpAsyncClient {
 			get = new HttpGet(url);
 			get.addHeader(new BasicHeader(HttpConstants.CONTENT_TYPE_KEY, HttpConstants.CONTENT_TYPE_VAL));
 			// 执行get
-			CLIENT.execute(SimpleHttpRequest.copy(get), new FutureCallback<SimpleHttpResponse>() {
+			CLIENT.execute(SimpleRequestBuilder.copy(get).build(), new FutureCallback<SimpleHttpResponse>() {
 				@Override
 				public void failed(Exception ex) {
 					LOG.error(ex);
@@ -166,7 +166,7 @@ public final class HttpAsyncClient {
 				post.setEntity(new UrlEncodedFormEntity(list));
 			}
 			// 执行POST
-			CLIENT.execute(SimpleHttpRequest.copy(post), new FutureCallback<SimpleHttpResponse>() {
+			CLIENT.execute(SimpleRequestBuilder.copy(post).build(), new FutureCallback<SimpleHttpResponse>() {
 				@Override
 				public void failed(Exception ex) {
 					LOG.error(ex);
