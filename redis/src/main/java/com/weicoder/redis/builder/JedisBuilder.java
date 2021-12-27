@@ -1,5 +1,6 @@
 package com.weicoder.redis.builder;
 
+import java.time.Duration;
 import java.util.Set;
 
 import com.weicoder.common.constants.StringConstants; 
@@ -34,7 +35,7 @@ public final class JedisBuilder {
 		// 设置属性
 		config.setMaxTotal(RedisParams.getMaxTotal(name));
 		config.setMaxIdle(RedisParams.getMaxIdle(name));
-		config.setMaxWaitMillis(RedisParams.getMaxWait(name));
+		config.setMaxWait(Duration.ofMillis(RedisParams.getMaxWait(name)));
 		// 服务器节点
 		Set<HostAndPort> nodes = Sets.newSet();
 		for (String server : RedisParams.getCluster(name)) {
@@ -57,7 +58,7 @@ public final class JedisBuilder {
 		// 设置属性
 		config.setMaxTotal(RedisParams.getMaxTotal(name));
 		config.setMaxIdle(RedisParams.getMaxIdle(name));
-		config.setMaxWaitMillis(RedisParams.getMaxWait(name));
+		config.setMaxWait(Duration.ofMillis(RedisParams.getMaxWait(name)));
 		// 实例化连接池
 		Logs.info("redis init pool config={}", config);
 		return new JedisPool(config, RedisParams.getHost(name), RedisParams.getPort(name), Protocol.DEFAULT_TIMEOUT,
