@@ -30,7 +30,7 @@
 		<tomcat-embed>9.0.45</tomcat-embed>
 		<nacos-client>2.0.0</nacos-client>
 		<hadoop-client>3.3.0</hadoop-client>
-		<protobuf-java>3.15.7</protobuf-java>
+		<protobuf-java>3.16.1</protobuf-java>
 		<httpclient5>5.0.3</httpclient5>
 		<okhttp>4.9.1</okhttp>
 		<retrofit>2.9.0</retrofit>
