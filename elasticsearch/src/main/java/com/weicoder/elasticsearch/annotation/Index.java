@@ -18,7 +18,7 @@ public @interface Index {
 	 * 
 	 * @return 副本数量
 	 */
-	int replica() default 0;
+	String replica() default "0";
 
 	/**
 	 * es的主键ID

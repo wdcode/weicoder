@@ -15,7 +15,7 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisCluster;
 import redis.clients.jedis.JedisPubSub;
 import redis.clients.jedis.Transaction;
-import redis.clients.jedis.Tuple;
+import redis.clients.jedis.resps.Tuple;
 import redis.clients.jedis.util.JedisClusterCRC16;
 
 /**
@@ -129,7 +129,7 @@ public final class RedisCluster extends BaseRedis {
 
 	@Override
 	public void subscribe(Subscribe sub, String... channels) {
-		cluster.subscribe(new JedisPubSub() {
+		getJedis().subscribe(new JedisPubSub() {
 			@Override
 			public void onMessage(String channel, String message) {
 				long time = System.currentTimeMillis();
@@ -181,17 +181,17 @@ public final class RedisCluster extends BaseRedis {
 	}
 
 	@Override
-	public Set<String> zrevrange(String key, long start, long end) {
+	public List<String> zrevrange(String key, long start, long end) {
 		return cluster.zrevrange(key, start, end);
 	}
 
 	@Override
-	public Set<String> zrange(String key, long start, long end) {
+	public List<String> zrange(String key, long start, long end) {
 		return cluster.zrange(key, start, end);
 	}
 
 	@Override
-	public Set<String> zrangeByScore(String key, String min, String max) {
+	public List<String> zrangeByScore(String key, String min, String max) {
 		return cluster.zrangeByScore(key, min, max);
 	}
 
@@ -242,11 +242,11 @@ public final class RedisCluster extends BaseRedis {
 
 	@Override
 	public Jedis getResource(String key) {
-		return cluster.getConnectionFromSlot(JedisClusterCRC16.getCRC16(key));
+		return new Jedis(cluster.getConnectionFromSlot(JedisClusterCRC16.getCRC16(key)));
 	}
 
 	@Override
-	public Set<Tuple> zrevrangeByScoreWithScores(String key, double max, double min, int offset, int count) {
+	public List<Tuple> zrevrangeByScoreWithScores(String key, double max, double min, int offset, int count) {
 		return cluster.zrevrangeByScoreWithScores(key, max, min, offset, count);
 	}
 
@@ -257,7 +257,7 @@ public final class RedisCluster extends BaseRedis {
 
 	@Override
 	public void multi(CallbackVoid<Transaction> callback) {
-		try (Jedis jedis = cluster.getConnectionFromSlot(0)) {
+		try (Jedis jedis = getJedis()) {
 			Transaction t = jedis.multi();
 			try {
 				callback.callback(t);
@@ -269,5 +269,9 @@ public final class RedisCluster extends BaseRedis {
 				t.close();
 			}
 		}
+	}
+	
+	private Jedis getJedis() {
+		return new Jedis(cluster.getConnectionFromSlot(0));
 	}
 }

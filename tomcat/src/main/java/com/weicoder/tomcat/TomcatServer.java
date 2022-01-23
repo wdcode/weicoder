@@ -66,7 +66,8 @@ public final class TomcatServer {
 			// 添加路径与servlet
 			tomcat.addContext(path, C.O.BASE_DIR);
 			tomcat.addWebapp(path, C.O.BASE_DIR).setReloadable(false);
-			tomcat.addServlet(path, "basic", new BasicServlet()).addMapping("/*");
+			tomcat.addServlet(path, "basic", BasicServlet.class.getName()).addMapping("/*");
+//			tomcat.addServlet(path, "basic", new BasicServlet()).addMapping("/*");
 //			tomcat.addServlet(path, "basic", new TomcatServlet()).addMapping("/*");
 //			tomcat.addServlet(path, "basic", "com.weicoder.web.servlet.BasicServlet").addMapping("/*");
 			tomcat.enableNaming();
@@ -81,7 +82,7 @@ public final class TomcatServer {
 		} catch (Exception e) {
 			Logs.error(e);
 		}
-	}
+	} 
 
 	private TomcatServer() {
 	}

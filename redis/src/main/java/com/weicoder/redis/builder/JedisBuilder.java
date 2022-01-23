@@ -3,13 +3,16 @@ package com.weicoder.redis.builder;
 import java.time.Duration;
 import java.util.Set;
 
-import com.weicoder.common.constants.StringConstants; 
+import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
+
+import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.W;
 import com.weicoder.common.lang.Sets;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.redis.params.RedisParams;
 
+import redis.clients.jedis.Connection;
 import redis.clients.jedis.HostAndPort;
 import redis.clients.jedis.JedisCluster;
 import redis.clients.jedis.JedisPool;
@@ -31,7 +34,7 @@ public final class JedisBuilder {
 	 */
 	public static JedisCluster buildCluster(String name) {
 		// 实例化Jedis配置
-		JedisPoolConfig config = new JedisPoolConfig();
+		GenericObjectPoolConfig<Connection> config = new GenericObjectPoolConfig<Connection>();
 		// 设置属性
 		config.setMaxTotal(RedisParams.getMaxTotal(name));
 		config.setMaxIdle(RedisParams.getMaxIdle(name));
@@ -44,11 +47,12 @@ public final class JedisBuilder {
 		}
 		// 生成JedisCluster
 		Logs.info("redis init cluster nodes={}", nodes);
-		return new JedisCluster(nodes, 3000, 3000, 5, RedisParams.getPassword(name), config);
+		return new JedisCluster(nodes, RedisParams.getTimeOut(name), RedisParams.getTimeOut(name), 5, RedisParams.getPassword(name), config);
 	}
 
 	/**
 	 * 构建Jedis对象池
+	 * 
 	 * @param name 名称
 	 * @return Jedis对象池
 	 */
@@ -61,8 +65,7 @@ public final class JedisBuilder {
 		config.setMaxWait(Duration.ofMillis(RedisParams.getMaxWait(name)));
 		// 实例化连接池
 		Logs.info("redis init pool config={}", config);
-		return new JedisPool(config, RedisParams.getHost(name), RedisParams.getPort(name), Protocol.DEFAULT_TIMEOUT,
-				RedisParams.getPassword(name), RedisParams.getDatabase(name), null);
+		return new JedisPool(config, RedisParams.getHost(name), RedisParams.getPort(name), Protocol.DEFAULT_TIMEOUT, RedisParams.getPassword(name), RedisParams.getDatabase(name), null);
 	}
 
 	private JedisBuilder() {

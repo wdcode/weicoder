@@ -15,7 +15,7 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPubSub;
 import redis.clients.jedis.Transaction;
-import redis.clients.jedis.Tuple;
+import redis.clients.jedis.resps.Tuple;
 
 /**
  * Redis客户端Jedis实现
@@ -231,21 +231,21 @@ public final class RedisJedis extends BaseRedis {
 	}
 
 	@Override
-	public Set<String> zrevrange(String key, long start, long end) {
+	public List<String> zrevrange(String key, long start, long end) {
 		try (Jedis jedis = pool.getResource()) {
 			return jedis.zrevrange(key, start, end);
 		}
 	}
 
 	@Override
-	public Set<String> zrange(String key, long start, long end) {
+	public List<String> zrange(String key, long start, long end) {
 		try (Jedis jedis = pool.getResource()) {
 			return jedis.zrange(key, start, end);
 		}
 	}
 
 	@Override
-	public Set<String> zrangeByScore(String key, String min, String max) {
+	public List<String> zrangeByScore(String key, String min, String max) {
 		try (Jedis jedis = pool.getResource()) {
 			return jedis.zrangeByScore(key, min, max);
 		}
@@ -327,7 +327,7 @@ public final class RedisJedis extends BaseRedis {
 	}
 
 	@Override
-	public Set<Tuple> zrevrangeByScoreWithScores(String key, double max, double min, int offset, int count) {
+	public List<Tuple> zrevrangeByScoreWithScores(String key, double max, double min, int offset, int count) {
 		try (Jedis jedis = pool.getResource()) {
 			return jedis.zrevrangeByScoreWithScores(key, max, min, offset, count);
 		}

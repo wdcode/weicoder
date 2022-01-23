@@ -1,24 +1,22 @@
 package com.weicoder.common.bean;
 
 import java.util.List;
+import java.util.Objects;
 
 import com.weicoder.common.params.CommonParams;
-
-import lombok.Data;
 
 /**
  * 分页信息保存的实体Bean
  * 
  * @author WD
  */
-@Data
 public final class Pages {
 	// 总数量
-	private int total;
+	private int	total;
 	// 当前页
-	private int page;
+	private int	page;
 	// 每页显示数量
-	private int size = CommonParams.PAGE_SIZE;
+	private int	size	= CommonParams.PAGE_SIZE;
 
 	/**
 	 * 返回包括本身的分页结果
@@ -78,5 +76,51 @@ public final class Pages {
 	 */
 	public int getStart() {
 		return getPage() * getSize();
+	}
+
+	public int getTotal() {
+		return total;
+	}
+
+	public void setTotal(int total) {
+		this.total = total;
+	}
+
+	public int getPage() {
+		return page;
+	}
+
+	public void setPage(int page) {
+		this.page = page;
+	}
+
+	public int getSize() {
+		return size;
+	}
+
+	public void setSize(int size) {
+		this.size = size;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(page, size, total);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Pages other = (Pages) obj;
+		return page == other.page && size == other.size && total == other.total;
+	}
+
+	@Override
+	public String toString() {
+		return "Pages [total=" + total + ", page=" + page + ", size=" + size + "]";
 	}
 }

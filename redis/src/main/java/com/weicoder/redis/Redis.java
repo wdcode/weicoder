@@ -8,7 +8,7 @@ import com.weicoder.common.interfaces.CallbackVoid;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.Transaction;
-import redis.clients.jedis.Tuple;
+import redis.clients.jedis.resps.Tuple;
 
 /**
  * Redis 操作接口
@@ -54,7 +54,7 @@ public interface Redis {
 	 * @param  count  获取数量
 	 * @return        Set<Tuple>
 	 */
-	Set<Tuple> zrevrangeByScoreWithScores(String key, double max, double min, int offset, int count);
+	List<Tuple> zrevrangeByScoreWithScores(String key, double max, double min, int offset, int count);
 
 	/**
 	 * 从队列右侧开始取数据
@@ -430,7 +430,7 @@ public interface Redis {
 	 * @param  end   结束数
 	 * @return       值列表
 	 */
-	Set<String> zrevrange(String key, long start, long end);
+	List<String> zrevrange(String key, long start, long end);
 
 	/**
 	 * 获得redis list 数据
@@ -440,7 +440,7 @@ public interface Redis {
 	 * @param  end   结束数
 	 * @return       值列表
 	 */
-	Set<String> zrange(String key, long start, long end);
+	List<String> zrange(String key, long start, long end);
 
 	/**
 	 * 获得redis list 数据
@@ -450,7 +450,7 @@ public interface Redis {
 	 * @param  max 最大
 	 * @return     结果
 	 */
-	Set<String> zrangeByScore(String key, String min, String max);
+	List<String> zrangeByScore(String key, String min, String max);
 
 	/**
 	 * 添加列表数据
