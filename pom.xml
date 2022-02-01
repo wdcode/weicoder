@@ -43,7 +43,7 @@
 		<curator-framework>5.2.0</curator-framework>
 		<hbase-client>2.4.9</hbase-client>
 		<commons-compress>1.21</commons-compress>
-		<xstream>1.4.18</xstream>
+		<xstream>1.4.19</xstream>
 		<dom4j>2.1.3</dom4j>
 		<disruptor>3.4.4</disruptor>
 
