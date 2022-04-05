@@ -163,11 +163,11 @@ public class SchoonerSockIOPool {
 	private int                                         minIdle                        = GenericObjectPoolConfig.DEFAULT_MIN_IDLE;
 	private boolean                                     testOnBorrow                   = GenericObjectPoolConfig.DEFAULT_TEST_ON_BORROW;
 	private boolean                                     testOnReturn                   = GenericObjectPoolConfig.DEFAULT_TEST_ON_RETURN;
-	private long                                        timeBetweenEvictionRunsMillis  = GenericObjectPoolConfig.DEFAULT_TIME_BETWEEN_EVICTION_RUNS_MILLIS;
+	private long                                        timeBetweenEvictionRunsMillis  = GenericObjectPoolConfig.DEFAULT_TIME_BETWEEN_EVICTION_RUNS.toSeconds();
 	private int                                         numTestsPerEvictionRun         = GenericObjectPoolConfig.DEFAULT_NUM_TESTS_PER_EVICTION_RUN;
-	private long                                        minEvictableIdleTimeMillis     = GenericObjectPoolConfig.DEFAULT_MIN_EVICTABLE_IDLE_TIME_MILLIS;
+	private long                                        minEvictableIdleTimeMillis     = GenericObjectPoolConfig.DEFAULT_MIN_EVICTABLE_IDLE_DURATION.toSeconds();
 	private boolean                                     testWhileIdle                  = true;
-	private long                                        softMinEvictableIdleTimeMillis = GenericObjectPoolConfig.DEFAULT_SOFT_MIN_EVICTABLE_IDLE_TIME_MILLIS;
+	private long                                        softMinEvictableIdleTimeMillis = GenericObjectPoolConfig.DEFAULT_SOFT_MIN_EVICTABLE_IDLE_DURATION.toSeconds();
 	private boolean                                     lifo                           = GenericObjectPoolConfig.DEFAULT_LIFO;
 
 	private boolean aliveCheck = false; // default to not check each connection
