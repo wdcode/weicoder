@@ -3,8 +3,8 @@ package com.weicoder.web.util;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 
 import com.weicoder.common.constants.HttpConstants;
 import com.weicoder.common.constants.StringConstants;

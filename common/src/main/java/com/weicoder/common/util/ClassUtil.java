@@ -16,9 +16,7 @@ import java.util.Map;
 import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
 import java.util.stream.Collectors;
-
-import javax.annotation.Resource;
-
+  
 import com.weicoder.common.U.B;
 import com.weicoder.common.U.C;
 import com.weicoder.common.U.S;
@@ -30,6 +28,8 @@ import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
+
+import jakarta.annotation.Resource;
 
 /**
  * 关于Class的一些操作

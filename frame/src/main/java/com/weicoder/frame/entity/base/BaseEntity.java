@@ -2,7 +2,7 @@ package com.weicoder.frame.entity.base;
 
 import java.io.Serializable;
 
-import javax.persistence.MappedSuperclass;
+import jakarta.persistence.MappedSuperclass;
 
 import com.weicoder.frame.entity.Entity;
 import com.weicoder.common.lang.Conversion;

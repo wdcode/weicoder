@@ -1,6 +1,6 @@
 package com.weicoder.frame.entity.base;
 
-import javax.persistence.MappedSuperclass;
+import jakarta.persistence.MappedSuperclass;
 
 import com.weicoder.frame.entity.EntityTime;
 import com.weicoder.common.constants.StringConstants;

@@ -6,8 +6,8 @@ import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.zip.GZIPOutputStream;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import com.weicoder.common.constants.DateConstants;
 import com.weicoder.common.constants.FileConstants;

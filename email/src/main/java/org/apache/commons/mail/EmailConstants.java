@@ -134,7 +134,7 @@ public final class EmailConstants
     public static final String MAIL_SMTP_SOCKET_FACTORY_FALLBACK = "mail.smtp.socketFactory.fallback";
 
     /**
-     * Specifies the {@link javax.net.SocketFactory} class to create smtp sockets.
+     * Specifies the {@link jakarta.net.SocketFactory} class to create smtp sockets.
      * @since 1.1
      */
     public static final String MAIL_SMTP_SOCKET_FACTORY_CLASS = "mail.smtp.socketFactory.class";
@@ -191,7 +191,7 @@ public final class EmailConstants
     public static final String MAIL_SMTP_SSL_CHECKSERVERIDENTITY = "mail.smtp.ssl.checkserveridentity";
 
     /**
-     * Specifies the {@link javax.net.ssl.SSLSocketFactory} class to use to create SMTP SSL sockets.
+     * Specifies the {@link jakarta.net.ssl.SSLSocketFactory} class to use to create SMTP SSL sockets.
      * @since 1.3
      */
     public static final String MAIL_SMTP_SSL_SOCKET_FACTORY_CLASS = "mail.smtp.ssl.socketFactory.class";

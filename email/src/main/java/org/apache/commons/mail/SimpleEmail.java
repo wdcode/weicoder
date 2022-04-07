@@ -29,7 +29,7 @@ public class SimpleEmail extends Email
      *
      * @param msg A String.
      * @return An Email.
-     * @ see javax.mail.internet.MimeBodyPart
+     * @ see jakarta.mail.internet.MimeBodyPart
      *  for definitions
      * @since 1.0
      */

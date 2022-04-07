@@ -1,6 +1,6 @@
 package com.weicoder.frame.interceptor;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import com.weicoder.frame.action.SuperAction;
 

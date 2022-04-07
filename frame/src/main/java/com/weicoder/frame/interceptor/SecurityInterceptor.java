@@ -3,7 +3,7 @@ package com.weicoder.frame.interceptor;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import com.weicoder.frame.action.StrutsAction;
 import com.weicoder.frame.params.SecurityParams;

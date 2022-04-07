@@ -4,10 +4,10 @@ import java.io.IOException;
 import java.util.Enumeration;
 import java.util.Map;
 
-import javax.servlet.ServletRequest;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.HttpConstants;

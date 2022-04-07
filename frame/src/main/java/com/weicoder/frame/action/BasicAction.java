@@ -3,8 +3,8 @@ package com.weicoder.frame.action;
 import java.lang.reflect.Method;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Conversion;

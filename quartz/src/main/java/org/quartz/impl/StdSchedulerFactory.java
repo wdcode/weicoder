@@ -61,8 +61,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
-import java.security.AccessControlException;
+import java.lang.reflect.Method; 
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Locale;
@@ -481,7 +480,7 @@ public class StdSchedulerFactory implements SchedulerFactory {
         Properties sysProps = null;
         try {
             sysProps = System.getProperties();
-        } catch (AccessControlException e) {
+        } catch (Exception e) {
             log.warn(
                 "Skipping overriding quartz properties with System properties " +
                 "during initialization because of an AccessControlException.  " +

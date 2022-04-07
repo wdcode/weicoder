@@ -3,7 +3,7 @@ package com.weicoder.frame.action;
 import java.util.Collection;
 import java.util.List;
 
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.util.BeanUtil;

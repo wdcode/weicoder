@@ -258,9 +258,9 @@ public class SimpleThreadPool implements ThreadPool {
                 parent = threadGroup.getParent();
             }
             threadGroup = new ThreadGroup(parent, schedulerInstanceName + "-SimpleThreadPool");
-            if (isMakeThreadsDaemons()) {
-                threadGroup.setDaemon(true);
-            }
+//            if (isMakeThreadsDaemons()) {
+//                threadGroup.setDaemon(true);
+//            }
         }
 
 

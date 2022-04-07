@@ -1061,10 +1061,11 @@ public class SchoonerSockIOPool {
 		 * +------------+------------+------------+------------+
 		 * </p>
 		 */
-		public static Short       REQUESTID = (short) 0;
+		public static short       REQUESTID = (short) 0;
 		public static final short SEQENCE   = (short) 0x0000;
 		public static final short TOTAL     = (short) 0x0001;
 		public static final short RESERVED  = (short) 0x0000;
+		private static final Object LOCK 	= new Object();
 
 		private static ConcurrentMap<String, byte[]> data = new ConcurrentHashMap<String, byte[]>();
 
@@ -1147,9 +1148,9 @@ public class SchoonerSockIOPool {
 		public short preWrite() {
 			writeBuf.clear();
 			short rid = 0;
-			synchronized (REQUESTID) {
+			synchronized (LOCK) {
 				REQUESTID++;
-				rid = REQUESTID.shortValue();
+				rid = REQUESTID;
 			}
 			writeBuf.putShort(rid);
 			writeBuf.putShort(SEQENCE);
