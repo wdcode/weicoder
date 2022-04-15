@@ -1,0 +1,5 @@
+rpc:
+ port: 6666
+ rpct:
+  host: 127.0.0.1
+  port: 6666

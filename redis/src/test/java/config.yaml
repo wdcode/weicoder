@@ -1,0 +1,11 @@
+#redis 
+redis:
+ default:
+  host:
+   redis.test
+   port:6379
+   password:langyeredis##123
+ user:
+  host: redis.test
+  port: 6379
+  password: langyeredis##123
