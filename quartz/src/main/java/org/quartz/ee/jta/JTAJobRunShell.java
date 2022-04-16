@@ -18,9 +18,9 @@
 
 package org.quartz.ee.jta;
 
-//import jakarta.transaction.Status;
-//import jakarta.transaction.SystemException;
-//import jakarta.transaction.UserTransaction;
+import jakarta.transaction.Status;
+import jakarta.transaction.SystemException;
+import jakarta.transaction.UserTransaction;
 
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
@@ -47,9 +47,9 @@ public class JTAJobRunShell extends JobRunShell {
      * 
      * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
      */
-//    private final Integer transactionTimeout;
+    private final Integer transactionTimeout;
 
-//    private UserTransaction ut;
+    private UserTransaction ut;
 
     /*
      * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -66,7 +66,7 @@ public class JTAJobRunShell extends JobRunShell {
      */
     public JTAJobRunShell(Scheduler scheduler, TriggerFiredBundle bndle) {
         super(scheduler, bndle);
-//        this.transactionTimeout = null;
+        this.transactionTimeout = null;
     }
 
     /**
@@ -76,7 +76,7 @@ public class JTAJobRunShell extends JobRunShell {
      */
     public JTAJobRunShell(Scheduler scheduler, TriggerFiredBundle bndle, int timeout) {
         super(scheduler, bndle);
-//        this.transactionTimeout = timeout;
+        this.transactionTimeout = timeout;
     }
     
     /*
@@ -98,19 +98,19 @@ public class JTAJobRunShell extends JobRunShell {
         boolean beganSuccessfully = false;
         try {
             getLog().debug("Looking up UserTransaction.");
-//            ut = UserTransactionHelper.lookupUserTransaction();
-//            if (transactionTimeout != null) {
-//                ut.setTransactionTimeout(transactionTimeout);
-//            }
+            ut = UserTransactionHelper.lookupUserTransaction();
+            if (transactionTimeout != null) {
+                ut.setTransactionTimeout(transactionTimeout);
+            }
 
             getLog().debug("Beginning UserTransaction.");
-//            ut.begin();
+            ut.begin();
             
             beganSuccessfully = true;
         } 
-//        catch (SchedulerException se) {
-//            throw se;
-//        } 
+        catch (SchedulerException se) {
+            throw se;
+        } 
         catch (Exception nse) {
 
             throw new SchedulerException(
@@ -125,25 +125,25 @@ public class JTAJobRunShell extends JobRunShell {
     @Override
     protected void complete(boolean successfulExecution)
         throws SchedulerException {
-//        if (ut == null) {
-//            return;
-//        }
+        if (ut == null) {
+            return;
+        }
 
         try {
-//            try {
-//                if (ut.getStatus() == Status.STATUS_MARKED_ROLLBACK) {
-//                    getLog().debug("UserTransaction marked for rollback only.");
-//                    successfulExecution = false;
-//                }
-//            } catch (SystemException e) {
-//                throw new SchedulerException(
-//                        "JTAJobRunShell could not read UserTransaction status.", e);
-//            }
+            try {
+                if (ut.getStatus() == Status.STATUS_MARKED_ROLLBACK) {
+                    getLog().debug("UserTransaction marked for rollback only.");
+                    successfulExecution = false;
+                }
+            } catch (SystemException e) {
+                throw new SchedulerException(
+                        "JTAJobRunShell could not read UserTransaction status.", e);
+            }
     
             if (successfulExecution) {
                 try {
                     getLog().debug("Committing UserTransaction.");
-//                    ut.commit();
+                    ut.commit();
                 } catch (Exception nse) {
                     throw new SchedulerException(
                             "JTAJobRunShell could not commit UserTransaction.", nse);
@@ -151,7 +151,7 @@ public class JTAJobRunShell extends JobRunShell {
             } else {
                 try {
                     getLog().debug("Rolling-back UserTransaction.");
-//                    ut.rollback();
+                    ut.rollback();
                 } catch (Exception nse) {
                     throw new SchedulerException(
                             "JTAJobRunShell could not rollback UserTransaction.",
@@ -173,9 +173,9 @@ public class JTAJobRunShell extends JobRunShell {
     }
     
     private void cleanupUserTransaction() {
-//        if (ut != null) {
-//            UserTransactionHelper.returnUserTransaction(ut);
-//            ut = null;
-//        }
+        if (ut != null) {
+            UserTransactionHelper.returnUserTransaction(ut);
+            ut = null;
+        }
     }
 }
