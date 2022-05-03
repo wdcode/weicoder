@@ -5,9 +5,9 @@ import org.apache.catalina.connector.Connector;
 import org.apache.catalina.core.AprLifecycleListener;
 import org.apache.catalina.startup.Tomcat;
 
-import com.weicoder.common.C;
+import com.weicoder.common.C; 
 import com.weicoder.common.init.Inits;
-import com.weicoder.common.log.Logs;
+import com.weicoder.common.log.Logs; 
 import com.weicoder.tomcat.params.TomcatParams; 
 import com.weicoder.web.servlet.BasicServlet;  
 
@@ -55,7 +55,8 @@ public final class TomcatServer {
 		try {
 			// 声明tomcat 设置参数
 			tomcat = new Tomcat();
-			tomcat.setBaseDir(C.O.BASE_DIR);
+//			tomcat.setBaseDir(C.O.BASE_DIR);
+			tomcat.setBaseDir(C.S.BACKSLASH); 
 			tomcat.setPort(port);
 			// 声明Connector 设置参数
 			Connector connector = new Connector(TomcatParams.PROTOCOL);
@@ -64,8 +65,10 @@ public final class TomcatServer {
 			tomcat.setConnector(connector);
 
 			// 添加路径与servlet
-			tomcat.addContext(path, C.O.BASE_DIR);
-			tomcat.addWebapp(path, C.O.BASE_DIR).setReloadable(false);
+//			tomcat.addContext(path, C.O.BASE_DIR);
+//			tomcat.addWebapp(path, C.O.BASE_DIR).setReloadable(false);
+			tomcat.addContext(path, C.S.BACKSLASH);
+			tomcat.addWebapp(path, C.S.BACKSLASH).setReloadable(false);
 			tomcat.addServlet(path, "basic", BasicServlet.class.getName()).addMapping("/*");
 //			tomcat.addServlet(path, "basic", new BasicServlet()).addMapping("/*");
 //			tomcat.addServlet(path, "basic", new TomcatServlet()).addMapping("/*");
@@ -79,6 +82,7 @@ public final class TomcatServer {
 			// 启动
 			tomcat.start();
 			tomcat.getServer().await();
+			Logs.info("tomcat server port={} path={} start");
 		} catch (Exception e) {
 			Logs.error(e);
 		}

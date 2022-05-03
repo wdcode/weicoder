@@ -6,7 +6,7 @@ import org.apache.commons.pool2.impl.DefaultPooledObject;
 import org.apache.commons.pool2.impl.GenericObjectPool;
 
 import com.schooner.MemCached.SchoonerSockIOPool.TCPSockIO;
-import com.schooner.MemCached.SchoonerSockIOPool.UDPSockIO;
+import com.schooner.MemCached.SchoonerSockIOPool.UDPSockIO; 
 
 /**
  * {@link SchoonerSockIOFactory} is used to create and destroy socket for connection pool.
@@ -38,7 +38,7 @@ public class SchoonerSockIOFactory extends BasePooledObjectFactory<SchoonerSockI
 		this.bufferSize = bufferSize;
 		this.socketTO = socketTO;
 		this.socketConnectTO = socketConnectTO;
-		this.nagle = nagle;
+		this.nagle = nagle; 
 	}
 
 	@Override

@@ -6,8 +6,8 @@ import java.util.Map;
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Maps;
-import com.weicoder.common.util.BeanUtil;
-import com.weicoder.json.fastjson.FastJson;
+import com.weicoder.common.util.BeanUtil; 
+import com.weicoder.json.fastjson2.FastJson2;
 import com.weicoder.common.U;
 import com.weicoder.common.W.L;
 
@@ -18,7 +18,8 @@ import com.weicoder.common.W.L;
  */
 public class JsonEngine {
 	// 默认Json解析
-	private final static Json JSON = new FastJson();
+//	private final static Json JSON = new FastJson();
+	private final static Json JSON = new FastJson2();
 
 	/**
 	 * 是否是json串
