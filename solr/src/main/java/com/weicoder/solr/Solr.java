@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
-import org.apache.solr.client.solrj.impl.HttpSolrClient.Builder;
+import org.apache.solr.client.solrj.impl.Http2SolrClient.Builder;
 
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.log.Logs;

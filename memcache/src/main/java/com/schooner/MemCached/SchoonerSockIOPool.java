@@ -153,9 +153,8 @@ public class SchoonerSockIOPool {
 	private long maintSleep      = 1000 * 30; // maintenance thread sleep time
 	private int  socketTO        = 1000 * 30; // default timeout of socket reads
 	private int  socketConnectTO = 1000 * 3;  // default timeout of socket
-	// connections
-	@SuppressWarnings("unused")
-	private static int recBufferSize = 128;// bufsize
+	// connections 
+	//private static int recBufferSize = 128;// bufsize
 
 	private GenericObjectPoolConfig<SchoonerSockIO> config                         = new GenericObjectPoolConfig<>();
 	private long                                        maxWait                        = 1000;                                                               // max wait time for avail sockets
@@ -163,11 +162,11 @@ public class SchoonerSockIOPool {
 	private int                                         minIdle                        = GenericObjectPoolConfig.DEFAULT_MIN_IDLE;
 	private boolean                                     testOnBorrow                   = GenericObjectPoolConfig.DEFAULT_TEST_ON_BORROW;
 	private boolean                                     testOnReturn                   = GenericObjectPoolConfig.DEFAULT_TEST_ON_RETURN;
-	private long                                        timeBetweenEvictionRunsMillis  = GenericObjectPoolConfig.DEFAULT_TIME_BETWEEN_EVICTION_RUNS.toSeconds();
+	private long                                        timeBetweenEvictionRunsMillis  = GenericObjectPoolConfig.DEFAULT_TIME_BETWEEN_EVICTION_RUNS.getSeconds();
 	private int                                         numTestsPerEvictionRun         = GenericObjectPoolConfig.DEFAULT_NUM_TESTS_PER_EVICTION_RUN;
-	private long                                        minEvictableIdleTimeMillis     = GenericObjectPoolConfig.DEFAULT_MIN_EVICTABLE_IDLE_DURATION.toSeconds();
+	private long                                        minEvictableIdleTimeMillis     = GenericObjectPoolConfig.DEFAULT_MIN_EVICTABLE_IDLE_DURATION.getSeconds();
 	private boolean                                     testWhileIdle                  = true;
-	private long                                        softMinEvictableIdleTimeMillis = GenericObjectPoolConfig.DEFAULT_SOFT_MIN_EVICTABLE_IDLE_DURATION.toSeconds();
+	private long                                        softMinEvictableIdleTimeMillis = GenericObjectPoolConfig.DEFAULT_SOFT_MIN_EVICTABLE_IDLE_DURATION.getSeconds();
 	private boolean                                     lifo                           = GenericObjectPoolConfig.DEFAULT_LIFO;
 
 	private boolean aliveCheck = false; // default to not check each connection

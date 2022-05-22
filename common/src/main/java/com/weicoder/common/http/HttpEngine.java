@@ -1,6 +1,5 @@
 package com.weicoder.common.http;
- 
-import java.net.http.HttpClient; 
+  
 import java.util.Map;
  
 import com.weicoder.common.http.factory.HttpFactory; 
@@ -55,19 +54,7 @@ public class HttpEngine {
 	public static byte[] download(String url, Map<String, Object> header) {
 		return HTTP.download(url, header);
 	}
-
-	/**
-	 * 使用get提交url
-	 * 
-	 * @param  client HttpClinet
-	 * @param  url    网址
-	 * @param  header http头列表
-	 * @return        返回的结果
-	 */
-	public static byte[] download(HttpClient client, String url, Map<String, Object> header) {
-		return HTTP.download(url, header);
-	}
-
+ 
 	/**
 	 * 模拟post提交 定制提交 参数对象与提交参数相同 返回结果为json对象
 	 * 
@@ -89,30 +76,5 @@ public class HttpEngine {
 	 */
 	public static String post(String url, Map<String, String> data) {
 		return HTTP.post(url, data);
-	}
-
-	/**
-	 * 使用post提交url
-	 * 
-	 * @param  url    网址
-	 * @param  data   参数
-	 * @param  header http头列表
-	 * @return        返回的结果
-	 */
-	public static String post(String url, Map<String, Object> data, Map<String, Object> header) {
-		return HTTP.post(url, data, header);
-	}
-
-	/**
-	 * 使用post提交url
-	 * 
-	 * @param  client HttpClinet
-	 * @param  url    网址
-	 * @param  data   参数
-	 * @param  header http头列表
-	 * @return        返回的结果
-	 */
-	public static String post(HttpClient client, String url, Map<String, Object> data, Map<String, Object> header) {
-		return HTTP.post(url, data, header);
 	} 
 }
