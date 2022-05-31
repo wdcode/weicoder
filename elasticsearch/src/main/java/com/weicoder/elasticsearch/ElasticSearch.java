@@ -70,8 +70,8 @@ public class ElasticSearch {
 			Map<String, Property> properties = Maps.newMap();
 			// 获得所有索引字段 根据数据类型设置
 //			BeanUtil.getFields(index.getClass())
-//					.forEach(f -> properties.put(f.getName(), Maps.newMap("type", f.getType()))); 
-			BeanUtil.getFields(index.getClass()).forEach(f -> properties.put(f.getName(), Property.of(p -> p.searchAsYouType(v -> v.name(f.getName())))));
+//					.forEach(f -> properties.put(f.getName(), Maps.newMap("type", f.getType())));  
+			BeanUtil.getFields(index.getClass()).forEach(f -> properties.put(f.getName(), Property.of(p -> p.searchAsYouType(v -> v.searchAnalyzer(f.getName())))));//v.name(f.getName())
 			// f.getType())));xxxxxxx
 //			request.mapping(JsonEngine.toJson(Maps.newMap("properties", properties)));//, XContentType.JSON
 			request.mappings().properties().putAll(properties);
