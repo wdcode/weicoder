@@ -5,10 +5,10 @@
 	<parent>
 		<groupId>com.weicoder</groupId>
 		<artifactId>build</artifactId>
-		<version>1.8</version>
+		<version>1.9.1</version>
 	</parent>
 	<artifactId>weicoder</artifactId>
-	<version>1.2.4</version>
+	<version>1.2.5</version>
 	<packaging>pom</packaging> 
 	
 	<modules>
@@ -22,48 +22,48 @@
 
 	<properties> 
 		<jdk>1.8</jdk>   
-		<fastjson>1.2.73</fastjson>
-		<hibernate-core>5.4.20.Final</hibernate-core> 
-		<netty-all>4.1.51.Final</netty-all> 
-		<mongo-java-driver>3.12.7</mongo-java-driver>
-		<jedis>3.3.0</jedis> 
+		<fastjson>1.2.80</fastjson>
+		<hibernate-core>5.4.33.Final</hibernate-core> 
+		<netty-all>4.1.76.Final</netty-all> 
+		<mongo-java-driver>3.12.10</mongo-java-driver>
+		<jedis>3.8.0</jedis> 
 		<poi>4.1.2</poi> 
-		<druid>1.1.23</druid>
+		<druid>1.2.9</druid>
 		<quartz>2.3.2</quartz>
-		<slf4j-api>1.7.30</slf4j-api>
-		<httpclient>4.5.12</httpclient>
-		<httpmime>4.5.12</httpmime>
-		<httpcore>4.4.13</httpcore>
-		<httpcore-nio>4.4.13</httpcore-nio>
-		<httpasyncclient>4.1.4</httpasyncclient> 
+		<slf4j-api>1.7.34</slf4j-api>
+		<httpclient>4.5.13</httpclient>
+		<httpmime>4.5.13</httpmime>
+		<httpcore>4.4.15</httpcore>
+		<httpcore-nio>4.4.15</httpcore-nio>
+		<httpasyncclient>4.1.5</httpasyncclient> 
 		<netty>3.10.6.Final</netty>  
 		<jdom>1.1.3</jdom>
-		<jdom2>2.0.6</jdom2> 
+		<jdom2>2.0.6.1</jdom2> 
 		<dom4j>2.1.3</dom4j>
-		<xstream>1.4.12</xstream> 
+		<xstream>1.4.19</xstream> 
 		<Memcached-Java-Client>3.0.2</Memcached-Java-Client> 
 		<spymemcached>2.12.3</spymemcached>
 		<jxl>2.6.12</jxl>
-		<commons-compress>1.20</commons-compress> 
+		<commons-compress>1.21</commons-compress> 
 		<commons-httpclient>3.1</commons-httpclient>
-		<hbase-client>2.3.0</hbase-client>
+		<hbase-client>2.4.11</hbase-client>
 		<asynchbase>1.8.2</asynchbase>
-		<mina-core>2.1.3</mina-core> 
-		<redisson>3.13.2</redisson>
+		<mina-core>2.1.6</mina-core> 
+		<redisson>3.17.0</redisson>
 		<commons-email>1.5</commons-email>
 		<commons-dbcp>1.4</commons-dbcp>
-		<commons-dbcp2>2.7.0</commons-dbcp2>
+		<commons-dbcp2>2.9.0</commons-dbcp2>
 		<c3p0>0.9.1.2</c3p0>
 		<proxool>0.9.1</proxool>
 		<bonecp>0.8.0.RELEASE</bonecp>
-		<opencsv>5.2</opencsv>
-		<gson>2.8.6</gson>
-		<json-smart>2.3</json-smart>
-		<xmemcached>2.4.6</xmemcached>
-		<struts2>2.5.22</struts2>
+		<opencsv>5.6</opencsv>
+		<gson>2.9.0</gson>
+		<json-smart>2.4.8</json-smart>
+		<xmemcached>2.4.7</xmemcached>
+		<struts2>2.5.30</struts2>
 		<xwork-core>2.3.37</xwork-core>
-		<spring>5.2.8.RELEASE</spring>
-		<hibernate-search>5.11.5.Final</hibernate-search>
+		<spring>5.2.20.RELEASE</spring>
+		<hibernate-search>5.11.10.Final</hibernate-search>
 		<urlrewritefilter>4.0.4</urlrewritefilter> 
 	</properties> 
 	
