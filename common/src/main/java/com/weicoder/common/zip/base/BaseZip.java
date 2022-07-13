@@ -1,53 +1,73 @@
 package com.weicoder.common.zip.base;
 
-import com.weicoder.common.U;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+
+import com.weicoder.common.io.IOUtil;
+import com.weicoder.common.log.Logs;
 import com.weicoder.common.zip.Zip;
 
 /**
  * 基础压缩实现
+ * 
  * @author WD
  */
 public abstract class BaseZip implements Zip {
-
 	@Override
-	public final byte[] compress(byte[] b) {
-		try {
-			// 获得压缩数据
-			byte[] data = compress0(b);
-			// 如果压缩比原始数据大 返回原始数据
-			return data.length >= b.length ? b : data;
-		} catch (Exception e) {
-			// 如果压缩异常 返回原数据
-			return b;
-		}
+	public byte[] compress(byte[] b) {
+		return compress(new ByteArrayInputStream(b)).toByteArray();
 	}
 
 	@Override
-	public final byte[] extract(byte[] b) {
-		try {
-			// 解压缩
-			byte[] data = extract0(b);
-			// 如果解压缩的为空 返回原数据
-			return U.E.isEmpty(data) ? b : data;
+	public byte[] extract(byte[] b) {
+		return extract(new ByteArrayInputStream(b)).toByteArray();
+	}
+
+	@Override
+	public ByteArrayOutputStream compress(InputStream in) {
+		return compress(in, new ByteArrayOutputStream());
+	}
+
+	@Override
+	public ByteArrayOutputStream extract(InputStream in) {
+		return extract(in, new ByteArrayOutputStream());
+	}
+
+	@Override
+	public <E extends OutputStream> E compress(InputStream in, E out) {
+		try (OutputStream os = os(out)) {
+			IOUtil.write(os(out), in);
 		} catch (Exception e) {
-			// 如果异常或则无法解压 返回原数据
-			return b;
+			Logs.error(e);
 		}
+		return out;
+	}
+
+	@Override
+	public <E extends OutputStream> E extract(InputStream in, E out) {
+		try (InputStream is = is(in)) {
+			IOUtil.read(is);
+		} catch (Exception e) {
+			Logs.error(e);
+		}
+		return out;
 	}
 
 	/**
-	 * 实际压缩算法的实现
-	 * @param b 字节数组
-	 * @return 压缩后数据
-	 * @throws Exception 抛出的异常
+	 * 根据子类实现生成解压流
+	 * 
+	 * @param in 字节输入流
+	 * @return
 	 */
-	protected abstract byte[] compress0(byte[] b) throws Exception;
+	protected abstract InputStream is(InputStream in) throws Exception;
 
 	/**
-	 * 实际的解压缩算法
-	 * @param b 字节数组
-	 * @return 压缩后数据
-	 * @throws Exception 抛出的异常
+	 * 根据子类实现生成压缩流
+	 * 
+	 * @param os 字节输出流
+	 * @return
 	 */
-	protected abstract byte[] extract0(byte[] b) throws Exception;
+	protected abstract OutputStream os(OutputStream os) throws Exception;
 }

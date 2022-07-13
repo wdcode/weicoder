@@ -1,10 +1,10 @@
 package com.weicoder.common.zip.impl;
-
-import java.io.ByteArrayInputStream;
+ 
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.zip.DeflaterInputStream;
-import java.util.zip.InflaterInputStream;
-
-import com.weicoder.common.io.IOUtil;
+import java.util.zip.DeflaterOutputStream; 
+ 
 import com.weicoder.common.zip.base.BaseZip;
 
 /**
@@ -14,12 +14,14 @@ import com.weicoder.common.zip.base.BaseZip;
 public final class ZlibImpl extends BaseZip {
 
 	@Override
-	protected byte[] compress0(byte[] b) throws Exception {
-		return IOUtil.read(new DeflaterInputStream(new ByteArrayInputStream(b)));
+	protected InputStream is(InputStream in) throws Exception { 
+		return new DeflaterInputStream(in);
+//		return new InflaterInputStream(in);
 	}
 
 	@Override
-	protected byte[] extract0(byte[] b) throws Exception {
-		return IOUtil.read(new InflaterInputStream(new ByteArrayInputStream(b)));
-	}
+	protected OutputStream os(OutputStream os) throws Exception { 
+		return new DeflaterOutputStream(os);
+//		return new InflaterOutputStream(os);
+	} 
 }

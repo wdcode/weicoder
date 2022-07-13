@@ -1,7 +1,6 @@
 package com.weicoder.common.factory;
 
-import com.weicoder.common.U;
-import com.weicoder.common.W;
+import com.weicoder.common.U; 
 import com.weicoder.common.U.C;
 
 /**
@@ -14,9 +13,9 @@ public abstract class FactoryInterface<E> extends FactoryKey<String, E> {
 	@Override
 	public E newInstance(String key) {
 		if (U.E.isEmpty(key))
-			return (E) C.ioc(W.C.value(C.from(C.getGenericClass(this.getClass(), 0)), def()));
+			return (E) C.ioc(C.from(C.getGenericClass(this.getClass(), 0)));
 		else
-			return (E) C.ioc(W.C.value(C.bean(C.getGenericClass(this.getClass(), 0), key), def()));
+			return (E) C.ioc(C.bean(C.getGenericClass(this.getClass(), 0), key));
 	}
 
 	protected abstract Class<? extends E> def();

@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
 import java.util.stream.Collectors;
-  
+
 import com.weicoder.common.U.B;
 import com.weicoder.common.U.C;
 import com.weicoder.common.U.S;
@@ -55,6 +55,16 @@ public class ClassUtil {
 	 */
 	public static <E> E ioc(Class<E> c) {
 		return ioc(newInstance(c));
+	}
+
+	/**
+	 * 对传入的类进行实例化并进行类型注入 非基础类型
+	 * 
+	 * @param c   要注入的类
+	 * @param def 默认类
+	 */
+	public static <E> E ioc(Class<E> c, Class<E> def) {
+		return ioc(c == null ? def : c);
 	}
 
 	/**
@@ -703,8 +713,10 @@ public class ClassUtil {
 		C.getPackageClasses().forEach(c -> {
 			// 处理接口类型
 			getInterfaces(c).forEach(i -> {
-				M.getList(map, i).add(c);
-				M.getMap(CLASS_BEANS, i).put(S.convert(c.getSimpleName(), i.getSimpleName(), "Impl"), c);
+				if (c.getModifiers() == Modifier.PUBLIC) {
+					M.getList(map, i).add(c);
+					M.getMap(CLASS_BEANS, i).put(S.convert(c.getSimpleName(), i.getSimpleName(), "Impl"), c);
+				}
 			});
 			// 处理注解类型
 			for (Annotation a : c.getAnnotations())

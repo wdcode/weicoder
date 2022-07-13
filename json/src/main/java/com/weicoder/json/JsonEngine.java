@@ -6,8 +6,8 @@ import java.util.Map;
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Maps;
-import com.weicoder.common.util.BeanUtil; 
-import com.weicoder.json.fastjson2.FastJson2;
+import com.weicoder.common.util.BeanUtil;
+import com.weicoder.json.fastjson.FastJson; 
 import com.weicoder.common.U;
 import com.weicoder.common.W.L;
 
@@ -18,14 +18,13 @@ import com.weicoder.common.W.L;
  */
 public class JsonEngine {
 	// 默认Json解析
-//	private final static Json JSON = new FastJson();
-	private final static Json JSON = new FastJson2();
+	private final static Json JSON = new FastJson();
 
 	/**
 	 * 是否是json串
 	 * 
-	 * @param  json json串
-	 * @return      true false
+	 * @param json json串
+	 * @return true false
 	 */
 	public static boolean isJson(String json) {
 		// 字符串为空
@@ -44,8 +43,8 @@ public class JsonEngine {
 	/**
 	 * 是否是json普通对象格式
 	 * 
-	 * @param  json json串
-	 * @return      true false
+	 * @param json json串
+	 * @return true false
 	 */
 	public static boolean isObject(String json) {
 		// 字符串为空
@@ -64,8 +63,8 @@ public class JsonEngine {
 	/**
 	 * 是否是json数组格式
 	 * 
-	 * @param  json json串
-	 * @return      true false
+	 * @param json json串
+	 * @return true false
 	 */
 	public static boolean isArray(String json) {
 		// 字符串为空
@@ -84,18 +83,29 @@ public class JsonEngine {
 	/**
 	 * 把一个对象转换成JSON
 	 * 
-	 * @param  obj 要转换的对象
-	 * @return     转换后的字符串
+	 * @param obj 要转换的对象
+	 * @return 转换后的字符串
 	 */
 	public static String toJson(Object obj) {
 		return obj == null ? StringConstants.EMPTY : JSON.toJson(obj);// JSON.toJSONString(obj);
 	}
 
 	/**
+	 * 根据给定的json串与键获得相对于的值
+	 * 
+	 * @param json JSON串
+	 * @param key  键
+	 * @return 值
+	 */
+	public static String getJson(String json, String key) {
+		return JSON.getJson(json, key);
+	}
+
+	/**
 	 * 把列表实体数据转换成列表json数据
 	 * 
-	 * @param  list 列表
-	 * @return      转换后的数据
+	 * @param list 列表
+	 * @return 转换后的数据
 	 */
 	public static List<String> toJsonByList(List<?> list) {
 		return L.newList(toJsonByArray(list));
@@ -104,8 +114,8 @@ public class JsonEngine {
 	/**
 	 * 把列表实体数据转换成数组json数据
 	 * 
-	 * @param  list 列表
-	 * @return      转换后的数组数据
+	 * @param list 列表
+	 * @return 转换后的数组数据
 	 */
 	public static String[] toJsonByArray(List<?> list) {
 		if (U.E.isEmpty(list))
@@ -141,10 +151,10 @@ public class JsonEngine {
 	/**
 	 * 转换JSON根据传入的Class反射生成回实体Bean
 	 * 
-	 * @param  json  JSON字符串
-	 * @param  clazz 要转换对象的class
-	 * @param  <E>   泛型
-	 * @return       对象
+	 * @param json  JSON字符串
+	 * @param clazz 要转换对象的class
+	 * @param <E>   泛型
+	 * @return 对象
 	 */
 	public static <E> E toBean(String json, Class<E> clazz) {
 		return U.E.isEmpty(json) ? null : JSON.toBean(json, clazz); // JSON.parseObject(json, clazz);
@@ -153,10 +163,10 @@ public class JsonEngine {
 	/**
 	 * 把json转换成List
 	 * 
-	 * @param  json  JSON字符串
-	 * @param  clazz 类
-	 * @param  <E>   泛型
-	 * @return       List
+	 * @param json  JSON字符串
+	 * @param clazz 类
+	 * @param <E>   泛型
+	 * @return List
 	 */
 	public static <E> List<E> toList(String json, Class<E> clazz) {
 		return L.newList(JSON.toList(json, clazz));// JSON.parseArray(json, clazz)
@@ -165,8 +175,8 @@ public class JsonEngine {
 	/**
 	 * 把json转换成Map
 	 * 
-	 * @param  json JSON字符串
-	 * @return      Map
+	 * @param json JSON字符串
+	 * @return Map
 	 */
 	@SuppressWarnings("unchecked")
 	public static Map<String, Object> toMap(String json) {
@@ -176,10 +186,10 @@ public class JsonEngine {
 	/**
 	 * 把json转换成Map
 	 * 
-	 * @param  json  JSON字符串
-	 * @param  value Map值类
-	 * @param  <E>   泛型
-	 * @return       Map
+	 * @param json  JSON字符串
+	 * @param value Map值类
+	 * @param <E>   泛型
+	 * @return Map
 	 */
 	@SuppressWarnings("unchecked")
 	public static <E> Map<String, E> toMap(String json, Class<E> value) {
@@ -209,10 +219,10 @@ public class JsonEngine {
 	/**
 	 * 把json转换成List
 	 * 
-	 * @param  json JSON字符串
-	 * @return      List
+	 * @param json JSON字符串
+	 * @return List
 	 */
 	public static List<Object> toList(String json) {
 		return toList(json, Object.class);
-	} 
+	}
 }

@@ -51,6 +51,11 @@ public abstract class BaseExcel implements Excel {
 	}
 
 	@Override
+	public <E> void write(List<E> list) {
+		list.forEach(e -> write(e));
+	}
+
+	@Override
 	public <E> List<E> reads(Class<E> cls) {
 		// 获得行数
 		int rows = getRows();
@@ -235,8 +240,7 @@ public abstract class BaseExcel implements Excel {
 	/**
 	 * 获得指定Sheet，指定行列内容
 	 * 
-	 * @param index Sheet码 注 添加了这个参数 就直接设置了Sheet 以后调用 getContents(int row,int
-	 *              col)就可获得这页内容
+	 * @param index Sheet码 注 添加了这个参数 就直接设置了Sheet 以后调用 getContents(int row,int col)就可获得这页内容
 	 * @param row   行码
 	 * @param col   列码
 	 * @return 单元格内容
@@ -339,8 +343,7 @@ public abstract class BaseExcel implements Excel {
 	/**
 	 * 获得指定Sheet，指定行列内容
 	 * 
-	 * @param index   Sheet码 注 添加了这个参数 就直接设置了Sheet 以后调用 getContents(int row,int
-	 *                col)就可获得这页内容
+	 * @param index   Sheet码 注 添加了这个参数 就直接设置了Sheet 以后调用 getContents(int row,int col)就可获得这页内容
 	 * @param row     行码
 	 * @param col     列码
 	 * @param content 内容

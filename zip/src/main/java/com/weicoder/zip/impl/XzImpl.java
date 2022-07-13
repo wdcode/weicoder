@@ -1,29 +1,28 @@
 package com.weicoder.zip.impl;
-
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
+ 
 import java.io.InputStream;
 import java.io.OutputStream;
  
 import org.apache.commons.compress.compressors.xz.XZCompressorInputStream;
 import org.apache.commons.compress.compressors.xz.XZCompressorOutputStream;
 
-import com.weicoder.common.zip.base.BaseCompressor;
+import com.weicoder.common.zip.base.BaseZip;
+ 
 
 /**
  * XZ压缩
  * 
  * @author WD
  */
-public final class XzImpl extends BaseCompressor {
+public final class XzImpl extends BaseZip {
 
 	@Override
-	protected InputStream is(ByteArrayInputStream bis) throws Exception {
-		return new XZCompressorInputStream(bis);
+	protected InputStream is(InputStream is) throws Exception {
+		return new XZCompressorInputStream(is);
 	}
 
 	@Override
-	protected OutputStream os(ByteArrayOutputStream bos) throws Exception {
-		return new XZCompressorOutputStream(bos);
+	protected OutputStream os(OutputStream os) throws Exception {
+		return new XZCompressorOutputStream(os);
 	}
 }

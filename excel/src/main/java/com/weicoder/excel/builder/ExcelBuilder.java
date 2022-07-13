@@ -18,7 +18,7 @@ public final class ExcelBuilder {
 	 */
 	public static Excel getExcel(String fileName) { 
 		try {
-			return getExcel(U.F.newFile(U.R.getResource(fileName).toURI()));
+			return getExcel(U.F.newFile(fileName));
 		} catch (Exception e) {
 			return getExcel(U.F.newFile(fileName));
 		}

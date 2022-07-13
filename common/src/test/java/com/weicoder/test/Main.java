@@ -1,24 +1,47 @@
 package com.weicoder.test;
- 
+
+import com.weicoder.common.http.base.BaseHttp;
+import com.weicoder.common.http.impl.Jdk11Http;
 
 public class Main {
 	public static void main(String[] args) {
-		int m = 5299;
-		double b = 0.0016974;
-		double n = 0;
-		for(int i=0;i<24;i++) {
-			n+=m*b;
-			m-=220.8;
-		}
-		System.out.println("m="+m+";n="+n);
-		
-		  m = 6999; 
-		  n = 0;
-		for(int i=0;i<6;i++) {
-			n+=m*b;
-			m-=1166.5;
-		}
-		System.out.println("m="+m+";n="+n);
+		System.out.println(BaseHttp.class.isAnnotation());
+		System.out.println(BaseHttp.class.isAnonymousClass());		
+		System.out.println(BaseHttp.class.isHidden());
+		System.out.println(BaseHttp.class.isInterface());
+		System.out.println(BaseHttp.class.isLocalClass());
+		System.out.println(BaseHttp.class.isMemberClass());
+		System.out.println(BaseHttp.class.isPrimitive());
+		System.out.println(BaseHttp.class.isRecord());
+		System.out.println(BaseHttp.class.isSealed());
+		System.out.println(BaseHttp.class.isSynthetic());
+		System.out.println("-----------------------");
+		System.out.println(Jdk11Http.class.isAnnotation());
+		System.out.println(Jdk11Http.class.isAnonymousClass());		
+		System.out.println(Jdk11Http.class.isHidden());
+		System.out.println(Jdk11Http.class.isInterface());
+		System.out.println(Jdk11Http.class.isLocalClass());
+		System.out.println(Jdk11Http.class.isMemberClass());
+		System.out.println(Jdk11Http.class.isPrimitive());
+		System.out.println(Jdk11Http.class.isRecord());
+		System.out.println(Jdk11Http.class.isSealed());
+		System.out.println(Jdk11Http.class.isSynthetic());
+//		int m = 5299;
+//		double b = 0.0016974;
+//		double n = 0;
+//		for(int i=0;i<24;i++) {
+//			n+=m*b;
+//			m-=220.8;
+//		}
+//		System.out.println("m="+m+";n="+n);
+//		
+//		  m = 6999; 
+//		  n = 0;
+//		for(int i=0;i<6;i++) {
+//			n+=m*b;
+//			m-=1166.5;
+//		}
+//		System.out.println("m="+m+";n="+n);
 		
 //		byte[] b = "lkajejkgt32089".getBytes();
 //		int n = 1000000;

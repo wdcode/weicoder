@@ -124,4 +124,10 @@ public class Jdk8Http extends BaseHttp {
 		// 返回连接connection
 		return conn;
 	}
+
+//	@Override
+//	public String get(String url, Map<String, Object> header) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 }
