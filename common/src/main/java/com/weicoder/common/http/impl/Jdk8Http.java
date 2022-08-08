@@ -5,24 +5,27 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Map;
 
+import com.weicoder.common.W;
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.HttpConstants;
 import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.http.base.BaseHttp;
+import com.weicoder.common.http.Http;
 import com.weicoder.common.io.IOUtil;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
-import com.weicoder.common.zip.ZipEngine;
+import com.weicoder.common.zip.Zip;
 
 /**
  * http的jdk8实现
  * 
  * @author wudi
  */
-public class Jdk8Http extends BaseHttp {
+public class Jdk8Http implements Http {
+	// gzip压缩解压工具
+	private Zip gzip = W.Z.get("gzip");
 
 	@Override
 	public byte[] download(String url, Map<String, Object> header) {
@@ -40,7 +43,7 @@ public class Jdk8Http extends BaseHttp {
 			// 连接
 			conn.connect();
 			// 使用GZIP一般服务器支持解压获得的流 然后转成字符串 一般为UTF-8
-			return ZipEngine.GZIP.extract(IOUtil.read(conn.getInputStream()));
+			return gzip.extract(IOUtil.read(conn.getInputStream()));
 		} catch (IOException e) {
 			Logs.error(e, "HttpEngine get url={}", url);
 		} finally {
@@ -83,7 +86,7 @@ public class Jdk8Http extends BaseHttp {
 				IOUtil.write(conn.getOutputStream(), sb.substring(0, sb.length() - 1));
 			}
 			// 使用GZIP一般服务器支持解压获得的流 然后转成字符串 一般为UTF-8
-			String res = StringUtil.toString(ZipEngine.GZIP.extract(IOUtil.read(conn.getInputStream())));
+			String res = StringUtil.toString(gzip.extract(IOUtil.read(conn.getInputStream())));
 			Logs.debug("HttpEngine post url={} data={} header={} res={}", url, data, header, res);
 			return res;
 		} catch (IOException e) {
@@ -99,8 +102,8 @@ public class Jdk8Http extends BaseHttp {
 	/**
 	 * 获得连接
 	 * 
-	 * @param  url URL连接
-	 * @return     HttpURLConnection
+	 * @param url URL连接
+	 * @return HttpURLConnection
 	 */
 	private static HttpURLConnection getConnection(String url) {
 		HttpURLConnection conn = null;

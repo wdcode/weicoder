@@ -58,14 +58,7 @@ public final class C {
 	 */
 	public static class H extends HttpConstants {
 	}
-
-//	/**
-//	 * @see    ImageConstants 图像常量类引用
-//	 * @author wudi
-//	 */
-//	public static class I extends ImageConstants {
-//	}
-
+  
 	/**
 	 * @see    RegexConstants 正则常量类引用
 	 * @author wudi

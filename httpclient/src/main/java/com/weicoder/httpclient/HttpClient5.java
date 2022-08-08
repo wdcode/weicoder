@@ -17,8 +17,8 @@ import org.apache.hc.core5.util.Timeout;
 
 import com.weicoder.common.C;
 import com.weicoder.common.U;
-import com.weicoder.common.W;  
-import com.weicoder.common.http.base.BaseHttp;
+import com.weicoder.common.W;
+import com.weicoder.common.http.Http;
 import com.weicoder.common.http.params.HttpParams;
 import com.weicoder.common.io.IOUtil;
 import com.weicoder.common.lang.Lists;
@@ -30,7 +30,7 @@ import com.weicoder.common.log.Logs;
  * @author wdcode
  *
  */
-public class HttpClient5 extends BaseHttp {
+public class HttpClient5 implements Http {
 	// Http客户端
 	final static CloseableHttpClient CLIENT = init();
 

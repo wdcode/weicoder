@@ -63,8 +63,8 @@ public class ClassUtil {
 	 * @param c   要注入的类
 	 * @param def 默认类
 	 */
-	public static <E> E ioc(Class<E> c, Class<E> def) {
-		return ioc(c == null ? def : c);
+	public static <E> E ioc(Class<? extends E> c, Class<? extends E> def) {
+		return ioc((Class<E>) (c == null ? def : c));
 	}
 
 	/**
@@ -162,7 +162,7 @@ public class ClassUtil {
 	 * @return
 	 */
 	public static <E> Class<E> from(Class<E> c) {
-		return from(c, CLASSES.get(c).size() - 1);
+		return from(c, L.size(CLASSES.get(c)));
 	}
 
 	/**
@@ -713,9 +713,9 @@ public class ClassUtil {
 		C.getPackageClasses().forEach(c -> {
 			// 处理接口类型
 			getInterfaces(c).forEach(i -> {
-				if (c.getModifiers() == Modifier.PUBLIC) {
+				if (Modifier.isPublic(c.getModifiers()) && !Modifier.isAbstract(c.getModifiers())) {
 					M.getList(map, i).add(c);
-					M.getMap(CLASS_BEANS, i).put(S.convert(c.getSimpleName(), i.getSimpleName(), "Impl"), c);
+					M.getMap(CLASS_BEANS, i).put(S.convert(c.getSimpleName(), "Impl", i.getSimpleName()), c);
 				}
 			});
 			// 处理注解类型

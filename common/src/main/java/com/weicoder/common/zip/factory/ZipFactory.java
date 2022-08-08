@@ -1,8 +1,7 @@
 package com.weicoder.common.zip.factory;
 
 import com.weicoder.common.factory.FactoryInterface;
-import com.weicoder.common.zip.Zip;
-import com.weicoder.common.zip.impl.ZlibImpl;
+import com.weicoder.common.zip.Zip; 
 
 /**
  * 压缩算法zip工厂
@@ -25,18 +24,13 @@ public class ZipFactory extends FactoryInterface<Zip> {
 	/**
 	 * 获得压缩算法实现
 	 * 
-	 * @param  name 实现名称
-	 * @return      实现
+	 * @param name 实现名称
+	 * @return 实现
 	 */
 	public static Zip getZip(String name) {
 		return FACTORY.getInstance(name);
 	}
 
 	private ZipFactory() {
-	}
-
-	@Override
-	protected Class<? extends Zip> def() { 
-		return ZlibImpl.class;
 	}
 }

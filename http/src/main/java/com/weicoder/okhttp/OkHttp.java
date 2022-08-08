@@ -5,7 +5,7 @@ import java.util.Map;
 
 import com.weicoder.common.C;
 import com.weicoder.common.W;
-import com.weicoder.common.http.base.BaseHttp;
+import com.weicoder.common.http.Http;
 import com.weicoder.common.log.Logs;
 
 import okhttp3.FormBody;
@@ -19,7 +19,7 @@ import okhttp3.Response;
  * @author wdcode
  *
  */
-public class OkHttp extends BaseHttp {
+public class OkHttp implements Http {
 	private OkHttpClient client;
 
 	public OkHttp(OkHttpClient client) {

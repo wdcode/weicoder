@@ -2,11 +2,9 @@ package com.weicoder.common.zip.impl;
 
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
-import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.zip.base.BaseZip;
 
 /**
@@ -24,8 +22,8 @@ public final class ZipImpl extends BaseZip {
 	@Override
 	protected OutputStream os(OutputStream os) throws Exception {
 		ZipOutputStream zip = new ZipOutputStream(os);
-		// 设置压缩实体
-		zip.putNextEntry(new ZipEntry(StringConstants.EMPTY));
+//		// 设置压缩实体
+//		zip.putNextEntry(new ZipEntry(StringConstants.EMPTY));
 		return zip;
 	}
 

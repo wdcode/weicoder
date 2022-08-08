@@ -10,9 +10,9 @@ import java.util.Map;
 
 import com.weicoder.common.C;
 import com.weicoder.common.U;
-import com.weicoder.common.U.S;
-import com.weicoder.common.http.base.BaseHttp;
+import com.weicoder.common.U.S; 
 import com.weicoder.common.W;
+import com.weicoder.common.http.Http;
 import com.weicoder.common.log.Logs;
 
 /**
@@ -20,7 +20,7 @@ import com.weicoder.common.log.Logs;
  * 
  * @author wudi
  */
-public class Jdk11Http extends BaseHttp {
+public class Jdk11Http implements Http {
 	// 全局HttpClient
 	private final HttpClient CLIENT = HttpClient.newBuilder().version(Version.HTTP_2).build(); 
 

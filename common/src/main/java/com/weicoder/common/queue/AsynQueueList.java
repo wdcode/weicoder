@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Queue;
 
 import com.weicoder.common.U;
-import com.weicoder.common.concurrent.ScheduledUtil;
 import com.weicoder.common.interfaces.CallbackList;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.log.Log;
@@ -13,6 +12,7 @@ import com.weicoder.common.log.LogFactory;
 
 /**
  * 异步回调处理队列数据
+ * 
  * @author WD
  */
 public class AsynQueueList<E> {
@@ -23,35 +23,38 @@ public class AsynQueueList<E> {
 
 	/**
 	 * 构造
-	 * @param queue 队列
+	 * 
+	 * @param queue    队列
 	 * @param callback 回调
-	 * @param time 时间 毫秒
+	 * @param time     时间 毫秒
 	 */
 	public AsynQueueList(Queue<E> queue, CallbackList<E> callback, long time) {
 		this.queue = queue;
 		// 定时任务
-		ScheduledUtil.delay(() -> {
+		U.SES.delay(() -> {
 			// 队列为空 直接返回
 			if (queue.isEmpty())
 				return;
+			// 运行次数
 			int n = 0;
-			long c = System.currentTimeMillis();
+			// 开始时间
+			long c = U.D.now();
 			List<E> result = Lists.newList();
 			// 队列不为空
-			while (U.E.isNotEmpty(queue)) {
-				E e = queue.poll();
-				result.add(e);
-				n++;
-				LOG.debug("AsynQueueList run i={} obj={}", n, e);
+			while (U.E.isNotEmpty(queue) && n < 10000) {
+				LOG.trace("AsynQueueList add i={} add={}", ++n, result.add(queue.poll()));
 			}
 			// 执行
-			callback.callback(result);
-			LOG.info("AsynQueueList run size={} time={}", n, System.currentTimeMillis() - c);
+			if (n > 0) {
+				callback.callback(result);
+				LOG.debug("AsynQueueList run size={} time={}", n, U.D.now() - c);
+			}
 		}, time);
 	}
 
 	/**
 	 * 添加元素到队列
+	 * 
 	 * @param e
 	 * @return 是否成功
 	 */
@@ -61,6 +64,7 @@ public class AsynQueueList<E> {
 
 	/**
 	 * 添加列表到队列
+	 * 
 	 * @param c 列表
 	 * @return 是否成功
 	 */

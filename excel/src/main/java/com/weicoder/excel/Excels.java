@@ -1,16 +1,15 @@
-package com.weicoder.excel.builder;
+package com.weicoder.excel;
 
 import java.io.File; 
 
-import com.weicoder.common.U; 
-import com.weicoder.excel.Excel;
+import com.weicoder.common.U;
 import com.weicoder.excel.impl.ExcelPOI;
 
 /**
  * 生成 Excel 接口工厂
  * @author WD 
  */
-public final class ExcelBuilder {
+public final class Excels {
 	/**
 	 * 创建Excel对象
 	 * @param fileName 文件路径
@@ -33,5 +32,5 @@ public final class ExcelBuilder {
 		return new ExcelPOI(file);
 	}
 
-	private ExcelBuilder() {}
+	private Excels() {}
 }

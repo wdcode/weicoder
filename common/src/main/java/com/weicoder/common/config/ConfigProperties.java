@@ -5,14 +5,14 @@ import java.io.InputStream;
 import java.util.Properties;
 
 import com.weicoder.common.U;
-import com.weicoder.common.U.R; 
+import com.weicoder.common.U.R;
 
 /**
  * 读取配置类
  * 
  * @author WD
  */
-public class ConfigProperties extends BaseConfig {
+public class ConfigProperties implements Config {
 	// Properties配置
 	private Properties ps;
 
@@ -45,15 +45,6 @@ public class ConfigProperties extends BaseConfig {
 	public ConfigProperties(Properties ps) {
 		this.ps = ps;
 	}
-
-//	/**
-//	 * 获取属性配置
-//	 * 
-//	 * @return
-//	 */
-//	public Properties getProperties() {
-//		return ps;
-//	}
 
 	@Override
 	public String getString(String key) {

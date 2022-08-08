@@ -1,7 +1,7 @@
 package com.weicoder.nacos.config;
 
-import com.weicoder.common.U;
-import com.weicoder.common.config.BaseConfig;
+import com.weicoder.common.U; 
+import com.weicoder.common.config.Config;
 import com.weicoder.nacos.NacosConfig;
 import com.weicoder.nacos.factory.NacosFactory;
 
@@ -11,7 +11,7 @@ import com.weicoder.nacos.factory.NacosFactory;
  * @author wdcode
  *
  */
-public class ConfigNacos extends BaseConfig {
+public class ConfigNacos implements Config {
 	// nacos配置
 	private NacosConfig config;
 

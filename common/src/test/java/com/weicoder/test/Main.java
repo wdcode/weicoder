@@ -1,20 +1,20 @@
 package com.weicoder.test;
-
-import com.weicoder.common.http.base.BaseHttp;
+ 
+import com.weicoder.common.http.Http;
 import com.weicoder.common.http.impl.Jdk11Http;
 
 public class Main {
 	public static void main(String[] args) {
-		System.out.println(BaseHttp.class.isAnnotation());
-		System.out.println(BaseHttp.class.isAnonymousClass());		
-		System.out.println(BaseHttp.class.isHidden());
-		System.out.println(BaseHttp.class.isInterface());
-		System.out.println(BaseHttp.class.isLocalClass());
-		System.out.println(BaseHttp.class.isMemberClass());
-		System.out.println(BaseHttp.class.isPrimitive());
-		System.out.println(BaseHttp.class.isRecord());
-		System.out.println(BaseHttp.class.isSealed());
-		System.out.println(BaseHttp.class.isSynthetic());
+		System.out.println(Http.class.isAnnotation());
+		System.out.println(Http.class.isAnonymousClass());		
+		System.out.println(Http.class.isHidden());
+		System.out.println(Http.class.isInterface());
+		System.out.println(Http.class.isLocalClass());
+		System.out.println(Http.class.isMemberClass());
+		System.out.println(Http.class.isPrimitive());
+		System.out.println(Http.class.isRecord());
+		System.out.println(Http.class.isSealed());
+		System.out.println(Http.class.isSynthetic());
 		System.out.println("-----------------------");
 		System.out.println(Jdk11Http.class.isAnnotation());
 		System.out.println(Jdk11Http.class.isAnonymousClass());		

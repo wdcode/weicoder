@@ -2,7 +2,7 @@ package com.weicoder.common.config;
 
 import java.util.Properties;
 
-import com.weicoder.common.factory.FactoryInterface; 
+import com.weicoder.common.factory.FactoryInterface;
 
 /**
  * 读取配置工厂类
@@ -40,9 +40,4 @@ public final class ConfigFactory extends FactoryInterface<Config> {
 
 	private ConfigFactory() {
 	}
-
-	@Override
-	protected Class<? extends Config> def() { 
-		return ConfigProperties.class;
-	} 
 }

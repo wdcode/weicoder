@@ -672,7 +672,18 @@ public class StringUtil {
 	 * @return 替换后的字符
 	 */
 	public static String[] split(String s, String regex) {
-		return U.E.isEmpty(s) ? ArrayConstants.STRING_EMPTY : s.split(regex);
+		return split(s, regex, ArrayConstants.STRING_EMPTY);
+	}
+
+	/**
+	 * 拆分字符串
+	 * 
+	 * @param s     要拆分的字符串
+	 * @param regex 正则表达式
+	 * @return 替换后的字符
+	 */
+	public static String[] split(String s, String regex, String[] def) {
+		return U.E.isEmpty(s) ? def : s.split(regex);
 	}
 
 	/**

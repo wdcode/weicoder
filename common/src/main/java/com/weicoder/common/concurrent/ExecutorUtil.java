@@ -7,10 +7,10 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
-
-import com.weicoder.common.constants.StringConstants;
+ 
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.log.Logs;
+import com.weicoder.common.C;
 import com.weicoder.common.U;
 
 /**
@@ -20,10 +20,10 @@ import com.weicoder.common.U;
  */
 public class ExecutorUtil {
 	// 线程池
-	private final static ExecutorFactory FACTORY = new ExecutorFactory();
+	private final static ExecutorFactory		FACTORY		= new ExecutorFactory();
 	// 保存线程
-	private final static List<Runnable>         RUNNABLES = Lists.newList();
-	private final static List<Callable<Object>> CALLABLES = Lists.newList();
+	private final static List<Runnable>			RUNNABLES	= Lists.newList();
+	private final static List<Callable<Object>>	CALLABLES	= Lists.newList();
 
 	/**
 	 * 获得核心数为1新的缓存线程池执行线程
@@ -46,9 +46,9 @@ public class ExecutorUtil {
 	/**
 	 * 获得新的缓存线程池
 	 * 
-	 * @param  pool   线程池数量
-	 * @param  daemon 是否守护线程
-	 * @return        缓存线程池
+	 * @param pool   线程池数量
+	 * @param daemon 是否守护线程
+	 * @return 缓存线程池
 	 */
 	public static ExecutorService newPool(int pool, boolean daemon) {
 		return FACTORY.newPool(pool, daemon);
@@ -69,14 +69,14 @@ public class ExecutorUtil {
 	 * @return 线程池
 	 */
 	public static ExecutorService pool() {
-		return pool(StringConstants.EMPTY);
+		return pool(C.S.EMPTY);
 	}
 
 	/**
 	 * 获得线程池
 	 * 
-	 * @param  name 名称
-	 * @return      线程池
+	 * @param name 名称
+	 * @return 线程池
 	 */
 	public static ExecutorService pool(String name) {
 		return FACTORY.getInstance(name);
@@ -135,16 +135,17 @@ public class ExecutorUtil {
 		// 声明结果列表
 		List<Future<?>> list = Lists.newList(tasks.size());
 		// 执行任务
-		tasks.forEach(task -> {
-			list.add(pool().submit(task));
-		});
+		ExecutorService es = pool();
+		tasks.forEach(task -> list.add(es.submit(task)));
 		// 循环等待
-		while (pool().isTerminated()) {
+		while (!es.isTerminated()) {
 			// 是否全部完成
 			for (Iterator<Future<?>> it = list.iterator(); it.hasNext();) {
 				if (it.next().isDone())
 					it.remove();
 			}
+			// 暂停10毫秒
+			U.T.sleep(10L);
 			// 如果列表为空
 			if (U.E.isEmpty(list)) {
 				break;
@@ -155,9 +156,9 @@ public class ExecutorUtil {
 	/**
 	 * 提交一个 Runnable 任务用于执行，并返回一个表示该任务的 Future
 	 * 
-	 * @param  tasks Runnable 任务
-	 * @param  <T>   泛型
-	 * @return       表示该任务的 Future
+	 * @param tasks Runnable 任务
+	 * @param <T>   泛型
+	 * @return 表示该任务的 Future
 	 */
 	public static <T> List<T> submit(List<Callable<T>> tasks) {
 		return submit(tasks, 0);
@@ -166,22 +167,25 @@ public class ExecutorUtil {
 	/**
 	 * 提交一个 Runnable 任务用于执行，并返回一个表示该任务的 Future
 	 * 
-	 * @param  tasks   Runnable 任务
-	 * @param  timeout 如果可以最多等待的时间
-	 * @param  <T>     泛型
-	 * @return         表示该任务的 Future
+	 * @param tasks   Runnable 任务
+	 * @param timeout 如果可以最多等待的时间
+	 * @param <T>     泛型
+	 * @return 表示该任务的 Future
 	 */
 	public static <T> List<T> submit(List<Callable<T>> tasks, long timeout) {
 		// 获得列表长度
 		int len = tasks.size();
+//		try {
+//			pool().invokeAll(tasks);
+//		} catch (InterruptedException e1) { 
+//			e1.printStackTrace();
+//		}
 		// 声明结果列表
 		List<Future<T>> list = Lists.newList(len);
 		// 声明返回列表
 		List<T> ls = Lists.newList(len);
 		// 执行任务
-		tasks.forEach(task -> {
-			list.add(pool().submit(task));
-		});
+		tasks.forEach(task -> list.add(pool().submit(task)));
 		// 循环获得结果
 		list.forEach(f -> {
 			try {

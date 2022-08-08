@@ -37,8 +37,8 @@ public abstract class BaseZip implements Zip {
 
 	@Override
 	public <E extends OutputStream> E compress(InputStream in, E out) {
-		try (OutputStream os = os(out)) {
-			IOUtil.write(os(out), in);
+		try {
+			IOUtil.write(out, is(in));
 		} catch (Exception e) {
 			Logs.error(e);
 		}
@@ -47,8 +47,8 @@ public abstract class BaseZip implements Zip {
 
 	@Override
 	public <E extends OutputStream> E extract(InputStream in, E out) {
-		try (InputStream is = is(in)) {
-			IOUtil.read(is);
+		try {
+			IOUtil.write(os(out), in);
 		} catch (Exception e) {
 			Logs.error(e);
 		}

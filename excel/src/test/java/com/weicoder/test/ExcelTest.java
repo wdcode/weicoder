@@ -3,15 +3,15 @@ package com.weicoder.test;
 import org.junit.Test;
 
 import com.weicoder.excel.Excel;
-import com.weicoder.excel.builder.ExcelBuilder;
+import com.weicoder.excel.Excels;
 
 public class ExcelTest {
 	@Test
 	public void main() {
 		String f = "robot.xlsx";
 		String n = "1.xlsx";
-		Excel e = ExcelBuilder.getExcel(f);
-		Excel x = ExcelBuilder.getExcel(n);
+		Excel e = Excels.getExcel(f);
+		Excel x = Excels.getExcel(n);
 		System.out.println("c="+e.getColumns()+";r="+e.getRows());
 		System.out.println(e.readContents(0,0));
 		for(int i=0;i<e.getRows();i++) { 

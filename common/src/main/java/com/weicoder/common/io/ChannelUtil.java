@@ -4,14 +4,15 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream; 
+import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.channels.WritableByteChannel;
 
 import com.weicoder.common.U;
-import com.weicoder.common.constants.ArrayConstants;
+import com.weicoder.common.binary.Buffer;
+import com.weicoder.common.interfaces.Callback;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.util.CloseUtil;
@@ -40,29 +41,11 @@ public class ChannelUtil {
 	 * @return 字节数组
 	 */
 	public static byte[] read(ReadableByteChannel ch, boolean isClose) {
-		// 创建结果字节缓存
+		// 创建结果字节流
 		ByteArrayOutputStream out = new ByteArrayOutputStream(CommonParams.IO_BUFFERSIZE * 10);
-		try {
-			// 获得一个ByteBuffer
-			ByteBuffer buffer = ByteBuffer.allocate(CommonParams.IO_BUFFERSIZE);
-			// 声明保存读取字符数量
-			int num = 0;
-			// 循环读取
-			while ((num = ch.read(buffer)) > 0) {
-				// 添加
-				out.write(buffer.hasArray() ? buffer.array() : ArrayConstants.BYTES_EMPTY, 0, num);
-				// 清除缓存
-				buffer.clear();
-			}
-		} catch (IOException e) {
-			Logs.error(e);
-		} finally {
-			// 关闭资源
-			if (isClose) {
-				CloseUtil.close(ch);
-			}
-		}
-		// 返回字节数组
+		// 写入字节流
+		write(ch, Channels.newChannel(out), isClose);
+		// 返回字节流中全部数组
 		return out.toByteArray();
 	}
 
@@ -73,7 +56,7 @@ public class ChannelUtil {
 	 * @param b   字节数组
 	 * @return true false
 	 */
-	public static boolean write(WritableByteChannel wbc, byte[] b) {
+	public static long write(WritableByteChannel wbc, byte[] b) {
 		return write(wbc, b, true);
 	}
 
@@ -85,7 +68,7 @@ public class ChannelUtil {
 	 * @param isClose 是否关闭流
 	 * @return true false
 	 */
-	public static boolean write(WritableByteChannel wbc, byte[] b, boolean isClose) {
+	public static long write(WritableByteChannel wbc, byte[] b, boolean isClose) {
 		return write(wbc, new ByteArrayInputStream(b), isClose);
 	}
 
@@ -96,7 +79,7 @@ public class ChannelUtil {
 	 * @param in  输入流
 	 * @return true false
 	 */
-	public static boolean write(WritableByteChannel wbc, InputStream in) {
+	public static long write(WritableByteChannel wbc, InputStream in) {
 		return write(wbc, in, true);
 	}
 
@@ -108,8 +91,8 @@ public class ChannelUtil {
 	 * @param isClose 是否关闭流
 	 * @return true false
 	 */
-	public static boolean write(WritableByteChannel wbc, InputStream in, boolean isClose) {
-		return write(wbc, Channels.newChannel(in), isClose);
+	public static long write(WritableByteChannel wbc, InputStream in, boolean isClose) {
+		return write(Channels.newChannel(in), wbc, isClose);
 	}
 
 	/**
@@ -124,7 +107,7 @@ public class ChannelUtil {
 			return wbc.write(src);
 		} catch (Exception e) {
 			Logs.error(e);
-			return 0;
+			return -1;
 		}
 	}
 
@@ -136,35 +119,65 @@ public class ChannelUtil {
 	 * @param isClose 是否关闭流
 	 * @return true false
 	 */
-	public static boolean write(WritableByteChannel wbc, ReadableByteChannel rbc, boolean isClose) {
+	public static long write(ReadableByteChannel rbc, WritableByteChannel wbc, boolean isClose) {
+		return write(rbc, wbc, CommonParams.IO_BUFFERSIZE, isClose, r -> r);
+	}
+
+	/**
+	 * 读取并写入数据 默认不关闭流
+	 * 
+	 * @param rbc  读取通道
+	 * @param wbc  写入通道
+	 * @param buff 每次读取缓存熟
+	 * @param call 回调
+	 * @return 读取流总数
+	 */
+	public static long write(ReadableByteChannel rbc, WritableByteChannel wbc, int buff, Callback<Buffer, Buffer> call) {
+		return write(rbc, wbc, buff, false, call);
+	}
+
+	/**
+	 * 读取并写入数据
+	 * 
+	 * @param rbc     读取通道
+	 * @param wbc     写入通道
+	 * @param buff    每次读取缓存数
+	 * @param isClose 是否关闭流
+	 * @param call    回调
+	 * @return 读取流总数
+	 */
+	public static long write(ReadableByteChannel rbc, WritableByteChannel wbc, int buff, boolean isClose, Callback<Buffer, Buffer> call) {
 		// 如果输出或则输入流为空
 		if (wbc == null || rbc == null) {
-			return false;
+			return -1;
 		}
+		// 声明保存读取字符数量
+		long sum = 0;
 		try {
 			// 获得一个
-			ByteBuffer buffer = ByteBuffer.allocate(CommonParams.IO_BUFFERSIZE);
-			// 声明保存读取字符数量
+			ByteBuffer buffer = ByteBuffer.allocate(buff);
+			// 每次读取的长度
 			int num = 0;
-
 			// 循环读写
 			while ((num = rbc.read(buffer)) > 0) {
+				// 回调函数并获得写入缓存
+				Buffer buf = call.callback(Buffer.wrap(buffer.array(), 0, num));
 				// 写文件
-				wbc.write(buffer.hasArray() ? ByteBuffer.wrap(buffer.array(), 0, num) : ByteBuffer.wrap(ArrayConstants.BYTES_EMPTY));
+				if (buf.length() > 0)
+					wbc.write(ByteBuffer.wrap(buf.array()));
 				// 清空缓存
 				buffer.clear();
+				// 累加读取流长度
+				sum += num;
 			}
-			// 返回成功
-			return true;
 		} catch (IOException e) {
 			Logs.error(e);
 		} finally {
 			// 关闭资源
-			if (isClose) {
+			if (isClose)
 				CloseUtil.close(wbc, rbc);
-			}
 		}
-		// 返回失败
-		return false;
+		// 返回总读取字节数
+		return sum;
 	}
 }

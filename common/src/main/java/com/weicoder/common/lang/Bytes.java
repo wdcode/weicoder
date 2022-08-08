@@ -34,18 +34,17 @@ public class Bytes {
 	/**
 	 * 是否支持序列化类型
 	 * 
-	 * @param  c 类
-	 * @return   是否支持序列化
+	 * @param c 类
+	 * @return 是否支持序列化
 	 */
 	public static boolean isType(Class<?> c) {
 		// 判断类型
 		if (c == null)
 			return false;
 		// 支持类型
-		if (byte[].class == c || Byte[].class == c || String.class == c || Integer.class == c || int.class == c
-				|| Long.class == c || long.class == c || Float.class == c || float.class == c || Double.class == c
-				|| double.class == c || Short.class == c || short.class == c || Byte.class == c || byte.class == c
-				|| Boolean.class == c || boolean.class == c || c == Buffer.class || c.isAssignableFrom(ByteArray.class))
+		if (byte[].class == c || Byte[].class == c || String.class == c || Integer.class == c || int.class == c || Long.class == c || long.class == c
+				|| Float.class == c || float.class == c || Double.class == c || double.class == c || Short.class == c || short.class == c || Byte.class == c
+				|| byte.class == c || Boolean.class == c || boolean.class == c || c == Buffer.class || c.isAssignableFrom(ByteArray.class))
 			return true;
 		// 不支持
 		return false;
@@ -54,10 +53,10 @@ public class Bytes {
 	/**
 	 * 根据c类型反序列化
 	 * 
-	 * @param  b 要转换的对象
-	 * @param  o 偏移量 数组0就可以 定义成数组是为了引用传递
-	 * @param  c 要转换的类型
-	 * @return   转换后的对象
+	 * @param b 要转换的对象
+	 * @param o 偏移量 数组0就可以 定义成数组是为了引用传递
+	 * @param c 要转换的类型
+	 * @return 转换后的对象
 	 */
 	public static Object to(byte[] b, Class<?> c) {
 		// 判断类型
@@ -91,8 +90,8 @@ public class Bytes {
 	/**
 	 * 转换Object变成字节数组
 	 * 
-	 * @param  objs 对象
-	 * @return      字节数组
+	 * @param objs 对象
+	 * @return 字节数组
 	 */
 	public static byte[] toBytes(Object... objs) {
 		return toBytes(Boolean.FALSE, objs);
@@ -101,8 +100,8 @@ public class Bytes {
 	/**
 	 * 转换Object变成字节数组
 	 * 
-	 * @param  objs 对象
-	 * @return      字节数组
+	 * @param objs 对象
+	 * @return 字节数组
 	 */
 	public static byte[] toBytes(Boolean is, Object... objs) {
 		// 获得数据长度
@@ -119,11 +118,11 @@ public class Bytes {
 	/**
 	 * 转换Collection变成字节数组
 	 * 
-	 * @param  b 布尔
-	 * @return   字节数组
+	 * @param b 布尔
+	 * @return 字节数组
 	 */
 	public static byte[] toBytes(boolean b) {
-		return new byte[]{(byte) (b ? 1 : 0)};
+		return new byte[] { (byte) (b ? 1 : 0) };
 	}
 
 //	/**
@@ -142,8 +141,8 @@ public class Bytes {
 	/**
 	 * 转换Object变成字节数组
 	 * 
-	 * @param  obj 对象
-	 * @return     字节数组
+	 * @param obj 对象
+	 * @return 字节数组
 	 */
 	public static byte[] toBytes(Object obj) {
 		return toBytes(false, obj);
@@ -152,8 +151,8 @@ public class Bytes {
 	/**
 	 * 转换Object变成字节数组
 	 * 
-	 * @param  obj 对象
-	 * @return     字节数组
+	 * @param obj 对象
+	 * @return 字节数组
 	 */
 	public static byte[] toBytes(boolean is, Object obj) {
 		// 判断类型
@@ -170,7 +169,7 @@ public class Bytes {
 //			return toBytes((Collection<?>) obj);
 		if (obj instanceof Byte)
 			// Byte
-			return new byte[]{(Byte) obj};
+			return new byte[] { (Byte) obj };
 		if (obj instanceof Integer)
 			// int
 			return toBytes(W.C.toInt(obj));
@@ -188,7 +187,7 @@ public class Bytes {
 			return toBytes(W.C.toShort(obj));
 		if (obj instanceof Byte)
 			// Short
-			return new byte[]{(byte) (obj)};
+			return new byte[] { (byte) (obj) };
 		if (obj instanceof Boolean)
 			// Short
 			return toBytes(W.C.toBoolean(obj));
@@ -220,8 +219,8 @@ public class Bytes {
 	/**
 	 * 转换Binary序列化
 	 * 
-	 * @param  binary Binary接口
-	 * @return        字节数组
+	 * @param binary Binary接口
+	 * @return 字节数组
 	 */
 	public static byte[] toBytes(Binary binary) {
 		return binary(binary);
@@ -230,8 +229,8 @@ public class Bytes {
 	/**
 	 * 转换Binary序列化
 	 * 
-	 * @param  binary Binary接口
-	 * @return        字节数组
+	 * @param binary Binary接口
+	 * @return 字节数组
 	 */
 	public static byte[] binary(Object binary) {
 		// 对象为空
@@ -250,8 +249,8 @@ public class Bytes {
 	/**
 	 * 转换ByteArray变成字节数组
 	 * 
-	 * @param  array ByteArray类型
-	 * @return       字节数组
+	 * @param array ByteArray类型
+	 * @return 字节数组
 	 */
 	public static byte[] toBytes(ByteArray array) {
 		return U.E.isEmpty(array) ? ArrayConstants.BYTES_EMPTY : array.array();
@@ -260,8 +259,8 @@ public class Bytes {
 	/**
 	 * 转换ByteBuffer变成字节数组
 	 * 
-	 * @param  buff ByteBuffer类型
-	 * @return      字节数组
+	 * @param buff ByteBuffer类型
+	 * @return 字节数组
 	 */
 	public static byte[] toBytes(ByteBuffer buff) {
 		// 如果为null
@@ -285,8 +284,8 @@ public class Bytes {
 	/**
 	 * 转换int变成字节数组
 	 * 
-	 * @param  i int类型
-	 * @return   字节数组
+	 * @param i int类型
+	 * @return 字节数组
 	 */
 	public static byte[] toBytes(int i) {
 		// 声明字节数组
@@ -311,8 +310,8 @@ public class Bytes {
 	/**
 	 * 把字节数组转换成int
 	 * 
-	 * @param  b 字节数组
-	 * @return   int
+	 * @param b 字节数组
+	 * @return int
 	 */
 	public static int toInt(byte[] b) {
 		return toInt(b, 0);
@@ -321,8 +320,8 @@ public class Bytes {
 	/**
 	 * 把字节数组转换成int
 	 * 
-	 * @param  b 字节数组
-	 * @return   int
+	 * @param b 字节数组
+	 * @return int
 	 */
 	public static byte toByte(byte[] b) {
 		return toByte(b, 0);
@@ -331,9 +330,9 @@ public class Bytes {
 	/**
 	 * 把字节数组转换成int
 	 * 
-	 * @param  b      字节数组
-	 * @param  offset 偏移
-	 * @return        int
+	 * @param b      字节数组
+	 * @param offset 偏移
+	 * @return int
 	 */
 	public static byte toByte(byte[] b, int offset) {
 		return copy(b, offset, offset + 1)[0];
@@ -342,8 +341,8 @@ public class Bytes {
 	/**
 	 * 把字节数组转换成int
 	 * 
-	 * @param  b 字节数组
-	 * @return   int
+	 * @param b 字节数组
+	 * @return int
 	 */
 	public static boolean toBoolean(byte[] b) {
 		return toBoolean(b, 0);
@@ -352,9 +351,9 @@ public class Bytes {
 	/**
 	 * 把字节数组转换成int
 	 * 
-	 * @param  b      字节数组
-	 * @param  offset 偏移
-	 * @return        int
+	 * @param b      字节数组
+	 * @param offset 偏移
+	 * @return int
 	 */
 	public static boolean toBoolean(byte[] b, int offset) {
 		return b[offset] == 1;
@@ -363,9 +362,9 @@ public class Bytes {
 	/**
 	 * 把字节数组转换成int
 	 * 
-	 * @param  b      字节数组
-	 * @param  offset 偏移
-	 * @return        int
+	 * @param b      字节数组
+	 * @param offset 偏移
+	 * @return int
 	 */
 	public static int toInt(byte[] b, int offset) {
 		// 声明int
@@ -391,8 +390,8 @@ public class Bytes {
 	/**
 	 * 转换short变成字节数组
 	 * 
-	 * @param  s short类型
-	 * @return   字节数组
+	 * @param s short类型
+	 * @return 字节数组
 	 */
 	public static byte[] toBytes(short s) {
 		// 声明数组
@@ -414,8 +413,8 @@ public class Bytes {
 	/**
 	 * 把字节数组转换成short
 	 * 
-	 * @param  b 字节数组
-	 * @return   short
+	 * @param b 字节数组
+	 * @return short
 	 */
 	public static short toShort(byte[] b) {
 		return toShort(b, 0);
@@ -424,9 +423,9 @@ public class Bytes {
 	/**
 	 * 把字节数组转换成short
 	 * 
-	 * @param  b      字节数组
-	 * @param  offset 偏移
-	 * @return        short
+	 * @param b      字节数组
+	 * @param offset 偏移
+	 * @return short
 	 */
 	public static short toShort(byte[] b, int offset) {
 		// 声明返回值
@@ -448,8 +447,8 @@ public class Bytes {
 	/**
 	 * 转换char变成字节数组
 	 * 
-	 * @param  c char类型
-	 * @return   字节数组
+	 * @param c char类型
+	 * @return 字节数组
 	 */
 	public static byte[] toBytes(char c) {
 		return toBytes((short) c);
@@ -458,8 +457,8 @@ public class Bytes {
 	/**
 	 * 把字节数组转换成char
 	 * 
-	 * @param  b 字节数组
-	 * @return   char
+	 * @param b 字节数组
+	 * @return char
 	 */
 	public static char toChar(byte[] b) {
 		return toChar(b, 0);
@@ -468,9 +467,9 @@ public class Bytes {
 	/**
 	 * 把字节数组转换成char
 	 * 
-	 * @param  b      字节数组
-	 * @param  offset 偏移
-	 * @return        char
+	 * @param b      字节数组
+	 * @param offset 偏移
+	 * @return char
 	 */
 	public static char toChar(byte[] b, int offset) {
 		return (char) toShort(b, offset);
@@ -479,8 +478,8 @@ public class Bytes {
 	/**
 	 * 转换float变成字节数组
 	 * 
-	 * @param  f float类型
-	 * @return   字节数组
+	 * @param f float类型
+	 * @return 字节数组
 	 */
 	public static byte[] toBytes(float f) {
 		return toBytes(Float.floatToIntBits(f));
@@ -489,8 +488,8 @@ public class Bytes {
 	/**
 	 * 把字节数组转换成float
 	 * 
-	 * @param  b 字节数组
-	 * @return   float
+	 * @param b 字节数组
+	 * @return float
 	 */
 	public static float toFloat(byte[] b) {
 		return toFloat(b, 0);
@@ -499,9 +498,9 @@ public class Bytes {
 	/**
 	 * 把字节数组转换成float
 	 * 
-	 * @param  b      字节数组
-	 * @param  offset 偏移
-	 * @return        float
+	 * @param b      字节数组
+	 * @param offset 偏移
+	 * @return float
 	 */
 	public static float toFloat(byte[] b, int offset) {
 		return Float.intBitsToFloat(toInt(b, offset));
@@ -510,8 +509,8 @@ public class Bytes {
 	/**
 	 * 转换double变成字节数组
 	 * 
-	 * @param  d double类型
-	 * @return   字节数组
+	 * @param d double类型
+	 * @return 字节数组
 	 */
 	public static byte[] toBytes(double d) {
 		return toBytes(Double.doubleToLongBits(d));
@@ -520,8 +519,8 @@ public class Bytes {
 	/**
 	 * 把字节数组转换成double
 	 * 
-	 * @param  b 字节数组
-	 * @return   double
+	 * @param b 字节数组
+	 * @return double
 	 */
 	public static double toDouble(byte[] b) {
 		return toDouble(b, 0);
@@ -530,9 +529,9 @@ public class Bytes {
 	/**
 	 * 把字节数组转换成double
 	 * 
-	 * @param  b      字节数组
-	 * @param  offset 偏移
-	 * @return        double
+	 * @param b      字节数组
+	 * @param offset 偏移
+	 * @return double
 	 */
 	public static double toDouble(byte[] b, int offset) {
 		return Double.longBitsToDouble(toLong(b, offset));
@@ -541,8 +540,8 @@ public class Bytes {
 	/**
 	 * 转换long变成字节数组
 	 * 
-	 * @param  l long类型
-	 * @return   字节数组
+	 * @param l long类型
+	 * @return 字节数组
 	 */
 	public static byte[] toBytes(long l) {
 		// 声明返回字节数组
@@ -576,8 +575,8 @@ public class Bytes {
 	/**
 	 * 把字节数组转换成long
 	 * 
-	 * @param  b 字节数组
-	 * @return   long
+	 * @param b 字节数组
+	 * @return long
 	 */
 	public static long toLong(byte[] b) {
 		return toLong(b, 0);
@@ -586,9 +585,9 @@ public class Bytes {
 	/**
 	 * 把字节数组转换成long
 	 * 
-	 * @param  b    字节数组
-	 * @param  high true 高位在前 false 低位在前
-	 * @return      long
+	 * @param b    字节数组
+	 * @param high true 高位在前 false 低位在前
+	 * @return long
 	 */
 	public static long toLong(byte[] b, boolean high) {
 		return toLong(b, 0, high);
@@ -597,9 +596,9 @@ public class Bytes {
 	/**
 	 * 把字节数组转换成long
 	 * 
-	 * @param  b      字节数组
-	 * @param  offset 偏移
-	 * @return        long
+	 * @param b      字节数组
+	 * @param offset 偏移
+	 * @return long
 	 */
 	public static long toLong(byte[] b, int offset) {
 		return toLong(b, offset, IS_HIGH);
@@ -608,10 +607,10 @@ public class Bytes {
 	/**
 	 * 把字节数组转换成long
 	 * 
-	 * @param  b      字节数组
-	 * @param  offset 偏移
-	 * @param  high   true 高位在前 false 低位在前
-	 * @return        long
+	 * @param b      字节数组
+	 * @param offset 偏移
+	 * @param high   true 高位在前 false 低位在前
+	 * @return long
 	 */
 	public static long toLong(byte[] b, int offset, boolean high) {
 		// 返回整数
@@ -645,8 +644,8 @@ public class Bytes {
 	/**
 	 * 转换String变成字节数组
 	 * 
-	 * @param  s String类型
-	 * @return   字节数组
+	 * @param s String类型
+	 * @return 字节数组
 	 */
 	public static byte[] toBytes(String s) {
 		return toBytes(s, false);
@@ -655,9 +654,9 @@ public class Bytes {
 	/**
 	 * 转换String变成字节数组
 	 * 
-	 * @param  s  String类型
-	 * @param  is 是否加上长度
-	 * @return    字节数组
+	 * @param s  String类型
+	 * @param is 是否加上长度
+	 * @return 字节数组
 	 */
 	public static byte[] toBytes(String s, boolean is) {
 		// 转换为字节数组
@@ -675,8 +674,8 @@ public class Bytes {
 	/**
 	 * 把字节数组转换成long
 	 * 
-	 * @param  b 字节数组
-	 * @return   long
+	 * @param b 字节数组
+	 * @return long
 	 */
 	public static String toString(byte[] b) {
 		return toString(b, 0);
@@ -685,9 +684,9 @@ public class Bytes {
 	/**
 	 * 把字节数组转换成字符串
 	 * 
-	 * @param  b      字节数组
-	 * @param  offset 偏移
-	 * @return        字符串
+	 * @param b      字节数组
+	 * @param offset 偏移
+	 * @return 字符串
 	 */
 	public static String toString(byte[] b, int offset) {
 		return toString(b, offset, false);
@@ -696,23 +695,43 @@ public class Bytes {
 	/**
 	 * 把字节数组转换成字符串
 	 * 
-	 * @param  b      字节数组
-	 * @param  offset 偏移
-	 * @param  is     是否读取长度
-	 * @return        字符串
+	 * @param b      字节数组
+	 * @param offset 偏移
+	 * @param is     是否读取长度
+	 * @return 字符串
 	 */
 	public static String toString(byte[] b, int offset, boolean is) {
-		return StringUtil
-				.toString(is ? copy(b, offset + 2, offset + 2 + toShort(b, offset)) : copy(b, offset, b.length));
+		return StringUtil.toString(is ? copy(b, offset + 2, offset + 2 + toShort(b, offset)) : copy(b, offset, b.length));
 	}
 
 	/**
 	 * 拷贝字节数组
 	 * 
-	 * @param  b      字节数组
-	 * @param  offset 偏移
-	 * @param  len    长度
-	 * @return        字节数组
+	 * @param b 字节数组
+	 * @return 字节数组
+	 */
+	public static byte[] copy(byte[] b) {
+		return copy(b, b.length);
+	}
+
+	/**
+	 * 拷贝字节数组
+	 * 
+	 * @param b   字节数组
+	 * @param len 长度
+	 * @return 字节数组
+	 */
+	public static byte[] copy(byte[] b, int len) {
+		return Arrays.copyOf(b, len);
+	}
+
+	/**
+	 * 拷贝字节数组
+	 * 
+	 * @param b      字节数组
+	 * @param offset 偏移
+	 * @param len    长度
+	 * @return 字节数组
 	 */
 	public static byte[] copy(byte[] b, int offset, int len) {
 		return U.E.isEmpty(b) || (offset == 0 && b.length == len) ? b : Arrays.copyOfRange(b, offset, len);
@@ -721,9 +740,9 @@ public class Bytes {
 	/**
 	 * 把字节数组转换为ByteArray
 	 * 
-	 * @param  array ByteArray 对象
-	 * @param  b     字节数组
-	 * @return       ByteArray对象
+	 * @param array ByteArray 对象
+	 * @param b     字节数组
+	 * @return ByteArray对象
 	 */
 	public static ByteArray toBean(ByteArray array, byte[] b) {
 		return toBean(array, b, 0, b.length);
@@ -732,10 +751,10 @@ public class Bytes {
 	/**
 	 * 把字节数组转换为ByteArray
 	 * 
-	 * @param  array  ByteArray 对象
-	 * @param  b      字节数组
-	 * @param  offset 偏移
-	 * @return        ByteArray对象
+	 * @param array  ByteArray 对象
+	 * @param b      字节数组
+	 * @param offset 偏移
+	 * @return ByteArray对象
 	 */
 	public static ByteArray toBean(ByteArray array, byte[] b, int offset) {
 		return toBean(array, b, offset, b.length);
@@ -744,11 +763,11 @@ public class Bytes {
 	/**
 	 * 把字节数组转换为ByteArray
 	 * 
-	 * @param  array  ByteArray 对象
-	 * @param  b      字节数组
-	 * @param  offset 偏移
-	 * @param  len    长度
-	 * @return        ByteArray对象
+	 * @param array  ByteArray 对象
+	 * @param b      字节数组
+	 * @param offset 偏移
+	 * @param len    长度
+	 * @return ByteArray对象
 	 */
 	public static ByteArray toBean(ByteArray array, byte[] b, int offset, int len) {
 		return array.array(copy(b, offset, len));
@@ -757,10 +776,10 @@ public class Bytes {
 	/**
 	 * 读取字节数组变成对象
 	 * 
-	 * @param  c   序列化类
-	 * @param  b   字节数组
-	 * @param  <B> 泛型
-	 * @return     对象
+	 * @param c   序列化类
+	 * @param b   字节数组
+	 * @param <B> 泛型
+	 * @return 对象
 	 */
 	public static <B> B toBinary(byte[] b, Class<B> c) {
 		// 实例化
@@ -824,8 +843,8 @@ public class Bytes {
 	/**
 	 * 字节数组相连
 	 * 
-	 * @param  bs 字节数组
-	 * @return    相连后的数组
+	 * @param bs 字节数组
+	 * @return 相连后的数组
 	 */
 	public static byte[] add(byte[]... bs) {
 		// 判断字节数组是否为空
