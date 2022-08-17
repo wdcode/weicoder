@@ -199,6 +199,23 @@ public final class Buffer implements ByteArray {
 	}
 
 	/**
+	 * 重置缓存到头
+	 */
+	public void reset() {
+		this.offset = 0;
+		this.top = 0;
+	}
+
+	/**
+	 * 重置n位缓存
+	 * 
+	 * @param n 重置多少位
+	 */
+	public void reset(int n) {
+		offset(offset - n);
+	}
+
+	/**
 	 * 剩余多少可读字节==写偏移量-读偏移量得差值
 	 * 
 	 * @return 剩余字节
@@ -258,11 +275,15 @@ public final class Buffer implements ByteArray {
 		if (sync)
 			lock.lock();
 		// 复制原数组
-		System.arraycopy(this.data, offset, data, pos, len);
-		offset += len;
-		// 如果同步 解锁
-		if (sync)
-			lock.unlock();
+		try {
+			System.arraycopy(this.data, offset, data, pos, len);
+			offset += len;
+		} catch (Exception e) {
+		} finally {
+			// 如果同步 解锁
+			if (sync)
+				lock.unlock();
+		}
 		// 返回数据
 		return data;
 	}
@@ -566,6 +587,6 @@ public final class Buffer implements ByteArray {
 
 	@Override
 	public String toString() {
-		return StringUtil.add("(top=", top, ",offset=", offset, ",len=" + length() + ")");
+		return StringUtil.add("", "(top=", top, ",offset=", offset, ",len=" + length() + ")");
 	}
 }

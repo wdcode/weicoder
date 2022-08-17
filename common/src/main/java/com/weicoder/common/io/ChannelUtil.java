@@ -30,7 +30,7 @@ public class ChannelUtil {
 	 * @return 字节数组
 	 */
 	public static byte[] read(ReadableByteChannel ch) {
-		return read(ch, true);
+		return read(ch, CommonParams.IO_CLOSE);
 	}
 
 	/**
@@ -57,7 +57,7 @@ public class ChannelUtil {
 	 * @return true false
 	 */
 	public static long write(WritableByteChannel wbc, byte[] b) {
-		return write(wbc, b, true);
+		return write(wbc, b, CommonParams.IO_CLOSE);
 	}
 
 	/**
@@ -80,7 +80,7 @@ public class ChannelUtil {
 	 * @return true false
 	 */
 	public static long write(WritableByteChannel wbc, InputStream in) {
-		return write(wbc, in, true);
+		return write(wbc, in, CommonParams.IO_CLOSE);
 	}
 
 	/**
@@ -103,7 +103,8 @@ public class ChannelUtil {
 	 * @return 写入字节数
 	 */
 	public static int write(String file, ByteBuffer src) {
-		try (FileOutputStream fos = U.F.getOutputStream(file, true); WritableByteChannel wbc = Channels.newChannel(fos)) {
+		try (FileOutputStream fos = U.F.getOutputStream(file, true);
+				WritableByteChannel wbc = Channels.newChannel(fos)) {
 			return wbc.write(src);
 		} catch (Exception e) {
 			Logs.error(e);
@@ -132,7 +133,8 @@ public class ChannelUtil {
 	 * @param call 回调
 	 * @return 读取流总数
 	 */
-	public static long write(ReadableByteChannel rbc, WritableByteChannel wbc, int buff, Callback<Buffer, Buffer> call) {
+	public static long write(ReadableByteChannel rbc, WritableByteChannel wbc, int buff,
+			Callback<Buffer, Buffer> call) {
 		return write(rbc, wbc, buff, false, call);
 	}
 
@@ -146,7 +148,8 @@ public class ChannelUtil {
 	 * @param call    回调
 	 * @return 读取流总数
 	 */
-	public static long write(ReadableByteChannel rbc, WritableByteChannel wbc, int buff, boolean isClose, Callback<Buffer, Buffer> call) {
+	public static long write(ReadableByteChannel rbc, WritableByteChannel wbc, int buff, boolean isClose,
+			Callback<Buffer, Buffer> call) {
 		// 如果输出或则输入流为空
 		if (wbc == null || rbc == null) {
 			return -1;

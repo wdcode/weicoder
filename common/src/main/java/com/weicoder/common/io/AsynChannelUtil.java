@@ -23,7 +23,7 @@ public class AsynChannelUtil {
 	 * @return     字节数组
 	 */
 	public static byte[] read(AsynchronousByteChannel asc) {
-		return read(asc, true);
+		return read(asc, CommonParams.IO_CLOSE);
 	}
 
 	/**
@@ -69,7 +69,7 @@ public class AsynChannelUtil {
 	 * @return     true false
 	 */
 	public static int write(AsynchronousByteChannel asc, byte[] b) {
-		return write(asc, b, true);
+		return write(asc, b, CommonParams.IO_CLOSE);
 	}
 
 	/**

@@ -22,9 +22,9 @@ public class Lists {
 	/**
 	 * 对
 	 * 
-	 * @param  <E>
-	 * @param  list
-	 * @param  cls
+	 * @param <E>
+	 * @param list
+	 * @param cls
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
@@ -36,9 +36,9 @@ public class Lists {
 	/**
 	 * 去除list的所有null
 	 * 
-	 * @param  list 要过滤的list
-	 * @param  <E>  泛型
-	 * @return      List
+	 * @param list 要过滤的list
+	 * @param <E>  泛型
+	 * @return List
 	 */
 	public static <E> List<E> notNull(List<E> list) {
 		return (U.E.isEmpty(list) || list.indexOf(null) == 0) ? list
@@ -48,10 +48,10 @@ public class Lists {
 	/**
 	 * 获得指定索引的list元素 list为空返回null 返回指定索引的类 如果索引小于0为0 大于列表长度返回最后一个类
 	 * 
-	 * @param  list 元素列表
-	 * @param  i    索引
-	 * @param  <E>  泛型
-	 * @return      处理后的元素
+	 * @param list 元素列表
+	 * @param i    索引
+	 * @param <E>  泛型
+	 * @return 处理后的元素
 	 */
 	public static <E> E get(List<E> list, int i) {
 		return U.E.isEmpty(list) ? null
@@ -61,8 +61,8 @@ public class Lists {
 	/**
 	 * 判断是否列表
 	 * 
-	 * @param  obj 对象
-	 * @return     是否列表
+	 * @param obj 对象
+	 * @return 是否列表
 	 */
 	public static boolean isList(Object obj) {
 		return U.E.isNotEmpty(obj) && obj instanceof List<?>;
@@ -71,19 +71,40 @@ public class Lists {
 	/**
 	 * 获得List实例 默认初始化大小为10
 	 * 
-	 * @param  <E> 泛型
-	 * @return     List
+	 * @param <E> 泛型
+	 * @return List
 	 */
 	public static <E> List<E> newList() {
 		return new ArrayList<>();
 	}
 
 	/**
+	 * 获得线程安全newList
+	 * 
+	 * @param <E> 泛型
+	 * @return 线程安全List
+	 */
+	public static <E> List<E> sync() {
+		return sync(newList());
+	}
+
+	/**
+	 * 把传入的List包装成线程安全List
+	 * 
+	 * @param <E>  泛型
+	 * @param list 传入的list
+	 * @return 线程安全List
+	 */
+	public static <E> List<E> sync(List<E> list) {
+		return Collections.synchronizedList(list);
+	}
+
+	/**
 	 * 获得List实例
 	 * 
-	 * @param  size 初始化大小
-	 * @param  <E>  泛型
-	 * @return      List
+	 * @param size 初始化大小
+	 * @param <E>  泛型
+	 * @return List
 	 */
 	public static <E> List<E> newList(int size) {
 		return new ArrayList<>(size < 1 ? 1 : size);
@@ -92,9 +113,9 @@ public class Lists {
 	/**
 	 * 获得List实例
 	 * 
-	 * @param  es  初始化的数组
-	 * @param  <E> 泛型
-	 * @return     List
+	 * @param es  初始化的数组
+	 * @param <E> 泛型
+	 * @return List
 	 */
 	@SafeVarargs
 	public static <E> List<E> newList(E... es) {
@@ -104,20 +125,33 @@ public class Lists {
 	/**
 	 * 获得List实例
 	 * 
-	 * @param  c   初始化的集合
-	 * @param  <E> 泛型
-	 * @return     List
+	 * @param c   初始化的集合
+	 * @param <E> 泛型
+	 * @return List
 	 */
 	public static <E> List<E> newList(Collection<E> c) {
 		return c == null ? new ArrayList<>() : new ArrayList<>(c);
 	}
 
 	/**
+	 * 拷贝列表并清除原集合数据 如果不清除原数据使用@see newList(Collection<E> c)
+	 * 
+	 * @param <E> 泛型
+	 * @param c   原集合
+	 * @return 新复制的列表
+	 */
+	public static <E> List<E> copy(Collection<E> c) {
+		List<E> l = newList(c);
+		c.clear();
+		return l;
+	}
+
+	/**
 	 * 获得List实例
 	 * 
-	 * @param  c   初始化的集合
-	 * @param  <E> 泛型
-	 * @return     List
+	 * @param c   初始化的集合
+	 * @param <E> 泛型
+	 * @return List
 	 */
 	@SafeVarargs
 	public static <E> List<E> newList(Collection<E>... c) {
@@ -135,10 +169,10 @@ public class Lists {
 	/**
 	 * 切片List 把list按slice数据切分
 	 * 
-	 * @param  list  要分片的list
-	 * @param  slice 每片的数量
-	 * @param  <E>   泛型
-	 * @return       分片后的list 列表里为原有对象的list
+	 * @param list  要分片的list
+	 * @param slice 每片的数量
+	 * @param <E>   泛型
+	 * @return 分片后的list 列表里为原有对象的list
 	 */
 	public static <E> List<List<E>> slice(List<E> list, int slice) {
 		// 声明返回结果
@@ -170,11 +204,11 @@ public class Lists {
 	/**
 	 * 返回列表从begin开始返回end结束元素
 	 * 
-	 * @param  list  元素列表
-	 * @param  begin 开始包含
-	 * @param  end   结束不包含
-	 * @param  <E>   泛型
-	 * @return       返回获得元素列表
+	 * @param list  元素列表
+	 * @param begin 开始包含
+	 * @param end   结束不包含
+	 * @param <E>   泛型
+	 * @return 返回获得元素列表
 	 */
 	public static <E> List<E> subList(List<E> list, int begin, int end) {
 		// 如果列表为空返回一个空列表
@@ -201,15 +235,16 @@ public class Lists {
 	/**
 	 * 给List排序
 	 * 
-	 * @param  c   要排序的List
-	 * @param  <E> 泛型
-	 * @return     排完序的List
+	 * @param c   要排序的List
+	 * @param <E> 泛型
+	 * @return 排完序的List
 	 */
-	public static <E extends Comparable<? super E>> List<E> sort(Collection<E> c) {
-		// 获得列表
-		List<E> list = newList(c);
+	public static <E extends Comparable<? super E>> List<E> sort(List<E> list) {
+//		// 获得列表
+//		List<E> list = newList(c);
 		// 排序
-		Collections.sort(list);
+//		Collections.sort(list);
+		list.sort(null);
 		// 返回list
 		return list;
 	}
@@ -217,8 +252,8 @@ public class Lists {
 	/**
 	 * 调用每个元素的toString()方法
 	 * 
-	 * @param  list 列表
-	 * @return      字符串
+	 * @param list 列表
+	 * @return 字符串
 	 */
 	public static String toString(List<?> list) {
 		return ArrayUtil.toString(toArray(list));
@@ -227,9 +262,9 @@ public class Lists {
 	/**
 	 * 把一个列表变成数组
 	 * 
-	 * @param  list 列表
-	 * @param  <E>  泛型
-	 * @return      一个不可变的空List
+	 * @param list 列表
+	 * @param <E>  泛型
+	 * @return 一个不可变的空List
 	 */
 	@SuppressWarnings("unchecked")
 	public static <E> E[] toArray(List<E> list) {
@@ -243,10 +278,10 @@ public class Lists {
 	/**
 	 * 把一个列表变成数组
 	 * 
-	 * @param  list  列表
-	 * @param  clazz 类
-	 * @param  <E>   泛型
-	 * @return       一个不可变的空List
+	 * @param list  列表
+	 * @param clazz 类
+	 * @param <E>   泛型
+	 * @return 一个不可变的空List
 	 */
 	public static <E> E[] toArray(List<Object> list, Class<E> clazz) {
 		// 判断列表不为空
@@ -259,8 +294,8 @@ public class Lists {
 	/**
 	 * 获得一个不可变的空List
 	 * 
-	 * @param  <E> 泛型
-	 * @return     一个不可变的空List
+	 * @param <E> 泛型
+	 * @return 一个不可变的空List
 	 */
 	public static <E> List<E> emptyList() {
 		return Collections.emptyList();
@@ -269,9 +304,9 @@ public class Lists {
 	/**
 	 * 是否包含在list中 如果list为空或则o为null直接返回false 如果list中类型与o不同 那么转换为String 在对比
 	 * 
-	 * @param  list 列表
-	 * @param  o    对象
-	 * @return      布尔
+	 * @param list 列表
+	 * @param o    对象
+	 * @return 布尔
 	 */
 	public static boolean contains(List<Object> list, Object o) {
 		// 判断不为空
@@ -286,8 +321,8 @@ public class Lists {
 	/**
 	 * 获得列表数量
 	 * 
-	 * @param  list 数据列表
-	 * @return      数量
+	 * @param list 数据列表
+	 * @return 数量
 	 */
 	public static int size(List<?> list) {
 		return U.E.isEmpty(list) ? 0 : list.size();

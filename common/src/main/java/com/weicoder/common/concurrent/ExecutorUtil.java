@@ -1,17 +1,17 @@
 package com.weicoder.common.concurrent;
-
-import java.util.Iterator;
+ 
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
- 
+
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.log.Logs;
-import com.weicoder.common.C;
-import com.weicoder.common.U;
+import com.weicoder.common.C; 
+import com.weicoder.common.W;
 
 /**
  * 并发线程任务处理
@@ -104,12 +104,7 @@ public class ExecutorUtil {
 	 * 执行列表中的任务
 	 */
 	public static void execute() {
-		// 声明列表
-		List<Runnable> tasks = Lists.newList(RUNNABLES);
-		// 清空任务
-		RUNNABLES.clear();
-		// 执行线程
-		execute(tasks);
+		execute(W.L.copy(RUNNABLES));
 	}
 
 	/**
@@ -118,12 +113,7 @@ public class ExecutorUtil {
 	 * @return 列表
 	 */
 	public static List<Object> submit() {
-		// 声明列表
-		List<Callable<Object>> calls = Lists.newList(CALLABLES);
-		// 清空任务
-		CALLABLES.clear();
-		// 执行线程
-		return submit(calls);
+		return submit(W.L.copy(CALLABLES));
 	}
 
 	/**
@@ -132,25 +122,33 @@ public class ExecutorUtil {
 	 * @param tasks 任务
 	 */
 	public static void execute(List<Runnable> tasks) {
-		// 声明结果列表
-		List<Future<?>> list = Lists.newList(tasks.size());
-		// 执行任务
-		ExecutorService es = pool();
-		tasks.forEach(task -> list.add(es.submit(task)));
-		// 循环等待
-		while (!es.isTerminated()) {
-			// 是否全部完成
-			for (Iterator<Future<?>> it = list.iterator(); it.hasNext();) {
-				if (it.next().isDone())
-					it.remove();
-			}
-			// 暂停10毫秒
-			U.T.sleep(10L);
-			// 如果列表为空
-			if (U.E.isEmpty(list)) {
-				break;
-			}
+		CountDownLatch latch = new CountDownLatch(tasks.size());
+		tasks.forEach(r->pool().execute(()->{r.run();latch.countDown();}));
+		try {
+			latch.await();
+		} catch (InterruptedException e) {
 		}
+//		// 声明结果列表
+//		List<Future<?>> list = W.L.newList(tasks.size());
+//		// 执行任务
+//		ExecutorService es = Executors.newFixedThreadPool(8,U.DTF.INSTANCE);
+//		tasks.forEach(task -> list.add(es.submit(task)));
+////		 循环等待
+//		while (true) {
+//			// 是否全部完成
+//			for (Iterator<Future<?>> it = list.iterator(); it.hasNext();)
+//				if (it.next().isDone())
+//					it.remove();
+//			// 暂停10毫秒
+////			U.T.sleep(10L);
+//			try {
+//				es.awaitTermination(10L, TimeUnit.MILLISECONDS);
+//			} catch (InterruptedException e) {
+//			}
+//			// 如果列表为空
+//			if (U.E.isEmpty(list))
+//				break;
+//		}
 	}
 
 	/**

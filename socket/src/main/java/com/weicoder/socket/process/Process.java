@@ -137,7 +137,7 @@ public final class Process {
 			// 剩余字节长度不足，等待下次信息
 			if (buff.remaining() < length) {
 				// 重置缓存
-				buff.offset(buff.offset() - 2);
+				buff.reset(2);
 				break;
 			}
 			// 读取指令id

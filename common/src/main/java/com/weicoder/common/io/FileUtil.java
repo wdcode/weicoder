@@ -211,7 +211,7 @@ public class FileUtil {
 	 * @return true 成功 false 失败
 	 */
 	public static boolean write(String fileName, byte[] b) {
-		return write(fileName, b, false);
+		return write(fileName, b, CommonParams.FILE_APPEND);
 	}
 
 	/**
@@ -268,7 +268,7 @@ public class FileUtil {
 	 * @return true false
 	 */
 	public static boolean write(String fileName, String text) {
-		return write(fileName, text, true);
+		return write(fileName, text, CommonParams.FILE_APPEND);
 	}
 
 	/**
@@ -292,7 +292,7 @@ public class FileUtil {
 	 * @return true false
 	 */
 	public static boolean write(String fileName, String text, String charsetName) {
-		return write(fileName, text, charsetName, true);
+		return write(fileName, text, charsetName, CommonParams.FILE_APPEND);
 	}
 
 	/**
@@ -430,7 +430,7 @@ public class FileUtil {
 	 * @return 输出流
 	 */
 	public static FileOutputStream getOutputStream(File file) {
-		return getOutputStream(file, false);
+		return getOutputStream(file, CommonParams.FILE_APPEND);
 	}
 
 	/**

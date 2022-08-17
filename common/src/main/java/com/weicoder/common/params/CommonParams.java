@@ -20,14 +20,19 @@ import com.weicoder.common.lang.Sets;
 public final class CommonParams {
 	/** log实现 */
 	public final static String		LOG_CLASS				= W.P.getString("log.class", "com.weicoder.log4j.Log4j2");
-	/** IO缓冲区大小 */
+	/** IO缓冲区大小 默认1024*1024 */
 	public final static int			IO_BUFFERSIZE			= W.P.getInt("io.buffer", 1024 * 1024);
-	/** IO模式 */
+	/** IO模式 oio nio aio 默认nio */
 	public final static String		IO_MODE					= W.P.getString("io.mode", "nio");
+	/** IO是否自动关闭流 默认true */
+	public final static boolean		IO_CLOSE				= W.P.getBoolean("io.close", true);
+	/** 文件写入模式是否追加 默认true */
+	public final static boolean		FILE_APPEND				= W.P.getBoolean("file.append", true);
 	/** 默认编码 */
 	public final static String		ENCODING				= W.P.getString("encoding", "UTF-8");
 	/** 日期格式 */
-	public final static String		DATE_FORMAT				= W.P.getString("date.format", DateConstants.FORMAT_Y_M_D_H_M_S);
+	public final static String		DATE_FORMAT				= W.P.getString("date.format",
+			DateConstants.FORMAT_Y_M_D_H_M_S);
 	/** 转换字节数组算法 */
 	public final static String		BYTES					= W.P.getString("bytes", "high");
 	/** 加密使用的密钥 字符串 */
@@ -35,7 +40,8 @@ public final class CommonParams {
 	/** 加密使用的算法 */
 	public final static String		ENCRYPT_ALGO			= W.P.getString("encrypt.algo", EncryptConstants.ALGO_AES);
 	/** 加密使用摘要算法 */
-	public final static String		ENCRYPT_DIGEST			= W.P.getString("encrypt.digest", EncryptConstants.ALGO_SHA_1);
+	public final static String		ENCRYPT_DIGEST			= W.P.getString("encrypt.digest",
+			EncryptConstants.ALGO_SHA_1);
 	/** 获得ips过滤组 */
 	public final static String[]	IPS						= W.P.getStringArray("ips", ArrayConstants.STRING_EMPTY);
 	/** token 验证KEY */
@@ -49,7 +55,8 @@ public final class CommonParams {
 	/** 截取日志长度 */
 	public final static int			LOGS_LEN				= W.P.getInt("logs.len", 500);
 	/** token 发放服务器 */
-	public final static Set<String>	TOKEN_SERVERS			= Sets.newSet(W.P.getStringArray("token.servers", ArrayConstants.STRING_EMPTY));
+	public final static Set<String>	TOKEN_SERVERS			= Sets
+			.newSet(W.P.getStringArray("token.servers", ArrayConstants.STRING_EMPTY));
 	/** http连接超时时间 */
 	public final static int			HTTP_CONNECT_TIMEOUT	= W.P.getInt("http.connect.timeout", 3000);
 	/** http读取超时时间 */
@@ -57,8 +64,8 @@ public final class CommonParams {
 	/** 分页每页大小 默认20 */
 	public final static int			PAGE_SIZE				= W.P.getInt("page.size", 20);
 	/** 验证码出现的字符集 */
-	public final static char[]		VERIFY_CODE				= W.P.getString("verify.code", "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ")
-			.toCharArray();
+	public final static char[]		VERIFY_CODE				= W.P
+			.getString("verify.code", "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ").toCharArray();
 	/** 验证码长度 */
 	public final static int			VERIFY_LENGTH			= W.P.getInt("verify.length", 4);
 	/** 是否驻留程序 */

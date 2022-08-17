@@ -34,7 +34,7 @@ interface IO {
 	 * @return 读取的字符串 失败返回""
 	 */
 	default String readString(InputStream in, String charsetName) {
-		return readString(in, charsetName, true);
+		return readString(in, charsetName, CommonParams.IO_CLOSE);
 	}
 
 	/**
@@ -44,7 +44,7 @@ interface IO {
 	 * @return 字节数组
 	 */
 	default byte[] read(InputStream in) {
-		return read(in, true);
+		return read(in, CommonParams.IO_CLOSE);
 	}
 
 	/**
@@ -85,7 +85,7 @@ interface IO {
 	 * @return true false
 	 */
 	default boolean write(OutputStream out, String text, String charsetName) {
-		return write(out, text, charsetName, true);
+		return write(out, text, charsetName, CommonParams.IO_CLOSE);
 	}
 
 	/**
@@ -96,7 +96,7 @@ interface IO {
 	 * @return true false
 	 */
 	default boolean write(OutputStream out, byte[] b) {
-		return write(out, b, true);
+		return write(out, b, CommonParams.IO_CLOSE);
 	}
 
 	/**
@@ -119,7 +119,7 @@ interface IO {
 	 * @return true false
 	 */
 	default boolean write(OutputStream out, InputStream in) {
-		return write(out, in, true);
+		return write(out, in, CommonParams.IO_CLOSE);
 	}
 
 	/**
