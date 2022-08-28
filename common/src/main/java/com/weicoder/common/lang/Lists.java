@@ -59,6 +59,17 @@ public class Lists {
 	}
 
 	/**
+	 * 获得列表最后一个元素
+	 * 
+	 * @param <E>  泛型
+	 * @param list 列表
+	 * @return 列表最后一个元素
+	 */
+	public static <E> E last(List<E> list) {
+		return U.E.isEmpty(list) ? null : list.get(list.size() - 1);
+	}
+
+	/**
 	 * 判断是否列表
 	 * 
 	 * @param obj 对象

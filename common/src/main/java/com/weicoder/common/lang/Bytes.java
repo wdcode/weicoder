@@ -42,9 +42,10 @@ public class Bytes {
 		if (c == null)
 			return false;
 		// 支持类型
-		if (byte[].class == c || Byte[].class == c || String.class == c || Integer.class == c || int.class == c || Long.class == c || long.class == c
-				|| Float.class == c || float.class == c || Double.class == c || double.class == c || Short.class == c || short.class == c || Byte.class == c
-				|| byte.class == c || Boolean.class == c || boolean.class == c || c == Buffer.class || c.isAssignableFrom(ByteArray.class))
+		if (byte[].class == c || Byte[].class == c || String.class == c || Integer.class == c || int.class == c
+				|| Long.class == c || long.class == c || Float.class == c || float.class == c || Double.class == c
+				|| double.class == c || Short.class == c || short.class == c || Byte.class == c || byte.class == c
+				|| Boolean.class == c || boolean.class == c || c == Buffer.class || c.isAssignableFrom(ByteArray.class))
 			return true;
 		// 不支持
 		return false;
@@ -146,6 +147,19 @@ public class Bytes {
 	 */
 	public static byte[] toBytes(Object obj) {
 		return toBytes(false, obj);
+	}
+
+	/**
+	 * 对List列表内内容可以进行序列化 注不加头直接按列表顺序序列化
+	 * 
+	 * @param list 列表
+	 * @return 序列化后
+	 */
+	public static byte[] toBytes(List<?> list) {
+//		Buffer buf = Buffer.allocate(list.size());
+//		list.forEach(l -> buf.write(toBytes(l)));
+//		return buf.array();
+		return toBytes(list.stream().map(l -> toBytes(l)).toArray());
 	}
 
 	/**
@@ -701,7 +715,8 @@ public class Bytes {
 	 * @return 字符串
 	 */
 	public static String toString(byte[] b, int offset, boolean is) {
-		return StringUtil.toString(is ? copy(b, offset + 2, offset + 2 + toShort(b, offset)) : copy(b, offset, b.length));
+		return StringUtil
+				.toString(is ? copy(b, offset + 2, offset + 2 + toShort(b, offset)) : copy(b, offset, b.length));
 	}
 
 	/**

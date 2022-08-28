@@ -1,13 +1,13 @@
 package com.weicoder.common.util;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
+import java.math.RoundingMode; 
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
-import com.weicoder.common.constants.StringConstants;
+import com.weicoder.common.C;
 import com.weicoder.common.W;
 
 /**
@@ -17,40 +17,59 @@ import com.weicoder.common.W;
  */
 public class MathUtil {
 	// 取舍方式
-	private final static RoundingMode ROUND = RoundingMode.HALF_UP;
-//	// 随机数对象 线程安全ThreadLocalRandom
+	private final static RoundingMode	ROUND	= RoundingMode.HALF_UP;
+////	// 随机数对象
 //	private final static Random			RANDOM	= new Random();
+//	private final static Random			SECURE	= new SecureRandom();
 
 //	/**
 //	 * 返回当前线程的ThreadLocalRandom
 //	 * 
-//	 * @return Random
+//	 * @return ThreadLocalRandom 独立线程的随机数
 //	 */
-//	public static ThreadLocalRandom current() {
-//		return ThreadLocalRandom.current();
+//	public static Random random() {
+//		return ThreadLocalRandom.random();
 //	}
 
 	/**
-	 * 返回当前线程的ThreadLocalRandom
+	 * 声明个新的Random
 	 * 
-	 * @return ThreadLocalRandom 独立线程的随机数
+	 * @return Random
 	 */
-	public static ThreadLocalRandom random() {
+	public static Random random() {
+//		return RANDOM;
 		return ThreadLocalRandom.current();
 	}
 
+//	/**
+//	 * 声明个新的SecureRandom
+//	 * 
+//	 * @return SecureRandom
+//	 */
+//	public static Random secure() {
+//		return SECURE;
+//	}
+
+	/**
+	 * 随机获得一个字节数组 确保输入的m和n在byte之内 不做额外验证
+	 * 
+	 * @param len 生成长度
+	 * @param m   开始数
+	 * @param n   结束数
+	 * @return 字节数组
+	 */
 	public static byte[] nextBytes(int len, int m, int n) {
 		return nextBytes(random(), len, m, n);
 	}
 
 	/**
-	 * 获得
+	 * 随机获得一个字节数组 确保输入的m和n在byte之内 不做额外验证
 	 * 
-	 * @param r
-	 * @param len
-	 * @param m
-	 * @param n
-	 * @return
+	 * @param r   随机数生成类
+	 * @param len 生成长度
+	 * @param m   开始数
+	 * @param n   结束数
+	 * @return 字节数组
 	 */
 	public static byte[] nextBytes(Random r, int len, int m, int n) {
 		return nextBytes(r, len, m, n, false);
@@ -74,7 +93,7 @@ public class MathUtil {
 		// 循环次数
 		for (int i = 0; i < len; i++) {
 			// 随机获得int强转成byte
-			byte t = (byte) r.nextInt(s, e);
+			byte t = (byte) nextInt(s, e);//r.nextInt(s, e);
 			// 是否可重复
 			if (!is && set.contains(t))
 				i--;
@@ -113,66 +132,79 @@ public class MathUtil {
 		return list;
 	}
 
-	/**
-	 * 为大数据优化的方法
-	 * 
-	 * @param r   随机数生成类
-	 * @param len 生成长度
-	 * @param s   开始数
-	 * @param e   结束数
-	 * @param n   生成列表长度
-	 * @return 字节数组
-	 */
-	public static List<byte[]> bytes(Random r, int len, int s, int e, int n) {
-		// 声明返回列表
-		List<byte[]> list = W.L.newList(n);
-		// 验证不可重复数列表
-//		Set<Byte> set = W.S.newSet(len);
-		// 循环获得随机数组
-		for (int i = 0; i < n; i++)
-			list.add(bytes(r, len, s, e));
-//		list.add(bytes(r, len, s, e,set));
-		// 返回列表
-		return list;
-	}
+//	/**
+//	 * 为大数据优化的方法
+//	 * 
+//	 * @param len 生成长度
+//	 * @param s   开始数
+//	 * @param e   结束数
+//	 * @param n   生成列表长度
+//	 * @return 字节数组
+//	 */
+//	public static List<byte[]> bytes(int len, int s, int e, int n) {
+//		return bytes(random(), len, s, e, n);
+//	}
+//
+//	/**
+//	 * 为大数据优化的方法
+//	 * 
+//	 * @param r   随机数生成类
+//	 * @param len 生成长度
+//	 * @param s   开始数
+//	 * @param e   结束数
+//	 * @param n   生成列表长度
+//	 * @return 字节数组
+//	 */
+//	public static List<byte[]> bytes(Random r, int len, int s, int e, int n) {
+//		// 声明返回列表
+//		List<byte[]> list = W.L.newList(n);
+//		// 验证不可重复数列表
+////		Set<Byte> set = W.S.newSet(len);
+//		// 循环获得随机数组
+//		for (int i = 0; i < n; i++)
+//			list.add(bytes(r, len, s, e));
+////		list.add(bytes(r, len, s, e,set));
+//		// 返回列表
+//		return list;
+//	}
 
-	/**
-	 * 为大数据优化的方法
-	 * 
-	 * @param r   随机数生成类
-	 * @param len 生成长度
-	 * @param m   开始数
-	 * @param n   结束数
-	 * @return 字节数组
-	 */
-	public static byte[] bytes(Random r, int len, int s, int e) {
-		// 声明保存结果
-		byte[] b = new byte[len];
-		// 循环次数
-		for (int i = 0; i < len; i++) {
-			// 随机获得int强转成byte
-			byte t = (byte) r.nextInt(s, e);
-			// 是否可重复
-			boolean is = true;
-			for (int j = 0; j < i; j++)
-				if (b[j] == t) {
-					i--;
-					is = false;
-					break;
-				}
-			if (is)
-				b[i] = t;
-
-//			if (set.contains(t))
-//				i--;
-//			else
-//				set.add(b[i] = t);
-		}
-		// 每次清除列表
-//		set.clear();
-		// 返回保存结果
-		return b;
-	}
+//	/**
+//	 * 为大数据优化的方法
+//	 * 
+//	 * @param r   随机数生成类
+//	 * @param len 生成长度
+//	 * @param m   开始数
+//	 * @param n   结束数
+//	 * @return 字节数组
+//	 */
+//	public static byte[] bytes(Random r, int len, int s, int e) {
+//		// 声明保存结果
+//		byte[] b = new byte[len];
+//		// 循环次数
+//		for (int i = 0; i < len; i++) {
+//			// 随机获得int强转成byte
+//			byte t = (byte) r.nextInt(s, e);
+//			// 是否可重复
+//			boolean is = true;
+//			for (int j = 0; j < i; j++)
+//				if (b[j] == t) {
+//					i--;
+//					is = false;
+//					break;
+//				}
+//			if (is)
+//				b[i] = t;
+//
+////			if (set.contains(t))
+////				i--;
+////			else
+////				set.add(b[i] = t);
+//		}
+//		// 每次清除列表
+////		set.clear();
+//		// 返回保存结果
+//		return b;
+//	}
 
 	/**
 	 * 同方法Random.nextInt()
@@ -386,7 +418,7 @@ public class MathUtil {
 	 * @return 去掉,后的数字
 	 */
 	public static String take(String v) {
-		return v.indexOf(StringConstants.COMMA) == -1 ? v : v.replaceAll(StringConstants.COMMA, StringConstants.EMPTY);
+		return v.indexOf(C.S.COMMA) == -1 ? v : v.replaceAll(C.S.COMMA, C.S.EMPTY);
 	}
 
 	/**

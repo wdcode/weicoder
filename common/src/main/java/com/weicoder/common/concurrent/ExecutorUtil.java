@@ -1,5 +1,5 @@
 package com.weicoder.common.concurrent;
- 
+
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
@@ -7,11 +7,14 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicLong;
 
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.log.Logs;
-import com.weicoder.common.C; 
+import com.weicoder.common.C;
+import com.weicoder.common.U;
 import com.weicoder.common.W;
+import com.weicoder.common.interfaces.CallbackVoid;
 
 /**
  * 并发线程任务处理
@@ -123,7 +126,10 @@ public class ExecutorUtil {
 	 */
 	public static void execute(List<Runnable> tasks) {
 		CountDownLatch latch = new CountDownLatch(tasks.size());
-		tasks.forEach(r->pool().execute(()->{r.run();latch.countDown();}));
+		tasks.forEach(r -> pool().execute(() -> {
+			r.run();
+			latch.countDown();
+		}));
 		try {
 			latch.await();
 		} catch (InterruptedException e) {
@@ -197,5 +203,34 @@ public class ExecutorUtil {
 		});
 		// 返回列表
 		return ls;
+	}
+
+	/**
+	 * 指定新数量线程池驻留工作区 循环执行command
+	 * 
+	 * @param pool    线程池
+	 * @param command 工作线程
+	 */
+	public static void works(int pool, CallbackVoid<Long> call) {
+		works(pool, new AtomicLong(), call);
+	}
+
+	/**
+	 * 指定新数量线程池驻留工作区 循环执行command
+	 * 
+	 * @param pool     线程池
+	 * @param call     工作线程
+	 * @param sequence 工作序列
+	 */
+	public static void works(int pool, AtomicLong sequence, CallbackVoid<Long> call) {
+		ExecutorService es = newPool(pool, true);
+		for (int i = 0; i < pool; i++)
+			es.execute(() -> {
+				while (true) {
+					U.D.dura();
+					call.callback(sequence.getAndAdd(1));
+					Logs.debug("works pool={} sequence={} time={}", pool, sequence, U.D.dura());
+				}
+			});
 	}
 }

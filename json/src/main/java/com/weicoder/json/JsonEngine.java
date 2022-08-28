@@ -169,7 +169,8 @@ public class JsonEngine {
 	 * @return List
 	 */
 	public static <E> List<E> toList(String json, Class<E> clazz) {
-		return L.newList(JSON.toList(json, clazz));// JSON.parseArray(json, clazz)
+//		return L.newList(JSON.toList(json, clazz));// JSON.parseArray(json, clazz)
+		return JSON.toList(json, clazz);
 	}
 
 	/**

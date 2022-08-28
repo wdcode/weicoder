@@ -1,10 +1,9 @@
 package com.weicoder.common.io;
-
-import java.io.ByteArrayOutputStream;
+ 
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.channels.Channels;
-
+import java.nio.channels.Channels; 
+ 
 import com.weicoder.common.binary.Buffer;
 import com.weicoder.common.interfaces.Callback;
 import com.weicoder.common.interfaces.CallbackVoid;
@@ -23,6 +22,11 @@ public final class NIO implements IO {
 	 * @return 字节数组
 	 */
 	public byte[] read(InputStream in, boolean isClose) {
+//		try (ReadableByteChannel rbc = Channels.newChannel(in)) {
+//			return U.Ch.read(rbc, isClose);
+//		} catch (Exception e) {
+//			return C.A.BYTES_EMPTY;
+//		}
 		return ChannelUtil.read(Channels.newChannel(in), isClose);
 	}
 
@@ -32,10 +36,10 @@ public final class NIO implements IO {
 	 * @param out     输出流
 	 * @param in      输入流
 	 * @param isClose 是否关闭流
-	 * @return true false
+	 * @return 写入成功字节数
 	 */
-	public boolean write(OutputStream out, InputStream in, boolean isClose) {
-		return ChannelUtil.write(Channels.newChannel(out), in, isClose) > 0;
+	public long write(OutputStream out, InputStream in, boolean isClose) {
+		return ChannelUtil.write(Channels.newChannel(out), in, isClose);
 	}
 
 	@Override
@@ -45,9 +49,15 @@ public final class NIO implements IO {
 
 	@Override
 	public long read(InputStream in, int buff, boolean isClose, CallbackVoid<Buffer> call) {
-		return ChannelUtil.write(Channels.newChannel(in), Channels.newChannel(ByteArrayOutputStream.nullOutputStream()), buff, isClose, b -> {
-			call.callback(b);
-			return Buffer.empty();
-		});
+//		return ChannelUtil.write(Channels.newChannel(in), Channels.newChannel(ByteArrayOutputStream.nullOutputStream()),
+//				buff, isClose, b -> {
+//					call.callback(b);
+//					return Buffer.empty();
+//				});
+		return ChannelUtil.write(Channels.newChannel(in), Channels.newChannel(new NullOutputStream()),
+				buff, isClose, b -> {
+					call.callback(b);
+					return Buffer.empty();
+				});
 	}
 }

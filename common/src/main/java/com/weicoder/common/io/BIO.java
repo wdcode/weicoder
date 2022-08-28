@@ -17,7 +17,7 @@ import com.weicoder.common.util.CloseUtil;
  * 
  * @author WD
  */
-public final class OIO implements IO {
+public final class BIO implements IO {
 	/**
 	 * 读取出输入流的所有字节
 	 * 
@@ -40,10 +40,10 @@ public final class OIO implements IO {
 	 * @param out     输出流
 	 * @param in      输入流
 	 * @param isClose 是否关闭流
-	 * @return true false
+	 * @return 写入成功字节数
 	 */
-	public boolean write(OutputStream out, InputStream in, boolean isClose) {
-		return write(out, in, CommonParams.IO_BUFFERSIZE, isClose, r -> r) > 0;
+	public long write(OutputStream out, InputStream in, boolean isClose) {
+		return write(out, in, CommonParams.IO_BUFFERSIZE, isClose, r -> r);
 	}
 
 	@Override
@@ -84,7 +84,11 @@ public final class OIO implements IO {
 
 	@Override
 	public long read(InputStream in, int buff, boolean isClose, CallbackVoid<Buffer> call) {
-		return write(ByteArrayOutputStream.nullOutputStream(), in, buff, isClose, b -> {
+//		return write(ByteArrayOutputStream.nullOutputStream(), in, buff, isClose, b -> {
+//			call.callback(b);
+//			return Buffer.empty();
+//		});
+		return write(new NullOutputStream(), in, buff, isClose, b -> {
 			call.callback(b);
 			return Buffer.empty();
 		});

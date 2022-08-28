@@ -9,7 +9,7 @@ import java.nio.ByteBuffer;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.channels.WritableByteChannel;
-
+ 
 import com.weicoder.common.U;
 import com.weicoder.common.binary.Buffer;
 import com.weicoder.common.interfaces.Callback;
@@ -41,8 +41,17 @@ public class ChannelUtil {
 	 * @return 字节数组
 	 */
 	public static byte[] read(ReadableByteChannel ch, boolean isClose) {
+//		try (ByteArrayOutputStream out = new ByteArrayOutputStream(CommonParams.IO_BUFFERSIZE);
+//				WritableByteChannel wbc = Channels.newChannel(out)) {
+//			// 写入字节流
+//			write(ch, wbc, isClose);
+//			// 返回字节流中全部数组
+//			return out.toByteArray();
+//		} catch (Exception e) {
+//			return C.A.BYTES_EMPTY;
+//		}
 		// 创建结果字节流
-		ByteArrayOutputStream out = new ByteArrayOutputStream(CommonParams.IO_BUFFERSIZE * 10);
+		ByteArrayOutputStream out = new ByteArrayOutputStream(CommonParams.IO_BUFFERSIZE);
 		// 写入字节流
 		write(ch, Channels.newChannel(out), isClose);
 		// 返回字节流中全部数组
@@ -89,7 +98,7 @@ public class ChannelUtil {
 	 * @param wbc     写入通道
 	 * @param in      输入流
 	 * @param isClose 是否关闭流
-	 * @return true false
+	 * @return 写入成功字节数
 	 */
 	public static long write(WritableByteChannel wbc, InputStream in, boolean isClose) {
 		return write(Channels.newChannel(in), wbc, isClose);

@@ -9,10 +9,11 @@ import java.io.RandomAccessFile;
 import java.net.URI;
 import java.nio.ByteBuffer;
 import java.nio.channels.AsynchronousFileChannel;
-import java.nio.channels.FileChannel;
+import java.nio.channels.FileChannel; 
 import java.nio.file.Paths;
 
-import com.weicoder.common.constants.ArrayConstants;
+import com.weicoder.common.C;
+import com.weicoder.common.U;
 import com.weicoder.common.W;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
@@ -75,9 +76,9 @@ public class FileUtil {
 	 * 
 	 * @param src    原文件
 	 * @param target 目标文件
-	 * @return boolean
+	 * @return 写入成功字节数
 	 */
-	public static boolean copy(String src, String target) {
+	public static long copy(String src, String target) {
 		return write(target, getInputStream(src));
 	}
 
@@ -86,10 +87,10 @@ public class FileUtil {
 	 * 
 	 * @param src    原文件
 	 * @param target 目标文件
-	 * @return boolean
+	 * @return 写入成功字节数
 	 */
-	public static boolean copy(File src, File target) {
-		return IOUtil.write(getOutputStream(target), getInputStream(src));
+	public static long copy(File src, File target) {
+		return U.I.write(getOutputStream(target), getInputStream(src));
 	}
 
 	/**
@@ -100,6 +101,11 @@ public class FileUtil {
 	 */
 	public static String readString(String fileName) {
 		return readString(fileName, CommonParams.ENCODING);
+//		try {
+//			return Files.readString(Paths.get(fileName));
+//		} catch (IOException e) {
+//			return C.S.EMPTY;
+//		}
 	}
 
 	/**
@@ -111,6 +117,11 @@ public class FileUtil {
 	 */
 	public static String readString(String fileName, String charsetName) {
 		return IOUtil.readString(getInputStream(fileName), charsetName);
+//		try {
+//			return Files.readString(Paths.get(fileName), Charset.forName(charsetName));
+//		} catch (IOException e) {
+//			return C.S.EMPTY;
+//		}
 	}
 
 	/**
@@ -147,7 +158,7 @@ public class FileUtil {
 			}
 		else
 			// 获得文件通道
-			try (FileChannel channel = FileChannel.open(Paths.get(fileName));) {
+			try (FileChannel channel = FileChannel.open(Paths.get(fileName))) {
 				// 声明字节数组
 				ByteBuffer buf = ByteBuffer.allocate(W.C.toInt(channel.size() - pos));
 				// 读取字节数组
@@ -158,7 +169,7 @@ public class FileUtil {
 				Logs.error(e);
 			}
 		// 返回空字节数组
-		return ArrayConstants.BYTES_EMPTY;
+		return C.A.BYTES_EMPTY;
 	}
 
 	/**
@@ -168,7 +179,17 @@ public class FileUtil {
 	 * @return 读取文件字节数组
 	 */
 	public static byte[] read(String fileName) {
-		return IOUtil.read(getInputStream(fileName));
+//		try (FileInputStream in = in(fileName)) {
+//			return U.I.read(in);
+//		} catch (IOException e) {
+//			return C.A.BYTES_EMPTY;
+//		}
+		return U.I.read(in(fileName)); 
+//		try {
+//			return Files.readAllBytes(Paths.get(fileName));
+//		} catch (Exception e) {
+//			return C.A.BYTES_EMPTY;
+//		}
 	}
 
 	/**
@@ -186,9 +207,9 @@ public class FileUtil {
 	 * 
 	 * @param fileName 文件名
 	 * @param is       流
-	 * @return true 成功 false 失败
+	 * @return 写入成功字节数
 	 */
-	public static boolean write(String fileName, InputStream is) {
+	public static long write(String fileName, InputStream is) {
 		return IOUtil.write(getOutputStream(fileName), is);
 	}
 
@@ -197,9 +218,9 @@ public class FileUtil {
 	 * 
 	 * @param fileName 文件名
 	 * @param file     文件
-	 * @return true 成功 false 失败
+	 * @return 写入成功字节数
 	 */
-	public static boolean write(String fileName, File file) {
+	public static long write(String fileName, File file) {
 		return IOUtil.write(getOutputStream(fileName), getInputStream(file));
 	}
 
@@ -208,9 +229,9 @@ public class FileUtil {
 	 * 
 	 * @param fileName 文件名
 	 * @param b        字节数组
-	 * @return true 成功 false 失败
+	 * @return 写入成功字节数
 	 */
-	public static boolean write(String fileName, byte[] b) {
+	public static long write(String fileName, byte[] b) {
 		return write(fileName, b, CommonParams.FILE_APPEND);
 	}
 
@@ -220,9 +241,9 @@ public class FileUtil {
 	 * @param fileName 文件名
 	 * @param b        字节数组
 	 * @param append   是否追加
-	 * @return true 成功 false 失败
+	 * @return 写入成功字节数
 	 */
-	public static boolean write(String fileName, byte[] b, boolean append) {
+	public static long write(String fileName, byte[] b, boolean append) {
 		return IOUtil.write(FileUtil.getOutputStream(fileName, append), b);
 	}
 
@@ -267,7 +288,7 @@ public class FileUtil {
 	 * @param fileName 文件名
 	 * @return true false
 	 */
-	public static boolean write(String fileName, String text) {
+	public static long write(String fileName, String text) {
 		return write(fileName, text, CommonParams.FILE_APPEND);
 	}
 
@@ -279,7 +300,7 @@ public class FileUtil {
 	 * @param append   是否追加
 	 * @return true false
 	 */
-	public static boolean write(String fileName, String text, boolean append) {
+	public static long write(String fileName, String text, boolean append) {
 		return write(fileName, text, CommonParams.ENCODING, append);
 	}
 
@@ -289,9 +310,9 @@ public class FileUtil {
 	 * @param text        写入的内容
 	 * @param fileName    文件名
 	 * @param charsetName 编码格式
-	 * @return true false
+	 * @return 写入成功字节数
 	 */
-	public static boolean write(String fileName, String text, String charsetName) {
+	public static long write(String fileName, String text, String charsetName) {
 		return write(fileName, text, charsetName, CommonParams.FILE_APPEND);
 	}
 
@@ -302,9 +323,9 @@ public class FileUtil {
 	 * @param fileName    文件名
 	 * @param charsetName 编码格式
 	 * @param append      是否追加
-	 * @return true false
+	 * @return 写入成功字节数
 	 */
-	public static boolean write(String fileName, String text, String charsetName, boolean append) {
+	public static long write(String fileName, String text, String charsetName, boolean append) {
 		return IOUtil.write(getOutputStream(fileName, append), text, charsetName);
 	}
 

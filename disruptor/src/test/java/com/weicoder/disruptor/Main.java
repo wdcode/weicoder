@@ -6,7 +6,6 @@ import java.util.concurrent.Executors;
 
 //import com.lmax.disruptor.YieldingWaitStrategy;
 import com.lmax.disruptor.dsl.Disruptor;
-import com.lmax.disruptor.dsl.EventHandlerGroup;
 //import com.lmax.disruptor.dsl.ProducerType;
 import com.weicoder.common.U;
 
@@ -36,12 +35,13 @@ public class Main {
 				bufferSize, U.DTF.INSTANCE);
 
 		// 使用disruptor创建消费者组C1,C2
-		EventHandlerGroup<InParkingDataEvent> handlerGroup = disruptor.handleEventsWith(new ParkingDataToKafkaHandler(),
+//		EventHandlerGroup<InParkingDataEvent> handlerGroup = 
+				disruptor.handleEventsWith(new ParkingDataToKafkaHandler(),
 				new ParkingDataInDbHandler());
 
-		ParkingDataSmsHandler smsHandler = new ParkingDataSmsHandler();
-		// 声明在C1,C2完事之后执行JMS消息发送操作 也就是流程走到C3
-		handlerGroup.then(smsHandler);
+//		ParkingDataSmsHandler smsHandler = new ParkingDataSmsHandler();
+//		// 声明在C1,C2完事之后执行JMS消息发送操作 也就是流程走到C3
+//		handlerGroup.then(smsHandler);
 
 		disruptor.start();// 启动
 		CountDownLatch latch = new CountDownLatch(1);

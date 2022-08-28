@@ -8,6 +8,7 @@ import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.C;
 import com.weicoder.common.U;
+import com.weicoder.common.W;
 import com.weicoder.common.util.StringUtil;
 
 /**
@@ -140,17 +141,19 @@ public final class Buffer implements ByteArray {
 	 */
 	public void capacity(int len) {
 		// 要扩展的容量小于原长度 放弃修改
-		if (len <= data.length)
+		if (len <= length())
 			return;
 		// 如果同步 加锁
 		if (sync)
 			lock.lock();
 		// 声明个新长度临时数组
-		byte[] temp = new byte[len < CommonParams.IO_BUFFERSIZE ? CommonParams.IO_BUFFERSIZE : len];
-		// 读取原有数据
-		System.arraycopy(data, 0, temp, 0, top);
-		// 复制到新数组
-		data = temp;
+//		byte[] temp = new byte[len < CommonParams.BUFFER_SIZE ? CommonParams.BUFFER_SIZE : len];
+//		byte[] temp = new byte[length() + len * 10];
+//		// 读取原有数据
+//		System.arraycopy(data, 0, temp, 0, top);
+//		// 复制到新数组
+//		data = temp;
+		data = W.B.copy(data, length() + len * 10);
 		// 如果同步 解锁
 		if (sync)
 			lock.unlock();
@@ -399,7 +402,7 @@ public final class Buffer implements ByteArray {
 	 */
 	public byte[] write(byte[] data, int pos, int len) {
 		// 容量不足扩容
-		if (data.length < top + len)
+//		if (length() < top + len)
 			capacity(top + len);
 		// 如果同步 加锁
 		if (sync)
@@ -561,21 +564,21 @@ public final class Buffer implements ByteArray {
 	}
 
 	/**
-	 * 获得有效数据
-	 */
-	public byte[] array() {
-		return Bytes.copy(data, 0, top);
-	}
-
-	/**
 	 * 清除字节缓存对象
 	 */
 	public void clear() {
 		// 如果数组长度小于默认缓存长度 重新生成数组
-		if (length() < CommonParams.IO_BUFFERSIZE)
-			data = new byte[CommonParams.IO_BUFFERSIZE];
+		if (length() < CommonParams.BUFFER_SIZE)
+			data = new byte[CommonParams.BUFFER_SIZE];
 		top = 0;
 		offset = 0;
+	}
+
+	/**
+	 * 获得有效数据
+	 */
+	public byte[] array() {
+		return Bytes.copy(data, 0, top);
 	}
 
 	@Override
@@ -587,6 +590,6 @@ public final class Buffer implements ByteArray {
 
 	@Override
 	public String toString() {
-		return StringUtil.add("", "(top=", top, ",offset=", offset, ",len=" + length() + ")");
+		return StringUtil.add(C.S.EMPTY, "(top=", top, ",offset=", offset, ",len=" + length() + ")");
 	}
 }

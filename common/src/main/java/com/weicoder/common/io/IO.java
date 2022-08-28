@@ -70,9 +70,9 @@ interface IO {
 	 * 
 	 * @param out  输出流
 	 * @param text 输入的字符串
-	 * @return true false
+	 * @return 写入成功字节数
 	 */
-	default boolean write(OutputStream out, String text) {
+	default long write(OutputStream out, String text) {
 		return write(out, StringUtil.toBytes(text));
 	}
 
@@ -82,9 +82,9 @@ interface IO {
 	 * @param out         输出流
 	 * @param text        输入的字符串
 	 * @param charsetName 编码格式
-	 * @return true false
+	 * @return 写入成功字节数
 	 */
-	default boolean write(OutputStream out, String text, String charsetName) {
+	default long write(OutputStream out, String text, String charsetName) {
 		return write(out, text, charsetName, CommonParams.IO_CLOSE);
 	}
 
@@ -93,9 +93,9 @@ interface IO {
 	 * 
 	 * @param out 输出流
 	 * @param b   字节数组
-	 * @return true false
+	 * @return 写入成功字节数
 	 */
-	default boolean write(OutputStream out, byte[] b) {
+	default long write(OutputStream out, byte[] b) {
 		return write(out, b, CommonParams.IO_CLOSE);
 	}
 
@@ -105,9 +105,9 @@ interface IO {
 	 * @param out     输出流
 	 * @param b       字节数组
 	 * @param isClose 是否关闭流
-	 * @return true false
+	 * @return 写入成功字节数
 	 */
-	default boolean write(OutputStream out, byte[] b, boolean isClose) {
+	default long write(OutputStream out, byte[] b, boolean isClose) {
 		return write(out, new ByteArrayInputStream(b), isClose);
 	}
 
@@ -116,9 +116,9 @@ interface IO {
 	 * 
 	 * @param out 输出流
 	 * @param in  输入流
-	 * @return true false
+	 * @return 写入成功字节数
 	 */
-	default boolean write(OutputStream out, InputStream in) {
+	default long write(OutputStream out, InputStream in) {
 		return write(out, in, CommonParams.IO_CLOSE);
 	}
 
@@ -128,9 +128,9 @@ interface IO {
 	 * @param out     输出流
 	 * @param in      输入流
 	 * @param isClose 是否关闭流
-	 * @return true false
+	 * @return 写入成功字节数
 	 */
-	boolean write(OutputStream out, InputStream in, boolean isClose);
+	long write(OutputStream out, InputStream in, boolean isClose);
 
 	/**
 	 * 读取并写入数据
@@ -163,9 +163,9 @@ interface IO {
 	 * @param text        输入的字符串
 	 * @param charsetName 编码格式
 	 * @param isClose     是否关闭流
-	 * @return true false
+	 * @return 写入成功字节数
 	 */
-	default boolean write(OutputStream out, String text, String charsetName, boolean isClose) {
+	default long write(OutputStream out, String text, String charsetName, boolean isClose) {
 		return write(out, StringUtil.toBytes(text, charsetName), isClose);
 	}
 }

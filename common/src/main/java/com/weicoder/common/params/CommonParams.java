@@ -20,8 +20,10 @@ import com.weicoder.common.lang.Sets;
 public final class CommonParams {
 	/** log实现 */
 	public final static String		LOG_CLASS				= W.P.getString("log.class", "com.weicoder.log4j.Log4j2");
-	/** IO缓冲区大小 默认1024*1024 */
-	public final static int			IO_BUFFERSIZE			= W.P.getInt("io.buffer", 1024 * 1024);
+	/** 缓冲区大小 默认1024*1024 */
+	public final static int			BUFFER_SIZE				= W.P.getInt("buffer.size", 1024 * 1024);
+	/** IO缓冲区大小 默认使用BUFFER_SIZE */
+	public final static int			IO_BUFFERSIZE			= W.P.getInt("io.buffer", BUFFER_SIZE);
 	/** IO模式 oio nio aio 默认nio */
 	public final static String		IO_MODE					= W.P.getString("io.mode", "nio");
 	/** IO是否自动关闭流 默认true */
