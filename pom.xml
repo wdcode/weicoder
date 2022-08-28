@@ -117,7 +117,9 @@
 		<module>rpc</module>
 		<module>socket</module>
 		<module>solr</module>
+		<!-- 
 		<module>shiro</module>
+		-->
 		<module>tomcat</module>
 		<module>web</module>
 		<module>websocket</module>
