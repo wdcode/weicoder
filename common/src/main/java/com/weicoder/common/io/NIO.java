@@ -1,9 +1,10 @@
 package com.weicoder.common.io;
- 
+
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.channels.Channels; 
- 
+import java.nio.channels.Channels;
+
 import com.weicoder.common.binary.Buffer;
 import com.weicoder.common.interfaces.Callback;
 import com.weicoder.common.interfaces.CallbackVoid;
@@ -49,12 +50,7 @@ public final class NIO implements IO {
 
 	@Override
 	public long read(InputStream in, int buff, boolean isClose, CallbackVoid<Buffer> call) {
-//		return ChannelUtil.write(Channels.newChannel(in), Channels.newChannel(ByteArrayOutputStream.nullOutputStream()),
-//				buff, isClose, b -> {
-//					call.callback(b);
-//					return Buffer.empty();
-//				});
-		return ChannelUtil.write(Channels.newChannel(in), Channels.newChannel(new NullOutputStream()),
+		return ChannelUtil.write(Channels.newChannel(in), Channels.newChannel(ByteArrayOutputStream.nullOutputStream()),
 				buff, isClose, b -> {
 					call.callback(b);
 					return Buffer.empty();

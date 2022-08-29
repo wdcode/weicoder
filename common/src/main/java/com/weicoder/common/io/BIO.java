@@ -84,11 +84,7 @@ public final class BIO implements IO {
 
 	@Override
 	public long read(InputStream in, int buff, boolean isClose, CallbackVoid<Buffer> call) {
-//		return write(ByteArrayOutputStream.nullOutputStream(), in, buff, isClose, b -> {
-//			call.callback(b);
-//			return Buffer.empty();
-//		});
-		return write(new NullOutputStream(), in, buff, isClose, b -> {
+		return write(ByteArrayOutputStream.nullOutputStream(), in, buff, isClose, b -> {
 			call.callback(b);
 			return Buffer.empty();
 		});

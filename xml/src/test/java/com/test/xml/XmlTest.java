@@ -1,6 +1,6 @@
 package com.test.xml; 
  
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.weicoder.common.U;
 import com.weicoder.common.U.D;

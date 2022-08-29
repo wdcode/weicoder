@@ -1,6 +1,6 @@
 package com.weicoder.test;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.weicoder.excel.Excel;
 import com.weicoder.excel.Excels;

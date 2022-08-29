@@ -2,13 +2,12 @@ package com.weicoder.test;
 
 import com.weicoder.common.util.ThreadUtil;
 import com.weicoder.cache.LoadCache;
-
-import org.junit.Test;
+ 
 
 import com.weicoder.cache.CacheBuilder;
 
 public class CacheTest {
-	@Test
+	@org.junit.jupiter.api.Test
 	public void main() {
 		String key = "1";
 		LoadCache<String, String> cache = CacheBuilder.build(uid -> getRedis(uid));

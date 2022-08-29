@@ -3,10 +3,10 @@
 	<parent>
 		<groupId>com.weicoder</groupId>
 		<artifactId>build</artifactId>
-		<version>2.4</version>
+		<version>2.5</version>
 	</parent>
 	<artifactId>weicoder</artifactId>
-	<version>3.5.4</version>
+	<version>3.5.5</version>
 	<packaging>pom</packaging>
 
 	<properties>
@@ -116,10 +116,8 @@
 		<module>redis</module>
 		<module>rpc</module>
 		<module>socket</module>
-		<module>solr</module>
-		<!-- 
-		<module>shiro</module>
-		-->
+		<module>solr</module> 
+		<module>shiro</module> 
 		<module>tomcat</module>
 		<module>web</module>
 		<module>websocket</module>
@@ -133,17 +131,7 @@
 		<module>flink</module>
 		<module>seata</module>
 	</modules>
-
-	<profiles>
-		<profile>
-			<id>jdk8</id>
-			<properties>
-				<HikariCP>4.0.3</HikariCP>
-				<solr-solrj>8.11.1</solr-solrj>
-			</properties>
-		</profile>
-	</profiles>
-
+ 
 	<dependencyManagement>
 		<dependencies>
 			<dependency>

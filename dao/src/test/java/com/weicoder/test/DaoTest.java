@@ -3,7 +3,7 @@ package com.weicoder.test;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedType;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.weicoder.common.U.C;
 import com.weicoder.dao.service.SuperService;
