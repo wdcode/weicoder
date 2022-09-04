@@ -8,8 +8,7 @@ import java.util.Map;
 
 import com.weicoder.common.bean.StateCode;
 import com.weicoder.common.exception.StateException;
-import com.weicoder.common.U;
-import com.weicoder.common.W;
+import com.weicoder.common.lang.W;
 import com.weicoder.common.log.Log;
 import com.weicoder.common.log.LogFactory;
 import com.weicoder.common.params.StateParams;
@@ -19,6 +18,7 @@ import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.util.IpUtil;
 import com.weicoder.common.util.RegexUtil;
+import com.weicoder.common.util.U;
 import com.weicoder.json.JsonEngine;
 import com.weicoder.web.common.WebCommons;
 import com.weicoder.web.params.ValidatorParams;

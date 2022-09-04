@@ -4,21 +4,25 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.InputStream; 
 import java.io.RandomAccessFile;
 import java.net.URI;
 import java.nio.ByteBuffer;
 import java.nio.channels.AsynchronousFileChannel;
-import java.nio.channels.FileChannel; 
+import java.nio.channels.FileChannel;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 
-import com.weicoder.common.C;
-import com.weicoder.common.U;
-import com.weicoder.common.W;
+import com.weicoder.common.binary.Buffer;
+import com.weicoder.common.constants.C;
+import com.weicoder.common.interfaces.Callback;
+import com.weicoder.common.interfaces.CallbackVoid;
+import com.weicoder.common.lang.W;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
 
 import com.weicoder.common.util.StringUtil;
+import com.weicoder.common.util.U;
 
 /**
  * 对文件进行一些处理。
@@ -127,16 +131,17 @@ public class FileUtil {
 	/**
 	 * 读取文件为字节数组 可指定开始读取位置
 	 * 
-	 * @param fileName 文件名
-	 * @param pos      偏移
-	 * @return 字节数组
+	 * @param fileName
+	 * @param pos
+	 * @param len
+	 * @return
 	 */
-	public static byte[] read(String fileName, long pos) {
+	public static byte[] read(String fileName, long pos, long len) {
 		if (IO)
 			// 获得随机读写文件
 			try (RandomAccessFile file = getRandomAccessFile(fileName, "rw", pos);) {
 				// 声明字节数组
-				byte[] b = new byte[W.C.toInt(file.length() - pos)];
+				byte[] b = new byte[W.C.toInt(len == -1 ? file.length() - pos : len)];
 				// 读取文件
 				file.read(b);
 				// 返回字节数组
@@ -148,7 +153,7 @@ public class FileUtil {
 			// 获得文件通道
 			try (AsynchronousFileChannel channel = AsynchronousFileChannel.open(Paths.get(fileName));) {
 				// 声明字节数组
-				ByteBuffer buf = ByteBuffer.allocate(W.C.toInt(channel.size() - pos));
+				ByteBuffer buf = ByteBuffer.allocate(W.C.toInt(len == -1 ? channel.size() - pos : len));
 				// 读取字节数组
 				channel.read(buf, pos);
 				// 返回字节数组
@@ -160,7 +165,7 @@ public class FileUtil {
 			// 获得文件通道
 			try (FileChannel channel = FileChannel.open(Paths.get(fileName))) {
 				// 声明字节数组
-				ByteBuffer buf = ByteBuffer.allocate(W.C.toInt(channel.size() - pos));
+				ByteBuffer buf = ByteBuffer.allocate(W.C.toInt(len == -1 ? channel.size() - pos : len));
 				// 读取字节数组
 				channel.read(buf, pos);
 				// 返回字节数组
@@ -170,6 +175,28 @@ public class FileUtil {
 			}
 		// 返回空字节数组
 		return C.A.BYTES_EMPTY;
+	}
+
+	/**
+	 * 以流模式分段读取文件 使用默认IO缓冲和默认IO模式
+	 * 
+	 * @param name 文件名
+	 * @param call 回调
+	 * @return 读取长度
+	 */
+	public static long read(String name, CallbackVoid<Buffer> call) {
+		return U.I.read(in(name), CommonParams.IO_BUFFERSIZE, true, call);
+	}
+
+	/**
+	 * 读取文件为字节数组 可指定开始读取位置
+	 * 
+	 * @param fileName 文件名
+	 * @param pos      偏移
+	 * @return 字节数组
+	 */
+	public static byte[] read(String fileName, long pos) {
+		return read(fileName, pos, -1);
 	}
 
 	/**
@@ -184,7 +211,7 @@ public class FileUtil {
 //		} catch (IOException e) {
 //			return C.A.BYTES_EMPTY;
 //		}
-		return U.I.read(in(fileName)); 
+		return U.I.read(in(fileName));
 //		try {
 //			return Files.readAllBytes(Paths.get(fileName));
 //		} catch (Exception e) {
@@ -200,6 +227,18 @@ public class FileUtil {
 	 */
 	public static byte[] read(File file) {
 		return IOUtil.read(getInputStream(file));
+	}
+
+	/**
+	 * 转换文件 读取文件并写入指定文件 按缓冲字节写入
+	 * 
+	 * @param read  读取文件
+	 * @param write 写入文件
+	 * @param call  回调
+	 * @return 读取长度
+	 */
+	public static long convert(String read, String write, Callback<Buffer, Buffer> call) {
+		return U.I.write(out(write), in(read), call);
 	}
 
 	/**
@@ -265,7 +304,8 @@ public class FileUtil {
 			}
 		else if (AIO)
 			// 获得文件通道
-			try (AsynchronousFileChannel channel = AsynchronousFileChannel.open(Paths.get(fileName));) {
+			try (AsynchronousFileChannel channel = AsynchronousFileChannel.open(Paths.get(fileName),
+					StandardOpenOption.WRITE);) {
 				// 写字节数组
 				channel.write(ByteBuffer.wrap(b), pos);
 			} catch (Exception e) {
@@ -273,7 +313,7 @@ public class FileUtil {
 			}
 		else
 			// 获得文件通道
-			try (FileChannel channel = FileChannel.open(Paths.get(fileName));) {
+			try (FileChannel channel = FileChannel.open(Paths.get(fileName), StandardOpenOption.WRITE);) {
 				// 写字节数组
 				channel.write(ByteBuffer.wrap(b), pos);
 			} catch (Exception e) {

@@ -10,10 +10,10 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
 import com.weicoder.common.lang.Lists;
+import com.weicoder.common.lang.W;
 import com.weicoder.common.log.Logs;
-import com.weicoder.common.C;
-import com.weicoder.common.U;
-import com.weicoder.common.W;
+import com.weicoder.common.util.U;
+import com.weicoder.common.constants.C;
 import com.weicoder.common.interfaces.CallbackVoid;
 
 /**

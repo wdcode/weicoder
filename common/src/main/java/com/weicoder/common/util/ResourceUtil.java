@@ -7,8 +7,7 @@ import java.net.URL;
 import java.util.Enumeration;
 import java.util.List;
 
-import com.weicoder.common.C;
-import com.weicoder.common.U;
+import com.weicoder.common.constants.C;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.constants.SystemConstants;
 import com.weicoder.common.io.FileUtil;

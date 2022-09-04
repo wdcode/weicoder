@@ -11,14 +11,14 @@ import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.ClassUtil;
-import com.weicoder.common.util.CloseUtil;
 import com.weicoder.common.util.DateUtil;
-import com.weicoder.common.U;
-import com.weicoder.common.U.C;
+import com.weicoder.common.util.U;
+import com.weicoder.common.util.U.C;
 import com.weicoder.protobuf.Protobuf;
 import com.weicoder.protobuf.ProtobufEngine;
 import com.weicoder.common.log.Log;
-import com.weicoder.common.log.LogFactory; 
+import com.weicoder.common.log.LogFactory;
+import com.weicoder.common.statics.Closes;
 import com.weicoder.socket.Event;
 import com.weicoder.socket.Session;
 import com.weicoder.socket.annotation.AllHead; 
@@ -130,7 +130,7 @@ public final class Process {
 			short length = buff.readShort();
 			// 无长度 发送消息不符合 关掉连接
 			if (length < 2 || length > Short.MAX_VALUE) {
-				CloseUtil.close(session);
+				Closes.close(session);
 				LOG.info("name={};error len close id={};len={}", name, session.getId(), length);
 				return;
 			}

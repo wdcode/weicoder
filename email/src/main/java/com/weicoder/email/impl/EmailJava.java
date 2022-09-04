@@ -20,8 +20,8 @@ import jakarta.mail.internet.MimeMultipart;
 
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.log.Logs;
-import com.weicoder.common.U;
 import com.weicoder.common.util.StringUtil;
+import com.weicoder.common.util.U;
 import com.weicoder.email.base.BaseEmail;
 
 /**

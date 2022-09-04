@@ -1,7 +1,7 @@
 package com.weicoder.redis.factory;
 
-import com.weicoder.common.U;
 import com.weicoder.redis.params.RedisParams;
+import com.weicoder.common.util.U;
 import com.weicoder.redis.Redis; 
 import com.weicoder.redis.impl.RedisCluster;
 import com.weicoder.redis.impl.RedisJedis;

@@ -3,10 +3,10 @@ package com.weicoder.common.queue;
 import java.util.Collection;
 import java.util.Queue;
 
-import com.weicoder.common.U;
 import com.weicoder.common.interfaces.CallbackVoid;
 import com.weicoder.common.log.Log;
 import com.weicoder.common.log.LogFactory;
+import com.weicoder.common.util.U;
 
 /**
  * 异步回调处理队列数据

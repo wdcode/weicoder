@@ -11,7 +11,7 @@ import com.weicoder.common.interfaces.Callback;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.DateUtil;
-import com.weicoder.common.U;
+import com.weicoder.common.util.U;
 import com.weicoder.dao.Dao;
 
 /**

@@ -7,8 +7,8 @@ import com.weicoder.common.codec.Hex;
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.EncryptConstants;
 import com.weicoder.common.params.CommonParams;
-import com.weicoder.common.U;
 import com.weicoder.common.util.StringUtil;
+import com.weicoder.common.util.U;
 
 /**
  * hmac算法

@@ -8,12 +8,12 @@ import java.net.http.HttpClient.Version;
 import java.net.http.HttpRequest.BodyPublishers;
 import java.util.Map;
 
-import com.weicoder.common.C;
-import com.weicoder.common.U;
-import com.weicoder.common.U.S; 
-import com.weicoder.common.W;
+import com.weicoder.common.constants.C;
 import com.weicoder.common.http.Http;
+import com.weicoder.common.lang.W;
 import com.weicoder.common.log.Logs;
+import com.weicoder.common.util.U;
+import com.weicoder.common.util.U.S;
 
 /**
  * http jdk11的实现

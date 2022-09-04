@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import com.weicoder.common.W;
+import com.weicoder.common.lang.W;
 import com.weicoder.html.Tag;
 import com.weicoder.html.Tags;
 

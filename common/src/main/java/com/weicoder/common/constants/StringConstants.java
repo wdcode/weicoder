@@ -5,7 +5,7 @@ package com.weicoder.common.constants;
  * 
  * @author WD
  */
-public class StringConstants {
+public sealed class StringConstants permits C.S {
 	/** 常量字符串 "" */
 	public final static String	EMPTY				= "";
 	/** 常量字符串 " " */

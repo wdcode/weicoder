@@ -8,8 +8,8 @@ import com.weicoder.common.constants.EncryptConstants;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.params.CommonParams;
-import com.weicoder.common.U;
 import com.weicoder.common.util.StringUtil;
+import com.weicoder.common.util.U;
 
 /**
  * 信息摘要类

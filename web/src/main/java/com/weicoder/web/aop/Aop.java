@@ -5,7 +5,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import com.weicoder.common.C.S;
+import com.weicoder.common.constants.C.S;
 
 /**
  * 标注AOP注解

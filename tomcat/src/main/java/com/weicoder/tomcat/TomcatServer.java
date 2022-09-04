@@ -5,7 +5,7 @@ import org.apache.catalina.connector.Connector;
 import org.apache.catalina.core.AprLifecycleListener;
 import org.apache.catalina.startup.Tomcat;
 
-import com.weicoder.common.C; 
+import com.weicoder.common.constants.C;
 import com.weicoder.common.init.Inits;
 import com.weicoder.common.log.Logs; 
 import com.weicoder.tomcat.params.TomcatParams; 

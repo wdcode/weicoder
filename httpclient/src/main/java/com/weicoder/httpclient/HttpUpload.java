@@ -15,11 +15,11 @@ import org.apache.hc.core5.http.message.BasicNameValuePair;
 import com.weicoder.common.constants.HttpConstants;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.io.IOUtil;
-import com.weicoder.common.U;
-import com.weicoder.common.W;
 import com.weicoder.common.lang.Lists;
+import com.weicoder.common.lang.W;
 import com.weicoder.common.log.Log;
 import com.weicoder.common.log.LogFactory;
+import com.weicoder.common.util.U;
 
 /**
  * http 上传文件

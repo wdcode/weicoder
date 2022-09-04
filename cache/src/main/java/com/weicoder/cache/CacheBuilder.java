@@ -2,8 +2,8 @@ package com.weicoder.cache;
 
 import static com.weicoder.cache.params.CacheParams.*;
 
-import com.weicoder.common.U;
 import com.weicoder.common.interfaces.Callback;
+import com.weicoder.common.util.U;
 
 /**
  * 缓存工厂

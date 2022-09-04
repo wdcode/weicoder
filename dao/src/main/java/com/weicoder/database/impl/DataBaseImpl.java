@@ -19,15 +19,14 @@ import javax.sql.DataSource;
 
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.StringConstants;
-
-import com.weicoder.common.U;
-import com.weicoder.common.W;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
+import com.weicoder.common.lang.W;
 import com.weicoder.common.log.Logs;
-import com.weicoder.common.util.CloseUtil; 
+import com.weicoder.common.statics.Closes;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.StringUtil;
+import com.weicoder.common.util.U;
 import com.weicoder.database.DataBase;
 
 /**
@@ -93,7 +92,7 @@ public final class DataBaseImpl implements DataBase {
 			return -1;
 		} finally {
 			// 关闭资源
-			CloseUtil.close(pstmt, conn);
+			Closes.close(pstmt, conn);
 		}
 	}
 
@@ -146,7 +145,7 @@ public final class DataBaseImpl implements DataBase {
 			return -1;
 		} finally {
 			// 关闭资源
-			CloseUtil.close(pstmt, conn);
+			Closes.close(pstmt, conn);
 		}
 		// 返回影响行数
 		return result;
@@ -190,7 +189,7 @@ public final class DataBaseImpl implements DataBase {
 			return -1;
 		} finally {
 			// 关闭资源
-			CloseUtil.close(cstmt, conn);
+			Closes.close(cstmt, conn);
 		}
 	}
 
@@ -245,7 +244,7 @@ public final class DataBaseImpl implements DataBase {
 			return Lists.emptyList();
 		} finally {
 			// 关闭资源
-			CloseUtil.close(rs, cstmt, conn);
+			Closes.close(rs, cstmt, conn);
 		}
 	}
 
@@ -291,7 +290,7 @@ public final class DataBaseImpl implements DataBase {
 			return StringConstants.EMPTY;
 		} finally {
 			// 关闭资源
-			CloseUtil.close(rs, pstmt, conn);
+			Closes.close(rs, pstmt, conn);
 		}
 		// 返回""串
 		return StringConstants.EMPTY;
@@ -330,7 +329,7 @@ public final class DataBaseImpl implements DataBase {
 			return Maps.emptyMap();
 		} finally {
 			// 关闭资源
-			CloseUtil.close(rs, pstmt, conn);
+			Closes.close(rs, pstmt, conn);
 		}
 		// 返回结果
 		return Collections.emptyMap();
@@ -371,7 +370,7 @@ public final class DataBaseImpl implements DataBase {
 			return Lists.emptyList();
 		} finally {
 			// 关闭资源
-			CloseUtil.close(rs, pstmt, conn);
+			Closes.close(rs, pstmt, conn);
 		}
 	}
 
@@ -412,7 +411,7 @@ public final class DataBaseImpl implements DataBase {
 			return Lists.emptyList();
 		} finally {
 			// 关闭资源
-			CloseUtil.close(rs, pstmt, conn);
+			Closes.close(rs, pstmt, conn);
 		}
 	}
 

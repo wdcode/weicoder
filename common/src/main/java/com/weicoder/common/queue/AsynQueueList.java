@@ -4,11 +4,11 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Queue;
 
-import com.weicoder.common.U;
 import com.weicoder.common.interfaces.CallbackList;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.log.Log;
 import com.weicoder.common.log.LogFactory;
+import com.weicoder.common.util.U;
 
 /**
  * 异步回调处理队列数据

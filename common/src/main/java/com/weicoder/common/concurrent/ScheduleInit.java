@@ -1,10 +1,10 @@
 package com.weicoder.common.concurrent;
 
-import com.weicoder.common.U.C;
 import com.weicoder.common.init.Init;
 import com.weicoder.common.log.Logs; 
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.ClassUtil;
+import com.weicoder.common.util.U.C;
 
 /**
  * 定时任务执行类初始化

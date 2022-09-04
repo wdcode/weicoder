@@ -1,7 +1,7 @@
 package com.weicoder.nacos.config;
 
-import com.weicoder.common.U; 
 import com.weicoder.common.config.Config;
+import com.weicoder.common.util.U;
 import com.weicoder.nacos.NacosConfig;
 import com.weicoder.nacos.factory.NacosFactory;
 

@@ -9,11 +9,11 @@ import com.google.protobuf.CodedOutputStream;
 import com.google.protobuf.WireFormat;
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.lang.Bytes;
-import com.weicoder.common.U;
-import com.weicoder.common.W;
+import com.weicoder.common.lang.W;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.BeanUtil;
-import com.weicoder.common.util.ClassUtil; 
+import com.weicoder.common.util.ClassUtil;
+import com.weicoder.common.util.U; 
 
 /**
  * Google Protobuf 处理器 使用的Protobuf 3

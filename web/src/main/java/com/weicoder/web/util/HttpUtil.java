@@ -15,8 +15,8 @@ import com.weicoder.common.constants.HttpConstants;
 import com.weicoder.common.constants.StringConstants;
  
 import com.weicoder.common.log.Logs;
-import com.weicoder.common.U;
-import com.weicoder.common.util.StringUtil; 
+import com.weicoder.common.util.StringUtil;
+import com.weicoder.common.util.U; 
 
 /**
  * HTTP一些相关操作类

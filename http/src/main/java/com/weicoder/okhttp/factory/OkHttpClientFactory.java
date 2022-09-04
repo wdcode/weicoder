@@ -3,7 +3,7 @@ package com.weicoder.okhttp.factory;
 import java.util.concurrent.TimeUnit;
 
 import com.weicoder.common.factory.Factory;
-import com.weicoder.common.http.params.HttpParams;
+import com.weicoder.common.params.HttpParams;
 import com.weicoder.okhttp.interceptor.NetworkInterceptor;
 
 import okhttp3.ConnectionPool;

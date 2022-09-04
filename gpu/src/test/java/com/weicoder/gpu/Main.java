@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import com.aparapi.Kernel;
 import com.aparapi.Range;
-import com.weicoder.common.U;
+import com.weicoder.common.util.U;
 
 public class Main {
 	@Test

@@ -1,7 +1,7 @@
 package com.weicoder.hbase.params;
 
-import com.weicoder.common.U.IP;
 import com.weicoder.common.params.Params;
+import com.weicoder.common.util.U.IP;
 
 /**
  * hbase 参数

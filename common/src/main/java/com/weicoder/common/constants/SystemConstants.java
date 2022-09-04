@@ -10,7 +10,7 @@ import com.weicoder.common.util.StringUtil;
  * 
  * @author WD
  */
-public class SystemConstants {
+public sealed class SystemConstants permits C.O {
 	/** JDK版本 */
 	public final static String	JAVA_VERSION	= System.getProperty("java.version");
 	/** 系统名称 */

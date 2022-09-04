@@ -1,7 +1,7 @@
 package com.weicoder.common.log;
 
-import com.weicoder.common.U.C;
 import com.weicoder.common.factory.FactoryKey;
+import com.weicoder.common.util.U.C;
 
 /**
  * 日志工厂

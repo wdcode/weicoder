@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.weicoder.common.lang.Bytes;
-import com.weicoder.common.W;
+import com.weicoder.common.lang.W;
 import com.weicoder.common.interfaces.CallbackVoid;
 import com.weicoder.common.log.Logs;
 import com.weicoder.redis.base.BaseRedis;

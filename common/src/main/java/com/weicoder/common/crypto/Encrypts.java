@@ -6,7 +6,7 @@ import com.weicoder.common.codec.Hex;
 import com.weicoder.common.constants.EncryptConstants;
 import com.weicoder.common.crypto.base.BaseCrypt;
 import com.weicoder.common.lang.Bytes;
-import com.weicoder.common.W;
+import com.weicoder.common.lang.W;
 import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.util.StringUtil;
 

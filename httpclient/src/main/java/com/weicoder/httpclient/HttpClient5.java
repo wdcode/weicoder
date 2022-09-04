@@ -15,14 +15,14 @@ import org.apache.hc.core5.http.message.BasicHeader;
 import org.apache.hc.core5.http.message.BasicNameValuePair;
 import org.apache.hc.core5.util.Timeout;
 
-import com.weicoder.common.C;
-import com.weicoder.common.U;
-import com.weicoder.common.W;
+import com.weicoder.common.constants.C;
 import com.weicoder.common.http.Http;
-import com.weicoder.common.http.params.HttpParams;
 import com.weicoder.common.io.IOUtil;
 import com.weicoder.common.lang.Lists;
+import com.weicoder.common.lang.W;
 import com.weicoder.common.log.Logs;
+import com.weicoder.common.params.HttpParams;
+import com.weicoder.common.util.U;
 
 /**
  * HttpClient5的实现

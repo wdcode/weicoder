@@ -6,8 +6,7 @@ import java.util.Map;
 //import com.weicoder.rpc.annotation.Rpc;
 import com.weicoder.rpc.annotation.RpcServer;
 import com.weicoder.rpc.params.RpcParams;
-import com.weicoder.common.C.O;
-import com.weicoder.common.U.C;
+import com.weicoder.common.constants.C.O;
 import com.weicoder.common.init.Init;
 import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.lang.Maps;
@@ -16,6 +15,7 @@ import com.weicoder.common.socket.TcpServers;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.util.IpUtil;
+import com.weicoder.common.util.U.C;
 
 /**
  * rpc初始化

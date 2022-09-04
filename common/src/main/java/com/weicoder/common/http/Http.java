@@ -2,9 +2,9 @@ package com.weicoder.common.http;
 
 import java.util.Map;
 
-import com.weicoder.common.U.B;
-import com.weicoder.common.U.S;
 import com.weicoder.common.lang.Maps;
+import com.weicoder.common.util.U.B;
+import com.weicoder.common.util.U.S;
 
 /**
  * HTTP client 接口

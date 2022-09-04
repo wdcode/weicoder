@@ -1,10 +1,10 @@
 package com.weicoder.redis.cache;
 
-import com.weicoder.common.U;
-import com.weicoder.common.W.C;
-import com.weicoder.common.W.L;
-import com.weicoder.common.W.M;
 import com.weicoder.common.concurrent.ExecutorUtil;
+import com.weicoder.common.lang.W.C;
+import com.weicoder.common.lang.W.L;
+import com.weicoder.common.lang.W.M;
+import com.weicoder.common.util.U;
 
 import java.util.List;
 import java.util.Map;

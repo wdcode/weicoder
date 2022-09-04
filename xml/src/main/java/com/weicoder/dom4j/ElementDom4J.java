@@ -6,7 +6,7 @@ import org.dom4j.DocumentHelper;
 
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Lists;
-import com.weicoder.common.U;
+import com.weicoder.common.util.U;
 import com.weicoder.xml.Attribute;
 import com.weicoder.xml.Document;
 import com.weicoder.xml.Element; 

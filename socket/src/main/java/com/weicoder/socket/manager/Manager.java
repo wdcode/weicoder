@@ -6,10 +6,10 @@ import java.util.Map;
 import com.weicoder.common.concurrent.ScheduledUtil;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
-import com.weicoder.common.util.CloseUtil;
 import com.weicoder.common.util.DateUtil;
-import com.weicoder.common.U;
+import com.weicoder.common.util.U;
 import com.weicoder.common.log.Logs;
+import com.weicoder.common.statics.Closes;
 import com.weicoder.socket.params.SocketParams;
 import com.weicoder.socket.Session; 
 import com.weicoder.socket.message.Messages;
@@ -39,7 +39,7 @@ public final class Manager {
 						// 关闭Session
 						Logs.info("heart close session={}", s.getId());
 						registers.remove(s.getId());
-						CloseUtil.close(s);
+						Closes.close(s);
 					}
 					n++;
 				}

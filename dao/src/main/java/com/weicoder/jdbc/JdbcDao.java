@@ -5,11 +5,11 @@ import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 
-import com.weicoder.common.U.C;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.StringUtil;
+import com.weicoder.common.util.U.C;
 import com.weicoder.dao.Dao;
 import com.weicoder.dao.Transactional;
 import com.weicoder.dao.annotation.Table;

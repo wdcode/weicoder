@@ -4,7 +4,7 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 
 import com.weicoder.common.params.CommonParams;
-import com.weicoder.common.U;
+import com.weicoder.common.util.U;
 
 /**
  * URL基础编码类

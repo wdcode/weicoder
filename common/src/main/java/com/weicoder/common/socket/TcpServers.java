@@ -14,8 +14,8 @@ import com.weicoder.common.io.ChannelUtil;
 import com.weicoder.common.io.IOUtil;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.DateUtil;
-import com.weicoder.common.U;
 import com.weicoder.common.util.ThreadUtil;
+import com.weicoder.common.util.U;
 
 /**
  * aio server socket

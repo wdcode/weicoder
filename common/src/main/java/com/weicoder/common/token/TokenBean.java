@@ -8,8 +8,8 @@ import com.weicoder.common.crypto.Encrypts;
 import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.util.DateUtil;
-import com.weicoder.common.U;
 import com.weicoder.common.util.IpUtil;
+import com.weicoder.common.util.U;
 
 /**
  * 登录信息封装

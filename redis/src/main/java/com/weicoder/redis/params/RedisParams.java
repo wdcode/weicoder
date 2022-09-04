@@ -4,7 +4,7 @@ import com.weicoder.common.config.Config;
 import com.weicoder.common.config.ConfigFactory;
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.params.Params;
-import com.weicoder.common.U;
+import com.weicoder.common.util.U;
 
 import redis.clients.jedis.Protocol;
 

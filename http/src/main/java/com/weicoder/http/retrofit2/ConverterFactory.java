@@ -3,9 +3,9 @@ package com.weicoder.http.retrofit2;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 
-import com.weicoder.common.U;
-import com.weicoder.common.W.C;
 import com.weicoder.common.bean.Result;
+import com.weicoder.common.lang.W.C;
+import com.weicoder.common.util.U;
 import com.weicoder.json.J;
 
 import okhttp3.ResponseBody;

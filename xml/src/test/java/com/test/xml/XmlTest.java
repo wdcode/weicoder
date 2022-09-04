@@ -2,8 +2,8 @@ package com.test.xml;
  
 import org.junit.jupiter.api.Test;
 
-import com.weicoder.common.U;
-import com.weicoder.common.U.D;
+import com.weicoder.common.util.U;
+import com.weicoder.common.util.U.D;
 import com.weicoder.xml.Document;
 import com.weicoder.xml.XmlEngine;
 import com.weicoder.xml.builder.XmlBuilder;

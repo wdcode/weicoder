@@ -9,13 +9,13 @@ import java.nio.ByteBuffer;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.channels.WritableByteChannel;
- 
-import com.weicoder.common.U;
+
 import com.weicoder.common.binary.Buffer;
 import com.weicoder.common.interfaces.Callback;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
-import com.weicoder.common.util.CloseUtil;
+import com.weicoder.common.statics.Closes;
+import com.weicoder.common.util.U;
 
 /**
  * nio通道操作
@@ -177,7 +177,7 @@ public class ChannelUtil {
 				// 写文件
 				if (buf.length() > 0)
 					wbc.write(ByteBuffer.wrap(buf.array()));
-				// 清空缓存
+				// 自处理
 				buffer.clear();
 				// 累加读取流长度
 				sum += num;
@@ -187,7 +187,7 @@ public class ChannelUtil {
 		} finally {
 			// 关闭资源
 			if (isClose)
-				CloseUtil.close(wbc, rbc);
+				Closes.close(wbc, rbc);
 		}
 		// 返回总读取字节数
 		return sum;

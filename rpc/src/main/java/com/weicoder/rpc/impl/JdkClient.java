@@ -2,7 +2,7 @@ package com.weicoder.rpc.impl;
 
 import java.net.InetSocketAddress;
 
-import com.weicoder.common.U;
+import com.weicoder.common.util.U;
 import com.weicoder.rpc.RpcClient;
 import com.weicoder.rpc.Rpcs;
 

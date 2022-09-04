@@ -5,7 +5,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Map;
 
-import com.weicoder.common.W;
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.HttpConstants;
 import com.weicoder.common.constants.StringConstants;
@@ -14,6 +13,7 @@ import com.weicoder.common.io.IOUtil;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
+import com.weicoder.common.statics.S;
 import com.weicoder.common.util.EmptyUtil;
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.common.zip.Zip;
@@ -25,7 +25,7 @@ import com.weicoder.common.zip.Zip;
  */
 public class Jdk8Http implements Http {
 	// gzip压缩解压工具
-	private Zip gzip = W.Z.get("gzip");
+	private Zip gzip = S.Z.get("gzip");
 
 	@Override
 	public byte[] download(String url, Map<String, Object> header) {

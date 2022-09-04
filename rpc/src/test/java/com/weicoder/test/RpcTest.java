@@ -1,7 +1,7 @@
 package com.weicoder.test;
  
-import com.weicoder.rpc.Rpcs; 
-import com.weicoder.common.W;
+import com.weicoder.common.lang.W;
+import com.weicoder.rpc.Rpcs;
 
 public class RpcTest {
 

@@ -1,8 +1,8 @@
 package com.weicoder.dao.util;
 
 import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.U;
 import com.weicoder.common.util.StringUtil;
+import com.weicoder.common.util.U;
 
 /**
  * 对SQL语句进行处理

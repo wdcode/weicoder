@@ -1,9 +1,9 @@
 package com.weicoder.redis.cache;
 
-import com.weicoder.common.C.S;
-import com.weicoder.common.U;
-import com.weicoder.common.U.B; 
-import com.weicoder.common.W.D;
+import com.weicoder.common.constants.C.S;
+import com.weicoder.common.lang.W.D;
+import com.weicoder.common.util.U;
+import com.weicoder.common.util.U.B;
 import com.weicoder.dao.service.SuperService;
 import com.weicoder.json.JsonEngine;
 import com.weicoder.redis.Redis;

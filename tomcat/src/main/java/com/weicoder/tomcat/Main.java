@@ -1,6 +1,6 @@
 package com.weicoder.tomcat;
  
-import com.weicoder.common.W;
+import com.weicoder.common.lang.W;
 import com.weicoder.common.util.StringUtil; 
 import com.weicoder.tomcat.params.TomcatParams;
 

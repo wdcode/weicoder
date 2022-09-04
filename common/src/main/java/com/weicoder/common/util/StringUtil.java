@@ -7,12 +7,10 @@ import java.util.regex.Pattern;
 
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.StringConstants;
-
-import com.weicoder.common.U;
-import com.weicoder.common.W;
-import com.weicoder.common.C.S;
-import com.weicoder.common.W.C;
+import com.weicoder.common.constants.C.S;
 import com.weicoder.common.lang.Lists;
+import com.weicoder.common.lang.W;
+import com.weicoder.common.lang.W.C;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
 

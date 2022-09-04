@@ -2,7 +2,7 @@ package com.weicoder.dom4j;
 
 import org.dom4j.DocumentHelper;
 
-import com.weicoder.common.U;
+import com.weicoder.common.util.U;
 import com.weicoder.xml.Document;
 import com.weicoder.xml.Element;
 

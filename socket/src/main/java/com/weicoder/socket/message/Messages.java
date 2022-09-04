@@ -1,8 +1,8 @@
 package com.weicoder.socket.message;
 
-import com.weicoder.common.W;
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.lang.Bytes;
+import com.weicoder.common.lang.W;
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.protobuf.Protobuf;
 import com.weicoder.protobuf.ProtobufEngine;

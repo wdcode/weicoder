@@ -4,8 +4,8 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 
 import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.U;
 import com.weicoder.common.util.MathUtil;
+import com.weicoder.common.util.U;
 
 /**
  * 数据类型转换,对null和异常进行处理

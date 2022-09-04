@@ -5,7 +5,7 @@ import java.net.SocketAddress;
 
 import com.weicoder.common.binary.Buffer;
 import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.W;
+import com.weicoder.common.lang.W;
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.token.TokenBean;

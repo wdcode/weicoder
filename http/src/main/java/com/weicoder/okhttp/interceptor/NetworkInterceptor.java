@@ -2,7 +2,7 @@ package com.weicoder.okhttp.interceptor;
 
 import java.io.IOException;
 
-import com.weicoder.common.U.C;
+import com.weicoder.common.util.U.C;
 import com.weicoder.okhttp.Headers;
 
 import okhttp3.Interceptor;

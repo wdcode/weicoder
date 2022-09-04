@@ -1,19 +1,19 @@
-package com.weicoder.common.util;
+package com.weicoder.common.statics;
 
-import com.weicoder.common.W;
+import com.weicoder.common.lang.W;
 
 /**
  * enum枚举使用
  * 
  * @author wudi
  */
-public class EnumUtil {
+public sealed class Enums permits S.E {
 	/**
 	 * 判断枚举和对比对象是否相等 相同对象或则字符串区分大小写相等 或则 值相等
 	 * 
-	 * @param  e 枚举对象
-	 * @param  o 要对比的对象
-	 * @return   是否相等
+	 * @param e 枚举对象
+	 * @param o 要对比的对象
+	 * @return 是否相等
 	 */
 	public static boolean equals(Enum<?> e, Object o) {
 		// 为null
@@ -32,9 +32,9 @@ public class EnumUtil {
 	/**
 	 * 根据输入的枚举类型与对象转换成对应的枚举 如果是数字按getEnumConstants的下标获得 如果是String 转换对象区分大小写 如果是本对象直接强转
 	 * 
-	 * @param  <E>  枚举对象的泛型
-	 * @param  type 枚举对象的类
-	 * @param  o    要转换的枚举
+	 * @param <E>  枚举对象的泛型
+	 * @param type 枚举对象的类
+	 * @param o    要转换的枚举
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")

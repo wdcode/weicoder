@@ -3,7 +3,7 @@ package com.weicoder.memcache.base;
 import java.util.List;
 
 import com.weicoder.common.lang.Lists;
-import com.weicoder.common.zip.ZipEngine;
+import com.weicoder.common.statics.Zips;
 import com.weicoder.memcache.params.MemcacheParams;
 import com.weicoder.memcache.Memcache;
 
@@ -23,7 +23,7 @@ public abstract class BaseMemcache implements Memcache {
 	 * @param value 值
 	 */
 	public final boolean compress(String key, Object value) {
-		return set(key, ZipEngine.compress(value));
+		return set(key, Zips.compress(value));
 	}
 
 	/**
@@ -32,7 +32,7 @@ public abstract class BaseMemcache implements Memcache {
 	 * @return 值
 	 */
 	public final byte[] extract(String key) {
-		return ZipEngine.extract(get(key));
+		return Zips.extract(get(key));
 	}
 
 	/**
@@ -61,7 +61,7 @@ public abstract class BaseMemcache implements Memcache {
 		List<byte[]> list = Lists.newList(keys.length);
 		// 循环解压数据
 		for (Object o : get(keys)) {
-			list.add(ZipEngine.extract(o));
+			list.add(Zips.extract(o));
 		}
 		// 返回列表
 		return list;

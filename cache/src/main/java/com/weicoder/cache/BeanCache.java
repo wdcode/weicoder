@@ -4,9 +4,9 @@ import java.lang.reflect.Field;
 import java.util.List;
 
 import com.weicoder.cache.annotation.Cache;
-import com.weicoder.common.U.B;
-import com.weicoder.common.W.C;
 import com.weicoder.common.interfaces.Callback;
+import com.weicoder.common.lang.W.C;
+import com.weicoder.common.util.U.B;
 
 /**
  * 实体类的缓存 需要标记一个@see {@link Key} 用户缓存key

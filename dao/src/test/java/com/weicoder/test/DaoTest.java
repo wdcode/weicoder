@@ -5,7 +5,7 @@ import java.lang.reflect.AnnotatedType;
 
 import org.junit.jupiter.api.Test;
 
-import com.weicoder.common.U.C;
+import com.weicoder.common.util.U.C;
 import com.weicoder.dao.service.SuperService;
 
 public class DaoTest {

@@ -1,7 +1,7 @@
 package com.weicoder.dao.factory;
  
-import com.weicoder.common.U;
 import com.weicoder.common.factory.FactoryInterface;
+import com.weicoder.common.util.U;
 import com.weicoder.dao.Dao;
 import com.weicoder.dao.params.DaoParams; 
 

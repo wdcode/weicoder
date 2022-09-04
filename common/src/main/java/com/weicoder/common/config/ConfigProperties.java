@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import com.weicoder.common.U;
-import com.weicoder.common.U.R;
+import com.weicoder.common.util.U;
+import com.weicoder.common.util.U.R;
 
 /**
  * 读取配置类

@@ -10,7 +10,7 @@ import org.apache.solr.client.solrj.impl.Http2SolrClient.Builder;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.BeanUtil;
-import com.weicoder.common.U;
+import com.weicoder.common.util.U;
 import com.weicoder.solr.params.SolrParams;
 
 /**

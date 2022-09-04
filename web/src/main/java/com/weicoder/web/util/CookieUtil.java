@@ -7,11 +7,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.U;
-import com.weicoder.common.W;
+import com.weicoder.common.lang.W;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.BeanUtil; 
 import com.weicoder.common.util.StringUtil;
+import com.weicoder.common.util.U;
 import com.weicoder.web.params.WebParams;
 
 /**

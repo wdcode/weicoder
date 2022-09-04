@@ -2,7 +2,6 @@ package com.weicoder.common.util;
 
 import java.util.regex.Pattern;
 
-import com.weicoder.common.U;
 import com.weicoder.common.constants.RegexConstants;
 
 /**

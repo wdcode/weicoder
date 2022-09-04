@@ -4,8 +4,8 @@ import java.util.Properties;
 
 import org.yaml.snakeyaml.Yaml;
 
-import com.weicoder.common.U.R;
 import com.weicoder.common.config.ConfigProperties;
+import com.weicoder.common.util.U.R;
 
 /**
  * Yaml读取配置

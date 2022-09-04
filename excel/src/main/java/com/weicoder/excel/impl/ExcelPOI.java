@@ -12,9 +12,9 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.weicoder.common.io.FileUtil;
-import com.weicoder.common.U;
-import com.weicoder.common.W;
+import com.weicoder.common.lang.W;
 import com.weicoder.common.log.Logs;
+import com.weicoder.common.util.U;
 import com.weicoder.excel.base.BaseExcel;
 
 /**

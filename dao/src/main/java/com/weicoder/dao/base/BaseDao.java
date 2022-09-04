@@ -2,9 +2,9 @@ package com.weicoder.dao.base;
 
 import java.util.List;
 
-import com.weicoder.common.U;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.util.ThreadUtil;
+import com.weicoder.common.util.U;
 import com.weicoder.dao.Dao;
 import com.weicoder.dao.params.DaoParams;
 

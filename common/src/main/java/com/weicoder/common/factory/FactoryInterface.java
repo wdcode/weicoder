@@ -1,6 +1,6 @@
 package com.weicoder.common.factory;
 
-import com.weicoder.common.U;
+import com.weicoder.common.util.U;
 
 /**
  * 拥有Key功能的工厂基础实现 根据Key生成单例

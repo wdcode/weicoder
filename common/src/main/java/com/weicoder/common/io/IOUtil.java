@@ -29,6 +29,18 @@ public class IOUtil {
 	/**
 	 * 读取并写入数据
 	 * 
+	 * @param rbc  读取通道
+	 * @param wbc  写入通道
+	 * @param call 回调
+	 * @return 读取流总数
+	 */
+	public static long write(OutputStream out, InputStream in, Callback<Buffer, Buffer> call) {
+		return write(out, in, CommonParams.IO_BUFFERSIZE, CommonParams.IO_CLOSE, call);
+	}
+
+	/**
+	 * 读取并写入数据
+	 * 
 	 * @param rbc     读取通道
 	 * @param wbc     写入通道
 	 * @param buff    每次读取缓存数

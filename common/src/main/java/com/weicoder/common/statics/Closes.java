@@ -1,17 +1,19 @@
-package com.weicoder.common.util;
+package com.weicoder.common.statics;
 
 import java.io.OutputStream;
 
-import com.weicoder.common.U;
 import com.weicoder.common.log.Logs;
+import com.weicoder.common.util.U;
 
 /**
  * 关闭各种资源方法
+ * 
  * @author WD
  */
-public final class CloseUtil {
+public sealed class Closes permits S.C {
 	/**
 	 * 关闭Close流数据源接口
+	 * 
 	 * @param cs 流数据源
 	 */
 	public static void close(AutoCloseable... cs) {
@@ -31,6 +33,4 @@ public final class CloseUtil {
 			}
 		}
 	}
-
-	private CloseUtil() {}
 }

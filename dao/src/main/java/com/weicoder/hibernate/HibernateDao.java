@@ -11,9 +11,9 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions; 
 
-import com.weicoder.hibernate.base.BaseHibernateDao; 
-import com.weicoder.common.U;
-import com.weicoder.common.W; 
+import com.weicoder.hibernate.base.BaseHibernateDao;
+import com.weicoder.common.lang.W;
+import com.weicoder.common.util.U; 
 
 /**
  * Hibernate接口

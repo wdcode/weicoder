@@ -8,12 +8,12 @@ import java.util.stream.Collectors;
 import org.apache.http.HttpHost;
 import org.elasticsearch.client.RestClient;
 
-import com.weicoder.common.U;
-import com.weicoder.common.W;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
+import com.weicoder.common.lang.W;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.BeanUtil;
+import com.weicoder.common.util.U;
 import com.weicoder.json.JsonEngine;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;

@@ -5,8 +5,8 @@ import java.util.Enumeration;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpSession;
 
-import com.weicoder.common.U; 
-import com.weicoder.common.W;
+import com.weicoder.common.lang.W;
+import com.weicoder.common.util.U;
 
 /**
  * Session一些相关操作类

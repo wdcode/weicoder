@@ -7,4 +7,6 @@ package com.weicoder.json;
  *
  */
 public final class J extends JsonEngine {
+	private J() {
+	}
 }

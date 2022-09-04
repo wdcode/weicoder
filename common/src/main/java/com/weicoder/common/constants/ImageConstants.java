@@ -5,7 +5,7 @@ package com.weicoder.common.constants;
  * 
  * @author WD
  */
-public class ImageConstants {
+public sealed class ImageConstants permits C.I {
 	/** 图片格式 JPEG */
 	public final static String JPEG = "JPEG";
 	/** 图片格式 gif */

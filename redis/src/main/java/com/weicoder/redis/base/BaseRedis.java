@@ -2,11 +2,11 @@ package com.weicoder.redis.base;
 
 import java.util.List;
 
-import com.weicoder.common.W.C;
 import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.lang.Lists;
+import com.weicoder.common.lang.W.C;
+import com.weicoder.common.statics.Zips;
 import com.weicoder.common.util.ThreadUtil;
-import com.weicoder.common.zip.ZipEngine;
 import com.weicoder.json.JsonEngine;
 import com.weicoder.redis.Redis;
 
@@ -36,7 +36,7 @@ public abstract class BaseRedis implements Redis {
 	 * @param value 值
 	 */
 	public final String compress(String key, Object value) {
-		return set(Bytes.toBytes(key), ZipEngine.compress(value));
+		return set(Bytes.toBytes(key), Zips.compress(value));
 	}
 
 	/**
@@ -46,7 +46,7 @@ public abstract class BaseRedis implements Redis {
 	 * @return     值
 	 */
 	public final byte[] extract(String key) {
-		return ZipEngine.extract(get(key));
+		return Zips.extract(get(key));
 	}
 
 	/**
@@ -86,7 +86,7 @@ public abstract class BaseRedis implements Redis {
 		List<byte[]> list = Lists.newList(keys.length);
 		// 循环解压数据
 		for (Object o : get(keys))
-			list.add(ZipEngine.extract(o));
+			list.add(Zips.extract(o));
 		// 返回列表
 		return list;
 	}

@@ -10,11 +10,11 @@ import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 
-import com.weicoder.common.C;
-import com.weicoder.common.U;
+import com.weicoder.common.constants.C;
 import com.weicoder.common.io.IOUtil;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.log.Logs;
+import com.weicoder.common.util.U;
 
 /**
  * Hapoop操作类

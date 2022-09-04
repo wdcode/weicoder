@@ -29,7 +29,7 @@ import org.jaxen.VariableContext;
 import org.jaxen.XPath;
 import org.jaxen.dom4j.Dom4jXPath;
 
-import com.weicoder.common.W.L;
+import com.weicoder.common.lang.W.L;
 
 /**
  * <p>

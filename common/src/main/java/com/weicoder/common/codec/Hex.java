@@ -3,7 +3,7 @@ package com.weicoder.common.codec;
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Bytes;
-import com.weicoder.common.U;
+import com.weicoder.common.util.U;
 
 /**
  * Hex 编码解码

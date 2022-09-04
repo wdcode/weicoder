@@ -1,8 +1,8 @@
 package com.weicoder.memcache.impl;
 
 import java.util.Map;
- 
-import com.weicoder.common.W;
+
+import com.weicoder.common.lang.W;
 import com.weicoder.memcache.base.BaseMemcache;
 import com.whalin.MemCached.MemCachedClient;
 import com.whalin.MemCached.SockIOPool;

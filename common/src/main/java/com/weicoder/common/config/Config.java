@@ -2,10 +2,10 @@ package com.weicoder.common.config;
 
 import java.util.List;
 
-import com.weicoder.common.W;
-import com.weicoder.common.C;
-import com.weicoder.common.U;
-import com.weicoder.common.U.E;
+import com.weicoder.common.constants.C;
+import com.weicoder.common.lang.W;
+import com.weicoder.common.util.U;
+import com.weicoder.common.util.U.E;
 
 /**
  * 读取配置类

@@ -7,8 +7,8 @@ import java.nio.channels.AsynchronousByteChannel;
 import com.weicoder.common.constants.ArrayConstants;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
-import com.weicoder.common.util.CloseUtil;
-import com.weicoder.common.U;
+import com.weicoder.common.statics.Closes;
+import com.weicoder.common.util.U;
 
 /**
  * aio读写字节流
@@ -57,7 +57,7 @@ public class AsynChannelUtil {
 		} finally {
 			// 关闭资源
 			if (isClose)
-				CloseUtil.close(asc);
+				Closes.close(asc);
 		}
 	}
 
@@ -94,7 +94,7 @@ public class AsynChannelUtil {
 		} finally {
 			// 关闭资源
 			if (isClose)
-				CloseUtil.close(asc);
+				Closes.close(asc);
 		}
 	}
 }

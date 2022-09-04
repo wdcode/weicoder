@@ -7,11 +7,10 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import com.weicoder.common.U;
-import com.weicoder.common.U.B;
-import com.weicoder.common.W;
-import com.weicoder.common.W.C;
+import com.weicoder.common.lang.W.C;
 import com.weicoder.common.util.ArrayUtil;
+import com.weicoder.common.util.U;
+import com.weicoder.common.util.U.B;
 
 /**
  * List的帮助类

@@ -3,9 +3,9 @@ package com.weicoder.okhttp;
 import java.io.IOException;
 import java.util.Map;
 
-import com.weicoder.common.C;
-import com.weicoder.common.W;
+import com.weicoder.common.constants.C;
 import com.weicoder.common.http.Http;
+import com.weicoder.common.lang.W;
 import com.weicoder.common.log.Logs;
 
 import okhttp3.FormBody;

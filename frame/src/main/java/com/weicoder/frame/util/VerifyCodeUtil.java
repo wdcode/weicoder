@@ -12,8 +12,8 @@ import com.weicoder.common.crypto.Decrypts;
 import com.weicoder.common.crypto.Encrypts;
 import com.weicoder.common.lang.Conversion;
 import com.weicoder.common.log.Logs;
-import com.weicoder.common.util.EmptyUtil;
-import com.weicoder.common.util.MathUtil;
+import com.weicoder.common.statics.S;
+import com.weicoder.common.util.EmptyUtil; 
 import com.weicoder.image.ImageUtil;
 import com.weicoder.web.util.AttributeUtil;
 import com.weicoder.web.util.ResponseUtil;
@@ -107,17 +107,17 @@ public final class VerifyCodeUtil {
 			// 随机产生155条干扰线，使图象中的认证码不易被其它程序探测到
 			g.setColor(getRandColor(160, 200));
 			for (int i = 0; i < 155; i++) {
-				int x = MathUtil.nextInt(width);
-				int y = MathUtil.nextInt(height);
-				int xl = MathUtil.nextInt(12);
-				int yl = MathUtil.nextInt(12);
+				int x = S.R.nextInt(width);
+				int y = S.R.nextInt(height);
+				int xl = S.R.nextInt(12);
+				int yl = S.R.nextInt(12);
 				g.drawLine(x, y, x + xl, y + yl);
 			}
 			for (int i = 0; i < FrameParams.VERIFY_LENGTH; i++) {
 				// 将认证码显示到图象中
 				// 设置颜色
-				g.setColor(new Color(20 + MathUtil.nextInt(110), 20 + MathUtil.nextInt(110),
-						20 + MathUtil.nextInt(110)));
+				g.setColor(new Color(20 + S.R.nextInt(110), 20 + S.R.nextInt(110),
+						20 + S.R.nextInt(110)));
 				// 写文字
 				g.drawString(rand.substring(i, i + 1), charWidth * i + 10, charHeight);
 			}
@@ -166,7 +166,7 @@ public final class VerifyCodeUtil {
 		// 循环获得字符
 		for (int i = 0; i < FrameParams.VERIFY_LENGTH; i++) {
 			// 添件字符
-			buf[i] = code[MathUtil.nextInt(code.length)];
+			buf[i] = code[S.R.nextInt(code.length)];
 		}
 		// 获得字符串
 		return String.valueOf(buf);
@@ -188,11 +188,11 @@ public final class VerifyCodeUtil {
 			bc = 255;
 		}
 		// 获得R
-		int r = fc + MathUtil.nextInt(bc - fc);
+		int r = fc + S.R.nextInt(bc - fc);
 		// 获得G
-		int g = fc + MathUtil.nextInt(bc - fc);
+		int g = fc + S.R.nextInt(bc - fc);
 		// 获得B
-		int b = fc + MathUtil.nextInt(bc - fc);
+		int b = fc + S.R.nextInt(bc - fc);
 		// 返回Color
 		return new Color(r, g, b);
 	}

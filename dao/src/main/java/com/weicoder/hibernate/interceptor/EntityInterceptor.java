@@ -6,8 +6,8 @@ import org.hibernate.EmptyInterceptor;
 import org.hibernate.Interceptor;
 
 import com.weicoder.common.lang.Maps;
-import com.weicoder.common.U;
 import com.weicoder.common.util.StringUtil;
+import com.weicoder.common.util.U;
 import com.weicoder.hibernate.shards.Shards;
 import com.weicoder.dao.util.SqlUtil;
 

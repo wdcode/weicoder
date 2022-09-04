@@ -1,8 +1,9 @@
-package com.weicoder.common.zip;
+package com.weicoder.common.statics;
 
-import com.weicoder.common.C;
-import com.weicoder.common.C.A;
-import com.weicoder.common.W.B;
+import com.weicoder.common.constants.C;
+import com.weicoder.common.constants.C.A;
+import com.weicoder.common.lang.W.B;
+import com.weicoder.common.zip.Zip;
 import com.weicoder.common.zip.factory.ZipFactory;
 
 /**
@@ -10,7 +11,7 @@ import com.weicoder.common.zip.factory.ZipFactory;
  * 
  * @author WD
  */
-public class ZipEngine {
+public sealed class Zips permits S.Z {
 //	/** Zlib压缩器 */
 //	public final static Zip		ZLIB	= get("zlib");
 //	/** gzip压缩器 */
@@ -18,7 +19,7 @@ public class ZipEngine {
 //	/** zip压缩器 */
 //	public final static Zip		ZIP		= get("zip");
 	// 压缩器
-	private final static Zip	Z		= get(C.S.EMPTY);
+	private final static Zip Z = get(C.S.EMPTY);
 
 	/**
 	 * 压缩数据

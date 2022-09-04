@@ -1,7 +1,7 @@
 package com.weicoder.http;
 
 import com.weicoder.common.factory.FactoryKey;
-import com.weicoder.common.http.params.HttpParams;
+import com.weicoder.common.params.HttpParams;
 import com.weicoder.http.factory.RetrofitFactory;
 
 import retrofit2.Retrofit;

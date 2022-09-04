@@ -3,8 +3,8 @@ package com.weicoder.web.util;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import com.weicoder.common.U; 
-import com.weicoder.common.W;
+import com.weicoder.common.lang.W;
+import com.weicoder.common.util.U;
 
 /**
  * 保存属性工具类

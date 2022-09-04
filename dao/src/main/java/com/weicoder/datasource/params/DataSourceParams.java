@@ -4,8 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Properties;
- 
-import com.weicoder.common.U;
+
 import com.weicoder.common.config.Config;
 import com.weicoder.common.config.ConfigFactory;
 import com.weicoder.common.constants.DateConstants;
@@ -13,6 +12,7 @@ import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.params.Params;
 import com.weicoder.common.util.ResourceUtil;
+import com.weicoder.common.util.U;
 
 /**
  * MemCache配置读取

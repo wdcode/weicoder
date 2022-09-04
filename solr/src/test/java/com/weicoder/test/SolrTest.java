@@ -11,12 +11,12 @@ import org.apache.solr.client.solrj.impl.Http2SolrClient.Builder;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.client.solrj.response.UpdateResponse;
 import org.apache.solr.common.SolrDocument;
-import org.apache.solr.common.SolrDocumentList; 
+import org.apache.solr.common.SolrDocumentList;
 
-import com.weicoder.common.U;
-import com.weicoder.common.W;
 import com.weicoder.common.lang.Lists;
-import com.weicoder.common.log.Logs; 
+import com.weicoder.common.lang.W;
+import com.weicoder.common.log.Logs;
+import com.weicoder.common.util.U; 
 
 public class SolrTest {
 	private final static String     SEARCH_URL = "http://192.168.0.200:8983/solr/witch"; 

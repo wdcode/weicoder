@@ -70,6 +70,5 @@ public class Result<T> {
 	@Override
 	public String toString() {
 		return "Result [code=" + code + ", content=" + content + ", message=" + message + "]";
-	}
-
+	} 
 }

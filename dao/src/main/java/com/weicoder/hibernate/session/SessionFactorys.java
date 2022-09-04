@@ -13,13 +13,13 @@ import org.hibernate.cfg.Configuration;
 
 import com.weicoder.hibernate.interceptor.EntityInterceptor;
 import com.weicoder.hibernate.naming.ImprovedNamingStrategy;
-import com.weicoder.common.U.C;
-import com.weicoder.common.W;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
+import com.weicoder.common.lang.W;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.ResourceUtil;
 import com.weicoder.common.util.StringUtil;
+import com.weicoder.common.util.U.C;
 
 /**
  * SessionFactory包装类

@@ -3,7 +3,7 @@ package com.weicoder.netty.session;
 import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.channel.Channel;
 
-import com.weicoder.common.W;
+import com.weicoder.common.lang.W;
 import com.weicoder.socket.base.BaseSession;
 
 /**

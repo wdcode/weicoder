@@ -6,8 +6,8 @@ import java.util.Set;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 
 import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.W;
 import com.weicoder.common.lang.Sets;
+import com.weicoder.common.lang.W;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.redis.params.RedisParams;

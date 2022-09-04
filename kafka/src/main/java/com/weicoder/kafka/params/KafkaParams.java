@@ -1,8 +1,8 @@
 package com.weicoder.kafka.params;
 
-import com.weicoder.common.C.O;
 import com.weicoder.common.config.Config;
 import com.weicoder.common.config.ConfigFactory;
+import com.weicoder.common.constants.C.O;
 import com.weicoder.common.params.Params;
 import com.weicoder.common.util.IpUtil;
 

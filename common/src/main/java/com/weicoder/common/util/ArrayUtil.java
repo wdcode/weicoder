@@ -5,10 +5,9 @@ import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
 
+import com.weicoder.common.constants.C;
 import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.C;
-import com.weicoder.common.U;
-import com.weicoder.common.W;
+import com.weicoder.common.lang.W;
 
 /**
  * 数组帮助类

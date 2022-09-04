@@ -6,8 +6,7 @@ import java.util.concurrent.Executors;
 
 //import com.lmax.disruptor.YieldingWaitStrategy;
 import com.lmax.disruptor.dsl.Disruptor;
-//import com.lmax.disruptor.dsl.ProducerType;
-import com.weicoder.common.U;
+import com.weicoder.common.util.U;
 
 /**
  * 测试 P1生产消息，C1，C2消费消息，C1和C2会共享所有的event元素! C3依赖C1，C2处理结果

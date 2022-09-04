@@ -6,8 +6,8 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
 import com.weicoder.common.constants.ArrayConstants;
-import com.weicoder.common.U;
 import com.weicoder.common.util.StringUtil;
+import com.weicoder.common.util.U;
 
 /**
  * 加密解密基础类 内部使用

@@ -4,10 +4,10 @@ import com.weicoder.rpc.annotation.RpcServer;
 import com.weicoder.rpc.params.RpcParams;
 import com.alipay.sofa.rpc.config.ProviderConfig;
 import com.alipay.sofa.rpc.config.ServerConfig;
-import com.weicoder.common.U.C;
 import com.weicoder.common.init.Init;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.ClassUtil;
+import com.weicoder.common.util.U.C;
 
 /**
  * rpc初始化

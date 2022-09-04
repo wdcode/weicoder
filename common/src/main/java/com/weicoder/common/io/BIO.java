@@ -10,7 +10,7 @@ import com.weicoder.common.interfaces.Callback;
 import com.weicoder.common.interfaces.CallbackVoid;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
-import com.weicoder.common.util.CloseUtil;
+import com.weicoder.common.statics.Closes;
 
 /**
  * 堵塞IO操作
@@ -76,7 +76,7 @@ public final class BIO implements IO {
 		} finally {
 			// 关闭资源
 			if (isClose)
-				CloseUtil.close(out, in);
+				Closes.close(out, in);
 		}
 		// 返回结果
 		return sum;

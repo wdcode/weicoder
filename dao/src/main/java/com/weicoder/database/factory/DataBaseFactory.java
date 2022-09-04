@@ -8,11 +8,11 @@ import java.io.File;
 import java.util.Map; 
 
 import javax.sql.DataSource;
- 
-import com.weicoder.common.U; 
+
 import com.weicoder.common.factory.FactoryKey;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.util.ResourceUtil;
+import com.weicoder.common.util.U;
 
 /**
  * 生成DataBase的工厂类

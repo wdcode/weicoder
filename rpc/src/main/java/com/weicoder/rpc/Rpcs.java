@@ -10,13 +10,10 @@ import com.weicoder.rpc.annotation.RpcBean;
 import com.weicoder.rpc.params.RpcParams;
 import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.lang.Maps;
+import com.weicoder.common.lang.W;
 import com.weicoder.common.socket.TcpClient;
-import com.weicoder.common.U;
-import com.weicoder.common.U.B;
-import com.weicoder.common.U.C;
-import com.weicoder.common.U.S;
-import com.weicoder.common.W.L;
-import com.weicoder.common.W.M;
+import com.weicoder.common.statics.S;
+import com.weicoder.common.util.U;
 import com.weicoder.common.interfaces.CallbackVoid;
 
 /**
@@ -38,12 +35,12 @@ public final class Rpcs {
 
 	static {
 		// 循环处理rpc服务
-		C.list(Rpc.class).forEach(r -> {
+		U.C.list(Rpc.class).forEach(r -> {
 			// rpc服务地址
 			String name = getName(r);
 			ADDRESS.put(name, new InetSocketAddress(RpcParams.getHost(name), RpcParams.getPort(name)));
 			// 如果有nacos
-			List<InetSocketAddress> ls = M.getList(RPCS, name);
+			List<InetSocketAddress> ls = W.M.getList(RPCS, name);
 			// 使用nacos处理
 			nacos(name, i -> ls.add(new InetSocketAddress(i.getIp(), i.getPort())), i -> {
 				// 服务器有效存活 检查是否已生成rpc
@@ -56,14 +53,14 @@ public final class Rpcs {
 					ls.remove(in);
 			});
 			// 处理所有方法
-			C.getPublicMethod(r).forEach(m -> {
+			U.C.getPublicMethod(r).forEach(m -> {
 				String mn = m.getName();
 				METHODS.put(mn, m);
 				RESULTS.put(mn, m.getReturnType());
 			});
 		});
 		// 获取生成Rpc客户端
-		CLIENT = C.newInstance(C.from(RpcClient.class));
+		CLIENT = U.C.newInstance(U.C.from(RpcClient.class));
 	}
 
 	/**
@@ -76,11 +73,11 @@ public final class Rpcs {
 	public static <E> E one(Class<E> rpc) {
 		// rpc服务地址
 		String name = getName(rpc);
-		if (C.forName("com.weicoder.nacos.Nacos") != null) {
+		if (U.C.forName("com.weicoder.nacos.Nacos") != null) {
 			com.alibaba.nacos.api.naming.pojo.Instance in = com.weicoder.nacos.Nacos.one(name);
 			return client(rpc, in.getIp(), in.getPort());
 		} else {
-			InetSocketAddress in = RPCS.get(name).get(U.M.nextInt(RPCS.size()));
+			InetSocketAddress in = RPCS.get(name).get(S.R.nextInt(RPCS.size()));
 			return client(rpc, in.getAddress().getHostAddress(), in.getPort());
 		}
 	}
@@ -93,7 +90,7 @@ public final class Rpcs {
 	 */
 	public static <E> Map<String, E> fill(Class<E> rpc) {
 		// 声明个新的map
-		Map<String, E> map = M.newMap();
+		Map<String, E> map = W.M.newMap();
 		// 使用nacos处理
 		nacos(getName(rpc), i -> map.put(i.toInetAddr(), client(rpc, i.getIp(), i.getPort())), i -> {
 			// 服务器有效存活 检查是否已生成rpc
@@ -112,7 +109,7 @@ public final class Rpcs {
 	private static <E> void nacos(String name, CallbackVoid<com.alibaba.nacos.api.naming.pojo.Instance> select,
 			CallbackVoid<com.alibaba.nacos.api.naming.pojo.Instance> subscribe) {
 		// 判断是否用Nacos
-		if (C.forName("com.weicoder.nacos.Nacos") != null) {
+		if (U.C.forName("com.weicoder.nacos.Nacos") != null) {
 			// 启动获得所有存活rpc服务器并注册客户端
 			com.weicoder.nacos.Nacos.select(name).forEach(i -> select.callback(i));
 			// 订阅rpc服务器变动 服务器变动检查状态并生成或则去处rpc服务
@@ -129,12 +126,12 @@ public final class Rpcs {
 	 */
 	public static <E> E all(Class<E> rpc) {
 		// 声明出所有rpc
-		List<E> rs = L.newList();
+		List<E> rs = W.L.newList();
 		RPCS.get(getName(rpc)).forEach(i -> rs.add(client(rpc, i)));
 		// 使用jdk代理调用所有rpc
 		return U.C.newProxyInstance(rpc, (proxy, method, args) -> {
-			List<Object> res = L.newList();
-			rs.forEach(r -> res.add(B.invoke(r, method, args[0])));
+			List<Object> res = W.L.newList();
+			rs.forEach(r -> res.add(U.B.invoke(r, method, args[0])));
 			return res;
 		});
 	}
@@ -250,7 +247,7 @@ public final class Rpcs {
 		// rpc服务地址
 		String name = r.getAnnotation(Rpc.class).value();
 		if (U.E.isEmpty(name))
-			name = S.convert(r.getSimpleName(), "Rpc");
+			name = U.S.convert(r.getSimpleName(), "Rpc");
 		return name;
 	}
 

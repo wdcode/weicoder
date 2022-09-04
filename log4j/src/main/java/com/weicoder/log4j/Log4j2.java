@@ -7,7 +7,7 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.lookup.MainMapLookup;
 
 import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.W;
+import com.weicoder.common.lang.W;
 import com.weicoder.common.log.Log;
 import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.util.StringUtil;

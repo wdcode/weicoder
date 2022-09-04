@@ -1,12 +1,12 @@
 package com.weicoder.common.init;
 
-import com.weicoder.common.U.C;
-import com.weicoder.common.U.D;
-import com.weicoder.common.U.ES;
-import com.weicoder.common.U.S;
 import com.weicoder.common.annotation.Asyn;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
+import com.weicoder.common.util.U.C;
+import com.weicoder.common.util.U.D;
+import com.weicoder.common.util.U.ES;
+import com.weicoder.common.util.U.S;
 
 /**
  * 初始化工具

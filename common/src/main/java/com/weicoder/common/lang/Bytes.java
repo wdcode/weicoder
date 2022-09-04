@@ -8,8 +8,6 @@ import java.nio.channels.ReadableByteChannel;
 import java.util.Arrays;
 import java.util.List;
 
-import com.weicoder.common.U;
-import com.weicoder.common.W;
 import com.weicoder.common.binary.Binary;
 import com.weicoder.common.binary.Buffer;
 import com.weicoder.common.binary.ByteArray;
@@ -21,6 +19,7 @@ import com.weicoder.common.params.CommonParams;
 import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.util.StringUtil;
+import com.weicoder.common.util.U;
 
 /**
  * 字节数组操作

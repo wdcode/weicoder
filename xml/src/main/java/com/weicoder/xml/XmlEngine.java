@@ -2,7 +2,7 @@ package com.weicoder.xml;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.Dom4JDriver;
-import com.weicoder.common.U.B;
+import com.weicoder.common.util.U.B;
 
 /**
  * XML处理引擎

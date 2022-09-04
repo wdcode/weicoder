@@ -2,8 +2,8 @@ package com.weicoder.disruptor;
 
 import com.lmax.disruptor.EventFactory;
 import com.lmax.disruptor.dsl.Disruptor;
-import com.weicoder.common.U;
 import com.weicoder.common.params.CommonParams;
+import com.weicoder.common.util.U;
 
 /**
  * Disruptor工具

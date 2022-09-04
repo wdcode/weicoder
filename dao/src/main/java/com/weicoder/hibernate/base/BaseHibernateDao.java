@@ -9,11 +9,11 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.hibernate.resource.transaction.spi.TransactionStatus;
 
-import com.weicoder.common.U;
 import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.Maps;
 import com.weicoder.common.log.Log;
 import com.weicoder.common.log.LogFactory;
+import com.weicoder.common.util.U;
 import com.weicoder.dao.Transactional;
 import com.weicoder.dao.base.BaseDao;
 import com.weicoder.hibernate.Callback;

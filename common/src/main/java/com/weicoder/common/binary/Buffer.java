@@ -3,13 +3,13 @@ package com.weicoder.common.binary;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import com.weicoder.common.constants.C;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Bytes;
+import com.weicoder.common.lang.W;
 import com.weicoder.common.params.CommonParams;
-import com.weicoder.common.C;
-import com.weicoder.common.U;
-import com.weicoder.common.W;
 import com.weicoder.common.util.StringUtil;
+import com.weicoder.common.util.U;
 
 /**
  * 类说明：数据包类 ,字节缓存类，字节操作高位在前，低位在后
@@ -403,7 +403,7 @@ public final class Buffer implements ByteArray {
 	public byte[] write(byte[] data, int pos, int len) {
 		// 容量不足扩容
 //		if (length() < top + len)
-			capacity(top + len);
+		capacity(top + len);
 		// 如果同步 加锁
 		if (sync)
 			lock.lock();
@@ -541,6 +541,16 @@ public final class Buffer implements ByteArray {
 			writeShort(temp.length);
 			write(temp, 0, temp.length);
 		}
+	}
+
+	/**
+	 * 自处理方法 如果还能读取则压缩compact否则清除clear
+	 */
+	public void handle() {
+		if (has())
+			compact();
+		else
+			clear();
 	}
 
 	/**

@@ -4,7 +4,7 @@ import org.hibernate.boot.model.naming.Identifier;
 import org.hibernate.boot.model.naming.PhysicalNamingStrategy;
 import org.hibernate.engine.jdbc.env.spi.JdbcEnvironment;
 
-import com.weicoder.common.U;
+import com.weicoder.common.util.U;
 
 /**
  * 驼峰命名法

@@ -10,13 +10,13 @@ import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
 
-import com.weicoder.common.W;
-import com.weicoder.common.C.A;
-import com.weicoder.common.U.S;
-import com.weicoder.common.W.B;
+import com.weicoder.common.constants.C.A;
 import com.weicoder.common.lang.Bytes;
+import com.weicoder.common.lang.W;
+import com.weicoder.common.lang.W.B;
 import com.weicoder.common.log.Log;
 import com.weicoder.common.log.LogFactory;
+import com.weicoder.common.util.U.S;
 import com.weicoder.json.JsonEngine;
 import com.weicoder.kafka.params.KafkaParams;
 import com.weicoder.protobuf.Protobuf;

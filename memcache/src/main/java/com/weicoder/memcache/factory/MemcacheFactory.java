@@ -2,7 +2,7 @@ package com.weicoder.memcache.factory;
 
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.factory.FactoryKey;
-import com.weicoder.common.U;
+import com.weicoder.common.util.U;
 import com.weicoder.memcache.params.MemcacheParams;
 import com.weicoder.memcache.Memcache;
 import com.weicoder.memcache.impl.MemcacheArray;
