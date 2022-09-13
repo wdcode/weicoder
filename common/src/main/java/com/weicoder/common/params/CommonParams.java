@@ -2,13 +2,9 @@ package com.weicoder.common.params;
 
 import java.util.Set;
 
-import com.weicoder.common.constants.ArrayConstants;
-import com.weicoder.common.constants.DateConstants;
-import com.weicoder.common.constants.EncryptConstants;
-import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.constants.SystemConstants;
+import com.weicoder.common.constants.C;
 import com.weicoder.common.constants.C.S;
-import com.weicoder.common.lang.Sets;
+import com.weicoder.common.lang.W;
 import com.weicoder.common.util.U.E;
 
 /**
@@ -32,17 +28,17 @@ public sealed class CommonParams permits P.C {
 	/** 默认编码 */
 	public final static String		ENCODING				= P.getString("encoding", "UTF-8");
 	/** 日期格式 */
-	public final static String		DATE_FORMAT				= P.getString("date.format", DateConstants.FORMAT_Y_M_D_H_M_S);
+	public final static String		DATE_FORMAT				= P.getString("date.format", C.D.FORMAT_Y_M_D_H_M_S);
 	/** 转换字节数组算法 */
 	public final static String		BYTES					= P.getString("bytes", "high");
 	/** 加密使用的密钥 字符串 */
 	public final static String		ENCRYPT_KEY				= P.getString("encrypt.key", "www.weicoder.com");
 	/** 加密使用的算法 */
-	public final static String		ENCRYPT_ALGO			= P.getString("encrypt.algo", EncryptConstants.ALGO_AES);
+	public final static String		ENCRYPT_ALGO			= P.getString("encrypt.algo", C.E.ALGO_AES);
 	/** 加密使用摘要算法 */
-	public final static String		ENCRYPT_DIGEST			= P.getString("encrypt.digest", EncryptConstants.ALGO_SHA_1);
+	public final static String		ENCRYPT_DIGEST			= P.getString("encrypt.digest", C.E.ALGO_SHA_1);
 	/** 获得ips过滤组 */
-	public final static String[]	IPS						= P.getStringArray("ips", ArrayConstants.STRING_EMPTY);
+	public final static String[]	IPS						= P.getStringArray("ips", C.A.STRING_EMPTY);
 	/** token 验证KEY */
 	public final static String		TOKEN_KEY				= P.getString("token.key");
 	/** token 验证长度 */
@@ -50,12 +46,9 @@ public sealed class CommonParams permits P.C {
 	/** token 标记 */
 	public final static short		TOKEN_SIGN				= P.getShort("token.sign", Byte.MIN_VALUE);
 	/** token 有效期 */
-	public static final int			TOKEN_EXPIRE			= P.getInt("token.expire", DateConstants.DAY * 8);
-	/** 截取日志长度 */
-	public final static int			LOGS_LEN				= P.getInt("logs.len", 500);
+	public static final int			TOKEN_EXPIRE			= P.getInt("token.expire", C.D.DAY * 8); 
 	/** token 发放服务器 */
-	public final static Set<String>	TOKEN_SERVERS			= Sets
-			.newSet(P.getStringArray("token.servers", ArrayConstants.STRING_EMPTY));
+	public final static Set<String>	TOKEN_SERVERS			= W.S.newSet(P.getStringArray("token.servers", C.A.STRING_EMPTY));
 	/** http连接超时时间 */
 	public final static int			HTTP_CONNECT_TIMEOUT	= P.getInt("http.connect.timeout", 3000);
 	/** http读取超时时间 */
@@ -94,12 +87,12 @@ public sealed class CommonParams permits P.C {
 	 */
 	public static String getPackages(String name) {
 		// 获得包名
-		String pack = P.getString(P.getKey(StringConstants.EMPTY, name, "packages"));
+		String pack = P.getString(P.getKey(C.S.EMPTY, name, "packages"));
 		// 如果包名为空返回默认包名 不为空加上本包名
 		if (E.isEmpty(pack) || DEFAULT_PACKAGES.equals(pack))
 			return DEFAULT_PACKAGES;
 		else
-			return DEFAULT_PACKAGES + StringConstants.COMMA + pack;
+			return DEFAULT_PACKAGES + C.S.COMMA + pack;
 	}
 
 	/**
@@ -109,7 +102,7 @@ public sealed class CommonParams permits P.C {
 	 * @return 数量
 	 */
 	public static int getScheduledPool(String name) {
-		return P.getInt(P.getKey("scheduled", name, "pool"), SystemConstants.CPU_NUM);
+		return P.getInt(P.getKey("scheduled", name, "pool"), C.O.CPU_NUM);
 	}
 
 	/**
@@ -129,7 +122,7 @@ public sealed class CommonParams permits P.C {
 	 * @return 数量
 	 */
 	public static int getExecutorPool(String name) {
-		return P.getInt(P.getKey("executor", name, "pool"), SystemConstants.CPU_NUM);
+		return P.getInt(P.getKey("executor", name, "pool"), C.O.CPU_NUM);
 	}
 
 	/**

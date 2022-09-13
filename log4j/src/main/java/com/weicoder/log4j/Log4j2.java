@@ -6,12 +6,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.lookup.MainMapLookup;
 
-import com.weicoder.common.constants.StringConstants;
+import com.weicoder.common.constants.C;
 import com.weicoder.common.lang.W;
 import com.weicoder.common.log.Log;
-import com.weicoder.common.params.CommonParams;
-import com.weicoder.common.util.StringUtil;
-import com.weicoder.log4j.params.Log4j2Params;
+import com.weicoder.common.params.P;
+import com.weicoder.common.util.U;
 
 /**
  * Log4j2 实现
@@ -23,10 +22,7 @@ public class Log4j2 implements Log {
 	private Logger log;
 
 	public Log4j2() {
-//		MainMapLookup.setMainArguments(Log4j2Params.TEST ? "target" : Log4j2Params.DIR, Log4j2Params.LEVEL,
-//				Log4j2Params.TEST ? Log4j2Params.LEVEL : "OFF", Log4j2Params.LOGGER);
-		MainMapLookup.setMainArguments(Log4j2Params.TEST ? "target" : Log4j2Params.DIR, Log4j2Params.LEVEL,
-				Log4j2Params.LEVEL, Log4j2Params.LOGGER);
+		MainMapLookup.setMainArguments(P.L.TEST ? "target" : P.L.DIR, P.L.LEVEL, P.L.LEVEL, P.L.LOGGER);
 	}
 
 	@Override
@@ -43,7 +39,7 @@ public class Log4j2 implements Log {
 	@Override
 	public void trace(Throwable t) {
 		if (isTrace())
-			log.trace(StringConstants.EMPTY, t);
+			log.trace(C.S.EMPTY, t);
 	}
 
 	@Override
@@ -55,7 +51,7 @@ public class Log4j2 implements Log {
 	@Override
 	public void debug(Throwable t) {
 		if (isDebug())
-			log.debug(StringConstants.EMPTY, t);
+			log.debug(C.S.EMPTY, t);
 	}
 
 	@Override
@@ -67,7 +63,7 @@ public class Log4j2 implements Log {
 	@Override
 	public void info(Throwable t) {
 		if (isInfo())
-			log.info(StringConstants.EMPTY, t);
+			log.info(C.S.EMPTY, t);
 	}
 
 	@Override
@@ -79,7 +75,7 @@ public class Log4j2 implements Log {
 	@Override
 	public void warn(Throwable t) {
 		if (isWarn())
-			log.warn(StringConstants.EMPTY, t);
+			log.warn(C.S.EMPTY, t);
 	}
 
 	@Override
@@ -91,7 +87,7 @@ public class Log4j2 implements Log {
 	@Override
 	public void error(Throwable t) {
 		if (isError())
-			error(StringConstants.EMPTY, t);
+			error(C.S.EMPTY, t);
 	}
 
 	@Override
@@ -102,7 +98,7 @@ public class Log4j2 implements Log {
 
 	@Override
 	public void error(Throwable t, String msg, Object... params) {
-		error(String.format(StringUtil.replaceAll(msg, "\\{}", "%s"), params(params)), t);
+		error(String.format(U.S.replaceAll(msg, "\\{}", "%s"), params(params)), t);
 	}
 
 	@Override
@@ -138,7 +134,7 @@ public class Log4j2 implements Log {
 	 */
 	private static Object[] params(Object... params) {
 		// 开启日志截取
-		if (CommonParams.LOGS_LEN > 0)
+		if (P.L.LEN > 0)
 			// 循环处理日志
 			for (int i = 0; i < params.length; i++) {
 				// 转换对象
@@ -149,7 +145,7 @@ public class Log4j2 implements Log {
 				else if (obj instanceof String[])
 					obj = Arrays.toString((String[]) obj);
 				// 获得对象
-				params[i] = StringUtil.subString(W.C.toString(obj), 0, CommonParams.LOGS_LEN);
+				params[i] = U.S.subString(W.C.toString(obj), 0, P.L.LEN);
 			}
 		// 返回对象
 		return params;

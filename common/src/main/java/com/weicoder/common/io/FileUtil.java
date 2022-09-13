@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream; 
+import java.io.InputStream;
 import java.io.RandomAccessFile;
 import java.net.URI;
 import java.nio.ByteBuffer;
@@ -20,7 +20,7 @@ import com.weicoder.common.interfaces.CallbackVoid;
 import com.weicoder.common.lang.W;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.CommonParams;
-
+import com.weicoder.common.params.P;
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.common.util.U;
 
@@ -185,7 +185,19 @@ public class FileUtil {
 	 * @return 读取长度
 	 */
 	public static long read(String name, CallbackVoid<Buffer> call) {
-		return U.I.read(in(name), CommonParams.IO_BUFFERSIZE, true, call);
+		return read(name, P.C.IO_BUFFERSIZE, call);
+	}
+
+	/**
+	 * 以流模式分段读取文件 使用默认IO缓冲和默认IO模式
+	 * 
+	 * @param name 文件名
+	 * @param buff 每次读取的自己缓冲数
+	 * @param call 回调
+	 * @return 读取长度
+	 */
+	public static long read(String name, int buff, CallbackVoid<Buffer> call) {
+		return U.I.read(in(name), buff, true, call);
 	}
 
 	/**
@@ -304,8 +316,7 @@ public class FileUtil {
 			}
 		else if (AIO)
 			// 获得文件通道
-			try (AsynchronousFileChannel channel = AsynchronousFileChannel.open(Paths.get(fileName),
-					StandardOpenOption.WRITE);) {
+			try (AsynchronousFileChannel channel = AsynchronousFileChannel.open(Paths.get(fileName), StandardOpenOption.WRITE);) {
 				// 写字节数组
 				channel.write(ByteBuffer.wrap(b), pos);
 			} catch (Exception e) {

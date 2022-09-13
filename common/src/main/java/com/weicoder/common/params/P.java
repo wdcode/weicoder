@@ -25,6 +25,14 @@ public final class P extends Params {
 	}
 
 	/**
+	 * @see LogParams 参数读取类引用
+	 * @author wdcode
+	 *
+	 */
+	public static final class L extends LogParams {
+	}
+
+	/**
 	 * @see StateParams 参数读取类引用
 	 * @author wudi
 	 */

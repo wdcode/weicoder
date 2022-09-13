@@ -123,7 +123,7 @@ public final class Process {
 		// 循环读取数据
 		while (true) {
 			// 剩余字节长度不足，等待下次信息
-			if (buff.remaining() < 4)
+			if (buff.remain() < 4)
 				// 压缩并跳出循环
 				break;
 			// 获得信息长度
@@ -135,7 +135,7 @@ public final class Process {
 				return;
 			}
 			// 剩余字节长度不足，等待下次信息
-			if (buff.remaining() < length) {
+			if (buff.remain() < length) {
 				// 重置缓存
 				buff.reset(2);
 				break;
@@ -190,7 +190,7 @@ public final class Process {
 				LOG.error(e);
 			}
 			// 如果缓存区为空
-			if (buff.remaining() == 0) {
+			if (buff.remain() == 0) {
 				// 清除并跳出
 				buff.clear();
 				break;

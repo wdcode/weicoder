@@ -223,7 +223,7 @@ public final class Buffer implements ByteArray {
 	 * 
 	 * @return 剩余字节
 	 */
-	public int remaining() {
+	public int remain() {
 		return top - offset;
 	}
 
@@ -233,7 +233,7 @@ public final class Buffer implements ByteArray {
 	 * @return 是否可读
 	 */
 	public boolean has() {
-		return remaining() > 0;
+		return remain() > 0;
 	}
 
 	/**
@@ -563,7 +563,7 @@ public final class Buffer implements ByteArray {
 			if (sync)
 				lock.lock();
 			// 移动数据
-			System.arraycopy(data, offset, data, 0, remaining());
+			System.arraycopy(data, offset, data, 0, remain());
 			// 重置下标
 			top -= offset;
 			offset = 0;

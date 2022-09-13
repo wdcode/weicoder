@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.weicoder.common.config.Config;
 import com.weicoder.common.config.ConfigFactory;
-import com.weicoder.common.constants.StringConstants;
+import com.weicoder.common.constants.C;
 import com.weicoder.common.util.U;
 
 /**
@@ -161,7 +161,7 @@ public sealed class Params permits P {
 	 * @return 替换后的键
 	 */
 	public static String getKey(String name, String suffix) {
-		return getKey(StringConstants.EMPTY, name, suffix);
+		return getKey(C.S.EMPTY, name, suffix);
 	}
 
 	/**
@@ -177,10 +177,10 @@ public sealed class Params permits P {
 		StringBuilder sb = new StringBuilder(prefix);
 		// 前缀不为空添加.
 		if (U.E.isNotEmpty(prefix))
-			sb.append(StringConstants.POINT);
+			sb.append(C.S.POINT);
 		// 名称不为空
 		if (U.E.isNotEmpty(name))
-			sb.append(name).append(StringConstants.POINT);
+			sb.append(name).append(C.S.POINT);
 		// 后缀不为空添加.
 		if (U.E.isNotEmpty(suffix))
 			sb.append(suffix);
