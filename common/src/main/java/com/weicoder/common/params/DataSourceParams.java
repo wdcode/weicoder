@@ -1,4 +1,4 @@
-package com.weicoder.datasource.params;
+package com.weicoder.common.params;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,7 +10,6 @@ import com.weicoder.common.config.ConfigFactory;
 import com.weicoder.common.constants.DateConstants;
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.lang.Maps;
-import com.weicoder.common.params.Params;
 import com.weicoder.common.util.ResourceUtil;
 import com.weicoder.common.util.U;
 

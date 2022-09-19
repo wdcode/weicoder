@@ -1,11 +1,10 @@
-package com.weicoder.elasticsearch.params;
+package com.weicoder.common.params;
 
 import java.util.List;
 
 import com.weicoder.common.config.Config;
 import com.weicoder.common.config.ConfigFactory;
 import com.weicoder.common.lang.Lists;
-import com.weicoder.common.params.Params;
 
 /**
  * ElasticSearch参数

@@ -1,6 +1,6 @@
 package com.weicoder.cache;
 
-import static com.weicoder.cache.params.CacheParams.*;
+import static com.weicoder.common.params.CacheParams.*;
 
 import com.weicoder.common.interfaces.Callback;
 import com.weicoder.common.util.U;

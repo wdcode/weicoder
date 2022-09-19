@@ -1,9 +1,9 @@
 package com.weicoder.dao.factory;
  
 import com.weicoder.common.factory.FactoryInterface;
+import com.weicoder.common.params.DaoParams;
 import com.weicoder.common.util.U;
-import com.weicoder.dao.Dao;
-import com.weicoder.dao.params.DaoParams; 
+import com.weicoder.dao.Dao; 
 
 /**
  * Dao工厂

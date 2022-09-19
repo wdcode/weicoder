@@ -1,8 +1,7 @@
-package com.weicoder.dao.params;
+package com.weicoder.common.params;
 
 import com.weicoder.common.config.Config;
 import com.weicoder.common.config.ConfigFactory;
-import com.weicoder.common.params.Params;
 
 /**
  * Dao参数获取

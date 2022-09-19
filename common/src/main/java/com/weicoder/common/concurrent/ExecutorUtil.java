@@ -208,6 +208,15 @@ public class ExecutorUtil {
 	/**
 	 * 指定新数量线程池驻留工作区 循环执行command
 	 * 
+	 * @param command 工作线程
+	 */
+	public static void works(CallbackVoid<Long> call) {
+		works(C.O.CPU_NUM, new AtomicLong(), call);
+	}
+
+	/**
+	 * 指定新数量线程池驻留工作区 循环执行command
+	 * 
 	 * @param pool    线程池
 	 * @param command 工作线程
 	 */

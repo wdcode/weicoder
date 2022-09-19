@@ -3,9 +3,9 @@ package com.weicoder.dao.context;
 import java.util.Map;
 
 import com.weicoder.common.lang.Maps;
+import com.weicoder.common.params.DaoParams;
 import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.util.StringUtil;
-import com.weicoder.dao.params.DaoParams;
 
 /**
  * Dao 全局控制器

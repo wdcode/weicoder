@@ -1,8 +1,6 @@
-package com.weicoder.email.params;
+package com.weicoder.common.params;
 
 import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.params.CommonParams;
-import com.weicoder.common.params.Params;
 
 /**
  * email包所用参数读取类

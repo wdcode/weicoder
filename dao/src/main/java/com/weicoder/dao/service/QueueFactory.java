@@ -2,8 +2,8 @@ package com.weicoder.dao.service;
 
 import com.weicoder.common.factory.FactoryKey;
 import com.weicoder.common.lang.Queues;
+import com.weicoder.common.params.DaoParams;
 import com.weicoder.common.queue.AsynQueueList;
-import com.weicoder.dao.params.DaoParams;
 
 /**
  * SuperService 使用更新队列

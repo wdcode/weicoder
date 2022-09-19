@@ -3,8 +3,8 @@ package com.weicoder.seata.druid;
 import javax.sql.DataSource;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import com.weicoder.common.params.DataSourceParams;
 import com.weicoder.datasource.base.BaseDataSource;
-import com.weicoder.datasource.params.DataSourceParams;
 
 /**
  * alibaba Druid 连接池

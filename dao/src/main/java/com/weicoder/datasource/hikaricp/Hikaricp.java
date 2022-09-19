@@ -2,8 +2,8 @@ package com.weicoder.datasource.hikaricp;
 
 import javax.sql.DataSource;
 
+import com.weicoder.common.params.DataSourceParams;
 import com.weicoder.datasource.base.BaseDataSource;
-import com.weicoder.datasource.params.DataSourceParams;
 import com.zaxxer.hikari.HikariDataSource;
 
 /**

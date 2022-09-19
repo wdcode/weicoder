@@ -1,6 +1,6 @@
 package com.weicoder.cache;
 
-import static com.weicoder.cache.params.CacheParams.*;
+import static com.weicoder.common.params.CacheParams.*;
 
 import java.util.List;
 import java.util.Map;

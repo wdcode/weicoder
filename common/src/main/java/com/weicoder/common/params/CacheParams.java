@@ -1,6 +1,4 @@
-package com.weicoder.cache.params;
-
-import com.weicoder.common.params.Params;
+package com.weicoder.common.params;
 
 /**
  * 读取缓存参赛

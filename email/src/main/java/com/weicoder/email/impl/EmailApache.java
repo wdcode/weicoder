@@ -10,10 +10,10 @@ import org.apache.commons.mail.SimpleEmail;
 
 import com.weicoder.common.constants.StringConstants;
 import com.weicoder.common.log.Logs;
+import com.weicoder.common.params.EmailParams;
 import com.weicoder.common.util.StringUtil;
 import com.weicoder.common.util.U;
 import com.weicoder.email.base.BaseEmail;
-import com.weicoder.email.params.EmailParams;
 
 /**
  * EmailUtil Apache Common Email实现
