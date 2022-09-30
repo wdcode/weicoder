@@ -201,7 +201,7 @@ public interface Dao {
 	 * @param  firstResult 重第几条开始查询
 	 * @param  maxResults  一共查回多少条
 	 * @param  <E>         泛型
-	 * @return             数据列表 异常返回 Collections.emptyList()
+	 * @return             数据列表 异常返回 W.L.empty()
 	 */
 
 	<E> List<E> list(E entity, int firstResult, int maxResults);

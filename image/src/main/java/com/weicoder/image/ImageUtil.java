@@ -15,7 +15,7 @@ import java.io.OutputStream;
 
 import javax.imageio.ImageIO;
 
-import com.weicoder.common.io.FileUtil;
+import com.weicoder.common.io.I; 
 import com.weicoder.common.log.Logs;
 
 /**
@@ -25,11 +25,11 @@ import com.weicoder.common.log.Logs;
  */
 public class ImageUtil {
 	// 图片格式名
-	private final static String FORMAT;
+	private final static String	FORMAT;
 	// 字体
-	private final static Font FONT;
+	private final static Font	FONT;
 	// 颜色
-	private final static Color COLOR;
+	private final static Color	COLOR;
 	static {
 		FORMAT = "JPEG";
 		FONT = new Font("宋体", Font.PLAIN, 15);
@@ -39,8 +39,8 @@ public class ImageUtil {
 	/**
 	 * 判断是否为图片
 	 * 
-	 * @param  img 图片文件
-	 * @return     是否为图片
+	 * @param img 图片文件
+	 * @return 是否为图片
 	 */
 	public static boolean isImage(File img) {
 		try {
@@ -53,8 +53,8 @@ public class ImageUtil {
 	/**
 	 * 判断图片是否为空
 	 * 
-	 * @param  img 图片对象
-	 * @return     是否为空
+	 * @param img 图片对象
+	 * @return 是否为空
 	 */
 	public static boolean isImage(Image img) {
 		return img != null && img.getWidth(null) > -1 && img.getHeight(null) > -1;
@@ -112,8 +112,8 @@ public class ImageUtil {
 	 */
 	public static void captureScreen(OutputStream out) {
 		try {
-			ImageIO.write(new Robot().createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize())),
-					FORMAT, out);
+			ImageIO.write(new Robot().createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize())), FORMAT,
+					out);
 		} catch (Exception e) {
 			Logs.warn(e);
 		}
@@ -140,7 +140,7 @@ public class ImageUtil {
 	public static void writeString(String text, File file, int x, int y) {
 		try {
 			// 添加文字
-			writeString(text, ImageIO.read(file), FileUtil.getOutputStream(file), x, y);
+			writeString(text, ImageIO.read(file), I.F.getOutputStream(file), x, y);
 		} catch (Exception e) {
 			Logs.warn(e);
 		}
@@ -223,7 +223,7 @@ public class ImageUtil {
 	 */
 	public static void writeImage(File draw, File image, int x, int y) {
 		try {
-			writeImage(ImageIO.read(draw), ImageIO.read(image), FileUtil.getOutputStream(image), x, y);
+			writeImage(ImageIO.read(draw), ImageIO.read(image), I.F.getOutputStream(image), x, y);
 		} catch (Exception e) {
 			Logs.warn(e);
 		}
@@ -275,9 +275,9 @@ public class ImageUtil {
 	/**
 	 * 获得文字高度
 	 * 
-	 * @param  text 文字内容
-	 * @param  fm   FontMetrics对象
-	 * @return      宽度
+	 * @param text 文字内容
+	 * @param fm   FontMetrics对象
+	 * @return 宽度
 	 */
 	private static int getStringWidth(String text, FontMetrics fm) {
 		// 初始化宽度值

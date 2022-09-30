@@ -3,8 +3,8 @@ package com.weicoder.kafka.params;
 import com.weicoder.common.config.Config;
 import com.weicoder.common.config.ConfigFactory;
 import com.weicoder.common.constants.C.O;
-import com.weicoder.common.params.Params;
-import com.weicoder.common.util.IpUtil;
+import com.weicoder.common.params.P;
+import com.weicoder.common.util.U;
 
 /**
  * kafka参数
@@ -31,8 +31,8 @@ public final class KafkaParams {
 	 * @return      服务器
 	 */
 	public static String getCompress(String name) {
-		return CONFIG.getString(Params.getKey(name, COMPRESS),
-				Params.getString(Params.getKey(PREFIX, name, COMPRESS), "gzip"));
+		return CONFIG.getString(P.getKey(name, COMPRESS),
+				P.getString(P.getKey(PREFIX, name, COMPRESS), "gzip"));
 	}
 
 	/**
@@ -42,7 +42,7 @@ public final class KafkaParams {
 	 * @return      服务器
 	 */
 	public static String getServers(String name) {
-		return CONFIG.getString(Params.getKey(name, SERVERS), Params.getString(Params.getKey(PREFIX, name, SERVERS)));
+		return CONFIG.getString(P.getKey(name, SERVERS), P.getString(P.getKey(PREFIX, name, SERVERS)));
 	}
 
 	/**
@@ -52,8 +52,8 @@ public final class KafkaParams {
 	 * @return      组id
 	 */
 	public static String getGroup(String name) {
-		return String.format(CONFIG.getString(Params.getKey(name, GROUP),
-				Params.getString(Params.getKey(PREFIX, name, GROUP), O.PROJECT_NAME)), IpUtil.CODE);
+		return String.format(CONFIG.getString(P.getKey(name, GROUP),
+				P.getString(P.getKey(PREFIX, name, GROUP), O.PROJECT_NAME)), U.IP.CODE);
 	}
 
 	/**
@@ -63,7 +63,7 @@ public final class KafkaParams {
 	 * @return      数量
 	 */
 	public static int getMaxPoll(String name) {
-		return CONFIG.getInt(Params.getKey(name, MAXPOLL), Params.getInt(Params.getKey(PREFIX, name, MAXPOLL), 1000));
+		return CONFIG.getInt(P.getKey(name, MAXPOLL), P.getInt(P.getKey(PREFIX, name, MAXPOLL), 1000));
 	}
 
 	/**
@@ -73,7 +73,7 @@ public final class KafkaParams {
 	 * @return      超时时间
 	 */
 	public static int getTimeout(String name) {
-		return CONFIG.getInt(Params.getKey(name, TIMEOUT), Params.getInt(Params.getKey(PREFIX, name, TIMEOUT), 30000));
+		return CONFIG.getInt(P.getKey(name, TIMEOUT), P.getInt(P.getKey(PREFIX, name, TIMEOUT), 30000));
 	}
 
 	/**
@@ -83,8 +83,8 @@ public final class KafkaParams {
 	 * @return      偏移量失效方案
 	 */
 	public static String getOffsetReset(String name) {
-		return CONFIG.getString(Params.getKey(name, OFFSET_RESET),
-				Params.getString(Params.getKey(PREFIX, name, OFFSET_RESET), "latest"));
+		return CONFIG.getString(P.getKey(name, OFFSET_RESET),
+				P.getString(P.getKey(PREFIX, name, OFFSET_RESET), "latest"));
 	}
 
 	/**
@@ -94,7 +94,7 @@ public final class KafkaParams {
 	 * @return      间隔时间
 	 */
 	public static int getInterval(String name) {
-		return CONFIG.getInt(Params.getKey(name, INTERVAL), Params.getInt(Params.getKey(PREFIX, name, INTERVAL), 1000));
+		return CONFIG.getInt(P.getKey(name, INTERVAL), P.getInt(P.getKey(PREFIX, name, INTERVAL), 1000));
 	}
 
 	private KafkaParams() {

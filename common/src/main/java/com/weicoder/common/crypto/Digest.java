@@ -3,13 +3,10 @@ package com.weicoder.common.crypto;
 import java.security.MessageDigest;
 
 import com.weicoder.common.codec.Hex;
-import com.weicoder.common.constants.ArrayConstants;
-import com.weicoder.common.constants.EncryptConstants;
-import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.lang.Bytes;
-import com.weicoder.common.params.CommonParams;
-import com.weicoder.common.util.StringUtil;
-import com.weicoder.common.util.U;
+import com.weicoder.common.constants.C; 
+import com.weicoder.common.lang.W;
+import com.weicoder.common.params.P;
+import com.weicoder.common.util.U; 
 
 /**
  * 信息摘要类
@@ -24,7 +21,7 @@ public class Digest {
 	 * @return      加密后的文本
 	 */
 	public static String password(String text) {
-		return U.E.isEmpty(text) ? StringConstants.EMPTY : absolute(text, 20);
+		return U.E.isEmpty(text) ? C.S.EMPTY : absolute(text, 20);
 	}
 
 	/**
@@ -55,7 +52,7 @@ public class Digest {
 	 * @return      加密后的文本
 	 */
 	public static String absolute(String text, int len) {
-		return StringUtil.resolve(absolute(text), len);
+		return U.S.resolve(absolute(text), len);
 	}
 
 	/**
@@ -65,7 +62,7 @@ public class Digest {
 	 * @return      获得摘要后的字节数组的hex后字符串
 	 */
 	public static String digest(String text) {
-		return Hex.encode(digest(StringUtil.toBytes(text)));
+		return Hex.encode(digest(U.S.toBytes(text)));
 	}
 
 	/**
@@ -75,7 +72,7 @@ public class Digest {
 	 * @return   获得摘要后的字节数组
 	 */
 	public static byte[] digest(byte[] b) {
-		return getMessageDigest(b, CommonParams.ENCRYPT_DIGEST);
+		return getMessageDigest(b, P.C.ENCRYPT_DIGEST);
 	}
 
 	/**
@@ -85,7 +82,7 @@ public class Digest {
 	 * @return      MD5后的字节数组的hex后字符串
 	 */
 	public static String md5(String text) {
-		return Hex.encode(md5(StringUtil.toBytes(text)));
+		return Hex.encode(md5(U.S.toBytes(text)));
 	}
 
 	/**
@@ -95,7 +92,7 @@ public class Digest {
 	 * @return     MD5后的字节数组的hex后字符串
 	 */
 	public static String md5(Object obj) {
-		return Hex.encode(md5(Bytes.toBytes(obj)));
+		return Hex.encode(md5(W.B.toBytes(obj)));
 	}
 
 	/**
@@ -105,7 +102,7 @@ public class Digest {
 	 * @return   MD5后的字节数组
 	 */
 	public static byte[] md5(byte[] b) {
-		return getMessageDigest(b, EncryptConstants.ALGO_MD5);
+		return getMessageDigest(b, C.E.ALGO_MD5);
 	}
 
 	/**
@@ -115,7 +112,7 @@ public class Digest {
 	 * @return      SHA-256后的字节数组的hex后字符串
 	 */
 	public static String sha256(String text) {
-		return Hex.encode(sha256(StringUtil.toBytes(text)));
+		return Hex.encode(sha256(U.S.toBytes(text)));
 	}
 
 	/**
@@ -125,7 +122,7 @@ public class Digest {
 	 * @return   SHA-256后的字节数组
 	 */
 	public static byte[] sha256(byte[] b) {
-		return getMessageDigest(b, EncryptConstants.ALGO_SHA_256);
+		return getMessageDigest(b, C.E.ALGO_SHA_256);
 	}
 
 	/**
@@ -135,7 +132,7 @@ public class Digest {
 	 * @return      SHA-384后的字节数组的hex后字符串
 	 */
 	public static String sha384(String text) {
-		return Hex.encode(sha384(StringUtil.toBytes(text)));
+		return Hex.encode(sha384(U.S.toBytes(text)));
 	}
 
 	/**
@@ -145,7 +142,7 @@ public class Digest {
 	 * @return   SHA-384后的字节数组
 	 */
 	public static byte[] sha384(byte[] b) {
-		return getMessageDigest(b, EncryptConstants.ALGO_SHA_384);
+		return getMessageDigest(b, C.E.ALGO_SHA_384);
 	}
 
 	/**
@@ -155,7 +152,7 @@ public class Digest {
 	 * @return      SHA-512后的字节数组的hex后字符串
 	 */
 	public static String sha512(String text) {
-		return Hex.encode(sha512(StringUtil.toBytes(text)));
+		return Hex.encode(sha512(U.S.toBytes(text)));
 	}
 
 	/**
@@ -165,7 +162,7 @@ public class Digest {
 	 * @return   SHA-512后的字节数组
 	 */
 	public static byte[] sha512(byte[] b) {
-		return getMessageDigest(b, EncryptConstants.ALGO_SHA_512);
+		return getMessageDigest(b, C.E.ALGO_SHA_512);
 	}
 
 	/**
@@ -175,7 +172,7 @@ public class Digest {
 	 * @return      SHA-1后的字节数组的hex后字符串
 	 */
 	public static String sha1(String text) {
-		return Hex.encode(sha1(StringUtil.toBytes(text)));
+		return Hex.encode(sha1(U.S.toBytes(text)));
 	}
 
 	/**
@@ -185,7 +182,7 @@ public class Digest {
 	 * @return   SHA-1后的字节数组
 	 */
 	public static byte[] sha1(byte[] b) {
-		return getMessageDigest(b, EncryptConstants.ALGO_SHA_1);
+		return getMessageDigest(b, C.E.ALGO_SHA_1);
 	}
 
 	/**
@@ -198,7 +195,7 @@ public class Digest {
 	public static byte[] getMessageDigest(byte[] b, String algorithm) {
 		// 参数为空 返回 空数组
 		if (U.E.isEmptys(b, algorithm))
-			return ArrayConstants.BYTES_EMPTY;
+			return C.A.BYTES_EMPTY;
 		// 声明新摘要
 		try {
 			return MessageDigest.getInstance(algorithm).digest(b);

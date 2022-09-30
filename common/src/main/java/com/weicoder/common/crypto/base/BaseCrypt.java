@@ -5,9 +5,8 @@ import java.security.Key;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
-import com.weicoder.common.constants.ArrayConstants;
-import com.weicoder.common.util.StringUtil;
-import com.weicoder.common.util.U;
+import com.weicoder.common.constants.C;
+import com.weicoder.common.util.U; 
 
 /**
  * 加密解密基础类 内部使用
@@ -48,7 +47,7 @@ public abstract class BaseCrypt {
 			// 返回计算结果
 			return cipher.doFinal(b);
 		} catch (Exception e) {
-			return ArrayConstants.BYTES_EMPTY;
+			return C.A.BYTES_EMPTY;
 		}
 	}
 
@@ -60,7 +59,7 @@ public abstract class BaseCrypt {
 	 * @return Key
 	 */
 	private static Key getKey(String algorithm, String keys, int len) {
-		return new SecretKeySpec(StringUtil.toBytes(StringUtil.resolve(keys, len)), 0, len,
+		return new SecretKeySpec(U.S.toBytes(U.S.resolve(keys, len)), 0, len,
 				algorithm);
 	}
 }

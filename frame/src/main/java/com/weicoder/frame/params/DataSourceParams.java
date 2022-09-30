@@ -1,8 +1,7 @@
 package com.weicoder.frame.params;
 
-import com.weicoder.common.constants.ArrayConstants;
-import com.weicoder.common.constants.DateConstants;
-import com.weicoder.common.params.Params;
+import com.weicoder.common.constants.C; 
+import com.weicoder.common.params.P;
 
 /**
  * MemCache配置读取
@@ -27,17 +26,17 @@ public final class DataSourceParams {
 	private final static String		PARSE				= "parse";									// 默认使用的连接池
 
 	/** 执行任务名称数组 */
-	public final static String[]	NAMES				= Params.getStringArray("datasource.names",
-			ArrayConstants.STRING_EMPTY);
+	public final static String[]	NAMES				= P.getStringArray("datasource.names",
+			C.A.STRING_EMPTY);
 
 	/* DataSource使用 */
 	private static int				initialPoolSize		= 20;										// 获得初始化连接数
 	private static int				maxPoolSize			= 50;										// 连接池最大连接数
 	private static int				minPoolSize			= 10;										// 连接池最小连接数
 	private static int				maxSize				= 100;										// 最大连接数
-	private static long				timeout				= DateConstants.TIME_MINUTE * 3;			// 超时等待时间
-	private static long				maxIdleTime			= DateConstants.TIME_MINUTE * 10;			// 测试空闲连接时间超出时间回收
-	private static long				idleTimeout			= DateConstants.TIME_HOUR * 2;				// 多长时间检查一次空闲连接
+	private static long				timeout				= C.D.TIME_MINUTE * 3;			// 超时等待时间
+	private static long				maxIdleTime			= C.D.TIME_MINUTE * 10;			// 测试空闲连接时间超出时间回收
+	private static long				idleTimeout			= C.D.TIME_HOUR * 2;				// 多长时间检查一次空闲连接
 
 	/**
 	 * 最大连接数 DataSourceFactory使用
@@ -45,7 +44,7 @@ public final class DataSourceParams {
 	 * @return 最大连接数
 	 */
 	public static int getMaxSize(String name) {
-		return Params.getInt(getKey(name, MAX_SIZE), maxSize);
+		return P.getInt(getKey(name, MAX_SIZE), maxSize);
 	}
 
 	/**
@@ -54,7 +53,7 @@ public final class DataSourceParams {
 	 * @return 超时等待时间
 	 */
 	public static long getTimeout(String name) {
-		return Params.getLong(getKey(name, TIMEOUT), timeout);
+		return P.getLong(getKey(name, TIMEOUT), timeout);
 	}
 
 	/**
@@ -63,7 +62,7 @@ public final class DataSourceParams {
 	 * @return 测试空闲连接时间超出时间回收
 	 */
 	public static long getMaxIdleTime(String name) {
-		return Params.getLong(getKey(name, MAXIDLETIME), maxIdleTime);
+		return P.getLong(getKey(name, MAXIDLETIME), maxIdleTime);
 	}
 
 	/**
@@ -72,7 +71,7 @@ public final class DataSourceParams {
 	 * @return 多长时间检查一次空闲连接
 	 */
 	public static long getIdleTimeout(String name) {
-		return Params.getLong(getKey(name, IDLETIMEOUT), idleTimeout);
+		return P.getLong(getKey(name, IDLETIMEOUT), idleTimeout);
 	}
 
 	/**
@@ -81,7 +80,7 @@ public final class DataSourceParams {
 	 * @return DataSource驱动类
 	 */
 	public static String getDriver(String name) {
-		return Params.getString(getKey(name, DRIVER));
+		return P.getString(getKey(name, DRIVER));
 	}
 
 	/**
@@ -90,7 +89,7 @@ public final class DataSourceParams {
 	 * @return DataSourceUrl
 	 */
 	public static String getUrl(String name) {
-		return Params.getString(getKey(name, URL));
+		return P.getString(getKey(name, URL));
 	}
 
 	/**
@@ -99,7 +98,7 @@ public final class DataSourceParams {
 	 * @return DataSourceUser
 	 */
 	public static String getUser(String name) {
-		return Params.getString(getKey(name, USER));
+		return P.getString(getKey(name, USER));
 	}
 
 	/**
@@ -108,7 +107,7 @@ public final class DataSourceParams {
 	 * @return DataSourcePassword
 	 */
 	public static String getPassword(String name) {
-		return Params.getString(getKey(name, PASSWORD));
+		return P.getString(getKey(name, PASSWORD));
 	}
 
 	/**
@@ -117,7 +116,7 @@ public final class DataSourceParams {
 	 * @return 初始化连接数
 	 */
 	public static int getInitialPoolSize(String name) {
-		return Params.getInt(getKey(name, INITIAL_POOL_SIZE), initialPoolSize);
+		return P.getInt(getKey(name, INITIAL_POOL_SIZE), initialPoolSize);
 	}
 
 	/**
@@ -126,7 +125,7 @@ public final class DataSourceParams {
 	 * @return 连接池最大连接数
 	 */
 	public static int getMaxPoolSize(String name) {
-		return Params.getInt(getKey(name, MAX_POOL_SIZE), maxPoolSize);
+		return P.getInt(getKey(name, MAX_POOL_SIZE), maxPoolSize);
 	}
 
 	/**
@@ -135,7 +134,7 @@ public final class DataSourceParams {
 	 * @return 连接池最小连接数
 	 */
 	public static int getMinPoolSize(String name) {
-		return Params.getInt(getKey(name, MIN_POOL_SIZE), minPoolSize);
+		return P.getInt(getKey(name, MIN_POOL_SIZE), minPoolSize);
 	}
 
 	/**
@@ -144,7 +143,7 @@ public final class DataSourceParams {
 	 * @return 默认使用的连接池
 	 */
 	public static String getParse(String name) {
-		return Params.getString(getKey(name, PARSE), "dbcp2");
+		return P.getString(getKey(name, PARSE), "dbcp2");
 	}
 
 	/**
@@ -154,7 +153,7 @@ public final class DataSourceParams {
 	 * @return 替换后的键
 	 */
 	private static String getKey(String name, String key) {
-		return Params.getKey(PREFIX, name, key);
+		return P.getKey(PREFIX, name, key);
 	}
 
 	private DataSourceParams() {}

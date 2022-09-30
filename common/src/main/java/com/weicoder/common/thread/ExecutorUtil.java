@@ -1,4 +1,4 @@
-package com.weicoder.common.concurrent;
+package com.weicoder.common.thread;
 
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -9,24 +9,25 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
-import com.weicoder.common.lang.Lists;
 import com.weicoder.common.lang.W;
 import com.weicoder.common.log.Logs;
+import com.weicoder.common.thread.concurrent.factory.DaemonThreadFactory;
+import com.weicoder.common.thread.concurrent.factory.ExecutorFactory;
 import com.weicoder.common.util.U;
 import com.weicoder.common.constants.C;
-import com.weicoder.common.interfaces.CallbackVoid;
+import com.weicoder.common.interfaces.Calls;
 
 /**
  * 并发线程任务处理
  * 
  * @author WD
  */
-public class ExecutorUtil {
+public sealed class ExecutorUtil permits T.E {
 	// 线程池
 	private final static ExecutorFactory		FACTORY		= new ExecutorFactory();
 	// 保存线程
-	private final static List<Runnable>			RUNNABLES	= Lists.newList();
-	private final static List<Callable<Object>>	CALLABLES	= Lists.newList();
+	private final static List<Runnable>			RUNNABLES	= W.L.list();
+	private final static List<Callable<Object>>	CALLABLES	= W.L.list();
 
 	/**
 	 * 获得核心数为1新的缓存线程池执行线程
@@ -135,7 +136,7 @@ public class ExecutorUtil {
 		} catch (InterruptedException e) {
 		}
 //		// 声明结果列表
-//		List<Future<?>> list = W.L.newList(tasks.size());
+//		List<Future<?>> list = W.L.list(tasks.size());
 //		// 执行任务
 //		ExecutorService es = Executors.newFixedThreadPool(8,U.DTF.INSTANCE);
 //		tasks.forEach(task -> list.add(es.submit(task)));
@@ -146,7 +147,7 @@ public class ExecutorUtil {
 //				if (it.next().isDone())
 //					it.remove();
 //			// 暂停10毫秒
-////			U.T.sleep(10L);
+////			T.sleep(10L);
 //			try {
 //				es.awaitTermination(10L, TimeUnit.MILLISECONDS);
 //			} catch (InterruptedException e) {
@@ -161,10 +162,10 @@ public class ExecutorUtil {
 	 * 提交一个 Runnable 任务用于执行，并返回一个表示该任务的 Future
 	 * 
 	 * @param tasks Runnable 任务
-	 * @param <T>   泛型
+	 * @param <R>   泛型
 	 * @return 表示该任务的 Future
 	 */
-	public static <T> List<T> submit(List<Callable<T>> tasks) {
+	public static <R> List<R> submit(List<Callable<R>> tasks) {
 		return submit(tasks, 0);
 	}
 
@@ -173,10 +174,10 @@ public class ExecutorUtil {
 	 * 
 	 * @param tasks   Runnable 任务
 	 * @param timeout 如果可以最多等待的时间
-	 * @param <T>     泛型
+	 * @param <R>     泛型
 	 * @return 表示该任务的 Future
 	 */
-	public static <T> List<T> submit(List<Callable<T>> tasks, long timeout) {
+	public static <R> List<R> submit(List<Callable<R>> tasks, long timeout) {
 		// 获得列表长度
 		int len = tasks.size();
 //		try {
@@ -185,9 +186,9 @@ public class ExecutorUtil {
 //			e1.printStackTrace();
 //		}
 		// 声明结果列表
-		List<Future<T>> list = Lists.newList(len);
+		List<Future<R>> list = W.L.list(len);
 		// 声明返回列表
-		List<T> ls = Lists.newList(len);
+		List<R> ls = W.L.list(len);
 		// 执行任务
 		tasks.forEach(task -> list.add(pool().submit(task)));
 		// 循环获得结果
@@ -206,12 +207,23 @@ public class ExecutorUtil {
 	}
 
 	/**
-	 * 指定新数量线程池驻留工作区 循环执行command
+	 * 使用单一线程 循环执行command
 	 * 
 	 * @param command 工作线程
 	 */
-	public static void works(CallbackVoid<Long> call) {
-		works(C.O.CPU_NUM, new AtomicLong(), call);
+	public static void works(Calls.EoV<Long> call) {
+//		works(C.O.CPU_NUM, new AtomicLong(), call);
+		works(new AtomicLong(), call);
+	}
+
+	/**
+	 * 指定新数量线程池驻留工作区 循环执行command
+	 * 
+	 * @param call     工作线程
+	 * @param sequence 工作序列
+	 */
+	public static void works(AtomicLong sequence, Calls.EoV<Long> call) {
+		works(newSingle(), sequence, call);
 	}
 
 	/**
@@ -220,7 +232,7 @@ public class ExecutorUtil {
 	 * @param pool    线程池
 	 * @param command 工作线程
 	 */
-	public static void works(int pool, CallbackVoid<Long> call) {
+	public static void works(int pool, Calls.EoV<Long> call) {
 		works(pool, new AtomicLong(), call);
 	}
 
@@ -231,15 +243,33 @@ public class ExecutorUtil {
 	 * @param call     工作线程
 	 * @param sequence 工作序列
 	 */
-	public static void works(int pool, AtomicLong sequence, CallbackVoid<Long> call) {
+	public static void works(int pool, AtomicLong sequence, Calls.EoV<Long> call) {
 		ExecutorService es = newPool(pool, true);
 		for (int i = 0; i < pool; i++)
-			es.execute(() -> {
-				while (true) {
-					U.D.dura();
-					call.callback(sequence.getAndAdd(1));
-					Logs.debug("works pool={} sequence={} time={}", pool, sequence, U.D.dura());
-				}
-			});
+			works(es, sequence, call);
+//			es.execute(() -> {
+//				while (true) {
+//					U.D.dura();
+//					call.call(sequence.getAndAdd(1));
+//					Logs.debug("works pool={} sequence={} time={}", pool, sequence, U.D.dura());
+//				}
+//			});
+	}
+
+	/**
+	 * 指定线程池 循环执行command
+	 * 
+	 * @param es       线程池
+	 * @param sequence 工作序列
+	 * @param call     工作线程
+	 */
+	public static void works(ExecutorService es, AtomicLong sequence, Calls.EoV<Long> call) {
+		es.execute(() -> {
+			while (true) {
+				U.D.dura();
+				call.call(sequence.getAndAdd(1));
+				Logs.debug("works sequence={} time={}", sequence, U.D.dura());
+			}
+		});
 	}
 }

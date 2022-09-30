@@ -86,7 +86,7 @@ public class Randoms {
 		// 声明保存结果
 		byte[] b = new byte[len];
 		// 声明个set以便排除重复数据
-		Set<Byte> set = W.S.newSet(len);
+		Set<Byte> set = W.S.set(len);
 		// 循环次数
 		for (int i = 0; i < len; i++) {
 			// 随机获得int强转成byte
@@ -121,7 +121,7 @@ public class Randoms {
 		if (e > Byte.MAX_VALUE)
 			e = Byte.MAX_VALUE + 1;
 		// 声明返回列表
-		List<byte[]> list = W.L.newList(n);
+		List<byte[]> list = W.L.list(n);
 		// 循环获得随机数组
 		for (int i = 0; i < n; i++)
 			list.add(nextBytes(r, len, s, e, is));
@@ -154,9 +154,9 @@ public class Randoms {
 //	 */
 //	public static List<byte[]> bytes(Random r, int len, int s, int e, int n) {
 //		// 声明返回列表
-//		List<byte[]> list = W.L.newList(n);
+//		List<byte[]> list = W.L.list(n);
 //		// 验证不可重复数列表
-////		Set<Byte> set = W.S.newSet(len);
+////		Set<Byte> set = W.S.set(len);
 //		// 循环获得随机数组
 //		for (int i = 0; i < n; i++)
 //			list.add(bytes(r, len, s, e));

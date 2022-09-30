@@ -11,7 +11,7 @@ import com.weicoder.common.lang.W;
  * 
  * @author WD
  */
-public class MathUtil {
+public sealed class MathUtil permits U.M {
 	// 取舍方式
 	private final static RoundingMode ROUND = RoundingMode.HALF_UP;
 
@@ -85,7 +85,7 @@ public class MathUtil {
 	}
 
 	/**
-	 * 提供（相对）精确的除法运算，当发生除不尽的情况时，精确到 小数点以后2位，以后的数字四舍五入。
+	 * 提供（相对）精确的除法运算，当发生除不尽的情况时，精确到 小数点以后2位，以后的数字四舍五入。 v2除数为0返回0
 	 * 
 	 * @param v1    被除数
 	 * @param v2    除数
@@ -93,7 +93,8 @@ public class MathUtil {
 	 * @return 两个参数的商
 	 */
 	public static BigDecimal divide(Object v1, Object v2, int scale) {
-		return scale(v1, scale).divide(scale(v2, scale), scale, ROUND);
+		return W.C.toBigDecimal(v2).equals(BigDecimal.ZERO) ? BigDecimal.ZERO
+				: scale(v1, scale).divide(scale(v2, scale), scale, ROUND);
 	}
 
 	/**

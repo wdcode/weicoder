@@ -5,9 +5,9 @@ import java.io.Serializable;
 import jakarta.persistence.MappedSuperclass;
 
 import com.weicoder.frame.entity.Entity;
-import com.weicoder.common.lang.Conversion;
-import com.weicoder.common.util.EmptyUtil;
-import com.weicoder.json.JsonEngine;
+import com.weicoder.common.lang.W;
+import com.weicoder.common.util.U;
+import com.weicoder.json.J;
 
 /**
  * Entity接口基础实现
@@ -22,7 +22,7 @@ public abstract class BaseEntity implements Entity {
 	 * @return 是否为空
 	 */
 	public boolean isEmpty() {
-		return EmptyUtil.isEmpty(getKey());
+		return U.E.isEmpty(getKey());
 	}
 
 	/**
@@ -30,7 +30,7 @@ public abstract class BaseEntity implements Entity {
 	 * @return 字符串
 	 */
 	public String toString() {
-		return JsonEngine.toJson(this);
+		return J.toJson(this);
 	}
 
 	@Override
@@ -64,9 +64,9 @@ public abstract class BaseEntity implements Entity {
 		Serializable key = o.getKey();
 		// 判断类型
 		if (key instanceof Integer) {
-			return Integer.compare(Conversion.toInt(getKey()), Conversion.toInt(key));
+			return Integer.compare(W.C.toInt(getKey()), W.C.toInt(key));
 		} else {
-			return Conversion.toString(getKey()).compareTo(Conversion.toString(key));
+			return W.C.toString(getKey()).compareTo(W.C.toString(key));
 		}
 	}
 }

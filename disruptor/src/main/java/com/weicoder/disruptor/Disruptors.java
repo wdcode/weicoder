@@ -2,8 +2,8 @@ package com.weicoder.disruptor;
 
 import com.lmax.disruptor.EventFactory;
 import com.lmax.disruptor.dsl.Disruptor;
-import com.weicoder.common.params.CommonParams;
-import com.weicoder.common.util.U;
+import com.weicoder.common.params.P;
+import com.weicoder.common.thread.concurrent.factory.DTF;
 
 /**
  * Disruptor工具
@@ -23,6 +23,6 @@ public final class Disruptors {
 	 * @return Disruptor
 	 */
 	public static <T> Disruptor<T> create(EventFactory<T> factory) {
-		return new Disruptor<T>(factory, CommonParams.BUFFER_SIZE, U.DTF.INSTANCE);
+		return new Disruptor<T>(factory, P.C.BUFFER_SIZE, DTF.INSTANCE);
 	}
 }

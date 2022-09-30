@@ -8,8 +8,8 @@ import com.alibaba.nacos.api.exception.NacosException;
 import com.alibaba.nacos.api.naming.NamingService;
 import com.alibaba.nacos.api.naming.listener.NamingEvent;
 import com.alibaba.nacos.api.naming.pojo.Instance; 
-import com.weicoder.common.interfaces.CallbackVoid;
-import com.weicoder.common.lang.Lists;
+import com.weicoder.common.interfaces.Calls;
+import com.weicoder.common.lang.W;
 import com.weicoder.common.log.Logs;
 import com.weicoder.nacos.params.NacosParams;
 
@@ -85,7 +85,7 @@ public class NacosNaming {
 		try {
 			return naming.getAllInstances(serviceName, groupName);
 		} catch (NacosException e) {
-			return Lists.emptyList();
+			return W.L.empty();
 		}
 	}
 
@@ -122,7 +122,7 @@ public class NacosNaming {
 		try {
 			return naming.selectInstances(serviceName, groupName, healthy);
 		} catch (NacosException e) {
-			return Lists.emptyList();
+			return W.L.empty();
 		}
 	}
 
@@ -157,7 +157,7 @@ public class NacosNaming {
 	 * @param serviceName name of service
 	 * @param call        回调
 	 */
-	public void subscribe(String serviceName, CallbackVoid<List<Instance>> call) {
+	public void subscribe(String serviceName, Calls.EoV<List<Instance>> call) {
 		subscribe(serviceName, GROUP, call);
 	}
 
@@ -168,9 +168,9 @@ public class NacosNaming {
 	 * @param groupName   group of service
 	 * @param call        回调
 	 */
-	public void subscribe(String serviceName, String groupName, CallbackVoid<List<Instance>> call) {
+	public void subscribe(String serviceName, String groupName, Calls.EoV<List<Instance>> call) {
 		try {
-			naming.subscribe(serviceName, groupName, e -> call.callback(((NamingEvent) e).getInstances()));
+			naming.subscribe(serviceName, groupName, e -> call.call(((NamingEvent) e).getInstances()));
 		} catch (NacosException e) {
 			Logs.error(e);
 		}

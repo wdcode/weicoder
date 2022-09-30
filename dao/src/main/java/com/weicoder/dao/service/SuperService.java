@@ -7,10 +7,8 @@ import java.util.Map;
 import com.weicoder.dao.factory.DaoFactory;
 import com.weicoder.common.bean.PageResult;
 import com.weicoder.common.bean.Pages;
-import com.weicoder.common.interfaces.Callback;
-import com.weicoder.common.lang.Lists;
-import com.weicoder.common.util.BeanUtil;
-import com.weicoder.common.util.DateUtil;
+import com.weicoder.common.interfaces.Calls;
+import com.weicoder.common.lang.W;
 import com.weicoder.common.util.U;
 import com.weicoder.dao.Dao;
 
@@ -26,9 +24,9 @@ public final class SuperService {
 	/**
 	 * 根据传入的实体名获取到实体类，并且根据传入的参数注入值
 	 * 
-	 * @param  entity 实体名
-	 * @param  ps     参数
-	 * @return        如果存在就返回对象，不存在返回null
+	 * @param entity 实体名
+	 * @param ps     参数
+	 * @return 如果存在就返回对象，不存在返回null
 	 */
 	public static Object entity(String entity, Map<String, String> ps) {
 		// 根据实体名获取实体
@@ -37,48 +35,48 @@ public final class SuperService {
 		if (c == null)
 			return null;
 		// 实例化赋值并返回对象
-		return BeanUtil.copy(ps, c);
+		return U.B.copy(ps, c);
 	}
 
 	/**
 	 * 根据传入的实体名获取到实体类，并且根据传入的参数注入值
 	 * 
-	 * @param  entity 实体名
-	 * @param  ps     参数
-	 * @param  call   回调方法 传入获取的实体
+	 * @param entity 实体名
+	 * @param ps     参数
+	 * @param call   回调方法 传入获取的实体
 	 * @return
 	 */
-	public static Object entity(String entity, Map<String, String> ps, Callback<Object, Object> call) {
+	public static Object entity(String entity, Map<String, String> ps, Calls.EoR<Object, Object> call) {
 		// 获取实体类
 		Object e = entity(entity, ps);
 		// 实体不为空 入口 为空返回null
 		if (e == null)
 			return null;
 		// 回调
-		return call.callback(e);
+		return call.call(e);
 	}
 
 	/**
 	 * 根据传入的实体名获取到实体类
 	 * 
-	 * @param  entity 实体名
-	 * @return        如果存在就返回对象，不存在返回null
+	 * @param entity 实体名
+	 * @return 如果存在就返回对象，不存在返回null
 	 */
-	public static Object entity(String entity, Callback<Class<?>, Object> call) {
+	public static Object entity(String entity, Calls.EoR<Class<?>, Object> call) {
 		// 根据实体名获取实体
 		Class<?> c = DAO.entity(entity);
 		// 判断实体类
 		if (c == null)
 			return null;
 		// 回调
-		return call.callback(c);
+		return call.call(c);
 	}
 
 	/**
 	 * 添加要更新的数据到队列 队列按定时执行insertOrUpdate 不要使用此方法保存重要数据
 	 * 
-	 * @param  obj 数据库对象
-	 * @return     是否添加成功
+	 * @param obj 数据库对象
+	 * @return 是否添加成功
 	 */
 	public static boolean add(Object obj) {
 		return obj == null ? false : QueueFactory.get(obj.getClass()).add(obj);
@@ -87,8 +85,8 @@ public final class SuperService {
 	/**
 	 * 添加要更新的数据到队列 队列按定时执行insertOrUpdate 不要使用此方法保存重要数据
 	 * 
-	 * @param  objs 对象列表
-	 * @return      是否添加成功
+	 * @param objs 对象列表
+	 * @return 是否添加成功
 	 */
 	public static boolean adds(List<?> objs) {
 		return U.E.isEmpty(objs) ? false : QueueFactory.get(objs.get(0).getClass()).addAll(objs);
@@ -97,16 +95,16 @@ public final class SuperService {
 	/**
 	 * 删除
 	 * 
-	 * @param  entity 实体
-	 * @param  <E>    泛型
-	 * @return        是否成功
+	 * @param entity 实体
+	 * @param <E>    泛型
+	 * @return 是否成功
 	 */
 	public static <E> List<E> delete(E entity) {
 		// 查询出符合删除实体列表
 		List<E> list = DAO.list(entity, -1, -1);
 		// 删除列表为空
 		if (U.E.isEmpty(list))
-			return Lists.emptyList();
+			return W.L.empty();
 		// 删除
 		return DAO.delete(list);
 	}
@@ -114,10 +112,10 @@ public final class SuperService {
 	/**
 	 * 根据ID数组删除 完全删除
 	 * 
-	 * @param  entity 要查询的实体
-	 * @param  pks    主键数组
-	 * @param  <E>    泛型
-	 * @return        是否成功
+	 * @param entity 要查询的实体
+	 * @param pks    主键数组
+	 * @param <E>    泛型
+	 * @return 是否成功
 	 */
 	public static <E> List<E> delete(Class<E> entity, Serializable... pks) {
 		return DAO.delete(DAO.gets(entity, pks));
@@ -126,9 +124,9 @@ public final class SuperService {
 	/**
 	 * 查询全部数据
 	 * 
-	 * @param  entityClass 要查询的实体
-	 * @param  <E>         泛型
-	 * @return             全部实体
+	 * @param entityClass 要查询的实体
+	 * @param <E>         泛型
+	 * @return 全部实体
 	 */
 	public static <E> List<E> all(Class<E> entityClass) {
 		return DAO.list(entityClass, -1, -1);
@@ -137,10 +135,10 @@ public final class SuperService {
 	/**
 	 * 获得查询的对象实体列表 分页功能
 	 * 
-	 * @param  entityClass 要查询的实体
-	 * @param  page        分页Bean
-	 * @param  <E>         泛型
-	 * @return             返回这个对象的列表
+	 * @param entityClass 要查询的实体
+	 * @param page        分页Bean
+	 * @param <E>         泛型
+	 * @return 返回这个对象的列表
 	 */
 	public static <E> PageResult list(Class<E> entityClass, Pages page) {
 		// 获得数据列表
@@ -159,9 +157,9 @@ public final class SuperService {
 	/**
 	 * 获得查询的对象实体列表 分页功能
 	 * 
-	 * @param  entity 需要获得的对象，会查询出实体中封装的相等的条件
-	 * @param  page   分页Bean
-	 * @return        返回这个对象的列表
+	 * @param entity 需要获得的对象，会查询出实体中封装的相等的条件
+	 * @param page   分页Bean
+	 * @return 返回这个对象的列表
 	 */
 	public static PageResult list(Object entity, Pages page) {
 		// 获得数据列表
@@ -180,25 +178,25 @@ public final class SuperService {
 	/**
 	 * 根据时间段查询的对象实体列表 分页功能
 	 * 
-	 * @param  <E>
-	 * @param  entity 查询对象
-	 * @param  begin  开始时间
-	 * @param  end    结束时间
-	 * @param  page   页面
+	 * @param <E>
+	 * @param entity 查询对象
+	 * @param begin  开始时间
+	 * @param end    结束时间
+	 * @param page   页面
 	 * @return
 	 */
 	public static <E> PageResult date(E entity, String begin, String end, Pages page) {
-		return time(entity, DateUtil.getTime(begin), DateUtil.getTime(end), page);
+		return time(entity, U.D.getTime(begin), U.D.getTime(end), page);
 	}
 
 	/**
 	 * 根据时间段查询的对象实体列表 分页功能
 	 * 
-	 * @param  <E>
-	 * @param  entity 查询对象
-	 * @param  begin  开始时间
-	 * @param  end    结束时间
-	 * @param  page   页面
+	 * @param <E>
+	 * @param entity 查询对象
+	 * @param begin  开始时间
+	 * @param end    结束时间
+	 * @param page   页面
 	 * @return
 	 */
 	public static <E> PageResult time(E entity, int begin, int end, Pages page) {
@@ -218,12 +216,12 @@ public final class SuperService {
 	/**
 	 * 查询属性名等值的实体列表
 	 * 
-	 * @param  entityClass 要查询的实体
-	 * @param  property    属性名
-	 * @param  values      属性值
-	 * @param  page        分页Bean
-	 * @param  <E>         泛型
-	 * @return             数据列表
+	 * @param entityClass 要查询的实体
+	 * @param property    属性名
+	 * @param values      属性值
+	 * @param page        分页Bean
+	 * @param <E>         泛型
+	 * @return 数据列表
 	 */
 	public static <E> PageResult in(Class<E> entityClass, String property, List<Object> values, Pages page) {
 		// 获得数据列表
@@ -242,11 +240,11 @@ public final class SuperService {
 	/**
 	 * 查询属性名等值的实体列表
 	 * 
-	 * @param  entityClass 要查询的实体
-	 * @param  property    属性名
-	 * @param  value       属性值
-	 * @param  <E>         泛型
-	 * @return             数据列表
+	 * @param entityClass 要查询的实体
+	 * @param property    属性名
+	 * @param value       属性值
+	 * @param <E>         泛型
+	 * @return 数据列表
 	 */
 	public static <E> List<E> eq(Class<E> entityClass, String property, Object value) {
 		return DAO.eq(entityClass, property, value, -1, -1);
@@ -255,11 +253,11 @@ public final class SuperService {
 	/**
 	 * 查询属性名大于的实体列表
 	 * 
-	 * @param  entityClass 要查询的实体
-	 * @param  property    属性名
-	 * @param  value       属性值
-	 * @param  <E>         泛型
-	 * @return             数据列表
+	 * @param entityClass 要查询的实体
+	 * @param property    属性名
+	 * @param value       属性值
+	 * @param <E>         泛型
+	 * @return 数据列表
 	 */
 	public static <E> List<E> gt(Class<E> entityClass, String property, Object value) {
 		return DAO.gt(entityClass, property, value, -1, -1);
@@ -268,11 +266,11 @@ public final class SuperService {
 	/**
 	 * 查询属性名小于的实体列表
 	 * 
-	 * @param  entityClass 要查询的实体
-	 * @param  property    属性名
-	 * @param  value       属性值
-	 * @param  <E>         泛型
-	 * @return             数据列表
+	 * @param entityClass 要查询的实体
+	 * @param property    属性名
+	 * @param value       属性值
+	 * @param <E>         泛型
+	 * @return 数据列表
 	 */
 	public static <E> List<E> lt(Class<E> entityClass, String property, Object value) {
 		return DAO.lt(entityClass, property, value, -1, -1);
@@ -281,12 +279,12 @@ public final class SuperService {
 	/**
 	 * 查询属性名等值的实体列表
 	 * 
-	 * @param  entityClass 要查询的实体
-	 * @param  property    属性名
-	 * @param  value       属性值
-	 * @param  page        分页Bean
-	 * @param  <E>         泛型
-	 * @return             数据列表
+	 * @param entityClass 要查询的实体
+	 * @param property    属性名
+	 * @param value       属性值
+	 * @param page        分页Bean
+	 * @param <E>         泛型
+	 * @return 数据列表
 	 */
 	public static <E> PageResult eq(Class<E> entityClass, String property, Object value, Pages page) {
 		// 获得数据列表
@@ -305,16 +303,16 @@ public final class SuperService {
 	/**
 	 * 查询属性名等值的实体列表
 	 * 
-	 * @param  entityClass 要查询的实体
-	 * @param  property    属性名
-	 * @param  values      属性值
-	 * @param  orders      排序
-	 * @param  page        分页Bean
-	 * @param  <E>         泛型
-	 * @return             数据列表
+	 * @param entityClass 要查询的实体
+	 * @param property    属性名
+	 * @param values      属性值
+	 * @param orders      排序
+	 * @param page        分页Bean
+	 * @param <E>         泛型
+	 * @return 数据列表
 	 */
-	public static <E> PageResult in(Class<E> entityClass, String property, List<Object> values,
-			Map<String, Object> orders, Pages page) {
+	public static <E> PageResult in(Class<E> entityClass, String property, List<Object> values, Map<String, Object> orders,
+			Pages page) {
 		// 获得数据列表
 		List<E> list = DAO.in(entityClass, property, values, orders, getFirstResult(page), getMaxResults(page));
 		// 判断列表
@@ -331,12 +329,12 @@ public final class SuperService {
 	/**
 	 * 查询字段在lo到hi之间的实体
 	 * 
-	 * @param  entity   查询实体
-	 * @param  property 字段名
-	 * @param  lo       开始条件
-	 * @param  hi       结束条件
-	 * @param  <E>      泛型
-	 * @return          返回结果列表
+	 * @param entity   查询实体
+	 * @param property 字段名
+	 * @param lo       开始条件
+	 * @param hi       结束条件
+	 * @param <E>      泛型
+	 * @return 返回结果列表
 	 */
 	public static <E> List<E> between(Class<E> entity, String property, Object lo, Object hi) {
 		return DAO.between(entity, property, lo, hi, -1, -1);
@@ -345,13 +343,13 @@ public final class SuperService {
 	/**
 	 * 查询字段在lo到hi之间的实体
 	 * 
-	 * @param  entity   查询实体
-	 * @param  property 字段名
-	 * @param  lo       开始条件
-	 * @param  hi       结束条件
-	 * @param  page     分页实体
-	 * @param  <E>      泛型
-	 * @return          返回结果列表
+	 * @param entity   查询实体
+	 * @param property 字段名
+	 * @param lo       开始条件
+	 * @param hi       结束条件
+	 * @param page     分页实体
+	 * @param <E>      泛型
+	 * @return 返回结果列表
 	 */
 	public static <E> PageResult between(E entity, String property, Object lo, Object hi, Pages page) {
 		// 获得数据列表
@@ -370,11 +368,11 @@ public final class SuperService {
 	/**
 	 * 查询字段在lo到hi之间的实体
 	 * 
-	 * @param  entity 查询实体
-	 * @param  orders 排序参数
-	 * @param  page   分页实体
-	 * @param  <E>    泛型
-	 * @return        返回结果列表
+	 * @param entity 查询实体
+	 * @param orders 排序参数
+	 * @param page   分页实体
+	 * @param <E>    泛型
+	 * @return 返回结果列表
 	 */
 	public static <E> PageResult order(E entity, Map<String, Object> orders, Pages page) {
 		// 获得数据列表
@@ -393,11 +391,11 @@ public final class SuperService {
 	/**
 	 * 查询字段在lo到hi之间的实体
 	 * 
-	 * @param  entity 查询实体
-	 * @param  orders 排序参数
-	 * @param  page   分页实体
-	 * @param  <E>    泛型
-	 * @return        返回结果列表
+	 * @param entity 查询实体
+	 * @param orders 排序参数
+	 * @param page   分页实体
+	 * @param <E>    泛型
+	 * @return 返回结果列表
 	 */
 	public static <E> PageResult order(Class<E> entity, Map<String, Object> orders, Pages page) {
 		// 获得数据列表
@@ -416,21 +414,21 @@ public final class SuperService {
 	/**
 	 * 获得指定属性下的所有实体 包含指定属性
 	 * 
-	 * @param  entity   类名称
-	 * @param  property 属性名
-	 * @param  value    属性值
-	 * @param  <E>      泛型
-	 * @return          下级所有分类列表
+	 * @param entity   类名称
+	 * @param property 属性名
+	 * @param value    属性值
+	 * @param <E>      泛型
+	 * @return 下级所有分类列表
 	 */
 	public static <E> List<E> next(Class<E> entity, String property, Object value) {
 		// 声明列表
 		List<E> list = DAO.eq(entity, property, value, -1, -1);
 		// 声明返回列表
-		List<E> ls = Lists.newList(list.size());
+		List<E> ls = W.L.list(list.size());
 		// 添加指定实体
 		ls.add(DAO.get(entity, (Serializable) value));
 		// 循环添加
-		Lists.newList(list).forEach(obj -> ls.addAll(next(entity, property, BeanUtil.getFieldValue(obj, property))));
+		W.L.list(list).forEach(obj -> ls.addAll(next(entity, property, U.B.getFieldValue(obj, property))));
 		// 返回列表
 		return ls;
 	}
@@ -438,20 +436,20 @@ public final class SuperService {
 	/**
 	 * 获得指定属性上的所有实体 包含指定属性
 	 * 
-	 * @param  entity   类名称
-	 * @param  property 属性名
-	 * @param  pk       主键
-	 * @param  <E>      泛型
-	 * @return          上级所有分类列表
+	 * @param entity   类名称
+	 * @param property 属性名
+	 * @param pk       主键
+	 * @param <E>      泛型
+	 * @return 上级所有分类列表
 	 */
 	public static <E> List<E> prev(Class<E> entity, String property, Serializable pk) {
 		// 声明列表
-		List<E> list = Lists.newList();
+		List<E> list = W.L.list();
 		// 获得相当对象
 		E obj = DAO.get(entity, pk);
 		// 对象不为空
 		if (obj != null) {
-			list.addAll(prev(entity, property, (Serializable) BeanUtil.getFieldValue(obj, property)));
+			list.addAll(prev(entity, property, (Serializable) U.B.getFieldValue(obj, property)));
 			// 添加对象
 			list.add(obj);
 		}
@@ -462,8 +460,8 @@ public final class SuperService {
 	/**
 	 * 获得最大结果数
 	 * 
-	 * @param  page 分页Bean
-	 * @return      最大结果数
+	 * @param page 分页Bean
+	 * @return 最大结果数
 	 */
 	private static int getMaxResults(Pages page) {
 		return U.E.isEmpty(page) ? -1 : page.getSize();
@@ -472,8 +470,8 @@ public final class SuperService {
 	/**
 	 * 获得从第N条开始返回结果
 	 * 
-	 * @param  page 分页Bean
-	 * @return      从第N条开始返回结果
+	 * @param page 分页Bean
+	 * @return 从第N条开始返回结果
 	 */
 	private static int getFirstResult(Pages page) {
 //		return U.E.isEmpty(page) ? -1 : (page.getPage() - 1) * page.getSize();

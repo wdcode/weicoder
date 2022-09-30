@@ -64,6 +64,6 @@ public class HttpTest {
 //		} catch (Exception e) {
 //			Logs.error(e, "Http2Engine get url={}", url);
 //		}
-//		return ArrayConstants.BYTES_EMPTY;
+//		return C.A.BYTES_EMPTY;
 //	}
 }

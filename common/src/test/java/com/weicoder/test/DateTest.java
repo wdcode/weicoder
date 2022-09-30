@@ -6,7 +6,8 @@ import java.time.ZoneId;
 
 import org.junit.jupiter.api.Test;
 
-import com.weicoder.common.util.MathUtil;
+import com.weicoder.common.util.U;
+ 
 
 public class DateTest {
 	@Test
@@ -20,7 +21,7 @@ public class DateTest {
 		System.out.println(i.getNano());
 		System.out.println(System.nanoTime()); 
 		System.out.println(curr / 1000);
-		System.out.println(MathUtil.divide(curr, 1000).intValue()); 
+		System.out.println(U.M.divide(curr, 1000).intValue()); 
 		System.out.println(LocalDateTime.ofInstant(i, ZoneId.systemDefault()));
 		Instant n = Instant.ofEpochMilli(curr);
 		System.out.println(n.toEpochMilli());

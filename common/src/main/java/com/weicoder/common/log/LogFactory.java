@@ -33,7 +33,7 @@ public final class LogFactory extends FactoryKey<Class<?>, Log> {
 
 	@Override
 	public Log newInstance(Class<?> key) {
-//		Log log = ClassUtil.newInstance(CommonParams.LOG_CLASS, new LogJdk());
+//		Log log = U.C.newInstance(P.C.LOG_CLASS, new LogJdk());
 		Log log = C.newInstance(C.from(Log.class, LogJdk.class));
 		log.setClass(key);
 		return log;

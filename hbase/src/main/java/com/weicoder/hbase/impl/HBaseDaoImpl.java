@@ -16,13 +16,10 @@ import org.apache.hadoop.hbase.client.ResultScanner;
 import org.apache.hadoop.hbase.client.Scan;
 import org.apache.hadoop.hbase.client.Table;
 
-import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.lang.Bytes;
-import com.weicoder.common.lang.Lists;
-import com.weicoder.common.lang.Maps;
+import com.weicoder.common.constants.C;
+import com.weicoder.common.lang.W; 
 import com.weicoder.common.log.Logs;
-import com.weicoder.common.util.EmptyUtil;
-import com.weicoder.common.util.StringUtil;
+import com.weicoder.common.util.U; 
 import com.weicoder.hbase.HBaseDao;
 
 /**
@@ -55,9 +52,9 @@ public final class HBaseDaoImpl implements HBaseDao {
 	public void add(String row, String key, String value) {
 		try {
 			// 声明Put
-			Put put = new Put(StringUtil.toBytes(row));
+			Put put = new Put(U.S.toBytes(row));
 			// 添加键值
-			put.addColumn(StringUtil.toBytes(row), StringUtil.toBytes(key), StringUtil.toBytes(value));
+			put.addColumn(U.S.toBytes(row), U.S.toBytes(key), U.S.toBytes(value));
 			// 添加到表里
 			table.put(put);
 		} catch (Exception e) {
@@ -71,14 +68,14 @@ public final class HBaseDaoImpl implements HBaseDao {
 	 */
 	public void delete(String... rowkey) {
 		// 声明列表
-		List<Delete> list = Lists.newList(rowkey.length);
+		List<Delete> list = W.L.list(rowkey.length);
 		// 循环获得删除对象
 		for (int i = 0; i < rowkey.length; i++) {
 			// 添加到列表
-			list.add(new Delete(Bytes.toBytes(rowkey[i])));
+			list.add(new Delete(W.B.toBytes(rowkey[i])));
 		}
 		// 判断如果列表不为空
-		if (EmptyUtil.isEmpty(list)) {
+		if (U.E.isEmpty(list)) {
 			// 删除列表
 			try {
 				table.delete(list);
@@ -96,7 +93,7 @@ public final class HBaseDaoImpl implements HBaseDao {
 	public String get(String rowKey) {
 		try {
 			// 获得结果集
-			Result rs = table.get(new Get(Bytes.toBytes(rowKey)));
+			Result rs = table.get(new Get(W.B.toBytes(rowKey)));
 			// 获得键值
 			Cell cell = rs.rawCells()[0];
 			// 判断键值不为空
@@ -106,7 +103,7 @@ public final class HBaseDaoImpl implements HBaseDao {
 			Logs.warn(e);
 		}
 		// 返回空字符串
-		return StringConstants.EMPTY;
+		return C.S.EMPTY;
 	}
 
 	/**
@@ -120,15 +117,15 @@ public final class HBaseDaoImpl implements HBaseDao {
 			// 获得查询结果
 			ResultScanner ss = table.getScanner(s);
 			// 声明列表
-			List<Map<String, String>> list = Lists.newList();
+			List<Map<String, String>> list = W.L.list();
 			// 循环获得所以结果
 			for (Result r : ss) {
 				// 获得所有键值
 				for (Cell cell : r.rawCells()) {
 					// 声明Map
-					Map<String, String> map = Maps.newMap();
+					Map<String, String> map = W.M.map();
 					// 设置键值
-					map.put(StringUtil.toString(CellUtil.cloneQualifier(cell)), StringUtil.toString(CellUtil.cloneValue(cell)));
+					map.put(U.S.toString(CellUtil.cloneQualifier(cell)), U.S.toString(CellUtil.cloneValue(cell)));
 					// 把结果添加到列表
 					list.add(map);
 				}
@@ -136,7 +133,7 @@ public final class HBaseDaoImpl implements HBaseDao {
 			// 返回列表
 			return list;
 		} catch (Exception e) {
-			return Lists.emptyList();
+			return W.L.empty();
 		}
 	}
 }

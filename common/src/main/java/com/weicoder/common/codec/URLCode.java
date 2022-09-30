@@ -3,7 +3,7 @@ package com.weicoder.common.codec;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 
-import com.weicoder.common.params.CommonParams;
+import com.weicoder.common.params.P;
 import com.weicoder.common.util.U;
 
 /**
@@ -19,7 +19,7 @@ public class URLCode {
 	 * @return     编码后字符串
 	 */
 	public static String encode(String url) {
-		return encode(url, CommonParams.ENCODING);
+		return encode(url, P.C.ENCODING);
 	}
 
 	/**
@@ -44,7 +44,7 @@ public class URLCode {
 	 * @return     解码后字符串
 	 */
 	public static String decode(String url) {
-		return decode(url, CommonParams.ENCODING);
+		return decode(url, P.C.ENCODING);
 	}
 
 	/**
@@ -57,7 +57,7 @@ public class URLCode {
 	public static String decode(String url, String encoding) {
 		try {
 			return U.E.isEmpty(url) ? url
-					: URLDecoder.decode(url, U.E.isEmpty(encoding) ? CommonParams.ENCODING : encoding);
+					: URLDecoder.decode(url, U.E.isEmpty(encoding) ? P.C.ENCODING : encoding);
 		} catch (Exception e) {
 			return url;
 		}

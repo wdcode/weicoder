@@ -3,12 +3,11 @@ package com.weicoder.common.crypto;
 import javax.crypto.Cipher;
 
 import com.weicoder.common.codec.Hex;
-import com.weicoder.common.constants.EncryptConstants;
+import com.weicoder.common.constants.C;
 import com.weicoder.common.crypto.base.BaseCrypt;
-import com.weicoder.common.lang.Bytes;
 import com.weicoder.common.lang.W;
-import com.weicoder.common.params.CommonParams;
-import com.weicoder.common.util.StringUtil;
+import com.weicoder.common.params.P;
+import com.weicoder.common.util.U;
 
 /**
  * 对称加密类
@@ -24,9 +23,9 @@ public class Encrypts extends BaseCrypt {
 	 */
 	public static String token(byte[] array) {
 		// 加密登录凭证字符串
-		String info = Hex.encode(Encrypts.rc4(array, CommonParams.TOKEN_KEY));
+		String info = Hex.encode(Encrypts.rc4(array, P.C.TOKEN_KEY));
 		// 返回加密字符串
-		return StringUtil.combine(Digest.absolute(info, CommonParams.TOKEN_LENGHT), info).toUpperCase();
+		return U.S.combine(Digest.absolute(info, P.C.TOKEN_LENGHT), info).toUpperCase();
 	}
 
 	/**
@@ -36,7 +35,7 @@ public class Encrypts extends BaseCrypt {
 	 * @return 加密后的字节数组
 	 */
 	public static String encrypt(Object obj) {
-		return obj instanceof String ? encrypt(W.C.toString(obj)) : Hex.encode(encrypt(Bytes.toBytes(obj)));
+		return obj instanceof String ? encrypt(W.C.toString(obj)) : Hex.encode(encrypt(W.B.toBytes(obj)));
 	}
 
 	/**
@@ -46,7 +45,7 @@ public class Encrypts extends BaseCrypt {
 	 * @return 加密后的字节数组
 	 */
 	public static String encrypt(String text) {
-		return Hex.encode(encrypt(StringUtil.toBytes(text)));
+		return Hex.encode(encrypt(U.S.toBytes(text)));
 	}
 
 	/**
@@ -56,7 +55,7 @@ public class Encrypts extends BaseCrypt {
 	 * @return 加密后的字节数组
 	 */
 	public static byte[] encrypt(byte[] b) {
-		return encrypt(b, CommonParams.ENCRYPT_KEY);
+		return encrypt(b, P.C.ENCRYPT_KEY);
 	}
 
 	/**
@@ -68,14 +67,14 @@ public class Encrypts extends BaseCrypt {
 	 */
 	public static byte[] encrypt(byte[] b, String key) {
 		// 判断加密方式
-		switch (CommonParams.ENCRYPT_ALGO) {
-		case EncryptConstants.ALGO_AES:
+		switch (P.C.ENCRYPT_ALGO) {
+		case C.E.ALGO_AES:
 			// AES加密
 			return aes(b, key);
-		case EncryptConstants.ALGO_DES:
+		case C.E.ALGO_DES:
 			// DES加密
 			return des(b, key);
-		case EncryptConstants.ALGO_RC4:
+		case C.E.ALGO_RC4:
 			// RC4加密
 			return rc4(b, key);
 		default:
@@ -91,7 +90,7 @@ public class Encrypts extends BaseCrypt {
 	 * @return 返回加密后的字节数组
 	 */
 	public static byte[] des(byte[] b) {
-		return des(b, CommonParams.ENCRYPT_KEY);
+		return des(b, P.C.ENCRYPT_KEY);
 	}
 
 	/**
@@ -102,7 +101,7 @@ public class Encrypts extends BaseCrypt {
 	 * @return 返回加密后的字节数组
 	 */
 	public static byte[] des(byte[] b, String key) {
-		return encrypt(b, key, EncryptConstants.LENGTH_DES, EncryptConstants.ALGO_DES);
+		return encrypt(b, key, C.E.LENGTH_DES, C.E.ALGO_DES);
 	}
 
 	/**
@@ -112,7 +111,7 @@ public class Encrypts extends BaseCrypt {
 	 * @return 返回加密后的字节数组
 	 */
 	public static byte[] aes(byte[] b) {
-		return aes(b, CommonParams.ENCRYPT_KEY);
+		return aes(b, P.C.ENCRYPT_KEY);
 	}
 
 	/**
@@ -123,7 +122,7 @@ public class Encrypts extends BaseCrypt {
 	 * @return 返回加密后的字节数组
 	 */
 	public static byte[] aes(byte[] b, String key) {
-		return encrypt(b, key, EncryptConstants.LENGTH_AES, EncryptConstants.ALGO_AES);
+		return encrypt(b, key, C.E.LENGTH_AES, C.E.ALGO_AES);
 	}
 
 	/**
@@ -133,7 +132,7 @@ public class Encrypts extends BaseCrypt {
 	 * @return 返回加密后的字节数组
 	 */
 	public static byte[] rc4(byte[] b) {
-		return rc4(b, CommonParams.ENCRYPT_KEY);
+		return rc4(b, P.C.ENCRYPT_KEY);
 	}
 
 	/**
@@ -144,7 +143,7 @@ public class Encrypts extends BaseCrypt {
 	 * @return 返回加密后的字节数组
 	 */
 	public static byte[] rc4(byte[] b, String key) {
-		return encrypt(b, key, EncryptConstants.LENGTH_RC4, EncryptConstants.ALGO_RC4);
+		return encrypt(b, key, C.E.LENGTH_RC4, C.E.ALGO_RC4);
 	}
 
 	/**

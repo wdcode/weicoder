@@ -2,7 +2,7 @@ package com.weicoder.mongo.params;
 
 import com.weicoder.common.config.Config;
 import com.weicoder.common.config.ConfigFactory;
-import com.weicoder.common.params.Params;
+import com.weicoder.common.params.P;
 
 /**
  * MongoDB配置读取
@@ -28,7 +28,7 @@ public final class MongoParams {
 	 * @return      服务器地址
 	 */
 	public static String getHost(String name) {
-		return CONFIG.getString(Params.getKey(name, HOST), Params.getString(getKey(name, HOST), "127.0.0.1"));
+		return CONFIG.getString(P.getKey(name, HOST), P.getString(getKey(name, HOST), "127.0.0.1"));
 	}
 
 	/**
@@ -38,7 +38,7 @@ public final class MongoParams {
 	 * @return      用户
 	 */
 	public static String getUser(String name) {
-		return CONFIG.getString(Params.getKey(name, USER), Params.getString(getKey(name, USER)));
+		return CONFIG.getString(P.getKey(name, USER), P.getString(getKey(name, USER)));
 	}
 
 	/**
@@ -48,7 +48,7 @@ public final class MongoParams {
 	 * @return      密码
 	 */
 	public static String getPassword(String name) {
-		return CONFIG.getString(Params.getKey(name, PASSWORD), Params.getString(getKey(name, PASSWORD)));
+		return CONFIG.getString(P.getKey(name, PASSWORD), P.getString(getKey(name, PASSWORD)));
 	}
 
 	/**
@@ -58,7 +58,7 @@ public final class MongoParams {
 	 * @return      数据库名
 	 */
 	public static String getDB(String name) {
-		return CONFIG.getString(Params.getKey(name, DB), Params.getString(getKey(name, DB), name));
+		return CONFIG.getString(P.getKey(name, DB), P.getString(getKey(name, DB), name));
 	}
 
 	/**
@@ -68,7 +68,7 @@ public final class MongoParams {
 	 * @return      集合
 	 */
 	public static String getCollection(String name) {
-		return CONFIG.getString(Params.getKey(name, COLLECTION), Params.getString(getKey(name, COLLECTION), name));
+		return CONFIG.getString(P.getKey(name, COLLECTION), P.getString(getKey(name, COLLECTION), name));
 	}
 
 	/**
@@ -78,7 +78,7 @@ public final class MongoParams {
 	 * @return      端口
 	 */
 	public static int getPort(String name) {
-		return CONFIG.getInt(Params.getKey(name, PORT), Params.getInt(getKey(name, PORT), 27017));
+		return CONFIG.getInt(P.getKey(name, PORT), P.getInt(getKey(name, PORT), 27017));
 	}
 
 	/**
@@ -89,7 +89,7 @@ public final class MongoParams {
 	 * @return      替换后的键
 	 */
 	private static String getKey(String name, String key) {
-		return Params.getKey(PREFIX, name, key);
+		return P.getKey(PREFIX, name, key);
 	}
 
 	private MongoParams() {

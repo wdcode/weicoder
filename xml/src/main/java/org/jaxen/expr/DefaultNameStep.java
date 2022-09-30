@@ -33,8 +33,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 package org.jaxen.expr;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.ArrayList; 
 import java.util.Iterator;
 import java.util.List;
 
@@ -45,6 +44,8 @@ import org.jaxen.UnresolvableException;
 import org.jaxen.Navigator;
 import org.jaxen.expr.iter.IterableAxis;
 import org.jaxen.saxpath.Axis;
+
+import com.weicoder.common.lang.W;
 
 /** 
  * Expression object that represents any flavor
@@ -159,7 +160,7 @@ public class DefaultNameStep extends DefaultStep implements NameStep {
         int contextSize = contextNodeSet.size();
         // optimize for context size 0
         if (contextSize == 0) {
-            return Collections.emptyList();
+            return W.L.empty();
         }
         ContextSupport support = context.getContextSupport();
         IterableAxis iterableAxis = getIterableAxis();
@@ -180,7 +181,7 @@ public class DefaultNameStep extends DefaultStep implements NameStep {
                 Iterator<?> axisNodeIter = iterableAxis.namedAccessIterator(
                                 contextNode, support, localName, prefix, uri);
                 if (axisNodeIter == null || !axisNodeIter.hasNext()) {
-                    return Collections.emptyList();
+                    return W.L.empty();
                 }
 
                 // convert iterator to list for predicate test
@@ -198,7 +199,7 @@ public class DefaultNameStep extends DefaultStep implements NameStep {
                 // get the iterator over the nodes and check it
                 Iterator<?> axisNodeIter = iterableAxis.iterator(contextNode, support);
                 if (axisNodeIter == null || !axisNodeIter.hasNext()) {
-                    return Collections.emptyList();
+                    return W.L.empty();
                 }
 
                 // run through iterator, filtering using matches()

@@ -1,12 +1,13 @@
 package com.weicoder.dao.service;
 
 import com.weicoder.common.factory.FactoryKey;
-import com.weicoder.common.lang.Queues;
-import com.weicoder.common.params.DaoParams;
+import com.weicoder.common.lang.W; 
 import com.weicoder.common.queue.AsynQueueList;
+import com.weicoder.dao.params.DaoParams;
 
 /**
  * SuperService 使用更新队列
+ * 
  * @author WD
  */
 final class QueueFactory extends FactoryKey<Class<?>, AsynQueueList<Object>> {
@@ -15,6 +16,7 @@ final class QueueFactory extends FactoryKey<Class<?>, AsynQueueList<Object>> {
 
 	/**
 	 * 根据类名获得更新队列
+	 * 
 	 * @param key 类名
 	 * @return 队列
 	 */
@@ -24,8 +26,10 @@ final class QueueFactory extends FactoryKey<Class<?>, AsynQueueList<Object>> {
 
 	@Override
 	public AsynQueueList<Object> newInstance(Class<?> key) {
-		return Queues.newAsynQueueList(Queues.newOnlyQueue(), results -> SuperService.DAO.insertOrUpdate(results, DaoParams.QUEUE_SETP), DaoParams.QUEUE_TIME);
+		return W.Q.asynList(W.Q.only(), results -> SuperService.DAO.insertOrUpdate(results, DaoParams.QUEUE_SETP),
+				DaoParams.QUEUE_TIME);
 	}
 
-	private QueueFactory() {}
+	private QueueFactory() {
+	}
 }

@@ -8,17 +8,15 @@ import java.util.Enumeration;
 import java.util.List;
 
 import com.weicoder.common.constants.C;
-import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.constants.SystemConstants;
-import com.weicoder.common.io.FileUtil;
-import com.weicoder.common.lang.Lists;
+import com.weicoder.common.io.I;
+import com.weicoder.common.lang.W;
 
 /**
  * 资源工具类
  * 
  * @author WD
  */
-public class ResourceUtil {
+public sealed class ResourceUtil permits U.R {
 	/**
 	 * 尝试加载工程类下的资源文件
 	 * 
@@ -29,7 +27,7 @@ public class ResourceUtil {
 		try {
 			return new File(getResource(name).toURI());
 		} catch (Exception e) {
-			return FileUtil.newFile(SystemConstants.USER_DIR + StringConstants.BACKSLASH + name);
+			return I.F.newFile(C.O.USER_DIR + C.S.BACKSLASH + name);
 		}
 	}
 
@@ -48,8 +46,8 @@ public class ResourceUtil {
 			if ((url = ClassLoader.getSystemClassLoader().getResource(resourceName)) == null)
 				url = ClassLoader.getSystemResource(resourceName);
 		// 如果url还为空 做资源的名的判断重新调用方法
-		if (url == null && U.E.isNotEmpty(resourceName) && (!resourceName.startsWith(StringConstants.BACKSLASH)))
-			return getResource(StringConstants.BACKSLASH + resourceName);
+		if (url == null && U.E.isNotEmpty(resourceName) && (!resourceName.startsWith(C.S.BACKSLASH)))
+			return getResource(C.S.BACKSLASH + resourceName);
 		// 返回资源
 		try {
 			return url == null ? new URL(C.H.HTTP) : url;
@@ -66,10 +64,11 @@ public class ResourceUtil {
 	 */
 	public static List<URL> getResources(String resourceName) {
 		// 声明列表
-		List<URL> urls = Lists.newList();
+		List<URL> urls = W.L.list();
 		try {
 			// 获得资源URL 使用当前线程
-			for (Enumeration<URL> u = Thread.currentThread().getContextClassLoader().getResources(resourceName); u.hasMoreElements();)
+			for (Enumeration<URL> u = Thread.currentThread().getContextClassLoader().getResources(resourceName); u
+					.hasMoreElements();)
 				urls.add(u.nextElement());
 			// 如果获得的资源为null
 			if (U.E.isEmpty(urls)) {
@@ -82,8 +81,8 @@ public class ResourceUtil {
 						urls.add(u.nextElement());
 			}
 			// 如果url还为空 做资源的名的判断重新调用方法
-			if (U.E.isEmpty(urls) && !U.E.isEmpty(resourceName) && (!resourceName.startsWith(StringConstants.BACKSLASH)))
-				return getResources(StringConstants.BACKSLASH + resourceName);
+			if (U.E.isEmpty(urls) && !U.E.isEmpty(resourceName) && (!resourceName.startsWith(C.S.BACKSLASH)))
+				return getResources(C.S.BACKSLASH + resourceName);
 		} catch (Exception e) {
 		}
 		// 返回资源

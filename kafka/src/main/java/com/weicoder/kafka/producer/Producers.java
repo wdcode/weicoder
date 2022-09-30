@@ -10,14 +10,12 @@ import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
 
-import com.weicoder.common.constants.C.A;
-import com.weicoder.common.lang.Bytes;
-import com.weicoder.common.lang.W;
-import com.weicoder.common.lang.W.B;
+import com.weicoder.common.constants.C;
+import com.weicoder.common.lang.W; 
 import com.weicoder.common.log.Log;
 import com.weicoder.common.log.LogFactory;
-import com.weicoder.common.util.U.S;
-import com.weicoder.json.JsonEngine;
+import com.weicoder.common.util.U;
+import com.weicoder.json.J;
 import com.weicoder.kafka.params.KafkaParams;
 import com.weicoder.protobuf.Protobuf;
 import com.weicoder.protobuf.ProtobufEngine;
@@ -153,14 +151,14 @@ public class Producers {
 	private byte[] toBytes(Object obj) {
 		// 根据不同类型序列化
 		if (obj == null)
-			return A.BYTES_EMPTY;
+			return C.A.BYTES_EMPTY;
 		if (obj instanceof String)
 			return W.C.toString(obj).getBytes();
 		if (obj.getClass().isAnnotationPresent(Protobuf.class))
 			return ProtobufEngine.toBytes(obj);
-		if (B.isType(obj.getClass()))
-			return Bytes.toBytes(obj);
+		if (W.B.isType(obj.getClass()))
+			return W.B.toBytes(obj);
 		// 没有对应类型 转换成json返回
-		return S.toBytes(JsonEngine.toJson(obj));
+		return U.S.toBytes(J.toJson(obj));
 	}
 }

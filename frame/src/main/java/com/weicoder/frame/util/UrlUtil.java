@@ -5,7 +5,7 @@ import java.io.InputStream;
 import java.net.URL;
 
 import com.weicoder.common.log.Logs;
-import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.util.U;
 
 /**
  * URL相关操作
@@ -20,7 +20,7 @@ public final class UrlUtil {
 	 */
 	public static InputStream openStream(URL url) {
 		try {
-			return EmptyUtil.isEmpty(url) ? null : url.openStream();
+			return U.E.isEmpty(url) ? null : url.openStream();
 		} catch (IOException e) {
 			// 记录日志
 			Logs.warn(e);

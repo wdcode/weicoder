@@ -11,10 +11,9 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import com.weicoder.frame.engine.LoginEngine;
 import com.weicoder.frame.entity.EntityUser;
-import com.weicoder.common.constants.ArrayConstants;
-import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.params.Params;
-import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.constants.C; 
+import com.weicoder.common.params.P;
+import com.weicoder.common.util.U;
 
 import java.io.IOException;
 
@@ -44,10 +43,10 @@ public final class LoginFilter<L extends EntityUser> implements Filter {
 	 */
 	public void init(FilterConfig filterConfig) throws ServletException {
 		login = filterConfig.getInitParameter(LOGIN);
-		index = Params.getString(Params.getKey(LOGIN, login, "index"), StringConstants.BACKSLASH);
-		special = Params.getStringArray(Params.getKey(LOGIN, login, "special"),
-				ArrayConstants.STRING_EMPTY);
-		result = Params.getString(Params.getKey(LOGIN, login, "result"), REDIRECT);
+		index = P.getString(P.getKey(LOGIN, login, "index"), C.S.BACKSLASH);
+		special = P.getStringArray(P.getKey(LOGIN, login, "special"),
+				C.A.STRING_EMPTY);
+		result = P.getString(P.getKey(LOGIN, login, "result"), REDIRECT);
 	}
 
 	/**
@@ -64,9 +63,9 @@ public final class LoginFilter<L extends EntityUser> implements Filter {
 		// 获得当前页面
 		String paths = httpRequest.getServletPath();
 		// //如果路径为""或者为主页不检查
-		if (EmptyUtil.isEmpty(paths) || index.equals(paths)) {
+		if (U.E.isEmpty(paths) || index.equals(paths)) {
 			find = false;
-		} else if (!EmptyUtil.isEmpty(special)) {
+		} else if (!U.E.isEmpty(special)) {
 			// 有要检测的数组 循环数组
 			for (int i = 0; i < special.length; i++) {
 				// 查找是相同页

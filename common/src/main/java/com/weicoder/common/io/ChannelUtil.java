@@ -11,18 +11,17 @@ import java.nio.channels.ReadableByteChannel;
 import java.nio.channels.WritableByteChannel;
 
 import com.weicoder.common.binary.Buffer;
-import com.weicoder.common.interfaces.Callback;
+import com.weicoder.common.interfaces.Calls;
 import com.weicoder.common.log.Logs;
-import com.weicoder.common.params.CommonParams;
-import com.weicoder.common.statics.Closes;
-import com.weicoder.common.util.U;
+import com.weicoder.common.params.P;
+import com.weicoder.common.statics.S;
 
 /**
  * nio通道操作
  * 
  * @author WD
  */
-public class ChannelUtil {
+public sealed class ChannelUtil permits I.C {
 	/**
 	 * 读取出通道的所有字节
 	 * 
@@ -30,7 +29,7 @@ public class ChannelUtil {
 	 * @return 字节数组
 	 */
 	public static byte[] read(ReadableByteChannel ch) {
-		return read(ch, CommonParams.IO_CLOSE);
+		return read(ch, P.C.IO_CLOSE);
 	}
 
 	/**
@@ -41,7 +40,7 @@ public class ChannelUtil {
 	 * @return 字节数组
 	 */
 	public static byte[] read(ReadableByteChannel ch, boolean isClose) {
-//		try (ByteArrayOutputStream out = new ByteArrayOutputStream(CommonParams.IO_BUFFERSIZE);
+//		try (ByteArrayOutputStream out = new ByteArrayOutputStream(P.C.IO_BUFFERSIZE);
 //				WritableByteChannel wbc = Channels.newChannel(out)) {
 //			// 写入字节流
 //			write(ch, wbc, isClose);
@@ -51,7 +50,7 @@ public class ChannelUtil {
 //			return C.A.BYTES_EMPTY;
 //		}
 		// 创建结果字节流
-		ByteArrayOutputStream out = new ByteArrayOutputStream(CommonParams.IO_BUFFERSIZE);
+		ByteArrayOutputStream out = new ByteArrayOutputStream(P.C.IO_BUFFERSIZE);
 		// 写入字节流
 		write(ch, Channels.newChannel(out), isClose);
 		// 返回字节流中全部数组
@@ -66,7 +65,7 @@ public class ChannelUtil {
 	 * @return true false
 	 */
 	public static long write(WritableByteChannel wbc, byte[] b) {
-		return write(wbc, b, CommonParams.IO_CLOSE);
+		return write(wbc, b, P.C.IO_CLOSE);
 	}
 
 	/**
@@ -89,7 +88,7 @@ public class ChannelUtil {
 	 * @return true false
 	 */
 	public static long write(WritableByteChannel wbc, InputStream in) {
-		return write(wbc, in, CommonParams.IO_CLOSE);
+		return write(wbc, in, P.C.IO_CLOSE);
 	}
 
 	/**
@@ -112,8 +111,7 @@ public class ChannelUtil {
 	 * @return 写入字节数
 	 */
 	public static int write(String file, ByteBuffer src) {
-		try (FileOutputStream fos = U.F.getOutputStream(file, true);
-				WritableByteChannel wbc = Channels.newChannel(fos)) {
+		try (FileOutputStream fos = I.F.getOutputStream(file, true); WritableByteChannel wbc = Channels.newChannel(fos)) {
 			return wbc.write(src);
 		} catch (Exception e) {
 			Logs.error(e);
@@ -130,7 +128,7 @@ public class ChannelUtil {
 	 * @return true false
 	 */
 	public static long write(ReadableByteChannel rbc, WritableByteChannel wbc, boolean isClose) {
-		return write(rbc, wbc, CommonParams.IO_BUFFERSIZE, isClose, r -> r);
+		return write(rbc, wbc, P.C.IO_BUFFERSIZE, isClose, r -> r);
 	}
 
 	/**
@@ -142,8 +140,7 @@ public class ChannelUtil {
 	 * @param call 回调
 	 * @return 读取流总数
 	 */
-	public static long write(ReadableByteChannel rbc, WritableByteChannel wbc, int buff,
-			Callback<Buffer, Buffer> call) {
+	public static long write(ReadableByteChannel rbc, WritableByteChannel wbc, int buff, Calls.EoR<Buffer, Buffer> call) {
 		return write(rbc, wbc, buff, false, call);
 	}
 
@@ -158,7 +155,7 @@ public class ChannelUtil {
 	 * @return 读取流总数
 	 */
 	public static long write(ReadableByteChannel rbc, WritableByteChannel wbc, int buff, boolean isClose,
-			Callback<Buffer, Buffer> call) {
+			Calls.EoR<Buffer, Buffer> call) {
 		// 如果输出或则输入流为空
 		if (wbc == null || rbc == null) {
 			return -1;
@@ -173,7 +170,7 @@ public class ChannelUtil {
 			// 循环读写
 			while ((num = rbc.read(buffer)) > 0) {
 				// 回调函数并获得写入缓存
-				Buffer buf = call.callback(Buffer.wrap(buffer.array(), 0, num));
+				Buffer buf = call.call(Buffer.wrap(buffer.array(), 0, num));
 				// 写文件
 				if (buf.length() > 0)
 					wbc.write(ByteBuffer.wrap(buf.array()));
@@ -187,7 +184,7 @@ public class ChannelUtil {
 		} finally {
 			// 关闭资源
 			if (isClose)
-				Closes.close(wbc, rbc);
+				S.C.close(wbc, rbc);
 		}
 		// 返回总读取字节数
 		return sum;

@@ -2,7 +2,7 @@ package com.weicoder.common.factory;
 
 import java.util.Map;
 
-import com.weicoder.common.lang.Maps;
+import com.weicoder.common.lang.W;
 
 /**
  * 拥有Key功能的工厂基础实现 根据Key生成单例
@@ -10,7 +10,7 @@ import com.weicoder.common.lang.Maps;
  */
 public abstract class FactoryKey<K, E> extends Factory<E> {
 	// 产品仓库
-	protected Map<K, E> map = Maps.newMap();
+	protected Map<K, E> map = W.M.map();
 
 	/**
 	 * 获得实例 单例模式

@@ -5,11 +5,10 @@ import java.util.Set;
 
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 
-import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.lang.Sets;
+import com.weicoder.common.constants.C; 
 import com.weicoder.common.lang.W;
 import com.weicoder.common.log.Logs;
-import com.weicoder.common.util.StringUtil;
+import com.weicoder.common.util.U;
 import com.weicoder.redis.params.RedisParams;
 
 import redis.clients.jedis.Connection;
@@ -40,9 +39,9 @@ public final class JedisBuilder {
 		config.setMaxIdle(RedisParams.getMaxIdle(name));
 		config.setMaxWait(Duration.ofMillis(RedisParams.getMaxWait(name)));
 		// 服务器节点
-		Set<HostAndPort> nodes = Sets.newSet();
+		Set<HostAndPort> nodes = W.S.set();
 		for (String server : RedisParams.getCluster(name)) {
-			String[] s = StringUtil.split(server, StringConstants.COLON);
+			String[] s = U.S.split(server, C.S.COLON);
 			nodes.add(new HostAndPort(s[0], W.C.toInt(s[1])));
 		}
 		// 生成JedisCluster
@@ -65,7 +64,8 @@ public final class JedisBuilder {
 		config.setMaxWait(Duration.ofMillis(RedisParams.getMaxWait(name)));
 		// 实例化连接池
 		Logs.info("redis init pool config={}", config);
-		return new JedisPool(config, RedisParams.getHost(name), RedisParams.getPort(name), Protocol.DEFAULT_TIMEOUT, RedisParams.getPassword(name), RedisParams.getDatabase(name), null);
+		return new JedisPool(config, RedisParams.getHost(name), RedisParams.getPort(name), Protocol.DEFAULT_TIMEOUT,
+				RedisParams.getPassword(name), RedisParams.getDatabase(name), null);
 	}
 
 	private JedisBuilder() {

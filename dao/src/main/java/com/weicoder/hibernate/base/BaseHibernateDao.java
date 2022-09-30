@@ -9,15 +9,14 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.hibernate.resource.transaction.spi.TransactionStatus;
 
-import com.weicoder.common.lang.Lists;
-import com.weicoder.common.lang.Maps;
+import com.weicoder.common.interfaces.Calls;
+import com.weicoder.common.lang.W;
 import com.weicoder.common.log.Log;
 import com.weicoder.common.log.LogFactory;
 import com.weicoder.common.util.U;
 import com.weicoder.dao.Transactional;
 import com.weicoder.dao.base.BaseDao;
-import com.weicoder.hibernate.Callback;
-import com.weicoder.hibernate.HibernateDao; 
+import com.weicoder.hibernate.HibernateDao;
 import com.weicoder.hibernate.session.SessionFactorys;
 import com.weicoder.hibernate.tx.HibernateTransactional;
 
@@ -29,11 +28,11 @@ import com.weicoder.hibernate.tx.HibernateTransactional;
  */
 public abstract class BaseHibernateDao extends BaseDao {
 	// 日志
-	protected final static Log			LOG			= LogFactory.getLog(HibernateDao.class);
+	protected final static Log				LOG			= LogFactory.getLog(HibernateDao.class);
 	// Session工厂
 	protected SessionFactorys				factorys	= new SessionFactorys();
 	// 事务保存列表
-	protected Map<Session, Transactional>	txs			= Maps.newMap();
+	protected Map<Session, Transactional>	txs			= W.M.map();
 
 	@Override
 	public Transactional getTransaction(Class<?> entityClass) {
@@ -70,7 +69,7 @@ public abstract class BaseHibernateDao extends BaseDao {
 
 	@Override
 	public <E> List<E> insertOrUpdate(final List<E> entitys) {
-		return U.E.isEmpty(entitys) ? Lists.emptyList() : execute(entitys.get(0).getClass(), session -> {
+		return U.E.isEmpty(entitys) ? W.L.empty() : execute(entitys.get(0).getClass(), session -> {
 			// 循环更新
 			entitys.forEach(e -> session.saveOrUpdate(e));
 			// 返回实体
@@ -113,11 +112,11 @@ public abstract class BaseHibernateDao extends BaseDao {
 	public <E> List<E> gets(final Class<E> entityClass, final Serializable... pks) {
 		// 验证pk是否为空
 		if (U.E.isEmpty(pks))
-			return Lists.emptyList();
+			return W.L.empty();
 		// 查找对象
 		return execute(entityClass, session -> {
 			// 声明返回对象
-			List<E> list = Lists.newList(pks.length);
+			List<E> list = W.L.list(pks.length);
 			// 循环获得实体列表
 			for (Serializable pk : pks) {
 				list.add(session.get(entityClass, pk));
@@ -126,21 +125,26 @@ public abstract class BaseHibernateDao extends BaseDao {
 			return list;
 		});
 	}
-	
+
 	@Override
 	public int execute(Class<?> entityClass, final String sql, final Object... values) {
-		return execute(entityClass, session -> setParameter(session.createNativeQuery(sql, entityClass), Lists.newList(values), -1, -1).executeUpdate());
+		return execute(entityClass,
+				session -> setParameter(session.createNativeQuery(sql, entityClass), W.L.list(values), -1, -1).executeUpdate());
 	}
 
 	@Override
-	public <E> List<E> query(Class<E> entityClass, final String sql, final List<Object> values, final int firstResult, final int maxResults) {
-		return execute(entityClass, session -> setParameter(session.createNativeQuery(sql, entityClass), values, firstResult, maxResults).getResultList());
+	public <E> List<E> query(Class<E> entityClass, final String sql, final List<Object> values, final int firstResult,
+			final int maxResults) {
+		return execute(entityClass,
+				session -> setParameter(session.createNativeQuery(sql, entityClass), values, firstResult, maxResults)
+						.getResultList());
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public Object query(Class<?> entityClass, String sql, Object... values) {
-		return execute(entityClass, session -> setParameter(session.createNativeQuery(sql), Lists.newList(values), -1, -1).getSingleResult());
+		return execute(entityClass,
+				session -> setParameter(session.createNativeQuery(sql), W.L.list(values), -1, -1).getSingleResult());
 	}
 
 	@Override
@@ -184,12 +188,12 @@ public abstract class BaseHibernateDao extends BaseDao {
 	/**
 	 * 设置Query 参数与结果集数量
 	 * 
-	 * @param  query       Query查询器
-	 * @param  values      参数列表
-	 * @param  firstResult 第一条结果
-	 * @param  maxResults  最大结果
-	 * @param  <R>         泛型
-	 * @return             Query
+	 * @param query       Query查询器
+	 * @param values      参数列表
+	 * @param firstResult 第一条结果
+	 * @param maxResults  最大结果
+	 * @param <R>         泛型
+	 * @return Query
 	 */
 	protected <R> Query<R> setParameter(Query<R> query, List<Object> values, int firstResult, int maxResults) {
 		// 是否有参数
@@ -207,12 +211,12 @@ public abstract class BaseHibernateDao extends BaseDao {
 		// 返回Query
 		return query;
 	}
-	
+
 	/**
 	 * 获得当前Session
 	 * 
-	 * @param  entityClass 实体类
-	 * @return             Session
+	 * @param entityClass 实体类
+	 * @return Session
 	 */
 	protected Session getSession(Class<?> entity) {
 		return factorys.getSession(entity);
@@ -221,12 +225,12 @@ public abstract class BaseHibernateDao extends BaseDao {
 	/**
 	 * 执行Hibernate操作
 	 * 
-	 * @param  entity   类
-	 * @param  callback 回调方法
-	 * @param  <T>      泛型
-	 * @return          泛型对象
+	 * @param entity   类
+	 * @param callback 回调方法
+	 * @param <T>      泛型
+	 * @return 泛型对象
 	 */
-	protected <T> T execute(Class<?> entity, Callback<T> callback) {
+	protected <T> T execute(Class<?> entity, Calls.EoR<Session, T> callback) {
 		// 获得Session
 		Session session = getSession(entity);
 		// 声明事务
@@ -243,7 +247,7 @@ public abstract class BaseHibernateDao extends BaseDao {
 				// 开始事务
 				tx = session.beginTransaction();
 			// 执行
-			t = callback.callback(session);
+			t = callback.call(session);
 			// 是否自己控制事务
 			if (U.E.isNotEmpty(tx))
 				// 提交事务
@@ -264,5 +268,5 @@ public abstract class BaseHibernateDao extends BaseDao {
 		}
 		// 返回对象
 		return t;
-	} 
+	}
 }

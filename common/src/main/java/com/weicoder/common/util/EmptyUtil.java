@@ -9,7 +9,7 @@ import java.util.Map;
  * 
  * @author WD
  */
-public class EmptyUtil {
+public sealed class EmptyUtil permits U.E {
 	/**
 	 * 判断对象是否非空 !isEmptys(objs...);
 	 * 

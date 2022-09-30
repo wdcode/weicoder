@@ -7,13 +7,12 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import org.bson.Document;
 
-import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.lang.Lists;
-import com.weicoder.common.lang.Maps;
+import com.weicoder.common.constants.C;
+import com.weicoder.common.lang.W; 
 import com.weicoder.common.log.Logs;
-import com.weicoder.common.statics.Zips;
+import com.weicoder.common.statics.S;
 import com.weicoder.common.util.U;
-import com.weicoder.json.JsonEngine;
+import com.weicoder.json.J;
 import com.weicoder.mongo.Mongo;
 import com.weicoder.mongo.params.MongoParams;
 
@@ -73,7 +72,7 @@ public final class MongoImpl implements Mongo {
 			db = client.getDatabase(MongoParams.getDB(key));
 			if (U.E.isNotEmpty(MongoParams.getCollection(key)))
 				dbc = db.getCollection(MongoParams.getCollection(key));
-			dbcs = Maps.newMap();
+			dbcs = W.M.map();
 		} catch (Exception e) {
 			Logs.error(e);
 		}
@@ -81,15 +80,15 @@ public final class MongoImpl implements Mongo {
 
 	@Override
 	public void insert(String name, Object data) {
-		getCollection(name).insertOne(Document.parse(JsonEngine.toJson(data)));
+		getCollection(name).insertOne(Document.parse(J.toJson(data)));
 	}
 
 	@Override
 	public void insert(String name, List<Object> list) {
 		// 声明Document列表
-		List<Document> documents = Lists.newList(list.size());
+		List<Document> documents = W.L.list(list.size());
 		// 循环map数组
-		list.forEach(data -> documents.add(Document.parse(JsonEngine.toJson(data))));
+		list.forEach(data -> documents.add(Document.parse(J.toJson(data))));
 		// 插入数据
 		getCollection(name).insertMany(documents);
 	}
@@ -164,7 +163,7 @@ public final class MongoImpl implements Mongo {
 		// 设置限定数量
 		iterable.limit(end - start);
 		// 获得列表
-		List<Map<String, Object>> list = Lists.newList();
+		List<Map<String, Object>> list = W.L.list();
 		// 循环游标
 		MongoCursor<Document> cursor = iterable.iterator();
 		while (cursor.hasNext())
@@ -181,7 +180,7 @@ public final class MongoImpl implements Mongo {
 	 */
 	@SuppressWarnings("unchecked")
 	private Map<String, Object> toMap(Document object) {
-		return (Map<String, Object>) (U.E.isEmpty(object) ? Maps.newMap() : object);
+		return (Map<String, Object>) (U.E.isEmpty(object) ? W.M.map() : object);
 	}
 
 	/**
@@ -206,12 +205,12 @@ public final class MongoImpl implements Mongo {
 	@Override
 	public boolean set(String key, Object value) {
 		// 获得Map
-		Map<String, Object> map = Maps.newMap();
+		Map<String, Object> map = W.M.map();
 		// 设置键值
 		map.put(ID, key);
 		map.put(VALUE, value);
 		// 添加数据
-		insert(StringConstants.EMPTY, map);
+		insert(C.S.EMPTY, map);
 		// 返回成功
 		return true;
 	}
@@ -224,7 +223,7 @@ public final class MongoImpl implements Mongo {
 	@Override
 	public void remove(String... key) {
 		// 获得数据集合
-		MongoCollection<Document> dbc = getCollection(StringConstants.EMPTY);
+		MongoCollection<Document> dbc = getCollection(C.S.EMPTY);
 		// 循环删除
 		for (String k : key)
 			dbc.deleteOne(new BasicDBObject(ID, k));
@@ -232,7 +231,7 @@ public final class MongoImpl implements Mongo {
 
 	@Override
 	public long count(String name, Object key) {
-		return count(name, Maps.newMap(ID, key));
+		return count(name, W.M.newMap(ID, key));
 	}
 
 	@Override
@@ -247,7 +246,7 @@ public final class MongoImpl implements Mongo {
 
 	@Override
 	public boolean exists(String key) {
-		return getCollection(StringConstants.EMPTY).countDocuments(new BasicDBObject(ID, key)) > 0;
+		return getCollection(C.S.EMPTY).countDocuments(new BasicDBObject(ID, key)) > 0;
 	}
 
 	@Override
@@ -261,7 +260,7 @@ public final class MongoImpl implements Mongo {
 	 * @param value 值
 	 */
 	public final boolean compress(String key, Object value) {
-		return set(key, Zips.compress(value));
+		return set(key, S.Z.compress(value));
 	}
 
 	/**
@@ -270,7 +269,7 @@ public final class MongoImpl implements Mongo {
 	 * @return 值
 	 */
 	public final byte[] extract(String key) {
-		return Zips.extract(get(key));
+		return S.Z.extract(get(key));
 	}
 
 	/**
@@ -295,10 +294,10 @@ public final class MongoImpl implements Mongo {
 	 */
 	public List<byte[]> extract(String... keys) {
 		// 声明列表
-		List<byte[]> list = Lists.newList(keys.length);
+		List<byte[]> list = W.L.list(keys.length);
 		// 循环解压数据
 		for (Object o : get(keys))
-			list.add(Zips.extract(o));
+			list.add(S.Z.extract(o));
 		// 返回列表
 		return list;
 	}

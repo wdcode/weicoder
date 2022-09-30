@@ -2,8 +2,8 @@ package com.weicoder.rpc.params;
 
 import com.weicoder.common.config.Config;
 import com.weicoder.common.config.ConfigFactory;
-import com.weicoder.common.params.Params;
-import com.weicoder.common.util.IpUtil;
+import com.weicoder.common.params.P;
+import com.weicoder.common.util.U;
 
 /**
  * rpc参数
@@ -19,11 +19,11 @@ public final class RpcParams {
 	private final static String KEY_HOST = "host";
 	private final static String KEY_PORT = "port";
 	/** rpc服务端口 */
-	public final static int     PORT     = Params.getInt("rpc.port", 6666);
+	public final static int     PORT     = P.getInt("rpc.port", 6666);
 	/** rpc协议 暂时给sofa rpc使用 默认bolt */
-	public final static String  PROTOCOL = Params.getString("rpc.protocol", "bolt");
+	public final static String  PROTOCOL = P.getString("rpc.protocol", "bolt");
 	/** rpc是否守护线程 给sofa rpc使用 */
-	public final static boolean DAEMON   = Params.getBoolean("rpc.daemon", true);
+	public final static boolean DAEMON   = P.getBoolean("rpc.daemon", true);
 
 	/**
 	 * rpc服务器地址
@@ -32,8 +32,8 @@ public final class RpcParams {
 	 * @return      服务器地址
 	 */
 	public static String getHost(String name) {
-		return CONFIG.getString(Params.getKey(name, KEY_HOST),
-				Params.getString(getKey(name, KEY_HOST), IpUtil.LOCAL_IP));
+		return CONFIG.getString(P.getKey(name, KEY_HOST),
+				P.getString(getKey(name, KEY_HOST), U.IP.LOCAL_IP));
 	}
 
 	/**
@@ -43,7 +43,7 @@ public final class RpcParams {
 	 * @return      端口
 	 */
 	public static int getPort(String name) {
-		return CONFIG.getInt(Params.getKey(name, KEY_PORT), Params.getInt(getKey(name, KEY_PORT), 6666));
+		return CONFIG.getInt(P.getKey(name, KEY_PORT), P.getInt(getKey(name, KEY_PORT), 6666));
 	}
 
 	/**
@@ -54,7 +54,7 @@ public final class RpcParams {
 	 * @return      替换后的键
 	 */
 	private static String getKey(String name, String key) {
-		return Params.getKey(PREFIX, name, key);
+		return P.getKey(PREFIX, name, key);
 	}
 
 	private RpcParams() {

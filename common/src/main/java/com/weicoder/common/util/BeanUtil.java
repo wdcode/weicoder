@@ -8,8 +8,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.lang.Lists;
+import com.weicoder.common.constants.C;
 import com.weicoder.common.lang.W;
 import com.weicoder.common.log.Logs;
 
@@ -18,26 +17,26 @@ import com.weicoder.common.log.Logs;
  * 
  * @author WD
  */
-public class BeanUtil {
+public sealed class BeanUtil permits U.B {
 	/**
 	 * 拷贝属性
 	 * 
-	 * @param  source 原对象
-	 * @param  entity 目标类
-	 * @param  <T>    泛型
-	 * @return        目标对象
+	 * @param source 原对象
+	 * @param entity 目标类
+	 * @param <T>    泛型
+	 * @return 目标对象
 	 */
 	public static <T> T copy(Object source, Class<T> entity) {
-		return copy(source, ClassUtil.newInstance(entity));
+		return copy(source, U.C.newInstance(entity));
 	}
 
 	/**
 	 * 拷贝属性
 	 * 
-	 * @param  source 原对象
-	 * @param  target 目标对象
-	 * @param  <T>    泛型
-	 * @return        目标对象
+	 * @param source 原对象
+	 * @param target 目标对象
+	 * @param <T>    泛型
+	 * @return 目标对象
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T> T copy(Object source, T target) {
@@ -71,10 +70,10 @@ public class BeanUtil {
 	/**
 	 * 把Map的Key与Object属性相同的字段赋值 就是把Map对应的值赋给Object
 	 * 
-	 * @param  map  源对象
-	 * @param  dest 目标对象
-	 * @param  <T>  泛型
-	 * @return      dest 目标对象
+	 * @param map  源对象
+	 * @param dest 目标对象
+	 * @param <T>  泛型
+	 * @return dest 目标对象
 	 */
 	public static <T> T copy(Map<?, ?> map, T dest) {
 		// 循环字段
@@ -97,28 +96,28 @@ public class BeanUtil {
 	 * 把Map的Key与Class的实例属性相同的字段赋值 就是把Map对应的值赋给Object
 	 * <h2>注: 此方法回返回Class的一个新实例对象</h2>
 	 * 
-	 * @param  map  源对象
-	 * @param  dest 目标对象的Class用dest.newInstance()生成一个新的实例 *
-	 * @param  <T>  泛型
-	 * @return      dest 目标对象的新实例
+	 * @param map  源对象
+	 * @param dest 目标对象的Class用dest.newInstance()生成一个新的实例 *
+	 * @param <T>  泛型
+	 * @return dest 目标对象的新实例
 	 */
 	public static <T> T copy(Map<?, ?> map, Class<T> dest) {
-		return copy(map, ClassUtil.newInstance(dest));
+		return copy(map, U.C.newInstance(dest));
 	}
 
 	/**
 	 * 把Map的Key与Class的实例属性相同的字段赋值 就是把Map对应的值赋给Object
 	 * 
-	 * @param  dest 目标对象的E用dest.getClass().newInstance()生成一个新的实例
-	 * @param  list map对象列表
-	 * @param  <T>  泛型
-	 * @return      转换后的对象
+	 * @param dest 目标对象的E用dest.getClass().newInstance()生成一个新的实例
+	 * @param list map对象列表
+	 * @param <T>  泛型
+	 * @return 转换后的对象
 	 */
 	public static <T> List<T> copy(List<Map<String, Object>> list, Class<T> dest) {
 		// 获得列表大小
 		int size = list.size();
 		// 获得列表
-		List<T> ls = Lists.newList(size);
+		List<T> ls = W.L.list(size);
 		// 是 ArrayList
 		for (int i = 0; i < size; i++)
 			ls.add(copy(list.get(i), dest));
@@ -129,16 +128,16 @@ public class BeanUtil {
 	/**
 	 * 直接读取对象属性值, 无视private/protected修饰符, 不经过getter函数.
 	 * 
-	 * @param  list      列表
-	 * @param  fieldName 属性名
-	 * @return           属性值
+	 * @param list      列表
+	 * @param fieldName 属性名
+	 * @return 属性值
 	 */
 	public static List<Object> getFieldValues(Collection<?> list, String fieldName) {
 		// 对象为空
 		if (U.E.isEmpty(list))
-			return Lists.emptyList();
+			return W.L.empty();
 		// 声明返回列表
-		List<Object> ls = Lists.newList(list.size());
+		List<Object> ls = W.L.list(list.size());
 		// 循环添加
 		list.forEach(e -> {
 			// 获得值
@@ -156,14 +155,14 @@ public class BeanUtil {
 	/**
 	 * 获得本类下所有字段值
 	 * 
-	 * @param  obj 对象
-	 * @return     列表
+	 * @param obj 对象
+	 * @return 列表
 	 */
 	public static List<Object> getFieldValues(Object obj) {
 		// 获得所有字段
 		List<Field> fields = getFields(obj.getClass());
 		// 声明值列表
-		List<Object> values = Lists.newList(fields.size());
+		List<Object> values = W.L.list(fields.size());
 		// 循环赋值
 		fields.forEach(field -> values.add(getFieldValue(obj, field.getName())));
 		// 返回值列表
@@ -173,15 +172,15 @@ public class BeanUtil {
 	/**
 	 * 直接读取对象属性值, 无视private/protected修饰符, 不经过getter函数.
 	 * 
-	 * @param  object    调用的对象
-	 * @param  fieldName 属性名
-	 * @return           属性值
+	 * @param object    调用的对象
+	 * @param fieldName 属性名
+	 * @return 属性值
 	 */
 	public static Object getFieldValue(Object object, String fieldName) {
 		// 如果有复杂字段
-		if (fieldName.indexOf(StringConstants.POINT) > -1)
-			return getFieldValue(getFieldValue(object, StringUtil.subStringEnd(fieldName, StringConstants.POINT)),
-					StringUtil.subString(fieldName, StringConstants.POINT));
+		if (fieldName.indexOf(C.S.POINT) > -1)
+			return getFieldValue(getFieldValue(object, U.S.subStringEnd(fieldName, C.S.POINT)),
+					U.S.subString(fieldName, C.S.POINT));
 		// 获得字段
 		Field field = getField(object, fieldName);
 		// 判断字段为空 返回null
@@ -199,9 +198,9 @@ public class BeanUtil {
 	/**
 	 * 直接读取对象属性值, 无视private/protected修饰符, 不经过getter函数.
 	 * 
-	 * @param  object 调用的对象
-	 * @param  field  字段
-	 * @return        属性值
+	 * @param object 调用的对象
+	 * @param field  字段
+	 * @return 属性值
 	 */
 	public static Object getFieldValue(Object object, Field field) {
 		// 判断字段为空 返回null
@@ -261,10 +260,10 @@ public class BeanUtil {
 	/**
 	 * 直接调用对象方法
 	 * 
-	 * @param  obj    调用的对象
-	 * @param  method 方法
-	 * @param  args   参数
-	 * @return        方法返回值
+	 * @param obj    调用的对象
+	 * @param method 方法
+	 * @param args   参数
+	 * @return 方法返回值
 	 */
 	public static Object invoke(Object obj, Method method, Object... args) {
 		try {
@@ -279,9 +278,9 @@ public class BeanUtil {
 	/**
 	 * 直接调用对象方法
 	 * 
-	 * @param  object 调用的对象
-	 * @param  name   方法名
-	 * @return        方法返回值
+	 * @param object 调用的对象
+	 * @param name   方法名
+	 * @return 方法返回值
 	 */
 	public static Object invoke(Object object, String name) {
 		return invoke(object, name, null, null);
@@ -290,11 +289,11 @@ public class BeanUtil {
 	/**
 	 * 直接调用对象方法
 	 * 
-	 * @param  object         调用的对象
-	 * @param  name           方法名
-	 * @param  parameterTypes 参数类型
-	 * @param  parameters     参数
-	 * @return                方法返回值
+	 * @param object         调用的对象
+	 * @param name           方法名
+	 * @param parameterTypes 参数类型
+	 * @param parameters     参数
+	 * @return 方法返回值
 	 */
 	public static Object invoke(Object object, String name, Class<?>[] parameterTypes, Object[] parameters) {
 		// 声明Class
@@ -318,9 +317,9 @@ public class BeanUtil {
 	/**
 	 * 获得对象的字段
 	 * 
-	 * @param  object 对象
-	 * @param  i      字段序号
-	 * @return        字段
+	 * @param object 对象
+	 * @param i      字段序号
+	 * @return 字段
 	 */
 	public static Field getField(Object object, int i) {
 		return getField(object.getClass(), i);
@@ -329,9 +328,9 @@ public class BeanUtil {
 	/**
 	 * 获得Class的字段
 	 * 
-	 * @param  clazz Class
-	 * @param  i     字段序号
-	 * @return       字段
+	 * @param clazz Class
+	 * @param i     字段序号
+	 * @return 字段
 	 */
 	public static Field getField(Class<?> clazz, int i) {
 		// 判断对象和字段名是否为空
@@ -348,9 +347,9 @@ public class BeanUtil {
 	/**
 	 * 获得对象的字段
 	 * 
-	 * @param  object 对象
-	 * @param  name   字段名
-	 * @return        字段
+	 * @param object 对象
+	 * @param name   字段名
+	 * @return 字段
 	 */
 	public static Field getField(Object object, String name) {
 		return getField(object.getClass(), name);
@@ -359,18 +358,18 @@ public class BeanUtil {
 	/**
 	 * 获得Class的字段
 	 * 
-	 * @param  clazz Class
-	 * @param  name  字段名
-	 * @return       字段
+	 * @param clazz Class
+	 * @param name  字段名
+	 * @return 字段
 	 */
 	public static Field getField(Class<?> clazz, String name) {
 		// 判断对象和字段名是否为空
 		if (clazz == null || U.E.isEmpty(name))
 			return null;
 		// 如果有复杂字段
-		if (name.indexOf(StringConstants.POINT) > -1)
-			return getField(getField(clazz, StringUtil.subStringEnd(name, StringConstants.POINT)),
-					StringUtil.subString(name, StringConstants.POINT));
+		if (name.indexOf(C.S.POINT) > -1)
+			return getField(getField(clazz, U.S.subStringEnd(name, C.S.POINT)),
+					U.S.subString(name, C.S.POINT));
 		// 声明字段
 		Field f = null;
 //		// 循环对象类
@@ -388,20 +387,20 @@ public class BeanUtil {
 	/**
 	 * 循环向上转型, 获取对象的DeclaredField. 如向上转型到Object仍无法找到, 返回null.
 	 * 
-	 * @param  clazz 类
-	 * @return       列表
+	 * @param clazz 类
+	 * @return 列表
 	 */
 	public static List<Field> getFields(Class<?> clazz) {
 		// 判断对象和字段名是否为空
 		if (U.E.isEmpty(clazz))
-			return Lists.emptyList();
+			return W.L.empty();
 		// 声明列表
-		List<Field> fields = Lists.newList();
+		List<Field> fields = W.L.list();
 		// 循环对象类
 		for (; clazz != Object.class; clazz = clazz.getSuperclass())
 			try {
 				// 添加字段列表
-				fields.addAll(Lists.newList(clazz.getDeclaredFields()));
+				fields.addAll(W.L.list(clazz.getDeclaredFields()));
 			} catch (Exception e) {
 			}
 		// 没有找到返回null
@@ -411,10 +410,10 @@ public class BeanUtil {
 	/**
 	 * 获得对象的方法
 	 * 
-	 * @param  obj            对象
-	 * @param  name           方法
-	 * @param  parameterTypes 参数类型
-	 * @return                方法
+	 * @param obj            对象
+	 * @param name           方法
+	 * @param parameterTypes 参数类型
+	 * @return 方法
 	 */
 	public static Method getMethod(Object obj, String name, Class<?>... parameterTypes) {
 		// 判断对象和字段名是否为空
@@ -437,8 +436,8 @@ public class BeanUtil {
 	/**
 	 * 强行设置Field可访问.
 	 * 
-	 * @param  field 字段
-	 * @return       字段
+	 * @param field 字段
+	 * @return 字段
 	 */
 	private static Field makeAccessible(Field field) {
 		// 判断字段是否公有
@@ -452,8 +451,8 @@ public class BeanUtil {
 	/**
 	 * 强行设置Field可访问.
 	 * 
-	 * @param  method 方法
-	 * @return        方法
+	 * @param method 方法
+	 * @return 方法
 	 */
 	private static Method makeAccessible(Method method) {
 		// 判断字段是否公有

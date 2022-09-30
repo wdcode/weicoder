@@ -4,10 +4,10 @@ import java.io.ByteArrayOutputStream;
 import java.nio.ByteBuffer;
 import java.nio.channels.AsynchronousByteChannel;
 
-import com.weicoder.common.constants.ArrayConstants;
+import com.weicoder.common.constants.C;
 import com.weicoder.common.log.Logs;
-import com.weicoder.common.params.CommonParams;
-import com.weicoder.common.statics.Closes;
+import com.weicoder.common.params.P;
+import com.weicoder.common.statics.S;
 import com.weicoder.common.util.U;
 
 /**
@@ -15,7 +15,7 @@ import com.weicoder.common.util.U;
  * 
  * @author wudi
  */
-public class AsynChannelUtil {
+public sealed class AsynChannelUtil permits I.A{
 	/**
 	 * 读取出通道的所有字节
 	 * 
@@ -23,7 +23,7 @@ public class AsynChannelUtil {
 	 * @return     字节数组
 	 */
 	public static byte[] read(AsynchronousByteChannel asc) {
-		return read(asc, CommonParams.IO_CLOSE);
+		return read(asc, P.C.IO_CLOSE);
 	}
 
 	/**
@@ -35,17 +35,17 @@ public class AsynChannelUtil {
 	 */
 	public static byte[] read(AsynchronousByteChannel asc, boolean isClose) {
 		if (asc == null)
-			return ArrayConstants.BYTES_EMPTY;
+			return C.A.BYTES_EMPTY;
 		// 创建结果字节缓存
 		try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
 			// 获得一个ByteBuffer
-			ByteBuffer buffer = ByteBuffer.allocate(CommonParams.IO_BUFFERSIZE);
+			ByteBuffer buffer = ByteBuffer.allocate(P.C.IO_BUFFERSIZE);
 			// 声明保存读取字符数量
 			int num = 0;
 			// 循环读取
 			while ((num = asc.read(buffer).get()) > 0) {
 				// 添加
-				out.write(buffer.hasArray() ? buffer.array() : ArrayConstants.BYTES_EMPTY, 0, num);
+				out.write(buffer.hasArray() ? buffer.array() : C.A.BYTES_EMPTY, 0, num);
 				// 清除缓存
 				buffer.clear();
 			}
@@ -53,11 +53,11 @@ public class AsynChannelUtil {
 			return out.toByteArray();
 		} catch (Exception e) {
 			Logs.error(e);
-			return ArrayConstants.BYTES_EMPTY;
+			return C.A.BYTES_EMPTY;
 		} finally {
 			// 关闭资源
 			if (isClose)
-				Closes.close(asc);
+				S.C.close(asc);
 		}
 	}
 
@@ -69,7 +69,7 @@ public class AsynChannelUtil {
 	 * @return     true false
 	 */
 	public static int write(AsynchronousByteChannel asc, byte[] b) {
-		return write(asc, b, CommonParams.IO_CLOSE);
+		return write(asc, b, P.C.IO_CLOSE);
 	}
 
 	/**
@@ -94,7 +94,7 @@ public class AsynChannelUtil {
 		} finally {
 			// 关闭资源
 			if (isClose)
-				Closes.close(asc);
+				S.C.close(asc);
 		}
 	}
 }

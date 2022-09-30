@@ -61,7 +61,7 @@ public class BasicInterceptor<E extends SuperAction> {
 	 */
 	protected String exception(Object action, Throwable e) {
 		// // 声明消息字符串
-		// String mess = StringConstants.EMPTY;
+		// String mess = C.S.EMPTY;
 		// // 异常不为空
 		// while (e != null) {
 		// mess = e.getMessage();

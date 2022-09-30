@@ -8,17 +8,16 @@ import org.apache.commons.mail.HtmlEmail;
 import org.apache.commons.mail.MultiPartEmail;
 import org.apache.commons.mail.SimpleEmail;
 
-import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.log.Logs;
-import com.weicoder.common.params.EmailParams;
-import com.weicoder.common.util.StringUtil;
+import com.weicoder.common.constants.C;
+import com.weicoder.common.log.Logs; 
 import com.weicoder.common.util.U;
 import com.weicoder.email.base.BaseEmail;
+import com.weicoder.email.params.EmailParams;
 
 /**
  * EmailUtil Apache Common Email实现
  * 
- * @author  WD 
+ * @author WD
  */
 public final class EmailApache extends BaseEmail {
 	/**
@@ -155,7 +154,7 @@ public final class EmailApache extends BaseEmail {
 			// 附件设置
 			attachment.setDisposition(EmailAttachment.ATTACHMENT);
 			// 设置描述名字等
-			String name = StringUtil.subStringLast(attach, StringConstants.BACKSLASH, StringConstants.POINT);
+			String name = U.S.subStringLast(attach, C.S.BACKSLASH, C.S.POINT);
 			// 描述
 			attachment.setDescription(name);
 			// 名字

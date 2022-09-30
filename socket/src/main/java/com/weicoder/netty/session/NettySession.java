@@ -42,7 +42,7 @@ public class NettySession extends BaseSession {
 	 */
 	protected void channel(Channel channel) {
 		address(channel.remoteAddress());
-		this.id = W.C.toLong(channel.id().asLongText()); // Bytes.toLong(Bytes.toBytes(IpUtil.encode(ip), port));
+		this.id = W.C.toLong(channel.id().asLongText()); // W.B.toLong(W.B.toBytes(U.IP.encode(ip), port));
 		this.channel = channel;
 	}
 

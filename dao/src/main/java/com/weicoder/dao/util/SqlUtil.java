@@ -1,8 +1,7 @@
 package com.weicoder.dao.util;
 
-import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.util.StringUtil;
-import com.weicoder.common.util.U;
+import com.weicoder.common.constants.C;
+import com.weicoder.common.util.U; 
 
 /**
  * 对SQL语句进行处理
@@ -15,7 +14,7 @@ public final class SqlUtil {
 	 * @return 转换后查询总行数的SQL语句
 	 */
 	public static String getCountSQL(String sql) {
-		return "SELECT COUNT(1) FROM " + StringUtil.subString(sql.toLowerCase(), "from");
+		return "SELECT COUNT(1) FROM " + U.S.subString(sql.toLowerCase(), "from");
 	}
 
 	/**
@@ -33,7 +32,7 @@ public final class SqlUtil {
 	 * @return 过滤后的语句
 	 */
 	public static String sqlFilterHigh(String sql) {
-		return U.E.isEmpty(sql) ? StringConstants.EMPTY : sql.replaceAll("'", "''");
+		return U.E.isEmpty(sql) ? C.S.EMPTY : sql.replaceAll("'", "''");
 	}
 
 	/**
@@ -43,13 +42,13 @@ public final class SqlUtil {
 	 */
 	public static String getTable(String sql) {
 		// 查找表名
-		String name = StringConstants.EMPTY;
+		String name = C.S.EMPTY;
 		if (sql.startsWith("insert"))
-			name = StringUtil.subString(sql, "into ", StringConstants.BLANK);
+			name = U.S.subString(sql, "into ", C.S.BLANK);
 		else if (sql.startsWith("update"))
-			name = StringUtil.subString(sql, "update ", StringConstants.BLANK);
+			name = U.S.subString(sql, "update ", C.S.BLANK);
 		else if (sql.startsWith("select"))
-			name = StringUtil.subString(sql, "from ", StringConstants.BLANK);
+			name = U.S.subString(sql, "from ", C.S.BLANK);
 		return name;
 	}
 

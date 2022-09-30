@@ -6,7 +6,7 @@ import java.util.concurrent.Executors;
 
 //import com.lmax.disruptor.YieldingWaitStrategy;
 import com.lmax.disruptor.dsl.Disruptor;
-import com.weicoder.common.util.U;
+import com.weicoder.common.thread.concurrent.factory.DTF; 
 
 /**
  * 测试 P1生产消息，C1，C2消费消息，C1和C2会共享所有的event元素! C3依赖C1，C2处理结果
@@ -30,13 +30,12 @@ public class Main {
 //				return new InParkingDataEvent();
 //			}
 //		}, bufferSize, U.DTF.INSTANCE);
-		Disruptor<InParkingDataEvent> disruptor = new Disruptor<InParkingDataEvent>(() -> new InParkingDataEvent(),
-				bufferSize, U.DTF.INSTANCE);
+		Disruptor<InParkingDataEvent> disruptor = new Disruptor<InParkingDataEvent>(() -> new InParkingDataEvent(), bufferSize,
+				DTF.INSTANCE);
 
 		// 使用disruptor创建消费者组C1,C2
 //		EventHandlerGroup<InParkingDataEvent> handlerGroup = 
-				disruptor.handleEventsWith(new ParkingDataToKafkaHandler(),
-				new ParkingDataInDbHandler());
+		disruptor.handleEventsWith(new ParkingDataToKafkaHandler(), new ParkingDataInDbHandler());
 
 //		ParkingDataSmsHandler smsHandler = new ParkingDataSmsHandler();
 //		// 声明在C1,C2完事之后执行JMS消息发送操作 也就是流程走到C3

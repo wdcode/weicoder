@@ -12,15 +12,12 @@ import jakarta.websocket.RemoteEndpoint;
 import jakarta.websocket.Session;
 import jakarta.websocket.server.ServerEndpoint;
 
-import com.weicoder.common.lang.Maps;
-import com.weicoder.common.lang.W;
+import com.weicoder.common.lang.W; 
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.token.TokenBean;
 import com.weicoder.common.token.TokenEngine;
-import com.weicoder.common.util.BeanUtil;
-import com.weicoder.common.util.ClassUtil;
-import com.weicoder.common.util.U;
-import com.weicoder.json.JsonEngine;
+import com.weicoder.common.util.U; 
+import com.weicoder.json.J;
 import com.weicoder.websocket.common.WebSocketCommons;
 
 /**
@@ -30,7 +27,7 @@ import com.weicoder.websocket.common.WebSocketCommons;
 @ServerEndpoint("/{}")
 public class BasicServerEndpoint {
 	// session 管理
-	private final static Map<String, Session> SESSIONS = Maps.newConcurrentMap();
+	private final static Map<String, Session> SESSIONS = W.M.concurrent();
 
 	/**
 	 * 连接建立成功调用的方法
@@ -75,7 +72,7 @@ public class BasicServerEndpoint {
 		// 获得异步客户端通道
 		RemoteEndpoint.Async async = session.getAsyncRemote();
 		// 把传过来的字符串转换成map 要求过来数据为json
-		Map<String, Object> ps = JsonEngine.toMap(message);
+		Map<String, Object> ps = J.toMap(message);
 		// 获得参数里的action
 		String name = W.C.toString(ps.get("action"));
 		// 判断action为空
@@ -113,17 +110,17 @@ public class BasicServerEndpoint {
 					params[i] = TokenEngine.decrypt(W.C.toString(ps.get(p.getName())));
 				else if (Map.class.equals(cs))
 					params[i] = ps;
-				else if (ClassUtil.isBaseType(cs)) {
+				else if (U.C.isBaseType(cs)) {
 					// 获得参数
 					params[i] = W.C.to(ps.get(p.getName()), cs);
 				} else {
 					// 设置属性
-					params[i] = BeanUtil.copy(ps, cs);
+					params[i] = U.B.copy(ps, cs);
 				}
 				// 调用方法
-				Object res = BeanUtil.invoke(action, method, params);
+				Object res = U.B.invoke(action, method, params);
 				// 返回结果
-				async.sendText(res instanceof String || res instanceof Number ? W.C.toString(res) : JsonEngine.toJson(res));
+				async.sendText(res instanceof String || res instanceof Number ? W.C.toString(res) : J.toJson(res));
 			}
 		}
 	}

@@ -1,6 +1,6 @@
 package com.weicoder.common.token;
 
-import com.weicoder.common.params.CommonParams;
+import com.weicoder.common.params.P;
 
 /**
  * Token令牌处理器
@@ -20,7 +20,7 @@ public class TokenEngine {
 	 * @return      Token
 	 */
 	public static TokenBean newToken(long id, String ip) {
-		return newToken(id, ip, CommonParams.TOKEN_EXPIRE);
+		return newToken(id, ip, P.C.TOKEN_EXPIRE);
 	}
 
 	/**

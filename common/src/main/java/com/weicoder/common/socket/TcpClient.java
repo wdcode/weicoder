@@ -6,10 +6,8 @@ import java.net.Socket;
 import java.nio.channels.AsynchronousSocketChannel;
 import java.nio.channels.SocketChannel;
 
-import com.weicoder.common.constants.ArrayConstants;
-import com.weicoder.common.io.AsynChannelUtil;
-import com.weicoder.common.io.ChannelUtil;
-import com.weicoder.common.io.IOUtil;
+import com.weicoder.common.constants.C;
+import com.weicoder.common.io.I; 
 import com.weicoder.common.log.Logs;
 
 /**
@@ -32,11 +30,11 @@ public final class TcpClient {
 	/**
 	 * bio模式发送数据
 	 * 
-	 * @param  host 服务器主机
-	 * @param  port 服务器端口
-	 * @param  data 发送数据
-	 * @param  read 是否读取回执数据
-	 * @return      byte[] 字节流
+	 * @param host 服务器主机
+	 * @param port 服务器端口
+	 * @param data 发送数据
+	 * @param read 是否读取回执数据
+	 * @return byte[] 字节流
 	 */
 	public static byte[] send(String host, int port, byte[] data, boolean read) {
 		return send(new InetSocketAddress(host, port), data, read);
@@ -45,10 +43,10 @@ public final class TcpClient {
 	/**
 	 * bio模式发送数据
 	 * 
-	 * @param  addr 服务器调用地址
-	 * @param  data 发送数据
-	 * @param  read 是否读取回执数据
-	 * @return      byte[] 字节流
+	 * @param addr 服务器调用地址
+	 * @param data 发送数据
+	 * @param read 是否读取回执数据
+	 * @return byte[] 字节流
 	 */
 	public static byte[] send(InetSocketAddress addr, byte[] data, boolean read) {
 		// 实例化Socket
@@ -56,16 +54,16 @@ public final class TcpClient {
 			// 连接服务器
 			socket.connect(addr);
 			// 写入数据流
-			IOUtil.write(socket.getOutputStream(), data, false);
+			I.write(socket.getOutputStream(), data, false);
 			// 读取数据
 			if (read) {
 				socket.shutdownOutput();
-				return IOUtil.read(socket.getInputStream(), false);
+				return I.read(socket.getInputStream(), false);
 			}
 		} catch (IOException e) {
 			Logs.error(e);
 		}
-		return ArrayConstants.BYTES_EMPTY;
+		return C.A.BYTES_EMPTY;
 	}
 
 	/**
@@ -82,11 +80,11 @@ public final class TcpClient {
 	/**
 	 * nio模式发送数据
 	 * 
-	 * @param  host 服务器主机
-	 * @param  port 服务器端口
-	 * @param  data 发送数据
-	 * @param  read 是否读取回执数据
-	 * @return      接收的数据
+	 * @param host 服务器主机
+	 * @param port 服务器端口
+	 * @param data 发送数据
+	 * @param read 是否读取回执数据
+	 * @return 接收的数据
 	 */
 	public static byte[] write(String host, int port, byte[] data, boolean read) {
 		return write(new InetSocketAddress(host, port), data, read);
@@ -95,10 +93,10 @@ public final class TcpClient {
 	/**
 	 * nio模式发送数据
 	 * 
-	 * @param  addr 服务器调用地址
-	 * @param  data 发送数据
-	 * @param  read 是否读取回执数据
-	 * @return      接收的数据
+	 * @param addr 服务器调用地址
+	 * @param data 发送数据
+	 * @param read 是否读取回执数据
+	 * @return 接收的数据
 	 */
 	public static byte[] write(InetSocketAddress addr, byte[] data, boolean read) {
 		// 实例化Socket
@@ -106,16 +104,16 @@ public final class TcpClient {
 			// 连接服务器
 			socket.connect(addr);
 			// 写入数据流
-			ChannelUtil.write(socket, data, false);
+			I.C.write(socket, data, false);
 			// 读取数据
 			if (read) {
 				socket.shutdownOutput();
-				return ChannelUtil.read(socket, false);
+				return I.C.read(socket, false);
 			}
 		} catch (IOException e) {
 			Logs.error(e);
 		}
-		return ArrayConstants.BYTES_EMPTY;
+		return C.A.BYTES_EMPTY;
 	}
 
 	/**
@@ -132,11 +130,11 @@ public final class TcpClient {
 	/**
 	 * aio模式发送数据 接收返回数据
 	 * 
-	 * @param  host 服务器主机
-	 * @param  port 服务器端口
-	 * @param  data 发送数据
-	 * @param  read 是否读取数据
-	 * @return      接收的数据
+	 * @param host 服务器主机
+	 * @param port 服务器端口
+	 * @param data 发送数据
+	 * @param read 是否读取数据
+	 * @return 接收的数据
 	 */
 	public static byte[] asyn(String host, int port, byte[] data, boolean read) {
 		return asyn(new InetSocketAddress(host, port), data, read);
@@ -145,10 +143,10 @@ public final class TcpClient {
 	/**
 	 * aio模式发送数据 接收返回数据
 	 * 
-	 * @param  addr 服务器调用地址
-	 * @param  data 发送数据
-	 * @param  read 是否读取数据
-	 * @return      接收的数据
+	 * @param addr 服务器调用地址
+	 * @param data 发送数据
+	 * @param read 是否读取数据
+	 * @return 接收的数据
 	 */
 	public static byte[] asyn(InetSocketAddress addr, byte[] data, boolean read) {
 		// 实例化Socket
@@ -156,16 +154,16 @@ public final class TcpClient {
 			// 连接服务器
 			socket.connect(addr).get();
 			// 写入数据流
-			AsynChannelUtil.write(socket, data, false);
+			I.A.write(socket, data, false);
 			// 读取数据
 			if (read) {
 				socket.shutdownOutput();
-				return AsynChannelUtil.read(socket, false);
+				return I.A.read(socket, false);
 			}
 		} catch (Exception e) {
 			Logs.error(e);
 		}
-		return ArrayConstants.BYTES_EMPTY;
+		return C.A.BYTES_EMPTY;
 	}
 
 	private TcpClient() {

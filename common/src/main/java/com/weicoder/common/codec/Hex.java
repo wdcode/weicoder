@@ -1,8 +1,7 @@
 package com.weicoder.common.codec;
 
-import com.weicoder.common.constants.ArrayConstants;
-import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.lang.Bytes;
+import com.weicoder.common.constants.C;  
+import com.weicoder.common.lang.W;
 import com.weicoder.common.util.U;
 
 /**
@@ -21,7 +20,7 @@ public final class Hex {
 	 * @return 编码后的字符串
 	 */
 	public static String encode(Object data) {
-		return encode(Bytes.toBytes(data));
+		return encode(W.B.toBytes(data));
 	}
 
 	/**
@@ -33,7 +32,7 @@ public final class Hex {
 	public static String encode(byte[] data) {
 		// 如果为空返回字符串
 		if (U.E.isEmpty(data)) {
-			return StringConstants.EMPTY;
+			return C.S.EMPTY;
 		}
 		// 声明字符数组
 		int l = data.length;
@@ -56,7 +55,7 @@ public final class Hex {
 	public static byte[] decode(String str) {
 		// 如果要解码的字符串为空 返回字节数组
 		if (U.E.isEmpty(str))
-			return ArrayConstants.BYTES_EMPTY;
+			return C.A.BYTES_EMPTY;
 		// 声明字节数组
 		char[] data = str.toCharArray();
 		int len = data.length;

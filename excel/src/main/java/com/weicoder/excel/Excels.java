@@ -2,7 +2,7 @@ package com.weicoder.excel;
 
 import java.io.File;
 
-import com.weicoder.common.util.U;
+import com.weicoder.common.io.I; 
 import com.weicoder.excel.impl.ExcelPOI;
 
 /**
@@ -17,9 +17,9 @@ public final class Excels {
 	 */
 	public static Excel getExcel(String fileName) { 
 		try {
-			return getExcel(U.F.newFile(fileName));
+			return getExcel(I.F.newFile(fileName));
 		} catch (Exception e) {
-			return getExcel(U.F.newFile(fileName));
+			return getExcel(I.F.newFile(fileName));
 		}
 	}
 

@@ -5,10 +5,8 @@ import java.util.Set;
 import com.weicoder.common.binary.ByteArray;
 import com.weicoder.common.crypto.Decrypts;
 import com.weicoder.common.crypto.Encrypts;
-import com.weicoder.common.lang.Bytes;
-import com.weicoder.common.params.CommonParams;
-import com.weicoder.common.util.DateUtil;
-import com.weicoder.common.util.IpUtil;
+import com.weicoder.common.lang.W;
+import com.weicoder.common.params.P; 
 import com.weicoder.common.util.U;
 
 /**
@@ -58,18 +56,18 @@ public final class TokenBean implements ByteArray {
 	 */
 	TokenBean(long id, String ip, int time, boolean ban, byte b) {
 		this.id = id;
-		this.time = DateUtil.getTime() + time;
+		this.time = U.D.getTime() + time;
 		this.ip = ip;
-		this.server = IpUtil.SERVER_IP;
+		this.server = U.IP.SERVER_IP;
 		this.ban = ban;
 		this.b = b;
-		this.sign = CommonParams.TOKEN_SIGN;
+		this.sign = P.C.TOKEN_SIGN;
 		this.token = Encrypts.token(array());
 		this.valid = true;
 	}
 
 	public String getDate() {
-		return DateUtil.toString(time);
+		return U.D.toString(time);
 	}
 
 	/**
@@ -87,7 +85,7 @@ public final class TokenBean implements ByteArray {
 	 * @return 是否正确
 	 */
 	public boolean isSign() {
-		return this.sign == CommonParams.TOKEN_SIGN;// isSign(CommonParams.TOKEN_SIGN);
+		return this.sign == P.C.TOKEN_SIGN;// isSign(P.C.TOKEN_SIGN);
 	}
 
 	/**
@@ -105,7 +103,7 @@ public final class TokenBean implements ByteArray {
 	 * @return 是否存在
 	 */
 	public boolean isServer() {
-		return CommonParams.TOKEN_SERVERS.contains(server); // isServer(CommonParams.TOKEN_SERVERS);
+		return P.C.TOKEN_SERVERS.contains(server); // isServer(P.C.TOKEN_SERVERS);
 	}
 
 	/**
@@ -142,7 +140,7 @@ public final class TokenBean implements ByteArray {
 	 * @return true 到期 false 有效
 	 */
 	public boolean isExpire() {
-		return time - DateUtil.getTime() < 0;
+		return time - U.D.getTime() < 0;
 	}
 
 	/**
@@ -193,20 +191,20 @@ public final class TokenBean implements ByteArray {
 
 	@Override
 	public byte[] array() {
-		return Bytes.toBytes(id, time, IpUtil.encode(ip), IpUtil.encode(server), ban, b, sign);
+		return W.B.toBytes(id, time, U.IP.encode(ip), U.IP.encode(server), ban, b, sign);
 	}
 
 	@Override
 	public TokenBean array(byte[] b) {
 		// 判断字节数组不为空
 		if (U.E.isNotEmpty(b)) {
-			this.id = Bytes.toLong(b);
-			this.time = Bytes.toInt(b, 8);
-			this.ip = IpUtil.decode(Bytes.toInt(b, 12));
-			this.server = IpUtil.decode(Bytes.toInt(b, 16));
-			this.ban = Bytes.toBoolean(b, 20);
-			this.b = Bytes.toByte(b, 21);
-			this.sign = Bytes.toShort(b, 22);
+			this.id = W.B.toLong(b);
+			this.time = W.B.toInt(b, 8);
+			this.ip = U.IP.decode(W.B.toInt(b, 12));
+			this.server = U.IP.decode(W.B.toInt(b, 16));
+			this.ban = W.B.toBoolean(b, 20);
+			this.b = W.B.toByte(b, 21);
+			this.sign = W.B.toShort(b, 22);
 			this.valid = id != 0;
 		}
 		// 返回自身

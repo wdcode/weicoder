@@ -10,11 +10,10 @@ import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 
-import com.weicoder.common.constants.C;
-import com.weicoder.common.io.IOUtil;
-import com.weicoder.common.lang.Lists;
-import com.weicoder.common.log.Logs;
-import com.weicoder.common.util.U;
+import com.weicoder.common.io.I;
+import com.weicoder.common.constants.C; 
+import com.weicoder.common.lang.W;
+import com.weicoder.common.log.Logs; 
 
 /**
  * Hapoop操作类
@@ -86,7 +85,7 @@ public class Hadoop {
 	 */
 	public void create(String file, InputStream in) {
 		try {
-			IOUtil.write(fs.create(new Path(file)), in);
+			I.write(fs.create(new Path(file)), in);
 		} catch (Exception e) {
 			Logs.error(e);
 		}
@@ -100,7 +99,7 @@ public class Hadoop {
 	 */
 	public void create(String file, byte[] b) {
 		try {
-			IOUtil.write(fs.create(new Path(file)), b);
+			I.write(fs.create(new Path(file)), b);
 		} catch (Exception e) {
 			Logs.error(e);
 		}
@@ -114,9 +113,9 @@ public class Hadoop {
 	 */
 	public List<FileStatus> list(String path) {
 		try {
-			return Lists.newList(fs.listStatus(new Path(path)));
+			return W.L.list(fs.listStatus(new Path(path)));
 		} catch (Exception e) {
-			return Lists.emptyList();
+			return W.L.empty();
 		}
 	}
 
@@ -128,7 +127,7 @@ public class Hadoop {
 	 */
 	public byte[] read(String path) {
 		try {
-			return U.I.read(fs.open(new Path(path)));
+			return I.read(fs.open(new Path(path)));
 		} catch (Exception e) {
 			return C.A.BYTES_EMPTY;
 		}
@@ -141,7 +140,7 @@ public class Hadoop {
 	 * @param os   输出流
 	 */
 	public void read(String path, OutputStream os) {
-		U.I.write(os, read(path));
+		I.write(os, read(path));
 	}
 
 	/**

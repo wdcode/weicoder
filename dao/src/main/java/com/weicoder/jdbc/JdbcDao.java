@@ -5,11 +5,9 @@ import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 
-import com.weicoder.common.lang.Maps;
+import com.weicoder.common.lang.W;
 import com.weicoder.common.log.Logs;
-import com.weicoder.common.util.BeanUtil;
-import com.weicoder.common.util.StringUtil;
-import com.weicoder.common.util.U.C;
+import com.weicoder.common.util.U;
 import com.weicoder.dao.Dao;
 import com.weicoder.dao.Transactional;
 import com.weicoder.dao.annotation.Table;
@@ -29,18 +27,18 @@ public final class JdbcDao implements Dao {
 
 	public JdbcDao() {
 		dbs = DataBaseFactory.getDataBase();
-		insert = Maps.newMap();
+		insert = W.M.map();
 		// 加载所有类对应的SQL语句
-		C.list(Table.class).forEach(c -> {
+		U.C.list(Table.class).forEach(c -> {
 			// 声明SQL INSERT INTO t(f1,f2,...) VALUES(?,?)
 			StringBuilder sql = new StringBuilder("insert into ");
 			// 反射类名为表名
-			sql.append(StringUtil.toDbName(c.getSimpleName())).append("(");
+			sql.append(U.S.toDbName(c.getSimpleName())).append("(");
 			// 值
 			StringBuilder value = new StringBuilder(" VALUES(");
 			// 获得所有字段 拼装SQL
 			for (Field f : c.getDeclaredFields()) {
-				sql.append(StringUtil.toDbName(f.getName())).append(",");
+				sql.append(U.S.toDbName(f.getName())).append(",");
 				value.append("?,");
 			}
 			// 去掉最后的
@@ -151,7 +149,8 @@ public final class JdbcDao implements Dao {
 	}
 
 	@Override
-	public <E> List<E> in(Class<E> entityClass, String property, List<Object> values, Map<String, Object> orders, int firstResult, int maxResults) {
+	public <E> List<E> in(Class<E> entityClass, String property, List<Object> values, Map<String, Object> orders, int firstResult,
+			int maxResults) {
 		return null;
 	}
 
@@ -225,7 +224,7 @@ public final class JdbcDao implements Dao {
 		Field[] f = e.getClass().getDeclaredFields();
 		Object[] o = new Object[f.length];
 		for (int i = 0; i < f.length; i++)
-			o[i] = BeanUtil.getFieldValue(e, f[i]);
+			o[i] = U.B.getFieldValue(e, f[i]);
 		return o;
 	}
 
@@ -311,11 +310,11 @@ public final class JdbcDao implements Dao {
 	public Class<?> entity(String name) {
 		return null;
 	}
-	
+
 	private DataBase db(Class<?> entityClass) {
 		return dbs.get(name(entityClass));
 	}
-	
+
 	private String name(Class<?> entityClass) {
 		return entityClass.getCanonicalName();
 	}

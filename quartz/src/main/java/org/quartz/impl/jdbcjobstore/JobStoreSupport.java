@@ -199,7 +199,7 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 
 	/**
 	 * <p>
-	 * Set whether String-only properties will be handled in JobDataMaps.
+	 * Set whether String-only properties will be handled in JobDataW.M.
 	 * </p>
 	 */
 	public void setUseProperties(String useProp) {
@@ -212,7 +212,7 @@ public abstract class JobStoreSupport implements JobStore, Constants {
 
 	/**
 	 * <p>
-	 * Get whether String-only properties will be handled in JobDataMaps.
+	 * Get whether String-only properties will be handled in JobDataW.M.
 	 * </p>
 	 */
 	public boolean canUseProperties() {

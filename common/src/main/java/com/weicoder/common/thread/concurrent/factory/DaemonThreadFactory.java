@@ -1,4 +1,4 @@
-package com.weicoder.common.concurrent;
+package com.weicoder.common.thread.concurrent.factory;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
@@ -8,7 +8,7 @@ import java.util.concurrent.ThreadFactory;
  * 
  * @author WD
  */
-public class DaemonThreadFactory implements ThreadFactory {
+public sealed class DaemonThreadFactory implements ThreadFactory permits DTF {
 	/** 单例 */
 	public final static DaemonThreadFactory	INSTANCE	= new DaemonThreadFactory();
 	// 默认线程工厂

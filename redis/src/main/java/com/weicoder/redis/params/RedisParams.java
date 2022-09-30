@@ -2,8 +2,8 @@ package com.weicoder.redis.params;
 
 import com.weicoder.common.config.Config;
 import com.weicoder.common.config.ConfigFactory;
-import com.weicoder.common.constants.ArrayConstants;
-import com.weicoder.common.params.Params;
+import com.weicoder.common.constants.C;
+import com.weicoder.common.params.P;
 import com.weicoder.common.util.U;
 
 import redis.clients.jedis.Protocol;
@@ -19,10 +19,10 @@ public final class RedisParams {
 	// Properties配置
 	private final static Config CONFIG = ConfigFactory.getConfig(PREFIX);
 	/** 定时更新时间 秒 */
-	public final static int     DELAY  = CONFIG.getInt("dao.delay", Params.getInt(getKey(PREFIX, "dao.delay"), 1));
+	public final static int     DELAY  = CONFIG.getInt("dao.delay", P.getInt(getKey(PREFIX, "dao.delay"), 1));
 	/** 是否分分步执行 */
 	public final static boolean SETP   = CONFIG.getBoolean("dao.setp",
-			Params.getBoolean(getKey(PREFIX, "dao.setp"), true));
+			P.getBoolean(getKey(PREFIX, "dao.setp"), true));
 	// 参数
 	private final static String CLUSTER    = "cluster";
 	private final static String HOST       = "host";
@@ -42,7 +42,7 @@ public final class RedisParams {
 	 * @return      是否填充
 	 */
 	public static boolean getCacheFill(String name) {
-		return CONFIG.getBoolean(Params.getKey(name, CACHE_FILL), Params.getBoolean(getKey(name, CACHE_FILL), false));
+		return CONFIG.getBoolean(P.getKey(name, CACHE_FILL), P.getBoolean(getKey(name, CACHE_FILL), false));
 	}
 
 	/**
@@ -52,8 +52,8 @@ public final class RedisParams {
 	 * @return      集群地址
 	 */
 	public static String[] getCluster(String name) {
-		return CONFIG.getStringArray(Params.getKey(name, CLUSTER),
-				Params.getStringArray(getKey(name, CLUSTER), ArrayConstants.STRING_EMPTY));
+		return CONFIG.getStringArray(P.getKey(name, CLUSTER),
+				P.getStringArray(getKey(name, CLUSTER), C.A.STRING_EMPTY));
 	}
 
 	/**
@@ -63,7 +63,7 @@ public final class RedisParams {
 	 * @return      服务器地址
 	 */
 	public static String getHost(String name) {
-		return CONFIG.getString(Params.getKey(name, HOST), Params.getString(getKey(name, HOST), "127.0.0.1"));
+		return CONFIG.getString(P.getKey(name, HOST), P.getString(getKey(name, HOST), "127.0.0.1"));
 	}
 
 	/**
@@ -73,8 +73,8 @@ public final class RedisParams {
 	 * @return      端口
 	 */
 	public static int getTimeOut(String name) {
-		return CONFIG.getInt(Params.getKey(name, TIMEOUT),
-				Params.getInt(getKey(name, TIMEOUT), Protocol.DEFAULT_TIMEOUT));
+		return CONFIG.getInt(P.getKey(name, TIMEOUT),
+				P.getInt(getKey(name, TIMEOUT), Protocol.DEFAULT_TIMEOUT));
 	}
 
 	/**
@@ -84,7 +84,7 @@ public final class RedisParams {
 	 * @return      端口
 	 */
 	public static int getPort(String name) {
-		return CONFIG.getInt(Params.getKey(name, PORT), Params.getInt(getKey(name, PORT), 6379));
+		return CONFIG.getInt(P.getKey(name, PORT), P.getInt(getKey(name, PORT), 6379));
 	}
 
 	/**
@@ -94,7 +94,7 @@ public final class RedisParams {
 	 * @return      int
 	 */
 	public static int getMaxTotal(String name) {
-		return CONFIG.getInt(Params.getKey(name, MAXTOTAL), Params.getInt(getKey(name, MAXTOTAL), 100));
+		return CONFIG.getInt(P.getKey(name, MAXTOTAL), P.getInt(getKey(name, MAXTOTAL), 100));
 	}
 
 	/**
@@ -104,7 +104,7 @@ public final class RedisParams {
 	 * @return      int
 	 */
 	public static int getMaxIdle(String name) {
-		return CONFIG.getInt(Params.getKey(name, MAXIDLE), Params.getInt(getKey(name, MAXIDLE), 30));
+		return CONFIG.getInt(P.getKey(name, MAXIDLE), P.getInt(getKey(name, MAXIDLE), 30));
 	}
 
 	/**
@@ -114,7 +114,7 @@ public final class RedisParams {
 	 * @return      long
 	 */
 	public static String getPassword(String name) {
-		String password = CONFIG.getString(Params.getKey(name, PASSWORD), Params.getString(getKey(name, PASSWORD)));
+		String password = CONFIG.getString(P.getKey(name, PASSWORD), P.getString(getKey(name, PASSWORD)));
 		return U.E.isEmpty(password) ? null : password;
 	}
 
@@ -125,7 +125,7 @@ public final class RedisParams {
 	 * @return      默认数据库
 	 */
 	public static int getDatabase(String name) {
-		return CONFIG.getInt(Params.getKey(name, DB), Params.getInt(getKey(name, DB), Protocol.DEFAULT_DATABASE));
+		return CONFIG.getInt(P.getKey(name, DB), P.getInt(getKey(name, DB), Protocol.DEFAULT_DATABASE));
 	}
 
 	/**
@@ -135,7 +135,7 @@ public final class RedisParams {
 	 * @return      long
 	 */
 	public static long getMaxWait(String name) {
-		return CONFIG.getLong(Params.getKey(name, MAXWAIT), Params.getLong(getKey(name, MAXWAIT), 1000));
+		return CONFIG.getLong(P.getKey(name, MAXWAIT), P.getLong(getKey(name, MAXWAIT), 1000));
 	}
 
 	/**
@@ -146,7 +146,7 @@ public final class RedisParams {
 	 * @return      替换后的键
 	 */
 	private static String getKey(String name, String key) {
-		return Params.getKey(PREFIX, name, key);
+		return P.getKey(PREFIX, name, key);
 	}
 
 	private RedisParams() {

@@ -8,8 +8,8 @@ import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.Watcher;
 
-import com.weicoder.common.constants.ArrayConstants; 
-import com.weicoder.common.interfaces.CallbackVoid;
+import com.weicoder.common.constants.C; 
+import com.weicoder.common.interfaces.Calls;
 import com.weicoder.common.log.Logs;
 import com.weicoder.zookeeper.params.ZookeeperParams;
 
@@ -116,7 +116,7 @@ public final class ZookeeperClient {
 		try {
 			return curatorFramework.getData().forPath(path);
 		} catch (Exception e) {
-			return ArrayConstants.BYTES_EMPTY;
+			return C.A.BYTES_EMPTY;
 		}
 	}
 
@@ -125,9 +125,9 @@ public final class ZookeeperClient {
 	 * @param path 路径
 	 * @param callback 回调
 	 */
-	public static void getDataAsync(final String path, CallbackVoid<byte[]> callback) {
+	public static void getDataAsync(final String path, Calls.EoV<byte[]> callback) {
 		// 异步读取数据回调
-		BackgroundCallback background = (client, event) -> callback.callback(event.getData());
+		BackgroundCallback background = (client, event) -> callback.call(event.getData());
 		// 每次接收ZK事件都要重新注册Watcher，然后才异步读数据
 		Watcher watcher = new Watcher() {
 			@Override

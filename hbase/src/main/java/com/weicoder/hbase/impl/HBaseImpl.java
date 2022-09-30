@@ -8,9 +8,9 @@ import org.apache.hadoop.hbase.client.ColumnFamilyDescriptorBuilder;
 import org.apache.hadoop.hbase.client.ConnectionFactory;
 import org.apache.hadoop.hbase.client.TableDescriptorBuilder;
 
-import com.weicoder.common.constants.StringConstants;
+import com.weicoder.common.constants.C;
 import com.weicoder.common.factory.FactoryKey;
-import com.weicoder.common.lang.Conversion;
+import com.weicoder.common.lang.W;
 import com.weicoder.common.log.Logs;
 import com.weicoder.hbase.HBase;
 import com.weicoder.hbase.HBaseDao;
@@ -40,8 +40,8 @@ public final class HBaseImpl extends FactoryKey<String, HBaseDao> implements HBa
 			cfg.set("hbase.master", host);
 			cfg.set("hbase.zookeeper.quorum", host);
 			// 设置端口
-			cfg.set("hbase.zookeeper.property.clientPort", Conversion.toString(port));
-			cfg.set("hbase.master.port", Conversion.toString(port));
+			cfg.set("hbase.zookeeper.property.clientPort", W.C.toString(port));
+			cfg.set("hbase.master.port", W.C.toString(port));
 			// 实例化管理
 			admin = ConnectionFactory.createConnection(cfg).getAdmin();
 		} catch (Exception e) {
@@ -118,6 +118,6 @@ public final class HBaseImpl extends FactoryKey<String, HBaseDao> implements HBa
 	 * 实例化一个新对象
 	 */
 	public HBaseDao newInstance() {
-		return newInstance(StringConstants.EMPTY);
+		return newInstance(C.S.EMPTY);
 	}
 }

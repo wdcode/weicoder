@@ -5,10 +5,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import com.weicoder.common.binary.Buffer;
-import com.weicoder.common.interfaces.Callback;
-import com.weicoder.common.interfaces.CallbackVoid;
-import com.weicoder.common.params.CommonParams;
-import com.weicoder.common.util.StringUtil;
+import com.weicoder.common.interfaces.Calls; 
+import com.weicoder.common.params.P;
+import com.weicoder.common.util.U;
 
 /**
  * IO方法接口 内部使用
@@ -23,7 +22,7 @@ interface IO {
 	 * @return 读取的字符串 失败返回""
 	 */
 	default String readString(InputStream in) {
-		return readString(in, CommonParams.ENCODING);
+		return readString(in, P.C.ENCODING);
 	}
 
 	/**
@@ -34,7 +33,7 @@ interface IO {
 	 * @return 读取的字符串 失败返回""
 	 */
 	default String readString(InputStream in, String charsetName) {
-		return readString(in, charsetName, CommonParams.IO_CLOSE);
+		return readString(in, charsetName, P.C.IO_CLOSE);
 	}
 
 	/**
@@ -44,7 +43,7 @@ interface IO {
 	 * @return 字节数组
 	 */
 	default byte[] read(InputStream in) {
-		return read(in, CommonParams.IO_CLOSE);
+		return read(in, P.C.IO_CLOSE);
 	}
 
 	/**
@@ -63,7 +62,7 @@ interface IO {
 	 * @param isClose 是否关闭流
 	 * @return 字节数组
 	 */
-	long read(InputStream in, int buff, boolean isClose, CallbackVoid<Buffer> call);
+	long read(InputStream in, int buff, boolean isClose, Calls.EoV<Buffer> call);
 
 	/**
 	 * 把text写入到os中
@@ -73,7 +72,7 @@ interface IO {
 	 * @return 写入成功字节数
 	 */
 	default long write(OutputStream out, String text) {
-		return write(out, StringUtil.toBytes(text));
+		return write(out, U.S.toBytes(text));
 	}
 
 	/**
@@ -85,7 +84,7 @@ interface IO {
 	 * @return 写入成功字节数
 	 */
 	default long write(OutputStream out, String text, String charsetName) {
-		return write(out, text, charsetName, CommonParams.IO_CLOSE);
+		return write(out, text, charsetName, P.C.IO_CLOSE);
 	}
 
 	/**
@@ -96,7 +95,7 @@ interface IO {
 	 * @return 写入成功字节数
 	 */
 	default long write(OutputStream out, byte[] b) {
-		return write(out, b, CommonParams.IO_CLOSE);
+		return write(out, b, P.C.IO_CLOSE);
 	}
 
 	/**
@@ -119,7 +118,7 @@ interface IO {
 	 * @return 写入成功字节数
 	 */
 	default long write(OutputStream out, InputStream in) {
-		return write(out, in, CommonParams.IO_CLOSE);
+		return write(out, in, P.C.IO_CLOSE);
 	}
 
 	/**
@@ -142,7 +141,7 @@ interface IO {
 	 * @param call    回调
 	 * @return 读取流总数
 	 */
-	long write(OutputStream out, InputStream in, int buff, boolean isClose, Callback<Buffer, Buffer> call);
+	long write(OutputStream out, InputStream in, int buff, boolean isClose, Calls.EoR<Buffer, Buffer> call);
 
 	/**
 	 * 读取InputStream内容成为字符串
@@ -153,7 +152,7 @@ interface IO {
 	 * @return 读取的字符串
 	 */
 	default String readString(InputStream in, String charsetName, boolean isClose) {
-		return StringUtil.toString(read(in, isClose), charsetName);
+		return U.S.toString(read(in, isClose), charsetName);
 	}
 
 	/**
@@ -166,6 +165,6 @@ interface IO {
 	 * @return 写入成功字节数
 	 */
 	default long write(OutputStream out, String text, String charsetName, boolean isClose) {
-		return write(out, StringUtil.toBytes(text, charsetName), isClose);
+		return write(out, U.S.toBytes(text, charsetName), isClose);
 	}
 }

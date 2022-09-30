@@ -3,13 +3,11 @@ package com.weicoder.socket.manager;
 import java.util.List;
 import java.util.Map;
 
-import com.weicoder.common.concurrent.ScheduledUtil;
-import com.weicoder.common.lang.Lists;
-import com.weicoder.common.lang.Maps;
-import com.weicoder.common.util.DateUtil;
+import com.weicoder.common.lang.W; 
 import com.weicoder.common.util.U;
 import com.weicoder.common.log.Logs;
-import com.weicoder.common.statics.Closes;
+import com.weicoder.common.statics.S;
+import com.weicoder.common.thread.ScheduledUtil;
 import com.weicoder.socket.params.SocketParams;
 import com.weicoder.socket.Session; 
 import com.weicoder.socket.message.Messages;
@@ -24,14 +22,14 @@ public final class Manager {
 	private static Map<Long, Session> registers;
 
 	static {
-		registers = Maps.newConcurrentMap();
+		registers = W.M.concurrent();
 		// 定时检测
 		if (SocketParams.HEART) {
 			ScheduledUtil.newRate(() -> {
 				// 检测连接超时
 				// try {
 				// 获得当前时间
-				int curr = DateUtil.getTime();
+				int curr = U.D.getTime();
 				int n = 0;
 				for (Session s : sessions()) {
 					// 超时
@@ -39,7 +37,7 @@ public final class Manager {
 						// 关闭Session
 						Logs.info("heart close session={}", s.getId());
 						registers.remove(s.getId());
-						Closes.close(s);
+						S.C.close(s);
 					}
 					n++;
 				}
@@ -94,7 +92,7 @@ public final class Manager {
 	 * @return     true 删除成功 false 删除成功
 	 */
 	public static List<Session> gets(Long... ids) {
-		return gets(Lists.newList(ids));
+		return gets(W.L.list(ids));
 	}
 
 	/**
@@ -104,7 +102,7 @@ public final class Manager {
 	 * @return     true 删除成功 false 删除成功
 	 */
 	public static List<Session> gets(List<Long> ids) {
-		List<Session> list = Lists.newList(ids.size());
+		List<Session> list = W.L.list(ids.size());
 		ids.forEach(id -> list.add(registers.get(id)));
 		return list;
 	}
@@ -125,7 +123,7 @@ public final class Manager {
 	 * @return Session列表
 	 */
 	public static List<Session> sessions() {
-		return Lists.newList(registers.values());
+		return W.L.list(registers.values());
 	}
 
 	/**
@@ -208,7 +206,7 @@ public final class Manager {
 		long curr = System.currentTimeMillis();
 		// 广播消息
 		sessions.forEach(session -> session.send(data));
-		Logs.debug("manager pool broad end size={} time={}", sessions.size(), DateUtil.diff(curr));
+		Logs.debug("manager pool broad end size={} time={}", sessions.size(), U.D.diff(curr));
 	}
 
 	/**

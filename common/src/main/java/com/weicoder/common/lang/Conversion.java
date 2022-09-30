@@ -3,8 +3,7 @@ package com.weicoder.common.lang;
 import java.math.BigDecimal;
 import java.util.Arrays;
 
-import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.util.MathUtil;
+import com.weicoder.common.constants.C; 
 import com.weicoder.common.util.U;
 
 /**
@@ -12,7 +11,7 @@ import com.weicoder.common.util.U;
  * 
  * @author WD
  */
-public class Conversion {
+public sealed class Conversion permits W.C {
 	/**
 	 * 根据传入的值判断返回
 	 * 
@@ -65,7 +64,7 @@ public class Conversion {
 	 * @return 转换后的字符串
 	 */
 	public static String toString(Object obj) {
-		return toString(obj, StringConstants.EMPTY);
+		return toString(obj, C.S.EMPTY);
 	}
 
 	/**
@@ -109,7 +108,7 @@ public class Conversion {
 				return ((Boolean) obj).booleanValue() ? 1 : 0;
 			if (obj instanceof Character)
 				return ((Character) obj).charValue();
-			return MathUtil.add(obj).intValue();
+			return U.M.add(obj).intValue();
 		} catch (RuntimeException e) {
 			return defaultValue;
 		}
@@ -145,7 +144,7 @@ public class Conversion {
 				return ((Boolean) obj).booleanValue() ? 1 : 0;
 			if (obj instanceof Character)
 				return ((Character) obj).charValue();
-			return MathUtil.add(obj).longValue();
+			return U.M.add(obj).longValue();
 		} catch (RuntimeException e) {
 			return defaultValue;
 		}
@@ -404,7 +403,7 @@ public class Conversion {
 	 * @return 比较后的字符串
 	 */
 	public static String stringToNull(String str) {
-		return stringToNull(str, StringConstants.EMPTY);
+		return stringToNull(str, C.S.EMPTY);
 	}
 
 	/**

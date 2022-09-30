@@ -17,9 +17,9 @@ import com.weicoder.common.util.U.B;
  * 
  * @author WD
  */
-public class Lists {
+public sealed class Lists permits W.L {
 	/**
-	 * 对
+	 * 转换类型
 	 * 
 	 * @param <E>
 	 * @param list
@@ -28,7 +28,7 @@ public class Lists {
 	 */
 	@SuppressWarnings("unchecked")
 	public static <E> List<E> toList(Collection<?> list, Class<E> cls) {
-		return (List<E>) newList(list).stream().map(l -> U.C.isBaseType(cls) ? C.to(l, cls) : B.copy(l, cls))
+		return (List<E>) list(list).stream().map(l -> U.C.isBaseType(cls) ? C.to(l, cls) : B.copy(l, cls))
 				.collect(Collectors.toList());
 	}
 
@@ -53,8 +53,7 @@ public class Lists {
 	 * @return 处理后的元素
 	 */
 	public static <E> E get(List<E> list, int i) {
-		return U.E.isEmpty(list) ? null
-				: i < 0 ? list.get(0) : i >= list.size() ? list.get(list.size() - 1) : list.get(i);
+		return U.E.isEmpty(list) ? null : i < 0 ? list.get(0) : i >= list.size() ? list.get(list.size() - 1) : list.get(i);
 	}
 
 	/**
@@ -74,7 +73,7 @@ public class Lists {
 	 * @param obj 对象
 	 * @return 是否列表
 	 */
-	public static boolean isList(Object obj) {
+	public static boolean is(Object obj) {
 		return U.E.isNotEmpty(obj) && obj instanceof List<?>;
 	}
 
@@ -84,18 +83,18 @@ public class Lists {
 	 * @param <E> 泛型
 	 * @return List
 	 */
-	public static <E> List<E> newList() {
+	public static <E> List<E> list() {
 		return new ArrayList<>();
 	}
 
 	/**
-	 * 获得线程安全newList
+	 * 获得线程安全list
 	 * 
 	 * @param <E> 泛型
 	 * @return 线程安全List
 	 */
 	public static <E> List<E> sync() {
-		return sync(newList());
+		return sync(list());
 	}
 
 	/**
@@ -116,7 +115,7 @@ public class Lists {
 	 * @param <E>  泛型
 	 * @return List
 	 */
-	public static <E> List<E> newList(int size) {
+	public static <E> List<E> list(int size) {
 		return new ArrayList<>(size < 1 ? 1 : size);
 	}
 
@@ -128,8 +127,8 @@ public class Lists {
 	 * @return List
 	 */
 	@SafeVarargs
-	public static <E> List<E> newList(E... es) {
-		return newList(ArrayUtil.toList(es));
+	public static <E> List<E> list(E... es) {
+		return list(U.A.toList(es));
 	}
 
 	/**
@@ -139,19 +138,19 @@ public class Lists {
 	 * @param <E> 泛型
 	 * @return List
 	 */
-	public static <E> List<E> newList(Collection<E> c) {
+	public static <E> List<E> list(Collection<E> c) {
 		return c == null ? new ArrayList<>() : new ArrayList<>(c);
 	}
 
 	/**
-	 * 拷贝列表并清除原集合数据 如果不清除原数据使用@see newList(Collection<E> c)
+	 * 拷贝列表并清除原集合数据 如果不清除原数据使用@see list(Collection<E> c)
 	 * 
 	 * @param <E> 泛型
 	 * @param c   原集合
 	 * @return 新复制的列表
 	 */
 	public static <E> List<E> copy(Collection<E> c) {
-		List<E> l = newList(c);
+		List<E> l = list(c);
 		c.clear();
 		return l;
 	}
@@ -164,9 +163,9 @@ public class Lists {
 	 * @return List
 	 */
 	@SafeVarargs
-	public static <E> List<E> newList(Collection<E>... c) {
+	public static <E> List<E> list(Collection<E>... c) {
 		// 获得一个列表
-		List<E> list = newList();
+		List<E> list = list();
 		// 循环集合
 		for (int i = 0; i < c.length; i++)
 			// 添加到列表中
@@ -186,7 +185,7 @@ public class Lists {
 	 */
 	public static <E> List<List<E>> slice(List<E> list, int slice) {
 		// 声明返回结果
-		List<List<E>> res = Lists.newList();
+		List<List<E>> res = list();
 		// 对象为空或者分片小于1直接返回列表
 		if (U.E.isEmpty(list) || slice < 1 || list.size() <= slice)
 			res.add(list);
@@ -197,7 +196,7 @@ public class Lists {
 			while (true) {
 				// 分解成list
 				int start = n * slice;
-				List<E> ls = Lists.subList(list, start, start + slice);
+				List<E> ls = sub(list, start, start + slice);
 				n++;
 				// 不为空添加到列表
 				if (U.E.isNotEmpty(ls))
@@ -220,7 +219,7 @@ public class Lists {
 	 * @param <E>   泛型
 	 * @return 返回获得元素列表
 	 */
-	public static <E> List<E> subList(List<E> list, int begin, int end) {
+	public static <E> List<E> sub(List<E> list, int begin, int end) {
 		// 如果列表为空返回一个空列表
 		if (U.E.isEmpty(list))
 			return list;
@@ -231,7 +230,7 @@ public class Lists {
 			return list;
 		// 判断如果begin大于等于元素列表大小 返回原列表
 		if (begin > size)
-			return emptyList();
+			return empty();
 		// 判断begin
 		begin = begin < 0 ? 0 : begin;
 		// 如果begin>end
@@ -250,10 +249,6 @@ public class Lists {
 	 * @return 排完序的List
 	 */
 	public static <E extends Comparable<? super E>> List<E> sort(List<E> list) {
-//		// 获得列表
-//		List<E> list = newList(c);
-		// 排序
-//		Collections.sort(list);
 		list.sort(null);
 		// 返回list
 		return list;
@@ -307,7 +302,7 @@ public class Lists {
 	 * @param <E> 泛型
 	 * @return 一个不可变的空List
 	 */
-	public static <E> List<E> emptyList() {
+	public static <E> List<E> empty() {
 		return Collections.emptyList();
 	}
 

@@ -10,10 +10,10 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import com.weicoder.common.crypto.Decrypts;
 import com.weicoder.common.crypto.Encrypts;
-import com.weicoder.common.lang.Conversion;
+import com.weicoder.common.lang.W;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.statics.S;
-import com.weicoder.common.util.EmptyUtil; 
+import com.weicoder.common.util.U; 
 import com.weicoder.image.ImageUtil;
 import com.weicoder.web.util.AttributeUtil;
 import com.weicoder.web.util.ResponseUtil;
@@ -37,7 +37,7 @@ public final class VerifyCodeUtil {
 		// 获得验证码
 		String vc = getValue(request);
 		// 如果验证码没有 返回成功
-		if (!EmptyUtil.isEmpty(vc)) {
+		if (!U.E.isEmpty(vc)) {
 			// 清除验证码
 			VerifyCodeUtil.removeValue(request, response);
 			// 验证验证码
@@ -142,7 +142,7 @@ public final class VerifyCodeUtil {
 	 */
 	public static String getValue(HttpServletRequest request) {
 		return Decrypts.decryptString(
-				Conversion.toString(AttributeUtil.get(request, FrameParams.VERIFY_KEY)));
+				W.C.toString(AttributeUtil.get(request, FrameParams.VERIFY_KEY)));
 	}
 
 	/**

@@ -1,6 +1,6 @@
 package com.weicoder.cache;
 
-import static com.weicoder.common.params.CacheParams.*;
+import static com.weicoder.cache.params.CacheParams.*;
 
 import java.util.List;
 import java.util.Map;
@@ -11,8 +11,8 @@ import java.util.concurrent.TimeUnit;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import com.weicoder.common.interfaces.Callback;
-import com.weicoder.common.lang.Lists;
+import com.weicoder.common.interfaces.Calls;
+import com.weicoder.common.lang.W;
 
 /**
  * 本地缓存 使用google guava 实现
@@ -30,7 +30,7 @@ public class LoadCache<K, V> {
 	 * 
 	 * @param load 加载缓存
 	 */
-	protected LoadCache(Callback<K, V> load) {
+	protected LoadCache(Calls.EoR<K, V> load) {
 		this(MAX, INIT, LEVEL, REFRESH, EXPIRE, load);
 	}
 
@@ -44,14 +44,14 @@ public class LoadCache<K, V> {
 	 * @param expire  有效期(时间内无访问) 秒
 	 * @param load    加载缓存
 	 */
-	LoadCache(long max, int init, int level, long refresh, long expire, Callback<K, V> load) {
+	LoadCache(long max, int init, int level, long refresh, long expire, Calls.EoR<K, V> load) {
 		// 初始化取缓存
 		cache = CacheBuilder.newBuilder().maximumSize(max).initialCapacity(init).concurrencyLevel(level)
 				.refreshAfterWrite(refresh, TimeUnit.SECONDS).expireAfterAccess(expire, TimeUnit.SECONDS)
 				.build(new CacheLoader<K, V>() {
 					// 读取缓存
 					public V load(K key) throws Exception {
-						return load.callback(key);
+						return load.call(key);
 					}
 				});
 	}
@@ -89,12 +89,12 @@ public class LoadCache<K, V> {
 	 * @param call 如果获取的值为空 处理类 处理后不为空还会填充回内存
 	 * @return 值
 	 */
-	public V get(K key, Callback<K, V> call) {
+	public V get(K key, Calls.EoR<K, V> call) {
 		// 获取值
 		V val = get(key);
 		// 值为空 回调处理
 		if (val == null)
-			val = call.callback(key);
+			val = call.call(key);
 		// 处理后的值不为空 放回缓存
 		if (val != null)
 			put(key, val);
@@ -149,7 +149,7 @@ public class LoadCache<K, V> {
 	 * @return list
 	 */
 	public List<V> values() {
-		return Lists.newList(map().values());
+		return W.L.list(map().values());
 	}
 
 	/**

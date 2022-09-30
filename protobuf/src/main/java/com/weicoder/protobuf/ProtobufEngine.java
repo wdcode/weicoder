@@ -7,12 +7,9 @@ import java.util.List;
 import com.google.protobuf.CodedInputStream;
 import com.google.protobuf.CodedOutputStream;
 import com.google.protobuf.WireFormat;
-import com.weicoder.common.constants.ArrayConstants;
-import com.weicoder.common.lang.Bytes;
-import com.weicoder.common.lang.W;
+import com.weicoder.common.constants.C;
+import com.weicoder.common.lang.W; 
 import com.weicoder.common.log.Logs;
-import com.weicoder.common.util.BeanUtil;
-import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.util.U; 
 
 /**
@@ -32,7 +29,7 @@ public final class ProtobufEngine {
 			// 获得对象类
 			Class<?> c = obj.getClass();
 			// 获得所有类
-			List<Field> fields = BeanUtil.getFields(c);
+			List<Field> fields = U.B.getFields(c);
 			// 声明返回序列化结果 获得序列化字节大小
 			byte[] result = new byte[getSerializedSize(obj, c, fields)];
 			// 生成编码流Protobuf内部提供
@@ -46,7 +43,7 @@ public final class ProtobufEngine {
 		} catch (Exception e) {
 			// 错误返回空字节数组
 			Logs.error(e);
-			return ArrayConstants.BYTES_EMPTY;
+			return C.A.BYTES_EMPTY;
 		}
 	}
 
@@ -60,12 +57,12 @@ public final class ProtobufEngine {
 	 */
 	public static <E> E toBean(byte[] b, Class<E> c) {
 		// 实例化对象
-		E bean = ClassUtil.newInstance(c);
+		E bean = U.C.newInstance(c);
 		try {
 			// 声明编码输入流 用于读取字段数据
 			CodedInputStream input = CodedInputStream.newInstance(b);
 			// 获得所有字段
-			List<Field> fields = BeanUtil.getFields(c);
+			List<Field> fields = U.B.getFields(c);
 			// 读取标签
 			int tag = input.readTag();
 			// 根据标签获得第几个属性
@@ -85,34 +82,34 @@ public final class ProtobufEngine {
 				// 判断字段类型 根据字段类型赋值
 				if (type.equals(String.class))
 					// 字符串
-					BeanUtil.setFieldValue(bean, field, input.readStringRequireUtf8());
+					U.B.setFieldValue(bean, field, input.readStringRequireUtf8());
 				else if (type.equals(byte.class) || type.equals(Byte.class))
 					// 字节类型
-					BeanUtil.setFieldValue(bean, field, input.readBytes().byteAt(0));
+					U.B.setFieldValue(bean, field, input.readBytes().byteAt(0));
 				else if (type.equals(short.class) || type.equals(Short.class))
 					// 字节类型
-					BeanUtil.setFieldValue(bean, field, Bytes.toShort(input.readBytes().toByteArray()));
+					U.B.setFieldValue(bean, field, W.B.toShort(input.readBytes().toByteArray()));
 				else if (type.equals(int.class) || type.equals(Integer.class))
 					// 整型
-					BeanUtil.setFieldValue(bean, field, input.readInt32());
+					U.B.setFieldValue(bean, field, input.readInt32());
 				else if (type.equals(long.class) || type.equals(Long.class))
 					// 长整型
-					BeanUtil.setFieldValue(bean, field, input.readInt64());
+					U.B.setFieldValue(bean, field, input.readInt64());
 				else if (type.equals(boolean.class) || type.equals(Boolean.class))
 					// 布尔
-					BeanUtil.setFieldValue(bean, field, input.readBool());
+					U.B.setFieldValue(bean, field, input.readBool());
 				else if (type.equals(float.class) || type.equals(Float.class))
 					// float型
-					BeanUtil.setFieldValue(bean, field, input.readFloat());
+					U.B.setFieldValue(bean, field, input.readFloat());
 				else if (type.equals(double.class) || type.equals(Double.class))
 					// Double型
-					BeanUtil.setFieldValue(bean, field, input.readDouble());
+					U.B.setFieldValue(bean, field, input.readDouble());
 //				else if (type.equals(ByteString.class))
 //					// 字节字符串
-//					BeanUtil.setFieldValue(bean, field, input.readBytes());
+//					U.B.setFieldValue(bean, field, input.readBytes());
 				else if (type.equals(byte[].class))
 					// 字节流
-					BeanUtil.setFieldValue(bean, field, input.readByteArray());
+					U.B.setFieldValue(bean, field, input.readByteArray());
 				// 重新读取标签和字段位置
 				tag = input.readTag();
 				num = WireFormat.getTagFieldNumber(tag);
@@ -142,7 +139,7 @@ public final class ProtobufEngine {
 			// 获得字段
 			Field field = fields.get(i);
 			// 获得当前字段的值 如果值为null 跳过循环
-			Object val = BeanUtil.getFieldValue(obj, field);
+			Object val = U.B.getFieldValue(obj, field);
 			if (val == null)
 				continue;
 			// 获得字段类型
@@ -185,25 +182,25 @@ public final class ProtobufEngine {
 //				if (!n.isEmpty())
 //					size += CodedOutputStream.computeBytesSize(i, n);
 //			} 
-			else if (type.equals(byte[].class) || ClassUtil.isBaseType(type)) {
+			else if (type.equals(byte[].class) || U.C.isBaseType(type)) {
 				// 字节流
-				byte[] n = Bytes.toBytes(val);
+				byte[] n = W.B.toBytes(val);
 				if (U.E.isNotEmpty(n))
 					size += CodedOutputStream.computeByteArraySize(i, n);
 			}
 //			else if (type.equals(byte.class) || type.equals(Byte.class) ||) {
 //				// 整型
-//				byte[] n = Bytes.toBytes(val);
+//				byte[] n = W.B.toBytes(val);
 //				if (U.E.isNotEmpty(n))
 //					size += CodedOutputStream.computeByteArraySize(i, n);
 //			} else if (type.equals(short.class) || type.equals(Integer.class)) {
 //				// 整型
-//				int n = Conversion.toInt(val);
+//				int n = W.C.toInt(val);
 //				if (n != 0)
 //					size += CodedOutputStream.computeInt32Size(i, n);
 //			} else {
 //				// 转成字节流
-//				ByteString n = ByteString.copyFrom(Bytes.toBytes(val));
+//				ByteString n = ByteString.copyFrom(W.B.toBytes(val));
 //				if (!n.isEmpty())
 //					size += CodedOutputStream.computeBytesSize(i, n);
 //			}
@@ -223,7 +220,7 @@ public final class ProtobufEngine {
 	private static void writeTo(CodedOutputStream output, Object obj, List<Field> fields) throws IOException {
 		for (int i = 1; i <= fields.size(); i++) {
 			Field field = fields.get(i - 1);
-			Object val = BeanUtil.getFieldValue(obj, field);
+			Object val = U.B.getFieldValue(obj, field);
 			if (val == null)
 				continue;
 			Class<?> type = field.getType();
@@ -264,15 +261,15 @@ public final class ProtobufEngine {
 //				if (!n.isEmpty())
 //					output.writeBytes(i, n);
 //			} 
-			else if (type.equals(byte[].class) || ClassUtil.isBaseType(type)) {
+			else if (type.equals(byte[].class) || U.C.isBaseType(type)) {
 				// 字节流
-				byte[] n = Bytes.toBytes(val);
+				byte[] n = W.B.toBytes(val);
 				if (U.E.isNotEmpty(n))
 					output.writeByteArray(i, n);
 			}
 //			else {
 //				// 转成字节流
-//				ByteString n = ByteString.copyFrom(Bytes.toBytes(val));
+//				ByteString n = ByteString.copyFrom(W.B.toBytes(val));
 //				if (!n.isEmpty())
 //					output.writeBytes(i, n);
 //			}

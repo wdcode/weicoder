@@ -3,8 +3,7 @@ package com.weicoder.nacos;
 import java.util.List;
 
 import com.alibaba.nacos.api.naming.pojo.Instance;
-import com.weicoder.common.interfaces.CallbackVoid;
-import com.weicoder.nacos.NacosConfig.Callback;
+import com.weicoder.common.interfaces.Calls; 
 import com.weicoder.nacos.factory.NacosFactory;
 
 /**
@@ -34,7 +33,7 @@ public final class Nacos {
 	 * @param dataId   dataId
 	 * @param listener listener
 	 */
-	public static void listener(String dataId, Callback call) {
+	public static void listener(String dataId, Calls.EoV<String> call) {
 		CONFIG.listener(dataId, call);
 	}
 
@@ -106,7 +105,7 @@ public final class Nacos {
 	 * @param serviceName name of service
 	 * @param call        回调
 	 */
-	public static void subscribe(String serviceName, CallbackVoid<List<Instance>> call) {
+	public static void subscribe(String serviceName, Calls.EoV<List<Instance>> call) {
 		NAMING.subscribe(serviceName, call);
 	}
 

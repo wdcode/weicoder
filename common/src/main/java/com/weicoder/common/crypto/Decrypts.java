@@ -3,13 +3,10 @@ package com.weicoder.common.crypto;
 import javax.crypto.Cipher;
 
 import com.weicoder.common.codec.Hex;
-import com.weicoder.common.constants.ArrayConstants;
-import com.weicoder.common.constants.EncryptConstants;
-import com.weicoder.common.constants.StringConstants;
+import com.weicoder.common.constants.C; 
 import com.weicoder.common.crypto.base.BaseCrypt;
-import com.weicoder.common.params.CommonParams;
-import com.weicoder.common.util.StringUtil;
-import com.weicoder.common.util.U;
+import com.weicoder.common.params.P;
+import com.weicoder.common.util.U; 
 
 /**
  * 对称解密类
@@ -25,24 +22,24 @@ public class Decrypts extends BaseCrypt {
 	 */
 	public static byte[] token(String info) {
 		// 验证去掉"""
-		String token = StringUtil.replace(StringUtil.trim(info), "\"", StringConstants.EMPTY);
+		String token = U.S.replace(U.S.trim(info), "\"", C.S.EMPTY);
 		// 判断验证串是否符合标准
-		if (U.E.isNotEmpty(token) && token.length() > CommonParams.TOKEN_LENGHT) {
+		if (U.E.isNotEmpty(token) && token.length() > P.C.TOKEN_LENGHT) {
 			// 变为小写
 			String t = token.toLowerCase();
 			// 拆分字符串
-			String[] temp = StringUtil.separate(t, t.length() / CommonParams.TOKEN_LENGHT);
+			String[] temp = U.S.separate(t, t.length() / P.C.TOKEN_LENGHT);
 			if (U.E.isNotEmpty(temp) && temp.length == 2) {
 				// 验证串
 				String ver = temp[0];
 				// 信息串
 				String user = temp[1];
 				// 判断校验串是否合法
-				if (ver.equals(Digest.absolute(user, CommonParams.TOKEN_LENGHT)))
+				if (ver.equals(Digest.absolute(user, P.C.TOKEN_LENGHT)))
 					return Decrypts.rc4(Hex.decode(user));
 			}
 		}
-		return ArrayConstants.BYTES_EMPTY;
+		return C.A.BYTES_EMPTY;
 	}
 
 	/**
@@ -52,7 +49,7 @@ public class Decrypts extends BaseCrypt {
 	 * @return      解密后的字符串
 	 */
 	public static String decryptString(String text) {
-		return StringUtil.toString(decrypt(text));
+		return U.S.toString(decrypt(text));
 	}
 
 	/**
@@ -72,7 +69,7 @@ public class Decrypts extends BaseCrypt {
 	 * @return   解密后的字节数组
 	 */
 	public static byte[] decrypt(byte[] b) {
-		return decrypt(b, CommonParams.ENCRYPT_KEY);
+		return decrypt(b, P.C.ENCRYPT_KEY);
 	}
 
 	/**
@@ -84,14 +81,14 @@ public class Decrypts extends BaseCrypt {
 	 */
 	public static byte[] decrypt(byte[] b, String keys) {
 		// 判断解密方式
-		switch (CommonParams.ENCRYPT_ALGO) {
-			case EncryptConstants.ALGO_AES:
+		switch (P.C.ENCRYPT_ALGO) {
+			case C.E.ALGO_AES:
 				// AES解密
 				return aes(b, keys);
-			case EncryptConstants.ALGO_DES:
+			case C.E.ALGO_DES:
 				// DES解密
 				return des(b, keys);
-			case EncryptConstants.ALGO_RC4:
+			case C.E.ALGO_RC4:
 				// RC4解密
 				return rc4(b, keys);
 			default:
@@ -107,7 +104,7 @@ public class Decrypts extends BaseCrypt {
 	 * @return   返回解密后的字符串
 	 */
 	public static byte[] des(byte[] b) {
-		return des(b, CommonParams.ENCRYPT_KEY);
+		return des(b, P.C.ENCRYPT_KEY);
 	}
 
 	/**
@@ -118,7 +115,7 @@ public class Decrypts extends BaseCrypt {
 	 * @return      返回解密后的字符串
 	 */
 	public static byte[] des(byte[] b, String keys) {
-		return decrypt(b, keys, EncryptConstants.LENGTH_DES, EncryptConstants.ALGO_DES);
+		return decrypt(b, keys, C.E.LENGTH_DES, C.E.ALGO_DES);
 	}
 
 	/**
@@ -128,7 +125,7 @@ public class Decrypts extends BaseCrypt {
 	 * @return   返回解密后的字符串 text为空或发生异常返回原串
 	 */
 	public static byte[] aes(byte[] b) {
-		return aes(b, CommonParams.ENCRYPT_KEY);
+		return aes(b, P.C.ENCRYPT_KEY);
 	}
 
 	/**
@@ -139,7 +136,7 @@ public class Decrypts extends BaseCrypt {
 	 * @return      返回解密后的字符串 text为空或发生异常返回原串
 	 */
 	public static byte[] aes(byte[] b, String keys) {
-		return decrypt(b, keys, EncryptConstants.LENGTH_AES, EncryptConstants.ALGO_AES);
+		return decrypt(b, keys, C.E.LENGTH_AES, C.E.ALGO_AES);
 	}
 
 	/**
@@ -149,7 +146,7 @@ public class Decrypts extends BaseCrypt {
 	 * @return   返回解密后的字符串 text为空或发生异常返回原串
 	 */
 	public static byte[] rc4(byte[] b) {
-		return rc4(b, CommonParams.ENCRYPT_KEY);
+		return rc4(b, P.C.ENCRYPT_KEY);
 	}
 
 	/**
@@ -160,7 +157,7 @@ public class Decrypts extends BaseCrypt {
 	 * @return      返回解密后的字符串 text为空或发生异常返回原串
 	 */
 	public static byte[] rc4(byte[] b, String keys) {
-		return decrypt(b, keys, EncryptConstants.LENGTH_RC4, EncryptConstants.ALGO_RC4);
+		return decrypt(b, keys, C.E.LENGTH_RC4, C.E.ALGO_RC4);
 	}
 
 	/**

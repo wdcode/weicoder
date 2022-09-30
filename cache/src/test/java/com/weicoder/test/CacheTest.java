@@ -1,6 +1,6 @@
 package com.weicoder.test;
-
-import com.weicoder.common.util.ThreadUtil;
+ 
+import com.weicoder.common.thread.T; 
 import com.weicoder.cache.LoadCache;
  
 
@@ -13,7 +13,7 @@ public class CacheTest {
 		LoadCache<String, String> cache = CacheBuilder.build(uid -> getRedis(uid));
 		cache.put(key, "2");
 		System.out.println(cache.get(key));
-		ThreadUtil.sleep(1);
+		T.sleep(1);
 		System.out.println(cache.get(key));
 	}
 

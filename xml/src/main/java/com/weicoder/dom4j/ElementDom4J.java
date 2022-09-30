@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.dom4j.DocumentHelper;
 
-import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.lang.Lists;
+import com.weicoder.common.constants.C;
+import com.weicoder.common.lang.W;
 import com.weicoder.common.util.U;
 import com.weicoder.xml.Attribute;
 import com.weicoder.xml.Document;
@@ -81,7 +81,7 @@ public final class ElementDom4J implements Element {
 	 * @return this
 	 */
 	public Element addElement(String name) {
-		return addElement(name, StringConstants.EMPTY);
+		return addElement(name, C.S.EMPTY);
 	}
 
 	/**
@@ -124,12 +124,12 @@ public final class ElementDom4J implements Element {
 		// 列表不为空
 		if (U.E.isEmpty(list)) {
 			// 返回空列表
-			return Lists.emptyList();
+			return W.L.empty();
 		}
 		// 获得列表长度
 		int size = list.size();
 		// 声明属性列表
-		List<Attribute> attributes = Lists.newList(size);
+		List<Attribute> attributes = W.L.list(size);
 		// 循环属性
 		for (int i = 0; i < size; i++) {
 			// 添加到Element接口集合
@@ -268,12 +268,12 @@ public final class ElementDom4J implements Element {
 	private List<Element> getElementList(List<?> list) {
 		// 判断列表不为空
 		if (U.E.isEmpty(list)) {
-			return Lists.emptyList();
+			return W.L.empty();
 		}
 		// 获得列表大小
 		int size = list.size();
 		// 声明节点集合
-		List<Element> lsElement = Lists.newList(size);
+		List<Element> lsElement = W.L.list(size);
 		// 循环Dom4J节点集合
 		for (int i = 0; i < size; i++) {
 			// 添加到Element接口集合

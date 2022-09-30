@@ -4,7 +4,7 @@ import java.lang.reflect.Field;
 import java.util.List;
 
 import com.weicoder.cache.annotation.Cache;
-import com.weicoder.common.interfaces.Callback;
+import com.weicoder.common.interfaces.Calls;
 import com.weicoder.common.lang.W.C;
 import com.weicoder.common.util.U.B;
 
@@ -33,7 +33,7 @@ public class BeanCache<K, V> extends LoadCache<K, V> {
 	 * @param val  缓存值的Class
 	 * @param load 缓存加载回调
 	 */
-	protected BeanCache(String name, Class<V> val, Callback<K, V> load) {
+	protected BeanCache(String name, Class<V> val, Calls.EoR<K, V> load) {
 		super(load);
 		this.name = name;
 		this.val = val;

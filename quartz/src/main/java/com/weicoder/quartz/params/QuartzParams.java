@@ -2,7 +2,7 @@ package com.weicoder.quartz.params;
 
 import com.weicoder.common.config.Config;
 import com.weicoder.common.config.ConfigFactory;
-import com.weicoder.common.params.Params;
+import com.weicoder.common.params.P;
 
 /**
  * quartz参数获取
@@ -24,8 +24,8 @@ public final class QuartzParams {
 	 * @return              Trigger
 	 */
 	public static String getTrigger(String key, String defaultValue) {
-		return CONFIG.getString(Params.getKey(key, TRIGGER),
-				Params.getString(Params.getKey(PREFIX, key, TRIGGER), defaultValue));
+		return CONFIG.getString(P.getKey(key, TRIGGER),
+				P.getString(P.getKey(PREFIX, key, TRIGGER), defaultValue));
 	}
 
 	private QuartzParams() {

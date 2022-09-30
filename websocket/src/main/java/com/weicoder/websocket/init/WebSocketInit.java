@@ -1,6 +1,6 @@
 package com.weicoder.websocket.init;
   
-import com.weicoder.common.util.ClassUtil;
+import com.weicoder.common.util.U;
 import com.weicoder.common.util.U.C;
 import com.weicoder.websocket.annotation.WebSocket;
 import com.weicoder.websocket.common.WebSocketCommons;
@@ -19,10 +19,10 @@ public class WebSocketInit implements Init {
 		C.list(WebSocket.class).forEach(c -> {
 			try {
 				// 实例化Action并放在context中
-				Object ws = ClassUtil.newInstance(c);
+				Object ws = U.C.newInstance(c);
 				if (ws != null) {
 					// 循环判断方法
-					ClassUtil.getPublicMethod(c).forEach(m -> {
+					U.C.getPublicMethod(c).forEach(m -> {
 						String n = m.getName();
 						WebSocketCommons.WEBSOCKES.put(n, ws);
 						// 放入方法列表

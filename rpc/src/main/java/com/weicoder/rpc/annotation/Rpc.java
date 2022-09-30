@@ -5,7 +5,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import com.weicoder.common.constants.StringConstants;
+import com.weicoder.common.constants.C;
 
 /**
  * rpc客户端 默认注解的类名称映射为方法名
@@ -16,5 +16,5 @@ import com.weicoder.common.constants.StringConstants;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Rpc {
 	/** rpc服务名称 */
-	String value() default StringConstants.EMPTY;
+	String value() default C.S.EMPTY;
 }

@@ -46,8 +46,7 @@
  */
 
 package org.jaxen.function.ext;
-
-import java.util.Collections;
+ 
 import java.util.List;
 
 import org.jaxen.Context;
@@ -57,6 +56,8 @@ import org.jaxen.FunctionCallException;
 import org.jaxen.Navigator;
 import org.jaxen.XPath;
 import org.jaxen.function.StringFunction;
+
+import com.weicoder.common.lang.W;
 
 /**
  * <code><i>node-set</i> evaluate(<i>string</i>)</code> 
@@ -81,7 +82,7 @@ public class EvaluateFunction implements Function
         List<?> contextNodes = context.getNodeSet();
         
         if (contextNodes.size() == 0)
-            return Collections.emptyList();
+            return W.L.empty();
       
         Navigator nav = context.getNavigator();
 

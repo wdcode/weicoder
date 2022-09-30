@@ -2,9 +2,9 @@ package com.weicoder.frame.interceptor;
 
 import java.util.List;
 
-import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.lang.Lists; 
-import com.weicoder.common.util.StringUtil; 
+import com.weicoder.common.constants.C;
+import com.weicoder.common.lang.W; 
+import com.weicoder.common.util.U; 
 import com.weicoder.frame.action.SuperAction;
  
 
@@ -21,13 +21,13 @@ public class MethodsInterceptor<E extends SuperAction> extends BasicInterceptor<
 	 * @param methods 方法
 	 */
 	public void setMethods(String methods) {
-		this.methods = Lists.newList(StringUtil.split(methods, StringConstants.COMMA));
+		this.methods = W.L.list(U.S.split(methods, C.S.COMMA));
 	}
 
 	@Override
 	protected boolean execute(Object invocation) {
 //		// 如果方法名为空
-//		if (EmptyUtil.isEmpty(methods)) {
+//		if (U.E.isEmpty(methods)) {
 //			return false;
 //		}
 //		// 获得Action

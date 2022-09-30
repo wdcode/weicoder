@@ -6,7 +6,7 @@ import java.io.OutputStream;
 import org.dom4j.io.XMLWriter;
 
 import com.weicoder.common.log.Logs;
-import com.weicoder.common.params.CommonParams;
+import com.weicoder.common.params.P;
 import com.weicoder.xml.Document;
 import com.weicoder.dom4j.DocumentDom4J;
 import com.weicoder.xml.output.Format;
@@ -80,7 +80,7 @@ public final class XMLWriteDom4J implements XMLWrite {
 	 */
 	public XMLWriteDom4J() {
 		// 获得Format实例
-		format = new FormatDom4J(CommonParams.ENCODING);
+		format = new FormatDom4J(P.C.ENCODING);
 	}
 
 	/**

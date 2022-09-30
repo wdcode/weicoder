@@ -3,7 +3,7 @@ package com.weicoder.common.bean;
 import java.util.List;
 import java.util.Objects;
 
-import com.weicoder.common.params.CommonParams;
+import com.weicoder.common.params.P;
 
 /**
  * 分页信息保存的实体Bean
@@ -16,7 +16,7 @@ public final class Pages {
 	// 当前页
 	private int	page;
 	// 每页显示数量
-	private int	size	= CommonParams.PAGE_SIZE;
+	private int	size	= P.C.PAGE_SIZE;
 
 	/**
 	 * 返回包括本身的分页结果

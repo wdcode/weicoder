@@ -1,4 +1,4 @@
-package com.weicoder.common.concurrent;
+package com.weicoder.common.thread.concurrent;
 
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;

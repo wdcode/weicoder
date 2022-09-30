@@ -3,7 +3,7 @@ package com.weicoder.okhttp.factory;
 import java.util.concurrent.TimeUnit;
 
 import com.weicoder.common.factory.Factory;
-import com.weicoder.common.params.HttpParams;
+import com.weicoder.common.params.P;
 import com.weicoder.okhttp.interceptor.NetworkInterceptor;
 
 import okhttp3.ConnectionPool;
@@ -29,14 +29,13 @@ public class OkHttpClientFactory extends Factory<OkHttpClient> {
 
 	@Override
 	public OkHttpClient newInstance() {
-		return new OkHttpClient.Builder().connectTimeout(HttpParams.HTTP_TIMEOUT, TimeUnit.SECONDS)
-				.readTimeout(HttpParams.HTTP_TIMEOUT, TimeUnit.SECONDS)
-				.writeTimeout(HttpParams.HTTP_TIMEOUT, TimeUnit.SECONDS)
-				.connectionPool(new ConnectionPool(HttpParams.HTTP_MAX, HttpParams.HTTP_TIMEOUT, TimeUnit.SECONDS))
+		return new OkHttpClient.Builder().connectTimeout(P.H.TIMEOUT, TimeUnit.SECONDS).readTimeout(P.H.TIMEOUT, TimeUnit.SECONDS)
+				.writeTimeout(P.H.TIMEOUT, TimeUnit.SECONDS)
+				.connectionPool(new ConnectionPool(P.H.MAX, P.H.TIMEOUT, TimeUnit.SECONDS))
 				.addNetworkInterceptor(new NetworkInterceptor())
-//				.cache(new Cache(new File(O.BASE_DIR, "OkHttpCache"), CommonParams.IO_BUFFERSIZE))
+//				.cache(new Cache(new File(O.BASE_DIR, "OkHttpCache"), P.C.IO_BUFFERSIZE))
 				.build();
-		// 
+		//
 	}
 
 	private OkHttpClientFactory() {

@@ -6,11 +6,10 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import com.weicoder.common.binary.Buffer;
-import com.weicoder.common.interfaces.Callback;
-import com.weicoder.common.interfaces.CallbackVoid;
+import com.weicoder.common.interfaces.Calls; 
 import com.weicoder.common.log.Logs;
-import com.weicoder.common.params.CommonParams;
-import com.weicoder.common.statics.Closes;
+import com.weicoder.common.params.P;
+import com.weicoder.common.statics.S;
 
 /**
  * 堵塞IO操作
@@ -27,7 +26,7 @@ public final class BIO implements IO {
 	 */
 	public byte[] read(InputStream in, boolean isClose) {
 		// 创建结果字节流
-		ByteArrayOutputStream out = new ByteArrayOutputStream(CommonParams.IO_BUFFERSIZE * 10);
+		ByteArrayOutputStream out = new ByteArrayOutputStream(P.C.IO_BUFFERSIZE * 10);
 		// 写入字节流
 		write(out, in, isClose);
 		// 返回字节流中全部数组
@@ -43,11 +42,11 @@ public final class BIO implements IO {
 	 * @return 写入成功字节数
 	 */
 	public long write(OutputStream out, InputStream in, boolean isClose) {
-		return write(out, in, CommonParams.IO_BUFFERSIZE, isClose, r -> r);
+		return write(out, in, P.C.IO_BUFFERSIZE, isClose, r -> r);
 	}
 
 	@Override
-	public long write(OutputStream out, InputStream in, int buff, boolean isClose, Callback<Buffer, Buffer> call) {
+	public long write(OutputStream out, InputStream in, int buff, boolean isClose, Calls.EoR<Buffer, Buffer> call) {
 		// 判断如果流为空 直接返回
 		if (out == null || in == null)
 			return -1;
@@ -61,7 +60,7 @@ public final class BIO implements IO {
 			// 循环读取
 			while ((num = in.read(buffer)) > 0) {
 				// 回调
-				Buffer buf = call.callback(Buffer.wrap(buffer));
+				Buffer buf = call.call(Buffer.wrap(buffer));
 				// 写入流
 				out.write(buf.array(), 0, buf.length());
 				// 刷新文件流 把流内所有内容更新到文件上
@@ -76,16 +75,16 @@ public final class BIO implements IO {
 		} finally {
 			// 关闭资源
 			if (isClose)
-				Closes.close(out, in);
+				S.C.close(out, in);
 		}
 		// 返回结果
 		return sum;
 	}
 
 	@Override
-	public long read(InputStream in, int buff, boolean isClose, CallbackVoid<Buffer> call) {
+	public long read(InputStream in, int buff, boolean isClose, Calls.EoV<Buffer> call) {
 		return write(ByteArrayOutputStream.nullOutputStream(), in, buff, isClose, b -> {
-			call.callback(b);
+			call.call(b);
 			return Buffer.empty();
 		});
 //		// 判断如果流为空 直接返回
@@ -101,7 +100,7 @@ public final class BIO implements IO {
 //			// 循环读取
 //			while ((num = in.read(buffer)) > 0) {
 //				// 回调
-//				call.callback(Buffer.wrap(buffer));
+//				call.call(Buffer.wrap(buffer));
 //				// 累加长度
 //				sum += num;
 //				// 重新声明字节数组

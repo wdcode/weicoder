@@ -3,19 +3,13 @@ package com.weicoder.elasticsearch;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
-
 import org.apache.http.HttpHost;
 import org.elasticsearch.client.RestClient;
 
-import com.weicoder.common.lang.Lists;
-import com.weicoder.common.lang.Maps;
 import com.weicoder.common.lang.W;
 import com.weicoder.common.log.Logs;
-import com.weicoder.common.params.ElasticSearchParams;
-import com.weicoder.common.util.BeanUtil;
 import com.weicoder.common.util.U;
-import com.weicoder.json.JsonEngine;
+import com.weicoder.json.J;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch._types.mapping.Property;
@@ -29,6 +23,7 @@ import co.elastic.clients.json.jackson.JacksonJsonpMapper;
 import co.elastic.clients.transport.rest_client.RestClientTransport;
 
 import com.weicoder.elasticsearch.annotation.Index;
+import com.weicoder.elasticsearch.params.ElasticSearchParams;
 
 /**
  * ElasticSearch client
@@ -46,9 +41,8 @@ public class ElasticSearch {
 	 * @param name
 	 */
 	public ElasticSearch(String name) {
-		RestClient rc = RestClient.builder(Lists.toArray(ElasticSearchParams.getHosts(name).stream().map(HttpHost::create).collect(Collectors.toList())))
-				.build();
-//		client = new RestHighLevelClient(rc);
+		RestClient rc = RestClient
+				.builder(W.L.toArray(ElasticSearchParams.getHosts(name).stream().map(HttpHost::create).toList())).build();
 		client = new ElasticsearchClient(new RestClientTransport(rc, new JacksonJsonpMapper()));
 	}
 
@@ -63,17 +57,18 @@ public class ElasticSearch {
 		try {
 			// 创建索引
 //			CreateIndexRequest request =  new CreateIndexRequest(getIndexName(index));
-			CreateIndexRequest request = CreateIndexRequest
-					.of(r -> r.index(getIndexName(index)).settings(s -> s.numberOfRoutingShards(index.shards()).numberOfReplicas(index.replica())));
+			CreateIndexRequest request = CreateIndexRequest.of(r -> r.index(getIndexName(index))
+					.settings(s -> s.numberOfRoutingShards(index.shards()).numberOfReplicas(index.replica())));
 			// 创建索引对象类型
-//			Map<String, Object> properties = Maps.newMap();
-			Map<String, Property> properties = Maps.newMap();
+//			Map<String, Object> properties = W.M.map();
+			Map<String, Property> properties = W.M.map();
 			// 获得所有索引字段 根据数据类型设置
-//			BeanUtil.getFields(index.getClass())
-//					.forEach(f -> properties.put(f.getName(), Maps.newMap("type", f.getType())));  
-			BeanUtil.getFields(index.getClass()).forEach(f -> properties.put(f.getName(), Property.of(p -> p.searchAsYouType(v -> v.searchAnalyzer(f.getName())))));//v.name(f.getName())
+//			U.B.getFields(index.getClass())
+//					.forEach(f -> properties.put(f.getName(), W.M.newMap("type", f.getType())));  
+			U.B.getFields(index.getClass()).forEach(
+					f -> properties.put(f.getName(), Property.of(p -> p.searchAsYouType(v -> v.searchAnalyzer(f.getName())))));// v.name(f.getName())
 			// f.getType())));xxxxxxx
-//			request.mapping(JsonEngine.toJson(Maps.newMap("properties", properties)));//, XContentType.JSON
+//			request.mapping(J.toJson(W.M.newMap("properties", properties)));//, XContentType.JSON
 			request.mappings().properties().putAll(properties);
 			// 创建索引
 //			client.indices().create(request, RequestOptions.DEFAULT);
@@ -105,10 +100,10 @@ public class ElasticSearch {
 	public void add(Index... index) {
 		String name = getIndexName(index[0]);
 		String id = index[0].id();
-		Lists.newList(index).forEach(i -> {
+		W.L.list(index).forEach(i -> {
 			try {
-				client.index(new IndexRequest.Builder<>().index(name).id(W.C.toString(BeanUtil.getFieldValue(i, id))).document(JsonEngine.toJson(i)).build())
-						.result();
+				client.index(new IndexRequest.Builder<>().index(name).id(W.C.toString(U.B.getFieldValue(i, id)))
+						.document(J.toJson(i)).build()).result();
 			} catch (IOException e) {
 				Logs.error(e);
 			}
@@ -124,13 +119,13 @@ public class ElasticSearch {
 	 */
 	public <E extends Index> List<E> all(Class<E> cls) {
 		// 执行搜索,向ES发起http请求
-		List<E> list = Lists.newList();
+		List<E> list = W.L.list();
 		try {
 			// 搜索请求对象
-			SearchRequest searchRequest = SearchRequest.of(r -> r.index(getIndexName(U.C.newInstance(cls))).query(QueryBuilders.matchAll().build()._toQuery())
-					.source(new SourceConfig.Builder().build()));
+			SearchRequest searchRequest = SearchRequest.of(r -> r.index(getIndexName(U.C.newInstance(cls)))
+					.query(QueryBuilders.matchAll().build()._toQuery()).source(new SourceConfig.Builder().build()));
 			// 搜索全部对象
-			client.search(searchRequest, cls).hits().hits().forEach(h -> list.add(BeanUtil.copy(h.fields(), cls)));
+			client.search(searchRequest, cls).hits().hits().forEach(h -> list.add(U.B.copy(h.fields(), cls)));
 		} catch (Exception e) {
 			Logs.error(e);
 		}
@@ -151,7 +146,7 @@ public class ElasticSearch {
 	 */
 	public <E extends Index> List<E> query(Class<E> cls, String name, String value, int start, int size) {
 		// 执行搜索,向ES发起http请求
-		List<E> list = Lists.newList();
+		List<E> list = W.L.list();
 		try {
 			// 搜索源构建对象
 			SearchRequest.Builder ssb = new SearchRequest.Builder();
@@ -165,8 +160,8 @@ public class ElasticSearch {
 			// 搜索方式
 			ssb.query(QueryBuilders.term().queryName(name).field(value).build()._toQuery());
 			// 搜索
-			client.search(SearchRequest.of(r -> r.index(getIndexName(U.C.newInstance(cls))).source(ssb.build().source())), cls).hits().hits()
-					.forEach(h -> list.add(BeanUtil.copy(h.fields(), cls)));
+			client.search(SearchRequest.of(r -> r.index(getIndexName(U.C.newInstance(cls))).source(ssb.build().source())), cls)
+					.hits().hits().forEach(h -> list.add(U.B.copy(h.fields(), cls)));
 		} catch (Exception e) {
 			Logs.error(e);
 		}

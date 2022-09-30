@@ -1,9 +1,9 @@
 package com.weicoder.dao.factory;
- 
+
 import com.weicoder.common.factory.FactoryInterface;
-import com.weicoder.common.params.DaoParams;
 import com.weicoder.common.util.U;
-import com.weicoder.dao.Dao; 
+import com.weicoder.dao.Dao;
+import com.weicoder.dao.params.DaoParams;
 
 /**
  * Dao工厂
@@ -37,7 +37,7 @@ public final class DaoFactory extends FactoryInterface<Dao> {
 	public Dao newInstance() {
 		return (Dao) (DaoParams.JDBC ? U.C.newInstance("com.weicoder.jdbc.JdbcDao")
 				: U.C.newInstance("com.weicoder.hibernate.HibernateDao"));
-//		return (Dao) (DaoParams.JDBC ? U.C.newInstance("com.weicoder.jdbc.JdbcDao")
+//		return (Dao) (P.D.JDBC ? U.C.newInstance("com.weicoder.jdbc.JdbcDao")
 //				: U.C.newInstance("com.weicoder.hibernate.HibernateDao"));
 	}
 

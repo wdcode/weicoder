@@ -5,21 +5,17 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.weicoder.common.constants.ArrayConstants;
-import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.constants.C.S;
-import com.weicoder.common.lang.Lists;
+import com.weicoder.common.constants.C;
 import com.weicoder.common.lang.W;
-import com.weicoder.common.lang.W.C;
 import com.weicoder.common.log.Logs;
-import com.weicoder.common.params.CommonParams;
+import com.weicoder.common.params.P;
 
 /**
  * 对字符串进行一些处理。
  * 
  * @author WD
  */
-public class StringUtil {
+public sealed class StringUtil permits U.S {
 
 	/**
 	 * 是否包含Emoji表情
@@ -49,7 +45,8 @@ public class StringUtil {
 					return true;
 				if (0x3297 <= hs && hs <= 0x3299)
 					return true;
-				if (hs == 0xa9 || hs == 0xae || hs == 0x303d || hs == 0x3030 || hs == 0x2b55 || hs == 0x2b1c || hs == 0x2b1b || hs == 0x2b50 || hs == 0x231a)
+				if (hs == 0xa9 || hs == 0xae || hs == 0x303d || hs == 0x3030 || hs == 0x2b55 || hs == 0x2b1c || hs == 0x2b1b
+						|| hs == 0x2b50 || hs == 0x231a)
 					return true;
 				if (!isEmoji && source.length() > 1 && i < source.length() - 1)
 					if (source.charAt(i + 1) == 0x20e3)
@@ -96,8 +93,9 @@ public class StringUtil {
 	 * @return 是否Emoji表情
 	 */
 	public static boolean isEmojiCharacter(char codePoint) {
-		return (codePoint == 0x0) || (codePoint == 0x9) || (codePoint == 0xA) || (codePoint == 0xD) || ((codePoint >= 0x20) && (codePoint <= 0xD7FF))
-				|| ((codePoint >= 0xE000) && (codePoint <= 0xFFFD)) || ((codePoint >= 0x10000) && (codePoint <= 0x10FFFF));
+		return (codePoint == 0x0) || (codePoint == 0x9) || (codePoint == 0xA) || (codePoint == 0xD)
+				|| ((codePoint >= 0x20) && (codePoint <= 0xD7FF)) || ((codePoint >= 0xE000) && (codePoint <= 0xFFFD))
+				|| ((codePoint >= 0x10000) && (codePoint <= 0x10FFFF));
 	}
 
 	/**
@@ -118,7 +116,7 @@ public class StringUtil {
 	 * @return 返回累加后字符串
 	 */
 	public static String add(Object... os) {
-		return add(S.EMPTY, os);
+		return add(C.S.EMPTY, os);
 	}
 
 	/**
@@ -163,7 +161,7 @@ public class StringUtil {
 		// 循环字符数组
 		for (int i = 0; i < temp.length; i++)
 			// 判断是否中文
-			if (RegexUtil.isChinese(String.valueOf(temp[i])))
+			if (U.RE.isChinese(String.valueOf(temp[i])))
 				// 中文长度加2
 				length += 2;
 			else
@@ -196,7 +194,7 @@ public class StringUtil {
 		// 获得Matcher
 		Matcher matcher = Pattern.compile(regex).matcher(str);
 		// 返回字符串
-		return matcher.find(index - 1) ? matcher.group(index) : StringConstants.EMPTY;
+		return matcher.find(index - 1) ? matcher.group(index) : C.S.EMPTY;
 	}
 
 	/**
@@ -254,7 +252,7 @@ public class StringUtil {
 	 * @return 截取后的字符串
 	 */
 	public static String subString(String str, int start) {
-		return U.E.isEmpty(str) ? StringConstants.EMPTY : subString(str, start, str.length());
+		return U.E.isEmpty(str) ? C.S.EMPTY : subString(str, start, str.length());
 	}
 
 	/**
@@ -266,17 +264,17 @@ public class StringUtil {
 	public static String toParameters(Map<String, ?> map) {
 		// 如果Map为空 返回空串
 		if (U.E.isEmpty(map))
-			return StringConstants.EMPTY;
+			return C.S.EMPTY;
 		// 声明字符串缓存
 		StringBuilder sb = new StringBuilder();
 		// 获得Key列表并排序
-		List<String> keys = Lists.sort(Lists.newList(map.keySet()));
+		List<String> keys = W.L.sort(W.L.list(map.keySet()));
 		// 根据Key列表获得值
 		for (int i = 0; i < keys.size(); i++) {
 			// 获得Key
 			String key = keys.get(i);
 			// 获得值
-			String val = C.toString(map.get(key));
+			String val = W.C.toString(map.get(key));
 			// 判断值不为空
 			if (U.E.isNotEmpty(val)) {
 				sb.append(key).append("=");
@@ -430,7 +428,7 @@ public class StringUtil {
 		try {
 			return U.E.isEmpty(source) ? source : new String(source.getBytes(), tChar);
 		} catch (Exception e) {
-			return StringConstants.EMPTY;
+			return C.S.EMPTY;
 		}
 	}
 
@@ -447,7 +445,7 @@ public class StringUtil {
 			return U.E.isEmpty(source) ? source : new String(source.getBytes(sChar), tChar);
 		} catch (Exception e) {
 			Logs.warn(e);
-			return StringConstants.EMPTY;
+			return C.S.EMPTY;
 		}
 	}
 
@@ -475,7 +473,7 @@ public class StringUtil {
 		if (U.E.isEmpty(name))
 			return name;
 		// 分解_个字段
-		String[] strs = name.split(StringConstants.UNDERLINE);
+		String[] strs = name.split(C.S.UNDERLINE);
 		// 实例一个字符串缓存
 		StringBuilder buf = new StringBuilder();
 		// 循环数组
@@ -521,7 +519,7 @@ public class StringUtil {
 			// 判断是否大写
 			if (Character.isUpperCase(c))
 				// 是大写加 _ 然后变成小写
-				buf.append(StringConstants.UNDERLINE).append(Character.toLowerCase(c));
+				buf.append(C.S.UNDERLINE).append(Character.toLowerCase(c));
 			else
 				buf.append(c);
 		}
@@ -536,7 +534,7 @@ public class StringUtil {
 	 * @return 字符串
 	 */
 	public static String toString(byte[] b) {
-		return toString(b, CommonParams.ENCODING);
+		return toString(b, P.C.ENCODING);
 	}
 
 	/**
@@ -548,10 +546,10 @@ public class StringUtil {
 	 */
 	public static String toString(byte[] b, String charsetName) {
 		try {
-			return U.E.isEmpty(b) ? StringConstants.EMPTY : new String(b, charsetName);
+			return U.E.isEmpty(b) ? C.S.EMPTY : new String(b, charsetName);
 		} catch (Exception e) {
 			Logs.warn(e);
-			return StringConstants.EMPTY;
+			return C.S.EMPTY;
 		}
 	}
 
@@ -572,7 +570,7 @@ public class StringUtil {
 	 * @return 字节数组
 	 */
 	public static byte[] toBytes(String s) {
-		return toBytes(s, CommonParams.ENCODING);
+		return toBytes(s, P.C.ENCODING);
 	}
 
 	/**
@@ -584,10 +582,10 @@ public class StringUtil {
 	 */
 	public static byte[] toBytes(String s, String charsetName) {
 		try {
-			return U.E.isEmpty(s) ? ArrayConstants.BYTES_EMPTY : s.getBytes(charsetName);
+			return U.E.isEmpty(s) ? C.A.BYTES_EMPTY : s.getBytes(charsetName);
 		} catch (Exception e) {
 			Logs.warn(e);
-			return ArrayConstants.BYTES_EMPTY;
+			return C.A.BYTES_EMPTY;
 		}
 	}
 
@@ -624,7 +622,7 @@ public class StringUtil {
 	 * @return 替换后的字符
 	 */
 	public static String replace(String s, String regex) {
-		return U.E.isEmpty(s) ? StringConstants.EMPTY : s.replace(regex, S.EMPTY);
+		return U.E.isEmpty(s) ? C.S.EMPTY : s.replace(regex, C.S.EMPTY);
 	}
 
 	/**
@@ -636,7 +634,7 @@ public class StringUtil {
 	 * @return 替换后的字符
 	 */
 	public static String replace(String s, String regex, String replacement) {
-		return U.E.isEmpty(s) ? S.EMPTY : s.replace(regex, replacement);
+		return U.E.isEmpty(s) ? C.S.EMPTY : s.replace(regex, replacement);
 	}
 
 	/**
@@ -647,7 +645,7 @@ public class StringUtil {
 	 * @return 替换后的字符
 	 */
 	public static String replaceAll(String s, String regex) {
-		return U.E.isEmpty(s) ? S.EMPTY : s.replaceAll(regex, S.EMPTY);
+		return U.E.isEmpty(s) ? C.S.EMPTY : s.replaceAll(regex, C.S.EMPTY);
 	}
 
 	/**
@@ -659,7 +657,7 @@ public class StringUtil {
 	 * @return 替换后的字符
 	 */
 	public static String replaceAll(String s, String regex, String replacement) {
-		return U.E.isEmpty(s) ? StringConstants.EMPTY : s.replaceAll(regex, replacement);
+		return U.E.isEmpty(s) ? C.S.EMPTY : s.replaceAll(regex, replacement);
 	}
 
 	/**
@@ -670,7 +668,7 @@ public class StringUtil {
 	 * @return 替换后的字符
 	 */
 	public static String[] split(String s, String regex) {
-		return split(s, regex, ArrayConstants.STRING_EMPTY);
+		return split(s, regex, C.A.STRING_EMPTY);
 	}
 
 	/**
@@ -692,7 +690,7 @@ public class StringUtil {
 	 * @return 方法名
 	 */
 	public static String getMethodName(String prefix, String name) {
-		return convert(prefix + StringConstants.UNDERLINE + name);
+		return convert(prefix + C.S.UNDERLINE + name);
 	}
 
 	/**
@@ -730,7 +728,7 @@ public class StringUtil {
 	 * @return 返回聚合后字符串
 	 */
 	public static String combine(String s1, String s2) {
-		return U.E.isEmpty(s1) || U.E.isEmpty(s2) ? StringConstants.EMPTY : combine(s1, s2, (s1.length() + s2.length()) / s1.length());
+		return U.E.isEmpty(s1) || U.E.isEmpty(s2) ? C.S.EMPTY : combine(s1, s2, (s1.length() + s2.length()) / s1.length());
 	}
 
 	/**
@@ -771,7 +769,7 @@ public class StringUtil {
 		try {
 			// 如果字符为空返回空
 			if (U.E.isEmpty(s))
-				return ArrayConstants.STRING_EMPTY;
+				return C.A.STRING_EMPTY;
 			// 声明字符数组
 			char[] c = s.toCharArray();
 			char[] c1 = new char[c.length / len];
@@ -788,7 +786,7 @@ public class StringUtil {
 			// 返回字符串数组
 			return new String[] { new String(c1), new String(c2) };
 		} catch (Exception e) {
-			return ArrayConstants.STRING_EMPTY;
+			return C.A.STRING_EMPTY;
 		}
 	}
 }

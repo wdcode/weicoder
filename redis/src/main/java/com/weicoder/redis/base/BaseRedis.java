@@ -2,12 +2,10 @@ package com.weicoder.redis.base;
 
 import java.util.List;
 
-import com.weicoder.common.lang.Bytes;
-import com.weicoder.common.lang.Lists;
-import com.weicoder.common.lang.W.C;
-import com.weicoder.common.statics.Zips;
-import com.weicoder.common.util.ThreadUtil;
-import com.weicoder.json.JsonEngine;
+import com.weicoder.common.lang.W;
+import com.weicoder.common.statics.S; 
+import com.weicoder.common.thread.T;
+import com.weicoder.json.J;
 import com.weicoder.redis.Redis;
 
 /**
@@ -36,24 +34,24 @@ public abstract class BaseRedis implements Redis {
 	 * @param value 值
 	 */
 	public final String compress(String key, Object value) {
-		return set(Bytes.toBytes(key), Zips.compress(value));
+		return set(W.B.toBytes(key), S.Z.compress(value));
 	}
 
 	/**
 	 * 根据键获得压缩值 如果是压缩的返回解压缩的byte[] 否是返回Object
 	 * 
-	 * @param  key 键
-	 * @return     值
+	 * @param key 键
+	 * @return 值
 	 */
 	public final byte[] extract(String key) {
-		return Zips.extract(get(key));
+		return S.Z.extract(get(key));
 	}
 
 	/**
 	 * 获得多个键的数组
 	 * 
-	 * @param  keys 键
-	 * @return      值
+	 * @param keys 键
+	 * @return 值
 	 */
 	public Object[] get(String... keys) {
 		// 声明列表
@@ -78,15 +76,15 @@ public abstract class BaseRedis implements Redis {
 	/**
 	 * 获得多个键的数组
 	 * 
-	 * @param  keys 键
-	 * @return      值
+	 * @param keys 键
+	 * @return 值
 	 */
 	public List<byte[]> extract(String... keys) {
 		// 声明列表
-		List<byte[]> list = Lists.newList(keys.length);
+		List<byte[]> list = W.L.list(keys.length);
 		// 循环解压数据
 		for (Object o : get(keys))
-			list.add(Zips.extract(o));
+			list.add(S.Z.extract(o));
 		// 返回列表
 		return list;
 	}
@@ -130,7 +128,7 @@ public abstract class BaseRedis implements Redis {
 				// 检查分布式锁是否存在 如果存在循环等待
 				while (r.exists(key)) {
 					// 等待5毫秒
-					ThreadUtil.sleep(5L);
+					T.sleep(5L);
 					// 检查是否超时
 					if (timeout > 0 && System.currentTimeMillis() - curr > timeout)
 						throw new RuntimeException("timeout ..");
@@ -141,7 +139,7 @@ public abstract class BaseRedis implements Redis {
 				if (seconds == -1)
 					r.set(key, key);
 				else
-					r.setex(key,C.toLong(seconds), key);
+					r.setex(key, W.C.toLong(seconds), key);
 			});
 			return true;
 		} catch (Exception e) {
@@ -152,10 +150,10 @@ public abstract class BaseRedis implements Redis {
 	/**
 	 * 根据传入类型转换成String
 	 * 
-	 * @param  o
+	 * @param o
 	 * @return
 	 */
 	protected String toString(Object o) {
-		return o instanceof Number || o instanceof String ? C.toString(o) : JsonEngine.toJson(o);
+		return o instanceof Number || o instanceof String ? W.C.toString(o) : J.toJson(o);
 	}
 }

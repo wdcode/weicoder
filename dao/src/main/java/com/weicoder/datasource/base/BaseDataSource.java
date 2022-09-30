@@ -10,7 +10,7 @@ import javax.sql.DataSource;
 public abstract class BaseDataSource {
 	protected String		name;
 	protected DataSource	ds;
- 
+
 	/**
 	 * 构造函数
 	 * 

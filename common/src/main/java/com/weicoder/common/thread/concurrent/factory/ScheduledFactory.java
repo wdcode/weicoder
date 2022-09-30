@@ -1,19 +1,19 @@
-package com.weicoder.common.concurrent;
+package com.weicoder.common.thread.concurrent.factory;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
 import com.weicoder.common.factory.FactoryKey;
-import com.weicoder.common.params.CommonParams;
+import com.weicoder.common.params.P;
 
 /**
  * 定时工厂
  * @author WD
  */
-class ScheduledFactory extends FactoryKey<String, ScheduledExecutorService> {
+public class ScheduledFactory extends FactoryKey<String, ScheduledExecutorService> {
 	@Override
 	public ScheduledExecutorService newInstance(String key) {
-		return newPool(CommonParams.getScheduledPool(key), CommonParams.getScheduledDaemon(key));
+		return newPool(P.C.getScheduledPool(key), P.C.getScheduledDaemon(key));
 	}
 
 	/**

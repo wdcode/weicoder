@@ -4,11 +4,10 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import com.weicoder.common.interfaces.CallbackList;
-import com.weicoder.common.interfaces.CallbackVoid;
+import com.weicoder.common.interfaces.Calls; 
 import com.weicoder.common.queue.AsynQueue;
-import com.weicoder.common.queue.AsynQueueList;
-import com.weicoder.common.util.MathUtil;
+import com.weicoder.common.queue.AsynQueueList; 
+import com.weicoder.common.util.U;
 import com.weicoder.common.queue.OnlyQueue;
 
 /**
@@ -16,13 +15,13 @@ import com.weicoder.common.queue.OnlyQueue;
  * 
  * @author WD
  */
-public class Queues {
+public sealed class Queues permits W.Q {
 	/**
 	 * 生成新的队列
 	 * 
 	 * @return 并发列表队列
 	 */
-	public static <E> ConcurrentLinkedQueue<E> newConcurrentQueue() {
+	public static <E> ConcurrentLinkedQueue<E> concurrent() {
 		return new ConcurrentLinkedQueue<E>();
 	}
 
@@ -31,7 +30,7 @@ public class Queues {
 	 * 
 	 * @return 列表堵塞队列
 	 */
-	public static <E> LinkedBlockingQueue<E> newLinkedBlockingQueue() {
+	public static <E> LinkedBlockingQueue<E> linked() {
 		return new LinkedBlockingQueue<E>();
 	}
 
@@ -40,7 +39,7 @@ public class Queues {
 	 * 
 	 * @return 唯一元素并发队列
 	 */
-	public static <E> OnlyQueue<E> newOnlyQueue() {
+	public static <E> OnlyQueue<E> only() {
 		return new OnlyQueue<E>();
 	}
 
@@ -52,8 +51,8 @@ public class Queues {
 	 * @param time     间隔检测队列时间 毫秒
 	 * @return 异步队列
 	 */
-	public static <E> AsynQueue<E> newAsynQueue(CallbackVoid<E> callback, long time) {
-		return newAsynQueue(newLinkedBlockingQueue(), callback, time);
+	public static <E> AsynQueue<E> asyn(Calls.EoV<E> callback, long time) {
+		return asyn(linked(), callback, time);
 	}
 
 	/**
@@ -64,8 +63,8 @@ public class Queues {
 	 * @param time     间隔检测队列时间 秒
 	 * @return 异步队列
 	 */
-	public static <E> AsynQueue<E> newAsynQueue(CallbackVoid<E> callback, int time) {
-		return newAsynQueue(newLinkedBlockingQueue(), callback, MathUtil.multiply(time, 1000).longValue());
+	public static <E> AsynQueue<E> asyn(Calls.EoV<E> callback, int time) {
+		return asyn(linked(), callback, U.M.multiply(time, 1000).longValue());
 	}
 
 	/**
@@ -77,7 +76,7 @@ public class Queues {
 	 * @param time     间隔检测队列时间 毫秒
 	 * @return 异步队列
 	 */
-	public static <E> AsynQueue<E> newAsynQueue(Queue<E> queue, CallbackVoid<E> callback, long time) {
+	public static <E> AsynQueue<E> asyn(Queue<E> queue, Calls.EoV<E> callback, long time) {
 		return new AsynQueue<E>(queue, callback, time);
 	}
 
@@ -90,8 +89,8 @@ public class Queues {
 	 * @param time     间隔检测队列时间 秒
 	 * @return 异步队列
 	 */
-	public static <E> AsynQueue<E> newAsynQueue(Queue<E> queue, CallbackVoid<E> callback, int time) {
-		return newAsynQueue(queue, callback, MathUtil.multiply(time, 1000).longValue());
+	public static <E> AsynQueue<E> asyn(Queue<E> queue, Calls.EoV<E> callback, int time) {
+		return asyn(queue, callback, U.M.multiply(time, 1000).longValue());
 	}
 
 	/**
@@ -99,8 +98,8 @@ public class Queues {
 	 * 
 	 * @return 异步更新并发队列
 	 */
-	public static <E> AsynQueueList<E> newAsynQueueList(CallbackList<E> callback, long time) {
-		return newAsynQueueList(newConcurrentQueue(), callback, time);
+	public static <E> AsynQueueList<E> asynList(Calls.LoV<E> callback, long time) {
+		return asynList(concurrent(), callback, time);
 	}
 
 	/**
@@ -108,7 +107,7 @@ public class Queues {
 	 * 
 	 * @return 异步更新并发队列
 	 */
-	public static <E> AsynQueueList<E> newAsynQueueList(Queue<E> queue, CallbackList<E> callback, long time) {
+	public static <E> AsynQueueList<E> asynList(Queue<E> queue, Calls.LoV<E> callback, long time) {
 		return new AsynQueueList<E>(queue, callback, time);
 	}
 
@@ -117,8 +116,8 @@ public class Queues {
 	 * 
 	 * @return 异步更新并发队列
 	 */
-	public static <E> AsynQueueList<E> newAsynQueueList(CallbackList<E> callback, int time) {
-		return newAsynQueueList(newConcurrentQueue(), callback, time);
+	public static <E> AsynQueueList<E> asynList(Calls.LoV<E> callback, int time) {
+		return asynList(concurrent(), callback, time);
 	}
 
 	/**
@@ -126,7 +125,7 @@ public class Queues {
 	 * 
 	 * @return 异步更新并发队列
 	 */
-	public static <E> AsynQueueList<E> newAsynQueueList(Queue<E> queue, CallbackList<E> callback, int time) {
-		return newAsynQueueList(queue, callback, MathUtil.multiply(time, 1000).longValue());
+	public static <E> AsynQueueList<E> asynList(Queue<E> queue, Calls.LoV<E> callback, int time) {
+		return asynList(queue, callback, U.M.multiply(time, 1000).longValue());
 	}
 }

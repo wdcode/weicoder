@@ -1,6 +1,6 @@
 package com.weicoder.influxdb.params;
 
-import com.weicoder.common.params.Params;
+import com.weicoder.common.params.P;
 
 /**
  * Influx使用参数
@@ -16,7 +16,7 @@ public final class InfluxParams {
 	 * @return
 	 */
 	public static String getUrl(String name) {
-		return Params.getString(getKey(name, "url"));
+		return P.getString(getKey(name, "url"));
 	}
 
 	/**
@@ -26,7 +26,7 @@ public final class InfluxParams {
 	 * @return
 	 */
 	public static String getPassword(String name) {
-		return Params.getString(getKey(name, "password"));
+		return P.getString(getKey(name, "password"));
 	}
 
 	/**
@@ -35,7 +35,7 @@ public final class InfluxParams {
 	 * @param name 名
 	 */
 	public static String getUsername(String name) {
-		return Params.getString(getKey(name, "username"));
+		return P.getString(getKey(name, "username"));
 	}
 
 	/**
@@ -44,7 +44,7 @@ public final class InfluxParams {
 	 * @param name 名
 	 */
 	public static String getDatabase(String name) {
-		return Params.getString(getKey(name, "database"));
+		return P.getString(getKey(name, "database"));
 	}
 
 	/**
@@ -54,7 +54,7 @@ public final class InfluxParams {
 	 * @return
 	 */
 	public static String getPolicy(String name) {
-		return Params.getString(getKey(name, "policy"));
+		return P.getString(getKey(name, "policy"));
 	}
 
 	/**
@@ -65,7 +65,7 @@ public final class InfluxParams {
 	 * @return 替换后的键
 	 */
 	private static String getKey(String name, String key) {
-		return Params.getKey("influx", name, key);
+		return P.getKey("influx", name, key);
 	}
 
 	private InfluxParams() {

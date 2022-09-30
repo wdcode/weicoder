@@ -2,7 +2,7 @@ package com.weicoder.nacos.params;
 
 import com.weicoder.common.config.Config;
 import com.weicoder.common.config.ConfigFactory;
-import com.weicoder.common.params.Params;
+import com.weicoder.common.params.P;
 
 /**
  * Nacos配置参数
@@ -23,7 +23,7 @@ public final class NacosParams {
 	 * @return
 	 */
 	public static String getAddr(String name) {
-		return CONFIG.getString(Params.getKey(name, ADDR,"nacos"), Params.getString(Params.getKey(PREFIX, name, ADDR),"8848"));
+		return CONFIG.getString(P.getKey(name, ADDR,"nacos"), P.getString(P.getKey(PREFIX, name, ADDR),"8848"));
 	}
 
 	private NacosParams() {

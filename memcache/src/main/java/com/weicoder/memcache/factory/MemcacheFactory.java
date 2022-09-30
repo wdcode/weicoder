@@ -1,6 +1,6 @@
 package com.weicoder.memcache.factory;
 
-import com.weicoder.common.constants.StringConstants;
+import com.weicoder.common.constants.C;
 import com.weicoder.common.factory.FactoryKey;
 import com.weicoder.common.util.U;
 import com.weicoder.memcache.params.MemcacheParams;
@@ -41,7 +41,7 @@ public final class MemcacheFactory extends FactoryKey<String, Memcache> {
 		String[] names = MemcacheParams.NAMES;
 		// 判断集群是否为空
 		if (U.E.isEmpty(names)) {
-			return newInstance(StringConstants.EMPTY);
+			return newInstance(C.S.EMPTY);
 		} else {
 			return new MemcacheArray(names);
 		}

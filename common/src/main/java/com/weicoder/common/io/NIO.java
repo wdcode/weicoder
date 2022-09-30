@@ -6,8 +6,7 @@ import java.io.OutputStream;
 import java.nio.channels.Channels;
 
 import com.weicoder.common.binary.Buffer;
-import com.weicoder.common.interfaces.Callback;
-import com.weicoder.common.interfaces.CallbackVoid;
+import com.weicoder.common.interfaces.Calls;  
 
 /**
  * 非堵塞IO操作
@@ -24,11 +23,11 @@ public final class NIO implements IO {
 	 */
 	public byte[] read(InputStream in, boolean isClose) {
 //		try (ReadableByteChannel rbc = Channels.newChannel(in)) {
-//			return U.Ch.read(rbc, isClose);
+//			return I.C.read(rbc, isClose);
 //		} catch (Exception e) {
 //			return C.A.BYTES_EMPTY;
 //		}
-		return ChannelUtil.read(Channels.newChannel(in), isClose);
+		return I.C.read(Channels.newChannel(in), isClose);
 	}
 
 	/**
@@ -40,19 +39,19 @@ public final class NIO implements IO {
 	 * @return 写入成功字节数
 	 */
 	public long write(OutputStream out, InputStream in, boolean isClose) {
-		return ChannelUtil.write(Channels.newChannel(out), in, isClose);
+		return I.C.write(Channels.newChannel(out), in, isClose);
 	}
 
 	@Override
-	public long write(OutputStream out, InputStream in, int buff, boolean isClose, Callback<Buffer, Buffer> call) {
-		return ChannelUtil.write(Channels.newChannel(in), Channels.newChannel(out), buff, isClose, call);
+	public long write(OutputStream out, InputStream in, int buff, boolean isClose, Calls.EoR<Buffer, Buffer> call) {
+		return I.C.write(Channels.newChannel(in), Channels.newChannel(out), buff, isClose, call);
 	}
 
 	@Override
-	public long read(InputStream in, int buff, boolean isClose, CallbackVoid<Buffer> call) {
-		return ChannelUtil.write(Channels.newChannel(in), Channels.newChannel(ByteArrayOutputStream.nullOutputStream()),
+	public long read(InputStream in, int buff, boolean isClose, Calls.EoV<Buffer> call) {
+		return I.C.write(Channels.newChannel(in), Channels.newChannel(ByteArrayOutputStream.nullOutputStream()),
 				buff, isClose, b -> {
-					call.callback(b);
+					call.call(b);
 					return Buffer.empty();
 				});
 	}

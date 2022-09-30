@@ -2,8 +2,8 @@ package com.weicoder.memcache.base;
 
 import java.util.List;
 
-import com.weicoder.common.lang.Lists;
-import com.weicoder.common.statics.Zips;
+import com.weicoder.common.lang.W;
+import com.weicoder.common.statics.S;
 import com.weicoder.memcache.params.MemcacheParams;
 import com.weicoder.memcache.Memcache;
 
@@ -23,7 +23,7 @@ public abstract class BaseMemcache implements Memcache {
 	 * @param value 值
 	 */
 	public final boolean compress(String key, Object value) {
-		return set(key, Zips.compress(value));
+		return set(key, S.Z.compress(value));
 	}
 
 	/**
@@ -32,7 +32,7 @@ public abstract class BaseMemcache implements Memcache {
 	 * @return 值
 	 */
 	public final byte[] extract(String key) {
-		return Zips.extract(get(key));
+		return S.Z.extract(get(key));
 	}
 
 	/**
@@ -58,10 +58,10 @@ public abstract class BaseMemcache implements Memcache {
 	 */
 	public List<byte[]> extract(String... keys) {
 		// 声明列表
-		List<byte[]> list = Lists.newList(keys.length);
+		List<byte[]> list = W.L.list(keys.length);
 		// 循环解压数据
 		for (Object o : get(keys)) {
-			list.add(Zips.extract(o));
+			list.add(S.Z.extract(o));
 		}
 		// 返回列表
 		return list;

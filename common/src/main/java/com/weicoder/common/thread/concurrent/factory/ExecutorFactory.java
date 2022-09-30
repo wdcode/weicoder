@@ -1,20 +1,20 @@
-package com.weicoder.common.concurrent;
+package com.weicoder.common.thread.concurrent.factory;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import com.weicoder.common.factory.FactoryKey;
-import com.weicoder.common.params.CommonParams;
+import com.weicoder.common.params.P;
 
 /**
  * 线程池工厂
  * @author WD
  */
-class ExecutorFactory extends FactoryKey<String, ExecutorService> {
+public class ExecutorFactory extends FactoryKey<String, ExecutorService> {
 
 	@Override
 	public ExecutorService newInstance(String key) {
-		return newPool(CommonParams.getExecutorPool(key), CommonParams.getExecutorDaemon(key));
+		return newPool(P.C.getExecutorPool(key), P.C.getExecutorDaemon(key));
 	}
 
 	/**

@@ -5,8 +5,7 @@ import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
 
-import com.weicoder.common.constants.C;
-import com.weicoder.common.constants.StringConstants;
+import com.weicoder.common.constants.C; 
 import com.weicoder.common.lang.W;
 
 /**
@@ -14,13 +13,13 @@ import com.weicoder.common.lang.W;
  * 
  * @author WD
  */
-public class ArrayUtil {
+public sealed class ArrayUtil permits U.A {
 	/**
 	 * 根据传入的字符串转换成字符数组
 	 * 
-	 * @param  s 字符串
-	 * @param  c 要转换的类型
-	 * @return   字符数组
+	 * @param s 字符串
+	 * @param c 要转换的类型
+	 * @return 字符数组
 	 */
 	public static Object array(String s, Class<?> c) {
 		return array(s, C.S.AMP, c);
@@ -29,10 +28,10 @@ public class ArrayUtil {
 	/**
 	 * 根据传入的字符串转换成字符数组
 	 * 
-	 * @param  s    字符串
-	 * @param  sepa 分隔符
-	 * @param  c    要转换的类型
-	 * @return      字符数组
+	 * @param s    字符串
+	 * @param sepa 分隔符
+	 * @param c    要转换的类型
+	 * @return 字符数组
 	 */
 	public static Object array(String s, String sepa, Class<?> c) {
 		// 判断参数不对返回Null
@@ -56,8 +55,8 @@ public class ArrayUtil {
 	/**
 	 * 判断是否数组
 	 * 
-	 * @param  obj 对象
-	 * @return     是否数组
+	 * @param obj 对象
+	 * @return 是否数组
 	 */
 	public static boolean isArray(Object obj) {
 		return U.E.isNotEmpty(obj) && (obj.getClass().isArray());
@@ -66,9 +65,9 @@ public class ArrayUtil {
 	/**
 	 * 把数组转换成列表
 	 * 
-	 * @param  e   元素数组
-	 * @param  <E> 泛型
-	 * @return     元素列表
+	 * @param e   元素数组
+	 * @param <E> 泛型
+	 * @return 元素列表
 	 */
 	@SafeVarargs
 	public static <E> List<E> toList(E... e) {
@@ -115,8 +114,8 @@ public class ArrayUtil {
 	/**
 	 * 把int数组包装成Integer数组
 	 * 
-	 * @param  n int数组
-	 * @return   Integer数组
+	 * @param n int数组
+	 * @return Integer数组
 	 */
 	public static Integer[] toInteger(int[] n) {
 		// 声明Integer数组
@@ -131,8 +130,8 @@ public class ArrayUtil {
 	/**
 	 * 把String数组包装成Integer数组
 	 * 
-	 * @param  s String数组
-	 * @return   Integer数组
+	 * @param s String数组
+	 * @return Integer数组
 	 */
 	public static Integer[] toInteger(String[] s) {
 		// 声明Integer数组
@@ -147,8 +146,8 @@ public class ArrayUtil {
 	/**
 	 * 把Integer数组转换成int数组
 	 * 
-	 * @param  n Integer数组
-	 * @return   int数组
+	 * @param n Integer数组
+	 * @return int数组
 	 */
 	public static int[] toInt(Integer[] n) {
 		// 声明Integer数组
@@ -163,8 +162,8 @@ public class ArrayUtil {
 	/**
 	 * 把Integer数组转换成String数组
 	 * 
-	 * @param  n Integer数组
-	 * @return   String数组
+	 * @param n Integer数组
+	 * @return String数组
 	 */
 	public static String[] toStringArray(Integer[] n) {
 		// 声明Integer数组
@@ -179,8 +178,8 @@ public class ArrayUtil {
 	/**
 	 * 把数组对象转换成字符串
 	 * 
-	 * @param  a 对象数组
-	 * @return   字符串
+	 * @param a 对象数组
+	 * @return 字符串
 	 */
 	public static String[] toStringArray(Serializable[] a) {
 		// 声明Integer数组
@@ -195,8 +194,8 @@ public class ArrayUtil {
 	/**
 	 * 把数组对象转换成字符串
 	 * 
-	 * @param  a 对象数组
-	 * @return   字符串
+	 * @param a 对象数组
+	 * @return 字符串
 	 */
 	public static String[] toStringArray(Object[] a) {
 		// 声明Integer数组
@@ -211,20 +210,20 @@ public class ArrayUtil {
 	/**
 	 * 把数组对象转换成字符串
 	 * 
-	 * @param  a 对象数组
-	 * @return   字符串
+	 * @param a 对象数组
+	 * @return 字符串
 	 */
 	public static String toString(Object[] a) {
-		return Arrays.toString(a).replaceAll("[\\[\\]]", StringConstants.EMPTY);
+		return Arrays.toString(a).replaceAll("[\\[\\]]", C.S.EMPTY);
 	}
 
 	/**
 	 * 数组相加
 	 * 
-	 * @param  one 第一个数组因数
-	 * @param  two 第二个数组因数
-	 * @param  <E> 泛型
-	 * @return     相加后的数组
+	 * @param one 第一个数组因数
+	 * @param two 第二个数组因数
+	 * @param <E> 泛型
+	 * @return 相加后的数组
 	 */
 	public static <E> E[] add(E[] one, E[] two) {
 		return add(one, two, two.length);
@@ -233,11 +232,11 @@ public class ArrayUtil {
 	/**
 	 * 数组相加
 	 * 
-	 * @param  one       第一个数组因数
-	 * @param  two       第二个数组因数
-	 * @param  twoLength 第二个数组长度 一共相加多少长度
-	 * @param  <E>       泛型
-	 * @return           相加后的数组
+	 * @param one       第一个数组因数
+	 * @param two       第二个数组因数
+	 * @param twoLength 第二个数组长度 一共相加多少长度
+	 * @param <E>       泛型
+	 * @return 相加后的数组
 	 */
 	public static <E> E[] add(E[] one, E[] two, int twoLength) {
 		return add(one, 0, one.length, two, 0, twoLength);
@@ -246,14 +245,14 @@ public class ArrayUtil {
 	/**
 	 * 数组相加
 	 * 
-	 * @param  one       第一个数组因数
-	 * @param  onePos    第一个数组偏移 从第几个元素开始
-	 * @param  oneLength 第一个数组长度 一共相加多少长度
-	 * @param  two       第二个数组因数
-	 * @param  twoPos    第二个数组偏移 从第几个元素开始
-	 * @param  twoLength 第二个数组长度 一共相加多少长度
-	 * @param  <E>       泛型
-	 * @return           相加后的数组
+	 * @param one       第一个数组因数
+	 * @param onePos    第一个数组偏移 从第几个元素开始
+	 * @param oneLength 第一个数组长度 一共相加多少长度
+	 * @param two       第二个数组因数
+	 * @param twoPos    第二个数组偏移 从第几个元素开始
+	 * @param twoLength 第二个数组长度 一共相加多少长度
+	 * @param <E>       泛型
+	 * @return 相加后的数组
 	 */
 	@SuppressWarnings("unchecked")
 	public static <E> E[] add(E[] one, int onePos, int oneLength, E[] two, int twoPos, int twoLength) {
@@ -270,10 +269,10 @@ public class ArrayUtil {
 	/**
 	 * 获得数据
 	 * 
-	 * @param  clazz  数组类型
-	 * @param  length 数组长度
-	 * @param  <E>    泛型
-	 * @return        数组
+	 * @param clazz  数组类型
+	 * @param length 数组长度
+	 * @param <E>    泛型
+	 * @return 数组
 	 */
 	@SuppressWarnings("unchecked")
 	public static <E> E[] getArray(Class<E> clazz, int length) {
@@ -283,9 +282,9 @@ public class ArrayUtil {
 	/**
 	 * 获得数组
 	 * 
-	 * @param  e   要组成数据的参数
-	 * @param  <E> 泛型
-	 * @return     e数组
+	 * @param e   要组成数据的参数
+	 * @param <E> 泛型
+	 * @return e数组
 	 */
 	@SafeVarargs
 	public static <E> E[] getArray(E... e) {

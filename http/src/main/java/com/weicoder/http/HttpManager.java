@@ -1,7 +1,7 @@
 package com.weicoder.http;
 
 import com.weicoder.common.factory.FactoryKey;
-import com.weicoder.common.params.HttpParams;
+import com.weicoder.common.params.P;
 import com.weicoder.http.factory.RetrofitFactory;
 
 import retrofit2.Retrofit;
@@ -33,6 +33,6 @@ public final class HttpManager extends FactoryKey<Class<?>, Object> {
 	}
 
 	private HttpManager() {
-		retrofit = RetrofitFactory.get(HttpParams.BASE_URL);
+		retrofit = RetrofitFactory.get(P.H.BASE_URL);
 	}
 }

@@ -12,10 +12,8 @@ import org.quartz.TriggerBuilder;
 import org.quartz.impl.DirectSchedulerFactory; 
  
 import com.weicoder.common.log.Logs;
-import com.weicoder.common.util.ClassUtil;
-import com.weicoder.common.util.U;
-import com.weicoder.common.util.U.C;
-import com.weicoder.common.constants.C.O;
+import com.weicoder.common.util.U; 
+import com.weicoder.common.constants.C;
 import com.weicoder.common.init.Init;
 import com.weicoder.quartz.params.QuartzParams;
 
@@ -28,22 +26,22 @@ public class QuartzInit implements Init {
 	@Override
 	public void init() {
 		try {
-			List<Class<Job>> jobs = C.list(Job.class);
+			List<Class<Job>> jobs = U.C.list(Job.class);
 			if (U.E.isNotEmpty(jobs)) {
 				// 任务执行器
 //				Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
 				DirectSchedulerFactory factory = DirectSchedulerFactory.getInstance();
-				factory.createVolatileScheduler(O.CPU_NUM);
+				factory.createVolatileScheduler(C.O.CPU_NUM);
 				Scheduler scheduler = factory.getScheduler();
 				// 循环处理任务类
 				jobs.forEach(c -> {
 					// 执行对象
-//					Object obj = ClassUtil.newInstance(c);
-					Object obj = C.ioc(c);
+//					Object obj = U.C.newInstance(c);
+					Object obj = U.C.ioc(c);
 					// Trigger生成器
 					TriggerBuilder<org.quartz.Trigger> builder = TriggerBuilder.newTrigger();
 					// 处理所有方法
-					ClassUtil.getPublicMethod(c).forEach(m -> {
+					U.C.getPublicMethod(c).forEach(m -> {
 						// 方法有执行时间注解
 						Trigger t = m.getAnnotation(Trigger.class);
 						if (t != null) {

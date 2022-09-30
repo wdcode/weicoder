@@ -3,9 +3,8 @@ package com.weicoder.frame.entity.base;
 import jakarta.persistence.MappedSuperclass;
 
 import com.weicoder.frame.entity.EntityTime;
-import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.util.DateUtil;
-import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.constants.C; 
+import com.weicoder.common.util.U;
 
 /**
  * 标准实体实现
@@ -30,6 +29,6 @@ public abstract class BaseEntityIdTime extends BaseEntityId implements EntityTim
 
 	@Override
 	public String getDate() {
-		return EmptyUtil.isEmpty(time) ? StringConstants.EMPTY : DateUtil.toString(time);
+		return U.E.isEmpty(time) ? C.S.EMPTY : U.D.toString(time);
 	}
 }

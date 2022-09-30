@@ -3,7 +3,7 @@ package com.weicoder.common.log;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.weicoder.common.constants.StringConstants;
+import com.weicoder.common.constants.C;
 
 /**
  * JDK实现
@@ -16,7 +16,7 @@ public class LogJdk implements Log {
 	 
 	@Override
 	public void setClass(Class<?> c) {
-		log = c == null ? Logger.getLogger(StringConstants.EMPTY) : Logger.getLogger(c.getSimpleName());
+		log = c == null ? Logger.getLogger(C.S.EMPTY) : Logger.getLogger(c.getSimpleName());
 	}
 
 	@Override
@@ -28,7 +28,7 @@ public class LogJdk implements Log {
 	@Override
 	public void trace(Throwable t) {
 		if (isTrace())
-			log.log(Level.ALL, StringConstants.EMPTY, t);
+			log.log(Level.ALL, C.S.EMPTY, t);
 	}
 
 	@Override
@@ -40,7 +40,7 @@ public class LogJdk implements Log {
 	@Override
 	public void debug(Throwable t) {
 		if (isDebug())
-			log.log(Level.CONFIG, StringConstants.EMPTY, t);
+			log.log(Level.CONFIG, C.S.EMPTY, t);
 	}
 
 	@Override
@@ -52,7 +52,7 @@ public class LogJdk implements Log {
 	@Override
 	public void info(Throwable t) {
 		if (isInfo())
-			log.log(Level.INFO, StringConstants.EMPTY, t);
+			log.log(Level.INFO, C.S.EMPTY, t);
 	}
 
 	@Override
@@ -64,7 +64,7 @@ public class LogJdk implements Log {
 	@Override
 	public void warn(Throwable t) {
 		if (isWarn())
-			log.log(Level.WARNING, StringConstants.EMPTY, t);
+			log.log(Level.WARNING, C.S.EMPTY, t);
 	}
 
 	@Override
@@ -75,7 +75,7 @@ public class LogJdk implements Log {
 
 	@Override
 	public void error(Throwable t) {
-		error(StringConstants.EMPTY, t);
+		error(C.S.EMPTY, t);
 	}
 
 	@Override

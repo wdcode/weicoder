@@ -1,4 +1,4 @@
-package com.weicoder.common.concurrent;
+package com.weicoder.common.thread.concurrent;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

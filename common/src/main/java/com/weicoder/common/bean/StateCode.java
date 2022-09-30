@@ -1,6 +1,6 @@
 package com.weicoder.common.bean;
 
-import com.weicoder.common.params.StateParams;
+import com.weicoder.common.params.P;
 
 /**
  * 注解State返回状态码使用
@@ -9,11 +9,11 @@ import com.weicoder.common.params.StateParams;
  */
 public final class StateCode extends Result<Object> {
 	/** 状态码成功 */
-	public final static StateCode SUCCESS = new StateCode(StateParams.SUCCESS, StateParams.SUCCESS_MSG);
+	public final static StateCode SUCCESS = new StateCode(P.S.SUCCESS, P.S.SUCCESS_MSG);
 	/** 状态码失败 */
-	public final static StateCode ERROR = new StateCode(StateParams.ERROR, StateParams.getMessage(StateParams.ERROR));
+	public final static StateCode ERROR = new StateCode(P.S.ERROR, P.S.getMessage(P.S.ERROR));
 	/** 状态码失败 */
-	public final static StateCode NULL = new StateCode(StateParams.NULL, StateParams.getMessage(StateParams.NULL));
+	public final static StateCode NULL = new StateCode(P.S.NULL, P.S.getMessage(P.S.NULL));
 
 	/**
 	 * 构造状态码
@@ -22,7 +22,7 @@ public final class StateCode extends Result<Object> {
 	 * @return StateCode
 	 */
 	public static StateCode build(int code) {
-		return build(code, StateParams.getMessage(code));
+		return build(code, P.S.getMessage(code));
 	}
 
 	/**
@@ -72,9 +72,9 @@ public final class StateCode extends Result<Object> {
 	}
 
 	private StateCode(Object content) {
-		this.code = StateParams.SUCCESS;
+		this.code = P.S.SUCCESS;
 		this.content = content;
-		this.message = StateParams.SUCCESS_MSG;
+		this.message = P.S.SUCCESS_MSG;
 	}
 
 	private StateCode() {

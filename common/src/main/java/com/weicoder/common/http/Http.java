@@ -2,7 +2,7 @@ package com.weicoder.common.http;
 
 import java.util.Map;
 
-import com.weicoder.common.lang.Maps;
+import com.weicoder.common.lang.W;
 import com.weicoder.common.util.U.B;
 import com.weicoder.common.util.U.S;
 
@@ -38,7 +38,7 @@ public interface Http {
 	 * @return 返回的结果
 	 */
 	default byte[] download(String url) {
-		return download(url, Maps.emptyMap());
+		return download(url, W.M.empty());
 	}
 
 	/**
@@ -71,7 +71,7 @@ public interface Http {
 	 * @return 提交结果
 	 */
 	default String post(String url, Object data) {
-		return post(url, B.copy(data, Maps.newMap()));
+		return post(url, B.copy(data, W.M.map()));
 	}
 
 	/**
@@ -82,6 +82,6 @@ public interface Http {
 	 * @return 返回的结果
 	 */
 	default String post(String url, Map<String, Object> data) {
-		return post(url, data, Maps.emptyMap());
+		return post(url, data, W.M.empty());
 	}
 }

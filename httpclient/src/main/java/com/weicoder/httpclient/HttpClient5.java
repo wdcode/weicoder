@@ -15,14 +15,13 @@ import org.apache.hc.core5.http.message.BasicHeader;
 import org.apache.hc.core5.http.message.BasicNameValuePair;
 import org.apache.hc.core5.util.Timeout;
 
+import com.weicoder.common.io.I;
 import com.weicoder.common.constants.C;
 import com.weicoder.common.http.Http;
-import com.weicoder.common.io.IOUtil;
-import com.weicoder.common.lang.Lists;
+import com.weicoder.common.util.U;
 import com.weicoder.common.lang.W;
 import com.weicoder.common.log.Logs;
-import com.weicoder.common.params.HttpParams;
-import com.weicoder.common.util.U;
+import com.weicoder.common.params.P;
 
 /**
  * HttpClient5的实现
@@ -43,7 +42,7 @@ public class HttpClient5 implements Http {
 			// 获得HttpGet对象
 			get = new HttpGet(url);
 			// 获得HttpResponse 返回字节流
-			return IOUtil.read(CLIENT.execute(get).getEntity().getContent());
+			return I.read(CLIENT.execute(get).getEntity().getContent());
 		} catch (Exception e) {
 			Logs.error(e);
 		} finally {
@@ -63,7 +62,7 @@ public class HttpClient5 implements Http {
 			// 如果参数列表为空 data为空map
 			if (U.E.isNotEmpty(data)) {
 				// 声明参数列表
-				List<NameValuePair> list = Lists.newList(data.size());
+				List<NameValuePair> list = W.L.list(data.size());
 				// 设置参数
 				data.forEach((k, v) -> list.add(new BasicNameValuePair(k, W.C.toString(v))));
 				// 设置参数与 编码格式
@@ -74,7 +73,7 @@ public class HttpClient5 implements Http {
 				header.forEach((k, v) -> post.addHeader(k, v));
 			Logs.debug("HttpClient post url={} data={} header={}", url, data, header);
 			// 返回结果
-			return U.I.readString(CLIENT.execute(post).getEntity().getContent());
+			return I.readString(CLIENT.execute(post).getEntity().getContent());
 		} catch (Exception e) {
 			Logs.error(e);
 		}
@@ -90,19 +89,19 @@ public class HttpClient5 implements Http {
 		// Http连接池
 		PoolingHttpClientConnectionManager pool = new PoolingHttpClientConnectionManager();
 		pool.setDefaultMaxPerRoute(C.O.CPU_NUM);
-		pool.setMaxTotal(HttpParams.HTTP_MAX);
+		pool.setMaxTotal(P.H.MAX);
 		// 设置请求参数
 		RequestConfig.Builder config = RequestConfig.custom();
-		config.setConnectionRequestTimeout(Timeout.ofSeconds(W.C.toLong(HttpParams.HTTP_TIMEOUT)));
-		config.setConnectTimeout(Timeout.ofSeconds(W.C.toLong(HttpParams.HTTP_TIMEOUT)));
+		config.setConnectionRequestTimeout(Timeout.ofSeconds(W.C.toLong(P.H.TIMEOUT)));
+		config.setConnectTimeout(Timeout.ofSeconds(W.C.toLong(P.H.TIMEOUT)));
 		config.setCircularRedirectsAllowed(false);
 		// HttpClientBuilder
 		HttpClientBuilder builder = HttpClientBuilder.create();
 		builder.setDefaultRequestConfig(config.build());
 		builder.setConnectionManager(pool);
-//		builder.setMaxConnPerRoute(SystemConstants.CPU_NUM);
+//		builder.setMaxConnPerRoute(C.O.CPU_NUM);
 		// 设置 头
-		List<BasicHeader> headers = Lists.newList();
+		List<BasicHeader> headers = W.L.list();
 		headers.add(new BasicHeader(C.H.USER_AGENT_KEY, C.H.USER_AGENT_VAL));
 		headers.add(new BasicHeader(C.H.ACCEPT_KEY, C.H.ACCEPT_VAL));
 		builder.setDefaultHeaders(headers);

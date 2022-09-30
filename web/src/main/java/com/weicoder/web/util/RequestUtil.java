@@ -9,17 +9,12 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
-import com.weicoder.common.constants.ArrayConstants;
-import com.weicoder.common.constants.HttpConstants;
-import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.io.IOUtil;
-import com.weicoder.common.lang.Maps;
-import com.weicoder.common.lang.W;
-import com.weicoder.common.params.CommonParams; 
-import com.weicoder.common.util.IpUtil;
-import com.weicoder.common.util.StringUtil;
+import com.weicoder.common.constants.C; 
 import com.weicoder.common.util.U;
-import com.weicoder.json.JsonEngine;
+import com.weicoder.common.io.I;
+import com.weicoder.common.lang.W; 
+import com.weicoder.common.params.P;  
+import com.weicoder.json.J;
 
 /**
  * Request一些相关操作类
@@ -37,7 +32,7 @@ public final class RequestUtil {
 		// 获得ip列表
 		String[] ips = getIps(request);
 		// 返回第一个ip
-		return U.E.isEmpty(ips) ? StringConstants.EMPTY : ips[0];
+		return U.E.isEmpty(ips) ? C.S.EMPTY : ips[0];
 	}
 
 	/**
@@ -60,10 +55,10 @@ public final class RequestUtil {
 				// 为空换方法获得
 				ip = request.getRemoteAddr();
 			// 返回IP
-			return U.E.isEmpty(ip) ? ArrayConstants.STRING_EMPTY : ip.indexOf(StringConstants.COMMA) == -1 ? new String[]{ip} : ip.split(StringConstants.COMMA);
+			return U.E.isEmpty(ip) ? C.A.STRING_EMPTY : ip.indexOf(C.S.COMMA) == -1 ? new String[]{ip} : ip.split(C.S.COMMA);
 		}
 		// 返回""
-		return ArrayConstants.STRING_EMPTY;
+		return C.A.STRING_EMPTY;
 	}
 
 	/**
@@ -76,7 +71,7 @@ public final class RequestUtil {
 		// 获得path
 		String path = request.getServerName();
 		// 返回域名路径
-		return IpUtil.LOCAL_IP.equals(path) ? IpUtil.getIp() : path;
+		return U.IP.LOCAL_IP.equals(path) ? U.IP.getIp() : path;
 	}
 
 	/**
@@ -87,9 +82,9 @@ public final class RequestUtil {
 	 */
 	public static String getDomain(HttpServletRequest request) {
 		// 获得域名
-		String domain = StringUtil.add("http://", getServer(request), getBase(request));
+		String domain = U.S.add("http://", getServer(request), getBase(request));
 		// 返回域名
-		return domain.endsWith(StringConstants.BACKSLASH) ? domain : domain + StringConstants.BACKSLASH;
+		return domain.endsWith(C.S.BACKSLASH) ? domain : domain + C.S.BACKSLASH;
 	}
 
 	/**
@@ -110,7 +105,7 @@ public final class RequestUtil {
 	 * @return         程序路径
 	 */
 	public String getRealPath(HttpServletRequest request, String name) {
-		return request.getServletContext().getRealPath(StringConstants.BACKSLASH) + name;
+		return request.getServletContext().getRealPath(C.S.BACKSLASH) + name;
 	}
 
 	/**
@@ -121,7 +116,7 @@ public final class RequestUtil {
 	 */
 	public static Map<String, String> getParameters(HttpServletRequest request) {
 		// 声明空Map
-		Map<String, String> map = Maps.newMap();
+		Map<String, String> map = W.M.map();
 		// 获得提交的所以参数名
 		for (Enumeration<String> e = request.getParameterNames(); e.hasMoreElements();) {
 			// 获得参数Key
@@ -141,7 +136,7 @@ public final class RequestUtil {
 	 */
 	public static Map<String, String> getHeaders(HttpServletRequest request) {
 		// 声明空Map
-		Map<String, String> map = Maps.newMap();
+		Map<String, String> map = W.M.map();
 		// 获得提交的所以参数名
 		for (Enumeration<String> e = request.getHeaderNames(); e.hasMoreElements();) {
 			// 获得参数Key
@@ -161,7 +156,7 @@ public final class RequestUtil {
 	 */
 	public static Map<String, String> getCookies(HttpServletRequest request) {
 		// 声明空Map
-		Map<String, String> map = Maps.newMap();
+		Map<String, String> map = W.M.map();
 		try {
 			// 获得提交的所以参数名
 			for (Cookie c : request.getCookies())
@@ -181,16 +176,16 @@ public final class RequestUtil {
 	 */
 	public static Map<String, String> getJson(HttpServletRequest request) {
 		// 声明空Map
-		Map<String, String> map = Maps.newMap();
+		Map<String, String> map = W.M.map();
 		// 是json头才读取
-		if (StringUtil.startsWith(request.getContentType(), HttpConstants.CONTENT_TYPE_JSON)) {
+		if (U.S.startsWith(request.getContentType(), C.H.CONTENT_TYPE_JSON)) {
 			try {
 				// 获取json串
-				String json = IOUtil.readString(request.getInputStream(), CommonParams.ENCODING, false);
+				String json = I.readString(request.getInputStream(), P.C.ENCODING, false);
 				// 判断是json
-				if (JsonEngine.isJson(json))
+				if (J.isJson(json))
 					// 转换成map
-					JsonEngine.toMap(json).forEach((k, v) -> map.put(k, W.C.toString(v)));
+					J.toMap(json).forEach((k, v) -> map.put(k, W.C.toString(v)));
 			} catch (IOException e) {
 			}
 		}
@@ -206,7 +201,7 @@ public final class RequestUtil {
 	 */
 	public static Map<String, String> getAttributes(HttpServletRequest request) {
 		// 声明空Map
-		Map<String, String> map = Maps.newMap();
+		Map<String, String> map = W.M.map();
 		// 获得提交的所以参数名
 		for (Enumeration<String> e = request.getAttributeNames(); e.hasMoreElements();) {
 			// 获得参数Key
@@ -225,7 +220,7 @@ public final class RequestUtil {
 	 * @return         Map参数
 	 */
 	public static Map<String, String> getAll(HttpServletRequest request) {
-		return Maps.newMaps(getJson(request), getAttributes(request), getCookies(request), getHeaders(request), getParameters(request));
+		return W.M.map(getJson(request), getAttributes(request), getCookies(request), getHeaders(request), getParameters(request));
 	}
 
 	/**
@@ -236,7 +231,7 @@ public final class RequestUtil {
 	 * @return         value
 	 */
 	public static String getParameter(ServletRequest request, String key) {
-		return getParameter(request, key, StringConstants.EMPTY);
+		return getParameter(request, key, C.S.EMPTY);
 	}
 
 	/**

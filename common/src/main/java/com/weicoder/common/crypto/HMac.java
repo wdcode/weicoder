@@ -4,11 +4,9 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
 import com.weicoder.common.codec.Hex;
-import com.weicoder.common.constants.ArrayConstants;
-import com.weicoder.common.constants.EncryptConstants;
-import com.weicoder.common.params.CommonParams;
-import com.weicoder.common.util.StringUtil;
-import com.weicoder.common.util.U;
+import com.weicoder.common.constants.C; 
+import com.weicoder.common.params.P;
+import com.weicoder.common.util.U; 
 
 /**
  * hmac算法
@@ -21,7 +19,7 @@ public final class HMac {
 	 * @return 结果
 	 */
 	public static String sha1(String text) {
-		return Hex.encode(sha1(StringUtil.toBytes(text)));
+		return Hex.encode(sha1(U.S.toBytes(text)));
 	}
 
 	/**
@@ -30,7 +28,7 @@ public final class HMac {
 	 * @return 结果
 	 */
 	public static byte[] sha1(byte[] b) {
-		return sha1(b, CommonParams.ENCRYPT_KEY);
+		return sha1(b, P.C.ENCRYPT_KEY);
 	}
 
 	/**
@@ -40,7 +38,7 @@ public final class HMac {
 	 * @return 结果
 	 */
 	public static byte[] sha1(byte[] b, String key) {
-		return doFinal(b, EncryptConstants.ALGO_HMAC_SHA_1, key);
+		return doFinal(b, C.E.ALGO_HMAC_SHA_1, key);
 	}
 
 	/**
@@ -49,7 +47,7 @@ public final class HMac {
 	 * @return 结果
 	 */
 	public static String sha256(String text) {
-		return Hex.encode(sha256(StringUtil.toBytes(text)));
+		return Hex.encode(sha256(U.S.toBytes(text)));
 	}
 
 	/**
@@ -58,7 +56,7 @@ public final class HMac {
 	 * @return 结果
 	 */
 	public static byte[] sha256(byte[] b) {
-		return doFinal(b, EncryptConstants.ALGO_HMAC_SHA_256, CommonParams.ENCRYPT_KEY);
+		return doFinal(b, C.E.ALGO_HMAC_SHA_256, P.C.ENCRYPT_KEY);
 	}
 
 	/**
@@ -67,7 +65,7 @@ public final class HMac {
 	 * @return 结果
 	 */
 	public static String sha384(String text) {
-		return Hex.encode(sha384(StringUtil.toBytes(text)));
+		return Hex.encode(sha384(U.S.toBytes(text)));
 	}
 
 	/**
@@ -76,7 +74,7 @@ public final class HMac {
 	 * @return 结果
 	 */
 	public static byte[] sha384(byte[] b) {
-		return doFinal(b, EncryptConstants.ALGO_HMAC_SHA_384, CommonParams.ENCRYPT_KEY);
+		return doFinal(b, C.E.ALGO_HMAC_SHA_384, P.C.ENCRYPT_KEY);
 	}
 
 	/**
@@ -85,7 +83,7 @@ public final class HMac {
 	 * @return 结果
 	 */
 	public static String sha512(String text) {
-		return Hex.encode(sha512(StringUtil.toBytes(text)));
+		return Hex.encode(sha512(U.S.toBytes(text)));
 	}
 
 	/**
@@ -94,7 +92,7 @@ public final class HMac {
 	 * @return 结果
 	 */
 	public static byte[] sha512(byte[] b) {
-		return doFinal(b, EncryptConstants.ALGO_HMAC_SHA_512, CommonParams.ENCRYPT_KEY);
+		return doFinal(b, C.E.ALGO_HMAC_SHA_512, P.C.ENCRYPT_KEY);
 	}
 
 	/**
@@ -108,10 +106,10 @@ public final class HMac {
 		try {
 			// 参数为空时
 			if (U.E.isEmptys(b, algorithm, keys))
-				return ArrayConstants.BYTES_EMPTY;
+				return C.A.BYTES_EMPTY;
 			return getMac(algorithm, keys).doFinal(b);
 		} catch (Exception e) {
-			return ArrayConstants.BYTES_EMPTY;
+			return C.A.BYTES_EMPTY;
 		}
 	}
 
@@ -127,7 +125,7 @@ public final class HMac {
 		try {
 			// 初始化算法
 			mac = Mac.getInstance(algorithm);
-			mac.init(new SecretKeySpec(StringUtil.toBytes(keys), algorithm));
+			mac.init(new SecretKeySpec(U.S.toBytes(keys), algorithm));
 		} catch (Exception e) {}
 		return mac;
 	}

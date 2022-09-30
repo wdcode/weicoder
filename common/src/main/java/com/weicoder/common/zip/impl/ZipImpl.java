@@ -23,7 +23,7 @@ public final class ZipImpl extends BaseZip {
 	protected OutputStream os(OutputStream os) throws Exception {
 		ZipOutputStream zip = new ZipOutputStream(os);
 //		// 设置压缩实体
-//		zip.putNextEntry(new ZipEntry(StringConstants.EMPTY));
+//		zip.putNextEntry(new ZipEntry(C.S.EMPTY));
 		return zip;
 	}
 
@@ -31,15 +31,15 @@ public final class ZipImpl extends BaseZip {
 //	protected byte[] compress0(byte[] b) throws Exception {
 //		try (ByteArrayOutputStream baos = new ByteArrayOutputStream(); ZipOutputStream zip = new ZipOutputStream(baos)) {
 //			// 设置压缩实体
-//			zip.putNextEntry(new ZipEntry(StringConstants.EMPTY));
+//			zip.putNextEntry(new ZipEntry(C.S.EMPTY));
 //			// 把压缩后的字节数组写到输出流
-//			IOUtil.write(zip, b, false);
+//			I.write(zip, b, false);
 //			// 完成压缩数据
 //			zip.finish();
 //			// 返回字节数组
 //			return baos.toByteArray();
 //		} catch (Exception e) {
-//			return ArrayConstants.BYTES_EMPTY;
+//			return C.A.BYTES_EMPTY;
 //		}
 //	}
 //
@@ -48,13 +48,13 @@ public final class ZipImpl extends BaseZip {
 //		try (ByteArrayOutputStream baos = new ByteArrayOutputStream(); ZipInputStream zin = new ZipInputStream(new ByteArrayInputStream(b))) {
 //			// 循环解压缩
 //			while (zin.getNextEntry() != null) {
-//				baos.write(IOUtil.read(zin, false));
+//				baos.write(I.read(zin, false));
 //				baos.flush();
 //			}
 //			// 返回字节数组
 //			return baos.toByteArray();
 //		} catch (Exception e) {
-//			return ArrayConstants.BYTES_EMPTY;
+//			return C.A.BYTES_EMPTY;
 //		}
 //	}
 }

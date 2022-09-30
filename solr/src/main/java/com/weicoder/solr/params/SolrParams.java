@@ -2,7 +2,7 @@ package com.weicoder.solr.params;
 
 import com.weicoder.common.config.Config;
 import com.weicoder.common.config.ConfigFactory;
-import com.weicoder.common.params.Params;
+import com.weicoder.common.params.P;
 
 /**
  * Solr配置参数
@@ -23,7 +23,7 @@ public final class SolrParams {
 	 * @return
 	 */
 	public static String getUrl(String name) {
-		return CONFIG.getString(Params.getKey(name, URL), Params.getString(Params.getKey(PREFIX, name, URL)));
+		return CONFIG.getString(P.getKey(name, URL), P.getString(P.getKey(PREFIX, name, URL)));
 	}
 
 	private SolrParams() {

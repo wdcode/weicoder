@@ -4,8 +4,8 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
-
-import com.weicoder.common.io.IOUtil;
+ 
+import com.weicoder.common.io.I;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.zip.Zip;
 
@@ -38,7 +38,7 @@ public abstract class BaseZip implements Zip {
 	@Override
 	public <E extends OutputStream> E compress(InputStream in, E out) {
 		try {
-			IOUtil.write(out, is(in));
+			I.write(out, is(in));
 		} catch (Exception e) {
 			Logs.error(e);
 		}
@@ -48,7 +48,7 @@ public abstract class BaseZip implements Zip {
 	@Override
 	public <E extends OutputStream> E extract(InputStream in, E out) {
 		try {
-			IOUtil.write(os(out), in);
+			I.write(os(out), in);
 		} catch (Exception e) {
 			Logs.error(e);
 		}

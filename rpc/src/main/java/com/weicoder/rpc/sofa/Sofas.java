@@ -3,7 +3,7 @@ package com.weicoder.rpc.sofa;
 import java.net.InetSocketAddress;
 
 import com.weicoder.rpc.params.RpcParams;
-import com.weicoder.common.util.StringUtil;
+import com.weicoder.common.util.U;
 
 /**
  * rpc客户端
@@ -45,7 +45,7 @@ public final class Sofas {
 		// 生成消费配置
 		return new com.alipay.sofa.rpc.config.ConsumerConfig<E>().setInterfaceId(cls.getName()) // 指定接口
 				.setProtocol(RpcParams.PROTOCOL) // 指定协议
-				.setDirectUrl(StringUtil.add(RpcParams.PROTOCOL, "://", host, ":", port + 1))// 指定地址
+				.setDirectUrl(U.S.add(RpcParams.PROTOCOL, "://", host, ":", port + 1))// 指定地址
 				.refer();
 	}
 

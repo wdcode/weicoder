@@ -11,15 +11,11 @@ import com.weicoder.common.exception.StateException;
 import com.weicoder.common.lang.W;
 import com.weicoder.common.log.Log;
 import com.weicoder.common.log.LogFactory;
-import com.weicoder.common.params.StateParams;
+import com.weicoder.common.params.P; 
 import com.weicoder.common.token.TokenBean;
 import com.weicoder.common.token.TokenEngine;
-import com.weicoder.common.util.BeanUtil;
-import com.weicoder.common.util.ClassUtil;
-import com.weicoder.common.util.IpUtil;
-import com.weicoder.common.util.RegexUtil;
-import com.weicoder.common.util.U;
-import com.weicoder.json.JsonEngine;
+import com.weicoder.common.util.U;  
+import com.weicoder.json.J;
 import com.weicoder.web.common.WebCommons;
 import com.weicoder.web.params.ValidatorParams;
 import com.weicoder.web.validator.annotation.Ip;
@@ -60,14 +56,14 @@ public final class Validators {
 	 */
 	public static int validator(Object bean) {
 		// 获得所有字段
-		for (Field field : BeanUtil.getFields(bean.getClass())) {
+		for (Field field : U.B.getFields(bean.getClass())) {
 			// 对字段走验证
-			int code = validator(field.getAnnotations(), BeanUtil.getFieldValue(bean, field));
-			if (code != StateParams.SUCCESS)
+			int code = validator(field.getAnnotations(), U.B.getFieldValue(bean, field));
+			if (code != P.S.SUCCESS)
 				return code;
 		}
 		// 返回成功码
-		return StateParams.SUCCESS;
+		return P.S.SUCCESS;
 	}
 
 	/**
@@ -106,12 +102,12 @@ public final class Validators {
 					return ((NotNull) a).error();
 			} else if (a instanceof Regex) {
 				// 判断正则
-				if (!RegexUtil.is(((Regex) a).regex(), W.C.toString(value)))
+				if (!U.RE.is(((Regex) a).regex(), W.C.toString(value)))
 					return ((Regex) a).error();
 			}
 		}
 		// 返回成功码
-		return StateParams.SUCCESS;
+		return P.S.SUCCESS;
 	}
 
 	/**
@@ -144,32 +140,32 @@ public final class Validators {
 					Class<?> cs = p.getType();
 					if (Map.class.equals(cs))
 						params[i] = ps;
-					else if (ClassUtil.isBaseType(cs))
+					else if (U.C.isBaseType(cs))
 						// 获得参数
 						params[i] = W.C.to(ps.get(p.getName()), cs);
 					else
 						// 设置属性
-						params[i] = BeanUtil.copy(ps, cs);
+						params[i] = U.B.copy(ps, cs);
 					LOG.debug("validator Parameter index={},name={},type={},value={}", i, p.getName(), cs, params[i]);
 				}
 				// 调用并返回验证结果
 				Object rs = null;
 				try {
-					rs = method.invoke(obj, params); // BeanUtil.invoke(obj, method, params);
+					rs = method.invoke(obj, params); // U.B.invoke(obj, method, params);
 				} catch (StateException e) {
 					rs = e.state();
 				}
 				// 如果不是正确结果
 				// 判断状态码对象
-				if (rs instanceof StateCode && (res = ((StateCode) rs).getCode()) != StateParams.SUCCESS)
+				if (rs instanceof StateCode && (res = ((StateCode) rs).getCode()) != P.S.SUCCESS)
 					break;
 				// 判断状态码 int 类型
-				if (rs instanceof Integer && (res = W.C.toInt(rs)) != StateParams.SUCCESS)
+				if (rs instanceof Integer && (res = W.C.toInt(rs)) != P.S.SUCCESS)
 					break;
 			}
 		} catch (Exception e) {
 			LOG.error(e);
-			res = StateParams.ERROR;
+			res = P.S.ERROR;
 		}
 		// 返回验证码
 		return res;
@@ -194,7 +190,7 @@ public final class Validators {
 		if (t != null) {
 			// 验证token 获得Token
 			TokenBean token = TokenEngine.decrypt(ps.get(t.value()));
-			LOG.debug("action validator token={} t={}", JsonEngine.toJson(token));
+			LOG.debug("action validator token={} t={}", J.toJson(token));
 			// 判断token
 			if (t.valid() > 0 && !token.isValid())
 				// 无效
@@ -208,7 +204,7 @@ public final class Validators {
 			if (t.ban() > 0 && token.isBan())
 				// 封号
 				return t.ban();
-			if (t.ip() > 0 && IpUtil.equals(ip, token.getIp()) > ValidatorParams.TOKEN_IP)
+			if (t.ip() > 0 && U.IP.equals(ip, token.getIp()) > ValidatorParams.TOKEN_IP)
 				// 客户端IP不符
 				return t.ip();
 			// 校验token与传入的用户ID是否相同
@@ -237,7 +233,7 @@ public final class Validators {
 		// ip验证不为空
 		if (ipv != null)
 			// 获得验证ip 判断是否在白名单
-			if (!IpUtil.contains(ipv.value(), ip)) {
+			if (!U.IP.contains(ipv.value(), ip)) {
 				LOG.debug("action validator ips not contains ip={}", ip);
 				return ipv.error();
 			}
@@ -246,7 +242,7 @@ public final class Validators {
 		if (vali != null)
 			return Validators.validator(vali, ps);
 		// 返回成功
-		return StateParams.SUCCESS;
+		return P.S.SUCCESS;
 	}
 
 	private Validators() {

@@ -18,7 +18,7 @@ public class ActionInterceptor {
 
 	protected boolean execute(Object invocation) {
 		// // 如果实体模版或者方法名为空
-		// if (EmptyUtil.isEmpty(module)) {
+		// if (U.E.isEmpty(module)) {
 		// return false;
 		// }
 		// // 获得Action

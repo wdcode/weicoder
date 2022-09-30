@@ -3,9 +3,9 @@ package com.weicoder.common;
 import com.weicoder.common.constants.C;
 import com.weicoder.common.init.Inits;
 import com.weicoder.common.log.Logs;
-import com.weicoder.common.params.CommonParams;
+import com.weicoder.common.params.P;
 import com.weicoder.common.util.U.D;
-import com.weicoder.common.util.U.T;
+import com.weicoder.common.thread.T;
 
 /**
  * 通用主入口
@@ -20,11 +20,11 @@ public class Main {
 		Inits.init();
 		Logs.info("{} end user.dir={} base.dir={} time={}", C.O.PROJECT_NAME, C.O.USER_DIR, C.O.BASE_DIR, D.dura());
 		// 是否驻留线程 为了保护驻留程序 因为本包线程是守护线程 主线程结束就会结束
-		while (CommonParams.MAIN)
+		while (P.C.MAIN)
 			// 因为驻留程序 大时间延迟
 			T.sleep(C.D.WEEK);
 //		// 是否驻留线程
-//		boolean main = CommonParams.MAIN;
+//		boolean main = P.C.MAIN;
 //		// 等待时间
 //		int wait = 0;
 //		if (E.isNotEmpty(args))

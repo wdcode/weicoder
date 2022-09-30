@@ -2,7 +2,7 @@ package com.weicoder.netty.handler;
 
 import java.util.Map;
 
-import com.weicoder.common.lang.Maps;
+import com.weicoder.common.lang.W;
 import com.weicoder.common.log.Logs;
 import com.weicoder.socket.Session;
 import com.weicoder.socket.process.Process;
@@ -37,7 +37,7 @@ public class NettyHandler extends SimpleChannelInboundHandler<ByteBuf> {
 	public NettyHandler(String name) {
 		this.name = name;
 		this.process = new Process(name);
-		this.sessions = Maps.newConcurrentMap();
+		this.sessions = W.M.concurrent();
 //		this.sessionKey = AttributeKey.valueOf("session");
 	}
 

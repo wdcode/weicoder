@@ -2,7 +2,7 @@ package com.weicoder.excel.impl;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException; 
+import java.io.IOException;
 import java.util.List;
 
 import org.apache.poi.ss.usermodel.Cell;
@@ -11,7 +11,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import com.weicoder.common.io.FileUtil;
+import com.weicoder.common.io.I;
 import com.weicoder.common.lang.W;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.U;
@@ -38,7 +38,7 @@ public final class ExcelPOI extends BaseExcel {
 		setIndex(0);
 		try {
 			// 如果文件存在
-			workbook = U.E.isEmpty(file) ? new XSSFWorkbook() : new XSSFWorkbook(FileUtil.getInputStream(file)); // WorkbookFactory.create(file);
+			workbook = U.E.isEmpty(file) ? new XSSFWorkbook() : new XSSFWorkbook(I.F.getInputStream(file)); // WorkbookFactory.create(file);
 			// 获得输出流
 			this.file = file;
 		} catch (Exception e) {

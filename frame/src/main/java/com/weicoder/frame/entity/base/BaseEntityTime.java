@@ -4,10 +4,9 @@ import jakarta.persistence.MappedSuperclass;
 
 import com.weicoder.frame.entity.Entity;
 import com.weicoder.frame.entity.EntityTime;
-import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.lang.Conversion;
-import com.weicoder.common.util.DateUtil;
-import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.constants.C;
+import com.weicoder.common.lang.W; 
+import com.weicoder.common.util.U;
 
 /**
  * 标准实体实现
@@ -32,14 +31,14 @@ public abstract class BaseEntityTime extends BaseEntity implements EntityTime {
 
 	@Override
 	public String getDate() {
-		return EmptyUtil.isEmpty(time) ? StringConstants.EMPTY : DateUtil.toString(time);
+		return U.E.isEmpty(time) ? C.S.EMPTY : U.D.toString(time);
 	}
 
 	@Override
 	public int compareTo(Entity o) {
 		return o instanceof EntityTime && time != null
-				? Integer.compare(Conversion.toInt(time),
-						Conversion.toInt(((EntityTime) o).getTime()))
+				? Integer.compare(W.C.toInt(time),
+						W.C.toInt(((EntityTime) o).getTime()))
 				: super.compareTo(o);
 	}
 }

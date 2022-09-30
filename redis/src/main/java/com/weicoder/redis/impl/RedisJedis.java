@@ -4,9 +4,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.weicoder.common.lang.Bytes;
-import com.weicoder.common.lang.W;
-import com.weicoder.common.interfaces.CallbackVoid;
+import com.weicoder.common.lang.W; 
+import com.weicoder.common.interfaces.Calls;
 import com.weicoder.common.log.Logs;
 import com.weicoder.redis.base.BaseRedis;
 import com.weicoder.redis.builder.JedisBuilder;
@@ -134,7 +133,7 @@ public final class RedisJedis extends BaseRedis {
 	@Override
 	public long append(String key, Object value) {
 		try (Jedis jedis = pool.getResource()) {
-			return jedis.append(Bytes.toBytes(key), Bytes.toBytes(value));
+			return jedis.append(W.B.toBytes(key), W.B.toBytes(value));
 		}
 	}
 
@@ -315,9 +314,9 @@ public final class RedisJedis extends BaseRedis {
 	}
 
 	@Override
-	public void exec(Callback callback) {
+	public void exec(Calls.EoV<Jedis> callback) {
 		try (Jedis jedis = pool.getResource()) {
-			callback.callback(jedis);
+			callback.call(jedis);
 		}
 	}
 
@@ -341,11 +340,11 @@ public final class RedisJedis extends BaseRedis {
 	}
 
 	@Override
-	public void multi(CallbackVoid<Transaction> callback) {
+	public void multi(Calls.EoV<Transaction> callback) {
 		try (Jedis jedis = pool.getResource()) {
 			Transaction t = jedis.multi();
 			try {
-				callback.callback(t);
+				callback.call(t);
 				t.exec();
 			} catch (Exception e) {
 				t.discard();

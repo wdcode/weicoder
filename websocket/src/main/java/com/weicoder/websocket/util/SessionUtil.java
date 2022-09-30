@@ -5,7 +5,7 @@ import java.io.IOException;
 import jakarta.websocket.Session;
 
 import com.weicoder.common.log.Logs;
-import com.weicoder.json.JsonEngine;
+import com.weicoder.json.J;
 
 /**
  * Session 工具类
@@ -19,7 +19,7 @@ public final class SessionUtil {
 	 */
 	public static void send(Session session, Object message) {
 		try {
-			session.getBasicRemote().sendText(JsonEngine.toJson(message));
+			session.getBasicRemote().sendText(J.toJson(message));
 		} catch (IOException e) {
 			Logs.error(e);
 		}

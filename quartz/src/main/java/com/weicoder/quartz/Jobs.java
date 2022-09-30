@@ -11,7 +11,7 @@ import org.quartz.PersistJobDataAfterExecution;
 
 import com.weicoder.common.log.Log;
 import com.weicoder.common.log.LogFactory;
-import com.weicoder.common.util.BeanUtil;
+import com.weicoder.common.util.U;
 
 /**
  * Quartz任务类
@@ -32,7 +32,7 @@ public class Jobs implements Job {
 		Object obj = map.get("obj");
 		Method method = (Method) map.get("method");
 		// 执行任务
-		BeanUtil.invoke(obj, method);
+		U.B.invoke(obj, method);
 		LOG.debug("job obj={} method={} end time={}", obj.getClass().getSimpleName(), method.getName(), System.currentTimeMillis() - time);
 	}
 }

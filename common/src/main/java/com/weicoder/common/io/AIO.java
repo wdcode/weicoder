@@ -4,8 +4,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import com.weicoder.common.binary.Buffer;
-import com.weicoder.common.interfaces.Callback;
-import com.weicoder.common.interfaces.CallbackVoid;
+import com.weicoder.common.interfaces.Calls; 
 
 /**
  * 异步IO实现
@@ -21,7 +20,7 @@ public class AIO implements IO {
 	}
 
 	@Override
-	public long read(InputStream in, int buff, boolean isClose, CallbackVoid<Buffer> call) {
+	public long read(InputStream in, int buff, boolean isClose, Calls.EoV<Buffer> call) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -33,7 +32,7 @@ public class AIO implements IO {
 	}
 
 	@Override
-	public long write(OutputStream out, InputStream in, int buff, boolean isClose, Callback<Buffer, Buffer> call) {
+	public long write(OutputStream out, InputStream in, int buff, boolean isClose, Calls.EoR<Buffer, Buffer> call) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

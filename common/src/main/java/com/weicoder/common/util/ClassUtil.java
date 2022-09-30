@@ -18,15 +18,10 @@ import java.util.jar.JarInputStream;
 import java.util.stream.Collectors;
 
 import com.weicoder.common.annotation.Ioc;
-import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.lang.Lists;
-import com.weicoder.common.lang.W.L;
-import com.weicoder.common.lang.W.M;
+import com.weicoder.common.constants.C;
+import com.weicoder.common.lang.W;
 import com.weicoder.common.log.Logs;
-import com.weicoder.common.params.CommonParams;
-import com.weicoder.common.util.U.B;
-import com.weicoder.common.util.U.C;
-import com.weicoder.common.util.U.S;
+import com.weicoder.common.params.P; 
 
 import jakarta.annotation.Resource;
 
@@ -36,14 +31,14 @@ import jakarta.annotation.Resource;
  * @author WD
  */
 @SuppressWarnings("unchecked")
-public class ClassUtil {
+public sealed class ClassUtil permits U.C {
 	// 包名下的class
-	private final static Map<String, List<Class<?>>>			PASSAGES	= M.newMap();
+	private final static Map<String, List<Class<?>>>			PASSAGES	= W.M.map();
 	// 对应class名称的Bean
-	private final static Map<String, Class<?>>					BEANS		= M.newMap();
-	private final static Map<Class<?>, Map<String, Class<?>>>	CLASS_BEANS	= M.newMap();
+	private final static Map<String, Class<?>>					BEANS		= W.M.map();
+	private final static Map<Class<?>, Map<String, Class<?>>>	CLASS_BEANS	= W.M.map();
 	// ioc使用
-	private final static Map<Class<?>, Object>					IOC_BEANS	= M.newMap();
+	private final static Map<Class<?>, Object>					IOC_BEANS	= W.M.map();
 	// 保存指定报名下所有class
 	private final static Map<Class<?>, List<Class<?>>>			CLASSES		= init();
 
@@ -75,7 +70,7 @@ public class ClassUtil {
 		// 对象不为空
 		if (o != null) {
 			// 获得对象内的字段
-			B.getFields(o.getClass()).forEach(f -> {
+			U.B.getFields(o.getClass()).forEach(f -> {
 				// 不是基础类型才注入
 				Class<?> type = f.getType();
 				if (!isBaseType(type) && (f.isAnnotationPresent(Resource.class) || f.isAnnotationPresent(Ioc.class))) {
@@ -91,7 +86,7 @@ public class ClassUtil {
 					else
 						IOC_BEANS.put(type, val = ioc(type));
 					// 注入到字段
-					B.setFieldValue(o, f, val);
+					U.B.setFieldValue(o, f, val);
 				}
 			});
 		}
@@ -109,7 +104,7 @@ public class ClassUtil {
 	 */
 	public static <E> List<Class<E>> pack(String name, Class<E> cls) {
 		// 声明类别
-		List<Class<E>> list = L.newList();
+		List<Class<E>> list = W.L.list();
 		// 接口
 		PASSAGES.get(name).forEach(c -> {
 			if (c.isAssignableFrom(cls) || c.isAnnotationPresent((Class<? extends Annotation>) cls))
@@ -151,7 +146,7 @@ public class ClassUtil {
 	 * @return
 	 */
 	public static <E> List<Class<E>> list(Class<E> c) {
-		return L.newList(CLASSES.get(c)).stream().map(o -> (Class<E>) o).collect(Collectors.toList());
+		return W.L.list(CLASSES.get(c)).stream().map(o -> (Class<E>) o).collect(Collectors.toList());
 	}
 
 	/**
@@ -161,7 +156,7 @@ public class ClassUtil {
 	 * @return
 	 */
 	public static <E> Class<E> from(Class<E> c) {
-		return from(c, L.size(CLASSES.get(c)));
+		return from(c, W.L.size(CLASSES.get(c)));
 	}
 
 	/**
@@ -192,7 +187,7 @@ public class ClassUtil {
 	 * @return
 	 */
 	public static <E> Class<E> from(Class<E> c, int i) {
-		return (Class<E>) L.get(CLASSES.get(c), i);
+		return (Class<E>) W.L.get(CLASSES.get(c), i);
 	}
 
 	/**
@@ -341,7 +336,7 @@ public class ClassUtil {
 			} catch (ClassNotFoundException e2) {
 				try {
 					// 使用当前类获得类
-					theClass = ClassUtil.class.getClassLoader().loadClass(className);
+					theClass = U.C.class.getClassLoader().loadClass(className);
 				} catch (ClassNotFoundException e3) {
 					return null;
 				}
@@ -361,7 +356,7 @@ public class ClassUtil {
 	 */
 
 	public static <E> E newProxyInstance(Class<E> cls, InvocationHandler handler) {
-		return (E) Proxy.newProxyInstance(ClassUtil.getClassLoader(), new Class[] { cls }, handler);
+		return (E) Proxy.newProxyInstance(U.C.getClassLoader(), new Class[] { cls }, handler);
 	}
 
 	/**
@@ -468,7 +463,7 @@ public class ClassUtil {
 //	 * @return     类列表
 //	 */
 //	public static <E> Class<E> getAssignedClass(Class<E> cls, int i) {
-//		return Lists.get(getAssignedClass(CommonParams.PACKAGES, cls), i);
+//		return W.L.get(getAssignedClass(P.C.PACKAGES, cls), i);
 //	}
 //
 //	/**
@@ -480,7 +475,7 @@ public class ClassUtil {
 //	 * @return     类列表
 //	 */
 //	public static <E> List<Class<E>> getAssignedClass(Class<E> cls) {
-//		return getAssignedClass(CommonParams.PACKAGES, cls);
+//		return getAssignedClass(P.C.PACKAGES, cls);
 //	}
 //
 //	/**
@@ -494,7 +489,7 @@ public class ClassUtil {
 //
 //	public static <E> List<Class<E>> getAssignedClass(String packageName, Class<E> cls) {
 //		// 声明类列表
-//		List<Class<E>> classes = Lists.newList();
+//		List<Class<E>> classes = W.L.list();
 //		// 循环包下所有类
 //		for (Class<?> c : getPackageClasses(packageName))
 //			// 是本类实现 并且不是本类
@@ -514,7 +509,7 @@ public class ClassUtil {
 //	 * @return             类列表
 //	 */
 //	public static <E extends Annotation> Class<E> getAnnotationClass(String packageName, Class<E> cls, int i) {
-//		return Lists.get(getAnnotationClass(packageName, cls), i);
+//		return W.L.get(getAnnotationClass(packageName, cls), i);
 //	}
 //
 //	/**
@@ -525,7 +520,7 @@ public class ClassUtil {
 //	 * @return     类列表
 //	 */
 //	public static <E extends Annotation> List<Class<E>> getAnnotationClass(Class<E> cls) {
-//		return getAnnotationClass(CommonParams.PACKAGES, cls);
+//		return getAnnotationClass(P.C.PACKAGES, cls);
 //	}
 //
 //	/**
@@ -539,7 +534,7 @@ public class ClassUtil {
 //
 //	public static <E extends Annotation> List<Class<E>> getAnnotationClass(String packageName, Class<E> cls) {
 //		// 声明类列表
-//		List<Class<E>> classes = Lists.newList();
+//		List<Class<E>> classes = W.L.list();
 //		// 循环包下所有类
 //		for (Class<?> c : getPackageClasses(packageName))
 //			// 是本类实现 并且不是本类
@@ -557,7 +552,7 @@ public class ClassUtil {
 	 */
 	public static List<Method> getPublicMethod(Class<?> c) {
 		// 返回的方法列表
-		List<Method> methods = Lists.newList();
+		List<Method> methods = W.L.list();
 		// 处理所有方法
 		for (Method m : c.getDeclaredMethods())
 			// 判断是公有方法
@@ -573,7 +568,7 @@ public class ClassUtil {
 	 * @return 类列表
 	 */
 	public static List<Class<?>> getPackageClasses() {
-		return getPackageClasses(CommonParams.PACKAGES);
+		return getPackageClasses(P.C.PACKAGES);
 	}
 
 	/**
@@ -584,23 +579,23 @@ public class ClassUtil {
 	 */
 	public static List<Class<?>> getPackageClasses(String packageName) {
 		// 声明返回类列表
-		List<Class<?>> classes = Lists.newList();
+		List<Class<?>> classes = W.L.list();
 		// 转换报名为路径格式
-		for (String path : StringUtil.split(packageName, StringConstants.COMMA)) {
-			String p = StringUtil.replace(path, StringConstants.POINT, StringConstants.BACKSLASH);
+		for (String path : U.S.split(packageName, C.S.COMMA)) {
+			String p = U.S.replace(path, C.S.POINT, C.S.BACKSLASH);
 			// 获得目录资源
-			ResourceUtil.getResources(p).forEach(url -> {
+			U.R.getResources(p).forEach(url -> {
 				// 循环目录下的所有文件与目录
 				for (String name : getClasses(url.getPath(), p)) {
 					// 如果是class文件
 					if (name.endsWith(".class")) {
 						try {
 							// 反射出类对象 并添加到列表中
-							name = p + StringConstants.POINT + StringUtil.subString(name, 0, name.length() - 6);
-							name = StringUtil.replace(name, StringConstants.BACKSLASH, StringConstants.POINT);
+							name = p + C.S.POINT + U.S.subString(name, 0, name.length() - 6);
+							name = U.S.replace(name, C.S.BACKSLASH, C.S.POINT);
 							// 如果开始是.去掉
-							if (name.startsWith(StringConstants.POINT))
-								name = StringUtil.subString(name, 1);
+							if (name.startsWith(C.S.POINT))
+								name = U.S.subString(name, 1);
 							classes.add(Class.forName(name, false, getClassLoader()));
 //							classes.add(forName(name));
 						} catch (ClassNotFoundException e) {
@@ -608,7 +603,7 @@ public class ClassUtil {
 						}
 					} else
 						// 迭代调用本方法 获得类列表
-						classes.addAll(getPackageClasses(U.E.isEmpty(p) ? name : path + StringConstants.BACKSLASH + name));
+						classes.addAll(getPackageClasses(U.E.isEmpty(p) ? name : path + C.S.BACKSLASH + name));
 				}
 			});
 		}
@@ -632,20 +627,20 @@ public class ClassUtil {
 		// 判断是否目录
 		if (path.isDirectory())
 			// 如果是目录
-			return Lists.newList(path.list());
+			return W.L.list(path.list());
 		if (name.indexOf(".jar!") > -1)
 			// 是否jar文件内
-			return getClassesFromJARFile(StringUtil.subString(name, "file:/", "!"), packageName + StringConstants.BACKSLASH);
+			return getClassesFromJARFile(U.S.subString(name, "file:/", "!"), packageName + C.S.BACKSLASH);
 		// 返回空列表
-		return Lists.emptyList();
+		return W.L.empty();
 	}
 
 	private static List<String> getClassesFromJARFile(String jar, String name) {
 		// 判断jar第二位是否: 不为:默认linux前面加上/
-		if (jar.indexOf(StringConstants.COLON) == -1)
-			jar = StringConstants.BACKSLASH + jar;
+		if (jar.indexOf(C.S.COLON) == -1)
+			jar = C.S.BACKSLASH + jar;
 		// 声明返回列表
-		List<String> list = Lists.newList();
+		List<String> list = W.L.list();
 		// 获得jar流
 		try (JarInputStream jarFile = new JarInputStream(new FileInputStream(jar))) {
 			// 循环获得JarEntry
@@ -654,7 +649,7 @@ public class ClassUtil {
 				// 判断是否包内class
 				String className = jarEntry.getName();
 				if (className.indexOf(name) > -1 && !className.equals(name))
-					list.add(StringUtil.subString(className, name));
+					list.add(U.S.subString(className, name));
 			}
 		} catch (IOException e) {
 			Logs.error(e);
@@ -671,7 +666,7 @@ public class ClassUtil {
 	 */
 	public static List<Class<?>> getInterfaces(Class<?> c) {
 		// 声明列表
-		List<Class<?>> list = L.newList();
+		List<Class<?>> list = W.L.list();
 		if (c == null)
 			return list;
 		// 如果超类不为Object 获取超类迭代
@@ -692,7 +687,7 @@ public class ClassUtil {
 	 */
 	public static List<Annotation> getAnnotations(Class<?> c) {
 		// 声明列表
-		List<Annotation> list = L.newList();
+		List<Annotation> list = W.L.list();
 		// 获得本类的所有注解
 		for (Annotation a : c.getAnnotations())
 			list.add(a);
@@ -707,27 +702,27 @@ public class ClassUtil {
 	 */
 	private static Map<Class<?>, List<Class<?>>> init() {
 		// 声明class列表
-		Map<Class<?>, List<Class<?>>> map = M.newMap();
+		Map<Class<?>, List<Class<?>>> map = W.M.map();
 		// 扫描指定包下的类
-		C.getPackageClasses().forEach(c -> {
+		U.C.getPackageClasses().forEach(c -> {
 			// 处理接口类型
 			getInterfaces(c).forEach(i -> {
 				if (Modifier.isPublic(c.getModifiers()) && !Modifier.isAbstract(c.getModifiers())) {
-					M.getList(map, i).add(c);
-					M.getMap(CLASS_BEANS, i).put(S.convert(c.getSimpleName(), "Impl", i.getSimpleName()), c);
+					W.M.getList(map, i).add(c);
+					W.M.getMap(CLASS_BEANS, i).put(U.S.convert(c.getSimpleName(), "Impl", i.getSimpleName()), c);
 				}
 			});
 			// 处理注解类型
 			for (Annotation a : c.getAnnotations())
-				M.getList(map, a.annotationType()).add(c);
+				W.M.getList(map, a.annotationType()).add(c);
 			// 处理包名
-//			M.getList(PASSAGES, c.getPackageName()).add(c);
-			M.getList(PASSAGES, c.getPackage().getName()).add(c);
+//			W.M.getList(PASSAGES, c.getPackageName()).add(c);
+			W.M.getList(PASSAGES, c.getPackage().getName()).add(c);
 			// 处理类名Bean
 //			String name = c.getSimpleName();
-//			for (String n : CommonParams.CLASS_NAMES)
+//			for (String n : P.C.CLASS_NAMES)
 //				name = S.convert(name, n);
-			BEANS.put(S.convert(c.getSimpleName(), CommonParams.CLASS_NAMES), c);
+			BEANS.put(U.S.convert(c.getSimpleName(), P.C.CLASS_NAMES), c);
 			// 对ioc注解的类进行注入
 		});
 		// 返回列表

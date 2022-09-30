@@ -8,13 +8,11 @@ import java.util.Map;
 import com.weicoder.rpc.annotation.Rpc;
 import com.weicoder.rpc.annotation.RpcBean;
 import com.weicoder.rpc.params.RpcParams;
-import com.weicoder.common.lang.Bytes;
-import com.weicoder.common.lang.Maps;
-import com.weicoder.common.lang.W;
+import com.weicoder.common.lang.W; 
 import com.weicoder.common.socket.TcpClient;
 import com.weicoder.common.statics.S;
 import com.weicoder.common.util.U;
-import com.weicoder.common.interfaces.CallbackVoid;
+import com.weicoder.common.interfaces.Calls;
 
 /**
  * rpc客户端
@@ -23,13 +21,13 @@ import com.weicoder.common.interfaces.CallbackVoid;
  */
 public final class Rpcs {
 	// 保存rpc对应方法
-	private final static Map<String, Method> METHODS = Maps.newMap();
+	private final static Map<String, Method> METHODS = W.M.map();
 	// 回调方法对应参数
-	private final static Map<String, Class<?>> RESULTS = Maps.newMap();
+	private final static Map<String, Class<?>> RESULTS = W.M.map();
 	// rpc调用地址
-	private final static Map<String, InetSocketAddress> ADDRESS = Maps.newMap();
+	private final static Map<String, InetSocketAddress> ADDRESS = W.M.map();
 	// 保存nacos rpc address
-	private final static Map<String, List<InetSocketAddress>> RPCS = Maps.newMap();
+	private final static Map<String, List<InetSocketAddress>> RPCS = W.M.map();
 	// rpc客户端
 	private final static RpcClient CLIENT;
 
@@ -90,7 +88,7 @@ public final class Rpcs {
 	 */
 	public static <E> Map<String, E> fill(Class<E> rpc) {
 		// 声明个新的map
-		Map<String, E> map = W.M.newMap();
+		Map<String, E> map = W.M.map();
 		// 使用nacos处理
 		nacos(getName(rpc), i -> map.put(i.toInetAddr(), client(rpc, i.getIp(), i.getPort())), i -> {
 			// 服务器有效存活 检查是否已生成rpc
@@ -106,14 +104,14 @@ public final class Rpcs {
 		return map;
 	}
 
-	private static <E> void nacos(String name, CallbackVoid<com.alibaba.nacos.api.naming.pojo.Instance> select,
-			CallbackVoid<com.alibaba.nacos.api.naming.pojo.Instance> subscribe) {
+	private static <E> void nacos(String name, Calls.EoV<com.alibaba.nacos.api.naming.pojo.Instance> select,
+			Calls.EoV<com.alibaba.nacos.api.naming.pojo.Instance> subscribe) {
 		// 判断是否用Nacos
 		if (U.C.forName("com.weicoder.nacos.Nacos") != null) {
 			// 启动获得所有存活rpc服务器并注册客户端
-			com.weicoder.nacos.Nacos.select(name).forEach(i -> select.callback(i));
+			com.weicoder.nacos.Nacos.select(name).forEach(i -> select.call(i));
 			// 订阅rpc服务器变动 服务器变动检查状态并生成或则去处rpc服务
-			com.weicoder.nacos.Nacos.subscribe(name, list -> list.forEach(i -> subscribe.callback(i)));
+			com.weicoder.nacos.Nacos.subscribe(name, list -> list.forEach(i -> subscribe.call(i)));
 		}
 	}
 
@@ -126,11 +124,11 @@ public final class Rpcs {
 	 */
 	public static <E> E all(Class<E> rpc) {
 		// 声明出所有rpc
-		List<E> rs = W.L.newList();
+		List<E> rs = W.L.list();
 		RPCS.get(getName(rpc)).forEach(i -> rs.add(client(rpc, i)));
 		// 使用jdk代理调用所有rpc
 		return U.C.newProxyInstance(rpc, (proxy, method, args) -> {
-			List<Object> res = W.L.newList();
+			List<Object> res = W.L.list();
 			rs.forEach(r -> res.add(U.B.invoke(r, method, args[0])));
 			return res;
 		});
@@ -214,7 +212,7 @@ public final class Rpcs {
 	 * @return        返回相关对象
 	 */
 	public static Object rpc(InetSocketAddress addr, String method, Object param) {
-		return Bytes.to(TcpClient.asyn(addr, Bytes.toBytes(true, method, param), true), RESULTS.get(method));
+		return W.B.to(TcpClient.asyn(addr, W.B.toBytes(true, method, param), true), RESULTS.get(method));
 	}
 
 //	/**
@@ -239,7 +237,7 @@ public final class Rpcs {
 //		// 生成消费配置
 //		return new com.alipay.sofa.rpc.config.ConsumerConfig<E>().setInterfaceId(cls.getName()) // 指定接口
 //				.setProtocol(RpcParams.PROTOCOL) // 指定协议
-//				.setDirectUrl(StringUtil.add(RpcParams.PROTOCOL, "://", host, ":", port + 1))// 指定地址
+//				.setDirectUrl(U.S.add(RpcParams.PROTOCOL, "://", host, ":", port + 1))// 指定地址
 //				.refer();
 //	}
 

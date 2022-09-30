@@ -1,6 +1,6 @@
 package com.weicoder.common.codec;
 
-import com.weicoder.common.util.StringUtil;
+import com.weicoder.common.util.U;
 
 /**
  * Base64 编码解码
@@ -13,7 +13,7 @@ public final class Base64 {
 	 * @return 编码后的字符串
 	 */
 	public static String encode(String data) {
-		return encode(StringUtil.toBytes(data));
+		return encode(U.S.toBytes(data));
 	}
 
 	/**
@@ -31,7 +31,7 @@ public final class Base64 {
 	 * @return 解码后的字节数组
 	 */
 	public static String decodeString(String str) {
-		return StringUtil.toString(decode(str));
+		return U.S.toString(decode(str));
 	}
 
 	/**
@@ -43,7 +43,7 @@ public final class Base64 {
 		try {
 			return java.util.Base64.getDecoder().decode(str);
 		} catch (Exception e) {
-			return StringUtil.toBytes(str);
+			return U.S.toBytes(str);
 		}
 	}
 

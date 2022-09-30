@@ -1,9 +1,8 @@
 package com.weicoder.socket.message;
 
-import com.weicoder.common.constants.ArrayConstants;
-import com.weicoder.common.lang.Bytes;
-import com.weicoder.common.lang.W;
-import com.weicoder.common.util.StringUtil;
+import com.weicoder.common.constants.C;
+import com.weicoder.common.lang.W; 
+import com.weicoder.common.util.U;
 import com.weicoder.protobuf.Protobuf;
 import com.weicoder.protobuf.ProtobufEngine;
 
@@ -24,7 +23,7 @@ public final class Messages {
 		// 声明字节数组
 		byte[] data = toBytes(message);
 		// 返回数据
-		return Bytes.toBytes(W.C.toShort(data.length + 2), id, data);
+		return W.B.toBytes(W.C.toShort(data.length + 2), id, data);
 	}
 
 	/**
@@ -37,7 +36,7 @@ public final class Messages {
 		// 声明字节数组
 		byte[] data = toBytes(message);
 		// 返回数据
-		return Bytes.toBytes(W.C.toShort(data.length), data);
+		return W.B.toBytes(W.C.toShort(data.length), data);
 	}
 
 	/**
@@ -50,16 +49,16 @@ public final class Messages {
 		// 判断类型
 		if (message == null)
 			// 空
-			return ArrayConstants.BYTES_EMPTY;
+			return C.A.BYTES_EMPTY;
 		else if (message instanceof String)
 			// 字符串
-			return StringUtil.toBytes(message);
+			return U.S.toBytes(message);
 		else if (message.getClass().isAnnotationPresent(Protobuf.class))
 			// 字符串
 			return ProtobufEngine.toBytes(message);
 		else
 			// 不知道的类型 以字节数组发送
-			return Bytes.toBytes(message);
+			return W.B.toBytes(message);
 	}
 
 	private Messages() {

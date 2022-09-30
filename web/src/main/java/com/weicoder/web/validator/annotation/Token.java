@@ -7,7 +7,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import com.weicoder.common.constants.StringConstants;
+import com.weicoder.common.constants.C;
 
 /**
  * 使用TokenEngine验证Token
@@ -64,7 +64,7 @@ public @interface Token {
 	 * 
 	 * @return 验证id
 	 */
-	String id() default StringConstants.EMPTY;
+	String id() default C.S.EMPTY;
 
 	/**
 	 * 如果不为空 强制赋值不管是否有用户传入

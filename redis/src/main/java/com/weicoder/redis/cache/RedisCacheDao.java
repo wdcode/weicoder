@@ -1,11 +1,11 @@
 package com.weicoder.redis.cache;
 
 import com.weicoder.common.constants.C.S;
-import com.weicoder.common.lang.W.D;
-import com.weicoder.common.util.U;
+import com.weicoder.common.lang.W.D; 
 import com.weicoder.common.util.U.B;
 import com.weicoder.dao.service.SuperService;
-import com.weicoder.json.JsonEngine;
+import com.weicoder.json.J;
+import com.weicoder.common.thread.T;
 import com.weicoder.redis.Redis;
 import com.weicoder.redis.params.RedisParams;
 
@@ -35,7 +35,7 @@ public final class RedisCacheDao {
 	 */
 	public static <K, V> void add(RedisCache<K, V> cache, Class<?> po, int delay, boolean setp) {
 		// 定时任务
-		U.SES.delay(() -> {
+		T.S.delay(() -> {
 			// 保存MD5的KEY
 			String name = cache.name() + S.UNDERLINE + po.getSimpleName() + "_MD5";
 			Redis redis = cache.redis();
@@ -43,7 +43,7 @@ public final class RedisCacheDao {
 			String k = redis.rpop(cache.push);
 			V v = cache.get(k);
 			// 计算md5 比对更新缓存是否需要持久化
-			String md5 = D.md5(JsonEngine.toJson(v));
+			String md5 = D.md5(J.toJson(v));
 			// 如果MD5值不同 添加到列表
 			if (!md5.equals(redis.hget(name, k)))
 				// 是否分步执行

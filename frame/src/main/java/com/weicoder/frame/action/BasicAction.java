@@ -6,10 +6,9 @@ import java.util.Map;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.lang.Conversion;
-import com.weicoder.common.lang.Maps;
-import com.weicoder.common.util.BeanUtil;
+import com.weicoder.common.constants.C;
+import com.weicoder.common.lang.W; 
+import com.weicoder.common.util.U;
 import com.weicoder.web.util.ResponseUtil;
 
 /**
@@ -19,7 +18,7 @@ import com.weicoder.web.util.ResponseUtil;
  */
 public class BasicAction {
 	// 回调方法处理
-	protected final static Map<String, Method> METHODS = Maps.newMap();
+	protected final static Map<String, Method> METHODS = W.M.map();
 
 	/**
 	 * 以ajax模式输出数据到客户端方法
@@ -43,7 +42,7 @@ public class BasicAction {
 	 * @return 返回标识
 	 */
 	public String callback(HttpServletResponse response, Object obj) {
-		return callback(response, obj, StringConstants.EMPTY);
+		return callback(response, obj, C.S.EMPTY);
 	}
 
 	/**
@@ -63,15 +62,15 @@ public class BasicAction {
 		} else {
 			// 不存在获得
 			synchronized (METHODS) {
-				METHODS.put(mode, method = BeanUtil.getMethod(this, mode, Object.class));
+				METHODS.put(mode, method = U.B.getMethod(this, mode, Object.class));
 			}
 		}
 		// 方法不为空
 		if (method != null) {
-			obj = BeanUtil.invoke(this, method, response, obj);
+			obj = U.B.invoke(this, method, response, obj);
 		}
 		// 返回对象字符串
-		return Conversion.toString(obj, null);
+		return W.C.toString(obj, null);
 	}
 
 	/**
@@ -82,6 +81,6 @@ public class BasicAction {
 	 * @return 程序路径
 	 */
 	public String getRealPath(HttpServletRequest request, String name) {
-		return request.getServletContext().getRealPath(StringConstants.BACKSLASH) + name;
+		return request.getServletContext().getRealPath(C.S.BACKSLASH) + name;
 	}
 }

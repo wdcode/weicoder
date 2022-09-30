@@ -2,8 +2,7 @@ package com.weicoder.common.constants;
 
 import java.io.File;
 
-import com.weicoder.common.util.ResourceUtil;
-import com.weicoder.common.util.StringUtil;
+import com.weicoder.common.util.U;
 
 /**
  * 系统常量
@@ -30,9 +29,9 @@ public sealed class SystemConstants permits C.O {
 	/** 操作系统path分隔符 : */
 	public final static String	PATH_SEPARATOR	= File.pathSeparator;
 	/** 本项目的名称 */
-	public final static String	PROJECT_NAME	= StringUtil.subStringLast(USER_DIR, FILE_SEPARATOR);
+	public final static String	PROJECT_NAME	= U.S.subStringLast(USER_DIR, FILE_SEPARATOR);
 	/** 项目运行class目录路径 */
-	public final static String	BASE_DIR		= ResourceUtil.getResource(StringConstants.EMPTY).getPath();
+	public final static String	BASE_DIR		= U.R.getResource(C.S.EMPTY).getPath();
 	/** CPU核心数量 */
 	public final static int		CPU_NUM			= Runtime.getRuntime().availableProcessors();
 }

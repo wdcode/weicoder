@@ -8,9 +8,9 @@ import java.sql.Types;
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
 
-import com.weicoder.common.lang.Lists;
+import com.weicoder.common.lang.W;
 import com.weicoder.common.util.U;
-import com.weicoder.json.JsonEngine;
+import com.weicoder.json.J;
 
 /**
  * Json保存数据类型
@@ -23,15 +23,15 @@ public class JsonType extends BaseType {
 		String json = rs.getString(names[0]);
 		// 判断json不为空
 		if (U.E.isEmpty(json))
-			return Lists.newList();
+			return W.L.list();
 		// 返回对象
-		return JsonEngine.toList(json, returnedClass());
+		return J.toList(json, returnedClass());
 	}
 
 	@Override
 	public void nullSafeSet(PreparedStatement st, Object value, int index, SharedSessionContractImplementor session) throws HibernateException, SQLException {
 		if (value == null)
 			st.setNull(index, Types.VARCHAR);
-		st.setString(index, JsonEngine.toJson(value)); 
+		st.setString(index, J.toJson(value)); 
 	}
 }

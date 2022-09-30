@@ -3,11 +3,8 @@ package com.weicoder.json;
 import java.util.List;
 import java.util.Map;
 
-import com.weicoder.common.constants.ArrayConstants;
-import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.lang.Maps;
-import com.weicoder.common.lang.W.L;
-import com.weicoder.common.util.BeanUtil;
+import com.weicoder.common.constants.C;
+import com.weicoder.common.lang.W;
 import com.weicoder.common.util.U;
 import com.weicoder.json.fastjson.FastJson;
 
@@ -87,7 +84,7 @@ public sealed class JsonEngine permits J {
 	 * @return 转换后的字符串
 	 */
 	public static String toJson(Object obj) {
-		return obj == null ? StringConstants.EMPTY : JSON.toJson(obj);// JSON.toJSONString(obj);
+		return obj == null ? C.S.EMPTY : JSON.toJson(obj);// JSON.toJSONString(obj);
 	}
 
 	/**
@@ -108,7 +105,7 @@ public sealed class JsonEngine permits J {
 	 * @return 转换后的数据
 	 */
 	public static List<String> toJsonByList(List<?> list) {
-		return L.newList(toJsonByArray(list));
+		return W.L.list(toJsonByArray(list));
 	}
 
 	/**
@@ -119,7 +116,7 @@ public sealed class JsonEngine permits J {
 	 */
 	public static String[] toJsonByArray(List<?> list) {
 		if (U.E.isEmpty(list))
-			return ArrayConstants.STRING_EMPTY;
+			return C.A.STRING_EMPTY;
 		// 生成字节数组
 		String[] array = new String[list.size()];
 		for (int i = 0; i < list.size(); i++)
@@ -169,7 +166,7 @@ public sealed class JsonEngine permits J {
 	 * @return List
 	 */
 	public static <E> List<E> toList(String json, Class<E> clazz) {
-//		return L.newList(JSON.toList(json, clazz));// JSON.parseArray(json, clazz)
+//		return L.list(JSON.toList(json, clazz));// JSON.parseArray(json, clazz)
 		return JSON.toList(json, clazz);
 	}
 
@@ -198,9 +195,9 @@ public sealed class JsonEngine permits J {
 		Map<String, Object> map = toBean(json, Map.class);
 		// 如果map为空
 		if (U.E.isEmpty(map))
-			return Maps.newMap();
+			return W.M.map();
 		// 声明返回map
-		Map<String, E> data = Maps.newMap(map.size());
+		Map<String, E> data = W.M.map(map.size());
 		// 循环生成类
 		map.forEach((k, v) -> {
 			// 声明值
@@ -209,7 +206,7 @@ public sealed class JsonEngine permits J {
 			if (v.equals(value))
 				val = (E) v;
 			else
-				val = BeanUtil.copy(v, value);
+				val = U.B.copy(v, value);
 			// 添加到列表
 			data.put(k, val);
 		});

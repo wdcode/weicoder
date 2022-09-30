@@ -6,24 +6,20 @@ import java.util.Arrays;
 import java.util.Map;
 
 import com.weicoder.common.binary.Buffer;
-import com.weicoder.common.concurrent.ExecutorUtil;
-import com.weicoder.common.lang.Bytes;
-import com.weicoder.common.lang.Maps;
-import com.weicoder.common.util.BeanUtil;
-import com.weicoder.common.util.ClassUtil;
-import com.weicoder.common.util.DateUtil;
 import com.weicoder.common.util.U;
+import com.weicoder.common.lang.W;
 import com.weicoder.common.util.U.C;
 import com.weicoder.protobuf.Protobuf;
 import com.weicoder.protobuf.ProtobufEngine;
 import com.weicoder.common.log.Log;
 import com.weicoder.common.log.LogFactory;
-import com.weicoder.common.statics.Closes;
+import com.weicoder.common.statics.S;
+import com.weicoder.common.thread.T;
 import com.weicoder.socket.Event;
 import com.weicoder.socket.Session;
-import com.weicoder.socket.annotation.AllHead; 
+import com.weicoder.socket.annotation.AllHead;
 import com.weicoder.socket.annotation.Handler;
-import com.weicoder.socket.annotation.Head; 
+import com.weicoder.socket.annotation.Head;
 import com.weicoder.socket.manager.Manager;
 import com.weicoder.socket.params.SocketParams;
 
@@ -34,17 +30,17 @@ import com.weicoder.socket.params.SocketParams;
  */
 public final class Process {
 	// 日志
-	private final static Log LOG = LogFactory.getLog(Process.class);
+	private final static Log	LOG			= LogFactory.getLog(Process.class);
 	// Handler列表
-	private Map<Short, Object> handlers = Maps.newMap();
+	private Map<Short, Object>	handlers	= W.M.map();
 	// head 对应方法
-	private Map<Short, Method> methods = Maps.newMap();
+	private Map<Short, Method>	methods		= W.M.map();
 	// 所有Handler列表
-	private Map<Object, Method> all = Maps.newMap();
+	private Map<Object, Method>	all			= W.M.map();
 	// 事件处理器
-	private Event event;
+	private Event				event;
 	// 处理器名字
-	private String name;
+	private String				name;
 
 	/**
 	 * 构造
@@ -57,10 +53,10 @@ public final class Process {
 		// 设置handler closed
 		C.list(Handler.class).forEach(c -> {
 			// 是本类使用
-			Object h = ClassUtil.newInstance(c);
+			Object h = U.C.newInstance(c);
 			if (name.equals(h.getClass().getAnnotation(Handler.class).value())) {
 				// 所有方法
-				ClassUtil.getPublicMethod(c).forEach(m -> {
+				U.C.getPublicMethod(c).forEach(m -> {
 					// 是head 头的
 					if (m.isAnnotationPresent(Head.class)) {
 						// 添加到map中
@@ -73,7 +69,7 @@ public final class Process {
 			}
 		});
 		// 获取事件处理器
-		event = ClassUtil.newInstance(C.from(Event.class, 0));
+		event = U.C.newInstance(C.from(Event.class, 0));
 		if (event == null)
 			event = new EmptyEvent();
 	}
@@ -130,7 +126,7 @@ public final class Process {
 			short length = buff.readShort();
 			// 无长度 发送消息不符合 关掉连接
 			if (length < 2 || length > Short.MAX_VALUE) {
-				Closes.close(session);
+				S.C.close(session);
 				LOG.info("name={};error len close id={};len={}", name, session.getId(), length);
 				return;
 			}
@@ -158,15 +154,14 @@ public final class Process {
 			// 检测是否是心跳检测
 			if (id == SocketParams.HEART_ID) {
 				// 设置心跳时间
-				session.setHeart(DateUtil.getTime());
+				session.setHeart(U.D.getTime());
 				// 心跳处理器
 				event.heart(session);
 				continue;
 			}
 			// 如果有接受所有头方法 使用异步方式执行
 			if (U.E.isNotEmpty(all))
-				ExecutorUtil.pool()
-						.execute(() -> all.forEach((h, m) -> BeanUtil.invoke(h, m, getParames(m, data, session))));
+				T.E.pool().execute(() -> all.forEach((h, m) -> U.B.invoke(h, m, getParames(m, data, session))));
 
 			// 获得相应的方法
 			Method m = methods.get(id);
@@ -176,15 +171,14 @@ public final class Process {
 				LOG.warn("name={};socket={};handler message discard id={};message len={}", name, sid, id, len);
 				return;
 			}
-			LOG.info("name={};socket={};receive len={};id={};method={};time={}", name, sid, length, id, m,
-					DateUtil.getTheDate());
+			LOG.info("name={};socket={};receive len={};id={};method={};time={}", name, sid, length, id, m, U.D.getTheDate());
 			try {
 				// 当前时间
 				long curr = System.currentTimeMillis();
 				// 回调处理器
 				m.invoke(handlers.get(id), getParames(m, data, session));
 				// 设置心跳时间
-				session.setHeart(DateUtil.getTime());
+				session.setHeart(U.D.getTime());
 				LOG.info("name={};socket={};handler end time={}", name, sid, System.currentTimeMillis() - curr);
 			} catch (Exception e) {
 				LOG.error(e);
@@ -222,34 +216,34 @@ public final class Process {
 					// 字节流
 					params[i] = ProtobufEngine.toBean(data, type);
 				else
-					params[i] = Bytes.to(data, type);
+					params[i] = W.B.to(data, type);
 //				if (type.equals(String.class))
 //					// 字符串
-//					params[i] = StringUtil.toString(data);
+//					params[i] = U.S.toString(data);
 //				else if (Binary.class.isAssignableFrom(type))
 //					// 字节流
-//					params[i] = Bytes.toBinary(data, type);
+//					params[i] = W.B.toBinary(data, type);
 //				else if (ByteArray.class.isAssignableFrom(type))
 //					// 字节流
-//					params[i] = ((ByteArray) ClassUtil.newInstance(type)).array(data);
+//					params[i] = ((ByteArray) U.C.newInstance(type)).array(data);
 //				else if (type.equals(Buffer.class))
 //					// 字节流
 //					params[i] = new Buffer(data);
 //				else if (type.equals(int.class) || type.equals(Integer.class))
 //					// 整型
-//					params[i] = Bytes.toInt(data);
+//					params[i] = W.B.toInt(data);
 //				else if (type.equals(long.class) || type.equals(Long.class))
 //					// 长整型
-//					params[i] = Bytes.toLong(data);
+//					params[i] = W.B.toLong(data);
 //				else if (type.equals(boolean.class) || type.equals(Boolean.class))
 //					// 布尔
-//					params[i] = Bytes.toBoolean(data);
+//					params[i] = W.B.toBoolean(data);
 //				else if (type.equals(float.class) || type.equals(Float.class))
 //					// float型
-//					params[i] = Bytes.toFloat(data);
+//					params[i] = W.B.toFloat(data);
 //				else if (type.equals(double.class) || type.equals(Double.class))
 //					// Double型
-//					params[i] = Bytes.toDouble(data);
+//					params[i] = W.B.toDouble(data);
 //				else if (type.equals(byte.class) || type.equals(Byte.class))
 //					// 字节流
 //					params[i] = data[0];

@@ -5,17 +5,13 @@ import java.lang.reflect.Parameter;
 import java.util.List;
 import java.util.Map;
 
-import com.weicoder.common.concurrent.ExecutorUtil;
-import com.weicoder.common.init.Init;
-import com.weicoder.common.lang.Lists;
-import com.weicoder.common.lang.Maps;
-import com.weicoder.common.log.Log;
-import com.weicoder.common.log.LogFactory; 
-import com.weicoder.common.util.BeanUtil;
-import com.weicoder.common.util.ClassUtil;
 import com.weicoder.common.util.U;
-import com.weicoder.common.util.U.C;
-import com.weicoder.json.JsonEngine;
+import com.weicoder.common.init.Init;
+import com.weicoder.common.lang.W; 
+import com.weicoder.common.log.Log;
+import com.weicoder.common.log.LogFactory;   
+import com.weicoder.common.thread.T;
+import com.weicoder.json.J;
 import com.weicoder.redis.params.RedisParams;
 import com.weicoder.redis.Redis;
 import com.weicoder.redis.annotation.Channel;
@@ -31,33 +27,33 @@ public class RedisInit implements Init {
 	// 日志
 	private Log LOG = LogFactory.getLog(RedisInit.class);
 	// 保存Channel对应对象
-	private Map<String, Object> SUBSCRIBES = Maps.newMap();
+	private Map<String, Object> SUBSCRIBES = W.M.map();
 	// 保存Channel对应方法
-	private Map<String, Method> METHODS = Maps.newMap();
+	private Map<String, Method> METHODS = W.M.map();
 	// 保存Redis消费
-	private Map<String, Redis> REDIS = Maps.newMap();
+	private Map<String, Redis> REDIS = W.M.map();
 	// 保存Redis对应消费的Channel
-	private Map<String, List<String>> CHANNELS = Maps.newMap();
+	private Map<String, List<String>> CHANNELS = W.M.map();
 
 	@Override
 	public void init() {
 		// 获得所有redis订阅者
-		List<Class<Subscribes>> subscribes = C.list(Subscribes.class);
+		List<Class<Subscribes>> subscribes = U.C.list(Subscribes.class);
 		if (U.E.isNotEmpty(subscribes)) {
 			// 循环处理所有redis订阅类
 			int n = 0;
 			for (Class<Subscribes> c : subscribes) {
 				// 执行对象
-//				Object subscribe = ClassUtil.newInstance(c);
-				Object subscribe = C.ioc(c);
+//				Object subscribe = U.C.newInstance(c);
+				Object subscribe = U.C.ioc(c);
 				Subscribes a = subscribe.getClass().getAnnotation(Subscribes.class);
 				String name = a.value();
 				if (!REDIS.containsKey(name))
 					REDIS.put(name, RedisFactory.getRedis(name));
 				// 获得channels列表
-				List<String> channels = Maps.getList(CHANNELS, name);
+				List<String> channels = W.M.getList(CHANNELS, name);
 				// 处理所有方法
-				ClassUtil.getPublicMethod(c).forEach(m -> {
+				U.C.getPublicMethod(c).forEach(m -> {
 					// 方法有执行时间注解
 					Channel channel = m.getAnnotation(Channel.class);
 					if (channel != null) {
@@ -74,7 +70,7 @@ public class RedisInit implements Init {
 			// 订阅相关消费数据
 			CHANNELS.forEach((key, val) -> {
 				// 定时观察订阅信息
-				ExecutorUtil.pool(RedisParams.PREFIX).execute(() -> {
+				T.E.pool(RedisParams.PREFIX).execute(() -> {
 					// ScheduledUtil.delay(RedisParams.PREFIX, () -> {
 					REDIS.get(key).subscribe((channel, message) -> {
 						// 线程池id
@@ -89,7 +85,7 @@ public class RedisInit implements Init {
 							Object[] objs = null;
 							if (U.E.isEmpty(params))
 								// 参数为空直接执行方法
-								BeanUtil.invoke(s, m);
+								U.B.invoke(s, m);
 							else {
 								objs = new Object[params.length];
 								// 有参数 现在只支持 1位的参数，1个参数表示message
@@ -98,15 +94,15 @@ public class RedisInit implements Init {
 									if (String.class.equals(type))
 										objs[0] = message;
 									else
-										objs[0] = JsonEngine.toBean(message, type);
+										objs[0] = J.toBean(message, type);
 								// 执行方法
-								BeanUtil.invoke(s, m, objs);
+								U.B.invoke(s, m, objs);
 							}
 						}
 						LOG.debug("redis subscribe={} method={} channel={} message={} time={}  thread={}",
 								s.getClass().getSimpleName(), m.getName(), channel, message,
 								System.currentTimeMillis() - time, tid);
-					}, Lists.toArray(val));
+					}, W.L.toArray(val));
 				});
 			});
 		}

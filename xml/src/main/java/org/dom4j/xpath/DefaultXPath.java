@@ -28,7 +28,7 @@ import org.jaxen.SimpleNamespaceContext;
 import org.jaxen.VariableContext;
 import org.jaxen.XPath;
 import org.jaxen.dom4j.Dom4jXPath;
-
+ 
 import com.weicoder.common.lang.W.L;
 
 /**
@@ -136,7 +136,7 @@ public class DefaultXPath implements org.dom4j.XPath, NodeFilter, Serializable {
         } catch (JaxenException e) {
             handleJaxenException(e);
 
-            return Collections.emptyList();
+            return L.empty();
         }
     }
 

@@ -3,9 +3,10 @@ package com.weicoder.common.queue;
 import java.util.Collection;
 import java.util.Queue;
 
-import com.weicoder.common.interfaces.CallbackVoid;
+import com.weicoder.common.interfaces.Calls;
 import com.weicoder.common.log.Log;
 import com.weicoder.common.log.LogFactory;
+import com.weicoder.common.thread.T;
 import com.weicoder.common.util.U;
 
 /**
@@ -26,10 +27,10 @@ public class AsynQueue<E> {
 	 * @param callback 回调
 	 * @param time     时间 毫秒
 	 */
-	public AsynQueue(Queue<E> queue, CallbackVoid<E> callback, long time) {
+	public AsynQueue(Queue<E> queue, Calls.EoV<E> callback, long time) {
 		this.queue = queue;
 		// 定时任务
-		U.SES.delay(() -> {
+		T.S.delay(() -> {
 			// 队列为空 直接返回
 			if (queue.isEmpty())
 				return;
@@ -41,8 +42,8 @@ public class AsynQueue<E> {
 			// 队列不为空
 			while (U.E.isNotEmpty(queue) && n < 10000) {
 //				E e = queue.poll();
-//				callback.callback(e);
-				callback.callback(queue.poll());
+//				callback.call(e);
+				callback.call(queue.poll());
 				n++;
 //				LOG.trace("AsynQueue run i={} obj={}", n, e);
 			}
@@ -58,8 +59,8 @@ public class AsynQueue<E> {
 //	 * @param callback 回调
 //	 * @param time     时间 秒
 //	 */
-//	public AsynQueue(Queue<E> queue, CallbackVoid<E> callback, int time) {
-//		this(queue, callback, MathUtil.multiply(time, 1000).longValue());
+//	public AsynQueue(Queue<E> queue, Calls.EoV<E> callback, int time) {
+//		this(queue, callback, U.M.multiply(time, 1000).longValue());
 //	}
 
 	/**

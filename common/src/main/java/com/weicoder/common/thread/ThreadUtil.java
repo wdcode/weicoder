@@ -1,23 +1,19 @@
-package com.weicoder.common.util;
+package com.weicoder.common.thread;
 
 import java.util.Map;
 
-import com.weicoder.common.constants.DateConstants;
+import com.weicoder.common.constants.C;
 import com.weicoder.common.lang.W.M;
-import com.weicoder.common.log.Logs;
+import com.weicoder.common.log.Logs; 
 
 /**
  * Thread 相关方法
  * 
  * @author WD
  */
-public class ThreadUtil {
+public sealed class ThreadUtil permits T {
 	// 保存线程属性
-	private final static Map<Thread, Map<String, Object>> ATTR = M.newMap();
-	
-//	public static Map<Thread, Map<String, Object>> attr() {
-//		return ATTR;
-//	}
+	private final static Map<Thread, Map<String, Object>> ATTR = M.map();
 
 	/**
 	 * 为当前线程保存属性
@@ -32,8 +28,8 @@ public class ThreadUtil {
 	/**
 	 * 获得当前线程的值
 	 * 
-	 * @param  key 键
-	 * @return     值
+	 * @param key 键
+	 * @return 值
 	 */
 	public static Object get(String key) {
 		return M.getMap(ATTR, current()).get(key);
@@ -65,7 +61,7 @@ public class ThreadUtil {
 	 * @param millis 暂停时间毫秒
 	 */
 	public static void sleep(int millis) {
-		sleep(millis * DateConstants.TIME_SECOND);
+		sleep(millis * C.D.TIME_SECOND);
 	}
 
 	/**

@@ -6,7 +6,7 @@ import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.source.RichSourceFunction;
 import org.apache.flink.streaming.api.functions.source.SourceFunction.SourceContext;
 
-import com.weicoder.common.interfaces.CallbackVoid;
+import com.weicoder.common.interfaces.Calls;
 import com.weicoder.common.log.Logs;
 
 /**
@@ -26,7 +26,7 @@ public final class Flinks {
 	 * @param port 远程端口
 	 * @param call 执行回调
 	 */
-	public static <E> void source(String host, int port, CallbackVoid<SourceContext<E>> call) {
+	public static <E> void source(String host, int port, Calls.EoV<SourceContext<E>> call) {
 		try {
 			StreamExecutionEnvironment env = SEEF.getInstance(Tuple2.of(host, port));
 			env.addSource(new RichSourceFunction<E>() {
@@ -34,7 +34,7 @@ public final class Flinks {
 
 				@Override
 				public void run(SourceContext<E> ctx) throws Exception {
-					call.callback(ctx);
+					call.call(ctx);
 				}
 
 				@Override
@@ -54,10 +54,10 @@ public final class Flinks {
 	 * @param port
 	 * @param call
 	 */
-	public static void data(String host, int port, CallbackVoid<DataStreamSource<String>> call) {
+	public static void data(String host, int port, Calls.EoV<DataStreamSource<String>> call) {
 		try {
 			StreamExecutionEnvironment env = SEEF.getInstance();
-			call.callback(env.socketTextStream(host, port));
+			call.call(env.socketTextStream(host, port));
 			env.execute();
 		} catch (Exception e) {
 			Logs.error(e);

@@ -12,21 +12,13 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 
-import com.weicoder.common.concurrent.ScheduledUtil;
 import com.weicoder.common.init.Init;
-import com.weicoder.common.lang.Bytes;
-import com.weicoder.common.lang.Lists;
-import com.weicoder.common.lang.Maps;
-import com.weicoder.common.lang.W.B;
+import com.weicoder.common.lang.W;
 import com.weicoder.common.log.Log;
 import com.weicoder.common.log.LogFactory;
-import com.weicoder.common.util.BeanUtil;
-import com.weicoder.common.util.ClassUtil;
-import com.weicoder.common.util.StringUtil;
+import com.weicoder.common.thread.T;
 import com.weicoder.common.util.U;
-import com.weicoder.common.util.U.C;
-import com.weicoder.common.util.U.S;
-import com.weicoder.json.JsonEngine;
+import com.weicoder.json.J;
 import com.weicoder.kafka.annotation.AllTopic;
 import com.weicoder.kafka.annotation.Consumer;
 import com.weicoder.kafka.annotation.Topic;
@@ -43,40 +35,40 @@ import com.weicoder.protobuf.ProtobufEngine;
  */
 public class KafkaInit implements Init {
 	// 日志
-	private Log LOG = LogFactory.getLog(KafkaInit.class);
+	private Log																LOG				= LogFactory.getLog(KafkaInit.class);
 	// 保存Topic对应对象
-	private Map<String, Object> CONSUMERS = Maps.newMap();
+	private Map<String, Object>												CONSUMERS		= W.M.map();
 	// 保存Topic对应方法
-	private Map<String, Method> METHODS = Maps.newMap();
+	private Map<String, Method>												METHODS			= W.M.map();
 	// 保存所有topic对应方法
-	private Map<String, List<Method>> ALL_TOPICS = Maps.newMap();
+	private Map<String, List<Method>>										ALL_TOPICS		= W.M.map();
 	// 保存kafka消费
-	private Map<String, KafkaConsumer<byte[], byte[]>> KAFKA_CONSUMERS = Maps.newMap();
+	private Map<String, KafkaConsumer<byte[], byte[]>>						KAFKA_CONSUMERS	= W.M.map();
 	// 保存kafka对应消费的topic
-	private Map<String, List<String>> TOPICS = Maps.newMap();
+	private Map<String, List<String>>										TOPICS			= W.M.map();
 	// 保存Topic队列
-	private Map<String, Map<String, Queue<ConsumerRecord<byte[], byte[]>>>> TOPIC_RECORDS = Maps.newConcurrentMap();
+	private Map<String, Map<String, Queue<ConsumerRecord<byte[], byte[]>>>>	TOPIC_RECORDS	= W.M.concurrent();
 
 	@Override
 	public void init() {
 		// 获得所有kafka消费者
-		List<Class<Consumer>> consumers = C.list(Consumer.class);
+		List<Class<Consumer>> consumers = U.C.list(Consumer.class);
 		if (U.E.isNotEmpty(consumers)) {
 			// 循环处理kafka类
 			consumers.forEach(c -> {
 				// 执行对象
-//				Object consumer = ClassUtil.newInstance(c);
-				Object consumer = C.ioc(c);
+//				Object consumer = U.C.newInstance(c);
+				Object consumer = U.C.ioc(c);
 				String name = consumer.getClass().getAnnotation(Consumer.class).value();
 				// 消费者队列
 				Map<String, Queue<ConsumerRecord<byte[], byte[]>>> map = TOPIC_RECORDS.get(name);
 				// 如果KafkaConsumer列表里没有相对应的消费者 创建
 				if (!KAFKA_CONSUMERS.containsKey(name)) {
 					KAFKA_CONSUMERS.put(name, KafkaFactory.getConsumer(name));
-					TOPIC_RECORDS.put(name, map = Maps.newConcurrentMap());
+					TOPIC_RECORDS.put(name, map = W.M.concurrent());
 				}
 				// 获得topic列表
-				List<String> topics = Maps.getList(TOPICS, name);
+				List<String> topics = W.M.getList(TOPICS, name);
 				// 处理所有方法
 				for (Method m : c.getDeclaredMethods()) {
 					// 方法有执行时间注解
@@ -88,7 +80,7 @@ public class KafkaInit implements Init {
 							// 声明列表
 							List<Method> list = ALL_TOPICS.get(name);
 							if (list == null) {
-								ALL_TOPICS.put(name, list = Lists.newList());
+								ALL_TOPICS.put(name, list = W.L.list());
 							}
 							// 添加到列表
 							list.add(m);
@@ -111,7 +103,7 @@ public class KafkaInit implements Init {
 				LOG.info("Kafkas init Consumer={} subscribe topic={}", key, topics);
 			});
 			// 读取topic定时 启动定时读取kafka消息
-			ScheduledUtil.newDelay(() -> {
+			T.S.newDelay(() -> {
 				KAFKA_CONSUMERS.forEach((name, consumer) -> {
 					// 线程池id
 					long tid = Thread.currentThread().getId();
@@ -137,7 +129,7 @@ public class KafkaInit implements Init {
 			// 消费队列
 			TOPIC_RECORDS.forEach((name, map) -> {
 				map.values().forEach((records) -> {
-					ScheduledUtil.delay(KafkaParams.PREFIX, () -> {
+					T.S.delay(KafkaParams.PREFIX, () -> {
 						// 线程池id
 						long tid = Thread.currentThread().getId();
 						// 日志使用
@@ -157,7 +149,7 @@ public class KafkaInit implements Init {
 							Object[] objs = null;
 							if (U.E.isEmpty(params))
 								// 参数为空直接执行方法
-								BeanUtil.invoke(obj, method);
+								U.B.invoke(obj, method);
 							else {
 								// 参数
 								objs = new Object[params.length];
@@ -169,14 +161,14 @@ public class KafkaInit implements Init {
 										objs[0] = record;
 									else if (Record.class.equals(t)) {
 										Type type = param.getParameterizedType();
-										Class<?>[] gc = ClassUtil.getGenericClass(type);
+										Class<?>[] gc = U.C.getGenericClass(type);
 										objs[0] = new Record<>(record.topic(), toParam(record.key(), gc[0]),
 												toParam(record.value(), gc[1]), record.offset(), record.timestamp());
 										// 执行所有topic方法
 										List<Method> all = ALL_TOPICS.get(name);
 										if (U.E.isEmpty(all)) {
 											for (Method m : all) {
-												BeanUtil.invoke(obj, m, objs);
+												U.B.invoke(obj, m, objs);
 											}
 										}
 									} else
@@ -186,16 +178,16 @@ public class KafkaInit implements Init {
 									objs[1] = toParam(record.value(), params[1].getType());
 								}
 								// 执行方法
-								BeanUtil.invoke(obj, method, objs);
+								U.B.invoke(obj, method, objs);
 							}
-							LOG.debug("kafka consumer topic={} offset={} method={} args={} params={} thread={}", topic,
-									offset, method.getName(), objs, params, tid);
+							LOG.debug("kafka consumer topic={} offset={} method={} args={} params={} thread={}", topic, offset,
+									method.getName(), objs, params, tid);
 							n++;
 						}
 						// 数量不为空
 						if (n > 0) {
-							LOG.info("kafka consumer end topic={} offset={} size={} time={} thread={}", topic, offset,
-									n, System.currentTimeMillis() - time, tid);
+							LOG.info("kafka consumer end topic={} offset={} size={} time={} thread={}", topic, offset, n,
+									System.currentTimeMillis() - time, tid);
 						}
 					}, 10L);
 				});
@@ -207,27 +199,27 @@ public class KafkaInit implements Init {
 	/**
 	 * 转换成参数
 	 * 
-	 * @param  b 字节数组
-	 * @param  c 类型
-	 * @return   参数
+	 * @param b 字节数组
+	 * @param c 类型
+	 * @return 参数
 	 */
 	private static Object toParam(byte[] b, Class<?> c) {
 		// 字符串
 		if (String.class.equals(c))
-			return S.toString(b);
+			return U.S.toString(b);
 		// Map
 		if (Map.class.equals(c))
-			return JsonEngine.toMap(StringUtil.toString(b));
+			return J.toMap(U.S.toString(b));
 		// List
 		if (List.class.equals(c))
-			return JsonEngine.toList(StringUtil.toString(b));
+			return J.toList(U.S.toString(b));
 		// Protobuf
 		if (c.isAnnotationPresent(Protobuf.class))
 			return ProtobufEngine.toBean(b, c);
 		// 基础类型与可用Bytes序列化类型
-		if (B.isType(c))
-			return Bytes.to(b, c);
+		if (W.B.isType(c))
+			return W.B.to(b, c);
 		// 使用json返序列化
-		return JsonEngine.toBean(S.toString(b), c);
+		return J.toBean(U.S.toString(b), c);
 	}
 }

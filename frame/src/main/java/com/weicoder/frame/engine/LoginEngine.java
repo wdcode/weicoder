@@ -7,10 +7,10 @@ import com.weicoder.frame.entity.EntityUser;
 import com.weicoder.frame.params.SiteParams;
 import com.weicoder.web.util.AttributeUtil;
 import com.weicoder.web.util.RequestUtil;
-import com.weicoder.common.lang.Conversion;
+import com.weicoder.common.lang.W;
 import com.weicoder.common.token.TokenBean;
 import com.weicoder.common.token.TokenEngine;
-import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.util.U;
 
 /**
  * 登录信息Bean
@@ -83,9 +83,9 @@ public final class LoginEngine {
 	 */
 	public static TokenBean getLoginBean(HttpServletRequest request, String key) {
 		// 读取用户信息
-		String info = Conversion.toString(AttributeUtil.get(request, key + INFO));
+		String info = W.C.toString(AttributeUtil.get(request, key + INFO));
 		// 如果用户信息为空
-		if (EmptyUtil.isEmpty(info)) {
+		if (U.E.isEmpty(info)) {
 			return empty();
 		} else {
 			return decrypt(info);

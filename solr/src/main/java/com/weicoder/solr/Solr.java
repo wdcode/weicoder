@@ -7,10 +7,9 @@ import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.impl.Http2SolrClient.Builder;
 
-import com.weicoder.common.lang.Lists;
+import com.weicoder.common.lang.W;
 import com.weicoder.common.log.Logs;
-import com.weicoder.common.util.BeanUtil;
-import com.weicoder.common.util.U;
+import com.weicoder.common.util.U; 
 import com.weicoder.solr.params.SolrParams;
 
 /**
@@ -38,7 +37,7 @@ public class Solr {
 	 * @return      更新数量
 	 */
 	public int update(Object... obj) {
-		return update(Lists.newList(obj));
+		return update(W.L.list(obj));
 	}
 
 	/**
@@ -67,10 +66,10 @@ public class Solr {
 	 * @return       列表
 	 */
 	public <E> List<E> query(String q, Class<E> cls, int start, int rows) {
-		List<E> list = Lists.newList();
+		List<E> list = W.L.list();
 		try {
 			client.query(new SolrQuery(q).setStart(start).setRows(rows)).getResults()
-					.forEach(s -> list.add(BeanUtil.copy(s.getFieldValueMap(), cls)));
+					.forEach(s -> list.add(U.B.copy(s.getFieldValueMap(), cls)));
 		} catch (Exception e) {
 			Logs.error(e);
 		}
@@ -84,7 +83,7 @@ public class Solr {
 	 * @return
 	 */
 	public int del(String... ids) {
-		return del(Lists.newList(ids));
+		return del(W.L.list(ids));
 	}
 
 	/**

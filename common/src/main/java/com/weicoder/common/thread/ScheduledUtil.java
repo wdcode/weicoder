@@ -1,20 +1,21 @@
-package com.weicoder.common.concurrent;
+package com.weicoder.common.thread;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
-
-import com.weicoder.common.constants.DateConstants;
-import com.weicoder.common.constants.StringConstants;
+ 
+import com.weicoder.common.constants.C;
 import com.weicoder.common.log.Logs;
+import com.weicoder.common.thread.concurrent.factory.DaemonThreadFactory;
+import com.weicoder.common.thread.concurrent.factory.ScheduledFactory;
 
 /**
  * 并发线程定时任务工具类
  * 
  * @author WD
  */
-public class ScheduledUtil {
+public sealed class ScheduledUtil permits T.S{
 	// 定时线程工厂
 	private final static ScheduledFactory FACTORY = new ScheduledFactory();
 
@@ -71,7 +72,7 @@ public class ScheduledUtil {
 	 * @return 定时任务池
 	 */
 	public static ScheduledExecutorService pool() {
-		return pool(StringConstants.EMPTY);
+		return pool(C.S.EMPTY);
 	}
 
 	/**
@@ -103,7 +104,7 @@ public class ScheduledUtil {
 	 * @return         ScheduledFuture
 	 */
 	public static ScheduledFuture<?> rate(Runnable command, int period) {
-		return rate(command, period * DateConstants.TIME_SECOND);
+		return rate(command, period * C.D.TIME_SECOND);
 	}
 
 	/**
@@ -116,7 +117,7 @@ public class ScheduledUtil {
 	 * @return              ScheduledFuture
 	 */
 	public static ScheduledFuture<?> rate(Runnable command, long initialDelay, long period, TimeUnit unit) {
-		return rate(StringConstants.EMPTY, command, initialDelay, period, unit);
+		return rate(C.S.EMPTY, command, initialDelay, period, unit);
 	}
 
 	/**
@@ -140,7 +141,7 @@ public class ScheduledUtil {
 	 * @return         ScheduledFuture
 	 */
 	public static ScheduledFuture<?> rate(String name, Runnable command, int period) {
-		return rate(name, command, period * DateConstants.TIME_SECOND);
+		return rate(name, command, period * C.D.TIME_SECOND);
 	}
 
 	/**
@@ -179,7 +180,7 @@ public class ScheduledUtil {
 	 * @return         ScheduledFuture
 	 */
 	public static ScheduledFuture<?> delay(Runnable command, int delay) {
-		return delay(command, delay * DateConstants.TIME_SECOND);
+		return delay(command, delay * C.D.TIME_SECOND);
 	}
 
 	/**
@@ -192,7 +193,7 @@ public class ScheduledUtil {
 	 * @return              ScheduledFuture
 	 */
 	public static ScheduledFuture<?> delay(Runnable command, long initialDelay, long delay, TimeUnit unit) {
-		return delay(StringConstants.EMPTY, command, initialDelay, delay, unit);
+		return delay(C.S.EMPTY, command, initialDelay, delay, unit);
 	}
 
 	/**
@@ -216,7 +217,7 @@ public class ScheduledUtil {
 	 * @return         ScheduledFuture
 	 */
 	public static ScheduledFuture<?> delay(String name, Runnable command, int delay) {
-		return delay(name, command, delay * DateConstants.TIME_SECOND);
+		return delay(name, command, delay * C.D.TIME_SECOND);
 	}
 
 	/**

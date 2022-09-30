@@ -18,10 +18,9 @@ import jakarta.mail.internet.MimeBodyPart;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.mail.internet.MimeMultipart;
 
-import com.weicoder.common.constants.StringConstants;
+import com.weicoder.common.constants.C;
 import com.weicoder.common.log.Logs;
-import com.weicoder.common.util.StringUtil;
-import com.weicoder.common.util.U;
+import com.weicoder.common.util.U; 
 import com.weicoder.email.base.BaseEmail;
 
 /**
@@ -149,7 +148,7 @@ public final class EmailJava extends BaseEmail {
 
 				messageBodyPart.setDataHandler(new DataHandler(source));
 				// 设置描述名字等
-				String name = StringUtil.subStringLast(attach, StringConstants.BACKSLASH, StringConstants.POINT);
+				String name = U.S.subStringLast(attach, C.S.BACKSLASH, C.S.POINT);
 				// 添加文件名和描述
 				messageBodyPart.setText(name);
 				messageBodyPart.setFileName(name);

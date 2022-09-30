@@ -1,16 +1,11 @@
 package com.weicoder.excel.base;
-
-import java.util.Collections;
+ 
 import java.util.List;
 import java.util.Map;
 
-import com.weicoder.common.lang.Lists;
-import com.weicoder.common.lang.Maps;
-import com.weicoder.common.lang.W.L;
+import com.weicoder.common.lang.W;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.U;
-import com.weicoder.common.util.U.B;
-import com.weicoder.common.util.U.C;
 import com.weicoder.excel.Excel;
 
 /**
@@ -40,7 +35,7 @@ public abstract class BaseExcel implements Excel {
 		// 获得Sheet数量
 		int num = getSheets();
 		// 声明列表 保存所有数据
-		List<List<String>> list = Lists.newList();
+		List<List<String>> list = W.L.list();
 		// 循环Sheet
 		for (int i = 0; i < num; i++) {
 			// 获得指定Sheet页值 添加到列表
@@ -61,7 +56,7 @@ public abstract class BaseExcel implements Excel {
 		int rows = getRows();
 		Logs.info("read excel cls={} rows={}", cls, rows);
 		// 声明列表
-		List<E> list = L.newList(rows);
+		List<E> list = W.L.list(rows);
 		// 读取所有行
 		for (int i = 0; i < rows; i++)
 			list.add(read(i, cls));
@@ -72,10 +67,10 @@ public abstract class BaseExcel implements Excel {
 	@Override
 	public <E> E read(int row, Class<E> cls) {
 		// 实例化对象
-		E e = C.newInstance(cls);
+		E e = U.C.newInstance(cls);
 		// 读取列按字段序列注入属性
 		for (int i = 0; i < getColumns(); i++)
-			B.setFieldValue(e, i, readContents(row, i));
+			U.B.setFieldValue(e, i, readContents(row, i));
 		// 返回对象
 		return e;
 	}
@@ -83,7 +78,7 @@ public abstract class BaseExcel implements Excel {
 	@Override
 	public List<String> readCol(int col) {
 		int rows = getRows();
-		List<String> cols = L.newList(rows);
+		List<String> cols = W.L.list(rows);
 		for (int i = 0; i < rows; i++)
 			cols.add(readContents(i, col));
 		return cols;
@@ -103,14 +98,14 @@ public abstract class BaseExcel implements Excel {
 		// 获得列数
 		int cols = getColumns();
 		// 声明行 列表
-		List<List<String>> lsRow = Lists.newList(rows);
+		List<List<String>> lsRow = W.L.list(rows);
 		// 声明列 列表
 		List<String> lsCol = null;
 		// 获得Sheet所有行和列内容
 		// 行循环
 		for (int i = 0; i < rows; i++) {
 			// 实例化行 列表
-			lsCol = Lists.newList(cols);
+			lsCol = W.L.list(cols);
 			// 列循环
 			for (int j = 0; j < cols; j++) {
 				// 添加内容到列 列表
@@ -134,7 +129,7 @@ public abstract class BaseExcel implements Excel {
 		int index = getSheetIndex(sheetName);
 		// 判断是否存在
 		if (index == -1) {
-			return Collections.emptyList();
+			return W.L.empty();
 		}
 		// 返回Sheet内容
 		return readSheet(index);
@@ -151,7 +146,7 @@ public abstract class BaseExcel implements Excel {
 		int index = getSheetIndex(sheetName);
 		// 判断是否存在
 		if (index == -1) {
-			return Collections.emptyList();
+			return W.L.empty();
 		}
 		// 返回Sheet内容
 		return readSheetByCol(index);
@@ -175,7 +170,7 @@ public abstract class BaseExcel implements Excel {
 		// 获得Sheet数量
 		int num = getSheets();
 		// 声明列表保存数据
-		List<Map<String, String>> list = Lists.newList();
+		List<Map<String, String>> list = W.L.list();
 		// 循环Sheet
 		for (int i = 0; i < num; i++) {
 			// 获得指定Sheet页值 添加到列表
@@ -198,12 +193,12 @@ public abstract class BaseExcel implements Excel {
 		List<List<String>> lsList = readSheet(index);
 		// 列名和内容是否存在
 		if (U.E.isEmpty(colNames) || U.E.isEmpty(lsList)) {
-			return Collections.emptyList();
+			return W.L.empty();
 		}
 		// 列表大小
 		int size = lsList.size();
 		// 声明列表 保存所有数据
-		List<Map<String, String>> lsMap = Lists.newList(size - 1);
+		List<Map<String, String>> lsMap = W.L.list(size - 1);
 		// 声明列表 保存行数据
 		List<String> list = null;
 		// 声明Map 保存行数据
@@ -215,7 +210,7 @@ public abstract class BaseExcel implements Excel {
 			// 获得行内容
 			list = lsList.get(i);
 			// 实例化Map
-			map = Maps.newMap();
+			map = W.M.map();
 			// 循环
 			for (int j = 0; j < num; j++) {
 				// 设置列名与列值

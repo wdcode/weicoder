@@ -3,8 +3,7 @@ package com.weicoder.web.init;
 import com.weicoder.common.init.Init;
 import com.weicoder.common.lang.W.M;
 import com.weicoder.common.log.Logs;
-import com.weicoder.common.util.ClassUtil;
-import com.weicoder.common.util.StringUtil;
+import com.weicoder.common.util.U; 
 import com.weicoder.common.util.U.C;
 import com.weicoder.web.annotation.Action;
 import com.weicoder.web.aop.AopAll;
@@ -34,21 +33,21 @@ public class ActionInit implements Init {
 			// 不是接口
 			if (!c.isInterface()) {
 				// 获得action名结尾为aop去掉
-				String cname = StringUtil.convert(StringUtil.subStringLastEnd(c.getSimpleName(), "Aop"));
+				String cname = U.S.convert(U.S.subStringLastEnd(c.getSimpleName(), "Aop"));
 				Logs.info("init aop sname={},cname={}", c.getSimpleName(), cname);
 				// 实例化Action并放在context中
 				if (AopAll.class.isAssignableFrom(c))
-					WebCommons.AOP_ALL.add(ClassUtil.newInstance(c));
+					WebCommons.AOP_ALL.add(U.C.newInstance(c));
 				else
-					WebCommons.AOPS.put(cname, ClassUtil.newInstance(c));
-//				Aops aop = ClassUtil.newInstance(c);
+					WebCommons.AOPS.put(cname, U.C.newInstance(c));
+//				Aops aop = U.C.newInstance(c);
 //				if (aop != null)
 //					WebCommons.AOPS.put(cname, aop);
 			}
 		});
 
 //		// 处理aop全部拦截
-//		ClassUtil.getAssignedClass(CommonParams.getPackages("aop"), AopAll.class).forEach(c -> {
+//		U.C.getAssignedClass(P.C.getPackages("aop"), AopAll.class).forEach(c -> {
 //			// 初始化aopall
 //			Logs.info("init aopall name={}", c.getSimpleName());
 //			// 放到列表中
@@ -61,15 +60,15 @@ public class ActionInit implements Init {
 		C.list(Action.class).forEach(c -> {
 			try {
 				// 获得action名结尾为action去掉
-				String cname = StringUtil.convert(StringUtil.subStringLastEnd(c.getSimpleName(), "Action"));
+				String cname = U.S.convert(U.S.subStringLastEnd(c.getSimpleName(), "Action"));
 				Logs.info("init action sname={},cname={}", c.getSimpleName(), cname);
 				// 实例化Action并放在context中
-//				Object action = ClassUtil.newInstance(c);
+//				Object action = U.C.newInstance(c);
 				Object action = C.ioc(c);
 				if (action != null) {
 					WebCommons.ACTIONS.put(cname, action);
 					// 循环判断方法
-					ClassUtil.getPublicMethod(c).forEach(m -> {
+					U.C.getPublicMethod(c).forEach(m -> {
 						// 获得方法名
 						String mname = m.getName();
 						// 放入action里方法
@@ -95,15 +94,15 @@ public class ActionInit implements Init {
 		// 循环所有验证类注解
 		C.list(ValidatorClass.class).forEach(c -> {
 			// 获得validator名结尾为validator去掉
-			String cname = StringUtil.convert(StringUtil.subStringLastEnd(c.getSimpleName(), "Validator"));
+			String cname = U.S.convert(U.S.subStringLastEnd(c.getSimpleName(), "Validator"));
 			Logs.info("init validator sname={},cname={}", c.getSimpleName(), cname);
 			// 实例化Action并放在context中
-//			Object validator = ClassUtil.newInstance(c);
+//			Object validator = U.C.newInstance(c);
 			Object validator = C.ioc(c);
 			WebCommons.VALIDATORS.put(cname, validator);
 			if (validator != null) {
 				// 循环判断方法
-				ClassUtil.getPublicMethod(c).forEach(m -> {
+				U.C.getPublicMethod(c).forEach(m -> {
 					// 获得方法名
 					String mname = m.getName();
 					// 放入validator里方法

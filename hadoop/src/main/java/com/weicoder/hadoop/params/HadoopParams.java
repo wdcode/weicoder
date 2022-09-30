@@ -1,6 +1,6 @@
 package com.weicoder.hadoop.params;
 
-import com.weicoder.common.params.Params;
+import com.weicoder.common.params.P;
 
 /**
  * Hapoop参数
@@ -10,7 +10,7 @@ import com.weicoder.common.params.Params;
  */
 public final class HadoopParams {
 	/** Hadoop 服务器地址 */
-	public final static String URI = Params.getString("hadoop.uri");
+	public final static String URI = P.getString("hadoop.uri");
 
 	private HadoopParams() {
 	}

@@ -2,10 +2,10 @@ package com.weicoder.common.init;
 
 import com.weicoder.common.annotation.Asyn;
 import com.weicoder.common.log.Logs;
-import com.weicoder.common.params.CommonParams;
+import com.weicoder.common.params.P;
+import com.weicoder.common.thread.T;
 import com.weicoder.common.util.U.C;
-import com.weicoder.common.util.U.D;
-import com.weicoder.common.util.U.ES;
+import com.weicoder.common.util.U.D; 
 import com.weicoder.common.util.U.S;
 
 /**
@@ -26,9 +26,9 @@ public final class Inits {
 			// 初始化开始
 			D.dura();
 			// 调用初始化方法
-			if (CommonParams.power(name))
+			if (P.C.power(name))
 				if (c.isAnnotationPresent(Asyn.class))
-					ES.execute(() -> C.newInstance(c).init());
+					T.E.execute(() -> C.newInstance(c).init());
 				else
 					C.newInstance(c).init();
 			// 初始化结束

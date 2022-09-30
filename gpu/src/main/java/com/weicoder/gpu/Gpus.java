@@ -1,7 +1,7 @@
 package com.weicoder.gpu;
 
 import com.aparapi.Kernel;
-import com.weicoder.common.interfaces.CallbackVoid;
+import com.weicoder.common.interfaces.Calls;
 
 /**
  * 调用gpu计算
@@ -16,12 +16,12 @@ public final class Gpus {
 	 * @param range 范围
 	 * @param call  回调
 	 */
-	public static void execute(int range, CallbackVoid<Kernel> call) {
+	public static void execute(int range, Calls.EoV<Kernel> call) {
 		// 声明内核处理数据
 		Kernel kernel = new Kernel() {
 			@Override
 			public void run() {
-				call.callback(this);
+				call.call(this);
 			}
 		};
 		// 启动

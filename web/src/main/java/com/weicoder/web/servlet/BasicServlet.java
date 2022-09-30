@@ -18,21 +18,14 @@ import com.weicoder.common.bean.StateCode;
 import com.weicoder.common.constants.C;
 import com.weicoder.common.exception.StateException;
 import com.weicoder.common.annotation.Asyn;
-import com.weicoder.common.lang.Lists;
-import com.weicoder.common.lang.Maps;
-import com.weicoder.common.lang.W;
+import com.weicoder.common.lang.W; 
 import com.weicoder.common.log.Log;
 import com.weicoder.common.log.LogFactory;
 import com.weicoder.common.log.Logs;
-import com.weicoder.common.params.StateParams;
+import com.weicoder.common.params.P; 
 import com.weicoder.common.token.TokenBean;
 import com.weicoder.common.token.TokenEngine;
-import com.weicoder.common.util.BeanUtil;
-import com.weicoder.common.util.ClassUtil;
-import com.weicoder.common.util.DateUtil;
-import com.weicoder.common.util.IpUtil;
-import com.weicoder.common.util.StringUtil;
-import com.weicoder.common.util.U;
+import com.weicoder.common.util.U;  
 import com.weicoder.web.annotation.Action;
 import com.weicoder.web.annotation.Cookies;
 import com.weicoder.web.annotation.Forward;
@@ -76,8 +69,8 @@ public class BasicServlet extends HttpServlet {
 		LOG.debug("request ip={} path={} Method={} scheme={} queryString={}", ip, path, m, request.getScheme(), request.getQueryString());
 		if (U.E.isNotEmpty(path)) {
 			// 分解提交action 去处开头的/ 并且按/或者_分解出数组
-			String actionName = StringUtil.subString(path, 1, path.length());
-			String[] actions = StringUtil.contains(actionName, C.S.BACKSLASH) ? StringUtil.split(actionName, C.S.BACKSLASH) : StringUtil.split(actionName, C.S.UNDERLINE);
+			String actionName = U.S.subString(path, 1, path.length());
+			String[] actions = U.S.contains(actionName, C.S.BACKSLASH) ? U.S.split(actionName, C.S.BACKSLASH) : U.S.split(actionName, C.S.UNDERLINE);
 			if (U.E.isEmpty(actions)) {
 				LOG.debug("this path={}", path);
 				ResponseUtil.json(response, callback, "action is null path");
@@ -114,7 +107,7 @@ public class BasicServlet extends HttpServlet {
 			Action a = action.getClass().getAnnotation(Action.class);
 			if (WebParams.IPS || a.ips() || action.getClass().isAnnotationPresent(Ips.class)) {
 				// 如果在允许列表继续 否则退出
-				if (!IpUtil.contains(ip)) {
+				if (!U.IP.contains(ip)) {
 					LOG.debug("this ip={}", ip);
 					ResponseUtil.json(response, callback, "not exist ip");
 					return;
@@ -133,12 +126,12 @@ public class BasicServlet extends HttpServlet {
 			// 判断提交方法
 			// if (a.method()) {
 			// 校验是否只使用post方法提交
-			if (method.isAnnotationPresent(Post.class) && !StringUtil.equals("POST", m.toUpperCase())) {
+			if (method.isAnnotationPresent(Post.class) && !U.S.equals("POST", m.toUpperCase())) {
 				ResponseUtil.json(response, callback, "no method is " + m);
 				return;
 			}
 			// 校验是否只使用get方法提交
-			if (method.isAnnotationPresent(Get.class) && !StringUtil.equals("GET", m.toUpperCase())) {
+			if (method.isAnnotationPresent(Get.class) && !U.S.equals("GET", m.toUpperCase())) {
 				ResponseUtil.json(response, callback, "no method is " + m);
 				return;
 			}
@@ -159,10 +152,10 @@ public class BasicServlet extends HttpServlet {
 					ps.put("ip", ip);
 				// 当前时间time没有传注入time
 				if (U.E.isEmpty(ps.get("time")))
-					ps.put("time", W.C.toString(DateUtil.getTime()));
+					ps.put("time", W.C.toString(U.D.getTime()));
 				LOG.trace("request all ip={} params={}", ip, params);
 				// token验证通过在执行
-//				if (code == StateParams.SUCCESS) {
+//				if (code == P.S.SUCCESS) {
 				// action全部参数下标
 				int i = 0;
 				for (; i < pars.length; i++) {
@@ -183,19 +176,19 @@ public class BasicServlet extends HttpServlet {
 						params[i] = ps;
 					else if (cs.isArray())
 						params[i] = U.A.array(v, cs);
-					else if (ClassUtil.isBaseType(cs)) {
+					else if (U.C.isBaseType(cs)) {
 						// 获得参数
 						params[i] = W.C.to(v, cs);
 						// 验证参数
-						if (code == StateParams.SUCCESS)
-							if ((code = Validators.validator(p, params[i])) != StateParams.SUCCESS)
+						if (code == P.S.SUCCESS)
+							if ((code = Validators.validator(p, params[i])) != P.S.SUCCESS)
 								break;
 					} else {
 						// 设置属性
-						params[i] = BeanUtil.copy(ps, cs);
+						params[i] = U.B.copy(ps, cs);
 						// 验证参数
-						if (code == StateParams.SUCCESS)
-							if ((code = Validators.validator(params[i])) != StateParams.SUCCESS)
+						if (code == P.S.SUCCESS)
+							if ((code = Validators.validator(params[i])) != P.S.SUCCESS)
 								break;
 					}
 				}
@@ -203,7 +196,7 @@ public class BasicServlet extends HttpServlet {
 			}
 			// 调用方法
 			// try {
-			if (code == StateParams.SUCCESS) {
+			if (code == P.S.SUCCESS) {
 				// 判断是否异步
 				if (a.async() || method.isAnnotationPresent(Asyn.class) || action.getClass().isAnnotationPresent(Asyn.class)) {
 					// 获得异步全局
@@ -218,7 +211,7 @@ public class BasicServlet extends HttpServlet {
 						async.complete();
 					});
 //					// 异步处理
-//					ExecutorUtil.pool("async").execute(() -> {
+//					T.E.pool("async").execute(() -> {
 //						// 执行方法并返回结果
 //						try {
 //							result(method, ac, invoke(ac, method, p, request, response), callback, request, response, ip, actionName, p, pars, curr);
@@ -287,18 +280,18 @@ public class BasicServlet extends HttpServlet {
 				// 如果res为状态码
 				if (res == null)
 					// 写空信息
-					res = Maps.newMap(new String[] { code, message }, StateCode.NULL.to());
+					res = W.M.newMap(new String[] { code, message }, StateCode.NULL.to());
 				else if (res instanceof StateCode)
 					// 写错误信息
-					res = Maps.newMap(new String[] { code, message }, ((StateCode) res).to());
+					res = W.M.newMap(new String[] { code, message }, ((StateCode) res).to());
 				else
 					// 写入到前端
-					res = Maps.newMap(new String[] { code, content }, new Object[] { StateCode.SUCCESS.getCode(), res });
+					res = W.M.newMap(new String[] { code, content }, new Object[] { StateCode.SUCCESS.getCode(), res });
 			} else {
 				// 如果结果为空
 				if (res == null)
 					// 结果设置为空map
-					res = Maps.emptyMap();
+					res = W.M.empty();
 			}
 			// 是否写cookie
 			if (cookie)
@@ -340,7 +333,7 @@ public class BasicServlet extends HttpServlet {
 
 	private List<Aops> aops(Object obj, Method method) {
 		// 声明aop列表
-		List<Aops> aops = Lists.newList(WebCommons.AOP_ALL);
+		List<Aops> aops = W.L.list(WebCommons.AOP_ALL);
 		// 检查action是否有aop
 		if (obj.getClass().isAnnotationPresent(Aop.class)) {
 			Aop aop = obj.getClass().getAnnotation(Aop.class);
@@ -354,7 +347,7 @@ public class BasicServlet extends HttpServlet {
 				aops.add(WebCommons.AOPS.get(aop.value()));
 		}
 		// 返回列表
-		return Lists.notNull(aops);
+		return W.L.notNull(aops);
 	}
 
 //	/**

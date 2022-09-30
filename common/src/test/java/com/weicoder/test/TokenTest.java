@@ -1,6 +1,6 @@
 package com.weicoder.test;
 
-import com.weicoder.common.lang.Bytes;
+import com.weicoder.common.lang.W;
 import com.weicoder.common.token.TokenBean;
 import com.weicoder.common.token.TokenEngine; 
 
@@ -12,10 +12,10 @@ public class TokenTest {
 		System.out.println(token2.length());
 		System.out.println("7506bab5ffbdce41".length());
 		boolean is = false;
-		byte[] b = Bytes.toBytes(is);
+		byte[] b = W.B.toBytes(is);
 		System.out.println(b.length);
 		System.out.println(b[0] = 123);
-		System.out.println(Bytes.toBoolean(b));
+		System.out.println(W.B.toBoolean(b));
 
 		TokenBean t1 = TokenEngine.decrypt(token1);
 		TokenBean t2 = TokenEngine.decrypt(token2);

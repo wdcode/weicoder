@@ -6,12 +6,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.lang.Conversion;
-import com.weicoder.common.lang.Lists;
-import com.weicoder.common.lang.Maps;
-import com.weicoder.common.lang.Sets;
-import com.weicoder.common.util.StringUtil;
+import com.weicoder.common.constants.C;
+import com.weicoder.common.lang.W; 
+import com.weicoder.common.util.U;
 import com.weicoder.memcache.Memcache; 
 
 /**
@@ -37,7 +34,7 @@ public final class MemcacheMap<K, V> implements Map<K, V> {
 
 	@Override
 	public int size() {
-		return Conversion.toInt(memcache.get(getKeySize()));
+		return W.C.toInt(memcache.get(getKeySize()));
 	}
 
 	@Override
@@ -71,9 +68,9 @@ public final class MemcacheMap<K, V> implements Map<K, V> {
 			// 获得保存键值
 			k = getKey();
 			// 追加到memcace
-			if (!memcache.append(k, StringConstants.COMMA + key)) {
+			if (!memcache.append(k, C.S.COMMA + key)) {
 				// 没追加到 第一个直接set
-				memcache.set(k, Conversion.toString(key));
+				memcache.set(k, W.C.toString(key));
 			}
 			// 加数量
 			memcache.set(getKeySize(), size() + 1);
@@ -91,11 +88,11 @@ public final class MemcacheMap<K, V> implements Map<K, V> {
 		// 减数量
 		memcache.set(getKeySize(), size() - 1);
 		// 减key
-		List<String> keys = Lists.newList(getKeys());
+		List<String> keys = W.L.list(getKeys());
 		// 删除key
 		keys.remove(key);
 		// 重新写入key
-		memcache.set(getKey(), Lists.toString(keys));
+		memcache.set(getKey(), W.L.toString(keys));
 		// 返回实体
 		return e;
 	}
@@ -122,13 +119,13 @@ public final class MemcacheMap<K, V> implements Map<K, V> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public Set<K> keySet() {
-		return (Set<K>) Sets.newSet(getKeys());
+		return (Set<K>) W.S.set(getKeys());
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public Collection<V> values() {
-		return (Collection<V>) Lists.newList(memcache.get(getKeys()));
+		return (Collection<V>) W.L.list(memcache.get(getKeys()));
 	}
 
 	@Override
@@ -144,7 +141,7 @@ public final class MemcacheMap<K, V> implements Map<K, V> {
 	public Map<K, V> map() {
 		String[] keys = getKeys();
 		Object[] values = memcache.get(getKey(keys));
-		Map<K, V> map = Maps.newMap();
+		Map<K, V> map = W.M.map();
 		for (int i = 0; i < keys.length; i++) {
 			if (values[i] != null) {
 				map.put((K) keys[i], (V) values[i]);
@@ -180,7 +177,7 @@ public final class MemcacheMap<K, V> implements Map<K, V> {
 	 * @return memcached使用键
 	 */
 	private String getKey(Object key) {
-		return Conversion.toString(key).startsWith(name) ? Conversion.toString(key) : name + StringConstants.UNDERLINE + key;
+		return W.C.toString(key).startsWith(name) ? W.C.toString(key) : name + C.S.UNDERLINE + key;
 	}
 
 	/**
@@ -201,6 +198,6 @@ public final class MemcacheMap<K, V> implements Map<K, V> {
 	 * @return keys
 	 */
 	private String[] getKeys() {
-		return StringUtil.split(Conversion.toString(memcache.get(getKey())), StringConstants.COMMA);
+		return U.S.split(W.C.toString(memcache.get(getKey())), C.S.COMMA);
 	}
 }

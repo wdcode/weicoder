@@ -6,13 +6,11 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import com.weicoder.common.constants.StringConstants;
+import com.weicoder.common.constants.C;
 import com.weicoder.common.lang.W;
 import com.weicoder.common.log.Logs;
-import com.weicoder.common.util.BeanUtil; 
-import com.weicoder.common.util.StringUtil;
 import com.weicoder.common.util.U;
-import com.weicoder.web.params.WebParams;
+import com.weicoder.web.params.WebParams;  
 
 /**
  * Cookie相关操作
@@ -55,9 +53,9 @@ public final class CookieUtil {
 				// 普通实体按字段返回 如果键为空
 				if (U.E.isEmpty(names))
 					// 写全部属性
-					BeanUtil.getFields(res.getClass()).forEach(field -> {
+					U.B.getFields(res.getClass()).forEach(field -> {
 						// 值不为空 写cookie
-						String val = W.C.toString(BeanUtil.getFieldValue(res, field));
+						String val = W.C.toString(U.B.getFieldValue(res, field));
 						if (U.E.isNotEmpty(val))
 							add(response, field.getName(), val, maxAge);
 					});
@@ -65,7 +63,7 @@ public final class CookieUtil {
 					// 写指定属性
 					for (String name : names) {
 						// 值不为空 写cookie
-						String val = W.C.toString(BeanUtil.getFieldValue(res, name));
+						String val = W.C.toString(U.B.getFieldValue(res, name));
 						if (U.E.isNotEmpty(val))
 							add(response, name, val, maxAge);
 					}
@@ -124,7 +122,7 @@ public final class CookieUtil {
 			// 设置Cookie过期时间
 			cookie.setMaxAge(maxAge);
 			// 设置目录
-			cookie.setPath(StringConstants.BACKSLASH);
+			cookie.setPath(C.S.BACKSLASH);
 			// 设置域
 			if (U.E.isEmpty(domain)) {
 				// 添加Cookie
@@ -132,7 +130,7 @@ public final class CookieUtil {
 				Logs.debug("add cookie name={} value={} domain={} maxAge={}", name, value, domain, maxAge);
 			} else {
 				// 写不同的域
-				for (String d : StringUtil.split(domain, StringConstants.COMMA)) {
+				for (String d : U.S.split(domain, C.S.COMMA)) {
 					cookie.setDomain(d);
 					// 添加Cookie
 					response.addCookie(cookie);
@@ -199,7 +197,7 @@ public final class CookieUtil {
 		// 根据name获得Cookie
 		Cookie cookie = getCookie(request, name);
 		// 如果Cookie为空返回空串,不为空返回Value
-		return U.E.isEmpty(cookie) ? StringConstants.EMPTY : cookie.getValue();
+		return U.E.isEmpty(cookie) ? C.S.EMPTY : cookie.getValue();
 	}
 
 	private CookieUtil() {}

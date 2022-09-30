@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import com.weicoder.common.util.U;
 import com.weicoder.common.util.U.D;
+import com.weicoder.common.io.I;
 import com.weicoder.xml.Document;
 import com.weicoder.xml.XmlEngine;
 import com.weicoder.xml.builder.XmlBuilder;
@@ -22,7 +23,7 @@ public class XmlTest {
 		int n = 1;
 		String f = "user.xml";  
 		D.dura();
-		Document doc = XmlBuilder.readDocument(U.I.readString(U.R.loadResource(f)));
+		Document doc = XmlBuilder.readDocument(I.readString(U.R.loadResource(f)));
 //		Document doc = null;
 		System.out.println(doc.getRootElement().getName());
 		System.out.println(doc.getRootElement().getText());

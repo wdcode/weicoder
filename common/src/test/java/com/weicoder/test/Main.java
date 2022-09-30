@@ -80,7 +80,7 @@ public class Main {
 //		System.out.println(1 << 4);
 //		System.out.println(32 >> 1);
 //		System.out.println(32 >> 2);
-//		System.out.println(DateUtil.toString(1575896007));
+//		System.out.println(U.D.toString(1575896007));
 	}
 
 	public static void test(Object o) {

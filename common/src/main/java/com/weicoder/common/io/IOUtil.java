@@ -4,16 +4,15 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import com.weicoder.common.binary.Buffer;
-import com.weicoder.common.interfaces.Callback;
-import com.weicoder.common.interfaces.CallbackVoid;
-import com.weicoder.common.params.CommonParams;
+import com.weicoder.common.interfaces.Calls;
+import com.weicoder.common.params.P;
 
 /**
  * IO流操作
  * 
  * @author WD
  */
-public class IOUtil {
+public sealed class IOUtil permits I {
 //	public final static IO AIO = new AIO();
 	/**
 	 * IO模式的堵塞IO实现
@@ -24,7 +23,7 @@ public class IOUtil {
 	 */
 	public final static IO	NIO	= new NIO();
 	// IO接口
-	private final static IO	IO	= "io".equalsIgnoreCase(CommonParams.IO_MODE) ? BIO : NIO;
+	private final static IO	IO	= "io".equalsIgnoreCase(P.C.IO_MODE) ? BIO : NIO;
 
 	/**
 	 * 读取并写入数据
@@ -34,8 +33,8 @@ public class IOUtil {
 	 * @param call 回调
 	 * @return 读取流总数
 	 */
-	public static long write(OutputStream out, InputStream in, Callback<Buffer, Buffer> call) {
-		return write(out, in, CommonParams.IO_BUFFERSIZE, CommonParams.IO_CLOSE, call);
+	public static long write(OutputStream out, InputStream in, Calls.EoR<Buffer, Buffer> call) {
+		return write(out, in, P.C.IO_BUFFERSIZE, P.C.IO_CLOSE, call);
 	}
 
 	/**
@@ -48,8 +47,7 @@ public class IOUtil {
 	 * @param call    回调
 	 * @return 读取流总数
 	 */
-	public static long write(OutputStream out, InputStream in, int buff, boolean isClose,
-			Callback<Buffer, Buffer> call) {
+	public static long write(OutputStream out, InputStream in, int buff, boolean isClose, Calls.EoR<Buffer, Buffer> call) {
 		return IO.write(out, in, buff, isClose, call);
 	}
 
@@ -107,7 +105,7 @@ public class IOUtil {
 	 * @param isClose 是否关闭流
 	 * @return 字节数组
 	 */
-	public static long read(InputStream in, int buff, boolean isClose, CallbackVoid<Buffer> call) {
+	public static long read(InputStream in, int buff, boolean isClose, Calls.EoV<Buffer> call) {
 		return IO.read(in, buff, isClose, call);
 	}
 

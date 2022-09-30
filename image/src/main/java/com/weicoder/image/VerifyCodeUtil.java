@@ -7,7 +7,7 @@ import java.awt.image.BufferedImage;
 import java.io.OutputStream;
 
 import com.weicoder.common.log.Logs;
-import com.weicoder.common.params.CommonParams;
+import com.weicoder.common.params.P;
 import com.weicoder.common.statics.S; 
 
 /**
@@ -27,7 +27,7 @@ public final class VerifyCodeUtil {
 	 * @return 验证码
 	 */
 	public static String make(OutputStream out) {
-		return make(out, CommonParams.VERIFY_LENGTH);
+		return make(out, P.C.VERIFY_LENGTH);
 	}
 
 	/**
@@ -95,13 +95,13 @@ public final class VerifyCodeUtil {
 	 */
 	private static String randString() {
 		// 声明字符数组
-		char[] buf = new char[CommonParams.VERIFY_LENGTH];
+		char[] buf = new char[P.C.VERIFY_LENGTH];
 		// 获得验证码数组
-		char[] code = CommonParams.VERIFY_CODE;
+		char[] code = P.C.VERIFY_CODE;
 		// 循环获得字符
-		for (int i = 0; i < CommonParams.VERIFY_LENGTH; i++)
+		for (int i = 0; i < P.C.VERIFY_LENGTH; i++)
 			// 添件字符
-			buf[i] = code[S.R.nextInt(CommonParams.VERIFY_LENGTH)];
+			buf[i] = code[S.R.nextInt(P.C.VERIFY_LENGTH)];
 		// 获得字符串
 		return String.valueOf(buf);
 	}

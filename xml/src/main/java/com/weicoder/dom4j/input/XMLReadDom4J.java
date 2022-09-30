@@ -8,7 +8,7 @@ import org.dom4j.DocumentException;
 import org.dom4j.io.SAXReader;
 
 import com.weicoder.common.log.Logs;
-import com.weicoder.common.statics.Closes;
+import com.weicoder.common.statics.S;
 import com.weicoder.xml.Document;
 import com.weicoder.dom4j.DocumentDom4J;
 import com.weicoder.xml.input.XMLRead;
@@ -43,7 +43,7 @@ public final class XMLReadDom4J implements XMLRead {
 			// 返回null
 			return null;
 		} finally {
-			Closes.close(in);
+			S.C.close(in);
 		}
 	}
 

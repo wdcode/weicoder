@@ -4,11 +4,9 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import com.weicoder.common.constants.C;
-import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.lang.Bytes;
+import com.weicoder.common.interfaces.Calls;
 import com.weicoder.common.lang.W;
-import com.weicoder.common.params.CommonParams;
-import com.weicoder.common.util.StringUtil;
+import com.weicoder.common.params.P;
 import com.weicoder.common.util.U;
 
 /**
@@ -43,7 +41,7 @@ public final class Buffer implements ByteArray {
 	 * @param sync 是否线程安全
 	 */
 	public Buffer(boolean sync) {
-		this(CommonParams.IO_BUFFERSIZE, sync);
+		this(P.C.IO_BUFFERSIZE, sync);
 	}
 
 	/**
@@ -147,7 +145,7 @@ public final class Buffer implements ByteArray {
 		if (sync)
 			lock.lock();
 		// 声明个新长度临时数组
-//		byte[] temp = new byte[len < CommonParams.BUFFER_SIZE ? CommonParams.BUFFER_SIZE : len];
+//		byte[] temp = new byte[len < P.C.BUFFER_SIZE ? P.C.BUFFER_SIZE : len];
 //		byte[] temp = new byte[length() + len * 10];
 //		// 读取原有数据
 //		System.arraycopy(data, 0, temp, 0, top);
@@ -234,6 +232,70 @@ public final class Buffer implements ByteArray {
 	 */
 	public boolean has() {
 		return remain() > 0;
+	}
+
+	/**
+	 * 循环读取本身 只要有能读取字节就一直循环读取直到读取完成
+	 * 
+	 * @param call 回调
+	 */
+	public void forEach(Calls.EoV<Buffer> call) {
+		for1(this, call);
+	}
+
+	/**
+	 * 循环读取本身为Long 只要有能读取字节就一直循环读取直到读取完成
+	 * 
+	 * @param call 回调
+	 */
+	public void forLong(Calls.EoV<Long> call) {
+		for1(readLong(), call);
+	}
+
+	/**
+	 * 循环读取本身为Int 只要有能读取字节就一直循环读取直到读取完成
+	 * 
+	 * @param call 回调
+	 */
+	public void forInt(Calls.EoV<Integer> call) {
+		for1(readInt(), call);
+	}
+
+	/**
+	 * 循环读取本身为Short 只要有能读取字节就一直循环读取直到读取完成
+	 * 
+	 * @param call 回调
+	 */
+	public void forShort(Calls.EoV<Short> call) {
+		for1(readShort(), call);
+	}
+
+	/**
+	 * 循环读取本身为Float 只要有能读取字节就一直循环读取直到读取完成
+	 * 
+	 * @param call 回调
+	 */
+	public void forFloat(Calls.EoV<Float> call) {
+		for1(readFloat(), call);
+	}
+
+	/**
+	 * 循环读取本身为Double 只要有能读取字节就一直循环读取直到读取完成
+	 * 
+	 * @param call 回调
+	 */
+	public void forDouble(Calls.EoV<Double> call) {
+		for1(readDouble(), call);
+	}
+
+	/**
+	 * 循环读取本身为byte[] 只要有能读取字节就一直循环读取直到读取完成
+	 * 
+	 * @param len  读取长度
+	 * @param call 回调
+	 */
+	public void forBytes(int len, Calls.EoV<byte[]> call) {
+		for1(read(len), call);
 	}
 
 	/**
@@ -324,7 +386,7 @@ public final class Buffer implements ByteArray {
 	 * @return short
 	 */
 	public short readShort() {
-		return Bytes.toShort(read(2));
+		return W.B.toShort(read(2));
 	}
 
 	/**
@@ -333,7 +395,7 @@ public final class Buffer implements ByteArray {
 	 * @return int
 	 */
 	public int readInt() {
-		return Bytes.toInt(read(4));
+		return W.B.toInt(read(4));
 	}
 
 	/**
@@ -342,7 +404,7 @@ public final class Buffer implements ByteArray {
 	 * @return float
 	 */
 	public float readFloat() {
-		return Bytes.toFloat(read(4));
+		return W.B.toFloat(read(4));
 	}
 
 	/**
@@ -351,7 +413,7 @@ public final class Buffer implements ByteArray {
 	 * @return long
 	 */
 	public long readLong() {
-		return Bytes.toLong(read(8));
+		return W.B.toLong(read(8));
 	}
 
 	/**
@@ -360,7 +422,7 @@ public final class Buffer implements ByteArray {
 	 * @return double
 	 */
 	public double readDouble() {
-		return Bytes.toDouble(read(8));
+		return W.B.toDouble(read(8));
 	}
 
 	/**
@@ -370,7 +432,7 @@ public final class Buffer implements ByteArray {
 	 * @return String
 	 */
 	public String readString(int len) {
-		return len == 0 ? StringConstants.EMPTY : new String(read(new byte[len], 0, len));
+		return len == 0 ? C.S.EMPTY : new String(read(new byte[len], 0, len));
 	}
 
 	/**
@@ -441,7 +503,7 @@ public final class Buffer implements ByteArray {
 	 * @param c 字符
 	 */
 	public void writeChar(char c) {
-		write(Bytes.toBytes(c), 0, 2);
+		write(W.B.toBytes(c), 0, 2);
 	}
 
 	/**
@@ -469,7 +531,7 @@ public final class Buffer implements ByteArray {
 	 * @param pos 位置
 	 */
 	public void writeShort(short s, int pos) {
-		write(Bytes.toBytes(s), pos, pos + 2);
+		write(W.B.toBytes(s), pos, pos + 2);
 	}
 
 	/**
@@ -488,7 +550,7 @@ public final class Buffer implements ByteArray {
 	 * @param pos 位置
 	 */
 	public void writeInt(int i, int pos) {
-		write(Bytes.toBytes(i), pos, pos + 4);
+		write(W.B.toBytes(i), pos, pos + 4);
 	}
 
 	/**
@@ -516,7 +578,7 @@ public final class Buffer implements ByteArray {
 	 * @param pos 位置
 	 */
 	public void writeLong(long l, int pos) {
-		write(Bytes.toBytes(l), pos, pos + 8);
+		write(W.B.toBytes(l), pos, pos + 8);
 	}
 
 	/**
@@ -537,7 +599,7 @@ public final class Buffer implements ByteArray {
 		if (U.E.isEmpty(s))
 			writeShort(0);
 		else {
-			byte[] temp = StringUtil.toBytes(s);
+			byte[] temp = U.S.toBytes(s);
 			writeShort(temp.length);
 			write(temp, 0, temp.length);
 		}
@@ -578,8 +640,8 @@ public final class Buffer implements ByteArray {
 	 */
 	public void clear() {
 		// 如果数组长度小于默认缓存长度 重新生成数组
-		if (length() < CommonParams.BUFFER_SIZE)
-			data = new byte[CommonParams.BUFFER_SIZE];
+		if (length() < P.C.BUFFER_SIZE)
+			data = new byte[P.C.BUFFER_SIZE];
 		top = 0;
 		offset = 0;
 	}
@@ -588,7 +650,7 @@ public final class Buffer implements ByteArray {
 	 * 获得有效数据
 	 */
 	public byte[] array() {
-		return Bytes.copy(data, 0, top);
+		return W.B.copy(data, 0, top);
 	}
 
 	@Override
@@ -600,6 +662,11 @@ public final class Buffer implements ByteArray {
 
 	@Override
 	public String toString() {
-		return StringUtil.add(C.S.EMPTY, "(top=", top, ",offset=", offset, ",len=" + length() + ")");
+		return U.S.add(C.S.EMPTY, "(top=", top, ",offset=", offset, ",len=" + length() + ")");
+	}
+
+	private <E> void for1(E e, Calls.EoV<E> call) {
+		while (has())
+			call.call(e);
 	}
 }

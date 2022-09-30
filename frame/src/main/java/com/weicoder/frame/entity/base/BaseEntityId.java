@@ -7,7 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 
-import com.weicoder.common.lang.Conversion;
+import com.weicoder.common.lang.W;
 
 /**
  * 实体PO实现,封装id
@@ -55,7 +55,7 @@ public abstract class BaseEntityId extends BaseEntity {
 		if (key.getClass().isArray()) {
 			setKey(((Serializable[]) key)[0]);
 		} else {
-			this.id = Conversion.toInt(key);
+			this.id = W.C.toInt(key);
 		}
 	}
 }

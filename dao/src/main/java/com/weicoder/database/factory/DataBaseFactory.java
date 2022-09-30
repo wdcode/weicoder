@@ -10,8 +10,7 @@ import java.util.Map;
 import javax.sql.DataSource;
 
 import com.weicoder.common.factory.FactoryKey;
-import com.weicoder.common.lang.Maps;
-import com.weicoder.common.util.ResourceUtil;
+import com.weicoder.common.lang.W; 
 import com.weicoder.common.util.U;
 
 /**
@@ -30,9 +29,9 @@ public final class DataBaseFactory extends FactoryKey<DataSource, DataBase> {
 	 */
 	public static Map<String, DataBase> getDataBase() {
 		// 声明数据操作集合
-		Map<String, DataBase> map = Maps.newMap();
+		Map<String, DataBase> map = W.M.map();
 		// 获得配置文件目录下所有配置
-		File file = ResourceUtil.newFile("db/");
+		File file = U.R.newFile("db/");
 		// 读取配置
 		for (String name : file.list()) {
 			String n = U.S.split(name, "\\.")[0];

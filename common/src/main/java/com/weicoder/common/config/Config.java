@@ -29,7 +29,7 @@ public interface Config {
 	 * @return value
 	 */
 	default List<String> getList(String key, List<String> defaultValue) {
-		return W.C.value(W.L.newList(getStringArray(key)), defaultValue);
+		return W.C.value(W.L.list(getStringArray(key)), defaultValue);
 	}
 
 	/**

@@ -6,8 +6,8 @@ import java.net.DatagramSocket;
 import java.net.InetSocketAddress;
 import java.nio.channels.DatagramChannel;
 
-import com.weicoder.common.constants.ArrayConstants;
-import com.weicoder.common.io.ChannelUtil;
+import com.weicoder.common.constants.C;
+import com.weicoder.common.io.I; 
 import com.weicoder.common.log.Logs;
 
 /**
@@ -54,7 +54,7 @@ public final class UdpClient {
 			return p.getData();
 		} catch (IOException e) {
 			Logs.error(e);
-			return ArrayConstants.BYTES_EMPTY;
+			return C.A.BYTES_EMPTY;
 		}
 	}
 
@@ -70,7 +70,7 @@ public final class UdpClient {
 			// 连接服务器
 			socket.connect(new InetSocketAddress(host, port));
 			// 写入数据流
-			ChannelUtil.write(socket, data, false);
+			I.C.write(socket, data, false);
 		} catch (IOException e) {
 			Logs.error(e);
 		}
@@ -90,12 +90,12 @@ public final class UdpClient {
 			// 连接服务器
 			socket.connect(new InetSocketAddress(host, port));
 			// 写入数据流
-			ChannelUtil.write(socket, data, false);
+			I.C.write(socket, data, false);
 			// 读取数据
-			return ChannelUtil.read(socket, false);
+			return I.C.read(socket, false);
 		} catch (IOException e) {
 			Logs.error(e);
-			return ArrayConstants.BYTES_EMPTY;
+			return C.A.BYTES_EMPTY;
 		}
 	}
 

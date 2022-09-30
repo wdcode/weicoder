@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.jsoup.Jsoup;
 
-import com.weicoder.common.lang.Maps;
+import com.weicoder.common.lang.W;
 import com.weicoder.common.log.Logs;
 import com.weicoder.html.jsoup.HtmlJsoup;
 
@@ -25,7 +25,7 @@ public final class Htmls {
 	 * @return HTML
 	 */
 	public static Html post(String url, String key, String val) {
-		return post(url, Maps.newMap(key, val));
+		return post(url, W.M.newMap(key, val));
 	}
 
 	/**

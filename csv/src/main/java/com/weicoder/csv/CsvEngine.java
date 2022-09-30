@@ -11,11 +11,9 @@ import java.util.List;
 
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
-import com.weicoder.common.lang.Lists;
-import com.weicoder.common.lang.Maps;
+import com.weicoder.common.lang.W; 
 import com.weicoder.common.log.Logs;
-import com.weicoder.common.util.BeanUtil;
-import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.util.U; 
 
 /**
  * CSV格式处理器
@@ -53,7 +51,7 @@ public final class CsvEngine {
 			Logs.warn(e);
 		}
 		// 返回空列表
-		return Lists.emptyList();
+		return W.L.empty();
 	}
 
 	/**
@@ -86,16 +84,16 @@ public final class CsvEngine {
 		// 获得所有数据
 		List<String[]> list = read(reader);
 		// 如果数据列表为空 返回空列表
-		if (EmptyUtil.isEmpty(list)) { return Lists.emptyList(); }
+		if (U.E.isEmpty(list)) { return W.L.empty(); }
 		// 获得列表大小
 		int size = list.size();
 		// 获得列数组
 		String[] cols = list.get(0);
 		// 声明实体列表
-		List<E> entitys = Lists.newList(list.size());
+		List<E> entitys = W.L.list(list.size());
 		// 循环获得实体列表
 		for (int i = 1; i < size; i++) {
-			entitys.add(BeanUtil.copy(Maps.newMap(cols, list.get(i)), entityClass));
+			entitys.add(U.B.copy(W.M.newMap(cols, list.get(i)), entityClass));
 		}
 		// 返回实体列表
 		return entitys;

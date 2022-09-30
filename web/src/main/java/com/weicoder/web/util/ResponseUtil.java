@@ -6,13 +6,12 @@ import java.io.PrintWriter;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletResponse;
 
-import com.weicoder.common.constants.HttpConstants;
-import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.io.IOUtil;
-import com.weicoder.common.lang.W;
-import com.weicoder.common.params.CommonParams;
+import com.weicoder.common.constants.C; 
 import com.weicoder.common.util.U;
-import com.weicoder.json.JsonEngine; 
+import com.weicoder.common.lang.W;
+import com.weicoder.common.io.I;
+import com.weicoder.common.params.P; 
+import com.weicoder.json.J; 
 
 /**
  * Response一些相关操作类
@@ -28,7 +27,7 @@ public final class ResponseUtil {
 	 * @return          String
 	 */
 	public static String write(HttpServletResponse response, String str) {
-		return write(response, str, CommonParams.ENCODING);
+		return write(response, str, P.C.ENCODING);
 	}
 
 	/**
@@ -43,7 +42,7 @@ public final class ResponseUtil {
 		// 清除缓存
 		noCache(response);
 		// 设置头
-		setContentType(response, HttpConstants.CONTENT_TYPE_JSON);
+		setContentType(response, C.H.CONTENT_TYPE_JSON);
 		// "CP='IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT'"
 		response.setHeader("P3P", "CP='CURa ADMa DEVa PSAo PSDo OUR BUS UNI PUR INT DEM STA PRE COM NAV OTC NOI DSP COR'");
 		// 设置编码
@@ -63,7 +62,7 @@ public final class ResponseUtil {
 	 * @param str      要写的字符串
 	 */
 	public static void out(HttpServletResponse response, String str) {
-		out(response, str, CommonParams.ENCODING);
+		out(response, str, P.C.ENCODING);
 	}
 
 	/**
@@ -78,7 +77,7 @@ public final class ResponseUtil {
 		ResponseUtil.noCache(response);
 		// 写入到前端
 		try {
-			IOUtil.write(response.getOutputStream(), str, charsetName, false);
+			I.write(response.getOutputStream(), str, charsetName, false);
 		} catch (IOException e) {
 		}
 	}
@@ -91,7 +90,7 @@ public final class ResponseUtil {
 	 * @return          String
 	 */
 	public static String json(HttpServletResponse response, Object data) {
-		return json(response, StringConstants.EMPTY, data);
+		return json(response, C.S.EMPTY, data);
 	}
 
 	/**
@@ -105,14 +104,14 @@ public final class ResponseUtil {
 	public static String json(HttpServletResponse response, String callback, Object data) {
 		// 返回数据为空
 		if (data == null)
-			return StringConstants.EMPTY;
+			return C.S.EMPTY;
 		// 声明返回字符串
 		StringBuilder s = new StringBuilder();
 		// 如果callback不为空 填补左括号
 		if (U.E.isNotEmpty(callback))
 			s.append(callback).append("(");
 		// 添加json数据
-		s.append(data instanceof String || data instanceof Number ? W.C.toString(data) : JsonEngine.toJson(data));
+		s.append(data instanceof String || data instanceof Number ? W.C.toString(data) : J.toJson(data));
 		// 如果callback不为空 填补右括号
 		if (U.E.isNotEmpty(callback))
 			s.append(")");
@@ -127,8 +126,8 @@ public final class ResponseUtil {
 	 */
 	public static void noCache(HttpServletResponse response) {
 		if (U.E.isNotEmpty(response)) {
-			response.setHeader("Pragma", HttpConstants.HEADER_VAL_NO_CACHE);
-			response.setHeader(HttpConstants.HEADER_KEY_CACHE_CONTROL, HttpConstants.HEADER_VAL_NO_CACHE);
+			response.setHeader("Pragma", C.H.HEADER_VAL_NO_CACHE);
+			response.setHeader(C.H.HEADER_KEY_CACHE_CONTROL, C.H.HEADER_VAL_NO_CACHE);
 			response.setDateHeader("Expires", 0);
 		}
 	}

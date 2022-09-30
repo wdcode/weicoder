@@ -9,9 +9,10 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
+
+import com.weicoder.common.io.I;
 import com.weicoder.common.log.Logs;
-import com.weicoder.common.io.IOUtil;
-import com.weicoder.common.util.ResourceUtil;
+import com.weicoder.common.util.U; 
 import com.weicoder.web.util.HttpUtil;
 import com.weicoder.web.util.ResponseUtil;
 import com.weicoder.frame.util.UrlUtil; 
@@ -52,7 +53,7 @@ public final class StaticFilter implements Filter {
 				// 设置ContentType
 				ResponseUtil.setContentType(response, HttpUtil.getContentType(servletPath));
 				// 写入到客户端
-				IOUtil.write(response.getOutputStream(), UrlUtil.openStream(ResourceUtil.getResource(servletPath.replaceAll(urlPath, filePath))));
+				I.write(response.getOutputStream(), UrlUtil.openStream(U.R.getResource(servletPath.replaceAll(urlPath, filePath))));
 			}
 		} catch (RuntimeException e) {
 			Logs.warn(e);

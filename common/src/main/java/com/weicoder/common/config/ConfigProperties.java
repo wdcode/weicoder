@@ -25,7 +25,7 @@ public class ConfigProperties implements Config {
 		// 声明Properties
 		ps = new Properties();
 		// 循环加载文件
-//		for (String name : StringUtil.split(fileName, StringConstants.COMMA)) {
+//		for (String name : U.S.split(fileName, C.S.COMMA)) {
 		try (InputStream in = R.loadResource(fileName + ".properties")) {
 			// 有配置文件加载
 			if (in != null) {

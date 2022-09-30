@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import com.weicoder.common.lang.Lists;
+import com.weicoder.common.lang.W;
 import com.weicoder.common.util.ArrayUtil;
 import com.weicoder.memcache.base.BaseMemcache;
 import com.weicoder.memcache.factory.MemcacheFactory;
@@ -39,7 +39,7 @@ public final class MemcacheArray extends BaseMemcache {
 		// 初始化线程池
 		service = Executors.newFixedThreadPool(num);
 		// 实例化集群使用列表
-		ces = Lists.newList(num);
+		ces = W.L.list(num);
 		// 初始化实例化集群使用列表
 		for (int i = 0; i < num; i++) {
 			ces.add(new ClientEntity(i));
@@ -141,7 +141,7 @@ public final class MemcacheArray extends BaseMemcache {
 	 */
 	protected Memcache getMemCacheClient() {
 		// 排序列表
-		Lists.sort(ces);
+		W.L.sort(ces);
 		// 获得列表实体
 		ClientEntity ce = ces.get(0);
 		// 设置使用次数

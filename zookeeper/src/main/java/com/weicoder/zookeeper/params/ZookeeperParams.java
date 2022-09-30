@@ -1,6 +1,6 @@
 package com.weicoder.zookeeper.params;
 
-import com.weicoder.common.params.Params;
+import com.weicoder.common.params.P;
 
 /**
  * Zookeeper参数
@@ -9,7 +9,7 @@ import com.weicoder.common.params.Params;
  */
 public final class ZookeeperParams {
 	/** Zookeeper 连接字符串 */
-	public final static String CONNECT = Params.getString("zk.connect");
+	public final static String CONNECT = P.getString("zk.connect");
 
 	private ZookeeperParams() {
 	}

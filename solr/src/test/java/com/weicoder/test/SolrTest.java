@@ -13,8 +13,7 @@ import org.apache.solr.client.solrj.response.UpdateResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 
-import com.weicoder.common.lang.Lists;
-import com.weicoder.common.lang.W;
+import com.weicoder.common.lang.W; 
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.util.U; 
 
@@ -27,7 +26,7 @@ public class SolrTest {
 //		CLIENT.add(doc);
 //		CLIENT.optimize();
 //		CLIENT.commit();  
-//		List<SearchBean> list = Lists.newList();
+//		List<SearchBean> list = W.L.list();
 //		list.add(new SearchBean(1, 11, "呵呵哒"));
 //		list.add(new SearchBean(2, 12, "呵呵呵"));
 //		list.add(new SearchBean(3, 13, "呵哒呵"));
@@ -35,14 +34,14 @@ public class SolrTest {
 //		list.add(new SearchBean(5, 15, "哈哈哈"));
 //		System.out.println(update(list).getStatus());
 
-//		System.out.println(del(Lists.newList("1","2","3")).getStatus());
+//		System.out.println(del(W.L.list("1","2","3")).getStatus());
 
-		System.out.println(Lists.toString(query("哈哈", 0, 10)));
+		System.out.println(W.L.toString(query("哈哈", 0, 10)));
 	}
 
 	public static List<SearchBean> query(String key, int start, int limit) {
 		String query = "nickname:" + key;
-		List<SearchBean> dataList = Lists.newList();
+		List<SearchBean> dataList = W.L.list();
 
 		try {
 			SolrQuery params = new SolrQuery();

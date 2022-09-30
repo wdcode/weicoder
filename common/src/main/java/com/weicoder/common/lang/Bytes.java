@@ -11,14 +11,9 @@ import java.util.List;
 import com.weicoder.common.binary.Binary;
 import com.weicoder.common.binary.Buffer;
 import com.weicoder.common.binary.ByteArray;
-import com.weicoder.common.constants.ArrayConstants;
-import com.weicoder.common.io.ChannelUtil;
-import com.weicoder.common.io.FileUtil;
-import com.weicoder.common.io.IOUtil;
-import com.weicoder.common.params.CommonParams;
-import com.weicoder.common.util.BeanUtil;
-import com.weicoder.common.util.ClassUtil;
-import com.weicoder.common.util.StringUtil;
+import com.weicoder.common.constants.C;
+import com.weicoder.common.io.I;
+import com.weicoder.common.params.P;
 import com.weicoder.common.util.U;
 
 /**
@@ -26,9 +21,9 @@ import com.weicoder.common.util.U;
  * 
  * @author WD
  */
-public class Bytes {
+public sealed class Bytes permits W.B {
 	// 使用高地位算法
-	private final static boolean IS_HIGH = "high".equals(CommonParams.BYTES);
+	private final static boolean IS_HIGH = "high".equals(P.C.BYTES);
 
 	/**
 	 * 是否支持序列化类型
@@ -41,10 +36,10 @@ public class Bytes {
 		if (c == null)
 			return false;
 		// 支持类型
-		if (byte[].class == c || Byte[].class == c || String.class == c || Integer.class == c || int.class == c
-				|| Long.class == c || long.class == c || Float.class == c || float.class == c || Double.class == c
-				|| double.class == c || Short.class == c || short.class == c || Byte.class == c || byte.class == c
-				|| Boolean.class == c || boolean.class == c || c == Buffer.class || c.isAssignableFrom(ByteArray.class))
+		if (byte[].class == c || Byte[].class == c || String.class == c || Integer.class == c || int.class == c || Long.class == c
+				|| long.class == c || Float.class == c || float.class == c || Double.class == c || double.class == c
+				|| Short.class == c || short.class == c || Byte.class == c || byte.class == c || Boolean.class == c
+				|| boolean.class == c || c == Buffer.class || c.isAssignableFrom(ByteArray.class))
 			return true;
 		// 不支持
 		return false;
@@ -83,7 +78,7 @@ public class Bytes {
 		if (c == Buffer.class)
 			return new Buffer(b);
 		if (c.isAssignableFrom(ByteArray.class))
-			return toBean((ByteArray) ClassUtil.newInstance(c), b);
+			return toBean((ByteArray) U.C.newInstance(c), b);
 		return toBinary(b, c);
 	}
 
@@ -170,7 +165,7 @@ public class Bytes {
 	public static byte[] toBytes(boolean is, Object obj) {
 		// 判断类型
 		if (obj == null)
-			return ArrayConstants.BYTES_EMPTY;
+			return C.A.BYTES_EMPTY;
 		if (obj instanceof byte[])
 			// byte[]
 			return (byte[]) obj;
@@ -218,13 +213,13 @@ public class Bytes {
 			return toBytes((Binary) obj);
 		if (obj instanceof File)
 			// File
-			return FileUtil.read((File) obj);
+			return I.F.read((File) obj);
 		if (obj instanceof InputStream)
 			// File
-			return IOUtil.read((InputStream) obj, false);
+			return I.read((InputStream) obj, false);
 		if (obj instanceof ReadableByteChannel)
 			// File
-			return ChannelUtil.read((ReadableByteChannel) obj, false);
+			return I.C.read((ReadableByteChannel) obj, false);
 		// 直接按binary接口处理
 		return binary(obj);
 	}
@@ -248,15 +243,15 @@ public class Bytes {
 	public static byte[] binary(Object binary) {
 		// 对象为空
 		if (U.E.isEmpty(binary))
-			return ArrayConstants.BYTES_EMPTY;
+			return C.A.BYTES_EMPTY;
 		// 字段值
-		List<Object> values = Lists.newList();
+		List<Object> values = W.L.list();
 		// 获得字段赋值
-		for (Field field : BeanUtil.getFields(binary.getClass()))
+		for (Field field : U.B.getFields(binary.getClass()))
 			if (!field.isSynthetic())
-				values.add(BeanUtil.getFieldValue(binary, field));
+				values.add(U.B.getFieldValue(binary, field));
 		// 返回字节数组
-		return Bytes.toBytes(true, values.toArray());
+		return W.B.toBytes(true, values.toArray());
 	}
 
 	/**
@@ -266,7 +261,7 @@ public class Bytes {
 	 * @return 字节数组
 	 */
 	public static byte[] toBytes(ByteArray array) {
-		return U.E.isEmpty(array) ? ArrayConstants.BYTES_EMPTY : array.array();
+		return U.E.isEmpty(array) ? C.A.BYTES_EMPTY : array.array();
 	}
 
 	/**
@@ -278,7 +273,7 @@ public class Bytes {
 	public static byte[] toBytes(ByteBuffer buff) {
 		// 如果为null
 		if (buff == null)
-			return ArrayConstants.BYTES_EMPTY;
+			return C.A.BYTES_EMPTY;
 		// 如果可以直接访问数组
 		if (buff.hasArray())
 			return buff.array();
@@ -291,7 +286,7 @@ public class Bytes {
 			return dst;
 		}
 		// 返回空字节
-		return ArrayConstants.BYTES_EMPTY;
+		return C.A.BYTES_EMPTY;
 	}
 
 	/**
@@ -673,7 +668,7 @@ public class Bytes {
 	 */
 	public static byte[] toBytes(String s, boolean is) {
 		// 转换为字节数组
-		byte[] b = StringUtil.toBytes(s);
+		byte[] b = U.S.toBytes(s);
 		if (is) {
 			// 获得长度
 			short size = W.C.toShort(b.length);
@@ -714,8 +709,7 @@ public class Bytes {
 	 * @return 字符串
 	 */
 	public static String toString(byte[] b, int offset, boolean is) {
-		return StringUtil
-				.toString(is ? copy(b, offset + 2, offset + 2 + toShort(b, offset)) : copy(b, offset, b.length));
+		return U.S.toString(is ? copy(b, offset + 2, offset + 2 + toShort(b, offset)) : copy(b, offset, b.length));
 	}
 
 	/**
@@ -797,9 +791,9 @@ public class Bytes {
 	 */
 	public static <B> B toBinary(byte[] b, Class<B> c) {
 		// 实例化
-		B binary = ClassUtil.newInstance(c);
+		B binary = U.C.newInstance(c);
 		// 获得全部字段
-		List<Field> fields = BeanUtil.getFields(c);
+		List<Field> fields = U.B.getFields(c);
 		// 偏移
 		int offset = 0;
 		// 循环设置字段值
@@ -812,40 +806,40 @@ public class Bytes {
 				Class<?> type = field.getType();
 				// 转换字节值
 				if (type.equals(Integer.class) || type.equals(int.class)) {
-					BeanUtil.setFieldValue(binary, field, Bytes.toInt(b, offset));
+					U.B.setFieldValue(binary, field, W.B.toInt(b, offset));
 					offset += 4;
 				} else if (type.equals(Long.class) || type.equals(long.class)) {
-					BeanUtil.setFieldValue(binary, field, Bytes.toLong(b, offset));
+					U.B.setFieldValue(binary, field, W.B.toLong(b, offset));
 					offset += 8;
 				} else if (type.equals(Double.class) || type.equals(double.class)) {
-					BeanUtil.setFieldValue(binary, field, Bytes.toDouble(b, offset));
+					U.B.setFieldValue(binary, field, W.B.toDouble(b, offset));
 					offset += 8;
 				} else if (type.equals(Float.class) || type.equals(float.class)) {
-					BeanUtil.setFieldValue(binary, field, Bytes.toFloat(b, offset));
+					U.B.setFieldValue(binary, field, W.B.toFloat(b, offset));
 					offset += 4;
 				} else if (type.equals(Short.class) || type.equals(short.class)) {
-					BeanUtil.setFieldValue(binary, field, Bytes.toShort(b, offset));
+					U.B.setFieldValue(binary, field, W.B.toShort(b, offset));
 					offset += 2;
 				} else if (type.equals(Byte.class) || type.equals(byte.class)) {
-					BeanUtil.setFieldValue(binary, field, Bytes.toByte(b, offset));
+					U.B.setFieldValue(binary, field, W.B.toByte(b, offset));
 					offset += 1;
 				} else if (type.equals(Boolean.class) || type.equals(boolean.class)) {
-					BeanUtil.setFieldValue(binary, field, Bytes.toBoolean(b, offset));
+					U.B.setFieldValue(binary, field, W.B.toBoolean(b, offset));
 					offset += 1;
 				} else if (type.equals(String.class)) {
-					String s = Bytes.toString(b, offset);
-					BeanUtil.setFieldValue(binary, field, s);
-					offset += Bytes.toShort(b, offset) + 2;
+					String s = W.B.toString(b, offset);
+					U.B.setFieldValue(binary, field, s);
+					offset += W.B.toShort(b, offset) + 2;
 				} else if (type.isAssignableFrom(ByteArray.class)) {
 					// 转换为BytesBean
-					ByteArray bean = Bytes.toBean((ByteArray) ClassUtil.newInstance(type), b, offset);
-					BeanUtil.setFieldValue(binary, field, bean);
+					ByteArray bean = W.B.toBean((ByteArray) U.C.newInstance(type), b, offset);
+					U.B.setFieldValue(binary, field, bean);
 					// 字节数组长度
 					offset += bean.array().length;
 				} else if (type.equals(byte[].class)) {
 					// 字节数组会获得后面全部的 所以一般这个类型也是本类的最后一个字段
-					byte[] t = Bytes.copy(b, offset, b.length);
-					BeanUtil.setFieldValue(binary, field, t);
+					byte[] t = W.B.copy(b, offset, b.length);
+					U.B.setFieldValue(binary, field, t);
 					offset += t.length;
 				}
 			}
@@ -885,6 +879,6 @@ public class Bytes {
 			// 返回相连的数组
 			return b;
 		}
-		return ArrayConstants.BYTES_EMPTY;
+		return C.A.BYTES_EMPTY;
 	}
 }

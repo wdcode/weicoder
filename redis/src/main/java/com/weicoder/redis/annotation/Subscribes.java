@@ -5,7 +5,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import com.weicoder.common.constants.StringConstants;
+import com.weicoder.common.constants.C;
 
 /**
  * redis订阅
@@ -18,5 +18,5 @@ public @interface Subscribes {
 	 * redis读取配置key 默认""
 	 * @return 字符串
 	 */
-	String value() default StringConstants.EMPTY;
+	String value() default C.S.EMPTY;
 }

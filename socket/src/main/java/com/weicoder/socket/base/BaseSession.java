@@ -4,9 +4,9 @@ import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 
 import com.weicoder.common.binary.Buffer;
-import com.weicoder.common.constants.StringConstants;
+import com.weicoder.common.constants.C;
 import com.weicoder.common.lang.W;
-import com.weicoder.common.util.StringUtil;
+import com.weicoder.common.util.U;
 import com.weicoder.common.log.Logs;
 import com.weicoder.common.token.TokenBean;
 import com.weicoder.socket.Session;
@@ -162,8 +162,8 @@ public abstract class BaseSession implements Session {
 		} else {
 			// 普通SocketAddress
 			String host = address.toString();
-			this.ip = StringUtil.subString(host, StringConstants.BACKSLASH, StringConstants.COLON);
-			this.port = W.C.toInt(StringUtil.subString(host, StringConstants.COLON));
+			this.ip = U.S.subString(host, C.S.BACKSLASH, C.S.COLON);
+			this.port = W.C.toInt(U.S.subString(host, C.S.COLON));
 		}
 	}
 }

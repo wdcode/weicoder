@@ -8,14 +8,11 @@ import java.nio.channels.AsynchronousSocketChannel;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 
-import com.weicoder.common.interfaces.Callback;
-import com.weicoder.common.io.AsynChannelUtil;
-import com.weicoder.common.io.ChannelUtil;
-import com.weicoder.common.io.IOUtil;
-import com.weicoder.common.log.Logs;
-import com.weicoder.common.util.DateUtil;
-import com.weicoder.common.util.ThreadUtil;
+import com.weicoder.common.interfaces.Calls;
+import com.weicoder.common.io.I;
 import com.weicoder.common.util.U;
+import com.weicoder.common.log.Logs;
+import com.weicoder.common.thread.T;
 
 /**
  * aio server socket
@@ -29,8 +26,8 @@ public final class TcpServers {
 	 * @param port 端口
 	 * @param call 回调
 	 */
-	public static void aio(int port, Callback<byte[], byte[]> call) {
-		ThreadUtil.start(() -> {
+	public static void aio(int port, Calls.EoR<byte[], byte[]> call) {
+		T.start(() -> {
 			// 开启aio socket server
 			try (AsynchronousServerSocketChannel socket = AsynchronousServerSocketChannel.open()) {
 				// 绑定端口监听
@@ -43,13 +40,13 @@ public final class TcpServers {
 						AsynchronousSocketChannel asc = socket.accept().get();
 						long time = System.currentTimeMillis();
 						// 读取出数据 放入回调 并且接收回调处理结果
-						byte[] b = call.callback(AsynChannelUtil.read(asc, false));
+						byte[] b = call.call(I.A.read(asc, false));
 						// 如果返回结果不为空 写入到客户端
 						if (U.E.isNotEmpty(b)) {
-							AsynChannelUtil.write(asc, b, false);
+							I.A.write(asc, b, false);
 							asc.shutdownOutput();
 						}
-						Logs.info("aio socket accept end time={} channel={}", DateUtil.diff(time), asc);
+						Logs.info("aio socket accept end time={} channel={}", U.D.diff(time), asc);
 					} catch (Exception e) {
 						Logs.error(e);
 					}
@@ -66,8 +63,8 @@ public final class TcpServers {
 	 * @param port 端口
 	 * @param call 回调
 	 */
-	public static void nio(int port, Callback<byte[], byte[]> call) {
-		ThreadUtil.start(() -> {
+	public static void nio(int port, Calls.EoR<byte[], byte[]> call) {
+		T.start(() -> {
 			// 开启nio socket server
 			try (ServerSocketChannel socket = ServerSocketChannel.open()) {
 				// 绑定端口监听
@@ -78,15 +75,15 @@ public final class TcpServers {
 					try {
 						// 接收客户端数据 获取aio通道
 						SocketChannel sc = socket.accept();
-						long time = System.currentTimeMillis();
+						long time = U.D.now();
 						// 读取出数据 放入回调 并且接收回调处理结果
-						byte[] b = call.callback(ChannelUtil.read(sc, false));
+						byte[] b = call.call(I.C.read(sc, false));
 						// 如果返回结果不为空 写入到客户端
 						if (U.E.isNotEmpty(b)) {
-							ChannelUtil.write(sc, b, false);
+							I.C.write(sc, b, false);
 							sc.shutdownOutput();
 						}
-						Logs.info("nio socket accept end time={} channel={}", DateUtil.diff(time), sc);
+						Logs.info("nio socket accept end time={} channel={}", U.D.diff(time), sc);
 					} catch (Exception e) {
 						Logs.error(e);
 					}
@@ -103,8 +100,8 @@ public final class TcpServers {
 	 * @param port 端口
 	 * @param call 回调
 	 */
-	public static void bio(int port, Callback<byte[], byte[]> call) {
-		ThreadUtil.start(() -> {
+	public static void bio(int port, Calls.EoR<byte[], byte[]> call) {
+		T.start(() -> {
 			// 开启bio socket server
 			try (ServerSocket socket = new ServerSocket(port)) {
 				Logs.debug("bio socket bind is port={} bound={} close={}", port, socket.isBound(), socket.isClosed());
@@ -115,13 +112,13 @@ public final class TcpServers {
 						Socket sc = socket.accept();
 						long time = System.currentTimeMillis();
 						// 读取出数据 放入回调 并且接收回调处理结果
-						byte[] b = call.callback(IOUtil.read(sc.getInputStream(), false));
+						byte[] b = call.call(I.read(sc.getInputStream(), false));
 						// 如果返回结果不为空 写入到客户端
 						if (U.E.isNotEmpty(b)) {
-							IOUtil.write(sc.getOutputStream(), b, false);
+							I.write(sc.getOutputStream(), b, false);
 							sc.shutdownOutput();
 						}
-						Logs.info("bio socket accept end time={} channel={}", DateUtil.diff(time), sc);
+						Logs.info("bio socket accept end time={} channel={}", U.D.diff(time), sc);
 					} catch (Exception e) {
 						Logs.error(e);
 					}

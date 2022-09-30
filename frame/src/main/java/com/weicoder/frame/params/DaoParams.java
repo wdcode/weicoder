@@ -2,8 +2,8 @@ package com.weicoder.frame.params;
 
 import com.weicoder.common.config.Config;
 import com.weicoder.common.config.ConfigFactory;
-import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.util.EmptyUtil;
+import com.weicoder.common.constants.C;
+import com.weicoder.common.util.U;
 
 /**
  * 读取Dao配置
@@ -16,7 +16,7 @@ public final class DaoParams {
 	private final static Config		CONFIG	= ConfigFactory.getConfig("db");
 	/** 多库名称 */
 	public final static String[]	NAMES	= CONFIG.getStringArray("names",
-			new String[] { StringConstants.EMPTY });
+			new String[] { C.S.EMPTY });
 
 	/**
 	 * 使用哪种数据库连接池 现在支持 proxool dbcp c3p0 bonecp druid
@@ -215,7 +215,7 @@ public final class DaoParams {
 	 * @return 替换后的键
 	 */
 	public static String getKey(String name, String suffix) {
-		return EmptyUtil.isEmpty(name) ? suffix : name + StringConstants.POINT + suffix;
+		return U.E.isEmpty(name) ? suffix : name + C.S.POINT + suffix;
 	}
 
 	private DaoParams() {}

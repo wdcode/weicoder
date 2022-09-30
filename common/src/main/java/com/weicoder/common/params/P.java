@@ -1,5 +1,5 @@
 package com.weicoder.common.params;
-
+ 
 /**
  * 参数使用
  * 

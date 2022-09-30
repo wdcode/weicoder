@@ -1,16 +1,16 @@
 package com.weicoder.redis.cache;
 
-import com.weicoder.common.concurrent.ExecutorUtil;
+import com.weicoder.common.util.U;
 import com.weicoder.common.lang.W.C;
 import com.weicoder.common.lang.W.L;
 import com.weicoder.common.lang.W.M;
-import com.weicoder.common.util.U;
 
 import java.util.List;
 import java.util.Map;
 
 import com.weicoder.cache.BeanCache;
-import com.weicoder.json.JsonEngine;
+import com.weicoder.json.J;
+import com.weicoder.common.thread.T;
 import com.weicoder.redis.Redis;
 import com.weicoder.redis.factory.RedisFactory;
 import com.weicoder.redis.params.RedisParams;
@@ -75,15 +75,15 @@ public class RedisCache<K, V> extends BeanCache<K, V> {
 	}
 
 	// redis
-	protected Redis redis;
+	protected Redis					redis;
 	// redis channel
-	protected String put;
-	protected String remove;
-	protected String push;
+	protected String				put;
+	protected String				remove;
+	protected String				push;
 	// 是否基础类型
-	protected boolean base;
+	protected boolean				base;
 	// 基础类型传递分隔符
-	protected final static String SEPA = "||";
+	protected final static String	SEPA	= "||";
 
 	/**
 	 * 获得当前redis缓存使用的redis
@@ -103,7 +103,7 @@ public class RedisCache<K, V> extends BeanCache<K, V> {
 	public V put(K key, V value) {
 		super.put(key, value);
 		String k = C.toString(key);
-		String v = base ? C.toString(value) : JsonEngine.toJson(value);
+		String v = base ? C.toString(value) : J.toJson(value);
 		redis.multi(r -> {
 			r.hset(this.name, k, v);
 			r.lpush(push, k);
@@ -127,7 +127,7 @@ public class RedisCache<K, V> extends BeanCache<K, V> {
 	 * 加载所以缓存
 	 */
 	public void fill() {
-		redis.hgetAll(name).forEach((k, v) -> super.put(JsonEngine.toBean(v, val)));
+		redis.hgetAll(name).forEach((k, v) -> super.put(J.toBean(v, val)));
 	}
 
 	/**
@@ -136,8 +136,8 @@ public class RedisCache<K, V> extends BeanCache<K, V> {
 	 * @return 所有缓存
 	 */
 	public Map<K, V> all() {
-		Map<K, V> map = M.newMap();
-		redis.hgetAll(name).forEach((k, v) -> map.put((K) C.to(k, key), JsonEngine.toBean(v, val)));
+		Map<K, V> map = M.map();
+		redis.hgetAll(name).forEach((k, v) -> map.put((K) C.to(k, key), J.toBean(v, val)));
 		return map;
 	}
 
@@ -156,7 +156,7 @@ public class RedisCache<K, V> extends BeanCache<K, V> {
 	 * @return 缓存list
 	 */
 	public List<V> list() {
-		return size() == len() ? values() : L.newList(all().values());
+		return size() == len() ? values() : L.list(all().values());
 	}
 
 	/**
@@ -187,7 +187,7 @@ public class RedisCache<K, V> extends BeanCache<K, V> {
 	 */
 	protected RedisCache(Redis redis, String key, Class<V> cls, boolean fill) {
 		super(key, cls, r -> cls == null || U.C.isBaseType(cls) ? (V) C.to(redis.hget(key, C.toString(r)), cls)
-				: JsonEngine.toBean(redis.hget(key, C.toString(r)), cls));
+				: J.toBean(redis.hget(key, C.toString(r)), cls));
 		// 获得redis
 		this.val = cls;
 		this.redis = redis;
@@ -199,7 +199,7 @@ public class RedisCache<K, V> extends BeanCache<K, V> {
 		if (fill)
 			fill();
 		// 使用Redis发布订阅来更新缓存
-		ExecutorUtil.pool(RedisParams.PREFIX).execute(() -> {
+		T.E.pool(RedisParams.PREFIX).execute(() -> {
 			this.redis.subscribe((c, m) -> {
 				if (put.equals(c))
 					// 更新
@@ -207,7 +207,7 @@ public class RedisCache<K, V> extends BeanCache<K, V> {
 						String[] t = U.S.split(m, SEPA);
 						cache.put((K) C.to(t[0], this.key), (V) C.to(t[1], this.val));
 					} else {
-						V v = JsonEngine.toBean(m, this.val);
+						V v = J.toBean(m, this.val);
 						cache.put(key(v), v);
 					}
 				else if (remove.equals(c))

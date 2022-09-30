@@ -1,4 +1,4 @@
-package com.weicoder.common.params;
+package com.weicoder.datasource.params;
 
 import java.io.File;
 import java.io.IOException;
@@ -7,10 +7,9 @@ import java.util.Properties;
 
 import com.weicoder.common.config.Config;
 import com.weicoder.common.config.ConfigFactory;
-import com.weicoder.common.constants.DateConstants;
-import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.lang.Maps;
-import com.weicoder.common.util.ResourceUtil;
+import com.weicoder.common.constants.C;
+import com.weicoder.common.lang.W;
+import com.weicoder.common.params.P;
 import com.weicoder.common.util.U;
 
 /**
@@ -19,17 +18,20 @@ import com.weicoder.common.util.U;
  * @author WD
  */
 public final class DataSourceParams {
+	private DataSourceParams() {
+	}
+
 	// 数据源配置
-	private final static Map<String, Config> CONFIGS = Maps.newMap();
+	private final static Map<String, Config> CONFIGS = W.M.map();
 	static {
 		// 获得配置文件目录下所有配置
 		String path = "db/";
-		File file = ResourceUtil.newFile(path);
+		File file = U.R.newFile(path);
 		// 读取配置
 		for (String name : file.list()) {
 			Properties ps = new Properties();
 			try {
-				ps.load(ResourceUtil.loadResource(path + name));
+				ps.load(U.R.loadResource(path + name));
 			} catch (IOException e) {
 			}
 			CONFIGS.put(U.S.split(name, "\\.")[0], ConfigFactory.getConfig(ps));
@@ -83,7 +85,7 @@ public final class DataSourceParams {
 	 * @return 超时等待时间
 	 */
 	public static long getTimeout(String name) {
-		return CONFIGS.get(name).getLong(getKey(name, "timeout"), DateConstants.TIME_MINUTE * 3);
+		return CONFIGS.get(name).getLong(getKey(name, "timeout"), C.D.TIME_MINUTE * 3);
 	}
 
 	/**
@@ -93,7 +95,7 @@ public final class DataSourceParams {
 	 * @return 测试空闲连接时间
 	 */
 	public static long getMaxIdleTime(String name) {
-		return CONFIGS.get(name).getLong(getKey(name, "maxIdleTime"), DateConstants.TIME_MINUTE * 10);
+		return CONFIGS.get(name).getLong(getKey(name, "maxIdleTime"), C.D.TIME_MINUTE * 10);
 	}
 
 	/**
@@ -103,7 +105,7 @@ public final class DataSourceParams {
 	 * @return 多长时间检查一次空闲连接
 	 */
 	public static long getIdleTimeout(String name) {
-		return CONFIGS.get(name).getLong(getKey(name, "idleTimeout"), DateConstants.TIME_HOUR * 2);
+		return CONFIGS.get(name).getLong(getKey(name, "idleTimeout"), C.D.TIME_HOUR * 2);
 	}
 
 	/**
@@ -154,9 +156,6 @@ public final class DataSourceParams {
 	 * @return 替换后的键
 	 */
 	private static String getKey(String name, String key) {
-		return Params.getKey(StringConstants.EMPTY, name, key);
-	}
-
-	private DataSourceParams() {
+		return P.getKey(C.S.EMPTY, name, key);
 	}
 }

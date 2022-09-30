@@ -60,6 +60,8 @@ import org.jaxen.ContextSupport;
 import org.jaxen.JaxenException;
 import org.jaxen.function.BooleanFunction;
 
+import com.weicoder.common.lang.W;
+
 /**
  * <p>
  * Represents the collection of predicates that follow the node-test in a
@@ -85,7 +87,7 @@ public class PredicateSet implements Serializable
      */
     public PredicateSet()
     {
-        this.predicates = Collections.emptyList();
+        this.predicates = W.L.empty();
     }
 
     /**

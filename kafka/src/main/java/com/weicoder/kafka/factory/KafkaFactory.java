@@ -2,7 +2,7 @@ package com.weicoder.kafka.factory;
 
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 
-import com.weicoder.common.constants.StringConstants;
+import com.weicoder.common.constants.C;
 import com.weicoder.kafka.producer.Producers;
 
 /**
@@ -15,7 +15,7 @@ public final class KafkaFactory {
 	 * @return 消费者
 	 */
 	public static KafkaConsumer<byte[], byte[]> getConsumer() {
-		return getConsumer(StringConstants.EMPTY);
+		return getConsumer(C.S.EMPTY);
 	}
 
 	/**
@@ -32,7 +32,7 @@ public final class KafkaFactory {
 	 * @return 生产者
 	 */
 	public static Producers getProducer() {
-		return getProducer(StringConstants.EMPTY);
+		return getProducer(C.S.EMPTY);
 	}
 
 	/**

@@ -17,15 +17,10 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
-import com.weicoder.common.constants.ArrayConstants;
-import com.weicoder.common.constants.StringConstants;
-import com.weicoder.common.lang.Lists;
-import com.weicoder.common.lang.Maps;
+import com.weicoder.common.constants.C;
 import com.weicoder.common.lang.W;
 import com.weicoder.common.log.Logs;
-import com.weicoder.common.statics.Closes;
-import com.weicoder.common.util.BeanUtil;
-import com.weicoder.common.util.StringUtil;
+import com.weicoder.common.statics.S;
 import com.weicoder.common.util.U;
 import com.weicoder.database.DataBase;
 
@@ -39,6 +34,7 @@ public final class DataBaseImpl implements DataBase {
 
 	/**
 	 * 构造函数
+	 * 
 	 * @param ds DataSource对象
 	 */
 	public DataBaseImpl(DataSource ds) {
@@ -47,7 +43,8 @@ public final class DataBaseImpl implements DataBase {
 
 	/**
 	 * 完成数据库的增删改操作，要求传入的sql语句必须为insert,update或delete 以List包含数组表示的多条条件 可使用单条sql批量插入
-	 * @param sql 传入的sql语句
+	 * 
+	 * @param sql    传入的sql语句
 	 * @param parame SQL语句的参数 List包含数组 按顺序赋值给sql中的?
 	 * @return 更新的行数
 	 */
@@ -57,7 +54,8 @@ public final class DataBaseImpl implements DataBase {
 
 	/**
 	 * 完成数据库的增删改操作，要求传入的sql语句必须为insert,update或delete
-	 * @param sql 传入的sql语句
+	 * 
+	 * @param sql    传入的sql语句
 	 * @param parame SQL语句的参数 按顺序赋值给sql中的?
 	 * @return 更新的行数
 	 */
@@ -67,7 +65,8 @@ public final class DataBaseImpl implements DataBase {
 
 	/**
 	 * 完成数据库的增删改操作，要求传入的sql语句必须为insert,update或delete 以二维数组表示的多条条件 可使用单条sql批量插入
-	 * @param sql 传入的sql语句
+	 * 
+	 * @param sql    传入的sql语句
 	 * @param parame SQL语句的参数 二维数组 按顺序赋值给sql中的?
 	 * @return 更新的行数
 	 */
@@ -92,19 +91,20 @@ public final class DataBaseImpl implements DataBase {
 			return -1;
 		} finally {
 			// 关闭资源
-			Closes.close(pstmt, conn);
+			S.C.close(pstmt, conn);
 		}
 	}
 
 	/**
 	 * 传入一组sql语句，完成数据库的增删改操作 要求传入的sqlArr数组中的SQL语句必须为insert,update或delete 传入的parame为多个条件 每个一唯数组给一条sql附值
-	 * @param sql 传入的sql语句数组 可执行多条语句
+	 * 
+	 * @param sql    传入的sql语句数组 可执行多条语句
 	 * @param parame SQL语句的参数 按顺序赋值给sql中的?
 	 * @return 更新的行数
 	 */
 	public int execute(String[] sql, Object[]... parame) {
 		// 声明一个列表 长度为1
-		List<Object[][]> list = Lists.newList(parame.length);
+		List<Object[][]> list = W.L.list(parame.length);
 		// 循环参数
 		for (int i = 0; i < parame.length; i++)
 			// 添加二唯数组
@@ -115,7 +115,8 @@ public final class DataBaseImpl implements DataBase {
 
 	/**
 	 * 完成数据库的增删改操作，要求传入的sql语句必须为insert,update或delete 以一个List包含二维数组 可使用多条sql批量插入
-	 * @param sql 传入的sql语句 可执行多条语句
+	 * 
+	 * @param sql    传入的sql语句 可执行多条语句
 	 * @param parame SQL语句的参数 List包含二维数组 按顺序赋值给sql中的?
 	 * @return 更新的行数
 	 */
@@ -145,7 +146,7 @@ public final class DataBaseImpl implements DataBase {
 			return -1;
 		} finally {
 			// 关闭资源
-			Closes.close(pstmt, conn);
+			S.C.close(pstmt, conn);
 		}
 		// 返回影响行数
 		return result;
@@ -153,7 +154,8 @@ public final class DataBaseImpl implements DataBase {
 
 	/**
 	 * 执行指定过程 用于非查询
-	 * @param call 执行过程的SQL语句
+	 * 
+	 * @param call   执行过程的SQL语句
 	 * @param parame 参数
 	 * @return 返回影响行数
 	 */
@@ -189,13 +191,14 @@ public final class DataBaseImpl implements DataBase {
 			return -1;
 		} finally {
 			// 关闭资源
-			Closes.close(cstmt, conn);
+			S.C.close(cstmt, conn);
 		}
 	}
 
 	/**
 	 * 执行指定过程 用于查询
-	 * @param call 执行过程的SQL语句
+	 * 
+	 * @param call   执行过程的SQL语句
 	 * @param parame 参数
 	 * @return 返回结果集
 	 */
@@ -226,7 +229,7 @@ public final class DataBaseImpl implements DataBase {
 			// 获得列名的名称
 			String[] colName = getColName(rs);
 			// 声明List用于保存结果集
-			List<Map<String, Object>> list = Lists.newList();
+			List<Map<String, Object>> list = W.L.list();
 			// 循环结果集
 			while (rs.next())
 				// 添加行记录
@@ -241,27 +244,29 @@ public final class DataBaseImpl implements DataBase {
 			// 记录日志
 			Logs.error(e);
 			// 返回空列表
-			return Lists.emptyList();
+			return W.L.empty();
 		} finally {
 			// 关闭资源
-			Closes.close(rs, cstmt, conn);
+			S.C.close(rs, cstmt, conn);
 		}
 	}
 
 	/**
 	 * 查询结果
-	 * @param sql 查询语句
+	 * 
+	 * @param sql    查询语句
 	 * @param parame SQL语句的参数
-	 * @param c 返回的实体类Class
+	 * @param c      返回的实体类Class
 	 * @return List
 	 */
 	public <E> List<E> query(String sql, Class<E> c, Object... parame) {
-		return BeanUtil.copy(queryMultiRowMultiCol(sql, parame), c);
+		return U.B.copy(queryMultiRowMultiCol(sql, parame), c);
 	}
 
 	/**
 	 * 返回一行一列查询结果,如果SQL语句查询出多条，只返回第一条记录
-	 * @param sql String 查询语句
+	 * 
+	 * @param sql    String 查询语句
 	 * @param parame SQL语句的参数
 	 * @return String 列值
 	 */
@@ -287,18 +292,19 @@ public final class DataBaseImpl implements DataBase {
 			// 记录日志
 			Logs.error(e);
 			// 返回空列表
-			return StringConstants.EMPTY;
+			return C.S.EMPTY;
 		} finally {
 			// 关闭资源
-			Closes.close(rs, pstmt, conn);
+			S.C.close(rs, pstmt, conn);
 		}
 		// 返回""串
-		return StringConstants.EMPTY;
+		return C.S.EMPTY;
 	}
 
 	/**
 	 * 返回一行多列查询结果,如果SQL语句查询出多条，只返回第一条记录
-	 * @param sql String 查询语句
+	 * 
+	 * @param sql    String 查询语句
 	 * @param parame SQL语句的参数
 	 * @return Map 返回的数据集合 key列名(列名都小写) value(值)
 	 */
@@ -326,10 +332,10 @@ public final class DataBaseImpl implements DataBase {
 			// 记录日志
 			Logs.error(e);
 			// 返回空列表
-			return Maps.emptyMap();
+			return W.M.empty();
 		} finally {
 			// 关闭资源
-			Closes.close(rs, pstmt, conn);
+			S.C.close(rs, pstmt, conn);
 		}
 		// 返回结果
 		return Collections.emptyMap();
@@ -337,7 +343,8 @@ public final class DataBaseImpl implements DataBase {
 
 	/**
 	 * 返回多行一列查询结果
-	 * @param sql String 查询语句
+	 * 
+	 * @param sql    String 查询语句
 	 * @param parame SQL语句的参数
 	 * @return List 值
 	 */
@@ -356,7 +363,7 @@ public final class DataBaseImpl implements DataBase {
 			// 获得结果集
 			rs = pstmt.executeQuery();
 			// 实例化列表
-			List<Object> list = Lists.newList();
+			List<Object> list = W.L.list();
 			// 循环结果集
 			while (rs.next())
 				// 添加结果
@@ -367,16 +374,17 @@ public final class DataBaseImpl implements DataBase {
 			// 记录日志
 			Logs.error(e);
 			// 返回空列表
-			return Lists.emptyList();
+			return W.L.empty();
 		} finally {
 			// 关闭资源
-			Closes.close(rs, pstmt, conn);
+			S.C.close(rs, pstmt, conn);
 		}
 	}
 
 	/**
 	 * 返回多行多列查询结果
-	 * @param sql String 查询语句
+	 * 
+	 * @param sql    String 查询语句
 	 * @param parame SQL语句的参数
 	 * @return List 返回的数据集合 Map key列名(列名都小写) value(值)
 	 */
@@ -397,7 +405,7 @@ public final class DataBaseImpl implements DataBase {
 			// 获得列名的名称
 			String[] colName = getColName(rs);
 			// 声明列表
-			List<Map<String, Object>> list = Lists.newList();
+			List<Map<String, Object>> list = W.L.list();
 			// 循环结果集
 			while (rs.next())
 				// 添加行数据
@@ -408,15 +416,16 @@ public final class DataBaseImpl implements DataBase {
 			// 记录日志
 			Logs.error(e);
 			// 返回空列表
-			return Lists.emptyList();
+			return W.L.empty();
 		} finally {
 			// 关闭资源
-			Closes.close(rs, pstmt, conn);
+			S.C.close(rs, pstmt, conn);
 		}
 	}
 
 	/**
 	 * 获得Connection对象
+	 * 
 	 * @return Connection
 	 */
 	public Connection getConnection() {
@@ -432,6 +441,7 @@ public final class DataBaseImpl implements DataBase {
 
 	/**
 	 * 获得数据源
+	 * 
 	 * @return DataSource 数据源
 	 */
 	public DataSource getDataSource() {
@@ -440,6 +450,7 @@ public final class DataBaseImpl implements DataBase {
 
 	/**
 	 * 设置数据源
+	 * 
 	 * @param dataSource 数据源
 	 */
 	public void setDataSource(DataSource dataSource) {
@@ -448,6 +459,7 @@ public final class DataBaseImpl implements DataBase {
 
 	/**
 	 * 回滚事务
+	 * 
 	 * @param conn Connection
 	 */
 	private void rollback(Connection conn) {
@@ -462,7 +474,8 @@ public final class DataBaseImpl implements DataBase {
 
 	/**
 	 * 执行批处理
-	 * @param conn Connection
+	 * 
+	 * @param conn  Connection
 	 * @param pstmt PreparedStatement
 	 * @return 执行后的结果数
 	 * @throws SQLException 数据库异常
@@ -484,8 +497,9 @@ public final class DataBaseImpl implements DataBase {
 
 	/**
 	 * 获得PreparedStatement 并赋值完参数
-	 * @param conn Connection
-	 * @param sql sql语句
+	 * 
+	 * @param conn   Connection
+	 * @param sql    sql语句
 	 * @param parame 参数
 	 * @return PreparedStatement
 	 * @throws SQLException 数据库异常
@@ -521,8 +535,9 @@ public final class DataBaseImpl implements DataBase {
 
 	/**
 	 * 获得PreparedStatement 并赋值完参数
-	 * @param conn Connection
-	 * @param sql sql语句
+	 * 
+	 * @param conn   Connection
+	 * @param sql    sql语句
 	 * @param parame 参数
 	 * @return PreparedStatement
 	 * @throws SQLException 数据库异常
@@ -543,13 +558,14 @@ public final class DataBaseImpl implements DataBase {
 
 	/**
 	 * 获得每行的值
+	 * 
 	 * @param colName
 	 * @param rs
 	 * @return
 	 */
 	private Map<String, Object> getRowValue(String[] colName, ResultSet rs) {
 		// 声明Map 用于保存返回结果
-		Map<String, Object> map = Maps.newMap();
+		Map<String, Object> map = W.M.map();
 		try {
 			// 循环列
 			for (int i = 0; i < colName.length; i++)
@@ -567,6 +583,7 @@ public final class DataBaseImpl implements DataBase {
 
 	/**
 	 * 获得列名
+	 * 
 	 * @param rs 结果集
 	 * @return String[] 列名
 	 */
@@ -581,7 +598,7 @@ public final class DataBaseImpl implements DataBase {
 			// 循环列
 			for (int i = 0; i < colCount; i++)
 				// 获得列名
-				colName[i] = StringUtil.convert(rsmd.getColumnName(i + 1));
+				colName[i] = U.S.convert(rsmd.getColumnName(i + 1));
 			// 返回列名
 			return colName;
 		} catch (SQLException e) {
@@ -589,13 +606,14 @@ public final class DataBaseImpl implements DataBase {
 			Logs.error(e);
 		}
 		// 返回列名
-		return ArrayConstants.STRING_EMPTY;
+		return C.A.STRING_EMPTY;
 	}
 
 	/**
 	 * 设置参数
-	 * @param pstmt PreparedStatement
-	 * @param index 位置
+	 * 
+	 * @param pstmt  PreparedStatement
+	 * @param index  位置
 	 * @param parame 参数
 	 * @throws SQLException 设置参数错误
 	 */
