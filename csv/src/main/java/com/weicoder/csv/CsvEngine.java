@@ -93,7 +93,7 @@ public final class CsvEngine {
 		List<E> entitys = W.L.list(list.size());
 		// 循环获得实体列表
 		for (int i = 1; i < size; i++) {
-			entitys.add(U.B.copy(W.M.newMap(cols, list.get(i)), entityClass));
+			entitys.add(U.B.copy(W.M.map(cols, list.get(i)), entityClass));
 		}
 		// 返回实体列表
 		return entitys;

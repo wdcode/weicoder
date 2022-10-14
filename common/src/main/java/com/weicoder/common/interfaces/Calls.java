@@ -24,6 +24,10 @@ public final class Calls {
 		void call(E e, T t);
 	}
 
+	public static interface ToR<E, T, R> {
+		R call(E e, T t);
+	}
+
 	public static interface LoV<E> {
 		void call(List<E> list);
 	}

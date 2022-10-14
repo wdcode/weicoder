@@ -25,7 +25,7 @@ public final class Htmls {
 	 * @return HTML
 	 */
 	public static Html post(String url, String key, String val) {
-		return post(url, W.M.newMap(key, val));
+		return post(url, W.M.map(key, val));
 	}
 
 	/**

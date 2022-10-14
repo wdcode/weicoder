@@ -231,7 +231,7 @@ public final class MongoImpl implements Mongo {
 
 	@Override
 	public long count(String name, Object key) {
-		return count(name, W.M.newMap(ID, key));
+		return count(name, W.M.map(ID, key));
 	}
 
 	@Override

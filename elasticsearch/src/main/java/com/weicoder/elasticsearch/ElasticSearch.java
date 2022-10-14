@@ -64,11 +64,11 @@ public class ElasticSearch {
 			Map<String, Property> properties = W.M.map();
 			// 获得所有索引字段 根据数据类型设置
 //			U.B.getFields(index.getClass())
-//					.forEach(f -> properties.put(f.getName(), W.M.newMap("type", f.getType())));  
+//					.forEach(f -> properties.put(f.getName(), W.M.map("type", f.getType())));  
 			U.B.getFields(index.getClass()).forEach(
 					f -> properties.put(f.getName(), Property.of(p -> p.searchAsYouType(v -> v.searchAnalyzer(f.getName())))));// v.name(f.getName())
 			// f.getType())));xxxxxxx
-//			request.mapping(J.toJson(W.M.newMap("properties", properties)));//, XContentType.JSON
+//			request.mapping(J.toJson(W.M.map("properties", properties)));//, XContentType.JSON
 			request.mappings().properties().putAll(properties);
 			// 创建索引
 //			client.indices().create(request, RequestOptions.DEFAULT);

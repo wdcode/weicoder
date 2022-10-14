@@ -12,6 +12,8 @@ public sealed class DateConstants permits C.D {
 	public final static String	FORMAT_YYYYMM		= "yyyyMM";
 	/** 日期格式 yyyy-MM-dd */
 	public final static String	FORMAT_YYYY_MM_DD	= "yyyy-MM-dd";
+	/** 日期格式 MM-dd */
+	public final static String	FORMAT_MM_DD		= "MM-dd";
 	/** 日期格式 yyyy-MM-dd HH:mm:ss */
 	public final static String	FORMAT_Y_M_D_H_M_S	= "yyyy-MM-dd HH:mm:ss";
 	/** 日期格式 yyyy-MM-dd HH:mm:ss */

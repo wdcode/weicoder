@@ -280,13 +280,13 @@ public class BasicServlet extends HttpServlet {
 				// 如果res为状态码
 				if (res == null)
 					// 写空信息
-					res = W.M.newMap(new String[] { code, message }, StateCode.NULL.to());
+					res = W.M.map(new String[] { code, message }, StateCode.NULL.to());
 				else if (res instanceof StateCode)
 					// 写错误信息
-					res = W.M.newMap(new String[] { code, message }, ((StateCode) res).to());
+					res = W.M.map(new String[] { code, message }, ((StateCode) res).to());
 				else
 					// 写入到前端
-					res = W.M.newMap(new String[] { code, content }, new Object[] { StateCode.SUCCESS.getCode(), res });
+					res = W.M.map(new String[] { code, content }, new Object[] { StateCode.SUCCESS.getCode(), res });
 			} else {
 				// 如果结果为空
 				if (res == null)

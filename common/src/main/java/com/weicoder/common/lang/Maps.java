@@ -8,7 +8,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import com.weicoder.common.lang.W.L;
-import com.weicoder.common.util.U; 
+import com.weicoder.common.util.U;
 
 /**
  * Map的帮助类,获得Map的一些操作
@@ -102,7 +102,7 @@ public sealed class Maps permits W.M {
 	 * @param <V>   泛型
 	 * @return Map
 	 */
-	public static <K, V> Map<K, V> newMap(K key, V value) {
+	public static <K, V> Map<K, V> map(K key, V value) {
 		// 获得Map
 		Map<K, V> map = map();
 		// 设置键值
