@@ -6,7 +6,7 @@ import java.util.Map;
 import com.weicoder.common.constants.C;
 import com.weicoder.common.lang.W;
 import com.weicoder.common.util.U;
-import com.weicoder.json.fastjson.FastJson;
+import com.weicoder.json.fastjson.FastJson2; 
 
 /**
  * JSON处理引擎
@@ -15,7 +15,7 @@ import com.weicoder.json.fastjson.FastJson;
  */
 public sealed class JsonEngine permits J {
 	// 默认Json解析
-	private final static Json JSON = new FastJson();
+	private final static Json JSON = new FastJson2();
 
 	/**
 	 * 是否是json串

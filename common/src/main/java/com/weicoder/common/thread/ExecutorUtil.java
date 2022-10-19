@@ -112,6 +112,15 @@ public sealed class ExecutorUtil permits T.E {
 	}
 
 	/**
+	 * 返回列表数量
+	 * 
+	 * @return 列表数量
+	 */
+	public static int size() {
+		return RUNNABLES.size() + CALLABLES.size();
+	}
+
+	/**
 	 * 执行列表中的任务
 	 * 
 	 * @return 列表
@@ -126,13 +135,16 @@ public sealed class ExecutorUtil permits T.E {
 	 * @param tasks 任务
 	 */
 	public static void execute(List<Runnable> tasks) {
-		CountDownLatch latch = new CountDownLatch(tasks.size());
+		int size = tasks.size();
+		Logs.info("execute start tasks={} time={}", size, U.D.dura());
+		CountDownLatch latch = new CountDownLatch(size);
 		tasks.forEach(r -> pool().execute(() -> {
 			r.run();
 			latch.countDown();
 		}));
 		try {
 			latch.await();
+			Logs.info("execute end tasks={} time={}", size, U.D.dura());
 		} catch (InterruptedException e) {
 		}
 //		// 声明结果列表

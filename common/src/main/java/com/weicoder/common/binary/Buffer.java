@@ -204,7 +204,7 @@ public final class Buffer implements ByteArray {
 	 */
 	public void reset() {
 		this.offset = 0;
-		this.top = 0;
+		this.top = length();
 	}
 
 	/**
@@ -240,7 +240,7 @@ public final class Buffer implements ByteArray {
 	 * @param call 回调
 	 */
 	public void forEach(Calls.EoV<Buffer> call) {
-		for1(this, call);
+		for1(() -> this, call);
 	}
 
 	/**
@@ -249,7 +249,7 @@ public final class Buffer implements ByteArray {
 	 * @param call 回调
 	 */
 	public void forLong(Calls.EoV<Long> call) {
-		for1(readLong(), call);
+		for1(() -> readLong(), call);
 	}
 
 	/**
@@ -258,7 +258,7 @@ public final class Buffer implements ByteArray {
 	 * @param call 回调
 	 */
 	public void forInt(Calls.EoV<Integer> call) {
-		for1(readInt(), call);
+		for1(() -> readInt(), call);
 	}
 
 	/**
@@ -267,7 +267,7 @@ public final class Buffer implements ByteArray {
 	 * @param call 回调
 	 */
 	public void forShort(Calls.EoV<Short> call) {
-		for1(readShort(), call);
+		for1(() -> readShort(), call);
 	}
 
 	/**
@@ -276,7 +276,7 @@ public final class Buffer implements ByteArray {
 	 * @param call 回调
 	 */
 	public void forFloat(Calls.EoV<Float> call) {
-		for1(readFloat(), call);
+		for1(() -> readFloat(), call);
 	}
 
 	/**
@@ -285,7 +285,7 @@ public final class Buffer implements ByteArray {
 	 * @param call 回调
 	 */
 	public void forDouble(Calls.EoV<Double> call) {
-		for1(readDouble(), call);
+		for1(() -> readDouble(), call);
 	}
 
 	/**
@@ -295,7 +295,16 @@ public final class Buffer implements ByteArray {
 	 * @param call 回调
 	 */
 	public void forBytes(int len, Calls.EoV<byte[]> call) {
-		for1(read(len), call);
+		for1(() -> read(len), call);
+	}
+
+	/**
+	 * 循环读取本身为byte 只要有能读取字节就一直循环读取直到读取完成
+	 * 
+	 * @param call 回调
+	 */
+	public void forByte(Calls.EoV<Byte> call) {
+		for1(() -> readByte(), call);
 	}
 
 	/**
@@ -665,8 +674,8 @@ public final class Buffer implements ByteArray {
 		return U.S.add(C.S.EMPTY, "(top=", top, ",offset=", offset, ",len=" + length() + ")");
 	}
 
-	private <E> void for1(E e, Calls.EoV<E> call) {
+	private <E> void for1(Calls.ZoR<E> e, Calls.EoV<E> call) {
 		while (has())
-			call.call(e);
+			call.call(e.call());
 	}
 }

@@ -11,11 +11,7 @@
 		<dependency>
 			<groupId>com.weicoder</groupId>
 			<artifactId>common</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.alibaba</groupId>
-			<artifactId>fastjson</artifactId>
-		</dependency>
+		</dependency> 
 		<dependency>
 			<groupId>com.alibaba.fastjson2</groupId>
 			<artifactId>fastjson2</artifactId>

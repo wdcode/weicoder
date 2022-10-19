@@ -16,6 +16,10 @@ public final class Calls {
 		void call();
 	}
 
+	public static interface ZoR<R> {
+		R call();
+	}
+
 	public static interface EoV<E> {
 		void call(E e);
 	}
