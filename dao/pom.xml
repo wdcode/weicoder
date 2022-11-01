@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.weicoder</groupId>
 		<artifactId>weicoder</artifactId>
-		<version>3.5.5</version>
+		<version>3.5.6</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>dao</artifactId>
