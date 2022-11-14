@@ -44,7 +44,7 @@
 		<shiro>1.9.1</shiro>
 		<curator-framework>5.3.0</curator-framework>
 		<hbase-client>2.4.13</hbase-client>
-		<jackson-databind>2.13.3</jackson-databind>
+		<jackson-databind>2.13.4.1</jackson-databind>
 		<xstream>1.4.19</xstream>
 		<disruptor>3.4.4</disruptor>
 		<commons-compress>1.21</commons-compress>
