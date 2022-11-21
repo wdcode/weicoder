@@ -144,7 +144,7 @@ public sealed class FileUtil permits I.F {
 				// 返回字节数组
 				return b;
 			} catch (IOException e) {
-				Logs.error(e);
+				Logs.error(fileName, e);
 			}
 		else if (AIO)
 			// 获得文件通道
@@ -156,7 +156,7 @@ public sealed class FileUtil permits I.F {
 				// 返回字节数组
 				return buf.array();
 			} catch (Exception e) {
-				Logs.error(e);
+				Logs.error(fileName, e);
 			}
 		else
 			// 获得文件通道
@@ -168,7 +168,7 @@ public sealed class FileUtil permits I.F {
 				// 返回字节数组
 				return buf.array();
 			} catch (Exception e) {
-				Logs.error(e);
+				Logs.error(fileName, e);
 			}
 		// 返回空字节数组
 		return C.A.BYTES_EMPTY;

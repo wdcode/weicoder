@@ -78,7 +78,7 @@ public sealed class Lists permits W.L {
 	}
 
 	/**
-	 * 获得List实例 默认初始化大小为10
+	 * 获得List实例 默认初始化大小为1024
 	 * 
 	 * @param <E> 泛型
 	 * @return List
