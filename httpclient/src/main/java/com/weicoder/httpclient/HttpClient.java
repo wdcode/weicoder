@@ -15,7 +15,6 @@ import org.apache.hc.core5.http.message.BasicHeader;
 import org.apache.hc.core5.http.message.BasicNameValuePair;
 import org.apache.hc.core5.util.Timeout;
 
-import com.weicoder.common.io.I;
 import com.weicoder.common.bean.StateCode;
 import com.weicoder.common.constants.C;
 import com.weicoder.common.util.U;
@@ -103,7 +102,8 @@ public final class HttpClient {
 			// 获得HttpGet对象
 			get = new HttpGet(url);
 			// 获得HttpResponse 返回字节流
-			return I.read(CLIENT.execute(get).getEntity().getContent());
+//			return I.read(CLIENT.execute(get).getEntity().getContent());
+			return CLIENT.execute(get, HttpCommons.HCRHB);
 		} catch (Exception e) {
 			LOG.error(e);
 		} finally {
@@ -204,7 +204,8 @@ public final class HttpClient {
 				header.forEach((k, v) -> post.addHeader(k, v));
 			LOG.debug("HttpClient post url={} data={} header={} charset={}", url, data, header, charset);
 			// 返回结果
-			return I.readString(CLIENT.execute(post).getEntity().getContent());
+//			return I.readString(CLIENT.execute(post).getEntity().getContent());
+			return CLIENT.execute(post, HttpCommons.HCRHS);
 		} catch (Exception e) {
 			LOG.error(e);
 		}
@@ -224,7 +225,8 @@ public final class HttpClient {
 		// 设置请求参数
 		RequestConfig.Builder config = RequestConfig.custom();
 		config.setConnectionRequestTimeout(Timeout.ofSeconds(W.C.toLong(P.H.TIMEOUT)));
-		config.setConnectTimeout(Timeout.ofSeconds(W.C.toLong(P.H.TIMEOUT)));
+//		config.setConnectTimeout(Timeout.ofSeconds(W.C.toLong(P.H.TIMEOUT)));
+		config.setResponseTimeout(Timeout.ofSeconds(W.C.toLong(P.H.TIMEOUT)));
 		config.setCircularRedirectsAllowed(false);
 		// HttpClientBuilder
 		HttpClientBuilder builder = HttpClientBuilder.create();

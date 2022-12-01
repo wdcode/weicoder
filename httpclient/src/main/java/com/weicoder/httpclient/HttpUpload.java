@@ -12,7 +12,6 @@ import org.apache.hc.core5.http.NameValuePair;
 import org.apache.hc.core5.http.message.BasicHeader;
 import org.apache.hc.core5.http.message.BasicNameValuePair;
 
-import com.weicoder.common.io.I;
 import com.weicoder.common.constants.C;
 import com.weicoder.common.util.U;
 import com.weicoder.common.lang.W;
@@ -76,7 +75,8 @@ public class HttpUpload {
 			// 设置提交文件参数
 			post.setEntity(builder.build());
 			// 返回结果
-			return I.readString(HttpClient.CLIENT.execute(post).getEntity().getContent());
+//			return I.readString(HttpClient.CLIENT.execute(post).getEntity().getContent());
+			return HttpClient.CLIENT.execute(post, HttpCommons.HCRHS);
 		} catch (Exception e) {
 			LOG.error(e);
 		} finally {
@@ -132,7 +132,8 @@ public class HttpUpload {
 			// 设置提交文件参数
 			post.setEntity(builder.build());
 			// 返回结果
-			return I.readString(HttpClient.CLIENT.execute(post).getEntity().getContent());
+//			return I.readString(HttpClient.CLIENT.execute(post).getEntity().getContent());
+			return HttpClient.CLIENT.execute(post, HttpCommons.HCRHS);
 		} catch (Exception e) {
 			LOG.error(e);
 		} finally {

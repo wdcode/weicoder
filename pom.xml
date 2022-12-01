@@ -6,16 +6,16 @@
 		<version>2.5</version>
 	</parent>
 	<artifactId>weicoder</artifactId>
-	<version>3.5.6</version>
+	<version>3.5.7</version>
 	<packaging>pom</packaging>
 
 	<properties>
 		<log4j-core>2.19.0</log4j-core>  
-		<fastjson2>2.0.17</fastjson2>
-		<hibernate-core>5.6.12.Final</hibernate-core>
+		<fastjson2>2.0.20</fastjson2>
+		<hibernate-core>5.6.14.Final</hibernate-core>
 		<hibernate-envers>6.1.5.Final</hibernate-envers>
 		<mysql-connector-java>8.0.31</mysql-connector-java>
-		<netty-all>4.1.84.Final</netty-all>
+		<netty-all>4.1.85.Final</netty-all>
 		<mongo-java-driver>3.12.11</mongo-java-driver>
 		<influxdb-java>2.23</influxdb-java>
 		<flink-java>1.16.0</flink-java>
@@ -24,29 +24,29 @@
 		<aparapi>3.0.0</aparapi>
 		<seata>1.5.2</seata>
 		<kafka-clients>3.3.1</kafka-clients>
-		<sofa-rpc>5.8.8</sofa-rpc>
+		<sofa-rpc>5.9.0</sofa-rpc>
 		<guava>31.1-jre</guava>
-		<elasticsearch-java>8.4.3</elasticsearch-java>
+		<elasticsearch-java>8.5.2</elasticsearch-java>
 		<poi>5.2.3</poi>
-		<tomcat-embed>10.1.1</tomcat-embed>
+		<tomcat-embed>10.1.2</tomcat-embed>
 		<nacos-client>2.1.2</nacos-client>
 		<hadoop-client>3.3.4</hadoop-client>
 		<protobuf-java>3.21.9</protobuf-java>
-		<httpclient5>5.1.3</httpclient5>
+		<httpclient5>5.2</httpclient5>
 		<okhttp>4.10.0</okhttp>
 		<retrofit>2.10.6</retrofit>
 		<HikariCP>5.0.1</HikariCP>
-		<solr-solrj>9.0.0</solr-solrj>
+		<solr-solrj>9.1.0</solr-solrj>
 		<snakeyaml>1.33</snakeyaml>
 		<opencsv>5.7.1</opencsv>
-		<druid>1.2.14</druid>
-		<shiro>1.10.0</shiro>
+		<druid>1.2.15</druid>
+		<shiro>1.10.1</shiro>
 		<curator-framework>5.4.0</curator-framework>
 		<hbase-client>2.5.1</hbase-client>
-		<jackson-databind>2.13.4.2</jackson-databind>
+		<jackson-databind>2.14.1</jackson-databind>
 		<xstream>1.4.19</xstream>
 		<disruptor>3.4.4</disruptor>
-		<commons-compress>1.21</commons-compress>
+		<commons-compress>1.22</commons-compress>
 
 		<!--    
 		<dom4j>2.1.3</dom4j>

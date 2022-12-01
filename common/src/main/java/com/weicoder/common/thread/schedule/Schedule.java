@@ -1,4 +1,4 @@
-package com.weicoder.common.thread.concurrent;
+package com.weicoder.common.thread.schedule;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

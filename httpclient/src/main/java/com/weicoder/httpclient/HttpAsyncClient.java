@@ -45,8 +45,9 @@ public final class HttpAsyncClient {
 		pool.setMaxTotal(P.H.MAX);
 		// 设置请求参数
 		RequestConfig.Builder config = RequestConfig.custom();
-		config.setConnectionRequestTimeout(Timeout.ofSeconds(W.C.toLong(P.H.TIMEOUT)));
-		config.setConnectTimeout(Timeout.ofSeconds(W.C.toLong(P.H.TIMEOUT)));
+		config.setConnectionRequestTimeout(Timeout.ofSeconds(W.C.toLong(P.H.TIMEOUT))); 
+//		config.setConnectTimeout(Timeout.ofSeconds(W.C.toLong(P.H.TIMEOUT)));
+		config.setResponseTimeout(Timeout.ofSeconds(W.C.toLong(P.H.TIMEOUT)));		
 		config.setCircularRedirectsAllowed(false);
 		// HttpClientBuilder
 		HttpAsyncClientBuilder builder = HttpAsyncClientBuilder.create();

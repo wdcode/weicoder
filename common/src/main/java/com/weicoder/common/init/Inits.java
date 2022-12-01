@@ -5,7 +5,7 @@ import com.weicoder.common.log.Logs;
 import com.weicoder.common.params.P;
 import com.weicoder.common.thread.T;
 import com.weicoder.common.util.U.C;
-import com.weicoder.common.util.U.D; 
+import com.weicoder.common.util.U.D;
 import com.weicoder.common.util.U.S;
 
 /**
@@ -20,20 +20,21 @@ public final class Inits {
 	public static void init() {
 		// 获得所有初始化接口
 		Logs.debug("start init...");
-		C.list(Init.class).forEach(c -> {
-			// 获得接口类名称
-			String name = S.convert(c.getSimpleName(), "Init");
-			// 初始化开始
-			D.dura();
-			// 调用初始化方法
-			if (P.C.power(name))
-				if (c.isAnnotationPresent(Asyn.class))
-					T.E.execute(() -> C.newInstance(c).init());
-				else
-					C.newInstance(c).init();
-			// 初始化结束
-			Logs.info("init {} end time={}", name, D.dura());
-		});
+		if (P.C.INIT)
+			C.list(Init.class).forEach(c -> {
+				// 获得接口类名称
+				String name = S.convert(c.getSimpleName(), "Init");
+				// 初始化开始
+				D.dura();
+				// 调用初始化方法
+				if (P.C.power(name))
+					if (c.isAnnotationPresent(Asyn.class))
+						T.E.execute(() -> C.newInstance(c).init());
+					else
+						C.newInstance(c).init();
+				// 初始化结束
+				Logs.info("init {} end time={}", name, D.dura());
+			});
 	}
 
 	private Inits() {

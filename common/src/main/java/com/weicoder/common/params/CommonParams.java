@@ -58,6 +58,10 @@ public sealed class CommonParams permits P.C {
 	public final static int			VERIFY_LENGTH		= P.getInt("verify.length", 4);
 	/** 是否驻留程序 */
 	public final static boolean		MAIN				= P.getBoolean("main", true);
+	/** 是否初始化 */
+	public final static boolean		INIT				= P.getBoolean("init", true);
+	/** 是否执行定时任务 */
+	public final static boolean		SCHEDULE			= P.getBoolean("schedule", true);
 	/** 默认报名 */
 	private final static String		DEFAULT_PACKAGES	= "com.weicoder";
 	public final static String		PACKAGES			= getPackages(S.EMPTY);

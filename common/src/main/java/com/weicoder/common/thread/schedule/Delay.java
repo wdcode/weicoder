@@ -1,4 +1,4 @@
-package com.weicoder.common.thread.concurrent;
+package com.weicoder.common.thread.schedule;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -7,12 +7,12 @@ import java.lang.annotation.Target;
 import java.util.concurrent.TimeUnit;
 
 /**
- * 执行rate方法 按初始时间间隔
+ * 执行delay方法 按执行线程间隔
  * @author WD
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Rate {
+public @interface Delay {
 	/**
 	 * 启动时间 默认0 立即开始
 	 * @return 启动时间
