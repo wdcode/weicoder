@@ -38,7 +38,7 @@
 		<retrofit>2.10.6</retrofit>
 		<HikariCP>5.0.1</HikariCP>
 		<solr-solrj>9.0.0</solr-solrj>
-		<snakeyaml>1.31</snakeyaml>
+		<snakeyaml>1.32</snakeyaml>
 		<opencsv>5.6</opencsv>
 		<druid>1.2.11</druid>
 		<shiro>1.9.1</shiro>
