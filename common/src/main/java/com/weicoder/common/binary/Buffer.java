@@ -655,6 +655,16 @@ public final class Buffer implements ByteArray {
 		offset = 0;
 	}
 
+//	/**
+//	 * 释放所有资源
+//	 */
+//	public void release() {
+//		this.data = C.A.BYTES_EMPTY;
+//		this.lock = null;
+//		this.offset = 0;
+//		this.top = 0;
+//	}
+
 	/**
 	 * 获得有效数据
 	 */

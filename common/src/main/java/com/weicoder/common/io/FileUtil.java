@@ -261,6 +261,10 @@ public sealed class FileUtil permits I.F {
 		return I.write(getOutputStream(fileName), is);
 	}
 
+//	public static long write(String name, InputStream in, Calls.EoR<Buffer, Buffer> call) {
+//		return I.write(out(name), in, call);
+//	}
+
 	/**
 	 * 把文件写指定路径中
 	 * 

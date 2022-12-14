@@ -6,7 +6,7 @@
 		<version>2.5</version>
 	</parent>
 	<artifactId>weicoder</artifactId>
-	<version>3.5.7</version>
+	<version>3.5.8</version>
 	<packaging>pom</packaging>
 
 	<properties>

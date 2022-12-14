@@ -812,20 +812,20 @@ public sealed class DateUtil permits U.D {
 	 * @param number N年
 	 * @return N年的日期
 	 */
-	public static String getYear(int number) {
-		return getYear(number, P.C.DATE_FORMAT);
+	public static int getYear(int number) {
+		return getYear() + number;
 	}
 
-	/**
-	 * 取得当前日期的N年后的日期(如果想获得前几年的日期用-number)
-	 * 
-	 * @param number N年
-	 * @param format 日期格式
-	 * @return N年的日期
-	 */
-	public static String getYear(int number, String format) {
-		return getYear(getCurrentDate(), number, format);
-	}
+//	/**
+//	 * 取得当前日期的N年后的日期(如果想获得前几年的日期用-number)
+//	 * 
+//	 * @param number N年
+//	 * @param format 日期格式
+//	 * @return N年的日期
+//	 */
+//	public static int getYear(int number, String format) {
+//		return getYear(getCurrentDate(), number, format);
+//	}
 
 	/**
 	 * 取得当前日期的N年后的日期(如果想获得前几年的日期用-number)
@@ -834,7 +834,7 @@ public sealed class DateUtil permits U.D {
 	 * @param number N年
 	 * @return N年的日期
 	 */
-	public static String getYear(String date, int number) {
+	public static int getYear(String date, int number) {
 		return getYear(date, number, P.C.DATE_FORMAT);
 	}
 
@@ -846,8 +846,8 @@ public sealed class DateUtil permits U.D {
 	 * @param format 日期格式
 	 * @return N天的日期
 	 */
-	public static String getYear(String date, int number, String format) {
-		return getYear(toDate(date, format), number, format);
+	public static int getYear(String date, int number, String format) {
+		return getYear(toDate(date, format), number);
 	}
 
 	/**
@@ -857,21 +857,23 @@ public sealed class DateUtil permits U.D {
 	 * @param number N年
 	 * @return N年的日期
 	 */
-	public static String getYear(Date date, int number) {
-		return getYear(date, number, P.C.DATE_FORMAT);
+	public static int getYear(Date date, int number) {
+//		return getYear(date, number, P.C.DATE_FORMAT);
+		return getYear(date) + number;
 	}
 
-	/**
-	 * 取得当前日期的N年后的日期(如果想获得前几年的日期用-number)
-	 * 
-	 * @param date   日期
-	 * @param number N年
-	 * @param format 日期格式
-	 * @return N年的日期
-	 */
-	public static String getYear(Date date, int number, String format) {
-		return discrepancy(date, number, format, Calendar.YEAR);
-	}
+//	/**
+//	 * 取得当前日期的N年后的日期(如果想获得前几年的日期用-number)
+//	 * 
+//	 * @param date   日期
+//	 * @param number N年
+//	 * @param format 日期格式
+//	 * @return N年的日期
+//	 */
+//	public static String getYear(Date date, int number, String format) {
+////		return getYear(date, number);
+//		return discrepancy(date, number, format, Calendar.YEAR);
+//	}
 
 	/**
 	 * 日期字符串格式转换

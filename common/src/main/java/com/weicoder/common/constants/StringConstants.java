@@ -38,8 +38,6 @@ public sealed class StringConstants permits C.S {
 	public final static String	ZERO				= "0";
 	/** 常量字符串 "\\." */
 	public final static String	DOT					= "\\.";
-	/** 常量字符串 "-" */
-	public final static String	MIDLINE				= "-";
 	/** 常量字符串 "#" */
 	public final static String	WELL				= "#";
 	/** 常量字符串 ";" */

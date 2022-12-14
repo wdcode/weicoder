@@ -162,7 +162,7 @@ public sealed class ChannelUtil permits I.C {
 		}
 		// 声明保存读取字符数量
 		long sum = 0;
-		try {
+		try { 
 			// 获得一个
 			ByteBuffer buffer = ByteBuffer.allocate(buff);
 			// 每次读取的长度

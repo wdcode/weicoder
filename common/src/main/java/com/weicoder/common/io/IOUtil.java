@@ -23,7 +23,7 @@ public sealed class IOUtil permits I {
 	 */
 	public final static IO	NIO	= new NIO();
 	// IO接口
-	private final static IO	IO	= "io".equalsIgnoreCase(P.C.IO_MODE) ? BIO : NIO;
+	private final static IO	IO	= "bio".equalsIgnoreCase(P.C.IO_MODE) ? BIO : NIO;
 
 	/**
 	 * 读取并写入数据
