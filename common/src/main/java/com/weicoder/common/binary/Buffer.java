@@ -1,5 +1,6 @@
 package com.weicoder.common.binary;
 
+import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -248,8 +249,19 @@ public final class Buffer implements ByteArray {
 	 * 
 	 * @param call 回调
 	 */
-	public void forLong(Calls.EoV<Long> call) {
+	public void longs(Calls.EoV<Long> call) {
 		for1(() -> readLong(), call);
+	}
+
+	/**
+	 * 把缓存中数据都读取成long列表
+	 * 
+	 * @return 列表
+	 */
+	public List<Long> longs() {
+		List<Long> ls = W.L.list(remain() / 8);
+		longs(l -> ls.add(l));
+		return ls;
 	}
 
 	/**
@@ -257,8 +269,19 @@ public final class Buffer implements ByteArray {
 	 * 
 	 * @param call 回调
 	 */
-	public void forInt(Calls.EoV<Integer> call) {
+	public void ints(Calls.EoV<Integer> call) {
 		for1(() -> readInt(), call);
+	}
+
+	/**
+	 * 把缓存中数据都读取成int列表
+	 * 
+	 * @return 列表
+	 */
+	public List<Integer> ints() {
+		List<Integer> ls = W.L.list(remain() / 4);
+		ints(l -> ls.add(l));
+		return ls;
 	}
 
 	/**
@@ -266,8 +289,19 @@ public final class Buffer implements ByteArray {
 	 * 
 	 * @param call 回调
 	 */
-	public void forShort(Calls.EoV<Short> call) {
+	public void shorts(Calls.EoV<Short> call) {
 		for1(() -> readShort(), call);
+	}
+
+	/**
+	 * 把缓存中数据都读取成short列表
+	 * 
+	 * @return 列表
+	 */
+	public List<Short> shorts() {
+		List<Short> ls = W.L.list(remain() / 2);
+		shorts(l -> ls.add(l));
+		return ls;
 	}
 
 	/**
@@ -275,8 +309,19 @@ public final class Buffer implements ByteArray {
 	 * 
 	 * @param call 回调
 	 */
-	public void forFloat(Calls.EoV<Float> call) {
+	public void floats(Calls.EoV<Float> call) {
 		for1(() -> readFloat(), call);
+	}
+
+	/**
+	 * 把缓存中数据都读取成Float列表
+	 * 
+	 * @return 列表
+	 */
+	public List<Float> floats() {
+		List<Float> ls = W.L.list(remain() / 4);
+		floats(l -> ls.add(l));
+		return ls;
 	}
 
 	/**
@@ -284,8 +329,19 @@ public final class Buffer implements ByteArray {
 	 * 
 	 * @param call 回调
 	 */
-	public void forDouble(Calls.EoV<Double> call) {
+	public void doubles(Calls.EoV<Double> call) {
 		for1(() -> readDouble(), call);
+	}
+
+	/**
+	 * 把缓存中数据都读取成Double列表
+	 * 
+	 * @return 列表
+	 */
+	public List<Double> doubles() {
+		List<Double> ls = W.L.list(remain() / 8);
+		doubles(l -> ls.add(l));
+		return ls;
 	}
 
 	/**
@@ -294,8 +350,19 @@ public final class Buffer implements ByteArray {
 	 * @param len  读取长度
 	 * @param call 回调
 	 */
-	public void forBytes(int len, Calls.EoV<byte[]> call) {
+	public void bytes(int len, Calls.EoV<byte[]> call) {
 		for1(() -> read(len), call);
+	}
+
+	/**
+	 * 把缓存中数据都读取成byte[]列表
+	 * 
+	 * @return 列表
+	 */
+	public List<byte[]> bytes(int len) {
+		List<byte[]> ls = W.L.list(remain() / len);
+		bytes(len, l -> ls.add(l));
+		return ls;
 	}
 
 	/**
@@ -303,7 +370,7 @@ public final class Buffer implements ByteArray {
 	 * 
 	 * @param call 回调
 	 */
-	public void forByte(Calls.EoV<Byte> call) {
+	public void bytes(Calls.EoV<Byte> call) {
 		for1(() -> readByte(), call);
 	}
 
