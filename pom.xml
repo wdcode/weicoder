@@ -11,28 +11,28 @@
 
 	<properties>
 		<log4j-core>2.19.0</log4j-core>  
-		<fastjson2>2.0.20</fastjson2>
+		<fastjson2>2.0.21</fastjson2>
 		<hibernate-core>5.6.14.Final</hibernate-core>
-		<hibernate-envers>6.1.5.Final</hibernate-envers>
+		<hibernate-envers>6.1.6.Final</hibernate-envers>
 		<mysql-connector-java>8.0.31</mysql-connector-java>
-		<netty-all>4.1.85.Final</netty-all>
+		<netty-all>4.1.86.Final</netty-all>
 		<mongo-java-driver>3.12.11</mongo-java-driver>
 		<influxdb-java>2.23</influxdb-java>
 		<flink-java>1.16.0</flink-java>
 		<jedis>4.3.1</jedis>
 		<jsoup>1.15.3</jsoup>
 		<aparapi>3.0.0</aparapi>
-		<seata>1.5.2</seata>
+		<seata>1.6.1</seata>
 		<kafka-clients>3.3.1</kafka-clients>
 		<sofa-rpc>5.9.0</sofa-rpc>
 		<guava>31.1-jre</guava>
-		<elasticsearch-java>8.5.2</elasticsearch-java>
+		<elasticsearch-java>8.5.3</elasticsearch-java>
 		<poi>5.2.3</poi>
-		<tomcat-embed>10.1.2</tomcat-embed>
-		<nacos-client>2.1.2</nacos-client>
+		<tomcat-embed>10.1.4</tomcat-embed>
+		<nacos-client>2.2.0</nacos-client>
 		<hadoop-client>3.3.4</hadoop-client>
-		<protobuf-java>3.21.9</protobuf-java>
-		<httpclient5>5.2</httpclient5>
+		<protobuf-java>3.21.12</protobuf-java>
+		<httpclient5>5.2.1</httpclient5>
 		<okhttp>4.10.0</okhttp>
 		<retrofit>2.10.6</retrofit>
 		<HikariCP>5.0.1</HikariCP>
@@ -42,9 +42,9 @@
 		<druid>1.2.15</druid>
 		<shiro>1.10.1</shiro>
 		<curator-framework>5.4.0</curator-framework>
-		<hbase-client>2.5.1</hbase-client>
+		<hbase-client>2.5.2</hbase-client>
 		<jackson-databind>2.14.1</jackson-databind>
-		<xstream>1.4.19</xstream>
+		<xstream>1.4.20</xstream>
 		<disruptor>3.4.4</disruptor>
 		<commons-compress>1.22</commons-compress>
 
