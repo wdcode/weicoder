@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>com.weicoder</groupId>
 		<artifactId>build</artifactId>
-		<version>2.5</version>
+		<version>2.5.1</version>
 	</parent>
 	<artifactId>weicoder</artifactId>
 	<version>3.5.9</version>
@@ -11,39 +11,39 @@
 
 	<properties>
 		<log4j-core>2.20.0</log4j-core>  
-		<fastjson2>2.0.26</fastjson2>
+		<fastjson2>2.0.34</fastjson2>
 		<hibernate-core>5.6.15.Final</hibernate-core>
-		<hibernate-envers>6.1.7.Final</hibernate-envers>
-		<mysql-connector-java>8.0.32</mysql-connector-java>
-		<netty-all>4.1.90.Final</netty-all>
-		<mongo-java-driver>3.12.12</mongo-java-driver>
+		<hibernate-envers>6.2.6.Final</hibernate-envers>
+		<mysql-connector-java>8.0.33</mysql-connector-java>
+		<netty-all>4.1.94.Final</netty-all>
+		<mongo-java-driver>3.12.14</mongo-java-driver>
 		<influxdb-java>2.23</influxdb-java>
-		<flink-java>1.17.0</flink-java>
-		<jedis>4.3.2</jedis>
-		<jsoup>1.15.4</jsoup>
+		<flink-java>1.17.1</flink-java>
+		<jedis>4.4.3</jedis>
+		<jsoup>1.16.1</jsoup>
 		<aparapi>3.0.0</aparapi>
 		<seata>1.6.1</seata>
-		<kafka-clients>3.4.0</kafka-clients>
-		<sofa-rpc>5.9.2</sofa-rpc>
-		<guava>31.1-jre</guava>
-		<elasticsearch-java>8.7.0</elasticsearch-java>
+		<kafka-clients>3.5.0</kafka-clients>
+		<sofa-rpc>5.10.1</sofa-rpc>
+		<guava>32.1.1-jre</guava>
+		<elasticsearch-java>8.8.2</elasticsearch-java>
 		<poi>5.2.3</poi>
-		<tomcat-embed>10.1.7</tomcat-embed>
-		<nacos-client>2.2.1</nacos-client>
-		<hadoop-client>3.3.5</hadoop-client>
-		<protobuf-java>3.22.2</protobuf-java>
+		<tomcat-embed>10.1.10</tomcat-embed>
+		<nacos-client>2.2.4</nacos-client>
+		<hadoop-client>3.3.6</hadoop-client>
+		<protobuf-java>3.23.3</protobuf-java>
 		<httpclient5>5.2.1</httpclient5>
-		<okhttp>4.10.0</okhttp>
+		<okhttp>4.11.0</okhttp>
 		<retrofit>2.10.6</retrofit>
 		<HikariCP>5.0.1</HikariCP>
-		<solr-solrj>9.2.0</solr-solrj>
+		<solr-solrj>9.2.1</solr-solrj>
 		<snakeyaml>2.0</snakeyaml>
 		<opencsv>5.7.1</opencsv>
-		<druid>1.2.16</druid>
+		<druid>1.2.18</druid>
 		<shiro>1.11.0</shiro>
-		<curator-framework>5.4.0</curator-framework>
-		<hbase-client>2.5.3</hbase-client>
-		<jackson-databind>2.14.2</jackson-databind>
+		<curator-framework>5.5.0</curator-framework>
+		<hbase-client>2.5.5</hbase-client>
+		<jackson-databind>2.15.2</jackson-databind>
 		<xstream>1.4.20</xstream>
 		<disruptor>3.4.4</disruptor>
 		<commons-compress>1.23.0</commons-compress>
