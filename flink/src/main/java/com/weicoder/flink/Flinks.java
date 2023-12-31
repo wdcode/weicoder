@@ -1,10 +1,8 @@
 package com.weicoder.flink;
  
-import org.apache.flink.api.java.tuple.Tuple2;
+import org.apache.flink.api.java.tuple.Tuple2; 
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
-import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
-import org.apache.flink.streaming.api.functions.source.RichSourceFunction;
-import org.apache.flink.streaming.api.functions.source.SourceFunction.SourceContext;
+import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment; 
 
 import com.weicoder.common.interfaces.Calls;
 import com.weicoder.common.log.Logs;
@@ -24,23 +22,13 @@ public final class Flinks {
 	 * @param <E>  泛型
 	 * @param host 远程地址
 	 * @param port 远程端口
-	 * @param call 执行回调
+	 * @param from 开始
+	 * @param to 结束
 	 */
-	public static <E> void source(String host, int port, Calls.EoV<SourceContext<E>> call) {
+	public static <E> void source(String host, int port, long from, long to) {
 		try {
 			StreamExecutionEnvironment env = SEEF.getInstance(Tuple2.of(host, port));
-			env.addSource(new RichSourceFunction<E>() {
-				private static final long serialVersionUID = 1L;
-
-				@Override
-				public void run(SourceContext<E> ctx) throws Exception {
-					call.call(ctx);
-				}
-
-				@Override
-				public void cancel() {
-				}
-			});
+			env.fromSequence(from, to);
 			env.execute();
 		} catch (Exception e) {
 			Logs.error(e);

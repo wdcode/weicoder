@@ -107,8 +107,9 @@ public class RedisCache<K, V> extends BeanCache<K, V> {
 		redis.multi(r -> {
 			r.hset(this.name, k, v);
 			r.lpush(push, k);
-			r.publish(put, base ? k + SEPA + v : v);
+//			r.publish(put, base ? k + SEPA + v : v);
 		});
+		redis.publish(put, base ? k + SEPA + v : v);
 		return value;
 	}
 
@@ -119,8 +120,9 @@ public class RedisCache<K, V> extends BeanCache<K, V> {
 		super.remove(key);
 		redis.multi(r -> {
 			r.hdel(this.name, C.toString(key));
-			r.publish(remove, C.toString(key));
+//			r.publish(remove, C.toString(key));
 		});
+		redis.publish(remove, C.toString(key));
 	}
 
 	/**
