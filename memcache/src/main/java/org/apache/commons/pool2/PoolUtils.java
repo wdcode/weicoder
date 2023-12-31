@@ -1452,12 +1452,12 @@ public final class PoolUtils {
      *             if that is passed in
      */
     public static void checkRethrow(final Throwable t) {
-        if (t instanceof ThreadDeath) {
-            throw (ThreadDeath) t;
-        }
+//        if (t instanceof ThreadDeath) {
+//            throw (ThreadDeath) t;
+//        }
         if (t instanceof VirtualMachineError) {
             throw (VirtualMachineError) t;
-        }
+        } 
         // All other instances of Throwable will be silently swallowed
     }
 

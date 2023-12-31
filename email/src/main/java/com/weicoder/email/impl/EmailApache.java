@@ -1,6 +1,6 @@
 package com.weicoder.email.impl;
 
-import java.net.URL;
+import java.net.URI; 
 
 import org.apache.commons.mail.Email;
 import org.apache.commons.mail.EmailAttachment;
@@ -149,7 +149,7 @@ public final class EmailApache extends BaseEmail {
 				attachment.setPath(attach);
 			} else {
 				// 远程文件
-				attachment.setURL(new URL(attach));
+				attachment.setURL(URI.create(attach).toURL());
 			}
 			// 附件设置
 			attachment.setDisposition(EmailAttachment.ATTACHMENT);

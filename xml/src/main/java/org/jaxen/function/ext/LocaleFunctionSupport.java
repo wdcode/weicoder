@@ -127,12 +127,12 @@ public abstract class LocaleFunctionSupport implements Function
                 String country = tokens.nextToken();
                 if (! tokens.hasMoreTokens())
                 {
-                    return new Locale(language, country);
+                    return Locale.of(language, country);
                 }
                 else 
                 {
                     String variant = tokens.nextToken();
-                    return new Locale(language, country, variant);
+                    return Locale.of(language, country, variant);
                 }
             }
         }

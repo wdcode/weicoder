@@ -106,7 +106,7 @@ public class KafkaInit implements Init {
 			T.S.newDelay(() -> {
 				KAFKA_CONSUMERS.forEach((name, consumer) -> {
 					// 线程池id
-					long tid = Thread.currentThread().getId();
+					long tid = Thread.currentThread().threadId();
 					// 日志使用
 					long time = System.currentTimeMillis();
 					int n = 0;
@@ -131,7 +131,7 @@ public class KafkaInit implements Init {
 				map.values().forEach((records) -> {
 					T.S.delay(KafkaParams.PREFIX, () -> {
 						// 线程池id
-						long tid = Thread.currentThread().getId();
+						long tid = Thread.currentThread().threadId();
 						// 日志使用
 						long time = System.currentTimeMillis();
 						int n = 0;

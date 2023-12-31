@@ -1,6 +1,6 @@
 package com.weicoder.email.impl;
 
-import java.net.URL;
+import java.net.URI; 
 import java.util.Properties;
 
 import jakarta.activation.DataHandler;
@@ -143,7 +143,7 @@ public final class EmailJava extends BaseEmail {
 					source = new FileDataSource(attach);
 				} else {
 					// 远程文件
-					source = new URLDataSource(new URL(attach));
+					source = new URLDataSource(URI.create(attach).toURL());
 				}
 
 				messageBodyPart.setDataHandler(new DataHandler(source));

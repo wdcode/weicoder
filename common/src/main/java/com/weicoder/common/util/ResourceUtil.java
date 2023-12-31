@@ -3,6 +3,7 @@ package com.weicoder.common.util;
 import java.io.File;
 import java.io.InputStream;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.util.Enumeration;
 import java.util.List;
@@ -50,7 +51,7 @@ public sealed class ResourceUtil permits U.R {
 			return getResource(C.S.BACKSLASH + resourceName);
 		// 返回资源
 		try {
-			return url == null ? new URL(C.H.HTTP) : url;
+			return url == null ? URI.create(C.H.HTTP).toURL() : url;
 		} catch (MalformedURLException e) {
 			return null;
 		}

@@ -74,7 +74,7 @@ public class RedisInit implements Init {
 					// ScheduledUtil.delay(RedisParams.PREFIX, () -> {
 					REDIS.get(key).subscribe((channel, message) -> {
 						// 线程池id
-						long tid = Thread.currentThread().getId();
+						long tid = Thread.currentThread().threadId();
 						// 获得订阅通道的对象和方法
 						long time = System.currentTimeMillis();
 						Object s = SUBSCRIBES.get(channel);

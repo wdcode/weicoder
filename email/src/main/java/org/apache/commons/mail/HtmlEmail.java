@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
@@ -211,7 +212,7 @@ public class HtmlEmail extends MultiPartEmail
     {
         try
         {
-            return embed(new URL(urlString), name);
+            return embed(URI.create(urlString).toURL(), name);
         }
         catch (final MalformedURLException e)
         {

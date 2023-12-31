@@ -2,7 +2,7 @@ package com.weicoder.common.http.impl;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.net.URL;
+import java.net.URI; 
 import java.util.Map;
 
 import com.weicoder.common.constants.C;
@@ -106,7 +106,7 @@ public class Jdk8Http implements Http {
 		HttpURLConnection conn = null;
 		try {
 			// 获得连接
-			conn = (HttpURLConnection) new URL(url).openConnection();
+			conn = (HttpURLConnection) URI.create(url).toURL().openConnection();
 			// // 设置属性
 			conn.setRequestProperty(C.H.USER_AGENT_KEY, C.H.USER_AGENT_VAL);
 			conn.setRequestProperty(C.H.ACCEPT_KEY, C.H.ACCEPT_VAL);
