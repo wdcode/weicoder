@@ -10,7 +10,7 @@
 	<packaging>pom</packaging>
 
 	<properties>
-		<log4j-core>2.22.1</log4j-core>  
+		<log4j-core>2.22.1</log4j-core>
 		<fastjson2>2.0.44</fastjson2> 
 		<hibernate-envers>6.4.1.Final</hibernate-envers> 
 		<netty-all>4.1.104.Final</netty-all>
