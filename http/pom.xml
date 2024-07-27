@@ -19,7 +19,7 @@
 			<artifactId>okhttp</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>io.github.zawn.retrofit2</groupId>
+			<groupId>com.squareup.retrofit2</groupId>
 			<artifactId>retrofit</artifactId>
 		</dependency>
 	</dependencies>
