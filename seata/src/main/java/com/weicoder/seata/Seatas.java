@@ -1,10 +1,10 @@
 package com.weicoder.seata;
 
-import io.seata.core.exception.TransactionException;
-import io.seata.rm.RMClient;
-import io.seata.tm.TMClient;
-import io.seata.tm.api.GlobalTransaction;
-import io.seata.tm.api.GlobalTransactionContext;
+import org.apache.seata.core.exception.TransactionException;
+import org.apache.seata.rm.RMClient;
+import org.apache.seata.tm.TMClient;
+import org.apache.seata.tm.api.GlobalTransaction;
+import org.apache.seata.tm.api.GlobalTransactionContext;
 
 /**
  * seata 操作类

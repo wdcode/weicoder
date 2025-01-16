@@ -61,7 +61,6 @@ import org.quartz.utils.ClassUtils;
  * @author James House
  * @author Sharada Jambula
  */
-@SuppressWarnings("deprecation")
 public class JobDetailImpl implements Cloneable, java.io.Serializable, JobDetail {
 
     private static final long serialVersionUID = -6069784757781506897L;

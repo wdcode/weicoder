@@ -5,7 +5,7 @@ import javax.sql.DataSource;
 import com.weicoder.datasource.base.BaseDataSource;
 import com.weicoder.seata.druid.Druid;
 
-import io.seata.rm.datasource.DataSourceProxy;
+import org.apache.seata.rm.datasource.DataSourceProxy;
 
 /**
  * Seata分布式连接数代理
