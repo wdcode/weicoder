@@ -1,5 +1,6 @@
 /*
  * All content copyright Terracotta, Inc., unless otherwise indicated. All rights reserved.
+ * Copyright Super iPaaS Integration LLC, an IBM Company 2024
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not 
  * use this file except in compliance with the License. You may obtain a copy 
@@ -50,7 +51,7 @@ import org.quartz.spi.MutableTrigger;
  * 
  * scheduler.scheduleJob(job, trigger);
  * 
- * <pre>
+ * </pre>
  * 
  * @see CronExpression
  * @see CronTrigger
@@ -61,7 +62,7 @@ import org.quartz.spi.MutableTrigger;
  */
 public class CronScheduleBuilder extends ScheduleBuilder<CronTrigger> {
 
-    private CronExpression cronExpression;
+    private final CronExpression cronExpression;
     private int misfireInstruction = CronTrigger.MISFIRE_INSTRUCTION_SMART_POLICY;
 
     protected CronScheduleBuilder(CronExpression cronExpression) {
@@ -183,7 +184,7 @@ public class CronScheduleBuilder extends ScheduleBuilder<CronTrigger> {
      * the given days of the week.
      * 
      * @param daysOfWeek
-     *            the dasy of the week to fire
+     *            the day of the week to fire
      * @param hour
      *            the hour of day to fire
      * @param minute
@@ -209,13 +210,13 @@ public class CronScheduleBuilder extends ScheduleBuilder<CronTrigger> {
         DateBuilder.validateHour(hour);
         DateBuilder.validateMinute(minute);
 
-        String cronExpression = String.format("0 %d %d ? * %d", minute, hour,
-                daysOfWeek[0]);
+        StringBuilder cronExpression = new StringBuilder(String.format("0 %d %d ? * %d", minute, hour,
+                daysOfWeek[0]));
 
         for (int i = 1; i < daysOfWeek.length; i++)
-            cronExpression = cronExpression + "," + daysOfWeek[i];
+            cronExpression.append(",").append(daysOfWeek[i]);
 
-        return cronScheduleNoParseException(cronExpression);
+        return cronScheduleNoParseException(cronExpression.toString());
     }
 
     /**

@@ -51,12 +51,9 @@ package org.jaxen.expr;
 
 import org.jaxen.Context;
 
-@SuppressWarnings("deprecation")
 class DefaultLiteralExpr extends DefaultExpr implements LiteralExpr
 {
-    /**
-     * 
-     */
+
     private static final long serialVersionUID = -953829179036273338L;
     private String literal;
 

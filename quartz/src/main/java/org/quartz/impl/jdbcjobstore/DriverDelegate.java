@@ -1,5 +1,6 @@
 /* 
  * All content copyright Terracotta, Inc., unless otherwise indicated. All rights reserved.
+ * Copyright Super iPaaS Integration LLC, an IBM Company 2024
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not 
  * use this file except in compliance with the License. You may obtain a copy 
@@ -23,7 +24,6 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.logging.log4j.Logger;
 import org.quartz.Calendar;
 import org.quartz.Job;
 import org.quartz.JobDataMap;
@@ -35,7 +35,8 @@ import org.quartz.TriggerKey;
 import org.quartz.impl.matchers.GroupMatcher;
 import org.quartz.spi.ClassLoadHelper;
 import org.quartz.spi.OperableTrigger;
-import org.quartz.utils.Key;  
+import org.quartz.utils.Key;
+import org.slf4j.Logger;
 
 /**
  * <p>
@@ -72,7 +73,7 @@ public interface DriverDelegate {
      * @param initString of the format: settingName=settingValue|otherSettingName=otherSettingValue|...
      * @throws NoSuchDelegateException
      */
-    public void initialize(Logger logger, String tablePrefix, String schedName, String instanceId, ClassLoadHelper classLoadHelper, boolean useProperties, String initString) throws NoSuchDelegateException;
+    void initialize(Logger logger, String tablePrefix, String schedName, String instanceId, ClassLoadHelper classLoadHelper, boolean useProperties, String initString) throws NoSuchDelegateException;
 
     //---------------------------------------------------------------------------
     // startup / recovery
@@ -605,8 +606,8 @@ public interface DriverDelegate {
      * remove, we do not need to load the class, which in many cases, it's no longer exists.
      * </p>
      */
-    public JobDetail selectJobForTrigger(Connection conn, ClassLoadHelper loadHelper,
-        TriggerKey triggerKey, boolean loadJobClass) throws ClassNotFoundException, SQLException;
+    JobDetail selectJobForTrigger(Connection conn, ClassLoadHelper loadHelper,
+                                  TriggerKey triggerKey, boolean loadJobClass) throws ClassNotFoundException, SQLException;
 
     /**
      * <p>
@@ -686,7 +687,7 @@ public interface DriverDelegate {
 
     /**
      * <p>
-     * Select a trigger' status (state & next fire time).
+     * Select a trigger' status (state and next fire time).
      * </p>
      * 
      * @param conn
@@ -908,6 +909,7 @@ public interface DriverDelegate {
      * 
      * @deprecated Does not account for misfires.
      */
+    @Deprecated
     long selectNextFireTime(Connection conn) throws SQLException;
 
     /**
@@ -937,13 +939,14 @@ public interface DriverDelegate {
      * @param noLaterThan
      *          highest value of <code>getNextFireTime()</code> of the triggers (exclusive)
      * @param noEarlierThan 
-     *          highest value of <code>getNextFireTime()</code> of the triggers (inclusive)
+     *          lowest value of <code>getNextFireTime()</code> of the triggers (inclusive)
      *          
      * @return A (never null, possibly empty) list of the identifiers (Key objects) of the next triggers to be fired.
      * 
      * @deprecated - This remained for compatibility reason. Use {@link #selectTriggerToAcquire(Connection, long, long, int)} instead. 
      */
-    public List<TriggerKey> selectTriggerToAcquire(Connection conn, long noLaterThan, long noEarlierThan)
+    @Deprecated
+    List<TriggerKey> selectTriggerToAcquire(Connection conn, long noLaterThan, long noEarlierThan)
         throws SQLException;
     
     /**
@@ -963,7 +966,7 @@ public interface DriverDelegate {
      *          
      * @return A (never null, possibly empty) list of the identifiers (Key objects) of the next triggers to be fired.
      */
-    public List<TriggerKey> selectTriggerToAcquire(Connection conn, long noLaterThan, long noEarlierThan, int maxCount)
+    List<TriggerKey> selectTriggerToAcquire(Connection conn, long noLaterThan, long noEarlierThan, int maxCount)
         throws SQLException;
 
     /**
@@ -1130,7 +1133,7 @@ public interface DriverDelegate {
      * Clear (delete!) all scheduling data - all {@link Job}s, {@link Trigger}s
      * {@link Calendar}s.
      * 
-     * @throws JobPersistenceException
+     * @throws SQLException
      */
     void clearData(Connection conn)
         throws SQLException;

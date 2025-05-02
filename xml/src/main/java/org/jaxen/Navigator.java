@@ -85,7 +85,7 @@ public interface Navigator extends Serializable
      *  @throws UnsupportedAxisException if the semantics of the child axis are
      *          not supported by this object model
      */
-    Iterator<?> getChildAxisIterator(Object contextNode)
+    Iterator<Object> getChildAxisIterator(Object contextNode)
         throws UnsupportedAxisException;
 
     /** Retrieve an <code>Iterator</code> matching the <code>descendant</code>
@@ -187,7 +187,7 @@ public interface Navigator extends Serializable
      *  @throws UnsupportedAxisException if the semantics of the attribute axis are
      *          not supported by this object model
      */
-    Iterator<?> getAttributeAxisIterator(Object contextNode)
+    Iterator<Object> getAttributeAxisIterator(Object contextNode)
         throws UnsupportedAxisException;
 
     /** Retrieve an <code>Iterator</code> matching the <code>namespace</code>

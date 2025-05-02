@@ -1,5 +1,6 @@
 /*
  * All content copyright Terracotta, Inc., unless otherwise indicated. All rights reserved.
+ * Copyright Super iPaaS Integration LLC, an IBM Company 2024
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy
@@ -140,7 +141,7 @@ public interface JobStore {
      *          The <code>JobDetail</code> to be stored.
      * @param replaceExisting
      *          If <code>true</code>, any <code>Job</code> existing in the
-     *          <code>JobStore</code> with the same name & group should be
+     *          <code>JobStore</code> with the same name and group should be
      *          over-written.
      * @throws ObjectAlreadyExistsException
      *           if a <code>Job</code> with the same name/group already
@@ -149,7 +150,7 @@ public interface JobStore {
     void storeJob(JobDetail newJob, boolean replaceExisting) 
         throws ObjectAlreadyExistsException, JobPersistenceException;
 
-    public void storeJobsAndTriggers(Map<JobDetail, Set<? extends Trigger>> triggersAndJobs, boolean replace)
+    void storeJobsAndTriggers(Map<JobDetail, Set<? extends Trigger>> triggersAndJobs, boolean replace)
         throws ObjectAlreadyExistsException, JobPersistenceException;
 
     /**
@@ -163,13 +164,13 @@ public interface JobStore {
      * known group names.
      * </p>
      *
-     * @return <code>true</code> if a <code>Job</code> with the given name &
+     * @return <code>true</code> if a <code>Job</code> with the given name and
      *         group was found and removed from the store.
      */
     boolean removeJob(JobKey jobKey) 
         throws JobPersistenceException;
     
-    public boolean removeJobs(List<JobKey> jobKeys) 
+    boolean removeJobs(List<JobKey> jobKeys)
         throws JobPersistenceException;
     
     /**
@@ -188,7 +189,7 @@ public interface JobStore {
      *          The <code>Trigger</code> to be stored.
      * @param replaceExisting
      *          If <code>true</code>, any <code>Trigger</code> existing in
-     *          the <code>JobStore</code> with the same name & group should
+     *          the <code>JobStore</code> with the same name and group should
      *          be over-written.
      * @throws ObjectAlreadyExistsException
      *           if a <code>Trigger</code> with the same name/group already
@@ -216,11 +217,11 @@ public interface JobStore {
      * </p>
      *
      * @return <code>true</code> if a <code>Trigger</code> with the given
-     *         name & group was found and removed from the store.
+     *         name and group was found and removed from the store.
      */
     boolean removeTrigger(TriggerKey triggerKey) throws JobPersistenceException;
 
-    public boolean removeTriggers(List<TriggerKey> triggerKeys)
+    boolean removeTriggers(List<TriggerKey> triggerKeys)
         throws JobPersistenceException;
 
     /**
@@ -232,7 +233,7 @@ public interface JobStore {
      *          The new <code>Trigger</code> to be stored.
      *
      * @return <code>true</code> if a <code>Trigger</code> with the given
-     *         name & group was found and removed from the store.
+     *         name and group was found and removed from the store.
      */
     boolean replaceTrigger(TriggerKey triggerKey, OperableTrigger newTrigger) 
         throws JobPersistenceException;
@@ -252,7 +253,7 @@ public interface JobStore {
      * 
      * @param jobKey the identifier to check for
      * @return true if a Job exists with the given identifier
-     * @throws SchedulerException 
+     * @throws JobPersistenceException
      */
     boolean checkExists(JobKey jobKey) throws JobPersistenceException; 
    
@@ -262,7 +263,7 @@ public interface JobStore {
      * 
      * @param triggerKey the identifier to check for
      * @return true if a Trigger exists with the given identifier
-     * @throws SchedulerException 
+     * @throws JobPersistenceException
      */
     boolean checkExists(TriggerKey triggerKey) throws JobPersistenceException;
  
@@ -281,7 +282,7 @@ public interface JobStore {
      *          The <code>Calendar</code> to be stored.
      * @param replaceExisting
      *          If <code>true</code>, any <code>Calendar</code> existing
-     *          in the <code>JobStore</code> with the same name & group
+     *          in the <code>JobStore</code> with the same name and group
      *          should be over-written.
      * @param updateTriggers
      *          If <code>true</code>, any <code>Trigger</code>s existing
@@ -301,7 +302,7 @@ public interface JobStore {
      *
      * <p>
      * If removal of the <code>Calendar</code> would result in
-     * <code>Trigger</code>s pointing to non-existent calendars, then a
+     * <code>Trigger</code>s pointing to nonexistent calendars, then a
      * <code>JobPersistenceException</code> will be thrown.</p>
      *       *
      * @param calName The name of the <code>Calendar</code> to be removed.
@@ -588,7 +589,7 @@ public interface JobStore {
      * Get a handle to the next trigger to be fired, and mark it as 'reserved'
      * by the calling scheduler.
      *
-     * @param noLaterThan If > 0, the JobStore should only return a Trigger
+     * @param noLaterThan If &gt; 0, the JobStore should only return a Trigger
      * that will fire no later than the time represented in this value as
      * milliseconds.
      * @see #releaseAcquiredTrigger(OperableTrigger)

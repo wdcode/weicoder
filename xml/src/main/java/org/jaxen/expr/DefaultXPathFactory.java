@@ -66,15 +66,14 @@ import org.jaxen.saxpath.Axis;
 import org.jaxen.saxpath.Operator;
 
 /**
- * The concrete implementation of the XPathFactory anstract factory.
+ * The concrete implementation of the XPathFactory abstract factory.
  *
  *
  * @see XPathFactory
  */
-@SuppressWarnings("deprecation")
 public class DefaultXPathFactory implements XPathFactory
-{ 
-	public XPathExpr createXPath( Expr rootExpr ) throws JaxenException
+{
+    public XPathExpr createXPath( Expr rootExpr ) throws JaxenException
     {
         return new DefaultXPathExpr( rootExpr );
     }

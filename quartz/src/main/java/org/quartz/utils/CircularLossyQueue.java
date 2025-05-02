@@ -16,110 +16,100 @@
 
 package org.quartz.utils;
 
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * An implementation of a CircularQueue data-structure.
  * When the number of items added exceeds the maximum capacity, items that were
  * added first are lost.
- * 
+ *
  * @param <T>
  *            Type of the item's to add in this queue
- * 
+ *
  * @author <a href="mailto:asanoujam@terracottatech.com">Abhishek Sanoujam</a>
  * @since 1.7
  */
 public class CircularLossyQueue<T> {
     private final AtomicReference<T>[] circularArray;
     private final int maxSize;
-
-    private final AtomicLong currentIndex = new AtomicLong(-1);
+    private int currentIndex = -1;
+    private boolean isFull = false;
 
     /**
      * Constructs the circular queue with the specified capacity
-     * 
+     *
      * @param size
      */
     @SuppressWarnings("unchecked")
     public CircularLossyQueue(int size) {
         this.circularArray = new AtomicReference[size];
         for (int i = 0; i < size; i++) {
-            this.circularArray[i] = new AtomicReference<T>();
+            this.circularArray[i] = new AtomicReference<>();
         }
         this.maxSize = size;
     }
 
     /**
      * Adds a new item
-     * 
+     *
      * @param newVal
      */
     public void push(T newVal) {
-        int index = (int) (currentIndex.incrementAndGet() % maxSize);
+        int index = (++currentIndex) % maxSize;
         circularArray[index].set(newVal);
+        isFull = isFull || currentIndex == maxSize;
+        currentIndex = index;
     }
 
     /**
      * Returns an array of the current elements in the queue. The order of
      * elements is in reverse order of the order items were added.
-     * 
+     *
      * @param type
      * @return An array containing the current elements in the queue. The first
      *         element of the array is the tail of the queue and the last
      *         element is the head of the queue
      */
     public T[] toArray(T[] type) {
-        System.getProperties();
-
         if (type.length > maxSize) {
             throw new IllegalArgumentException("Size of array passed in cannot be greater than " + maxSize);
         }
 
-        int curIndex = getCurrentIndex();
+        int curIndex = currentIndex + maxSize;
         for (int k = 0; k < type.length; k++) {
-            int index = getIndex(curIndex - k);
+            int index = (curIndex - k) % maxSize;
             type[k] = circularArray[index].get();
         }
         return type;
     }
 
-    private int getIndex(int index) {
-        return (index < 0 ? index + maxSize : index);
-    }
-
     /**
      * Returns value at the tail of the queue
-     * 
+     *
      * @return Value at the tail of the queue
      */
     public T peek() {
-        if (depth() == 0) {
+        if (currentIndex == -1) {
             return null;
         }
-        return circularArray[getIndex(getCurrentIndex())].get();
+        return circularArray[currentIndex].get();
     }
 
     /**
      * Returns true if the queue is empty, otherwise false
-     * 
+     *
      * @return true if the queue is empty, false otherwise
      */
-    public boolean isEmtpy() {
-        return depth() == 0;
-    }
-
-    private int getCurrentIndex() {
-        return (int) (currentIndex.get() % maxSize);
+    public boolean isEmpty() {
+        return currentIndex == -1;
     }
 
     /**
      * Returns the number of items currently in the queue
-     * 
+     *
      * @return the number of items in the queue
      */
     public int depth() {
-        long currInd = currentIndex.get() + 1;
-        return currInd >= maxSize ? maxSize : (int) currInd;
+        return isFull ? maxSize : currentIndex + 1;
     }
 }

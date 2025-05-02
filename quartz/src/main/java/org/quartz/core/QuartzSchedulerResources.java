@@ -1,6 +1,7 @@
 
 /* 
  * All content copyright Terracotta, Inc., unless otherwise indicated. All rights reserved.
+ * Copyright Super iPaaS Integration LLC, an IBM Company 2024
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not 
  * use this file except in compliance with the License. You may obtain a copy 
@@ -73,7 +74,7 @@ public class QuartzSchedulerResources {
 
     private JobRunShellFactory jobRunShellFactory;
 
-    private List<SchedulerPlugin> schedulerPlugins = new ArrayList<SchedulerPlugin>(10);
+    private final List<SchedulerPlugin> schedulerPlugins = new ArrayList<>(10);
     
     private boolean makeSchedulerThreadDaemon = false;
 
@@ -139,7 +140,7 @@ public class QuartzSchedulerResources {
      *              if name is null or empty.
      */
     public void setName(String name) {
-        if (name == null || name.trim().length() == 0) {
+        if (name == null || name.trim().isEmpty()) {
             throw new IllegalArgumentException(
                     "Scheduler name cannot be empty.");
         }
@@ -170,7 +171,7 @@ public class QuartzSchedulerResources {
      *              if name is null or empty.
      */
     public void setInstanceId(String instanceId) {
-        if (instanceId == null || instanceId.trim().length() == 0) {
+        if (instanceId == null || instanceId.trim().isEmpty()) {
             throw new IllegalArgumentException(
                     "Scheduler instanceId cannot be empty.");
         }
@@ -274,7 +275,7 @@ public class QuartzSchedulerResources {
      *              if name is null or empty.
      */
     public void setThreadName(String threadName) {
-        if (threadName == null || threadName.trim().length() == 0) {
+        if (threadName == null || threadName.trim().isEmpty()) {
             throw new IllegalArgumentException(
                     "Scheduler thread name cannot be empty.");
         }
@@ -293,7 +294,7 @@ public class QuartzSchedulerResources {
      */
     public void setRMICreateRegistryStrategy(String rmiCreateRegistryStrategy) {
         if (rmiCreateRegistryStrategy == null
-                || rmiCreateRegistryStrategy.trim().length() == 0) {
+                || rmiCreateRegistryStrategy.trim().isEmpty()) {
             rmiCreateRegistryStrategy = CREATE_REGISTRY_NEVER;
         } else if (rmiCreateRegistryStrategy.equalsIgnoreCase("true")) {
             rmiCreateRegistryStrategy = CREATE_REGISTRY_AS_NEEDED;
@@ -307,7 +308,7 @@ public class QuartzSchedulerResources {
             rmiCreateRegistryStrategy = CREATE_REGISTRY_NEVER;
         } else {
             throw new IllegalArgumentException(
-                    "Faild to set RMICreateRegistryStrategy - strategy unknown: '"
+                    "Failed to set RMICreateRegistryStrategy - strategy unknown: '"
                             + rmiCreateRegistryStrategy + "'");
         }
 
@@ -456,7 +457,7 @@ public class QuartzSchedulerResources {
 
     /**
      * Get the name under which to bind the QuartzScheduler in RMI.  Will 
-     * return the value of the uniqueIdentifier property if explict RMI bind 
+     * return the value of the uniqueIdentifier property if explicit RMI bind 
      * name was never set.
      * 
      * @see #getUniqueIdentifier()
@@ -494,7 +495,7 @@ public class QuartzSchedulerResources {
     /**
      * Get the name under which the QuartzScheduler should be registered with 
      * the local MBeanServer.  If unset, defaults to the value calculated by 
-     * <code>generateJMXObjectName<code>.
+     * <code>generateJMXObjectName</code>.
      * 
      * @see #generateJMXObjectName(String, String)
      */
@@ -505,7 +506,7 @@ public class QuartzSchedulerResources {
     /**
      * Set the name under which the QuartzScheduler should be registered with 
      * the local MBeanServer.  If unset, defaults to the value calculated by 
-     * <code>generateJMXObjectName<code>.
+     * <code>generateJMXObjectName</code>.
      * 
      * @see #generateJMXObjectName(String, String)
      */

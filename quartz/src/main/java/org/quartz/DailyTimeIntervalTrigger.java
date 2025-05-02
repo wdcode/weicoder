@@ -1,5 +1,6 @@
 /*
  * All content copyright Terracotta, Inc., unless otherwise indicated. All rights reserved.
+ * Copyright Super iPaaS Integration LLC, an IBM Company 2024
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not 
  * use this file except in compliance with the License. You may obtain a copy 
@@ -48,7 +49,7 @@ import org.quartz.DateBuilder.IntervalUnit;
  * @since 2.1.0
  * 
  * @author James House
- * @author Zemian Deng <saltnlight5@gmail.com>
+ * @author Zemian Deng &lt;saltnlight5@gmail.com&gt;
  */
 public interface DailyTimeIntervalTrigger extends Trigger {
 
@@ -59,7 +60,7 @@ public interface DailyTimeIntervalTrigger extends Trigger {
      * ending timestamp.
      * </p>
      */
-    public static final int REPEAT_INDEFINITELY = -1;
+    int REPEAT_INDEFINITELY = -1;
     
     /**
      * <p>
@@ -68,7 +69,7 @@ public interface DailyTimeIntervalTrigger extends Trigger {
      * fired now by <code>Scheduler</code>.
      * </p>
      */
-    public static final int MISFIRE_INSTRUCTION_FIRE_ONCE_NOW = 1;
+    int MISFIRE_INSTRUCTION_FIRE_ONCE_NOW = 1;
     
     /**
      * <p>
@@ -79,7 +80,7 @@ public interface DailyTimeIntervalTrigger extends Trigger {
      * but it does not want to be fired now.
      * </p>
      */
-    public static final int MISFIRE_INSTRUCTION_DO_NOTHING = 2;
+    int MISFIRE_INSTRUCTION_DO_NOTHING = 2;
 
     /**
      * <p>Get the interval unit - the time unit on with the interval applies.</p>
@@ -87,36 +88,36 @@ public interface DailyTimeIntervalTrigger extends Trigger {
      * <p>The only intervals that are valid for this type of trigger are {@link IntervalUnit#SECOND},
      * {@link IntervalUnit#MINUTE}, and {@link IntervalUnit#HOUR}.</p>
      */
-    public IntervalUnit getRepeatIntervalUnit();
+    IntervalUnit getRepeatIntervalUnit();
     
     /**
      * <p>
-     * Get the the number of times for interval this trigger should
+     * Get the number of times for interval this trigger should
      * repeat, after which it will be automatically deleted.
      * </p>
      * 
      * @see #REPEAT_INDEFINITELY
      */
-    public int getRepeatCount();
+    int getRepeatCount();
 
     /**
      * <p>
-     * Get the the time interval that will be added to the <code>DateIntervalTrigger</code>'s
+     * Get the time interval that will be added to the <code>DateIntervalTrigger</code>'s
      * fire time (in the set repeat interval unit) in order to calculate the time of the 
      * next trigger repeat.
      * </p>
      */
-    public int getRepeatInterval();
+    int getRepeatInterval();
     
     /**
      * The time of day to start firing at the given interval.
      */
-    public TimeOfDay getStartTimeOfDay();
+    TimeOfDay getStartTimeOfDay();
     
     /**
      * The time of day to complete firing at the given interval.
      */
-    public TimeOfDay getEndTimeOfDay();
+    TimeOfDay getEndTimeOfDay();
 
     /**
      * The days of the week upon which to fire.
@@ -124,7 +125,7 @@ public interface DailyTimeIntervalTrigger extends Trigger {
      * @return a Set containing the integers representing the days of the week, per the values 1-7 as defined by 
      * {@link java.util.Calendar#SUNDAY} - {@link java.util.Calendar#SATURDAY}. 
      */
-    public Set<Integer> getDaysOfWeek();
+    Set<Integer> getDaysOfWeek();
     
     /**
      * <p>
@@ -132,7 +133,7 @@ public interface DailyTimeIntervalTrigger extends Trigger {
      * fired.
      * </p>
      */
-    public int getTimesTriggered();
+    int getTimesTriggered();
 
-    public TriggerBuilder<DailyTimeIntervalTrigger> getTriggerBuilder();
+    TriggerBuilder<DailyTimeIntervalTrigger> getTriggerBuilder();
 }

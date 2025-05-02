@@ -33,7 +33,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 package org.jaxen.expr;
 
-import java.util.ArrayList; 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -44,8 +45,6 @@ import org.jaxen.UnresolvableException;
 import org.jaxen.Navigator;
 import org.jaxen.expr.iter.IterableAxis;
 import org.jaxen.saxpath.Axis;
-
-import com.weicoder.common.lang.W;
 
 /** 
  * Expression object that represents any flavor
@@ -58,14 +57,9 @@ import com.weicoder.common.lang.W;
  *
  * @author bob mcwhirter (bob@werken.com)
  * @author Stephen Colebourne
- * @deprecated this class will become non-public in the future;
- *     use the interface instead
  */
 public class DefaultNameStep extends DefaultStep implements NameStep {
     
-    /**
-     * 
-     */
     private static final long serialVersionUID = 428414912247718390L;
 
     /** 
@@ -154,13 +148,13 @@ public class DefaultNameStep extends DefaultStep implements NameStep {
      * <p>
      * This method overrides the version in <code>DefaultStep</code> for performance.
      */
-    public List<Object> evaluate(Context context) throws JaxenException {
+    public List evaluate(Context context) throws JaxenException {
 
-        List<?> contextNodeSet  = context.getNodeSet();
+        List contextNodeSet  = context.getNodeSet();
         int contextSize = contextNodeSet.size();
         // optimize for context size 0
         if (contextSize == 0) {
-            return W.L.empty();
+            return Collections.EMPTY_LIST;
         }
         ContextSupport support = context.getContextSupport();
         IterableAxis iterableAxis = getIterableAxis();
@@ -178,15 +172,15 @@ public class DefaultNameStep extends DefaultStep implements NameStep {
                         throw new UnresolvableException("XPath expression uses unbound namespace prefix " + prefix);
                     }
                 }
-                Iterator<?> axisNodeIter = iterableAxis.namedAccessIterator(
+                Iterator axisNodeIter = iterableAxis.namedAccessIterator(
                                 contextNode, support, localName, prefix, uri);
                 if (axisNodeIter == null || !axisNodeIter.hasNext()) {
-                    return W.L.empty();
+                    return Collections.EMPTY_LIST;
                 }
 
                 // convert iterator to list for predicate test
                 // no need to filter as named access guarantees this
-                List<Object> newNodeSet = new ArrayList<>();
+                List newNodeSet = new ArrayList();
                 while (axisNodeIter.hasNext()) {
                     newNodeSet.add(axisNodeIter.next());
                 }
@@ -197,14 +191,14 @@ public class DefaultNameStep extends DefaultStep implements NameStep {
             } 
             else {
                 // get the iterator over the nodes and check it
-                Iterator<?> axisNodeIter = iterableAxis.iterator(contextNode, support);
+                Iterator axisNodeIter = iterableAxis.iterator(contextNode, support);
                 if (axisNodeIter == null || !axisNodeIter.hasNext()) {
-                    return W.L.empty();
+                    return Collections.EMPTY_LIST;
                 }
 
                 // run through iterator, filtering using matches()
                 // adding to list for predicate test
-                List<Object> newNodeSet = new ArrayList<>(contextSize);
+                List newNodeSet = new ArrayList(contextSize);
                 while (axisNodeIter.hasNext()) {
                     Object eachAxisNode = axisNodeIter.next();
                     if (matches(eachAxisNode, support)) {
@@ -219,8 +213,8 @@ public class DefaultNameStep extends DefaultStep implements NameStep {
 
         // full case
         IdentitySet unique = new IdentitySet();
-        List<Object> interimSet = new ArrayList<>(contextSize);
-        List<Object> newNodeSet = new ArrayList<>(contextSize);
+        List<Object> interimSet = new ArrayList<Object>(contextSize);
+        List<Object> newNodeSet = new ArrayList<Object>(contextSize);
         
         if (namedAccess) {
             String uri = null;
@@ -233,40 +227,40 @@ public class DefaultNameStep extends DefaultStep implements NameStep {
             for (int i = 0; i < contextSize; ++i) {
                 Object eachContextNode = contextNodeSet.get(i);
 
-                Iterator<?> axisNodeIter = iterableAxis.namedAccessIterator(
+                Iterator axisNodeIter = iterableAxis.namedAccessIterator(
                                 eachContextNode, support, localName, prefix, uri);
                 if (axisNodeIter == null || !axisNodeIter.hasNext()) {
                     continue;
                 }
 
-				while (axisNodeIter.hasNext())
-				{
-					Object eachAxisNode = axisNodeIter.next();
-					interimSet.add(eachAxisNode);
-				}
+                while (axisNodeIter.hasNext())
+                {
+                    Object eachAxisNode = axisNodeIter.next();
+                    interimSet.add(eachAxisNode);
+                }
 
-				// evaluate the predicates
-				List<?> predicateNodes = getPredicateSet().evaluatePredicates(interimSet, support);
+                // evaluate the predicates
+                List predicateNodes = getPredicateSet().evaluatePredicates(interimSet, support);
 
-				// ensure only one of each node in the result
-				Iterator<?> predicateNodeIter = predicateNodes.iterator();
-				while (predicateNodeIter.hasNext())
-				{
-					Object eachPredicateNode = predicateNodeIter.next();
-					if (! unique.contains(eachPredicateNode))
-					{
-						unique.add(eachPredicateNode);
-						newNodeSet.add(eachPredicateNode);
-					}
-				}
-				interimSet.clear();
-			}
+                // ensure only one of each node in the result
+                Iterator predicateNodeIter = predicateNodes.iterator();
+                while (predicateNodeIter.hasNext())
+                {
+                    Object eachPredicateNode = predicateNodeIter.next();
+                    if (! unique.contains(eachPredicateNode))
+                    {
+                        unique.add(eachPredicateNode);
+                        newNodeSet.add(eachPredicateNode);
+                    }
+                }
+                interimSet.clear();
+            }
             
         } else {
             for (int i = 0; i < contextSize; ++i) {
                 Object eachContextNode = contextNodeSet.get(i);
 
-                Iterator<?> axisNodeIter = axisIterator(eachContextNode, support);
+                Iterator axisNodeIter = axisIterator(eachContextNode, support);
                 if (axisNodeIter == null || !axisNodeIter.hasNext()) {
                     continue;
                 }
@@ -284,24 +278,24 @@ public class DefaultNameStep extends DefaultStep implements NameStep {
                     Object eachAxisNode = axisNodeIter.next();
 
                     if (matches(eachAxisNode, support)) {
-						interimSet.add(eachAxisNode);
+                        interimSet.add(eachAxisNode);
                     }
                 }
 
                 // evaluate the predicates
-				List<?> predicateNodes = getPredicateSet().evaluatePredicates(interimSet, support);
+                List predicateNodes = getPredicateSet().evaluatePredicates(interimSet, support);
 
-				// ensure only one of each node in the result
-				Iterator<?> predicateNodeIter = predicateNodes.iterator();
-				while (predicateNodeIter.hasNext())
-				{
-					Object eachPredicateNode = predicateNodeIter.next();
-					if (! unique.contains(eachPredicateNode))
-					{
-						unique.add(eachPredicateNode);
-						newNodeSet.add(eachPredicateNode);
-					}
-				}
+                // ensure only one of each node in the result
+                Iterator predicateNodeIter = predicateNodes.iterator();
+                while (predicateNodeIter.hasNext())
+                {
+                    Object eachPredicateNode = predicateNodeIter.next();
+                    if (! unique.contains(eachPredicateNode))
+                    {
+                        unique.add(eachPredicateNode);
+                        newNodeSet.add(eachPredicateNode);
+                    }
+                }
                 interimSet.clear();
             }
         }
@@ -356,7 +350,7 @@ public class DefaultNameStep extends DefaultStep implements NameStep {
         if (hasPrefix) {
             myUri = contextSupport.translateNamespacePrefixToUri(this.prefix);
             if (myUri == null) {
-            	throw new UnresolvableException("Cannot resolve namespace prefix '"+this.prefix+"'");
+                throw new UnresolvableException("Cannot resolve namespace prefix '"+this.prefix+"'");
             }
         } 
         else if (matchesAnyName) {
@@ -396,7 +390,7 @@ public class DefaultNameStep extends DefaultStep implements NameStep {
      * @param uri2  the second URI
      * @return true if equal, where null==""
      */
-    protected boolean matchesNamespaceURIs(String uri1, String uri2) {
+    boolean matchesNamespaceURIs(String uri1, String uri2) {
         if (uri1 == uri2) {
             return true;
         }
@@ -414,6 +408,7 @@ public class DefaultNameStep extends DefaultStep implements NameStep {
      * 
      * @return a debugging string
      */
+    @Override
     public String toString() {
         String prefix = getPrefix();
         String qName = "".equals(prefix) ? getLocalName() : getPrefix() + ":" + getLocalName();

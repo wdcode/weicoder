@@ -25,7 +25,6 @@ import org.dom4j.Visitor;
  */
 public abstract class AbstractCDATA extends AbstractCharacterData implements
         CDATA {
-	private static final long serialVersionUID = 1L;
     public AbstractCDATA() {
     }
 

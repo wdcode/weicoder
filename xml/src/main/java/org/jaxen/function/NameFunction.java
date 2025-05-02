@@ -96,7 +96,7 @@ public class NameFunction implements Function
      * @throws FunctionCallException if <code>args</code> has more than one item
      */
     public Object call(Context context,
-                       List<Object> args) throws FunctionCallException
+                       List args) throws FunctionCallException
     {
         if ( args.size() == 0 )
         {
@@ -123,7 +123,7 @@ public class NameFunction implements Function
      * 
      * @throws FunctionCallException if <code>list.get(0)</code> is not a node
      */
-    public static String evaluate(List<?> list,
+    public static String evaluate(List list,
                                   Navigator nav) throws FunctionCallException
     {
         if ( ! list.isEmpty() )
@@ -132,7 +132,7 @@ public class NameFunction implements Function
 
             if (first instanceof List)
             {
-                return evaluate( (List<?>) first,
+                return evaluate( (List) first,
                                  nav );
             }
             else if ( nav.isElement( first ) )

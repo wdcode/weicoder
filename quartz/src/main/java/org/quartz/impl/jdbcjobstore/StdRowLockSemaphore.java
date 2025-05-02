@@ -1,5 +1,6 @@
 /* 
  * All content copyright Terracotta, Inc., unless otherwise indicated. All rights reserved.
+ * Copyright Super iPaaS Integration LLC, an IBM Company 2024
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not 
  * use this file except in compliance with the License. You may obtain a copy 
@@ -116,15 +117,11 @@ public class StdRowLockSemaphore extends DBSemaphore {
                 ps.setString(1, lockName);
                 
                 if (getLog().isDebugEnabled()) {
-                    getLog().debug(
-                        "Lock '" + lockName + "' is being obtained: " + 
-                        Thread.currentThread().getName());
+                    getLog().debug("Lock '{}' is being obtained: {}", lockName, Thread.currentThread().getName());
                 }
                 rs = ps.executeQuery();
                 if (!rs.next()) {
-                    getLog().debug(
-                            "Inserting new lock row for lock: '" + lockName + "' being obtained by thread: " + 
-                            Thread.currentThread().getName());
+                    getLog().debug("Inserting new lock row for lock: '{}' being obtained by thread: {}", lockName, Thread.currentThread().getName());
                     rs.close();
                     rs = null;
                     ps.close();
@@ -165,12 +162,15 @@ public class StdRowLockSemaphore extends DBSemaphore {
                     initCause = sqle;
                 
                 if (getLog().isDebugEnabled()) {
-                    getLog().debug(
-                        "Lock '" + lockName + "' was not obtained by: " + 
-                        Thread.currentThread().getName() + (count < maxRetryLocal ? " - will try again." : ""));
+                    getLog().debug("Lock '{}' was not obtained by: {}{}", lockName, Thread.currentThread().getName(), count < maxRetryLocal ? " - will try again." : "");
                 }
                 
                 if(count < maxRetryLocal) {
+                    try {
+                        conn.rollback();
+                    } catch (SQLException e) {
+                        getLog().error("Couldn't rollback jdbc connection. {}", e.getMessage(), e);
+                    }
                     // pause a bit to give another thread some time to commit the insert of the new lock row
                     try {
                         Thread.sleep(retryPeriodLocal);

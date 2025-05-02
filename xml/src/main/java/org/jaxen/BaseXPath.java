@@ -172,7 +172,7 @@ public class BaseXPath implements XPath, Serializable
      */
     public Object evaluate(Object context) throws JaxenException
     {
-        List<Object> answer = selectNodes(context);
+        List answer = selectNodes(context);
 
         if ( answer != null
              &&
@@ -209,7 +209,7 @@ public class BaseXPath implements XPath, Serializable
      *
      * @see #selectNodesForContext
      */
-    public List<Object> selectNodes(Object node) throws JaxenException
+    public List selectNodes(Object node) throws JaxenException
     {
         Context context = getContext( node );
         return selectNodesForContext( context );
@@ -233,7 +233,7 @@ public class BaseXPath implements XPath, Serializable
      */
     public Object selectSingleNode(Object node) throws JaxenException
     {
-        List<Object> results = selectNodes( node );
+        List results = selectNodes( node );
 
         if ( results.isEmpty() )
         {
@@ -241,19 +241,6 @@ public class BaseXPath implements XPath, Serializable
         }
 
         return results.get( 0 );
-    }
-
-    /**
-     * Returns the XPath string-value of the argument node.
-     * 
-     * @param node the node whose value to take
-     * @return the XPath string value of this node
-     * @throws JaxenException if an XPath error occurs during expression evaluation
-     * @deprecated replaced by {@link #stringValueOf}
-     */
-    public String valueOf(Object node) throws JaxenException
-    {
-        return stringValueOf( node );
     }
 
     /** Retrieves the string-value of the result of
@@ -309,7 +296,7 @@ public class BaseXPath implements XPath, Serializable
     public boolean booleanValueOf(Object node) throws JaxenException
     {
         Context context = getContext( node );
-        List<Object> result = selectNodesForContext( context );
+        List result = selectNodesForContext( context );
         if ( result == null ) return false;
         return BooleanFunction.evaluate( result, context.getNavigator() ).booleanValue();
     }
@@ -566,8 +553,7 @@ public class BaseXPath implements XPath, Serializable
      *
      *  @return a <code>Context</code> wrapper around the object
      */
-    @SuppressWarnings("unchecked")
-	protected Context getContext(Object node)
+    protected Context getContext(Object node)
     {
         if ( node instanceof Context )
         {
@@ -578,11 +564,11 @@ public class BaseXPath implements XPath, Serializable
 
         if ( node instanceof List )
         {
-            fullContext.setNodeSet( (List<Object>) node );
+            fullContext.setNodeSet( (List) node );
         }
         else
         {
-            List<Object> list = new SingletonList(node);
+            List list = new SingletonList(node);
             fullContext.setNodeSet( list );
         }
 
@@ -671,9 +657,9 @@ public class BaseXPath implements XPath, Serializable
      * @throws JaxenException if an XPath error occurs during expression evaluation
      *
      */
-    protected List<Object> selectNodesForContext(Context context) throws JaxenException
+    protected List selectNodesForContext(Context context) throws JaxenException
     {
-        List<Object> list = this.xpath.asList( context );
+        List list = this.xpath.asList( context );
         return list;
         
     }
@@ -696,7 +682,7 @@ public class BaseXPath implements XPath, Serializable
      */
     protected Object selectSingleNodeForContext(Context context) throws JaxenException
     {
-        List<Object> results = selectNodesForContext(context);
+        List results = selectNodesForContext(context);
 
         if ( results.isEmpty() )
         {

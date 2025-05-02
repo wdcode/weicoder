@@ -85,10 +85,9 @@ public abstract class LocaleFunctionSupport implements Function
         {
             return (Locale) value;
         }
-        else if(value instanceof List)
+        else if (value instanceof List)
         {
-            @SuppressWarnings("unchecked")
-			List<Object> list = (List<Object>) value;
+            List list = (List) value;
             if ( ! list.isEmpty() ) 
             {
                 return getLocale( list.get(0), navigator );
@@ -127,12 +126,12 @@ public abstract class LocaleFunctionSupport implements Function
                 String country = tokens.nextToken();
                 if (! tokens.hasMoreTokens())
                 {
-                    return Locale.of(language, country);
+                    return new Locale(language, country);
                 }
                 else 
                 {
                     String variant = tokens.nextToken();
-                    return Locale.of(language, country, variant);
+                    return new Locale(language, country, variant);
                 }
             }
         }

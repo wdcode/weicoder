@@ -23,9 +23,7 @@ import java.util.List;
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  * @version $Revision: 1.59 $
  */
-@SuppressWarnings("unchecked")
 public class DefaultElement extends AbstractElement {
-	private static final long serialVersionUID = 1L;
     /** The <code>DocumentFactory</code> instance used by default */
     private static final transient DocumentFactory DOCUMENT_FACTORY = 
             DocumentFactory.getInstance();
@@ -63,7 +61,7 @@ public class DefaultElement extends AbstractElement {
         this.qname = qname;
 
         if (attributeCount > 1) {
-            this.attributes = new ArrayList<>(attributeCount);
+            this.attributes = new ArrayList(attributeCount);
         }
     }
 
@@ -134,8 +132,8 @@ public class DefaultElement extends AbstractElement {
     public String getStringValue() {
         final Object contentShadow = content;
 
-        if (contentShadow instanceof List) { 
-			List<Node> list = (List<Node>) contentShadow;
+        if (contentShadow instanceof List) {
+            List<Node> list = (List<Node>) contentShadow;
 
             int size = list.size();
 

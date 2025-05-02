@@ -26,7 +26,6 @@ import org.dom4j.Node;
  * @version $Revision: 1.8 $
  */
 public class FlyweightCDATA extends AbstractCDATA implements CDATA {
-	private static final long serialVersionUID = 1L;
     /** Text of the <code>CDATA</code> node */
     protected String text;
 

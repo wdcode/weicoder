@@ -25,11 +25,10 @@ import java.util.*;
  *
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  * @version $Revision: 1.80 $
- */ 
+ */
+@SuppressWarnings("unused")
 public abstract class AbstractElement extends AbstractBranch implements
-				org.dom4j.Element { 
-	private static final long serialVersionUID = 1L;
-
+				org.dom4j.Element {
 	/**
 	 * The <code>DocumentFactory</code> instance used by default
 	 */

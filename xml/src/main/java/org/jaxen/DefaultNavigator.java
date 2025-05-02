@@ -50,7 +50,8 @@
 package org.jaxen;
 
 import java.util.Iterator;
- 
+
+import org.jaxen.pattern.Pattern;
 import org.jaxen.util.AncestorAxisIterator;
 import org.jaxen.util.AncestorOrSelfAxisIterator;
 import org.jaxen.util.DescendantAxisIterator;
@@ -60,7 +61,6 @@ import org.jaxen.util.FollowingSiblingAxisIterator;
 import org.jaxen.util.PrecedingAxisIterator;
 import org.jaxen.util.PrecedingSiblingAxisIterator;
 import org.jaxen.util.SelfAxisIterator;
-import org.dom4j.Node;
 
 /** Default implementation of {@link Navigator}.
  *
@@ -84,169 +84,215 @@ import org.dom4j.Node;
 public abstract class DefaultNavigator implements Navigator
 {
 
-    private static final long serialVersionUID = 1L;
-
-	/** Throws <code>UnsupportedAxisException</code>
+    /** 
+     * Throws <code>UnsupportedAxisException</code>.
+     * Subclasses should override this method.
      * 
-     * @param contextNode
+     * @param contextNode the node to start from
      * @return never returns
      * @throws UnsupportedAxisException always
      */
-    public Iterator<?> getChildAxisIterator(Object contextNode) throws UnsupportedAxisException
+    public Iterator getChildAxisIterator(Object contextNode) throws UnsupportedAxisException
     {
         throw new UnsupportedAxisException("child");
     }
 
-    /* (non-Javadoc)
-     * @see org.jaxen.Navigator#getDescendantAxisIterator(java.lang.Object)
+    /**
+     * {@inheritDoc}
      */
-    public Iterator<Object> getDescendantAxisIterator(Object contextNode) throws UnsupportedAxisException
+    public Iterator getDescendantAxisIterator(Object contextNode) throws UnsupportedAxisException
     {
         return new DescendantAxisIterator( contextNode,
                                            this );
     }
 
-    /** Throws <code>UnsupportedAxisException</code>
+    /** 
+     * Throws <code>UnsupportedAxisException</code>.
+     * Subclasses should override this method.
      * 
-     * @param  contextNode
+     * @param contextNode the node to start from
      * @return never returns
-     * @throws UnsupportedAxisException
+     * @throws UnsupportedAxisException always
      */
-    public Iterator<Object> getParentAxisIterator(Object contextNode) throws UnsupportedAxisException
+    @Override
+    public Iterator getParentAxisIterator(Object contextNode) throws UnsupportedAxisException
     {
         throw new UnsupportedAxisException("parent");
     }
 
-    public Iterator<Object> getAncestorAxisIterator(Object contextNode) throws UnsupportedAxisException
+    /**
+     * {@inheritDoc}
+     */
+    public Iterator getAncestorAxisIterator(Object contextNode) throws UnsupportedAxisException
     {
         return new AncestorAxisIterator( contextNode,
                                          this );
     }
 
 
-    public Iterator<Object> getFollowingSiblingAxisIterator(Object contextNode) throws UnsupportedAxisException
+    /**
+     * {@inheritDoc}
+     */
+    public Iterator getFollowingSiblingAxisIterator(Object contextNode) throws UnsupportedAxisException
     {
         return new FollowingSiblingAxisIterator( contextNode,
                                                  this );
     }
 
 
-    public Iterator<Object> getPrecedingSiblingAxisIterator(Object contextNode) throws UnsupportedAxisException
+    /**
+     * {@inheritDoc}
+     */
+    public Iterator getPrecedingSiblingAxisIterator(Object contextNode) throws UnsupportedAxisException
     {
         return new PrecedingSiblingAxisIterator( contextNode,
                                                  this );
     }
 
-    public Iterator<Object> getFollowingAxisIterator(Object contextNode) throws UnsupportedAxisException
+    /**
+     * {@inheritDoc}
+     */
+    public Iterator getFollowingAxisIterator(Object contextNode) throws UnsupportedAxisException
     {
         return new FollowingAxisIterator( contextNode,
                                           this );
-
-        // throw new UnsupportedAxisException("following");
     }
 
-
-    public Iterator<Object> getPrecedingAxisIterator(Object contextNode) throws UnsupportedAxisException
+    /**
+     * {@inheritDoc}
+     */
+    public Iterator getPrecedingAxisIterator(Object contextNode) throws UnsupportedAxisException
     {
         return new PrecedingAxisIterator( contextNode,
                                          this );
-
-        // throw new UnsupportedAxisException("preceding");
     }
 
-    /** Throws <code>UnsupportedAxisException</code>. Subclasses that 
-     * support the attribute axis must override this method.
-     * 
-     * @param contextNode
-     * @return never returns
-     * @throws UnsupportedAxisException
+    /**
+     * {@inheritDoc}
      */
-    public Iterator<?> getAttributeAxisIterator(Object contextNode) throws UnsupportedAxisException
+    public Iterator getAttributeAxisIterator(Object contextNode) throws UnsupportedAxisException
     {
         throw new UnsupportedAxisException("attribute");
     }
 
-    /** Throws <code>UnsupportedAxisException</code>. Subclasses that 
+    /** 
+     * Throws <code>UnsupportedAxisException</code>. Subclasses that 
      * support the namespace axis must override this method.
      * 
-     * @param contextNode
+     * @param contextNode the node to start from
      * @return never returns
-     * @throws UnsupportedAxisException
+     * @throws UnsupportedAxisException always
      */
-    public Iterator<Object> getNamespaceAxisIterator(Object contextNode) throws UnsupportedAxisException
+    public Iterator getNamespaceAxisIterator(Object contextNode) throws UnsupportedAxisException
     {
         throw new UnsupportedAxisException("namespace");
     }
-
-    public Iterator<Object> getSelfAxisIterator(Object contextNode) throws UnsupportedAxisException
+    
+    /**
+     * {@inheritDoc}
+     */
+    public Iterator getSelfAxisIterator(Object contextNode) throws UnsupportedAxisException
     {
         return new SelfAxisIterator( contextNode );
     }
 
-    public Iterator<Object> getDescendantOrSelfAxisIterator(Object contextNode) throws UnsupportedAxisException
+    /**
+     * {@inheritDoc}
+     */
+    public Iterator getDescendantOrSelfAxisIterator(Object contextNode) throws UnsupportedAxisException
     {
         return new DescendantOrSelfAxisIterator( contextNode,
                                                  this );
     }
 
-    public Iterator<Object> getAncestorOrSelfAxisIterator(Object contextNode) throws UnsupportedAxisException
+    /**
+     * {@inheritDoc}
+     */
+    public Iterator getAncestorOrSelfAxisIterator(Object contextNode) throws UnsupportedAxisException
     {
         return new AncestorOrSelfAxisIterator( contextNode,
                                                this );
     }
 
+    /** 
+     * Returns null.
+     * 
+     * @param contextNode the node to start from
+     * @return null
+     */
     public Object getDocumentNode(Object contextNode)
     {
         return null;
     }
     
-    public String translateNamespacePrefixToUri(String prefix, Object element)
+    /** 
+     * Returns null.
+     * 
+     * @param contextNode the node to start from
+     * @return null
+     */
+    public String translateNamespacePrefixToUri(String prefix, Object contextNode)
     {
         return null;
     }
 
-    public String getProcessingInstructionTarget(Object obj)
+    /** 
+     * Returns null.
+     * 
+     * @param contextNode the node to start from
+     * @return null
+     */
+    public String getProcessingInstructionTarget(Object contextNode)
     {
         return null;
     }
 
-    public String getProcessingInstructionData(Object obj)
+    /** 
+     * Returns null.
+     * 
+     * @param contextNode the node to start from
+     * @return null
+     */
+    public String getProcessingInstructionData(Object contextNode)
     {
         return null;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public short getNodeType(Object node)
     {
         if ( isElement(node) ) 
         {
-            return Node.ELEMENT_NODE;
+            return Pattern.ELEMENT_NODE;
         }
         else if ( isAttribute(node) ) 
         {
-            return Node.ATTRIBUTE_NODE;
+            return Pattern.ATTRIBUTE_NODE;
         }
         else if ( isText(node) ) 
         {
-            return Node.TEXT_NODE;
+            return Pattern.TEXT_NODE;
         }
         else if ( isComment(node) ) 
         {
-            return Node.COMMENT_NODE;
+            return Pattern.COMMENT_NODE;
         }
         else if ( isDocument(node) ) 
         {
-            return Node.DOCUMENT_NODE;
+            return Pattern.DOCUMENT_NODE;
         }
         else if ( isProcessingInstruction(node) ) 
         {
-            return Node.PROCESSING_INSTRUCTION_NODE;
+            return Pattern.PROCESSING_INSTRUCTION_NODE;
         }
         else if ( isNamespace(node) ) 
         {
-            return Node.NAMESPACE_NODE;
+            return Pattern.NAMESPACE_NODE;
         }
         else {
-            return Node.UNKNOWN_NODE;
+            return Pattern.UNKNOWN_NODE;
         }
     }
     
@@ -254,13 +300,13 @@ public abstract class DefaultNavigator implements Navigator
      * Default inefficient implementation. Subclasses 
      * should override this method.
      *
-     * @param contextNode   the node whose parent to return
+     * @param contextNode the node whose parent to return
      * @return the parent node
      * @throws UnsupportedAxisException if the parent axis is not supported
      */
     public Object getParentNode(Object contextNode) throws UnsupportedAxisException
     {
-        Iterator<Object> iter = getParentAxisIterator( contextNode );
+        Iterator iter = getParentAxisIterator( contextNode );
         if ( iter != null && iter.hasNext() )
         {
             return iter.next();
@@ -273,7 +319,6 @@ public abstract class DefaultNavigator implements Navigator
      *  if the subclass can load documents. 
      *
      * @param url the URL of the document to load
-     *
      * @return null
      * @throws FunctionCallException if an error occurs while loading the
      *    URL; e.g. an I/O error or the document is malformed
@@ -285,13 +330,11 @@ public abstract class DefaultNavigator implements Navigator
 
     /**
      *  Default implementation that cannot find elements. Override in subclass
-     *  if subclass does know about attribute types.
+     *  if subclass knows about attribute types.
      *
-     *  @param contextNode   a node from the document in which to look for the
-     *                       id
-     *  @param elementId   id to look for
-     *
-     *  @return   null
+     *  @param contextNode a node from the document in which to look for the id
+     *  @param elementId id to look for
+     *  @return null
      */
     public Object getElementById(Object contextNode, String elementId)
     {

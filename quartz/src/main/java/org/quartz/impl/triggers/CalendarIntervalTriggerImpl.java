@@ -1,6 +1,7 @@
 
 /*
  * All content copyright Terracotta, Inc., unless otherwise indicated. All rights reserved.
+ * Copyright Super iPaaS Integration LLC, an IBM Company 2024
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not 
  * use this file except in compliance with the License. You may obtain a copy 
@@ -107,7 +108,7 @@ public class CalendarIntervalTriggerImpl extends AbstractTrigger<CalendarInterva
 
     private int timesTriggered = 0;
 
-    private boolean complete = false;
+    private final boolean complete = false;
     
     /*
      * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -129,7 +130,7 @@ public class CalendarIntervalTriggerImpl extends AbstractTrigger<CalendarInterva
     /**
      * <p>
      * Create a <code>DateIntervalTrigger</code> that will occur immediately, and
-     * repeat at the the given interval.
+     * repeat at the given interval.
      * </p>
      */
     public CalendarIntervalTriggerImpl(String name, IntervalUnit intervalUnit,  int repeatInterval) {
@@ -139,7 +140,7 @@ public class CalendarIntervalTriggerImpl extends AbstractTrigger<CalendarInterva
     /**
      * <p>
      * Create a <code>DateIntervalTrigger</code> that will occur immediately, and
-     * repeat at the the given interval.
+     * repeat at the given interval.
      * </p>
      */
     public CalendarIntervalTriggerImpl(String name, String group, IntervalUnit intervalUnit,
@@ -150,7 +151,7 @@ public class CalendarIntervalTriggerImpl extends AbstractTrigger<CalendarInterva
     /**
      * <p>
      * Create a <code>DateIntervalTrigger</code> that will occur at the given time,
-     * and repeat at the the given interval until the given end time.
+     * and repeat at the given interval until the given end time.
      * </p>
      * 
      * @param startTime
@@ -172,7 +173,7 @@ public class CalendarIntervalTriggerImpl extends AbstractTrigger<CalendarInterva
     /**
      * <p>
      * Create a <code>DateIntervalTrigger</code> that will occur at the given time,
-     * and repeat at the the given interval until the given end time.
+     * and repeat at the given interval until the given end time.
      * </p>
      * 
      * @param startTime
@@ -199,7 +200,7 @@ public class CalendarIntervalTriggerImpl extends AbstractTrigger<CalendarInterva
     /**
      * <p>
      * Create a <code>DateIntervalTrigger</code> that will occur at the given time,
-     * fire the identified <code>Job</code> and repeat at the the given
+     * fire the identified <code>Job</code> and repeat at the given
      * interval until the given end time.
      * </p>
      * 
@@ -324,13 +325,13 @@ public class CalendarIntervalTriggerImpl extends AbstractTrigger<CalendarInterva
 
     /**
      * <p>
-     * set the the time interval that will be added to the <code>DateIntervalTrigger</code>'s
+     * set the time interval that will be added to the <code>DateIntervalTrigger</code>'s
      * fire time (in the set repeat interval unit) in order to calculate the time of the 
      * next trigger repeat.
      * </p>
      * 
      * @exception IllegalArgumentException
-     *              if repeatInterval is < 1
+     *              if repeatInterval is &lt; 1
      */
     public void setRepeatInterval( int repeatInterval) {
         if (repeatInterval < 0) {
@@ -462,11 +463,10 @@ public class CalendarIntervalTriggerImpl extends AbstractTrigger<CalendarInterva
      * 
      * <p>
      * If the misfire instruction is set to MISFIRE_INSTRUCTION_SMART_POLICY,
-     * then the following scheme will be used: <br>
+     * then the following scheme will be used: </p>
      * <ul>
      * <li>The instruction will be interpreted as <code>MISFIRE_INSTRUCTION_FIRE_ONCE_NOW</code>
      * </ul>
-     * </p>
      */
     @Override
     public void updateAfterMisfire(org.quartz.Calendar cal) {
@@ -582,7 +582,6 @@ public class CalendarIntervalTriggerImpl extends AbstractTrigger<CalendarInterva
      * @return the first time at which the <code>Trigger</code> will be fired
      *         by the scheduler, which is also the same value <code>getNextFireTime()</code>
      *         will return (until after the first firing of the <code>Trigger</code>).
-     *         </p>
      */
     @Override
     public Date computeFirstFireTime(org.quartz.Calendar calendar) {
@@ -680,7 +679,7 @@ public class CalendarIntervalTriggerImpl extends AbstractTrigger<CalendarInterva
             return null;
         }
 
-        // increment afterTme by a second, so that we are 
+        // increment afterTime by a second, so that we are 
         // comparing against a time after it!
         if (afterTime == null) {
             afterTime = new Date();
@@ -881,7 +880,7 @@ public class CalendarIntervalTriggerImpl extends AbstractTrigger<CalendarInterva
         // find the next fire time after that
         fTime = getFireTimeAfter(fTime, true);
         
-        // the the trigger fires at the end time, that's it!
+        // the trigger fires at the end time, that's it!
         if(fTime.equals(getEndTime()))
             return fTime;
         

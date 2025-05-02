@@ -1,5 +1,6 @@
 /* 
  * All content copyright Terracotta, Inc., unless otherwise indicated. All rights reserved.
+ * Copyright Super iPaaS Integration LLC, an IBM Company 2024
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not 
  * use this file except in compliance with the License. You may obtain a copy 
@@ -512,7 +513,7 @@ public interface StdJDBCConstants extends Constants {
         + TABLE_PREFIX_SUBST + TABLE_TRIGGERS + " WHERE "
         + COL_SCHEDULER_NAME + " = " + SCHED_NAME_SUBST
         + " AND " + COL_TRIGGER_STATE + " = ? AND " + COL_NEXT_FIRE_TIME + " <= ? " 
-        + "AND (" + COL_MISFIRE_INSTRUCTION + " = -1 OR (" +COL_MISFIRE_INSTRUCTION+ " != -1 AND "+ COL_NEXT_FIRE_TIME + " >= ?)) "
+        + "AND (" + COL_MISFIRE_INSTRUCTION + " = -1 OR (" +COL_MISFIRE_INSTRUCTION+ " <> -1 AND "+ COL_NEXT_FIRE_TIME + " >= ?)) "
         + "ORDER BY "+ COL_NEXT_FIRE_TIME + " ASC, " + COL_PRIORITY + " DESC";
     
     

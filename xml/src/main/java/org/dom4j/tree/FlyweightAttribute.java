@@ -25,7 +25,6 @@ import org.dom4j.QName;
  * @version $Revision: 1.7 $
  */
 public class FlyweightAttribute extends AbstractAttribute {
-	private static final long serialVersionUID = 1L;
     /** The <code>QName</code> for this element */
     private QName qname;
 

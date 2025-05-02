@@ -1,6 +1,7 @@
 
 /* 
  * All content copyright Terracotta, Inc., unless otherwise indicated. All rights reserved.
+ * Copyright Super iPaaS Integration LLC, an IBM Company 2024
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not 
  * use this file except in compliance with the License. You may obtain a copy 
@@ -45,35 +46,35 @@ public class JobExecutionContextImpl implements java.io.Serializable, JobExecuti
      * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
      */
 
-    private transient Scheduler scheduler;
+    private final transient Scheduler scheduler;
 
-    private Trigger trigger;
+    private final Trigger trigger;
 
-    private JobDetail jobDetail;
+    private final JobDetail jobDetail;
     
-    private JobDataMap jobDataMap;
+    private final JobDataMap jobDataMap;
 
-    private transient Job job;
+    private final transient Job job;
     
-    private Calendar calendar;
+    private final Calendar calendar;
 
-    private boolean recovering = false;
+    private boolean recovering;
 
     private int numRefires = 0;
 
-    private Date fireTime;
+    private final Date fireTime;
 
-    private Date scheduledFireTime;
+    private final Date scheduledFireTime;
 
-    private Date prevFireTime;
+    private final Date prevFireTime;
 
-    private Date nextFireTime;
+    private final Date nextFireTime;
     
     private long jobRunTime = -1;
     
     private Object result;
     
-    private HashMap<Object, Object> data = new HashMap<Object, Object>();
+    private final HashMap<Object, Object> data = new HashMap<>();
 
     /*
      * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -85,7 +86,7 @@ public class JobExecutionContextImpl implements java.io.Serializable, JobExecuti
 
     /**
      * <p>
-     * Create a JobExcecutionContext with the given context data.
+     * Create a JobExecutionContext with the given context data.
      * </p>
      */
     public JobExecutionContextImpl(Scheduler scheduler,

@@ -95,7 +95,7 @@ public class SubstringAfterFunction implements Function
      * @throws FunctionCallException if <code>args</code> does not have length two
      */
     public Object call(Context context,
-                       List<Object> args) throws FunctionCallException
+                       List args) throws FunctionCallException
     {
         if (args.size() == 2)
         {

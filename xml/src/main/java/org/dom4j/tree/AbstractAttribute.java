@@ -23,7 +23,6 @@ import java.io.Writer;
  */
 public abstract class AbstractAttribute extends AbstractNode implements
         Attribute {
-	private static final long serialVersionUID = 1L;
     public short getNodeType() {
         return ATTRIBUTE_NODE;
     }

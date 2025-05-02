@@ -1,10 +1,11 @@
 package com.weicoder.netty.base;
 
-import io.netty.bootstrap.ServerBootstrap; 
+import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelOption;
-import io.netty.channel.ServerChannel;
-import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.MultiThreadIoEventLoopGroup;
+import io.netty.channel.ServerChannel; 
+import io.netty.channel.nio.NioIoHandler;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
 import com.weicoder.socket.params.SocketParams;
@@ -12,6 +13,7 @@ import com.weicoder.socket.Server;
 
 /**
  * netty实现
+ * 
  * @author WD
  */
 public abstract class BaseServer implements Server {
@@ -19,13 +21,16 @@ public abstract class BaseServer implements Server {
 	private ServerBootstrap bootstrap;
 
 	/**
-	 * 构造函数 
+	 * 构造函数
 	 */
 	public BaseServer() {
 		// 实例化ServerBootstrap
 		bootstrap = new ServerBootstrap();
 		// 设置group
-		bootstrap.group(new NioEventLoopGroup(1), new NioEventLoopGroup(SocketParams.POOL));
+//		bootstrap.group(new NioEventLoopGroup(1), new NioEventLoopGroup(SocketParams.POOL));
+		bootstrap.group(new MultiThreadIoEventLoopGroup(1, NioIoHandler.newFactory()),
+				new MultiThreadIoEventLoopGroup(SocketParams.POOL, NioIoHandler.newFactory()));
+
 		// 设置属性
 		bootstrap.option(ChannelOption.SO_REUSEADDR, true);
 		// bootstrap.option(ChannelOption.TCP_NODELAY, true);
@@ -58,18 +63,21 @@ public abstract class BaseServer implements Server {
 
 	/**
 	 * 获得server处理handler
+	 * 
 	 * @return ChannelHandler
 	 */
 	protected abstract ChannelHandler handler();
 
 	/**
 	 * 获得服务器监听端口
+	 * 
 	 * @return 端口
 	 */
 	protected abstract int port();
 
 	/**
 	 * 获得server处理Channel
+	 * 
 	 * @return Channel
 	 */
 	protected Class<? extends ServerChannel> channel() {

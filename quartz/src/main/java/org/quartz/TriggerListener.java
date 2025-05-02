@@ -1,6 +1,7 @@
 
 /* 
  * All content copyright Terracotta, Inc., unless otherwise indicated. All rights reserved.
+ * Copyright Super iPaaS Integration LLC, an IBM Company 2024
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not 
  * use this file except in compliance with the License. You may obtain a copy 
@@ -74,7 +75,7 @@ public interface TriggerListener {
      * <p>
      * Called by the <code>{@link Scheduler}</code> when a <code>{@link Trigger}</code>
      * has fired, and it's associated <code>{@link org.quartz.JobDetail}</code>
-     * is about to be executed.  If the implementation vetos the execution (via
+     * is about to be executed.  If the implementation vetoes the execution (via
      * returning <code>true</code>), the job's execute method will not be called.
      * </p>
      * 

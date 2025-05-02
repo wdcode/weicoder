@@ -54,15 +54,9 @@ import java.util.List;
 import org.jaxen.Context;
 import org.jaxen.JaxenException;
 
-/**
- * @deprecated this class will become non-public in the future;
- *     use the interface instead
- */
 public class DefaultFilterExpr extends DefaultExpr implements FilterExpr, Predicated
 {
-    /**
-     * 
-     */
+
     private static final long serialVersionUID = -549640659288005735L;
     private Expr expr;
     private PredicateSet predicates;
@@ -83,7 +77,7 @@ public class DefaultFilterExpr extends DefaultExpr implements FilterExpr, Predic
         this.predicates.addPredicate( predicate );
     }
 
-    public List<Predicate> getPredicates()
+    public List getPredicates()
     {
         return this.predicates.getPredicates();
     }
@@ -133,8 +127,7 @@ public class DefaultFilterExpr extends DefaultExpr implements FilterExpr, Predic
 
     /** Returns true if the current filter matches at least one of the context nodes
      */
-    @SuppressWarnings("unchecked")
-	public boolean asBoolean(Context context) throws JaxenException 
+    public boolean asBoolean(Context context) throws JaxenException 
     {
         Object results = null;
         if ( expr != null ) 
@@ -143,8 +136,8 @@ public class DefaultFilterExpr extends DefaultExpr implements FilterExpr, Predic
         }
         else
         {
-            List<?> nodeSet = context.getNodeSet();
-            ArrayList<Object> list = new ArrayList<>(nodeSet.size());
+            List nodeSet = context.getNodeSet();
+            ArrayList list = new ArrayList(nodeSet.size());
             list.addAll( nodeSet );
             results = list;
         }
@@ -157,21 +150,20 @@ public class DefaultFilterExpr extends DefaultExpr implements FilterExpr, Predic
         if ( results instanceof List )
         {
             return getPredicateSet().evaluateAsBoolean( 
-                (List<Object>) results, context.getContextSupport() 
+                (List) results, context.getContextSupport() 
             );
         }
         
         return false;
     }
     
-    @SuppressWarnings("unchecked")
-	public Object evaluate(Context context) throws JaxenException
+    public Object evaluate(Context context) throws JaxenException
     {
         Object results = getExpr().evaluate( context );
         
         if ( results instanceof List )
         {
-            List<Object> newresults = getPredicateSet().evaluatePredicates( (List<Object>) results,
+            List newresults = getPredicateSet().evaluatePredicates( (List) results,
                                     context.getContextSupport() );
         results = newresults;
         }

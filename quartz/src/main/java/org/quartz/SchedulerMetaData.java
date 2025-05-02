@@ -1,6 +1,7 @@
 
 /* 
  * All content copyright Terracotta, Inc., unless otherwise indicated. All rights reserved.
+ * Copyright Super iPaaS Integration LLC, an IBM Company 2024
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not 
  * use this file except in compliance with the License. You may obtain a copy 
@@ -38,35 +39,35 @@ public class SchedulerMetaData implements java.io.Serializable {
      * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
      */
 
-    private String schedName;
+    private final String schedName;
 
-    private String schedInst;
+    private final String schedInst;
 
-    private Class<?> schedClass;
+    private final Class<?> schedClass;
 
-    private boolean isRemote;
+    private final boolean isRemote;
 
-    private boolean started;
+    private final boolean started;
 
-    private boolean isInStandbyMode;
+    private final boolean isInStandbyMode;
 
-    private boolean shutdown;
+    private final boolean shutdown;
 
-    private Date startTime;
+    private final Date startTime;
 
-    private int numJobsExec;
+    private final int numJobsExec;
 
-    private Class<?> jsClass;
+    private final Class<?> jsClass;
 
-    private boolean jsPersistent;
+    private final boolean jsPersistent;
 
-    private boolean jsClustered;
+    private final boolean jsClustered;
 
-    private Class<?> tpClass;
+    private final Class<?> tpClass;
 
-    private int tpSize;
+    private final int tpSize;
 
-    private String version;
+    private final String version;
 
     /*
      * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -275,14 +276,10 @@ public class SchedulerMetaData implements java.io.Serializable {
      * 
      * <p>
      * The format of the String looks something like this:
-     * 
+     * </p>
      * <pre>
-     * 
-     * 
      *  Quartz Scheduler 'SchedulerName' with instanceId 'SchedulerInstanceId' Scheduler class: 'org.quartz.impl.StdScheduler' - running locally. Running since: '11:33am on Jul 19, 2002' Not currently paused. Number of Triggers fired: '123' Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with '8' threads Using job-store 'org.quartz.impl.JDBCJobStore' - which supports persistence.
      * </pre>
-     * 
-     * </p>
      */
     public String getSummary() throws SchedulerException {
         StringBuilder str = new StringBuilder("Quartz Scheduler (v");

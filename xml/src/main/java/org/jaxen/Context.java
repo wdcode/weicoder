@@ -65,9 +65,6 @@ import java.util.List;
  */
 public class Context implements Serializable {
     
-    /**
-     * 
-     */
     private static final long serialVersionUID = 2315979994685591055L;
 
     // ----------------------------------------------------------------------
@@ -78,7 +75,7 @@ public class Context implements Serializable {
     private ContextSupport contextSupport;
 
     /** Context node-set */
-    private List<?> nodeSet;
+    private List nodeSet;
 
     /** Current context size */
     private int size;
@@ -122,7 +119,7 @@ public class Context implements Serializable {
      *
      *  @param nodeSet the context node-set
      */
-    public void setNodeSet(List<?> nodeSet)
+    public void setNodeSet(List nodeSet)
     {
         this.nodeSet = nodeSet;
         this.size    = nodeSet.size();
@@ -135,7 +132,7 @@ public class Context implements Serializable {
      *
      *  @return the context node-set
      */
-    public List<?> getNodeSet()
+    public List getNodeSet()
     {
         return this.nodeSet;
     }
@@ -270,11 +267,11 @@ public class Context implements Serializable {
     {
         Context dupe = new Context( getContextSupport() );
 
-        List<?> thisNodeSet = getNodeSet();
+        List thisNodeSet = getNodeSet();
 
         if ( thisNodeSet != null )
         {
-            List<Object> dupeNodeSet = new ArrayList<>( thisNodeSet.size() );
+            List dupeNodeSet = new ArrayList( thisNodeSet.size() );
             dupeNodeSet.addAll( thisNodeSet );
             dupe.setNodeSet( dupeNodeSet );
             dupe.setPosition(this.position);

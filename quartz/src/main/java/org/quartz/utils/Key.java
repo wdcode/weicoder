@@ -1,5 +1,6 @@
 /* 
  * All content copyright Terracotta, Inc., unless otherwise indicated. All rights reserved.
+ * Copyright Super iPaaS Integration LLC, an IBM Company 2024
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not 
  * use this file except in compliance with the License. You may obtain a copy 
@@ -114,8 +115,8 @@ public class Key<T>  implements Serializable, Comparable<Key<T>> {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((group == null) ? 0 : group.hashCode());
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        result = prime * result + group.hashCode();
+        result = prime * result + name.hashCode();
         return result;
     }
 
@@ -129,17 +130,9 @@ public class Key<T>  implements Serializable, Comparable<Key<T>> {
             return false;
         @SuppressWarnings("unchecked")
         Key<T> other = (Key<T>) obj;
-        if (group == null) {
-            if (other.group != null)
-                return false;
-        } else if (!group.equals(other.group))
+        if (!group.equals(other.group))
             return false;
-        if (name == null) {
-            if (other.name != null)
-                return false;
-        } else if (!name.equals(other.name))
-            return false;
-        return true;
+        return name.equals(other.name);
     }
 
     public int compareTo(Key<T> o) {

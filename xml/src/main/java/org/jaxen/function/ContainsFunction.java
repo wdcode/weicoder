@@ -93,7 +93,7 @@ public class ContainsFunction implements Function
      * @throws FunctionCallException if <code>args</code> does not have exactly two items
      */
     public Object call(Context context,
-                       List<Object> args) throws FunctionCallException
+                       List args) throws FunctionCallException
     {
         if (args.size() == 2)
         {

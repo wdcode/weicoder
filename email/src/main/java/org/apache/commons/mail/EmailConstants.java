@@ -16,17 +16,19 @@
  */
 package org.apache.commons.mail;
 
+import java.nio.charset.StandardCharsets;
+import java.time.Duration;
+
 /**
  * Constants used by Email classes.
  *
- * A description of the mail session parameter you find at
- * <a href="http://java.sun.com/products/javamail/javadocs/com/sun/mail/smtp/package-summary.html">
+ * A description of the mail session parameter you find at <a href="http://java.sun.com/products/javamail/javadocs/com/sun/mail/smtp/package-summary.html">
  * http://java.sun.com/products/javamail/javadocs/com/sun/mail/smtp/package-summary.html</a>.
  *
  * @since 1.3
  */
-public final class EmailConstants
-{
+public final class EmailConstants {
+
     /** @deprecated since 1.3, not in use since 1.0 */
     @Deprecated
     public static final String SENDER_EMAIL = "sender.email";
@@ -65,17 +67,17 @@ public final class EmailConstants
 
     // Charset constants
 
-    /** charset constant for koi8-r */
+    /** Charset constant for koi8-r */
     public static final String KOI8_R = "koi8-r";
 
-    /** charset constant for iso-8859-1 */
-    public static final String ISO_8859_1 = "iso-8859-1";
+    /** Charset constant for iso-8859-1 */
+    public static final String ISO_8859_1 = StandardCharsets.ISO_8859_1.name();
 
-    /** charset constant for us-ascii */
-    public static final String US_ASCII = "us-ascii";
+    /** Charset constant for us-ascii */
+    public static final String US_ASCII = StandardCharsets.US_ASCII.name();
 
-    /** charset constant for utf-8 */
-    public static final String UTF_8 = "utf-8";
+    /** Charset constant for utf-8 */
+    public static final String UTF_8 = StandardCharsets.UTF_8.name();
 
     /** The debug mode to be used. */
     public static final String MAIL_DEBUG = "mail.debug";
@@ -101,16 +103,16 @@ public final class EmailConstants
     /** Specifies the default transport protocol */
     public static final String MAIL_TRANSPORT_PROTOCOL = "mail.transport.protocol";
 
-    /** the value to use SMTP as transport protocol */
+    /** The value to use SMTP as transport protocol */
     public static final String SMTP = "smtp";
 
-    /** defines the text/html content type */
+    /** Defines the text/html content type */
     public static final String TEXT_HTML = "text/html";
 
-    /** defines the html subtype */
+    /** Defines the html subtype */
     public static final String TEXT_SUBTYPE_HTML = "html";
 
-    /** defines the text/plain content type */
+    /** Defines the text/plain content type */
     public static final String TEXT_PLAIN = "text/plain";
 
     /////////////////////////////////////////////////////////////////////////
@@ -123,81 +125,93 @@ public final class EmailConstants
 
     /**
      * Indicates if the STARTTLS command shall be used to initiate a TLS-secured connection.
+     *
      * @since 1.1
      */
     public static final String MAIL_TRANSPORT_STARTTLS_ENABLE = "mail.smtp.starttls.enable";
 
     /**
      * Whether to use {@link java.net.Socket} as a fallback if the initial connection fails or not.
+     *
      * @since 1.1
      */
     public static final String MAIL_SMTP_SOCKET_FACTORY_FALLBACK = "mail.smtp.socketFactory.fallback";
 
     /**
-     * Specifies the {@link jakarta.net.SocketFactory} class to create smtp sockets.
+     * Specifies the {@link javax.net.SocketFactory} class to create smtp sockets.
+     *
      * @since 1.1
      */
     public static final String MAIL_SMTP_SOCKET_FACTORY_CLASS = "mail.smtp.socketFactory.class";
 
     /**
      * Specifies the port to connect to when using a socket factory.
+     *
      * @since 1.1
      */
     public static final String MAIL_SMTP_SOCKET_FACTORY_PORT = "mail.smtp.socketFactory.port";
 
-    /////////////////////////////////////////////////////////////////////////
-    // since 1.2
-    /////////////////////////////////////////////////////////////////////////
-
     /**
      * Socket connection timeout value in milliseconds. Default is infinite timeout.
+     *
      * @since 1.2
      */
     public static final String MAIL_SMTP_CONNECTIONTIMEOUT = "mail.smtp.connectiontimeout";
 
     /**
      * Socket I/O timeout value in milliseconds. Default is infinite timeout.
+     *
      * @since 1.2
      */
     public static final String MAIL_SMTP_TIMEOUT = "mail.smtp.timeout";
 
-    /////////////////////////////////////////////////////////////////////////
-    // since 1.3
-    /////////////////////////////////////////////////////////////////////////
+    /**
+     * Default socket timeout.
+     *
+     * @since 1.6.0
+     */
+    public static final Duration SOCKET_TIMEOUT = Duration.ofMinutes(1);
 
     /**
      * Default socket timeout.
+     *
      * @since 1.3
+     * @deprecated Use {@link #SOCKET_TIMEOUT}.
      */
-    public static final int SOCKET_TIMEOUT_MS = 60000;
+    @Deprecated
+    public static final int SOCKET_TIMEOUT_MS = 60_000;
 
     /**
-     * If true, requires the use of the STARTTLS command. If the server doesn't support
-     * the STARTTLS command, the connection will fail.
+     * If true, requires the use of the STARTTLS command. If the server doesn't support the STARTTLS command, the connection will fail.
+     *
      * @since 1.3
      */
     public static final String MAIL_TRANSPORT_STARTTLS_REQUIRED = "mail.smtp.starttls.required";
 
     /**
      * If set to true, use SSL to connect and use the SSL port by default.
+     *
      * @since 1.3
      */
     public static final String MAIL_SMTP_SSL_ENABLE = "mail.smtp.ssl.enable";
 
     /**
      * If set to true, check the server identity as specified in RFC 2595.
+     *
      * @since 1.3
      */
     public static final String MAIL_SMTP_SSL_CHECKSERVERIDENTITY = "mail.smtp.ssl.checkserveridentity";
 
     /**
-     * Specifies the {@link jakarta.net.ssl.SSLSocketFactory} class to use to create SMTP SSL sockets.
+     * Specifies the {@link javax.net.ssl.SSLSocketFactory} class to use to create SMTP SSL sockets.
+     *
      * @since 1.3
      */
     public static final String MAIL_SMTP_SSL_SOCKET_FACTORY_CLASS = "mail.smtp.ssl.socketFactory.class";
 
     /**
      * Specifies the port to connect to when using the SMTP SSL socket factory.
+     *
      * @since 1.3
      */
     public static final String MAIL_SMTP_SSL_SOCKET_FACTORY_PORT = "mail.smtp.ssl.socketFactory.port";
@@ -207,25 +221,24 @@ public final class EmailConstants
     /////////////////////////////////////////////////////////////////////////
 
     /**
-     * If set to true, and a message has some valid and some invalid addresses, send the message anyway,
-     * reporting the partial failure with a SendFailedException.
-     * If set to false (the default), the message is not sent to any of the recipients
-     * if there is an invalid recipient address.
+     * If set to true, and a message has some valid and some invalid addresses, send the message anyway, reporting the partial failure with a
+     * SendFailedException. If set to false (the default), the message is not sent to any of the recipients if there is an invalid recipient address.
+     *
      * @since 1.3.2
      */
     public static final String MAIL_SMTP_SEND_PARTIAL = "mail.smtp.sendpartial";
 
     /**
-     * If set to true, and a message has some valid and some invalid addresses, send the message anyway,
-     * reporting the partial failure with a SendFailedException.
-     * If set to false (the default), the message is not sent to any of the recipients
-     * if there is an invalid recipient address.
+     * If set to true, and a message has some valid and some invalid addresses, send the message anyway, reporting the partial failure with a
+     * SendFailedException. If set to false (the default), the message is not sent to any of the recipients if there is an invalid recipient address.
+     *
      * @since 1.3.2
      */
     public static final String MAIL_SMTPS_SEND_PARTIAL = "mail.smtps.sendpartial";
 
     /**
      * Defines the default mime charset to use when none has been specified for the message.
+     *
      * @since 1.3.2
      */
     public static final String MAIL_MIME_CHARSET = "mail.mime.charset";
@@ -236,14 +249,13 @@ public final class EmailConstants
 
     /**
      * The from email address.
+     *
      * @since 1.4
      */
     public static final String MAIL_FROM = "mail.from";
 
-
     /** Hide constructor. */
-    private EmailConstants()
-    {
+    private EmailConstants() {
         // do nothing
     }
 

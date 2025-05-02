@@ -1,5 +1,6 @@
 /* 
  * All content copyright Terracotta, Inc., unless otherwise indicated. All rights reserved.
+ * Copyright Super iPaaS Integration LLC, an IBM Company 2024
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not 
  * use this file except in compliance with the License. You may obtain a copy 
@@ -19,9 +20,8 @@ package org.quartz.impl.jdbcjobstore;
 import java.sql.Connection;
 import java.util.HashSet;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
- 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Base class for database based lock handlers for providing thread/resource locking 
@@ -31,7 +31,7 @@ import org.apache.logging.log4j.Logger;
 public abstract class DBSemaphore implements Semaphore, Constants,
     StdJDBCConstants, TablePrefixAware {
 
-    private final Logger log = LogManager.getLogger(getClass());
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
     /*
      * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -41,7 +41,7 @@ public abstract class DBSemaphore implements Semaphore, Constants,
      * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
      */
 
-    ThreadLocal<HashSet<String>> lockOwners = new ThreadLocal<HashSet<String>>();
+    final ThreadLocal<HashSet<String>> lockOwners = new ThreadLocal<>();
 
     private String sql;
     private String insertSql;
@@ -83,7 +83,7 @@ public abstract class DBSemaphore implements Semaphore, Constants,
     private HashSet<String> getThreadLocks() {
         HashSet<String> threadLocks = lockOwners.get();
         if (threadLocks == null) {
-            threadLocks = new HashSet<String>();
+            threadLocks = new HashSet<>();
             lockOwners.set(threadLocks);
         }
         return threadLocks;
@@ -105,26 +105,20 @@ public abstract class DBSemaphore implements Semaphore, Constants,
         throws LockException {
 
         if(log.isDebugEnabled()) {
-            log.debug(
-                "Lock '" + lockName + "' is desired by: "
-                        + Thread.currentThread().getName());
+            log.debug("Lock '{}' is desired by: {}", lockName, Thread.currentThread().getName());
         }
         if (!isLockOwner(lockName)) {
 
             executeSQL(conn, lockName, expandedSQL, expandedInsertSQL);
             
             if(log.isDebugEnabled()) {
-                log.debug(
-                    "Lock '" + lockName + "' given to: "
-                            + Thread.currentThread().getName());
+                log.debug("Lock '{}' given to: {}", lockName, Thread.currentThread().getName());
             }
             getThreadLocks().add(lockName);
             //getThreadLocksObtainer().put(lockName, new
             // Exception("Obtainer..."));
         } else if(log.isDebugEnabled()) {
-            log.debug(
-                "Lock '" + lockName + "' Is already owned by: "
-                        + Thread.currentThread().getName());
+            log.debug("Lock '{}' Is already owned by: {}", lockName, Thread.currentThread().getName());
         }
 
         return true;
@@ -139,18 +133,12 @@ public abstract class DBSemaphore implements Semaphore, Constants,
 
         if (isLockOwner(lockName)) {
             if(getLog().isDebugEnabled()) {
-                getLog().debug(
-                    "Lock '" + lockName + "' returned by: "
-                            + Thread.currentThread().getName());
+                getLog().debug("Lock '{}' returned by: {}", lockName, Thread.currentThread().getName());
             }
             getThreadLocks().remove(lockName);
             //getThreadLocksObtainer().remove(lockName);
         } else if (getLog().isDebugEnabled()) {
-            getLog().warn(
-                "Lock '" + lockName + "' attempt to return by: "
-                        + Thread.currentThread().getName()
-                        + " -- but not owner!",
-                new Exception("stack-trace of wrongful returner"));
+            getLog().warn("Lock '{}' attempt to return by: {} -- but not owner!", lockName, Thread.currentThread().getName(), new Exception("stack-trace of wrongful returner"));
         }
     }
 
@@ -174,7 +162,7 @@ public abstract class DBSemaphore implements Semaphore, Constants,
     }
 
     protected void setSQL(String sql) {
-        if ((sql != null) && (sql.trim().length() != 0)) {
+        if ((sql != null) && (!sql.trim().isEmpty())) {
             this.sql = sql.trim();
         }
         
@@ -182,7 +170,7 @@ public abstract class DBSemaphore implements Semaphore, Constants,
     }
 
     protected void setInsertSQL(String insertSql) {
-        if ((insertSql != null) && (insertSql.trim().length() != 0)) {
+        if ((insertSql != null) && (!insertSql.trim().isEmpty())) {
             this.insertSql = insertSql.trim();
         }
         

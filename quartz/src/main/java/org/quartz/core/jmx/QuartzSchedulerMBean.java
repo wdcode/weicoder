@@ -9,32 +9,32 @@ import javax.management.openmbean.CompositeData;
 import javax.management.openmbean.TabularData;
 
 public interface QuartzSchedulerMBean {
-    static final String SCHEDULER_STARTED = "schedulerStarted";
-    static final String SCHEDULER_PAUSED = "schedulerPaused";
-    static final String SCHEDULER_SHUTDOWN = "schedulerShutdown";
-    static final String SCHEDULER_ERROR = "schedulerError";
+    String SCHEDULER_STARTED = "schedulerStarted";
+    String SCHEDULER_PAUSED = "schedulerPaused";
+    String SCHEDULER_SHUTDOWN = "schedulerShutdown";
+    String SCHEDULER_ERROR = "schedulerError";
 
-    static final String JOB_ADDED = "jobAdded";
-    static final String JOB_DELETED = "jobDeleted";
-    static final String JOB_SCHEDULED = "jobScheduled";
-    static final String JOB_UNSCHEDULED = "jobUnscheduled";
+    String JOB_ADDED = "jobAdded";
+    String JOB_DELETED = "jobDeleted";
+    String JOB_SCHEDULED = "jobScheduled";
+    String JOB_UNSCHEDULED = "jobUnscheduled";
     
-    static final String JOBS_PAUSED = "jobsPaused";
-    static final String JOBS_RESUMED = "jobsResumed";
+    String JOBS_PAUSED = "jobsPaused";
+    String JOBS_RESUMED = "jobsResumed";
 
-    static final String JOB_EXECUTION_VETOED = "jobExecutionVetoed";
-    static final String JOB_TO_BE_EXECUTED = "jobToBeExecuted";
-    static final String JOB_WAS_EXECUTED = "jobWasExecuted";
+    String JOB_EXECUTION_VETOED = "jobExecutionVetoed";
+    String JOB_TO_BE_EXECUTED = "jobToBeExecuted";
+    String JOB_WAS_EXECUTED = "jobWasExecuted";
 
-    static final String TRIGGER_FINALIZED = "triggerFinalized";
+    String TRIGGER_FINALIZED = "triggerFinalized";
 
-    static final String TRIGGERS_PAUSED = "triggersPaused";
-    static final String TRIGGERS_RESUMED = "triggersResumed";
+    String TRIGGERS_PAUSED = "triggersPaused";
+    String TRIGGERS_RESUMED = "triggersResumed";
 
-    static final String SCHEDULING_DATA_CLEARED = "schedulingDataCleared";
+    String SCHEDULING_DATA_CLEARED = "schedulingDataCleared";
 
-    static final String SAMPLED_STATISTICS_ENABLED = "sampledStatisticsEnabled";
-    static final String SAMPLED_STATISTICS_RESET = "sampledStatisticsReset";
+    String SAMPLED_STATISTICS_ENABLED = "sampledStatisticsEnabled";
+    String SAMPLED_STATISTICS_RESET = "sampledStatisticsReset";
 
     String getSchedulerName();
 
@@ -130,13 +130,13 @@ public interface QuartzSchedulerMBean {
     /**
      * Schedules an arbitrary job described by abstractJobInfo using a trigger specified by abstractTriggerInfo.
      * 
-     * AbtractTriggerInfo and AbstractJobInfo must contain the following String attributes.
+     * AbstractTriggerInfo and AbstractJobInfo must contain the following String attributes.
      *     AbstractTriggerInfo: triggerClass, the fully-qualified class name of a concrete Trigger type
      *     AbstractJobInfo: jobDetailClass, the fully-qualified class name of a concrete JobDetail type
      *
      * If the Trigger and JobDetail can be successfully instantiated, the remaining attributes will be
      * reflectively applied to those instances. The remaining attributes are limited to the types:
-     *   Integer, Double, Float, String, Boolean, Date, Character, Map<String, Object>.
+     *  <code>Integer, Double, Float, String, Boolean, Date, Character, Map&lt;String, Object&gt;</code>.
      * Maps are further limited to containing values from the same set of types, less Map itself.
      * 
      * @throws Exception 
@@ -149,7 +149,7 @@ public interface QuartzSchedulerMBean {
      * fully-qualified trigger class name under the key "triggerClass."  That trigger type must contain a
      * no-arg constructor and have public access. Other attributes are applied reflectively and are limited
      * to the types:
-     *   Integer, Double, Float, String, Boolean, Date, Character, Map<String, Object>.
+     *   <code>Integer, Double, Float, String, Boolean, Date, Character, Map&lt;String, Object&gt;.</code>
      * Maps are limited to containing values from the same set of types, less Map itself.
      * 
      * @param jobName
@@ -179,11 +179,11 @@ public interface QuartzSchedulerMBean {
      * class name under the key "jobDetailClass."  That JobDetail type must contain a no-arg constructor
      * and have public access. Other attributes are applied reflectively and are limited
      * to the types:
-     *   Integer, Double, Float, String, Boolean, Date, Character, Map<String, Object>.
+     *   <code>Integer, Double, Float, String, Boolean, Date, Character, Map&lt;String, Object&gt;.</code>
      * Maps are limited to containing values from the same set of types, less Map itself.
      * 
      * @param abstractJobInfo map of attributes defining job
-     * @param replace whether or not to replace a pre-existing job with the same key
+     * @param replace whether or not to replace a preexisting job with the same key
      * @throws Exception
      */
     void addJob(Map<String, Object> abstractJobInfo, boolean replace)

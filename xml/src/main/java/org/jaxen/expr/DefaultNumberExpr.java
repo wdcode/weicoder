@@ -52,12 +52,9 @@ package org.jaxen.expr;
 import org.jaxen.Context;
 
 
-@SuppressWarnings("deprecation")
 class DefaultNumberExpr extends DefaultExpr implements NumberExpr
 {
-    /**
-     * 
-     */
+
     private static final long serialVersionUID = -6021898973386269611L;
     private Double number;
 

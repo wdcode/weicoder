@@ -1,6 +1,7 @@
 
 /* 
  * All content copyright Terracotta, Inc., unless otherwise indicated. All rights reserved.
+ * Copyright Super iPaaS Integration LLC, an IBM Company 2024
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not 
  * use this file except in compliance with the License. You may obtain a copy 
@@ -64,8 +65,8 @@ public class JTAJobRunShell extends JobRunShell {
      * Create a JTAJobRunShell instance with the given settings.
      * </p>
      */
-    public JTAJobRunShell(Scheduler scheduler, TriggerFiredBundle bndle) {
-        super(scheduler, bndle);
+    public JTAJobRunShell(Scheduler scheduler, TriggerFiredBundle bundle) {
+        super(scheduler, bundle);
         this.transactionTimeout = null;
     }
 
@@ -74,8 +75,8 @@ public class JTAJobRunShell extends JobRunShell {
      * Create a JTAJobRunShell instance with the given settings.
      * </p>
      */
-    public JTAJobRunShell(Scheduler scheduler, TriggerFiredBundle bndle, int timeout) {
-        super(scheduler, bndle);
+    public JTAJobRunShell(Scheduler scheduler, TriggerFiredBundle bundle, int timeout) {
+        super(scheduler, bundle);
         this.transactionTimeout = timeout;
     }
     
@@ -107,16 +108,14 @@ public class JTAJobRunShell extends JobRunShell {
             ut.begin();
             
             beganSuccessfully = true;
-        } 
-        catch (SchedulerException se) {
+        } catch (SchedulerException se) {
             throw se;
-        } 
-        catch (Exception nse) {
+        } catch (Exception nse) {
 
             throw new SchedulerException(
                     "JTAJobRunShell could not start UserTransaction.", nse);
         } finally {
-            if (beganSuccessfully == false) {
+            if (!beganSuccessfully) {
                 cleanupUserTransaction();
             }
         }

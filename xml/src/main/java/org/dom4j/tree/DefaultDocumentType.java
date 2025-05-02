@@ -21,7 +21,6 @@ import java.util.List;
  * @version $Revision: 1.10 $
  */
 public class DefaultDocumentType extends AbstractDocumentType {
-	private static final long serialVersionUID = 1L;
     /** The root element name of the document typ */
     protected String elementName;
 

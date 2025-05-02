@@ -1,5 +1,6 @@
 /* 
  * All content copyright Terracotta, Inc., unless otherwise indicated. All rights reserved.
+ * Copyright Super iPaaS Integration LLC, an IBM Company 2024
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not 
  * use this file except in compliance with the License. You may obtain a copy 
@@ -42,41 +43,38 @@ public class SchedulerRepository {
      * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
      */
 
-    private HashMap<String, Scheduler> schedulers;
-
-    private static SchedulerRepository inst;
+    private final HashMap<String, Scheduler> schedulers;
 
     /*
      * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     * 
+     *
      * Constructors.
-     * 
+     *
      * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
      */
 
     private SchedulerRepository() {
-        schedulers = new HashMap<String, Scheduler>();
+        schedulers = new HashMap<>();
     }
 
+    private static class Holder {
+        private static final SchedulerRepository INSTANCE = new SchedulerRepository();
+    }
     /*
      * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     * 
+     *
      * Interface.
-     * 
+     *
      * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
      */
 
     public static synchronized SchedulerRepository getInstance() {
-        if (inst == null) {
-            inst = new SchedulerRepository();
-        }
-
-        return inst;
+        return Holder.INSTANCE;
     }
 
     public synchronized void bind(Scheduler sched) throws SchedulerException {
 
-        if ((Scheduler) schedulers.get(sched.getSchedulerName()) != null) {
+        if (schedulers.get(sched.getSchedulerName()) != null) {
             throw new SchedulerException("Scheduler with name '"
                     + sched.getSchedulerName() + "' already exists.");
         }

@@ -62,23 +62,24 @@ import org.jaxen.JaxenConstants;
  * node that are after the context node in document order, excluding any descendants 
  * and excluding attribute nodes and namespace nodes."
  * 
- * @version 1.2b12
+ * @version 2.0.0
  */
-public class FollowingAxisIterator implements Iterator<Object>
+public class FollowingAxisIterator implements Iterator
 {
     private Object contextNode;
     
     private Navigator navigator;
 
-    private Iterator<Object> siblings;
+    private Iterator siblings;
 
-    private Iterator<Object> currentSibling;
+    private Iterator currentSibling;
 
     /**
      * Create a new <code>following</code> axis iterator.
      * 
      * @param contextNode the node to start from
      * @param navigator the object model specific navigator
+     * @throws UnsupportedAxisException if the navigator does not support the following axis
      */
     public FollowingAxisIterator(Object contextNode,
                                  Navigator navigator) throws UnsupportedAxisException

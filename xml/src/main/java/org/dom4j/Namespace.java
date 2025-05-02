@@ -19,7 +19,6 @@ import org.dom4j.tree.NamespaceCache;
  * @version $Revision: 1.22 $
  */
 public class Namespace extends AbstractNode {
-	private static final long serialVersionUID = 1L;
     /** Cache of Namespace instances */
     protected static final NamespaceCache CACHE = new NamespaceCache();
 

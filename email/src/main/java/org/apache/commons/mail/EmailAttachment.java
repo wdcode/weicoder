@@ -19,12 +19,12 @@ package org.apache.commons.mail;
 import java.net.URL;
 
 /**
- * This class models an email attachment. Used by MultiPartEmail.
+ * This class models an email attachment. Used by {@link MultiPartEmail}.
  *
  * @since 1.0
  */
-public class EmailAttachment
-{
+public class EmailAttachment {
+
     /** Definition of the part being an attachment. */
     public static final String ATTACHMENT = jakarta.mail.Part.ATTACHMENT;
 
@@ -47,85 +47,94 @@ public class EmailAttachment
     private String disposition = EmailAttachment.ATTACHMENT;
 
     /**
-     * Get the description.
+     * Constructs a new instance.
+     */
+    public EmailAttachment() {
+        // empty
+    }
+
+    /**
+     * Gets the description.
      *
      * @return A String.
      * @since 1.0
      */
-    public String getDescription()
-    {
+    public String getDescription() {
         return description;
     }
 
     /**
-     * Get the name.
+     * Gets the disposition.
      *
      * @return A String.
      * @since 1.0
      */
-    public String getName()
-    {
-        return name;
-    }
-
-    /**
-     * Get the path.
-     *
-     * @return A String.
-     * @since 1.0
-     */
-    public String getPath()
-    {
-        return path;
-    }
-
-    /**
-     * Get the URL.
-     *
-     * @return A URL.
-     * @since 1.0
-     */
-    public URL getURL()
-    {
-        return url;
-    }
-
-    /**
-     * Get the disposition.
-     *
-     * @return A String.
-     * @since 1.0
-     */
-    public String getDisposition()
-    {
+    public String getDisposition() {
         return disposition;
     }
 
     /**
-     * Set the description.
+     * Gets the name.
+     *
+     * @return A String.
+     * @since 1.0
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Gets the path.
+     *
+     * @return A String.
+     * @since 1.0
+     */
+    public String getPath() {
+        return path;
+    }
+
+    /**
+     * Gets the URL.
+     *
+     * @return A URL.
+     * @since 1.0
+     */
+    public URL getURL() {
+        return url;
+    }
+
+    /**
+     * Sets the description.
      *
      * @param desc A String.
      * @since 1.0
      */
-    public void setDescription(final String desc)
-    {
+    public void setDescription(final String desc) {
         this.description = desc;
     }
 
     /**
-     * Set the name.
+     * Sets the disposition.
+     *
+     * @param aDisposition A String.
+     * @since 1.0
+     */
+    public void setDisposition(final String aDisposition) {
+        this.disposition = aDisposition;
+    }
+
+    /**
+     * Sets the name.
      *
      * @param aName A String.
      * @since 1.0
      */
-    public void setName(final String aName)
-    {
+    public void setName(final String aName) {
         this.name = aName;
     }
 
     /**
-     * Set the path to the attachment.  The path can be absolute or relative
-     * and should include the filename.
+     * Sets the path to the attachment. The path can be absolute or relative and should include the file name.
      * <p>
      * Example: /home/user/images/image.jpg<br>
      * Example: images/image.jpg
@@ -133,30 +142,17 @@ public class EmailAttachment
      * @param aPath A String.
      * @since 1.0
      */
-    public void setPath(final String aPath)
-    {
+    public void setPath(final String aPath) {
         this.path = aPath;
     }
 
     /**
-     * Set the URL.
+     * Sets the URL.
      *
      * @param aUrl A URL.
      * @since 1.0
      */
-    public void setURL(final URL aUrl)
-    {
+    public void setURL(final URL aUrl) {
         this.url = aUrl;
-    }
-
-    /**
-     * Set the disposition.
-     *
-     * @param aDisposition A String.
-     * @since 1.0
-     */
-    public void setDisposition(final String aDisposition)
-    {
-        this.disposition = aDisposition;
     }
 }

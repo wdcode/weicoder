@@ -22,13 +22,12 @@ import org.quartz.CronTrigger;
 import org.quartz.impl.triggers.CronTriggerImpl;
 import org.quartz.spi.OperableTrigger;
 
-@SuppressWarnings("rawtypes")
 public class CronTriggerSupport {
     private static final String COMPOSITE_TYPE_NAME = "CronTrigger";
     private static final String COMPOSITE_TYPE_DESCRIPTION = "CronTrigger Details";
     private static final String[] ITEM_NAMES = new String[] { "expression", "timeZone" };
-    private static final String[] ITEM_DESCRIPTIONS = new String[] { "expression", "timeZone" }; 
-	private static final OpenType[] ITEM_TYPES = new OpenType[] { STRING, STRING };
+    private static final String[] ITEM_DESCRIPTIONS = new String[] { "expression", "timeZone" };
+    private static final OpenType[] ITEM_TYPES = new OpenType[] { STRING, STRING };
     private static final CompositeType COMPOSITE_TYPE;
     private static final String TABULAR_TYPE_NAME = "CronTrigger collection";
     private static final String TABULAR_TYPE_DESCRIPTION = "CronTrigger collection";
@@ -47,19 +46,19 @@ public class CronTriggerSupport {
     }
     
     public static String[] getItemNames() {
-        List<String> l = new ArrayList<String>(Arrays.asList(ITEM_NAMES));
+        List<String> l = new ArrayList<>(Arrays.asList(ITEM_NAMES));
         l.addAll(Arrays.asList(TriggerSupport.getItemNames()));
         return l.toArray(new String[l.size()]);
     }
 
     public static String[] getItemDescriptions() {
-        List<String> l = new ArrayList<String>(Arrays.asList(ITEM_DESCRIPTIONS));
+        List<String> l = new ArrayList<>(Arrays.asList(ITEM_DESCRIPTIONS));
         l.addAll(Arrays.asList(TriggerSupport.getItemDescriptions()));
         return l.toArray(new String[l.size()]);
     }
     
     public static OpenType[] getItemTypes() {
-        List<OpenType> l = new ArrayList<OpenType>(Arrays.asList(ITEM_TYPES));
+        List<OpenType> l = new ArrayList<>(Arrays.asList(ITEM_TYPES));
         l.addAll(Arrays.asList(TriggerSupport.getItemTypes()));
         return l.toArray(new OpenType[l.size()]);
     }
@@ -92,7 +91,7 @@ public class CronTriggerSupport {
     public static TabularData toTabularData(List<? extends CronTrigger> triggers) {
         TabularData tData = new TabularDataSupport(TABULAR_TYPE);
         if (triggers != null) {
-            ArrayList<CompositeData> list = new ArrayList<CompositeData>();
+            ArrayList<CompositeData> list = new ArrayList<>();
             for (CronTrigger trigger : triggers) {
                 list.add(toCompositeData(trigger));
             }

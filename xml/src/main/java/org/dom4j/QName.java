@@ -24,11 +24,8 @@ import org.dom4j.util.SingletonStrategy;
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  * @author Filip Jirsák
  */
-@SuppressWarnings({ "rawtypes", "unchecked" })
-public class QName implements Serializable { 
-	private static final long serialVersionUID = 1L;
-
-	/** The Singleton instance */
+public class QName implements Serializable {
+    /** The Singleton instance */
     private static SingletonStrategy<QNameCache> singleton = null;
 
     /**
@@ -121,7 +118,7 @@ public class QName implements Serializable {
                 } catch (Exception exc2) {
                 }
             }
-            singleton = clazz.getDeclaredConstructor().newInstance();
+            singleton = clazz.newInstance();
             singleton.setSingletonClassName(QNameCache.class.getName());
         } catch (Exception exc3) {
         }

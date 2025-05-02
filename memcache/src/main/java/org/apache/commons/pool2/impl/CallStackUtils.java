@@ -15,7 +15,9 @@
  * limitations under the License.
  */
 package org.apache.commons.pool2.impl;
- 
+
+import java.security.AccessControlException;
+
 /**
  * Utility methods for {@link CallStack}.
  *
@@ -30,16 +32,16 @@ public final class CallStackUtils {
      *         otherwise.
      */
     private static boolean canCreateSecurityManager() {
-//        final SecurityManager manager = System.getSecurityManager();
-//        if (manager == null) {
-//            return true;
-//        }
-//        try {
-//            manager.checkPermission(new RuntimePermission("createSecurityManager"));
+        final SecurityManager manager = System.getSecurityManager();
+        if (manager == null) {
             return true;
-//        } catch (final AccessControlException ignored) {
-//            return false;
-//        }
+        }
+        try {
+            manager.checkPermission(new RuntimePermission("createSecurityManager"));
+            return true;
+        } catch (final AccessControlException ignored) {
+            return false;
+        }
     }
 
     /**

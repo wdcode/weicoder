@@ -91,9 +91,7 @@ import org.jaxen.util.SingleObjectIterator;
 public class DocumentNavigator extends DefaultNavigator implements NamedAccessNavigator
 {
     
-    /**
-     * 
-     */
+
     private static final long serialVersionUID = 5582300797286535936L;
     private transient SAXReader reader;
 
@@ -200,17 +198,16 @@ public class DocumentNavigator extends DefaultNavigator implements NamedAccessNa
         return attr.getQualifiedName();
     }
 
-    @SuppressWarnings("unchecked")
-	public Iterator<Object> getChildAxisIterator(Object contextNode)
+    public Iterator getChildAxisIterator(Object contextNode)
     {
-        Iterator<?> result = null;
+        Iterator result = null;
         if ( contextNode instanceof Branch )
         {
             Branch node = (Branch) contextNode;
             result = node.nodeIterator();
         }
         if (result != null) {
-            return (Iterator<Object>) result;
+            return result;
         }
         return JaxenConstants.EMPTY_ITERATOR;
     }
@@ -226,7 +223,7 @@ public class DocumentNavigator extends DefaultNavigator implements NamedAccessNa
      * 
      * @return an Iterator that traverses the named children, or null if none
      */
-    public Iterator<?> getChildAxisIterator(
+    public Iterator getChildAxisIterator(
             Object contextNode, String localName, String namespacePrefix, String namespaceURI) {
 
         if ( contextNode instanceof Element ) {
@@ -250,7 +247,7 @@ public class DocumentNavigator extends DefaultNavigator implements NamedAccessNa
         return JaxenConstants.EMPTY_ITERATOR;
     }
 
-    public Iterator<Object> getParentAxisIterator(Object contextNode)
+    public Iterator getParentAxisIterator(Object contextNode)
     {
         if ( contextNode instanceof Document )
         {
@@ -269,7 +266,7 @@ public class DocumentNavigator extends DefaultNavigator implements NamedAccessNa
         return new SingleObjectIterator( parent );
     }
 
-    public Iterator<?> getAttributeAxisIterator(Object contextNode)
+    public Iterator getAttributeAxisIterator(Object contextNode)
     {
         if ( ! ( contextNode instanceof Element ) )
         {
@@ -291,7 +288,7 @@ public class DocumentNavigator extends DefaultNavigator implements NamedAccessNa
      * @param namespaceURI  the URI of the namespace of the attributes to return
      * @return an Iterator that traverses the named attributes, not null
      */
-    public Iterator<Object> getAttributeAxisIterator(
+    public Iterator getAttributeAxisIterator(
             Object contextNode, String localName, String namespacePrefix, String namespaceURI) {
 
         if ( contextNode instanceof Element ) {
@@ -305,7 +302,7 @@ public class DocumentNavigator extends DefaultNavigator implements NamedAccessNa
         return JaxenConstants.EMPTY_ITERATOR;
     }
         
-    public Iterator<Object> getNamespaceAxisIterator(Object contextNode)
+    public Iterator getNamespaceAxisIterator(Object contextNode)
     {
         if ( ! ( contextNode instanceof Element ) )
         {
@@ -313,19 +310,19 @@ public class DocumentNavigator extends DefaultNavigator implements NamedAccessNa
         }
 
         Element element = (Element) contextNode;
-        List<Object> nsList = new ArrayList<>();
-        HashSet<Object> prefixes = new HashSet<>();
+        List nsList = new ArrayList();
+        HashSet prefixes = new HashSet();
         for ( Element context = element; context != null; context = context.getParent() ) {
-            List<Object> declaredNS = new ArrayList<>(context.declaredNamespaces());
+            List declaredNS = new ArrayList(context.declaredNamespaces());
             declaredNS.add(context.getNamespace());
 
-            for ( Iterator<Attribute> iter = context.attributes().iterator(); iter.hasNext(); )
+            for ( Iterator iter = context.attributes().iterator(); iter.hasNext(); )
             {
                 Attribute attr = (Attribute) iter.next();
                 declaredNS.add(attr.getNamespace());
             }
 
-            for ( Iterator<Object> iter = declaredNS.iterator(); iter.hasNext(); )
+            for ( Iterator iter = declaredNS.iterator(); iter.hasNext(); )
             {
                 Namespace namespace = (Namespace) iter.next();
                 if (namespace != Namespace.NO_NAMESPACE)

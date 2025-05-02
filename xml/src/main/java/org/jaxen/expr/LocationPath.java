@@ -75,7 +75,7 @@ public interface LocationPath extends Expr
      * 
      * @return the ordered list of steps in this location path
      */
-    List<Step> getSteps();
+    List getSteps();
     
     /**
      * Returns true if this is an absolute location path; false if it isn't. 

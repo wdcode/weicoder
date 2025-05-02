@@ -61,7 +61,6 @@ import org.jaxen.saxpath.Axis;
  *  different object models.
  *
  *  @author bob mcwhirter (bob@werken.com)
-  * @deprecated will be removed in Jaxen 2.0
  */
 public class PatternHandler extends JaxenHandler
 {
@@ -78,7 +77,7 @@ public class PatternHandler extends JaxenHandler
      *  successfully returned.
      *  </p>
      *
-     *  @return The Pattern expression tree.
+     *  @return the Pattern expression tree
      */
     public Pattern getPattern()
     {
@@ -94,8 +93,7 @@ public class PatternHandler extends JaxenHandler
      *  </p>
      *  
      *  @param shouldSimplify ????
-     *
-     *  @return The Pattern expression tree.
+     *  @return the Pattern expression tree
      */
     public Pattern getPattern(boolean shouldSimplify)
     {
@@ -138,7 +136,7 @@ public class PatternHandler extends JaxenHandler
         // primary expr of some flavor.  But that's for another
         // method...
 
-        LinkedList<Object> frame = popFrame();
+        LinkedList frame = popFrame();
         
         System.out.println( "endPathExpr(): " + frame );
             
@@ -202,7 +200,7 @@ public class PatternHandler extends JaxenHandler
     protected void endLocationPath() throws JaxenException
     {
         // start at the back, its the main pattern then add everything else as 
-        LinkedList<Object> list = popFrame();
+        LinkedList list = popFrame();
         
         System.out.println( "endLocationPath: " + list );
 
@@ -305,7 +303,7 @@ public class PatternHandler extends JaxenHandler
     
     protected void endStep()
     {
-        LinkedList<Object> list = popFrame();
+        LinkedList list = popFrame();
         if ( ! list.isEmpty() ) 
         {
             push( list.removeFirst() );

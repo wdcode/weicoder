@@ -86,14 +86,14 @@ import java.util.NoSuchElementException;
  * Most object models could provide a faster implementation of the reversed
  * 'children-or-self' used here.</p>
  * 
- * @version 1.2b12
+ * @version 2.0.0
  */
-public class PrecedingAxisIterator implements Iterator<Object>
+public class PrecedingAxisIterator implements Iterator
 {
     private Iterator<Object> ancestorOrSelf;
     private Iterator<Object> precedingSibling;
     private ListIterator<Object> childrenOrSelf;
-    private ArrayList<ListIterator<Object>> stack;
+    private ArrayList<Object> stack;
 
     private Navigator navigator;
 
@@ -110,7 +110,7 @@ public class PrecedingAxisIterator implements Iterator<Object>
         this.ancestorOrSelf = navigator.getAncestorOrSelfAxisIterator(contextNode);
         this.precedingSibling = JaxenConstants.EMPTY_ITERATOR;
         this.childrenOrSelf = JaxenConstants.EMPTY_LIST_ITERATOR;
-        this.stack = new ArrayList<>();
+        this.stack = new ArrayList<Object>();
     }
 
 
@@ -143,7 +143,7 @@ public class PrecedingAxisIterator implements Iterator<Object>
                 }
                 else
                 {
-                    childrenOrSelf = stack.remove(stack.size()-1);
+                    childrenOrSelf = (ListIterator) stack.remove(stack.size()-1);
                 }
             }
             return true;
@@ -158,9 +158,9 @@ public class PrecedingAxisIterator implements Iterator<Object>
     {
         try
         {
-            ArrayList<Object> reversed = new ArrayList<>();
+            ArrayList<Object> reversed = new ArrayList<Object>();
             reversed.add(node);
-            Iterator<?> childAxisIterator = navigator.getChildAxisIterator(node);
+            Iterator<Object> childAxisIterator = navigator.getChildAxisIterator(node);
             if (childAxisIterator != null)
             {
                 while (childAxisIterator.hasNext())
@@ -199,9 +199,11 @@ public class PrecedingAxisIterator implements Iterator<Object>
                 // if this isn't 'self' construct 'descendant-or-self'
                 stack.add(childrenOrSelf);
                 childrenOrSelf = childrenOrSelf(result);
-                continue;
             }
-            return result;
+            else
+            {
+                return result;
+            }
         }
     }
 

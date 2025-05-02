@@ -18,13 +18,13 @@ package org.apache.commons.pool2.impl;
 
 import java.io.PrintWriter;
 import java.lang.ref.WeakReference;
-//import java.security.AccessController;
-//import java.security.PrivilegedAction;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
-//import java.util.stream.Collectors;
-//import java.util.stream.Stream;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * A {@link CallStack} strategy using a {@link SecurityManager}. Obtaining the current call stack is much faster via a
@@ -37,26 +37,26 @@ import java.util.List;
  */
 public class SecurityManagerCallStack implements CallStack {
 
-//    /**
-//     * A custom security manager.
-//     */
-//    private static class PrivateSecurityManager extends SecurityManager {
-//
-//        /**
-//         * Gets the class stack.
-//         *
-//         * @return class stack
-//         */
-//        private List<WeakReference<Class<?>>> getCallStack() {
-//            final Stream<WeakReference<Class<?>>> map = Stream.of(getClassContext()).map(WeakReference::new);
-//            return map.collect(Collectors.toList());
-//        }
-//    }
+    /**
+     * A custom security manager.
+     */
+    private static final class PrivateSecurityManager extends SecurityManager {
+
+        /**
+         * Gets the class stack.
+         *
+         * @return class stack
+         */
+        private List<WeakReference<Class<?>>> getCallStack() {
+            final Stream<WeakReference<Class<?>>> map = Stream.of(getClassContext()).map(WeakReference::new);
+            return map.collect(Collectors.toList());
+        }
+    }
 
     /**
      * A snapshot of a class stack.
      */
-    private static class Snapshot {
+    private static final class Snapshot {
         private final long timestampMillis = System.currentTimeMillis();
         private final List<WeakReference<Class<?>>> stack;
 
@@ -75,7 +75,7 @@ public class SecurityManagerCallStack implements CallStack {
     //@GuardedBy("dateFormat")
     private final DateFormat dateFormat;
 
-//    private final PrivateSecurityManager securityManager;
+    private final PrivateSecurityManager securityManager;
 
     private volatile Snapshot snapshot;
 
@@ -88,7 +88,7 @@ public class SecurityManagerCallStack implements CallStack {
     public SecurityManagerCallStack(final String messageFormat, final boolean useTimestamp) {
         this.messageFormat = messageFormat;
         this.dateFormat = useTimestamp ? new SimpleDateFormat(messageFormat) : null;
-//        this.securityManager = AccessController.doPrivileged((PrivilegedAction<PrivateSecurityManager>) PrivateSecurityManager::new);
+        this.securityManager = AccessController.doPrivileged((PrivilegedAction<PrivateSecurityManager>) PrivateSecurityManager::new);
     }
 
     @Override
@@ -98,7 +98,7 @@ public class SecurityManagerCallStack implements CallStack {
 
     @Override
     public void fillInStackTrace() {
-//        snapshot = new Snapshot(securityManager.getCallStack());
+        snapshot = new Snapshot(securityManager.getCallStack());
     }
 
     @Override

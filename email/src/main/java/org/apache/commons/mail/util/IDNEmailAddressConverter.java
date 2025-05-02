@@ -16,12 +16,13 @@
  */
 package org.apache.commons.mail.util;
 
-import jakarta.mail.internet.InternetAddress;
 import java.net.IDN;
+import java.util.function.Function;
+
+import jakarta.mail.internet.InternetAddress;
 
 /**
- * Converts email addresses containing International Domain Names into an ASCII
- * representation suitable for sending an email.
+ * Converts email addresses containing International Domain Names into an ASCII representation suitable for sending an email.
  *
  * @see <a href="https://docs.oracle.com/javase/tutorial/i18n/network/idn.html">https://docs.oracle.com/javase/tutorial/i18n/network/idn.html</a>
  * @see <a href="https://en.wikipedia.org/wiki/Punycode">https://en.wikipedia.org/wiki/Punycode</a>
@@ -30,92 +31,72 @@ import java.net.IDN;
  *
  * @since 1.5
  */
-public class IDNEmailAddressConverter
-{
-    /**
-     * Convert an email address to its ASCII representation using "Punycode".
-     *
-     * @param email email address.
-     * @return The ASCII representation
-     */
-    public String toASCII(final String email)
-    {
-        final int idx = findAtSymbolIndex(email);
-
-        if (idx < 0)
-        {
-            return email;
-        }
-
-        return getLocalPart(email, idx) + '@' + IDN.toASCII(getDomainPart(email, idx));
-    }
+public class IDNEmailAddressConverter {
 
     /**
-     * Convert the address part of an InternetAddress to its Unicode representation.
-     *
-     * @param address email address.
-     * @return The Unicode representation
+     * Constructs a new instance.
      */
-    String toUnicode(final InternetAddress address)
-    {
-        return address != null ? toUnicode(address.getAddress()) : null;
-    }
-
-    /**
-     * Convert an "Punycode" email address to its Unicode representation.
-     *
-     * @param email email address.
-     * @return The Unicode representation
-     */
-    String toUnicode(final String email)
-    {
-        final int idx = findAtSymbolIndex(email);
-
-        if (idx < 0)
-        {
-            return email;
-        }
-
-        return getLocalPart(email, idx) + '@' + IDN.toUnicode(getDomainPart(email, idx));
-    }
-
-    /**
-     * Extracts the local part of the email address.
-     *
-     * @param email email address.
-     * @param idx index of '@' character.
-     * @return local part of email
-     */
-    private String getLocalPart(final String email, final int idx)
-    {
-        return email.substring(0, idx);
+    public IDNEmailAddressConverter() {
+        // empty
     }
 
     /**
      * Extracts the domain part of the email address.
      *
      * @param email email address.
-     * @param idx index of '@' character.
+     * @param idx   index of '@' character.
      * @return domain part of email
      */
-    private String getDomainPart(final String email, final int idx)
-    {
+    private String getDomainPart(final String email, final int idx) {
         return email.substring(idx + 1);
     }
 
     /**
-     * Null-safe wrapper for {@link String#indexOf} to find the '@' character.
+     * Extracts the local part of the email address.
      *
-     * @param value String value.
-     * @return index of first '@' character or {@code -1}
+     * @param email email address.
+     * @param idx   index of '@' character.
+     * @return local part of email
      */
-    private int findAtSymbolIndex(final String value)
-    {
-        if (value == null)
-        {
-            return -1;
-        }
+    private String getLocalPart(final String email, final int idx) {
+        return email.substring(0, idx);
+    }
 
-        return value.indexOf('@');
+    /**
+     * Converts an email address to its ASCII representation using "Punycode".
+     *
+     * @param email email address.
+     * @return The ASCII representation
+     */
+    public String toASCII(final String email) {
+        return toString(email, IDN::toASCII);
+    }
+
+    private String toString(final String email, final Function<String, String> converter) {
+        final int idx = email == null ? -1 : email.indexOf('@');
+        if (idx < 0) {
+            return email;
+        }
+        return getLocalPart(email, idx) + '@' + converter.apply(getDomainPart(email, idx));
+    }
+
+    /**
+     * Converts the address part of an InternetAddress to its Unicode representation.
+     *
+     * @param address email address.
+     * @return The Unicode representation
+     */
+    String toUnicode(final InternetAddress address) {
+        return address != null ? toUnicode(address.getAddress()) : null;
+    }
+
+    /**
+     * Converts an "Punycode" email address to its Unicode representation.
+     *
+     * @param email email address.
+     * @return The Unicode representation
+     */
+    String toUnicode(final String email) {
+        return toString(email, IDN::toUnicode);
     }
 }

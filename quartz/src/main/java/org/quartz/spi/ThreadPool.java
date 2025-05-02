@@ -1,5 +1,6 @@
 /*
  * All content copyright Terracotta, Inc., unless otherwise indicated. All rights reserved.
+ * Copyright Super iPaaS Integration LLC, an IBM Company 2024
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy
@@ -33,7 +34,7 @@ import org.quartz.SchedulerConfigException;
  * method <code>runInThread(Runnable)</code> is called a few moments (or
  * many moments) later.  If this assumption does not hold true, it may
  * result in extra JobStore queries and updates, and if clustering features
- * are being used, it may result in greater imballance of load.
+ * are being used, it may result in greater imbalance of load.
  * </p>
  *
  * @see org.quartz.core.QuartzScheduler

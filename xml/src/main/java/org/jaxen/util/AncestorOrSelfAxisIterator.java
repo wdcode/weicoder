@@ -65,7 +65,7 @@ import org.jaxen.JaxenRuntimeException;
  * 
  * @version 1.2b12
  */
-public class AncestorOrSelfAxisIterator implements Iterator<Object>
+public class AncestorOrSelfAxisIterator implements Iterator
 {
     
     private Object    contextNode;

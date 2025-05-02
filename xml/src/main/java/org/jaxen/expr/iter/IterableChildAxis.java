@@ -48,9 +48,6 @@ import org.jaxen.UnsupportedAxisException;
  */
 public class IterableChildAxis extends IterableAxis {
     
-    /**
-     * 
-     */
     private static final long serialVersionUID = 1L;
 
     /**
@@ -70,7 +67,7 @@ public class IterableChildAxis extends IterableAxis {
      * @return an iterator over the children of the context node
      * @throws UnsupportedAxisException if the child axis is not supported
      */
-    public Iterator<?> iterator(Object contextNode, ContextSupport support) 
+    public Iterator iterator(Object contextNode, ContextSupport support) 
       throws UnsupportedAxisException {
         return support.getNavigator().getChildAxisIterator(contextNode);
     }
@@ -86,7 +83,7 @@ public class IterableChildAxis extends IterableAxis {
      * @return an iterator over the children of the context node
      * @throws UnsupportedAxisException if the child axis is not supported by the model
      */
-    public Iterator<?> namedAccessIterator(
+    public Iterator namedAccessIterator(
         Object contextNode,
         ContextSupport support,
         String localName,

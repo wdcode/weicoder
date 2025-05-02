@@ -56,25 +56,19 @@ import org.jaxen.Context;
 import org.jaxen.Function;
 import org.jaxen.JaxenException;
 
-/**
- * @deprecated this class will become non-public in the future;
- *     use the interface instead
- */
-public class DefaultFunctionCallExpr extends DefaultExpr implements FunctionCallExpr
+class DefaultFunctionCallExpr extends DefaultExpr implements FunctionCallExpr
 {
-    /**
-     * 
-     */
+
     private static final long serialVersionUID = -4747789292572193708L;
     private String prefix;
     private String functionName;
-    private List<Expr> parameters;
+    private List parameters;
 
     public DefaultFunctionCallExpr(String prefix, String functionName)
     {
         this.prefix = prefix;
         this.functionName = functionName;
-        this.parameters = new ArrayList<>();
+        this.parameters = new ArrayList();
     }
 
     public void addParameter(Expr parameter)
@@ -83,7 +77,7 @@ public class DefaultFunctionCallExpr extends DefaultExpr implements FunctionCall
     }
 
 
-    public List<Expr> getParameters()
+    public List getParameters()
     {
         return this.parameters;
     }
@@ -114,7 +108,7 @@ public class DefaultFunctionCallExpr extends DefaultExpr implements FunctionCall
         buf.append(getFunctionName());
         buf.append("(");
 
-        Iterator<Expr> paramIter = getParameters().iterator();
+        Iterator paramIter = getParameters().iterator();
 
         while (paramIter.hasNext()) {
             Expr eachParam = (Expr) paramIter.next();
@@ -134,10 +128,10 @@ public class DefaultFunctionCallExpr extends DefaultExpr implements FunctionCall
 
     public Expr simplify()
     {
-        List<Expr> paramExprs = getParameters();
+        List paramExprs = getParameters();
         int paramSize = paramExprs.size();
 
-        List<Expr> newParams = new ArrayList<>(paramSize);
+        List newParams = new ArrayList(paramSize);
 
         for (int i = 0; i < paramSize; ++i)
         {
@@ -176,17 +170,17 @@ public class DefaultFunctionCallExpr extends DefaultExpr implements FunctionCall
         Function func = context.getFunction(namespaceURI,
                 prefix,
                 getFunctionName());
-        List<Object> paramValues = evaluateParams(context);
+        List paramValues = evaluateParams(context);
 
         return func.call(context, paramValues);
     }
 
-    public List<Object> evaluateParams(Context context) throws JaxenException
+    public List evaluateParams(Context context) throws JaxenException
     {
-        List<Expr> paramExprs = getParameters();
+        List paramExprs = getParameters();
         int paramSize = paramExprs.size();
 
-        List<Object> paramValues = new ArrayList<>(paramSize);
+        List paramValues = new ArrayList(paramSize);
 
         for (int i = 0; i < paramSize; ++i)
         {

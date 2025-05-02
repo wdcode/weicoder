@@ -1,6 +1,7 @@
 
 /* 
  * All content copyright Terracotta, Inc., unless otherwise indicated. All rights reserved.
+ * Copyright Super iPaaS Integration LLC, an IBM Company 2024
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not 
  * use this file except in compliance with the License. You may obtain a copy 
@@ -22,7 +23,7 @@ import java.io.Serializable;
 import java.util.Map;
 
 import org.quartz.utils.StringKeyDirtyFlagMap;
- 
+
 /**
  * Holds state information for <code>Job</code> instances.
  * 
@@ -49,7 +50,7 @@ import org.quartz.utils.StringKeyDirtyFlagMap;
  *
  * <p>
  * Update since 2.2.4 - We keep an dirty flag for this map so that whenever you modify(add/delete) any of the entries,
- * it will set to "true". However if you create new instance using an exising map with {@link #JobDataMap(Map)}, then
+ * it will set to "true". However if you create new instance using an existing map with {@link #JobDataMap(Map)}, then
  * the dirty flag will NOT be set to "true" until you modify the instance.
  * </p>
  * 
@@ -258,7 +259,9 @@ public class JobDataMap extends StringKeyDirtyFlagMap implements Serializable {
      *           if the identified object is not a String.
      */
     public int getIntFromString(String key) {
-        return Integer.parseInt(get(key).toString());
+        Object obj = get(key);
+
+        return Integer.parseInt((String) obj);
     }
 
     /**
@@ -288,7 +291,9 @@ public class JobDataMap extends StringKeyDirtyFlagMap implements Serializable {
      *           if the identified object is not a String.
      */
     public Integer getIntegerFromString(String key) {
-    	 return Integer.parseInt(get(key).toString());
+        Object obj = get(key);
+
+        return Integer.valueOf((String) obj);
     }
 
     /**
@@ -407,7 +412,9 @@ public class JobDataMap extends StringKeyDirtyFlagMap implements Serializable {
      *           if the identified object is not a String.
      */
     public Double getDoubleFromString(String key) {
-    	 return Double.parseDouble(get(key).toString());
+        Object obj = get(key);
+
+        return Double.valueOf((String) obj);
     }
 
     /**
@@ -419,7 +426,9 @@ public class JobDataMap extends StringKeyDirtyFlagMap implements Serializable {
      *           if the identified object is not a String.
      */
     public float getFloatValueFromString(String key) {
-    	 return Float.parseFloat(get(key).toString());
+        Object obj = get(key);
+
+        return Float.parseFloat((String) obj);
     }
 
     /**
@@ -449,7 +458,9 @@ public class JobDataMap extends StringKeyDirtyFlagMap implements Serializable {
      *           if the identified object is not a String.
      */
     public Float getFloatFromString(String key) {
-    	 return Float.parseFloat(get(key).toString());
+        Object obj = get(key);
+
+        return Float.valueOf((String) obj);
     }
 
     /**
@@ -461,7 +472,9 @@ public class JobDataMap extends StringKeyDirtyFlagMap implements Serializable {
      *           if the identified object is not a String.
      */
     public long getLongValueFromString(String key) {
-    	return Long.parseLong(get(key).toString());
+        Object obj = get(key);
+
+        return Long.parseLong((String) obj);
     }
 
     /**
@@ -491,6 +504,8 @@ public class JobDataMap extends StringKeyDirtyFlagMap implements Serializable {
      *           if the identified object is not a String.
      */
     public Long getLongFromString(String key) {
-    	return Long.parseLong(get(key).toString());
+        Object obj = get(key);
+
+        return Long.valueOf((String) obj);
     }
 }

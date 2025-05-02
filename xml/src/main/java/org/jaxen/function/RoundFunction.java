@@ -95,7 +95,7 @@ public class RoundFunction implements Function
      * @throws FunctionCallException if <code>args</code> has more or less than one item
      */
     public Object call(Context context,
-                       List<Object> args) throws FunctionCallException
+                       List args) throws FunctionCallException
     {
         if (args.size() == 1)
         {
@@ -128,6 +128,6 @@ public class RoundFunction implements Function
         }
 
         double value = d.doubleValue();
-        return   Double.valueOf( Math.round( value ) );
+        return Double.valueOf( Math.round( value ) );
     }
 }

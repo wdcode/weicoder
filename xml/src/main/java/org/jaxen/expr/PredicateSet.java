@@ -52,15 +52,12 @@ package org.jaxen.expr;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import org.jaxen.Context;
 import org.jaxen.ContextSupport;
 import org.jaxen.JaxenException;
 import org.jaxen.function.BooleanFunction;
-
-import com.weicoder.common.lang.W;
 
 /**
  * <p>
@@ -71,7 +68,7 @@ import com.weicoder.common.lang.W;
  * <p>
  * There is no rule that the same predicate may not 
  * appear twice in an XPath expression, nor does this class enforce any such rule.
- * This is implemented more as a list than a set. However, adding the swme predicate 
+ * This is implemented more as a list than a set. However, adding the same predicate 
  * twice should have no effect on the final result other than slowing it down.
  * </p>
  */
@@ -87,7 +84,7 @@ public class PredicateSet implements Serializable
      */
     public PredicateSet()
     {
-        this.predicates = W.L.empty();
+        this.predicates = new ArrayList<Predicate>();
     }
 
     /**
@@ -97,11 +94,6 @@ public class PredicateSet implements Serializable
      */
     public void addPredicate(Predicate predicate)
     {
-        if ( this.predicates == Collections.EMPTY_LIST )
-        {
-            this.predicates = new ArrayList<>();
-        }
-
         this.predicates.add( predicate );
     }
 
@@ -111,7 +103,7 @@ public class PredicateSet implements Serializable
      * 
      * @return a live list of predicates
      */
-    public List<Predicate> getPredicates()
+    public List getPredicates()
     {
         return this.predicates;
     }
@@ -145,7 +137,7 @@ public class PredicateSet implements Serializable
 
         while ( predIter.hasNext() )
         {
-            eachPred = predIter.next();
+            eachPred = (Predicate) predIter.next();
             buf.append( eachPred.getText() );
         }
 
@@ -163,28 +155,28 @@ public class PredicateSet implements Serializable
      * @return true if any node in the contextNodeSet matches all the predicates
      * @throws JaxenException
      */
-    protected boolean evaluateAsBoolean(List<Object> contextNodeSet,
+    protected boolean evaluateAsBoolean(List contextNodeSet,
                                       ContextSupport support) throws JaxenException
     {
         return anyMatchingNode( contextNodeSet, support );
     }
 
-   private boolean anyMatchingNode(List<Object> contextNodeSet, ContextSupport support)
+   private boolean anyMatchingNode(List contextNodeSet, ContextSupport support)
      throws JaxenException {
         // Easy way out (necessary)
-        if (predicates.size() == 0) {
+        if (predicates.isEmpty()) {
             return false;
         }
         Iterator<Predicate> predIter = predicates.iterator();
 
         // initial list to filter
-        List<Object> nodes2Filter = contextNodeSet;
+        List nodes2Filter = contextNodeSet;
         // apply all predicates
         while(predIter.hasNext()) {
             final int nodes2FilterSize = nodes2Filter.size();
             // Set up a dummy context with a list to hold each node
             Context predContext = new Context(support);
-            List<Object> tempList = new ArrayList<>(1);
+            List<Object> tempList = new ArrayList<Object>(1);
             predContext.setNodeSet(tempList);
             // loop through the current nodes to filter and add to the
             // filtered nodes list if the predicate succeeds
@@ -231,7 +223,7 @@ public class PredicateSet implements Serializable
     * @return all the nodes that match each of the predicates
     * @throws JaxenException
     */
-   protected List<Object> evaluatePredicates(List<Object> contextNodeSet, ContextSupport support)
+   protected List evaluatePredicates(List contextNodeSet, ContextSupport support)
             throws JaxenException {
         // Easy way out (necessary)
         if (predicates.size() == 0) {
@@ -240,23 +232,23 @@ public class PredicateSet implements Serializable
         Iterator<Predicate> predIter = predicates.iterator();
 
         // initial list to filter
-        List<Object> nodes2Filter = contextNodeSet;
+        List nodes2Filter = contextNodeSet;
         // apply all predicates
         while(predIter.hasNext()) {
             nodes2Filter =
-                applyPredicate(predIter.next(), nodes2Filter, support);
+                applyPredicate((Predicate)predIter.next(), nodes2Filter, support);
         }
         
         return nodes2Filter;
     }
    
-    public List<Object> applyPredicate(Predicate predicate, List<Object> nodes2Filter, ContextSupport support)
+    public List applyPredicate(Predicate predicate, List nodes2Filter, ContextSupport support)
             throws JaxenException {
         final int nodes2FilterSize = nodes2Filter.size();
-        List<Object> filteredNodes = new ArrayList<>(nodes2FilterSize);
+        List<Object> filteredNodes = new ArrayList<Object>(nodes2FilterSize);
         // Set up a dummy context with a list to hold each node
         Context predContext = new Context(support);
-        List<Object> tempList = new ArrayList<>(1);
+        List<Object> tempList = new ArrayList<Object>(1);
         predContext.setNodeSet(tempList);
         // loop through the current nodes to filter and add to the
         // filtered nodes list if the predicate succeeds

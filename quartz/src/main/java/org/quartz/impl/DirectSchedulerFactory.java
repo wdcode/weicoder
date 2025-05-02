@@ -1,5 +1,6 @@
 /*
  * All content copyright Terracotta, Inc., unless otherwise indicated. All rights reserved.
+ * Copyright Super iPaaS Integration LLC, an IBM Company 2024
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy
@@ -18,12 +19,9 @@
 package org.quartz.impl;
 
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.SchedulerFactory;
@@ -37,7 +35,9 @@ import org.quartz.spi.ClassLoadHelper;
 import org.quartz.spi.JobStore;
 import org.quartz.spi.SchedulerPlugin;
 import org.quartz.spi.ThreadExecutor;
-import org.quartz.spi.ThreadPool; 
+import org.quartz.spi.ThreadPool;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <p>
@@ -125,9 +125,9 @@ public class DirectSchedulerFactory implements SchedulerFactory {
 
     private boolean initialized = false;
 
-    private static DirectSchedulerFactory instance = new DirectSchedulerFactory();
+    private static final DirectSchedulerFactory instance = new DirectSchedulerFactory();
 
-    private final Logger log = LogManager.getLogger(getClass());
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
     /*
      * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -458,6 +458,63 @@ public class DirectSchedulerFactory implements SchedulerFactory {
             long idleWaitTime, long dbFailureRetryInterval,
             boolean jmxExport, String jmxObjectName, int maxBatchSize, long batchTimeWindow)
         throws SchedulerException {
+
+        createScheduler(schedulerName, schedulerInstanceId,
+                threadPool, threadExecutor,
+                jobStore, schedulerPluginMap,
+                rmiRegistryHost, rmiRegistryPort,
+                idleWaitTime, dbFailureRetryInterval,
+                jmxExport, jmxObjectName,
+                maxBatchSize, batchTimeWindow,
+                false);
+    }
+
+    /**
+     * Creates a scheduler using the specified thread pool, job store, and
+     * plugins, and binds it to RMI.
+     *
+     * @param schedulerName
+     *          The name for the scheduler.
+     * @param schedulerInstanceId
+     *          The instance ID for the scheduler.
+     * @param threadPool
+     *          The thread pool for executing jobs
+     * @param threadExecutor
+     *          The thread executor for executing jobs
+     * @param jobStore
+     *          The type of job store
+     * @param schedulerPluginMap
+     *          Map from a <code>String</code> plugin names to
+     *          <code>{@link org.quartz.spi.SchedulerPlugin}</code>s.  Can use
+     *          "null" if no plugins are required.
+     * @param rmiRegistryHost
+     *          The hostname to register this scheduler with for RMI. Can use
+     *          "null" if no RMI is required.
+     * @param rmiRegistryPort
+     *          The port for RMI. Typically 1099.
+     * @param idleWaitTime
+     *          The idle wait time in milliseconds. You can specify "-1" for
+     *          the default value, which is currently 30000 ms.
+     * @param maxBatchSize
+     *          The maximum batch size of triggers, when acquiring them
+     * @param batchTimeWindow
+     *          The time window for which it is allowed to "pre-acquire" triggers to fire
+     * @param makeSchedThreadDaemon
+     *          Make the SchedulerThread a daemon thread.
+     * @throws SchedulerException
+     *           if initialization failed
+     */
+    public void createScheduler(String schedulerName,
+                                String schedulerInstanceId, ThreadPool threadPool,
+                                ThreadExecutor threadExecutor,
+                                JobStore jobStore, Map<String, SchedulerPlugin> schedulerPluginMap,
+                                String rmiRegistryHost, int rmiRegistryPort,
+                                long idleWaitTime, long dbFailureRetryInterval,
+                                boolean jmxExport, String jmxObjectName,
+                                int maxBatchSize, long batchTimeWindow,
+                                boolean makeSchedThreadDaemon)
+            throws SchedulerException {
+
         // Currently only one run-shell factory is available...
         JobRunShellFactory jrsf = new StdJobRunShellFactory();
 
@@ -470,6 +527,7 @@ public class DirectSchedulerFactory implements SchedulerFactory {
 
         qrs.setName(schedulerName);
         qrs.setInstanceId(schedulerInstanceId);
+        qrs.setMakeSchedulerThreadDaemon(makeSchedThreadDaemon);
         SchedulerDetailsSetter.setDetails(threadPool, schedulerName, schedulerInstanceId);
         qrs.setJobRunShellFactory(jrsf);
         qrs.setThreadPool(threadPool);
@@ -486,8 +544,8 @@ public class DirectSchedulerFactory implements SchedulerFactory {
         
         // add plugins
         if (schedulerPluginMap != null) {
-            for (Iterator<SchedulerPlugin> pluginIter = schedulerPluginMap.values().iterator(); pluginIter.hasNext();) {
-                qrs.addSchedulerPlugin(pluginIter.next());
+            for (SchedulerPlugin schedulerPlugin : schedulerPluginMap.values()) {
+                qrs.addSchedulerPlugin(schedulerPlugin);
             }
         }
 
@@ -509,16 +567,14 @@ public class DirectSchedulerFactory implements SchedulerFactory {
 
         // Initialize plugins now that we have a Scheduler instance.
         if (schedulerPluginMap != null) {
-            for (Iterator<Entry<String, SchedulerPlugin>> pluginEntryIter = schedulerPluginMap.entrySet().iterator(); pluginEntryIter.hasNext();) {
-                Entry<String, SchedulerPlugin> pluginEntry = pluginEntryIter.next();
-
+            for (Entry<String, SchedulerPlugin> pluginEntry : schedulerPluginMap.entrySet()) {
                 pluginEntry.getValue().initialize(pluginEntry.getKey(), scheduler, cch);
             }
         }
 
-        getLog().info("Quartz scheduler '" + scheduler.getSchedulerName());
+        getLog().info("Quartz scheduler '{}", scheduler.getSchedulerName());
 
-        getLog().info("Quartz scheduler version: " + qs.getVersion());
+        getLog().info("Quartz scheduler version: {}", qs.getVersion());
 
         SchedulerRepository schedRep = SchedulerRepository.getInstance();
 

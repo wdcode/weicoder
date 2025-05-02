@@ -36,7 +36,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import java.io.Serializable;
 
-/** Supporting context information for resolving
+/** 
+ *  Supporting context information for resolving
  *  namespace prefixes, functions, and variables.
  * 
  *  <p>
@@ -55,9 +56,6 @@ import java.io.Serializable;
  */
 public class ContextSupport implements Serializable {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 4494082174713652559L;
 
     /** Function context. */

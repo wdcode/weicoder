@@ -21,9 +21,8 @@ import java.util.StringTokenizer;
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  * @version $Revision: 1.44 $
  */
-public abstract class AbstractBranch extends AbstractNode implements Branch { 
-	private static final long serialVersionUID = 1L;
-	protected static final int DEFAULT_CONTENT_LIST_SIZE = 5;
+public abstract class AbstractBranch extends AbstractNode implements Branch {
+    protected static final int DEFAULT_CONTENT_LIST_SIZE = 5;
 
     public AbstractBranch() {
     }

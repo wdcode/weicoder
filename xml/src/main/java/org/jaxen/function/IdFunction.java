@@ -70,8 +70,8 @@ import org.jaxen.Navigator;
  * 
  * <p>
  * There should be no more than one element in any document with a 
- * certain ID. However, if there are multiple such elements--i.e. if 
- * there are duplicate IDs--then this function selects only the first element 
+ * certain ID. However, if there are multiple such elements — that is, if 
+ * there are duplicate IDs — then this function selects only the first element 
  * in document order with the specified ID. 
  * </p>
  * 
@@ -102,7 +102,7 @@ public class IdFunction implements Function
      * 
      * @throws FunctionCallException if <code>args</code> has more or less than one item
      */
-    public Object call(Context context, List<Object> args) throws FunctionCallException
+    public Object call(Context context, List args) throws FunctionCallException
     {
         if ( args.size() == 1 ) {
             return evaluate( context.getNodeSet(),
@@ -126,16 +126,16 @@ public class IdFunction implements Function
      *     an empty list if there are no such nodes
      * 
      */
-    public static List<?> evaluate(List<?> contextNodes, Object arg, Navigator nav)
+    public static List evaluate(List contextNodes, Object arg, Navigator nav)
     {
         if (contextNodes.size() == 0) return Collections.EMPTY_LIST;
       
-        List<Object> nodes = new ArrayList<>();
+        List nodes = new ArrayList();
 
         Object contextNode = contextNodes.get(0);
 
         if (arg instanceof List) {
-            Iterator<?> iter = ((List<?>)arg).iterator();
+            Iterator iter = ((List)arg).iterator();
             while (iter.hasNext()) {
                 String id = StringFunction.evaluate(iter.next(), nav);
                 nodes.addAll( evaluate( contextNodes, id, nav ) );

@@ -54,7 +54,6 @@ import org.jaxen.Navigator;
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @version $Revision$
-  * @deprecated will be removed in Jaxen 2.0
   */
 public class NamespaceTest extends NodeTest {
     
@@ -110,6 +109,7 @@ public class NamespaceTest extends NodeTest {
         return prefix + ":";
     }
     
+    @Override
     public String toString()
     {
         return super.toString() + "[ prefix: " + prefix + " type: " + nodeType + " ]";

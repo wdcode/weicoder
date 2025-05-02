@@ -87,13 +87,13 @@ public class JaxenHandler implements XPathHandler
      * if you are please try to use it as a generic List. Don't use the 
      * methods that are only available in LinkedList.
      */
-    protected LinkedList<LinkedList<Object>> stack;
+    protected LinkedList stack;
 
     /** Constructor
      */
     public JaxenHandler()
     {
-        this.stack        = new LinkedList<>();
+        this.stack        = new LinkedList();
         this.xpathFactory = new DefaultXPathFactory();
     }
     
@@ -253,7 +253,7 @@ public class JaxenHandler implements XPathHandler
     }
 
     protected void addSteps(LocationPath locationPath,
-                          Iterator<?> stepIter)
+                          Iterator stepIter)
     {
         while ( stepIter.hasNext() )
         {
@@ -363,7 +363,7 @@ public class JaxenHandler implements XPathHandler
         
         FilterExpr filter = getXPathFactory().createFilterExpr( expr );
 
-        Iterator<Object> predIter = popFrame().iterator();
+        Iterator predIter = popFrame().iterator();
 
         addPredicates( filter,
                        predIter );
@@ -372,7 +372,7 @@ public class JaxenHandler implements XPathHandler
     }
 
     protected void addPredicates(Predicated obj,
-                               Iterator<?> predIter)
+                               Iterator predIter)
     {
         while ( predIter.hasNext() )
         {
@@ -571,7 +571,7 @@ public class JaxenHandler implements XPathHandler
     }
 
     protected void addParameters(FunctionCallExpr function,
-                               Iterator<Object> paramIter)
+                               Iterator paramIter)
     {
         while ( paramIter.hasNext() )
         {
@@ -601,16 +601,16 @@ public class JaxenHandler implements XPathHandler
 
     protected void pushFrame()
     {
-        this.stack.addLast( new LinkedList<>() );
+        this.stack.addLast( new LinkedList() );
     }
 
-    protected LinkedList<Object> popFrame()
+    protected LinkedList popFrame()
     {
-        return this.stack.removeLast();
+        return (LinkedList) this.stack.removeLast();
     }
 
-    protected LinkedList<Object> peekFrame()
+    protected LinkedList peekFrame()
     {
-        return this.stack.getLast();
+        return (LinkedList) this.stack.getLast();
     }
 }

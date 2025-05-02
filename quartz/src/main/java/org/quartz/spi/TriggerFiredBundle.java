@@ -1,5 +1,6 @@
 /* 
  * All content copyright Terracotta, Inc., unless otherwise indicated. All rights reserved.
+ * Copyright Super iPaaS Integration LLC, an IBM Company 2024
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not 
  * use this file except in compliance with the License. You may obtain a copy 
@@ -44,21 +45,21 @@ public class TriggerFiredBundle implements java.io.Serializable {
      * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
      */
 
-    private JobDetail job;
+    private final JobDetail job;
 
-    private OperableTrigger trigger;
+    private final OperableTrigger trigger;
 
-    private Calendar cal;
+    private final Calendar cal;
 
-    private boolean jobIsRecovering;
+    private final boolean jobIsRecovering;
 
-    private Date fireTime;
+    private final Date fireTime;
 
-    private Date scheduledFireTime;
+    private final Date scheduledFireTime;
 
-    private Date prevFireTime;
+    private final Date prevFireTime;
 
-    private Date nextFireTime;
+    private final Date nextFireTime;
 
     /*
      * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

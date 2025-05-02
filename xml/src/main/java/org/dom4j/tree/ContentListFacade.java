@@ -138,8 +138,7 @@ public class ContentListFacade<T extends Node> extends AbstractList<T> {
         return branchContent.toArray();
     }
 
-    @SuppressWarnings("unchecked")
-	@Override
+    @Override
     public Object[] toArray(Object[] a) {
         return branchContent.toArray(a);
     }

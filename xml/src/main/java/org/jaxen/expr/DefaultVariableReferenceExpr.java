@@ -50,12 +50,9 @@ package org.jaxen.expr;
 import org.jaxen.Context;
 import org.jaxen.UnresolvableException;
 
-@SuppressWarnings("deprecation")
 class DefaultVariableReferenceExpr extends DefaultExpr implements VariableReferenceExpr
 {
-    /**
-     * 
-     */
+
     private static final long serialVersionUID = 8832095437149358674L;
     private String prefix;
     private String localName;

@@ -62,7 +62,7 @@ import java.util.AbstractList;
  * 
  */
 public class SingletonList extends AbstractList<Object> {
-	 
+    
     private final Object element;
     
     /**

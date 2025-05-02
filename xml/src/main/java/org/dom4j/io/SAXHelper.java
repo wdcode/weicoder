@@ -10,7 +10,8 @@ package org.dom4j.io;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXNotRecognizedException;
 import org.xml.sax.SAXNotSupportedException;
-import org.xml.sax.XMLReader; 
+import org.xml.sax.XMLReader;
+import org.xml.sax.helpers.XMLReaderFactory;
 
 import javax.xml.parsers.SAXParserFactory;
 
@@ -90,7 +91,7 @@ class SAXHelper {
 
         if (reader == null) {
             try {
-                reader = SAXParserFactory.newInstance().newSAXParser().getXMLReader();
+                reader = XMLReaderFactory.createXMLReader();
             } catch (Exception e) {
                 if (isVerboseErrorReporting()) {
                     // log all exceptions as warnings and carry

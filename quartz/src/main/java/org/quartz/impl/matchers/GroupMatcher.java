@@ -1,5 +1,6 @@
 /*
  * All content copyright Terracotta, Inc., unless otherwise indicated. All rights reserved.
+ * Copyright Super iPaaS Integration LLC, an IBM Company 2024
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not 
  * use this file except in compliance with the License. You may obtain a copy 
@@ -37,7 +38,7 @@ public class GroupMatcher<T extends Key<?>> extends StringMatcher<T> {
      * Create a GroupMatcher that matches groups equaling the given string.
      */
     public static <T extends Key<T>> GroupMatcher<T> groupEquals(String compareTo) {
-        return new GroupMatcher<T>(compareTo, StringOperatorName.EQUALS);
+        return new GroupMatcher<>(compareTo, StringOperatorName.EQUALS);
     }
 
     /**
@@ -58,7 +59,7 @@ public class GroupMatcher<T extends Key<?>> extends StringMatcher<T> {
      * Create a GroupMatcher that matches groups starting with the given string.
      */
     public static <T extends Key<T>> GroupMatcher<T> groupStartsWith(String compareTo) {
-        return new GroupMatcher<T>(compareTo, StringOperatorName.STARTS_WITH);
+        return new GroupMatcher<>(compareTo, StringOperatorName.STARTS_WITH);
     }
 
     /**
@@ -79,7 +80,7 @@ public class GroupMatcher<T extends Key<?>> extends StringMatcher<T> {
      * Create a GroupMatcher that matches groups ending with the given string.
      */
     public static <T extends Key<T>> GroupMatcher<T> groupEndsWith(String compareTo) {
-        return new GroupMatcher<T>(compareTo, StringOperatorName.ENDS_WITH);
+        return new GroupMatcher<>(compareTo, StringOperatorName.ENDS_WITH);
     }
 
     /**
@@ -100,7 +101,7 @@ public class GroupMatcher<T extends Key<?>> extends StringMatcher<T> {
      * Create a GroupMatcher that matches groups containing the given string.
      */
     public static <T extends Key<T>> GroupMatcher<T> groupContains(String compareTo) {
-        return new GroupMatcher<T>(compareTo, StringOperatorName.CONTAINS);
+        return new GroupMatcher<>(compareTo, StringOperatorName.CONTAINS);
     }
 
     /**
@@ -121,7 +122,7 @@ public class GroupMatcher<T extends Key<?>> extends StringMatcher<T> {
      * Create a GroupMatcher that matches groups starting with the given string.
      */
     public static <T extends Key<T>> GroupMatcher<T> anyGroup() {
-        return new GroupMatcher<T>("", StringOperatorName.ANYTHING);
+        return new GroupMatcher<>("", StringOperatorName.ANYTHING);
     }
 
     /**

@@ -1,5 +1,6 @@
 /* 
  * All content copyright Terracotta, Inc., unless otherwise indicated. All rights reserved.
+ * Copyright Super iPaaS Integration LLC, an IBM Company 2024
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not 
  * use this file except in compliance with the License. You may obtain a copy 
@@ -171,6 +172,7 @@ public interface Constants {
      * rather now identified dynamically by whether the trigger's next fire 
      * time is more than the misfire threshold time in the past.
      */
+    @Deprecated
     String STATE_MISFIRED = "MISFIRED";
 
     String ALL_GROUPS_PAUSED = "_$_ALL_GROUPS_PAUSED_$_";

@@ -29,7 +29,6 @@ import java.util.Map;
  */
 public class FlyweightProcessingInstruction extends
         AbstractProcessingInstruction {
-	private static final long serialVersionUID = 1L;
     /** The target of the PI */
     protected String target;
 

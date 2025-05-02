@@ -65,15 +65,15 @@ import org.jaxen.UnsupportedAxisException;
  * attribute node or namespace node, the <code>preceding-sibling</code>
  * axis is empty."
  * 
- * @version 1.2b12
+ * @version 2.0.0
  *
  */
-public class PrecedingSiblingAxisIterator implements Iterator<Object>
+public class PrecedingSiblingAxisIterator implements Iterator
 {
     private Object    contextNode;
     private Navigator navigator;
 
-    private Iterator<Object>  siblingIter;
+    private Iterator  siblingIter;
     private Object    nextObj;
 
     /**
@@ -81,6 +81,7 @@ public class PrecedingSiblingAxisIterator implements Iterator<Object>
      * 
      * @param contextNode the node to start from
      * @param navigator the object model specific navigator
+     * @throws UnsupportedAxisException if the navigator does not support the preceding-sibling axis
      */
     public PrecedingSiblingAxisIterator(Object contextNode,
                                         Navigator navigator) throws UnsupportedAxisException
@@ -102,8 +103,8 @@ public class PrecedingSiblingAxisIterator implements Iterator<Object>
 
         if ( parent != null )
         {
-            Iterator<?> childIter = this.navigator.getChildAxisIterator( parent );
-            LinkedList<Object> siblings = new LinkedList<>();
+            Iterator childIter = this.navigator.getChildAxisIterator( parent );
+            LinkedList siblings = new LinkedList();
             
             while ( childIter.hasNext() )
             {
@@ -166,7 +167,7 @@ public class PrecedingSiblingAxisIterator implements Iterator<Object>
     /**
      * This operation is not supported.
      * 
-     * @throws UnsupportedOperationException
+     * @throws UnsupportedOperationException always
      */
     public void remove() throws UnsupportedOperationException
     {

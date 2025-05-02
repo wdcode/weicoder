@@ -1,5 +1,6 @@
 /*
  * All content copyright Terracotta, Inc., unless otherwise indicated. All rights reserved.
+ * Copyright Super iPaaS Integration LLC, an IBM Company 2024
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -54,7 +55,7 @@ public class ClassUtils {
         }
 
         //Check interfaces (breadth first)
-        Queue<Class<?>> q = new LinkedList<Class<?>>();
+        Queue<Class<?>> q = new LinkedList<>();
         q.add(clazz);
         while (!q.isEmpty()) {
             Class<?> c = q.remove();

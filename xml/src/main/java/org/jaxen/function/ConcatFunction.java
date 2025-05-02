@@ -89,7 +89,7 @@ public class ConcatFunction implements Function
      * @throws FunctionCallException if <code>args</code> has less than two items
      */
     public Object call(Context context,
-                       List<Object> args) throws FunctionCallException
+                       List args) throws FunctionCallException
     {
         if ( args.size() >= 2 )
         {
@@ -111,11 +111,11 @@ public class ConcatFunction implements Function
      * 
      * @return the concatenation of the arguments
      */
-   public static String evaluate(List<?> list,
+   public static String evaluate(List list,
                                   Navigator nav)
     {
         StringBuffer result = new StringBuffer();
-        Iterator<?> argIter = list.iterator();
+        Iterator argIter = list.iterator();
         while ( argIter.hasNext() )
         {
             result.append( StringFunction.evaluate( argIter.next(),

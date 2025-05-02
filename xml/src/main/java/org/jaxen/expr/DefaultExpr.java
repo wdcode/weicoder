@@ -55,20 +55,16 @@ import java.util.List;
 import org.jaxen.util.SingleObjectIterator;
 import org.jaxen.util.SingletonList;
 
-/**
- * @deprecated this class will become non-public in the future;
- *     use the interface instead
- */
-@SuppressWarnings("unchecked")
-public abstract class DefaultExpr implements Expr
+abstract class DefaultExpr implements Expr
 {
-	private static final long serialVersionUID = 1L;
-    public Expr simplify()
+    private static final long serialVersionUID = 1L;
+
+	public Expr simplify()
     {
         return this;
     }
- 
-	static public Iterator<Object> convertToIterator(Object obj)
+
+    static public Iterator<Object> convertToIterator(Object obj)
     {
         if ( obj instanceof Iterator )
         {

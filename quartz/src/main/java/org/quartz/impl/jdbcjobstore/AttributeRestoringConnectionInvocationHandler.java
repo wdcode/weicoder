@@ -1,5 +1,6 @@
 /* 
  * All content copyright Terracotta, Inc., unless otherwise indicated. All rights reserved.
+ * Copyright Super iPaaS Integration LLC, an IBM Company 2024
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not 
  * use this file except in compliance with the License. You may obtain a copy 
@@ -21,13 +22,12 @@ import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
- 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <p>
- * Protects a <code>{@link java.sql.Connection}</code>'s attributes from being permanently modfied.
+ * Protects a <code>{@link java.sql.Connection}</code>'s attributes from being permanently modified.
  * </p>
  * 
  * <p>
@@ -41,7 +41,7 @@ import org.apache.logging.log4j.Logger;
  * @see org.quartz.impl.jdbcjobstore.JobStoreCMT#getNonManagedTXConnection()
  */
 public class AttributeRestoringConnectionInvocationHandler implements InvocationHandler {
-    private Connection conn;
+    private final Connection conn;
     
     private boolean overwroteOriginalAutoCommitValue;
     private boolean overwroteOriginalTxIsolationValue;
@@ -58,25 +58,28 @@ public class AttributeRestoringConnectionInvocationHandler implements Invocation
     }
 
     protected Logger getLog() {
-        return LogManager.getLogger(getClass());
+        return LoggerFactory.getLogger(getClass());
     }
     
     public Object invoke(Object proxy, Method method, Object[] args)
         throws Throwable {
-        if (method.getName().equals("setAutoCommit")) {
-            setAutoCommit(((Boolean)args[0]).booleanValue());
-        } else if (method.getName().equals("setTransactionIsolation")) {
-            setTransactionIsolation(((Integer)args[0]).intValue());
-        } else if (method.getName().equals("close")) {
-            close();
-        } else {
-            try {
-                return method.invoke(conn, args);
-            }
-            catch(InvocationTargetException ite) {
-                throw (ite.getCause() != null ? ite.getCause() : ite);
-            }
-            
+        switch (method.getName()) {
+            case "setAutoCommit":
+                setAutoCommit((Boolean) args[0]);
+                break;
+            case "setTransactionIsolation":
+                setTransactionIsolation((Integer) args[0]);
+                break;
+            case "close":
+                close();
+                break;
+            default:
+                try {
+                    return method.invoke(conn, args);
+                } catch (InvocationTargetException ite) {
+                    throw (ite.getCause() != null ? ite.getCause() : ite);
+                }
+
         }
         
         return null;
@@ -91,7 +94,7 @@ public class AttributeRestoringConnectionInvocationHandler implements Invocation
         boolean currentAutoCommitValue = conn.getAutoCommit();
             
         if (autoCommit != currentAutoCommitValue) {
-            if (overwroteOriginalAutoCommitValue == false) {
+            if (!overwroteOriginalAutoCommitValue) {
                 overwroteOriginalAutoCommitValue = true;
                 originalAutoCommitValue = currentAutoCommitValue;
             }
@@ -109,7 +112,7 @@ public class AttributeRestoringConnectionInvocationHandler implements Invocation
         int currentLevel = conn.getTransactionIsolation();
         
         if (level != currentLevel) {
-            if (overwroteOriginalTxIsolationValue == false) {
+            if (!overwroteOriginalTxIsolationValue) {
                 overwroteOriginalTxIsolationValue = true;
                 originalTxIsolationValue = currentLevel;
             }
@@ -136,7 +139,7 @@ public class AttributeRestoringConnectionInvocationHandler implements Invocation
      * attributes of the wrapped connection to their original values (if they
      * were overwritten).
      */
-    public void restoreOriginalAtributes() {
+    public void restoreOriginalAttributes() {
         try {
             if (overwroteOriginalAutoCommitValue) {
                 conn.setAutoCommit(originalAutoCommitValue);
@@ -160,7 +163,7 @@ public class AttributeRestoringConnectionInvocationHandler implements Invocation
      * were overwritten), before finally actually closing the wrapped connection.
      */
     public void close() throws SQLException {
-        restoreOriginalAtributes();
+        restoreOriginalAttributes();
         
         conn.close();
     }

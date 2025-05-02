@@ -28,8 +28,6 @@ import org.jaxen.SimpleNamespaceContext;
 import org.jaxen.VariableContext;
 import org.jaxen.XPath;
 import org.jaxen.dom4j.Dom4jXPath;
- 
-import com.weicoder.common.lang.W.L;
 
 /**
  * <p>
@@ -41,7 +39,6 @@ import com.weicoder.common.lang.W.L;
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  */
 public class DefaultXPath implements org.dom4j.XPath, NodeFilter, Serializable {
-	private static final long serialVersionUID = 1L;
     private String text;
 
     private XPath xpath;
@@ -132,11 +129,11 @@ public class DefaultXPath implements org.dom4j.XPath, NodeFilter, Serializable {
         try {
             setNSContext(context);
 
-            return L.toList(xpath.selectNodes(context), Node.class);
+            return (List<Node>) xpath.selectNodes(context);
         } catch (JaxenException e) {
             handleJaxenException(e);
 
-            return L.empty();
+            return Collections.emptyList();
         }
     }
 
@@ -292,8 +289,7 @@ public class DefaultXPath implements org.dom4j.XPath, NodeFilter, Serializable {
      */
     protected void sort(List<Node> list, final Map<Node, Object> sortValues) {
         Collections.sort(list, new Comparator<Node>() {
-            @SuppressWarnings("unchecked")
-			public int compare(Node n1, Node n2) {
+            public int compare(Node n1, Node n2) {
                 Object o1 = sortValues.get(n1);
                 Object o2 = sortValues.get(n2);
 

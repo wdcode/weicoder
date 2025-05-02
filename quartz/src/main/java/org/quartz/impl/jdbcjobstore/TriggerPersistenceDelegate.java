@@ -1,5 +1,6 @@
 /*
  * All content copyright Terracotta, Inc., unless otherwise indicated. All rights reserved.
+ * Copyright Super iPaaS Integration LLC, an IBM Company 2024
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,26 +33,26 @@ import org.quartz.spi.OperableTrigger;
  */
 public interface TriggerPersistenceDelegate {
 
-    public void initialize(String tablePrefix, String schedulerName);
+    void initialize(String tablePrefix, String schedulerName);
     
-    public boolean canHandleTriggerType(OperableTrigger trigger);
+    boolean canHandleTriggerType(OperableTrigger trigger);
     
-    public String getHandledTriggerTypeDiscriminator();
+    String getHandledTriggerTypeDiscriminator();
     
-    public int insertExtendedTriggerProperties(Connection conn, OperableTrigger trigger, String state, JobDetail jobDetail) throws SQLException, IOException;
+    int insertExtendedTriggerProperties(Connection conn, OperableTrigger trigger, String state, JobDetail jobDetail) throws SQLException, IOException;
 
-    public int updateExtendedTriggerProperties(Connection conn, OperableTrigger trigger, String state, JobDetail jobDetail) throws SQLException, IOException;
+    int updateExtendedTriggerProperties(Connection conn, OperableTrigger trigger, String state, JobDetail jobDetail) throws SQLException, IOException;
     
-    public int deleteExtendedTriggerProperties(Connection conn, TriggerKey triggerKey) throws SQLException;
+    int deleteExtendedTriggerProperties(Connection conn, TriggerKey triggerKey) throws SQLException;
 
-    public TriggerPropertyBundle loadExtendedTriggerProperties(Connection conn, TriggerKey triggerKey) throws SQLException;
+    TriggerPropertyBundle loadExtendedTriggerProperties(Connection conn, TriggerKey triggerKey) throws SQLException;
     
     
     class TriggerPropertyBundle {
         
-        private ScheduleBuilder<?> sb;
-        private String[] statePropertyNames;
-        private Object[] statePropertyValues;
+        private final ScheduleBuilder<?> sb;
+        private final String[] statePropertyNames;
+        private final Object[] statePropertyValues;
         
         public TriggerPropertyBundle(ScheduleBuilder<?> sb, String[] statePropertyNames, Object[] statePropertyValues) {
             this.sb = sb;

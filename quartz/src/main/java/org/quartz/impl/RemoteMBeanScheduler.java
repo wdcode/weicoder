@@ -1,5 +1,6 @@
 /* 
  * All content copyright Terracotta, Inc., unless otherwise indicated. All rights reserved.
+ * Copyright Super iPaaS Integration LLC, an IBM Company 2024
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not 
  * use this file except in compliance with the License. You may obtain a copy 
@@ -15,7 +16,7 @@
  * 
  */
 package org.quartz.impl;
- 
+
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -42,7 +43,7 @@ import org.quartz.Trigger;
 import org.quartz.TriggerKey;
 import org.quartz.UnableToInterruptJobException;
 import org.quartz.Trigger.TriggerState;
-import org.quartz.core.jmx.JobDetailSupport; 
+import org.quartz.core.jmx.JobDetailSupport;
 import org.quartz.impl.matchers.GroupMatcher;
 import org.quartz.impl.matchers.StringMatcher;
 import org.quartz.spi.JobFactory;
@@ -205,7 +206,7 @@ public abstract class RemoteMBeanScheduler implements Scheduler {
                     (Boolean)getAttribute(attributeList, 2).getValue(),
                     (Boolean)getAttribute(attributeList, 3).getValue(),
                     null,
-                    Integer.parseInt(((Map<?,?>)getAttribute(attributeList, 8).getValue()).get("JobsExecuted").toString()),
+                    Integer.parseInt(((Map)getAttribute(attributeList, 8).getValue()).get("JobsExecuted").toString()),
                     Class.forName((String)getAttribute(attributeList, 4).getValue()),
                     false,
                     false,
@@ -232,7 +233,7 @@ public abstract class RemoteMBeanScheduler implements Scheduler {
 
     ///////////////////////////////////////////////////////////////////////////
     ///
-    /// Schedululer State Management Methods
+    /// Scheduler State Management Methods
     ///
     ///////////////////////////////////////////////////////////////////////////
 
@@ -325,7 +326,8 @@ public abstract class RemoteMBeanScheduler implements Scheduler {
      * <p>
      * Calls the equivalent method on the 'proxied' <code>QuartzScheduler</code>.
      * </p>
-     */ 
+     */
+    @SuppressWarnings("unchecked")
     public List<JobExecutionContext> getCurrentlyExecutingJobs() throws SchedulerException {
         throw new SchedulerException("Operation not supported for remote schedulers.");
     }
@@ -716,7 +718,7 @@ public abstract class RemoteMBeanScheduler implements Scheduler {
                     new Object[] { matcher.getCompareToValue() },
                     new String[] { String.class.getName() });
 
-            return new HashSet<JobKey>(keys);
+            return new HashSet<>(keys);
         } else {
             throw new SchedulerException("Only equals matcher are supported for looking up JobKeys");
         }
@@ -728,7 +730,8 @@ public abstract class RemoteMBeanScheduler implements Scheduler {
      * passing the <code>SchedulingContext</code> associated with this
      * instance.
      * </p>
-     */ 
+     */
+    @SuppressWarnings("unchecked")
     public List<Trigger> getTriggersOfJob(JobKey jobKey) throws SchedulerException {
         throw new SchedulerException("Operation not supported for remote schedulers.");
     }
@@ -751,7 +754,8 @@ public abstract class RemoteMBeanScheduler implements Scheduler {
      * passing the <code>SchedulingContext</code> associated with this
      * instance.
      * </p>
-     */ 
+     */
+    @SuppressWarnings("unchecked")
     public Set<TriggerKey> getTriggerKeys(GroupMatcher<TriggerKey> matcher) throws SchedulerException {
         throw new SchedulerException("Operation not supported for remote schedulers.");
     }

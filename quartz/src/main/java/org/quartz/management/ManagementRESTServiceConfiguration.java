@@ -1,5 +1,6 @@
 /**
  *  Copyright Terracotta, Inc.
+ *  Copyright Super iPaaS Integration LLC, an IBM Company 2024
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -67,10 +68,10 @@ public class ManagementRESTServiceConfiguration {
     /**
      * Returns the security service location required for trusted identity assertion to the embedded REST management
      * service.  This feature is only available with an enterprise license.
-     * <p/>
+     * <p>
      * If this value is set, then this service will require secure dialog with the TMS or other 3rd party REST client
      * implementations. The service furnished by the enterprise version of the TMC is located is provided at /api/assertIdentity.
-     *
+     * </p>
      *
      * @return a string representing the URL of the security service.
      */
@@ -81,9 +82,10 @@ public class ManagementRESTServiceConfiguration {
     /**
      * Sets the security service location required for trusted identity assertion to the embedded REST management
      * service.  This feature is only available with an enterprise license.
-     * <p/>
+     * <p>
      * If this value is set, then this service will require secure dialog with the TMS or other 3rd party REST client
      * implementations. The service furnished by the enterprise version of the TMC is located is provided at /api/assertIdentity.
+     * </p>
      *
      * @param securityServiceURL a string representing the URL of the security service.
      */

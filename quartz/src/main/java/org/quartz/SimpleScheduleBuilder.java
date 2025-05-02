@@ -1,5 +1,6 @@
 /*
  * All content copyright Terracotta, Inc., unless otherwise indicated. All rights reserved.
+ * Copyright Super iPaaS Integration LLC, an IBM Company 2024
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not 
  * use this file except in compliance with the License. You may obtain a copy 
@@ -47,7 +48,7 @@ import org.quartz.spi.MutableTrigger;
  *             .build();
  *         
  *         scheduler.scheduleJob(job, trigger);
- * <pre>
+ * </pre>
  *
  * @see SimpleTrigger
  * @see CalendarIntervalScheduleBuilder
@@ -324,10 +325,10 @@ public class SimpleScheduleBuilder extends ScheduleBuilder<SimpleTrigger> {
     }
     
     /**
-     * Specify a the number of time the trigger will repeat - total number of 
+     * Specify the number of times the trigger will repeat - the total number of
      * firings will be this number + 1. 
      * 
-     * @param triggerRepeatCount the number of seconds at which the trigger should repeat.
+     * @param triggerRepeatCount the number of times the trigger should repeat after the initial firing.
      * @return the updated SimpleScheduleBuilder
      * @see SimpleTrigger#getRepeatCount()
      * @see #repeatForever()
@@ -357,7 +358,7 @@ public class SimpleScheduleBuilder extends ScheduleBuilder<SimpleTrigger> {
      * If the Trigger misfires, use the 
      * {@link Trigger#MISFIRE_INSTRUCTION_IGNORE_MISFIRE_POLICY} instruction.
      * 
-     * @return the updated CronScheduleBuilder
+     * @return the updated SimpleScheduleBuilder
      * @see Trigger#MISFIRE_INSTRUCTION_IGNORE_MISFIRE_POLICY
      */
     public SimpleScheduleBuilder withMisfireHandlingInstructionIgnoreMisfires() {

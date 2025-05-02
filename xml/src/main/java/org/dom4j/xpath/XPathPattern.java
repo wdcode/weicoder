@@ -34,11 +34,10 @@ import org.jaxen.saxpath.SAXPathException;
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  * @version $Revision: 1.18 $
  */
-@SuppressWarnings("deprecation")
 public class XPathPattern implements org.dom4j.rule.Pattern {
     private String text;
- 
-	private Pattern pattern;
+
+    private Pattern pattern;
 
     private Context context;
 

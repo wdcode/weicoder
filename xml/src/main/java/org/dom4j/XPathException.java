@@ -15,7 +15,6 @@ package org.dom4j;
  * @version $Revision: 1.6 $
  */
 public class XPathException extends RuntimeException {
-	private static final long serialVersionUID = 1L;
     /** The XPath expression that caused the exception */
     private String xpath;
 

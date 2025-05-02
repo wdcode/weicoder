@@ -1,6 +1,7 @@
 
 /* 
  * All content copyright Terracotta, Inc., unless otherwise indicated. All rights reserved.
+ * Copyright Super iPaaS Integration LLC, an IBM Company 2024
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not 
  * use this file except in compliance with the License. You may obtain a copy 
@@ -26,7 +27,7 @@ import org.quartz.spi.TriggerFiredBundle;
 /**
  * <p>
  * Responsible for creating the instances of <code>{@link JobRunShell}</code>
- * to be used within the <class>{@link QuartzScheduler}</code> instance.
+ * to be used within the <code>{@link QuartzScheduler}</code> instance.
  * </p>
  * 
  * @author James House

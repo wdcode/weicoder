@@ -1,5 +1,6 @@
 /* 
  * All content copyright Terracotta, Inc., unless otherwise indicated. All rights reserved.
+ * Copyright Super iPaaS Integration LLC, an IBM Company 2024
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not 
  * use this file except in compliance with the License. You may obtain a copy 
@@ -21,7 +22,7 @@ import java.util.Date;
 import java.util.Set;
 
 import org.quartz.DailyTimeIntervalScheduleBuilder;
-import org.quartz.DailyTimeIntervalTrigger; 
+import org.quartz.DailyTimeIntervalTrigger;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.quartz.ScheduleBuilder;
@@ -69,7 +70,7 @@ import org.quartz.DateBuilder.IntervalUnit;
  * @since 2.1.0
  * 
  * @author James House
- * @author Zemian Deng <saltnlight5@gmail.com>
+ * @author Zemian Deng &lt;saltnlight5@gmail.com&gt;
  */
 public class DailyTimeIntervalTriggerImpl extends AbstractTrigger<DailyTimeIntervalTrigger> implements DailyTimeIntervalTrigger, CoreTrigger {
     
@@ -136,7 +137,7 @@ public class DailyTimeIntervalTriggerImpl extends AbstractTrigger<DailyTimeInter
     /**
      * <p>
      * Create a <code>DailyTimeIntervalTrigger</code> that will occur immediately, and
-     * repeat at the the given interval.
+     * repeat at the given interval.
      * </p>
      * 
      * @param startTimeOfDay 
@@ -154,7 +155,7 @@ public class DailyTimeIntervalTriggerImpl extends AbstractTrigger<DailyTimeInter
     /**
      * <p>
      * Create a <code>DailyTimeIntervalTrigger</code> that will occur immediately, and
-     * repeat at the the given interval.
+     * repeat at the given interval.
      * </p>
      * 
      * @param startTimeOfDay 
@@ -173,7 +174,7 @@ public class DailyTimeIntervalTriggerImpl extends AbstractTrigger<DailyTimeInter
     /**
      * <p>
      * Create a <code>DailyTimeIntervalTrigger</code> that will occur at the given time,
-     * and repeat at the the given interval until the given end time.
+     * and repeat at the given interval until the given end time.
      * </p>
      * 
      * @param startTime
@@ -201,7 +202,7 @@ public class DailyTimeIntervalTriggerImpl extends AbstractTrigger<DailyTimeInter
     /**
      * <p>
      * Create a <code>DailyTimeIntervalTrigger</code> that will occur at the given time,
-     * and repeat at the the given interval until the given end time.
+     * and repeat at the given interval until the given end time.
      * </p>
      * 
      * @param startTime
@@ -236,7 +237,7 @@ public class DailyTimeIntervalTriggerImpl extends AbstractTrigger<DailyTimeInter
     /**
      * <p>
      * Create a <code>DailyTimeIntervalTrigger</code> that will occur at the given time,
-     * fire the identified <code>Job</code> and repeat at the the given
+     * fire the identified <code>Job</code> and repeat at the given
      * interval until the given end time.
      * </p>
      * 
@@ -379,16 +380,16 @@ public class DailyTimeIntervalTriggerImpl extends AbstractTrigger<DailyTimeInter
 
     /**
      * <p>
-     * set the the time interval that will be added to the <code>DailyTimeIntervalTrigger</code>'s
+     * set the time interval that will be added to the <code>DailyTimeIntervalTrigger</code>'s
      * fire time (in the set repeat interval unit) in order to calculate the time of the 
      * next trigger repeat.
      * </p>
      * 
      * @exception IllegalArgumentException
-     *              if repeatInterval is < 1
+     *              if repeatInterval is &lt; 1
      */
     public void setRepeatInterval( int repeatInterval) {
-        if (repeatInterval < 0) {
+        if (repeatInterval < 1) {
             throw new IllegalArgumentException(
                     "Repeat interval must be >= 1");
         }
@@ -429,11 +430,10 @@ public class DailyTimeIntervalTriggerImpl extends AbstractTrigger<DailyTimeInter
      * 
      * <p>
      * If the misfire instruction is set to MISFIRE_INSTRUCTION_SMART_POLICY,
-     * then the following scheme will be used: <br>
+     * then the following scheme will be used: </p>
      * <ul>
      * <li>The instruction will be interpreted as <code>MISFIRE_INSTRUCTION_FIRE_ONCE_NOW</code>
      * </ul>
-     * </p>
      */
     @Override
     public void updateAfterMisfire(org.quartz.Calendar cal) {
@@ -552,7 +552,6 @@ public class DailyTimeIntervalTriggerImpl extends AbstractTrigger<DailyTimeInter
      * @return the first time at which the <code>Trigger</code> will be fired
      *         by the scheduler, which is also the same value <code>getNextFireTime()</code>
      *         will return (until after the first firing of the <code>Trigger</code>).
-     *         </p>
      */
     @Override
     public Date computeFirstFireTime(org.quartz.Calendar calendar) {
@@ -676,14 +675,14 @@ public class DailyTimeIntervalTriggerImpl extends AbstractTrigger<DailyTimeInter
         if (endTimeOfDay != null) {
           afterTimePastEndTimeOfDay = afterTime.getTime() > endTimeOfDay.getTimeOfDayForDate(afterTime).getTime();
         }
-        // c. now we need to move move to the next valid day of week if either: 
+        // c. now we need to move to the next valid day of week if either: 
         // the given time is past the end time of day, or given time is not on a valid day of week
         Date fireTime = advanceToNextDayOfWeekIfNecessary(afterTime, afterTimePastEndTimeOfDay);
         if (fireTime == null)
           return null;
                 
         // d. Calculate and save fireTimeEndDate variable for later use
-        Date fireTimeEndDate = null;
+        Date fireTimeEndDate;
         if (endTimeOfDay == null)
           fireTimeEndDate = new TimeOfDay(23, 59, 59).getTimeOfDayForDate(fireTime);
         else
@@ -874,10 +873,8 @@ public class DailyTimeIntervalTriggerImpl extends AbstractTrigger<DailyTimeInter
     }
 
     public void setDaysOfWeek(Set<Integer> daysOfWeek) {
-        if(daysOfWeek == null || daysOfWeek.size() == 0)
+        if(daysOfWeek == null || daysOfWeek.isEmpty())
             throw new IllegalArgumentException("DaysOfWeek set must be a set that contains at least one day.");
-        else if(daysOfWeek.size() == 0) 
-            throw new IllegalArgumentException("DaysOfWeek set must contain at least one day.");
 
         this.daysOfWeek = daysOfWeek;
     }

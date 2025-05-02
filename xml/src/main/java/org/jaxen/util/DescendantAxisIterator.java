@@ -62,13 +62,13 @@ import java.util.ArrayList;
  * a descendant is a child or a child of a child and so on; thus 
  * the descendant axis never contains attribute or namespace nodes."
  * 
- * @version 1.2b12
+ * @version 2.0.0
  */
-public class DescendantAxisIterator implements Iterator<Object>
+public class DescendantAxisIterator implements Iterator
 {
 
-    private ArrayList<Iterator<?>> stack = new ArrayList<>();
-    private Iterator<?> children;
+    private ArrayList stack = new ArrayList();
+    private Iterator children;
     private Navigator navigator;
 
     /**
@@ -76,6 +76,7 @@ public class DescendantAxisIterator implements Iterator<Object>
      * 
      * @param contextNode the node to start from
      * @param navigator the object model specific navigator
+     * @throws UnsupportedAxisException if the navigator does not support the descendant axis
      */
     public DescendantAxisIterator(Object contextNode,
                                   Navigator navigator) throws UnsupportedAxisException
@@ -84,7 +85,7 @@ public class DescendantAxisIterator implements Iterator<Object>
     }
 
     public DescendantAxisIterator(Navigator navigator,
-                                  Iterator<?> iterator)
+                                  Iterator iterator)
     {
         this.navigator = navigator;
         this.children = iterator;
@@ -96,7 +97,8 @@ public class DescendantAxisIterator implements Iterator<Object>
      * @return true if any descendants remain; false otherwise
      * 
      * @see java.util.Iterator#hasNext()
-     */    public boolean hasNext()
+     */
+    public boolean hasNext()
     {
         while (!children.hasNext())
         {
@@ -104,7 +106,7 @@ public class DescendantAxisIterator implements Iterator<Object>
             {
                 return false;
             }
-            children = stack.remove(stack.size()-1);
+            children = (Iterator) stack.remove(stack.size()-1);
         }
         return true;
     }

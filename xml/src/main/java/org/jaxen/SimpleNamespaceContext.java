@@ -52,22 +52,26 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  *  Provides mappings from namespace prefix to namespace URI to the XPath
  *  engine.
  */
 public class SimpleNamespaceContext implements NamespaceContext, Serializable
-{ 
-    private static final long serialVersionUID = 1L; 
-    private Map<String,String> namespaces;
+{
+    
+
+    private static final long serialVersionUID = -808928409643497762L;
+    // XXX should this prebind the xml prefix?
+    private Map<String, String> namespaces;
 
     /**
      * Creates a new empty namespace context.
      */
     public SimpleNamespaceContext()
     {
-        this.namespaces = new HashMap<>();
+        this.namespaces = new HashMap<String, String>();
     }
 
     /**
@@ -80,17 +84,17 @@ public class SimpleNamespaceContext implements NamespaceContext, Serializable
      * @throws NullPointerException if the argument is null   
      * @throws ClassCastException if any keys or values in the map are not strings   
      */
-    public SimpleNamespaceContext(Map<String,String> namespaces)
+    public SimpleNamespaceContext(Map<String, String> namespaces)
     {
-        Iterator<Map.Entry<String,String>> entries = namespaces.entrySet().iterator();
+        Iterator<Entry<String,String>> entries = namespaces.entrySet().iterator();
         while (entries.hasNext()) {
-        	Map.Entry<String,String> entry = entries.next();
+            Map.Entry<String, String> entry = entries.next();
             if (! (entry.getKey() instanceof String)
               || ! (entry.getValue() instanceof String)) {
                 throw new ClassCastException("Non-string namespace binding");
             }
         }
-        this.namespaces = new HashMap<>(namespaces);
+        this.namespaces = new HashMap<String, String>(namespaces);
     }
 
     /**
@@ -108,7 +112,7 @@ public class SimpleNamespaceContext implements NamespaceContext, Serializable
     public void addElementNamespaces( Navigator nav, Object element )
         throws UnsupportedAxisException
     {
-        Iterator<?> namespaceAxis = nav.getNamespaceAxisIterator( element );
+        Iterator<Object> namespaceAxis = nav.getNamespaceAxisIterator( element );
 
         while ( namespaceAxis.hasNext() ) {
             Object namespace = namespaceAxis.next();
@@ -136,7 +140,7 @@ public class SimpleNamespaceContext implements NamespaceContext, Serializable
     {
         if ( this.namespaces.containsKey( prefix ) )
         {
-            return (String) this.namespaces.get( prefix );
+            return this.namespaces.get( prefix );
         }
 
         return null;

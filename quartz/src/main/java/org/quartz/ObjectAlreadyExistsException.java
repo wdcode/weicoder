@@ -1,6 +1,7 @@
 
 /* 
  * All content copyright Terracotta, Inc., unless otherwise indicated. All rights reserved.
+ * Copyright Super iPaaS Integration LLC, an IBM Company 2024
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not 
  * use this file except in compliance with the License. You may obtain a copy 
@@ -22,7 +23,7 @@ package org.quartz;
  * An exception that is thrown to indicate that an attempt to store a new
  * object (i.e. <code>{@link org.quartz.JobDetail}</code>,<code>{@link Trigger}</code>
  * or <code>{@link Calendar}</code>) in a <code>{@link Scheduler}</code>
- * failed, because one with the same name & group already exists.
+ * failed, because one with the same name and group already exists.
  * 
  * @author James House
  */

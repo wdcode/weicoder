@@ -1,5 +1,6 @@
 /*
  * All content copyright Terracotta, Inc., unless otherwise indicated. All rights reserved.
+ * Copyright Super iPaaS Integration LLC, an IBM Company 2024
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -55,7 +56,7 @@ public class CalendarIntervalTriggerPersistenceDelegate extends SimpleProperties
 
         TimeZone tz = null; // if we use null, that's ok as system default tz will be used
         String tzId = props.getString2();
-        if(tzId != null && tzId.trim().length() != 0) // there could be null entries from previously released versions
+        if(tzId != null && !tzId.trim().isEmpty()) // there could be null entries from previously released versions
             tz = TimeZone.getTimeZone(tzId);
         
         ScheduleBuilder<?> sb = CalendarIntervalScheduleBuilder.calendarIntervalSchedule()

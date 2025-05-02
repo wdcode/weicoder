@@ -53,12 +53,9 @@ import org.jaxen.Context;
 import org.jaxen.JaxenException;
 import org.jaxen.function.NumberFunction;
 
-@SuppressWarnings("deprecation")
 class DefaultUnaryExpr extends DefaultExpr implements UnaryExpr
 {
-    /**
-     * 
-     */
+
     private static final long serialVersionUID = 2303714238683092334L;
     private Expr expr;
 

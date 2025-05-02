@@ -1,5 +1,6 @@
 /*
  * All content copyright Terracotta, Inc., unless otherwise indicated. All rights reserved.
+ * Copyright Super iPaaS Integration LLC, an IBM Company 2024
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not 
  * use this file except in compliance with the License. You may obtain a copy 
@@ -29,7 +30,7 @@ package org.quartz;
  */
 public interface SimpleTrigger extends Trigger {
 
-    public static final long serialVersionUID = -3735980074222850397L;
+    long serialVersionUID = -3735980074222850397L;
     
     /**
      * <p>
@@ -41,11 +42,11 @@ public interface SimpleTrigger extends Trigger {
      * <p>
      * <i>NOTE:</i> This instruction should typically only be used for
      * 'one-shot' (non-repeating) Triggers. If it is used on a trigger with a
-     * repeat count > 0 then it is equivalent to the instruction <code>{@link #MISFIRE_INSTRUCTION_RESCHEDULE_NOW_WITH_REMAINING_REPEAT_COUNT}
+     * repeat count &gt; 0 then it is equivalent to the instruction <code>{@link #MISFIRE_INSTRUCTION_RESCHEDULE_NOW_WITH_REMAINING_REPEAT_COUNT}
      * </code>.
      * </p>
      */
-    public static final int MISFIRE_INSTRUCTION_FIRE_NOW = 1;
+    int MISFIRE_INSTRUCTION_FIRE_NOW = 1;
     
     /**
      * <p>
@@ -64,7 +65,7 @@ public interface SimpleTrigger extends Trigger {
      * the original values were at some later time).
      * </p>
      */
-    public static final int MISFIRE_INSTRUCTION_RESCHEDULE_NOW_WITH_EXISTING_REPEAT_COUNT = 2;
+    int MISFIRE_INSTRUCTION_RESCHEDULE_NOW_WITH_EXISTING_REPEAT_COUNT = 2;
     
     /**
      * <p>
@@ -92,7 +93,7 @@ public interface SimpleTrigger extends Trigger {
      * repeat-fire-times where missed.
      * </p>
      */
-    public static final int MISFIRE_INSTRUCTION_RESCHEDULE_NOW_WITH_REMAINING_REPEAT_COUNT = 3;
+    int MISFIRE_INSTRUCTION_RESCHEDULE_NOW_WITH_REMAINING_REPEAT_COUNT = 3;
     
     /**
      * <p>
@@ -108,7 +109,7 @@ public interface SimpleTrigger extends Trigger {
      * to go directly to the 'COMPLETE' state if all fire-times where missed.
      * </p>
      */
-    public static final int MISFIRE_INSTRUCTION_RESCHEDULE_NEXT_WITH_REMAINING_COUNT = 4;
+    int MISFIRE_INSTRUCTION_RESCHEDULE_NEXT_WITH_REMAINING_COUNT = 4;
     
     /**
      * <p>
@@ -125,7 +126,7 @@ public interface SimpleTrigger extends Trigger {
      * has arrived.
      * </p>
      */
-    public static final int MISFIRE_INSTRUCTION_RESCHEDULE_NEXT_WITH_EXISTING_COUNT = 5;
+    int MISFIRE_INSTRUCTION_RESCHEDULE_NEXT_WITH_EXISTING_COUNT = 5;
     
     /**
      * <p>
@@ -134,31 +135,32 @@ public interface SimpleTrigger extends Trigger {
      * ending timestamp.
      * </p>
      */
-    public static final int REPEAT_INDEFINITELY = -1;
+    int REPEAT_INDEFINITELY = -1;
 
     /**
-     * <p>
-     * Get the the number of times the <code>SimpleTrigger</code> should
-     * repeat, after which it will be automatically deleted.
-     * </p>
-     * 
+     * Get the number of times the <code>SimpleTrigger</code> should
+     * repeat, after the initial firing, after which it will be automatically deleted.
+     *
+     * The total number of firings will be this number + 1.
+     *
+     * @return the number of times the trigger should repeat after the initial firing.
      * @see #REPEAT_INDEFINITELY
      */
-    public int getRepeatCount();
+    int getRepeatCount();
 
     /**
      * <p>
-     * Get the the time interval (in milliseconds) at which the <code>SimpleTrigger</code> should repeat.
+     * Get the time interval (in milliseconds) at which the <code>SimpleTrigger</code> should repeat.
      * </p>
      */
-    public long getRepeatInterval();
+    long getRepeatInterval();
     
     /**
      * <p>
      * Get the number of times the <code>SimpleTrigger</code> has already fired.
      * </p>
      */
-    public int getTimesTriggered();
+    int getTimesTriggered();
 
     TriggerBuilder<SimpleTrigger> getTriggerBuilder();
 }

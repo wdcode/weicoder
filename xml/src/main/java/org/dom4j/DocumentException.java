@@ -13,10 +13,9 @@ package org.dom4j;
  * @author <a href="mailto:james.strachan@metastuff.com">James Strachan </a>
  * @author Filip Jirsák
  */
-public class DocumentException extends Exception { 
-	private static final long serialVersionUID = -5585505971389203058L;
+public class DocumentException extends Exception {
 
-	public DocumentException() {
+    public DocumentException() {
     }
 
     public DocumentException(String message) {

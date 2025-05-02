@@ -54,19 +54,13 @@ import java.util.List;
 import org.jaxen.Context;
 import org.jaxen.JaxenException;
 
-/**
- * @deprecated this class will become non-public in the future;
- *     use the interface instead
- */
-public class DefaultXPathExpr implements XPathExpr
+class DefaultXPathExpr implements XPathExpr
 {
-    /**
-     * 
-     */
+
     private static final long serialVersionUID = 3007613096320896040L;
     private Expr rootExpr;
 
-    public DefaultXPathExpr(Expr rootExpr)
+    DefaultXPathExpr(Expr rootExpr)
     {
         this.rootExpr = rootExpr;
     }
@@ -96,11 +90,11 @@ public class DefaultXPathExpr implements XPathExpr
         setRootExpr( getRootExpr().simplify() );
     }
 
-    public List<Object> asList(Context context) throws JaxenException
+    public List asList(Context context) throws JaxenException
     {
         Expr expr = getRootExpr();
         Object value = expr.evaluate( context );
-        List<Object> result = DefaultExpr.convertToList( value );
+        List result = DefaultExpr.convertToList( value );
         return result;
     }
 }

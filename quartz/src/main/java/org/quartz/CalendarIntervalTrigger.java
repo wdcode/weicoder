@@ -1,5 +1,6 @@
 /*
  * All content copyright Terracotta, Inc., unless otherwise indicated. All rights reserved.
+ * Copyright Super iPaaS Integration LLC, an IBM Company 2024
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not 
  * use this file except in compliance with the License. You may obtain a copy 
@@ -57,7 +58,7 @@ public interface CalendarIntervalTrigger extends Trigger {
      * fired now by <code>Scheduler</code>.
      * </p>
      */
-    public static final int MISFIRE_INSTRUCTION_FIRE_ONCE_NOW = 1;
+    int MISFIRE_INSTRUCTION_FIRE_ONCE_NOW = 1;
     /**
      * <p>
      * Instructs the <code>{@link Scheduler}</code> that upon a mis-fire
@@ -67,21 +68,21 @@ public interface CalendarIntervalTrigger extends Trigger {
      * but it does not want to be fired now.
      * </p>
      */
-    public static final int MISFIRE_INSTRUCTION_DO_NOTHING = 2;
+    int MISFIRE_INSTRUCTION_DO_NOTHING = 2;
 
     /**
      * <p>Get the interval unit - the time unit on with the interval applies.</p>
      */
-    public IntervalUnit getRepeatIntervalUnit();
+    IntervalUnit getRepeatIntervalUnit();
 
     /**
      * <p>
-     * Get the the time interval that will be added to the <code>DateIntervalTrigger</code>'s
+     * Get the time interval that will be added to the <code>DateIntervalTrigger</code>'s
      * fire time (in the set repeat interval unit) in order to calculate the time of the 
      * next trigger repeat.
      * </p>
      */
-    public int getRepeatInterval();
+    int getRepeatInterval();
 
     /**
      * <p>
@@ -89,7 +90,7 @@ public interface CalendarIntervalTrigger extends Trigger {
      * fired.
      * </p>
      */
-    public int getTimesTriggered();
+    int getTimesTriggered();
 
     /**
      * <p>
@@ -101,7 +102,7 @@ public interface CalendarIntervalTrigger extends Trigger {
      * If null, the system default TimeZone will be used.
      * </p>
      */
-    public TimeZone getTimeZone();
+    TimeZone getTimeZone();
     
     
     /**
@@ -130,7 +131,7 @@ public interface CalendarIntervalTrigger extends Trigger {
      * @see #getStartTime()
      * @see #getTimeZone()
      */
-    public boolean isPreserveHourOfDayAcrossDaylightSavings();
+    boolean isPreserveHourOfDayAcrossDaylightSavings();
     
     /**
      * If intervals are a day or greater, and 
@@ -152,7 +153,7 @@ public interface CalendarIntervalTrigger extends Trigger {
      * 
      * @see #isPreserveHourOfDayAcrossDaylightSavings()
      */
-    public boolean isSkipDayIfHourDoesNotExist();
+    boolean isSkipDayIfHourDoesNotExist();
     
     
     TriggerBuilder<CalendarIntervalTrigger> getTriggerBuilder();

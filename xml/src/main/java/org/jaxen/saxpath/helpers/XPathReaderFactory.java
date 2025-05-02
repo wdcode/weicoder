@@ -46,9 +46,6 @@
  * $Id$
  */
 
-
-
-
 package org.jaxen.saxpath.helpers;
 
 import org.jaxen.saxpath.SAXPathException;
@@ -154,13 +151,13 @@ public class XPathReaderFactory
 
         try
         {
-            reader = (XPathReader) readerClass.getDeclaredConstructor().newInstance();
+            reader = (XPathReader) readerClass.newInstance();
         }
         catch (IllegalAccessException e)
         {
             throw new SAXPathException( e );
         }
-        catch (Exception e)
+        catch (InstantiationException e)
         {
             throw new SAXPathException( e );
         }

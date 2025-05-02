@@ -25,7 +25,6 @@ import java.util.List;
  * @version $Revision: 1.14 $
  */
 public class BackedList<T extends Node> extends ArrayList<T> {
-	private static final long serialVersionUID = 1L;
     /** The content of the Branch which is modified if I am modified */
     private List<Node> branchContent;
 

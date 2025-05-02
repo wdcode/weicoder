@@ -19,11 +19,12 @@ package org.apache.commons.pool2.impl;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.text.SimpleDateFormat;
+import java.util.Objects;
 
 import org.apache.commons.pool2.PooledObject;
 
 /**
- * Implementation of object that is used to provide information on pooled
+ * Implements providing information on pooled
  * objects via JMX.
  *
  * @since 2.0
@@ -38,9 +39,10 @@ public class DefaultPooledObjectInfo implements DefaultPooledObjectInfoMBean {
      * Constructs a new instance for the given pooled object.
      *
      * @param pooledObject The pooled object that this instance will represent
+     * @throws NullPointerException if {@code obj} is {@code null}
      */
     public DefaultPooledObjectInfo(final PooledObject<?> pooledObject) {
-        this.pooledObject = pooledObject;
+        this.pooledObject = Objects.requireNonNull(pooledObject, "pooledObject");
     }
 
     @Override
@@ -55,7 +57,7 @@ public class DefaultPooledObjectInfo implements DefaultPooledObjectInfoMBean {
 
     @Override
     public String getCreateTimeFormatted() {
-        return getTimeFormatted(getCreateTime());
+        return getTimeMillisFormatted(getCreateTime());
     }
 
     @Override
@@ -63,10 +65,9 @@ public class DefaultPooledObjectInfo implements DefaultPooledObjectInfoMBean {
         return pooledObject.getLastBorrowInstant().toEpochMilli();
     }
 
-
     @Override
     public String getLastBorrowTimeFormatted() {
-        return getTimeFormatted(getLastBorrowTime());
+        return getTimeMillisFormatted(getLastBorrowTime());
     }
 
     @Override
@@ -83,20 +84,21 @@ public class DefaultPooledObjectInfo implements DefaultPooledObjectInfoMBean {
 
     @Override
     public String getLastReturnTimeFormatted() {
-        return getTimeFormatted(getLastReturnTime());
+        return getTimeMillisFormatted(getLastReturnTime());
     }
 
     @Override
     public String getPooledObjectToString() {
-        return pooledObject.getObject().toString();
+        return Objects.toString(pooledObject.getObject(), null);
     }
 
     @Override
     public String getPooledObjectType() {
-        return pooledObject.getObject().getClass().getName();
+        final Object object = pooledObject.getObject();
+        return object != null ? object.getClass().getName() : null;
     }
 
-    private String getTimeFormatted(final long millis) {
+    private String getTimeMillisFormatted(final long millis) {
         return new SimpleDateFormat(PATTERN).format(Long.valueOf(millis));
     }
 

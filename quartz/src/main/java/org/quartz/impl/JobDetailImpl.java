@@ -1,6 +1,7 @@
 
 /* 
  * All content copyright Terracotta, Inc., unless otherwise indicated. All rights reserved.
+ * Copyright Super iPaaS Integration LLC, an IBM Company 2024
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not 
  * use this file except in compliance with the License. You may obtain a copy 
@@ -61,6 +62,7 @@ import org.quartz.utils.ClassUtils;
  * @author James House
  * @author Sharada Jambula
  */
+@SuppressWarnings("deprecation")
 public class JobDetailImpl implements Cloneable, java.io.Serializable, JobDetail {
 
     private static final long serialVersionUID = -6069784757781506897L;
@@ -124,6 +126,7 @@ public class JobDetailImpl implements Cloneable, java.io.Serializable, JobDetail
      *              
      * @deprecated use {@link JobBuilder}              
      */
+    @Deprecated
     public JobDetailImpl(String name, Class<? extends Job> jobClass) {
         this(name, null, jobClass);
     }
@@ -141,6 +144,7 @@ public class JobDetailImpl implements Cloneable, java.io.Serializable, JobDetail
      *              
      * @deprecated use {@link JobBuilder}              
      */
+    @Deprecated
     public JobDetailImpl(String name, String group, Class<? extends Job> jobClass) {
         setName(name);
         setGroup(group);
@@ -160,6 +164,7 @@ public class JobDetailImpl implements Cloneable, java.io.Serializable, JobDetail
      *              
      * @deprecated use {@link JobBuilder}              
      */
+    @Deprecated
     public JobDetailImpl(String name, String group, Class<? extends Job> jobClass,
                      boolean durability, boolean recover) {
         setName(name);
@@ -195,7 +200,7 @@ public class JobDetailImpl implements Cloneable, java.io.Serializable, JobDetail
      *              if name is null or empty.
      */
     public void setName(String name) {
-        if (name == null || name.trim().length() == 0) {
+        if (name == null || name.trim().isEmpty()) {
             throw new IllegalArgumentException("Job name cannot be empty.");
         }
 
@@ -223,7 +228,7 @@ public class JobDetailImpl implements Cloneable, java.io.Serializable, JobDetail
      *              if the group is an empty string.
      */
     public void setGroup(String group) {
-        if (group != null && group.trim().length() == 0) {
+        if (group != null && group.trim().isEmpty()) {
             throw new IllegalArgumentException(
                     "Group name cannot be empty.");
         }
@@ -349,7 +354,7 @@ public class JobDetailImpl implements Cloneable, java.io.Serializable, JobDetail
 
     /**
      * <p>
-     * Set whether or not the the <code>Scheduler</code> should re-execute
+     * Set whether or not the <code>Scheduler</code> should re-execute
      * the <code>Job</code> if a 'recovery' or 'fail-over' situation is
      * encountered.
      * </p>
@@ -382,6 +387,14 @@ public class JobDetailImpl implements Cloneable, java.io.Serializable, JobDetail
     /**
      * @return whether the associated Job class carries the {@link DisallowConcurrentExecution} annotation.
      */
+    public boolean isConcurrentExecutionDisallowed() {
+        
+        return ClassUtils.isAnnotationPresent(jobClass, DisallowConcurrentExecution.class);
+    }
+    
+    /**
+     * @return whether the associated Job class carries the {@link DisallowConcurrentExecution} annotation.
+     */
     public boolean isConcurrentExectionDisallowed() {
         
         return ClassUtils.isAnnotationPresent(jobClass, DisallowConcurrentExecution.class);
@@ -403,7 +416,7 @@ public class JobDetailImpl implements Cloneable, java.io.Serializable, JobDetail
     public String toString() {
         return "JobDetail '" + getFullName() + "':  jobClass: '"
                 + ((getJobClass() == null) ? null : getJobClass().getName())
-                + " concurrentExectionDisallowed: " + isConcurrentExectionDisallowed() 
+                + " concurrentExecutionDisallowed: " + isConcurrentExecutionDisallowed() 
                 + " persistJobDataAfterExecution: " + isPersistJobDataAfterExecution() 
                 + " isDurable: " + isDurable() + " requestsRecovers: " + requestsRecovery();
     }
@@ -418,12 +431,8 @@ public class JobDetailImpl implements Cloneable, java.io.Serializable, JobDetail
 
         if(other.getKey() == null || getKey() == null)
             return false;
-        
-        if (!other.getKey().equals(getKey())) {
-            return false;
-        }
-            
-        return true;
+
+        return other.getKey().equals(getKey());
     }
 
     @Override
@@ -448,13 +457,12 @@ public class JobDetailImpl implements Cloneable, java.io.Serializable, JobDetail
     }
 
     public JobBuilder getJobBuilder() {
-        JobBuilder b = JobBuilder.newJob()
+        return JobBuilder.newJob()
             .ofType(getJobClass())
             .requestRecovery(requestsRecovery())
             .storeDurably(isDurable())
             .usingJobData(getJobDataMap())
             .withDescription(getDescription())
             .withIdentity(getKey());
-        return b;
     }
 }

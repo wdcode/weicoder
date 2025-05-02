@@ -56,9 +56,7 @@ import org.jaxen.function.BooleanFunction;
 
 class DefaultOrExpr extends DefaultLogicalExpr 
 {
-    /**
-     * 
-     */
+
     private static final long serialVersionUID = 4894552680753026730L;
 
     DefaultOrExpr(Expr lhs,
@@ -68,11 +66,13 @@ class DefaultOrExpr extends DefaultLogicalExpr
                rhs );
     }
 
+    @Override
     public String getOperator()
     {
         return "or";
     }
 
+    @Override
     public String toString()
     {
         return "[(DefaultOrExpr): " + getLHS() + ", " + getRHS() + "]";

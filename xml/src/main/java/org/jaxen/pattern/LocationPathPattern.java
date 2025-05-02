@@ -64,7 +64,6 @@ import org.jaxen.util.SingletonList;
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @version $Revision$
-  * @deprecated will be removed in Jaxen 2.0
   */
 public class LocationPathPattern extends Pattern {
 
@@ -78,7 +77,7 @@ public class LocationPathPattern extends Pattern {
     private Pattern ancestorPattern;
         
     /** The filters to match against */
-    private List<Object> filters;
+    private List filters;
 
     /** Whether this lcoation path is absolute or not */
     private boolean absolute;
@@ -126,7 +125,7 @@ public class LocationPathPattern extends Pattern {
     {
         if ( filters == null )
         {
-            filters = new ArrayList<>();
+            filters = new ArrayList();
         }
         filters.add( filter );
     }
@@ -213,7 +212,7 @@ public class LocationPathPattern extends Pattern {
         
         if (filters != null) 
         {
-            List<Object> list = new SingletonList(node);
+            List list = new SingletonList(node);
 
             context.setNodeSet( list );
             
@@ -221,7 +220,7 @@ public class LocationPathPattern extends Pattern {
 
             boolean answer = true;
 
-            for (Iterator<Object> iter = filters.iterator(); iter.hasNext(); ) 
+            for (Iterator iter = filters.iterator(); iter.hasNext(); ) 
             {
                 FilterExpr filter = (FilterExpr) iter.next();
 
@@ -285,7 +284,7 @@ public class LocationPathPattern extends Pattern {
         if ( filters != null ) 
         {
             buffer.append( "[" );
-            for (Iterator<Object> iter = filters.iterator(); iter.hasNext(); ) 
+            for (Iterator iter = filters.iterator(); iter.hasNext(); ) 
             {
                 FilterExpr filter = (FilterExpr) iter.next();
                 buffer.append( filter.getText() );
@@ -295,6 +294,7 @@ public class LocationPathPattern extends Pattern {
         return buffer.toString();
     }
     
+    @Override
     public String toString()
     {
         return super.toString() + "[ absolute: " + absolute + " parent: " + parentPattern + " ancestor: " 

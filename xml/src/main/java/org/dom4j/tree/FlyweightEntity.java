@@ -31,7 +31,6 @@ import org.dom4j.Node;
  * @version $Revision: 1.6 $
  */
 public class FlyweightEntity extends AbstractEntity {
-	private static final long serialVersionUID = 1L;
     /** The name of the <code>Entity</code> */
     protected String name;
 

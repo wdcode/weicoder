@@ -21,7 +21,6 @@ import javax.management.openmbean.TabularType;
 import org.quartz.JobExecutionContext;
 import org.quartz.SchedulerException;
 
-@SuppressWarnings("rawtypes")
 public class JobExecutionContextSupport {
     private static final String COMPOSITE_TYPE_NAME = "JobExecutionContext";
     private static final String COMPOSITE_TYPE_DESCRIPTION = "Job Execution Instance Details";
@@ -90,7 +89,7 @@ public class JobExecutionContextSupport {
     public static TabularData toTabularData(
             final List<JobExecutionContext> executingJobs)
             throws SchedulerException {
-        List<CompositeData> list = new ArrayList<CompositeData>();
+        List<CompositeData> list = new ArrayList<>();
         for (JobExecutionContext executingJob : executingJobs) {
             list.add(toCompositeData(executingJob));
         }

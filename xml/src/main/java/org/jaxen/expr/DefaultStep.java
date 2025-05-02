@@ -57,17 +57,12 @@ import org.jaxen.UnsupportedAxisException;
 import org.jaxen.expr.iter.IterableAxis;
 import org.jaxen.saxpath.Axis;
 
-/**
- * @deprecated this class will become non-public in the future;
- *     use the interface instead
- */
 public abstract class DefaultStep implements Step
 {
-    private static final long serialVersionUID = 1L;
-	private IterableAxis axis;
+    private IterableAxis axis;
     private PredicateSet predicates;
 
-    public DefaultStep(IterableAxis axis, PredicateSet predicates)
+    DefaultStep(IterableAxis axis, PredicateSet predicates)
     {
         this.axis = axis;
         this.predicates = predicates;
@@ -78,7 +73,7 @@ public abstract class DefaultStep implements Step
         this.predicates.addPredicate(predicate);
     }
 
-    public List<Predicate> getPredicates()
+    public List getPredicates()
     {
         return this.predicates.getPredicates();
     }
@@ -108,6 +103,7 @@ public abstract class DefaultStep implements Step
         return this.predicates.getText();
     }
 
+    @Override
     public String toString()
     {
         return getIterableAxis() + " " + super.toString();
@@ -118,22 +114,22 @@ public abstract class DefaultStep implements Step
         this.predicates.simplify();
     }
 
-    public Iterator<?> axisIterator(Object contextNode, ContextSupport support)
+    public Iterator axisIterator(Object contextNode, ContextSupport support)
         throws UnsupportedAxisException
     {
         return getIterableAxis().iterator(contextNode, support);
     }
 
-    public List<Object> evaluate(final Context context) throws JaxenException
+    public List evaluate(final Context context) throws JaxenException
     {
-        final List<?> contextNodeSet  = context.getNodeSet();
+        final List contextNodeSet  = context.getNodeSet();
         final IdentitySet unique = new IdentitySet();
         final int contextSize = contextNodeSet.size();
 
         // ???? try linked lists instead?
         // ???? initial size for these?
-        final ArrayList<Object> interimSet = new ArrayList<>();
-        final ArrayList<Object> newNodeSet = new ArrayList<>();
+        final ArrayList<Object> interimSet = new ArrayList<Object>();
+        final ArrayList<Object> newNodeSet = new ArrayList<Object>();
         final ContextSupport support = context.getContextSupport();
             
         // ???? use iterator instead

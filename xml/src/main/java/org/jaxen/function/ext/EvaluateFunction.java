@@ -46,7 +46,8 @@
  */
 
 package org.jaxen.function.ext;
- 
+
+import java.util.Collections;
 import java.util.List;
 
 import org.jaxen.Context;
@@ -57,8 +58,6 @@ import org.jaxen.Navigator;
 import org.jaxen.XPath;
 import org.jaxen.function.StringFunction;
 
-import com.weicoder.common.lang.W;
-
 /**
  * <code><i>node-set</i> evaluate(<i>string</i>)</code> 
  *  
@@ -66,7 +65,7 @@ import com.weicoder.common.lang.W;
  */
 public class EvaluateFunction implements Function
 {
-    public Object call( Context context, List<Object> args )
+    public Object call( Context context, List args )
         throws FunctionCallException
     {
         if ( args.size() == 1 ) {
@@ -76,13 +75,13 @@ public class EvaluateFunction implements Function
         throw new FunctionCallException( "evaluate() requires one argument" );
     }
 
-    public static List<Object> evaluate (Context context, Object arg)
+    public static List evaluate (Context context, Object arg)
         throws FunctionCallException
     {
-        List<?> contextNodes = context.getNodeSet();
+        List contextNodes = context.getNodeSet();
         
         if (contextNodes.size() == 0)
-            return W.L.empty();
+            return Collections.EMPTY_LIST;
       
         Navigator nav = context.getNavigator();
 

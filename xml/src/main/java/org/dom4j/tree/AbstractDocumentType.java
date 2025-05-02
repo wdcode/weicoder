@@ -28,7 +28,6 @@ import java.util.List;
  */
 public abstract class AbstractDocumentType extends AbstractNode implements
         DocumentType {
-	private static final long serialVersionUID = 1L;
     public AbstractDocumentType() {
     }
 

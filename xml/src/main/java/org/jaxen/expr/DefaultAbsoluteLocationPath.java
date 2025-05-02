@@ -56,15 +56,9 @@ import org.jaxen.JaxenException;
 import org.jaxen.Navigator;
 import org.jaxen.util.SingletonList;
 
-/**
- * @deprecated this class will become non-public in the future;
- *     use the interface instead
- */
-public class DefaultAbsoluteLocationPath extends DefaultLocationPath 
+class DefaultAbsoluteLocationPath extends DefaultLocationPath 
 {
-    /**
-     * 
-     */
+
     private static final long serialVersionUID = 2174836928310146874L;
 
     public DefaultAbsoluteLocationPath()
@@ -91,7 +85,7 @@ public class DefaultAbsoluteLocationPath extends DefaultLocationPath
         ContextSupport support = context.getContextSupport();
         Navigator      nav     = support.getNavigator();
         Context absContext = new Context( support );
-        List<?> contextNodes = context.getNodeSet();
+        List contextNodes = context.getNodeSet();
 
         if ( contextNodes.isEmpty() )
         {
@@ -106,7 +100,7 @@ public class DefaultAbsoluteLocationPath extends DefaultLocationPath
             return Collections.EMPTY_LIST;
         }
 
-        List<?> list = new SingletonList(docNode);
+        List list = new SingletonList(docNode);
 
         absContext.setNodeSet( list );
 

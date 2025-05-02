@@ -59,19 +59,12 @@ import org.jaxen.Context;
 import org.jaxen.JaxenException;
 import org.jaxen.XPathSyntaxException;
 
-/**
- * @deprecated this class will become non-public in the future;
- *     use the interface instead
- */
-public class DefaultUnionExpr extends DefaultBinaryExpr implements UnionExpr
+class DefaultUnionExpr extends DefaultBinaryExpr implements UnionExpr
 {
-    /**
-     * 
-     */
+
     private static final long serialVersionUID = 7629142718276852707L;
 
-    public DefaultUnionExpr(Expr lhs,
-                            Expr rhs)
+    DefaultUnionExpr(Expr lhs, Expr rhs)
     {
         super( lhs,
                rhs );
@@ -82,21 +75,21 @@ public class DefaultUnionExpr extends DefaultBinaryExpr implements UnionExpr
         return "|";
     }
 
+    @Override
     public String toString()
     {
         return "[(DefaultUnionExpr): " + getLHS() + ", " + getRHS() + "]";
     }
 
-    @SuppressWarnings("unchecked")
     public Object evaluate(Context context) throws JaxenException
     {
-        List<Object> results = new ArrayList<>();
+        List<Object> results = new ArrayList<Object>();
 
-        try { 
-			List<Object> lhsResults = (List<Object>) getLHS().evaluate( context );
+        try {
+            List<Object> lhsResults = (List<Object>) getLHS().evaluate( context );
             List<Object> rhsResults = (List<Object>) getRHS().evaluate( context );
     
-            Set<Object> unique = new HashSet<>();
+            Set<Object> unique = new HashSet<Object>();
     
             results.addAll( lhsResults );
             unique.addAll( lhsResults );

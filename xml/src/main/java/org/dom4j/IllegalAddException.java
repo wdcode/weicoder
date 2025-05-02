@@ -14,7 +14,6 @@ package org.dom4j;
  * @version $Revision: 1.6 $
  */
 public class IllegalAddException extends IllegalArgumentException {
-	private static final long serialVersionUID = 1L;
     public IllegalAddException(String reason) {
         super(reason);
     }

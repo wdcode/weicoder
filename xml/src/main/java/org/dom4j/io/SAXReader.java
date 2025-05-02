@@ -28,7 +28,9 @@ import org.xml.sax.SAXParseException;
 import org.xml.sax.XMLFilter;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
- 
+import org.xml.sax.helpers.XMLReaderFactory;
+
+import javax.xml.parsers.SAXParserFactory;
 
 /**
  * <code>SAXReader</code> creates a DOM4J tree from SAX parsing events.
@@ -232,21 +234,20 @@ public class SAXReader {
   }
 
   public SAXReader(String xmlReaderClassName) throws SAXException {
-//    if (xmlReaderClassName != null) {
-//      this.xmlReader = XMLReaderFactory
-//              .createXMLReader(xmlReaderClassName);
-//    } 
-	this.xmlReader = createXMLReader(); 
+    if (xmlReaderClassName != null) {
+      this.xmlReader = XMLReaderFactory
+              .createXMLReader(xmlReaderClassName);
+    }
   }
 
   public SAXReader(String xmlReaderClassName, boolean validating)
           throws SAXException {
-//    if (xmlReaderClassName != null) {
-//      this.xmlReader = XMLReaderFactory
-//              .createXMLReader(xmlReaderClassName);
-//    }
-	  this.xmlReader = createXMLReader(); 
-	  this.validating = validating;
+    if (xmlReaderClassName != null) {
+      this.xmlReader = XMLReaderFactory
+              .createXMLReader(xmlReaderClassName);
+    }
+
+    this.validating = validating;
   }
 
   /**
@@ -772,7 +773,7 @@ public class SAXReader {
    */
   public void setXMLReaderClassName(String xmlReaderClassName)
           throws SAXException {
-    setXMLReader(createXMLReader());
+    setXMLReader(XMLReaderFactory.createXMLReader(xmlReaderClassName));
   }
 
   /**
@@ -962,9 +963,8 @@ public class SAXReader {
   }
 
   protected static class SAXEntityResolver implements EntityResolver,
-          Serializable { 
-	private static final long serialVersionUID = 1L;
-	protected String uriPrefix;
+          Serializable {
+    protected String uriPrefix;
 
     public SAXEntityResolver(String uriPrefix) {
       this.uriPrefix = uriPrefix;

@@ -54,7 +54,6 @@ import org.jaxen.Navigator;
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @version $Revision$
-  * @deprecated will be removed in Jaxen 2.0
   */
 public class NameTest extends NodeTest {
     
@@ -123,6 +122,7 @@ public class NameTest extends NodeTest {
         }
     }
     
+    @Override
     public String toString()
     {
         return super.toString() + "[ name: " + name + " type: " + nodeType + " ]";

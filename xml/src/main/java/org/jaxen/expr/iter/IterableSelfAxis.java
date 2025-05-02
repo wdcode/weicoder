@@ -55,9 +55,7 @@ import org.jaxen.UnsupportedAxisException;
 
 public class IterableSelfAxis extends IterableAxis
 {
-    /**
-     * 
-     */
+
     private static final long serialVersionUID = 8292222516706760134L;
 
     public IterableSelfAxis(int value)
@@ -65,7 +63,7 @@ public class IterableSelfAxis extends IterableAxis
         super( value );
     }
 
-    public Iterator<Object> iterator(Object contextNode,
+    public Iterator iterator(Object contextNode,
                              ContextSupport support) throws UnsupportedAxisException
     {
         return support.getNavigator().getSelfAxisIterator( contextNode );

@@ -3,7 +3,8 @@ package com.weicoder.netty.client;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelOption;
-import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.MultiThreadIoEventLoopGroup; 
+import io.netty.channel.nio.NioIoHandler;
 import io.netty.channel.socket.nio.NioSocketChannel;
 
 import com.weicoder.socket.params.SocketParams;
@@ -34,7 +35,8 @@ public final class NettyClient extends NettySession implements Client {
 		// NettyHandler
 		NettyHandler handler = new NettyHandler(name);
 		// 设置group
-		bootstrap.group(new NioEventLoopGroup(1));
+//		bootstrap.group(new NioEventLoopGroup(1));
+		bootstrap.group(new MultiThreadIoEventLoopGroup(1,NioIoHandler.newFactory()));		
 		// 设置属性
 		bootstrap.option(ChannelOption.TCP_NODELAY, true);
 		bootstrap.option(ChannelOption.SO_KEEPALIVE, false);

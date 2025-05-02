@@ -1,5 +1,6 @@
 /*
  * All content copyright Terracotta, Inc., unless otherwise indicated. All rights reserved.
+ * Copyright Super iPaaS Integration LLC, an IBM Company 2024
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not 
  * use this file except in compliance with the License. You may obtain a copy 
@@ -63,7 +64,7 @@ public class JobExecutionException extends SchedulerException {
 
     /**
      * <p>
-     * Create a JobExcecutionException, with the 're-fire immediately' flag set
+     * Create a JobExecutionException, with the 're-fire immediately' flag set
      * to <code>false</code>.
      * </p>
      */
@@ -72,7 +73,7 @@ public class JobExecutionException extends SchedulerException {
 
     /**
      * <p>
-     * Create a JobExcecutionException, with the given cause.
+     * Create a JobExecutionException, with the given cause.
      * </p>
      */
     public JobExecutionException(Throwable cause) {
@@ -81,7 +82,7 @@ public class JobExecutionException extends SchedulerException {
 
     /**
      * <p>
-     * Create a JobExcecutionException, with the given message.
+     * Create a JobExecutionException, with the given message.
      * </p>
      */
     public JobExecutionException(String msg) {
@@ -90,7 +91,7 @@ public class JobExecutionException extends SchedulerException {
 
     /**
      * <p>
-     * Create a JobExcecutionException with the 're-fire immediately' flag set
+     * Create a JobExecutionException with the 're-fire immediately' flag set
      * to the given value.
      * </p>
      */
@@ -100,7 +101,7 @@ public class JobExecutionException extends SchedulerException {
 
     /**
      * <p>
-     * Create a JobExcecutionException with the given underlying exception, and
+     * Create a JobExecutionException with the given underlying exception, and
      * the 're-fire immediately' flag set to the given value.
      * </p>
      */
@@ -112,7 +113,7 @@ public class JobExecutionException extends SchedulerException {
 
     /**
      * <p>
-     * Create a JobExcecutionException with the given message, and underlying
+     * Create a JobExecutionException with the given message, and underlying
      * exception.
      * </p>
      */
@@ -122,7 +123,7 @@ public class JobExecutionException extends SchedulerException {
     
     /**
      * <p>
-     * Create a JobExcecutionException with the given message, and underlying
+     * Create a JobExecutionException with the given message, and underlying
      * exception, and the 're-fire immediately' flag set to the given value.
      * </p>
      */
@@ -134,7 +135,7 @@ public class JobExecutionException extends SchedulerException {
     }
     
     /**
-     * Create a JobExcecutionException with the given message and the 're-fire 
+     * Create a JobExecutionException with the given message and the 're-fire 
      * immediately' flag set to the given value.
      */
     public JobExecutionException(String msg, boolean refireImmediately) {

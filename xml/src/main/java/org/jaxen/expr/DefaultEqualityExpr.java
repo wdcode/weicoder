@@ -58,9 +58,7 @@ import org.jaxen.function.StringFunction;
 
 abstract class DefaultEqualityExpr extends DefaultTruthExpr implements EqualityExpr 
   {
-  private static final long serialVersionUID = 1L;
-
-DefaultEqualityExpr( Expr lhs, Expr rhs )
+  DefaultEqualityExpr( Expr lhs, Expr rhs )
     {
     super( lhs, rhs );
     }
@@ -70,8 +68,7 @@ DefaultEqualityExpr( Expr lhs, Expr rhs )
     return "[(DefaultEqualityExpr): " + getLHS() + ", " + getRHS() + "]";
     }
   
-  @SuppressWarnings({ "unchecked", "deprecation" })
-public Object evaluate( Context context ) throws JaxenException
+  public Object evaluate( Context context ) throws JaxenException
     {
     Object lhsValue = getLHS().evaluate( context );
     Object rhsValue = getRHS().evaluate( context );
@@ -83,24 +80,24 @@ public Object evaluate( Context context ) throws JaxenException
     Navigator nav = context.getNavigator();
 
     if( bothAreSets(lhsValue, rhsValue) ) {
-      return evaluateSetSet( (List<Object>) lhsValue, (List<Object>) rhsValue, nav );
+      return evaluateSetSet( (List) lhsValue, (List) rhsValue, nav );
     }
     else if (isSet(lhsValue ) && isBoolean(rhsValue)) {
-        Boolean lhsBoolean = ((List<Object>) lhsValue).isEmpty() ? Boolean.FALSE : Boolean.TRUE;
+        Boolean lhsBoolean = ((List) lhsValue).isEmpty() ? Boolean.FALSE : Boolean.TRUE;
         Boolean rhsBoolean = (Boolean) rhsValue;
         return Boolean.valueOf(evaluateObjectObject( lhsBoolean, rhsBoolean, nav ) );
     }
     else if (isBoolean(lhsValue ) && isSet(rhsValue)) {
         Boolean lhsBoolean = (Boolean) lhsValue;
-        Boolean rhsBoolean = ((List<Object>) rhsValue).isEmpty() ? Boolean.FALSE : Boolean.TRUE;
+        Boolean rhsBoolean = ((List) rhsValue).isEmpty() ? Boolean.FALSE : Boolean.TRUE;
         return Boolean.valueOf(evaluateObjectObject( lhsBoolean, rhsBoolean, nav ) );
     }
     else if (eitherIsSet(lhsValue, rhsValue) ) {
       if (isSet(lhsValue)) {
-        return evaluateSetSet( (List<Object>) lhsValue, convertToList(rhsValue), nav );                
+        return evaluateSetSet( (List) lhsValue, convertToList(rhsValue), nav );                
       }
       else {
-        return evaluateSetSet( convertToList(lhsValue), (List<Object>) rhsValue, nav );                                
+        return evaluateSetSet( convertToList(lhsValue), (List) rhsValue, nav );                                
       }
     }  
     else {
@@ -108,7 +105,7 @@ public Object evaluate( Context context ) throws JaxenException
     }    
   }
   
-  private Boolean evaluateSetSet( List<Object> lhsSet, List<Object> rhsSet, Navigator nav )
+  private Boolean evaluateSetSet( List lhsSet, List rhsSet, Navigator nav )
     {
       /* If both objects to be compared are node-sets, then the comparison will be 
        * true if and only if there is a node in the first node-set and a node in 
@@ -118,11 +115,11 @@ public Object evaluate( Context context ) throws JaxenException
             return Boolean.FALSE;
       }
     
-    for( Iterator<Object> lhsIterator = lhsSet.iterator(); lhsIterator.hasNext(); )
+    for( Iterator lhsIterator = lhsSet.iterator(); lhsIterator.hasNext(); )
       {
       Object lhs = lhsIterator.next();
       
-      for( Iterator<Object> rhsIterator = rhsSet.iterator(); rhsIterator.hasNext(); )
+      for( Iterator rhsIterator = rhsSet.iterator(); rhsIterator.hasNext(); )
         {
         Object rhs = rhsIterator.next();
         

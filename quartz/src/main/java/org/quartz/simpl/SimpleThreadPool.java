@@ -1,5 +1,6 @@
 /* 
  * All content copyright Terracotta, Inc., unless otherwise indicated. All rights reserved.
+ * Copyright Super iPaaS Integration LLC, an IBM Company 2024
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not 
  * use this file except in compliance with the License. You may obtain a copy 
@@ -16,9 +17,9 @@
  */
 
 package org.quartz.simpl;
- 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.quartz.SchedulerConfigException;
 import org.quartz.spi.ThreadPool;
 
@@ -74,12 +75,12 @@ public class SimpleThreadPool implements ThreadPool {
     private final Object nextRunnableLock = new Object();
 
     private List<WorkerThread> workers;
-    private LinkedList<WorkerThread> availWorkers = new LinkedList<WorkerThread>();
-    private LinkedList<WorkerThread> busyWorkers = new LinkedList<WorkerThread>();
+    private final LinkedList<WorkerThread> availWorkers = new LinkedList<>();
+    private final LinkedList<WorkerThread> busyWorkers = new LinkedList<>();
 
     private String threadNamePrefix;
 
-    private final Logger log = LogManager.getLogger(getClass());
+    private final Logger log = LoggerFactory.getLogger(getClass());
     
     private String schedulerInstanceName;
 
@@ -110,7 +111,7 @@ public class SimpleThreadPool implements ThreadPool {
      * 
      * @param threadCount
      *          the number of worker <code>Threads</code> in the pool, must
-     *          be > 0.
+     *          be &gt; 0.
      * @param threadPriority
      *          the thread priority for the worker threads.
      * 
@@ -175,8 +176,8 @@ public class SimpleThreadPool implements ThreadPool {
         return prio;
     }
 
-    public void setThreadNamePrefix(String prfx) {
-        this.threadNamePrefix = prfx;
+    public void setThreadNamePrefix(String prefix) {
+        this.threadNamePrefix = prefix;
     }
 
     public String getThreadNamePrefix() {
@@ -235,7 +236,7 @@ public class SimpleThreadPool implements ThreadPool {
 
     public void initialize() throws SchedulerConfigException {
 
-        if(workers != null && workers.size() > 0) // already initialized...
+        if(workers != null && !workers.isEmpty()) // already initialized...
             return;
         
         if (count <= 0) {
@@ -258,29 +259,25 @@ public class SimpleThreadPool implements ThreadPool {
                 parent = threadGroup.getParent();
             }
             threadGroup = new ThreadGroup(parent, schedulerInstanceName + "-SimpleThreadPool");
-//            if (isMakeThreadsDaemons()) {
-//                threadGroup.setDaemon(true);
-//            }
+            if (isMakeThreadsDaemons()) {
+                threadGroup.setDaemon(true);
+            }
         }
 
 
         if (isThreadsInheritContextClassLoaderOfInitializingThread()) {
-            getLog().info(
-                    "Job execution threads will use class loader of thread: "
-                            + Thread.currentThread().getName());
+            getLog().info("Job execution threads will use class loader of thread: {}", Thread.currentThread().getName());
         }
 
         // create the worker threads and start them
-        Iterator<WorkerThread> workerThreads = createWorkerThreads(count).iterator();
-        while(workerThreads.hasNext()) {
-            WorkerThread wt = workerThreads.next();
+        for (WorkerThread wt : createWorkerThreads(count)) {
             wt.start();
             availWorkers.add(wt);
         }
     }
 
     protected List<WorkerThread> createWorkerThreads(int createCount) {
-        workers = new LinkedList<WorkerThread>();
+        workers = new LinkedList<>();
         for (int i = 1; i<= createCount; ++i) {
             String threadPrefix = getThreadNamePrefix();
             if (threadPrefix == null) {
@@ -333,9 +330,7 @@ public class SimpleThreadPool implements ThreadPool {
                 return;
 
             // signal each worker thread to shut down
-            Iterator<WorkerThread> workerThreads = workers.iterator();
-            while(workerThreads.hasNext()) {
-                WorkerThread wt = workerThreads.next();
+            for (WorkerThread wt : workers) {
                 wt.shutdown();
                 availWorkers.remove(wt);
             }
@@ -345,7 +340,7 @@ public class SimpleThreadPool implements ThreadPool {
             // current job.
             nextRunnableLock.notifyAll();
 
-            if (waitForJobsToComplete == true) {
+            if (waitForJobsToComplete) {
 
                 boolean interrupted = false;
                 try {
@@ -359,12 +354,10 @@ public class SimpleThreadPool implements ThreadPool {
                     }
 
                     // Wait until all worker threads are shut down
-                    while (busyWorkers.size() > 0) {
+                    while (!busyWorkers.isEmpty()) {
                         WorkerThread wt = (WorkerThread) busyWorkers.getFirst();
                         try {
-                            getLog().debug(
-                                    "Waiting for thread " + wt.getName()
-                                            + " to shut down");
+                            getLog().debug("Waiting for thread {} to shut down", wt.getName());
 
                             // note: with waiting infinite time the
                             // application may appear to 'hang'.
@@ -374,7 +367,7 @@ public class SimpleThreadPool implements ThreadPool {
                         }
                     }
 
-                    workerThreads = workers.iterator();
+                    Iterator<WorkerThread> workerThreads = workers.iterator();
                     while(workerThreads.hasNext()) {
                         WorkerThread wt = (WorkerThread) workerThreads.next();
                         try {
@@ -417,7 +410,7 @@ public class SimpleThreadPool implements ThreadPool {
             handoffPending = true;
 
             // Wait until a worker thread is available
-            while ((availWorkers.size() < 1) && !isShutdown) {
+            while ((availWorkers.isEmpty()) && !isShutdown) {
                 try {
                     nextRunnableLock.wait(500);
                 } catch (InterruptedException ignore) {
@@ -447,7 +440,7 @@ public class SimpleThreadPool implements ThreadPool {
     public int blockForAvailableThreads() {
         synchronized(nextRunnableLock) {
 
-            while((availWorkers.size() < 1 || handoffPending) && !isShutdown) {
+            while((availWorkers.isEmpty() || handoffPending) && !isShutdown) {
                 try {
                     nextRunnableLock.wait(500);
                 } catch (InterruptedException ignore) {
@@ -493,11 +486,11 @@ public class SimpleThreadPool implements ThreadPool {
         private final Object lock = new Object();
 
         // A flag that signals the WorkerThread to terminate.
-        private AtomicBoolean run = new AtomicBoolean(true);
+        private final AtomicBoolean run = new AtomicBoolean(true);
 
-        private SimpleThreadPool tp;
+        private final SimpleThreadPool tp;
 
-        private Runnable runnable = null;
+        private Runnable runnable;
         
         private boolean runOnce = false;
 

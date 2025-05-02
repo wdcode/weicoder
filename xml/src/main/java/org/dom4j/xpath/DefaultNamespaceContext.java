@@ -26,7 +26,6 @@ import org.jaxen.NamespaceContext;
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  */
 public class DefaultNamespaceContext implements NamespaceContext, Serializable {
-	private static final long serialVersionUID = 1L;
     private final Element element;
 
     public DefaultNamespaceContext(Element element) {

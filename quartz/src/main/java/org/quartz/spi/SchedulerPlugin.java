@@ -1,5 +1,6 @@
 /* 
  * All content copyright Terracotta, Inc., unless otherwise indicated. All rights reserved.
+ * Copyright Super iPaaS Integration LLC, an IBM Company 2024
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not 
  * use this file except in compliance with the License. You may obtain a copy 
@@ -42,7 +43,7 @@ import org.quartz.SchedulerException;
  * If you need direct access your plugin, you can have it explicitly put a 
  * reference to itself in the <code>Scheduler</code>'s 
  * <code>SchedulerContext</code> as part of its
- * <code>{@link #initialize(String, Scheduler)}</code> method.
+ * <code>{@link #initialize(String, Scheduler, ClassLoadHelper)}</code> method.
  * </p>
  * 
  * @author James House

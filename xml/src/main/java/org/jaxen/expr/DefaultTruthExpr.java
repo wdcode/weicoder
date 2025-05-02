@@ -53,15 +53,14 @@ import java.util.List;
 
 abstract class DefaultTruthExpr extends DefaultBinaryExpr 
 {
-    private static final long serialVersionUID = 1L;
-
-	DefaultTruthExpr(Expr lhs,
+    DefaultTruthExpr(Expr lhs,
                             Expr rhs)
     {
         super( lhs,
                rhs );
     }
 
+    @Override
     public String toString()
     {
         return "[(DefaultTruthExpr): " + getLHS() + ", " + getRHS() + "]";
@@ -95,7 +94,7 @@ abstract class DefaultTruthExpr extends DefaultBinaryExpr
     
     protected boolean setIsEmpty( List<?> set )
       {
-      return (set == null || set.size() == 0);
+      return (set == null || set.isEmpty());
       }
 
     protected boolean eitherIsBoolean(Object lhs,

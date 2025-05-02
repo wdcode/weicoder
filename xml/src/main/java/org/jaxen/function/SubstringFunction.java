@@ -162,7 +162,7 @@ public class SubstringFunction implements Function
      *     or less than two items
      */
     public Object call(Context context,
-                       List<Object> args) throws FunctionCallException
+                       List args) throws FunctionCallException
     {
         final int argc = args.size();
         if (argc < 2 || argc > 3){

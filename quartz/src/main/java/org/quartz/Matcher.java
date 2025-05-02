@@ -1,5 +1,6 @@
 /*
  * All content copyright Terracotta, Inc., unless otherwise indicated. All rights reserved.
+ * Copyright Super iPaaS Integration LLC, an IBM Company 2024
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not 
  * use this file except in compliance with the License. You may obtain a copy 
@@ -32,7 +33,7 @@ public interface Matcher<T extends Key<?>> extends Serializable {
 
     boolean isMatch(T key);
  
-    public int hashCode();
+    int hashCode();
 
-    public boolean equals(Object obj);
+    boolean equals(Object obj);
 }

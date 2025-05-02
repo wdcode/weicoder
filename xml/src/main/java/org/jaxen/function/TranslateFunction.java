@@ -122,7 +122,7 @@ public class TranslateFunction implements Function
      * @throws FunctionCallException if <code>args</code> does not have exactly three items
      */
     public Object call(Context context,
-                       List<Object> args) throws FunctionCallException
+                       List args) throws FunctionCallException
     {
         if (args.size() == 3) {
             return evaluate( args.get(0),
@@ -164,7 +164,7 @@ public class TranslateFunction implements Function
         String toStr = StringFunction.evaluate( toArg, nav );
     
         // Initialize the mapping in a HashMap
-        Map<String,String> characterMap = new HashMap<>();
+        Map characterMap = new HashMap();
         String[] fromCharacters = toUnicodeCharacters(fromStr);
         String[] toCharacters = toUnicodeCharacters(toStr);
         int fromLen = fromCharacters.length;

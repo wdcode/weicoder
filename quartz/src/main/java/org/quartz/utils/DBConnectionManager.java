@@ -1,5 +1,6 @@
 /* 
  * All content copyright Terracotta, Inc., unless otherwise indicated. All rights reserved.
+ * Copyright Super iPaaS Integration LLC, an IBM Company 2024
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not 
  * use this file except in compliance with the License. You may obtain a copy 
@@ -30,7 +31,6 @@ import java.util.HashMap;
  * @see ConnectionProvider
  * @see PoolingConnectionProvider
  * @see JNDIConnectionProvider
- * @see org.quartz.utils.weblogic.WeblogicConnectionProvider
  * 
  * @author James House
  * @author Sharada Jambula
@@ -56,9 +56,9 @@ public class DBConnectionManager {
      * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
      */
 
-    private static DBConnectionManager instance = new DBConnectionManager();
+    private static final DBConnectionManager instance = new DBConnectionManager();
 
-    private HashMap<String, ConnectionProvider> providers = new HashMap<String, ConnectionProvider>();
+    private final HashMap<String, ConnectionProvider> providers = new HashMap<>();
 
     /*
      * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

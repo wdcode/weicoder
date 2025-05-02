@@ -53,7 +53,6 @@ import org.jaxen.Context;
 import org.jaxen.JaxenException;
 
 
-@SuppressWarnings("deprecation")
 class DefaultPathExpr extends DefaultExpr implements PathExpr {
 
     private static final long serialVersionUID = -6593934674727004281L;

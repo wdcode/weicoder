@@ -87,7 +87,7 @@ public class SumFunction implements Function
      *     or if the first argument is not a <code>List</code>
      */
     public Object call(Context context,
-                       List<Object> args) throws FunctionCallException
+                       List args) throws FunctionCallException
     {
 
         if (args.size() == 1)
@@ -118,8 +118,7 @@ public class SumFunction implements Function
 
         if (obj instanceof List)
         {
-            @SuppressWarnings("unchecked")
-			Iterator<Object> nodeIter = ((List<Object>)obj).iterator();
+            Iterator nodeIter = ((List)obj).iterator();
             while ( nodeIter.hasNext() )
             {
                 double term = NumberFunction.evaluate( nodeIter.next(),
@@ -132,7 +131,7 @@ public class SumFunction implements Function
             throw new FunctionCallException("The argument to the sum function must be a node-set");
         }
 
-        return (sum);
+        return Double.valueOf(sum);
     }
     
 }

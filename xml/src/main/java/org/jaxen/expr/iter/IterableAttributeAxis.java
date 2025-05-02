@@ -51,9 +51,6 @@ import org.jaxen.UnsupportedAxisException;
  */
 public class IterableAttributeAxis extends IterableAxis {
     
-    /**
-     * 
-     */
     private static final long serialVersionUID = 1L;
     
     /**
@@ -71,7 +68,7 @@ public class IterableAttributeAxis extends IterableAxis {
      * @param contextNode  the current context node to work from
      * @param support  the additional context information
      */
-    public Iterator<?> iterator(Object contextNode, ContextSupport support) throws UnsupportedAxisException {
+    public Iterator iterator(Object contextNode, ContextSupport support) throws UnsupportedAxisException {
         return support.getNavigator().getAttributeAxisIterator(contextNode);
     }
 
@@ -84,7 +81,7 @@ public class IterableAttributeAxis extends IterableAxis {
      * @param namespacePrefix  the prefix of the namespace of the attributes to return
      * @param namespaceURI  the uri of the namespace of the attributes to return
      */
-    public Iterator<Object> namedAccessIterator(
+    public Iterator namedAccessIterator(
         Object contextNode,
         ContextSupport support,
         String localName,

@@ -21,7 +21,6 @@ import org.dom4j.QName;
  * @version $Revision: 1.13 $
  */
 public class DefaultAttribute extends FlyweightAttribute {
-	private static final long serialVersionUID = 1L;
     /** The parent of this node */
     private Element parent;
 

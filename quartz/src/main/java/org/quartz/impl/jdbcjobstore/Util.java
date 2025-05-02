@@ -1,5 +1,6 @@
 /* 
  * All content copyright Terracotta, Inc., unless otherwise indicated. All rights reserved.
+ * Copyright Super iPaaS Integration LLC, an IBM Company 2024
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not 
  * use this file except in compliance with the License. You may obtain a copy 
@@ -59,7 +60,7 @@ public final class Util {
      * </p>
      * 
      * @param query
-     *          the unsubstitued query
+     *          the unsubstituted query
      * @param tablePrefix
      *          the table prefix
      * @return the query, with proper table prefix substituted
@@ -130,7 +131,7 @@ public final class Util {
         if(propNames == null || propNames.length == 0)
             return;
         if(propNames.length != propValues.length)
-            throw new IllegalArgumentException("propNames[].lenght != propValues[].length");
+            throw new IllegalArgumentException("propNames[].length != propValues[].length");
         
         String name = null;
         
@@ -167,9 +168,9 @@ public final class Util {
     }
 
     private static java.lang.reflect.Method getSetMethod(String name, PropertyDescriptor[] props) {
-        for (int i = 0; i < props.length; i++) {
-            java.lang.reflect.Method wMeth = props[i].getWriteMethod();
-    
+        for (PropertyDescriptor prop : props) {
+            java.lang.reflect.Method wMeth = prop.getWriteMethod();
+
             if (wMeth != null && wMeth.getName().equals(name)) {
                 return wMeth;
             }

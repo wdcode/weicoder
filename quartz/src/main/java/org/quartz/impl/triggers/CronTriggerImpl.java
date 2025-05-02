@@ -1,5 +1,6 @@
 /* 
  * All content copyright Terracotta, Inc., unless otherwise indicated. All rights reserved.
+ * Copyright Super iPaaS Integration LLC, an IBM Company 2024
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not 
  * use this file except in compliance with the License. You may obtain a copy 
@@ -22,8 +23,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.quartz.CronExpression;
 import org.quartz.CronScheduleBuilder;
 import org.quartz.CronTrigger;
@@ -32,7 +31,9 @@ import org.quartz.JobExecutionException;
 import org.quartz.ScheduleBuilder;
 import org.quartz.Scheduler;
 import org.quartz.Trigger;
-import org.quartz.TriggerUtils; 
+import org.quartz.TriggerUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -64,7 +65,7 @@ public class CronTriggerImpl extends AbstractTrigger<CronTrigger> implements Cro
      */
     private static final long serialVersionUID = -8644953146451592766L;
 
-    private static final Logger LOGGER = LogManager.getLogger(CronTriggerImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CronTriggerImpl.class);
 
     protected static final int YEAR_TO_GIVEUP_SCHEDULING_AT = CronExpression.MAX_YEAR;
     
@@ -99,234 +100,13 @@ public class CronTriggerImpl extends AbstractTrigger<CronTrigger> implements Cro
      * 
      * <p>
      * The start-time will also be set to the current time, and the time zone
-     * will be set the the system's default time zone.
+     * will be set the system's default time zone.
      * </p>
      */
     public CronTriggerImpl() {
         super();
         setStartTime(new Date());
         setTimeZone(TimeZone.getDefault());
-    }
-
-    /**
-     * <p>
-     * Create a <code>CronTrigger</code> with the given name and default group.
-     * </p>
-     * 
-     * <p>
-     * The start-time will also be set to the current time, and the time zone
-     * will be set the the system's default time zone.
-     * </p>
-     * 
-     * @deprecated use a TriggerBuilder instead
-     */
-    @Deprecated
-    public CronTriggerImpl(String name) {
-        this(name, null);
-    }
-    
-    /**
-     * <p>
-     * Create a <code>CronTrigger</code> with the given name and group.
-     * </p>
-     * 
-     * <p>
-     * The start-time will also be set to the current time, and the time zone
-     * will be set the the system's default time zone.
-     * </p>
-     * 
-     * @deprecated use a TriggerBuilder instead
-     */
-    @Deprecated
-    public CronTriggerImpl(String name, String group) {
-        super(name, group);
-        setStartTime(new Date());
-        setTimeZone(TimeZone.getDefault());
-    }
-
-    /**
-     * <p>
-     * Create a <code>CronTrigger</code> with the given name, group and
-     * expression.
-     * </p>
-     * 
-     * <p>
-     * The start-time will also be set to the current time, and the time zone
-     * will be set the the system's default time zone.
-     * </p>
-     * 
-     * @deprecated use a TriggerBuilder instead
-     */
-    @Deprecated
-    public CronTriggerImpl(String name, String group, String cronExpression)
-        throws ParseException {
-        
-        super(name, group);
-
-        setCronExpression(cronExpression);
-
-        setStartTime(new Date());
-        setTimeZone(TimeZone.getDefault());
-    }
-    
-    /**
-     * <p>
-     * Create a <code>CronTrigger</code> with the given name and group, and
-     * associated with the identified <code>{@link org.quartz.JobDetail}</code>.
-     * </p>
-     * 
-     * <p>
-     * The start-time will also be set to the current time, and the time zone
-     * will be set the the system's default time zone.
-     * </p>
-     * 
-     * @deprecated use a TriggerBuilder instead
-     */
-    @Deprecated
-    public CronTriggerImpl(String name, String group, String jobName,
-            String jobGroup) {
-        super(name, group, jobName, jobGroup);
-        setStartTime(new Date());
-        setTimeZone(TimeZone.getDefault());
-    }
-
-    /**
-     * <p>
-     * Create a <code>CronTrigger</code> with the given name and group,
-     * associated with the identified <code>{@link org.quartz.JobDetail}</code>,
-     * and with the given "cron" expression.
-     * </p>
-     * 
-     * <p>
-     * The start-time will also be set to the current time, and the time zone
-     * will be set the the system's default time zone.
-     * </p>
-     * 
-     * @deprecated use a TriggerBuilder instead
-     */
-    @Deprecated
-    public CronTriggerImpl(String name, String group, String jobName,
-            String jobGroup, String cronExpression) throws ParseException {
-        this(name, group, jobName, jobGroup, null, null, cronExpression,
-                TimeZone.getDefault());
-    }
-
-    /**
-     * <p>
-     * Create a <code>CronTrigger</code> with the given name and group,
-     * associated with the identified <code>{@link org.quartz.JobDetail}</code>,
-     * and with the given "cron" expression resolved with respect to the <code>TimeZone</code>.
-     * </p>
-     * 
-     * @deprecated use a TriggerBuilder instead
-     */
-    @Deprecated
-    public CronTriggerImpl(String name, String group, String jobName,
-            String jobGroup, String cronExpression, TimeZone timeZone)
-        throws ParseException {
-        this(name, group, jobName, jobGroup, null, null, cronExpression,
-                timeZone);
-    }
-
-    /**
-     * <p>
-     * Create a <code>CronTrigger</code> that will occur at the given time,
-     * until the given end time.
-     * </p>
-     * 
-     * <p>
-     * If null, the start-time will also be set to the current time, the time
-     * zone will be set the the system's default.
-     * </p>
-     * 
-     * @param startTime
-     *          A <code>Date</code> set to the time for the <code>Trigger</code>
-     *          to fire.
-     * @param endTime
-     *          A <code>Date</code> set to the time for the <code>Trigger</code>
-     *          to quit repeat firing.
-     * 
-     * @deprecated use a TriggerBuilder instead
-     */
-    @Deprecated
-    public CronTriggerImpl(String name, String group, String jobName,
-            String jobGroup, Date startTime, Date endTime, String cronExpression)
-        throws ParseException {
-        super(name, group, jobName, jobGroup);
-
-        setCronExpression(cronExpression);
-
-        if (startTime == null) {
-            startTime = new Date();
-        }
-        setStartTime(startTime);
-        if (endTime != null) {
-            setEndTime(endTime);
-        }
-        setTimeZone(TimeZone.getDefault());
-
-    }
-
-    /**
-     * <p>
-     * Create a <code>CronTrigger</code> with fire time dictated by the
-     * <code>cronExpression</code> resolved with respect to the specified
-     * <code>timeZone</code> occurring from the <code>startTime</code> until
-     * the given <code>endTime</code>.
-     * </p>
-     * 
-     * <p>
-     * If null, the start-time will also be set to the current time. If null,
-     * the time zone will be set to the system's default.
-     * </p>
-     * 
-     * @param name
-     *          of the <code>Trigger</code>
-     * @param group
-     *          of the <code>Trigger</code>
-     * @param jobName
-     *          name of the <code>{@link org.quartz.JobDetail}</code>
-     *          executed on firetime
-     * @param jobGroup
-     *          group of the <code>{@link org.quartz.JobDetail}</code>
-     *          executed on firetime
-     * @param startTime
-     *          A <code>Date</code> set to the earliest time for the <code>Trigger</code>
-     *          to start firing.
-     * @param endTime
-     *          A <code>Date</code> set to the time for the <code>Trigger</code>
-     *          to quit repeat firing.
-     * @param cronExpression
-     *          A cron expression dictating the firing sequence of the <code>Trigger</code>
-     * @param timeZone
-     *          Specifies for which time zone the <code>cronExpression</code>
-     *          should be interpreted, i.e. the expression 0 0 10 * * ?, is
-     *          resolved to 10:00 am in this time zone.
-     * @throws ParseException
-     *           if the <code>cronExpression</code> is invalid.
-     * 
-     * @deprecated use a TriggerBuilder instead
-     */
-    @Deprecated
-    public CronTriggerImpl(String name, String group, String jobName,
-            String jobGroup, Date startTime, Date endTime,
-            String cronExpression, TimeZone timeZone) throws ParseException {
-        super(name, group, jobName, jobGroup);
-
-        setCronExpression(cronExpression);
-
-        if (startTime == null) {
-            startTime = new Date();
-        }
-        setStartTime(startTime);
-        if (endTime != null) {
-            setEndTime(endTime);
-        }
-        if (timeZone == null) {
-            setTimeZone(TimeZone.getDefault());
-        } else {
-            setTimeZone(timeZone);
-        }
     }
 
     /*
@@ -404,7 +184,7 @@ public class CronTriggerImpl extends AbstractTrigger<CronTrigger> implements Cro
     /**
      * <p>
      * Get the time at which the <code>CronTrigger</code> should quit
-     * repeating - even if repeastCount isn't yet satisfied.
+     * repeating - even if repeatCount isn't yet satisfied.
      * </p>
      * 
      * @see #getFinalFireTime()
@@ -533,7 +313,7 @@ public class CronTriggerImpl extends AbstractTrigger<CronTrigger> implements Cro
         }
 
         if (getStartTime().after(afterTime)) {
-            afterTime = new Date(getStartTime().getTime() - 1000l);
+            afterTime = new Date(getStartTime().getTime() - 1000L);
         }
 
         if (getEndTime() != null && (afterTime.compareTo(getEndTime()) >= 0)) {
@@ -563,7 +343,7 @@ public class CronTriggerImpl extends AbstractTrigger<CronTrigger> implements Cro
     public Date getFinalFireTime() {
         Date resultTime;
         if (getEndTime() != null) {
-            resultTime = getTimeBefore(new Date(getEndTime().getTime() + 1000l));
+            resultTime = getTimeBefore(new Date(getEndTime().getTime() + 1000L));
         } else {
             resultTime = (cronEx == null) ? null : cronEx.getFinalFireTime();
         }
@@ -600,11 +380,10 @@ public class CronTriggerImpl extends AbstractTrigger<CronTrigger> implements Cro
      * 
      * <p>
      * If the misfire instruction is set to MISFIRE_INSTRUCTION_SMART_POLICY,
-     * then the following scheme will be used: <br>
+     * then the following scheme will be used: </p>
      * <ul>
      * <li>The instruction will be interpreted as <code>MISFIRE_INSTRUCTION_FIRE_ONCE_NOW</code>
      * </ul>
-     * </p>
      */
     @Override
     public void updateAfterMisfire(org.quartz.Calendar cal) {
@@ -777,11 +556,10 @@ public class CronTriggerImpl extends AbstractTrigger<CronTrigger> implements Cro
      * @return the first time at which the <code>Trigger</code> will be fired
      *         by the scheduler, which is also the same value <code>getNextFireTime()</code>
      *         will return (until after the first firing of the <code>Trigger</code>).
-     *         </p>
      */
     @Override
     public Date computeFirstFireTime(org.quartz.Calendar calendar) {
-        nextFireTime = getFireTimeAfter(new Date(getStartTime().getTime() - 1000l));
+        nextFireTime = getFireTimeAfter(new Date(getStartTime().getTime() - 1000L));
 
         while (nextFireTime != null && calendar != null
                 && !calendar.isTimeIncluded(nextFireTime.getTime())) {

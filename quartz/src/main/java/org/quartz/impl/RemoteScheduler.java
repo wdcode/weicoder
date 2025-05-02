@@ -1,5 +1,6 @@
 /* 
  * All content copyright Terracotta, Inc., unless otherwise indicated. All rights reserved.
+ * Copyright Super iPaaS Integration LLC, an IBM Company 2024
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not 
  * use this file except in compliance with the License. You may obtain a copy 
@@ -67,11 +68,11 @@ public class RemoteScheduler implements Scheduler {
 
     private RemotableQuartzScheduler rsched;
 
-    private String schedId;
+    private final String schedId;
 
-    private String rmiHost;
+    private final String rmiHost;
 
-    private int rmiPort;
+    private final int rmiPort;
 
     /*
      * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -84,7 +85,7 @@ public class RemoteScheduler implements Scheduler {
     /**
      * <p>
      * Construct a <code>RemoteScheduler</code> instance to proxy the given
-     * <code>RemoteableQuartzScheduler</code> instance, and with the given
+     * <code>RemotableQuartzScheduler</code> instance, and with the given
      * <code>SchedulingContext</code>.
      * </p>
      */
@@ -114,10 +115,9 @@ public class RemoteScheduler implements Scheduler {
             rsched = (RemotableQuartzScheduler) registry.lookup(schedId);
 
         } catch (Exception e) {
-            SchedulerException initException = new SchedulerException(
+            throw new SchedulerException(
                     "Could not get handle to remote scheduler: "
                             + e.getMessage(), e);
-            throw initException;
         }
 
         return rsched;
@@ -126,8 +126,7 @@ public class RemoteScheduler implements Scheduler {
     protected SchedulerException invalidateHandleCreateException(String msg,
             Exception cause) {
         rsched = null;
-        SchedulerException ex = new SchedulerException(msg, cause);
-        return ex;
+        return new SchedulerException(msg, cause);
     }
 
     /**
@@ -191,7 +190,7 @@ public class RemoteScheduler implements Scheduler {
 
     ///////////////////////////////////////////////////////////////////////////
     ///
-    /// Schedululer State Management Methods
+    /// Scheduler State Management Methods
     ///
     ///////////////////////////////////////////////////////////////////////////
 

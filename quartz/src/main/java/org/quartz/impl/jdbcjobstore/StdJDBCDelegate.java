@@ -1,5 +1,6 @@
 /* 
  * All content copyright Terracotta, Inc., unless otherwise indicated. All rights reserved.
+ * Copyright Super iPaaS Integration LLC, an IBM Company 2024
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not 
  * use this file except in compliance with the License. You may obtain a copy 
@@ -38,14 +39,12 @@ import java.sql.Statement;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
-import org.apache.logging.log4j.Logger;
 import org.quartz.Calendar;
 import org.quartz.Job;
 import org.quartz.JobDataMap;
@@ -63,7 +62,8 @@ import org.quartz.impl.matchers.GroupMatcher;
 import org.quartz.impl.matchers.StringMatcher;
 import org.quartz.impl.triggers.SimpleTriggerImpl;
 import org.quartz.spi.ClassLoadHelper;
-import org.quartz.spi.OperableTrigger; 
+import org.quartz.spi.OperableTrigger;
+import org.slf4j.Logger;
 
 /**
  * <p>
@@ -98,7 +98,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
     
     protected ClassLoadHelper classLoadHelper;
 
-    protected List<TriggerPersistenceDelegate> triggerPersistenceDelegates = new LinkedList<TriggerPersistenceDelegate>();
+    protected final List<TriggerPersistenceDelegate> triggerPersistenceDelegates = new LinkedList<>();
 
     
     /*
@@ -147,7 +147,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         for(String setting: settings) {
             String[] parts = setting.split("=");
             String name = parts[0];
-            if(parts.length == 1 || parts[1] == null || parts[1].equals(""))
+            if(parts.length == 1 || parts[1] == null || parts[1].isEmpty())
                 continue;
 
             if(name.equals("triggerPersistenceDelegateClasses")) {
@@ -180,7 +180,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
     }
     
     public void addTriggerPersistenceDelegate(TriggerPersistenceDelegate delegate) {
-        logger.debug("Adding TriggerPersistenceDelegate of type: " + delegate.getClass().getCanonicalName());
+        logger.debug("Adding TriggerPersistenceDelegate of type: {}", delegate.getClass().getCanonicalName());
         delegate.initialize(tablePrefix, schedName);
         this.triggerPersistenceDelegates.add(delegate);
     }
@@ -259,7 +259,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
             ps.setBigDecimal(1, new BigDecimal(String.valueOf(ts)));
             rs = ps.executeQuery();
 
-            LinkedList<TriggerKey> list = new LinkedList<TriggerKey>();
+            LinkedList<TriggerKey> list = new LinkedList<>();
             while (rs.next()) {
                 String triggerName = rs.getString(COL_TRIGGER_NAME);
                 String groupName = rs.getString(COL_TRIGGER_GROUP);
@@ -293,7 +293,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
             ps.setString(1, state);
             rs = ps.executeQuery();
 
-            LinkedList<TriggerKey> list = new LinkedList<TriggerKey>();
+            LinkedList<TriggerKey> list = new LinkedList<>();
             while (rs.next()) {
                 list.add(triggerKey(rs.getString(1), rs.getString(2)));
             }
@@ -316,7 +316,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
             ps.setString(2, state);
             rs = ps.executeQuery();
 
-            LinkedList<TriggerKey> list = new LinkedList<TriggerKey>();
+            LinkedList<TriggerKey> list = new LinkedList<>();
             while (rs.next()) {
                 String triggerName = rs.getString(COL_TRIGGER_NAME);
                 String groupName = rs.getString(COL_TRIGGER_GROUP);
@@ -356,7 +356,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
             rs = ps.executeQuery();
 
             boolean hasReachedLimit = false;
-            while (rs.next() && (hasReachedLimit == false)) {
+            while (rs.next() && (!hasReachedLimit)) {
                 if (resultList.size() == count) {
                     hasReachedLimit = true;
                 } else {
@@ -427,7 +427,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
             ps.setString(3, state);
             rs = ps.executeQuery();
 
-            LinkedList<TriggerKey> list = new LinkedList<TriggerKey>();
+            LinkedList<TriggerKey> list = new LinkedList<>();
             while (rs.next()) {
                 String triggerName = rs.getString(COL_TRIGGER_NAME);
                 list.add(triggerKey(triggerName, groupName));
@@ -473,7 +473,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
             rs = ps.executeQuery();
 
             long dumId = System.currentTimeMillis();
-            LinkedList<OperableTrigger> list = new LinkedList<OperableTrigger>();
+            LinkedList<OperableTrigger> list = new LinkedList<>();
             while (rs.next()) {
                 String jobName = rs.getString(COL_JOB_NAME);
                 String jobGroup = rs.getString(COL_JOB_GROUP);
@@ -484,7 +484,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
                 int priority = rs.getInt(COL_PRIORITY);
                 @SuppressWarnings("deprecation")
                 SimpleTriggerImpl rcvryTrig = new SimpleTriggerImpl("recover_"
-                        + instanceId + "_" + String.valueOf(dumId++),
+                        + instanceId + "_" + dumId++,
                         Scheduler.DEFAULT_RECOVERY_GROUP, new Date(scheduledTime));
                 rcvryTrig.setJobName(jobName);
                 rcvryTrig.setJobGroup(jobGroup);
@@ -547,7 +547,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
      * Clear (delete!) all scheduling data - all {@link Job}s, {@link Trigger}s
      * {@link Calendar}s.
      * 
-     * @throws JobPersistenceException
+     * @throws SQLException
      */
     public void clearData(Connection conn)
         throws SQLException {
@@ -607,7 +607,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
 
         PreparedStatement ps = null;
 
-        int insertResult = 0;
+        int insertResult;
 
         try {
             ps = conn.prepareStatement(rtp(INSERT_JOB_DETAIL));
@@ -616,7 +616,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
             ps.setString(3, job.getDescription());
             ps.setString(4, job.getJobClass().getName());
             setBoolean(ps, 5, job.isDurable());
-            setBoolean(ps, 6, job.isConcurrentExectionDisallowed());
+            setBoolean(ps, 6, job.isConcurrentExecutionDisallowed());
             setBoolean(ps, 7, job.isPersistJobDataAfterExecution());
             setBoolean(ps, 8, job.requestsRecovery());
             setBytes(ps, 9, baos);
@@ -648,14 +648,14 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
 
         PreparedStatement ps = null;
 
-        int insertResult = 0;
+        int insertResult;
 
         try {
             ps = conn.prepareStatement(rtp(UPDATE_JOB_DETAIL));
             ps.setString(1, job.getDescription());
             ps.setString(2, job.getJobClass().getName());
             setBoolean(ps, 3, job.isDurable());
-            setBoolean(ps, 4, job.isConcurrentExectionDisallowed());
+            setBoolean(ps, 4, job.isConcurrentExecutionDisallowed());
             setBoolean(ps, 5, job.isPersistJobDataAfterExecution());
             setBoolean(ps, 6, job.requestsRecovery());
             setBytes(ps, 7, baos);
@@ -690,7 +690,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
             ps.setString(2, jobKey.getGroup());
             rs = ps.executeQuery();
 
-            LinkedList<TriggerKey> list = new LinkedList<TriggerKey>();
+            LinkedList<TriggerKey> list = new LinkedList<>();
             while (rs.next()) {
                 String trigName = rs.getString(COL_TRIGGER_NAME);
                 String trigGroup = rs.getString(COL_TRIGGER_GROUP);
@@ -718,7 +718,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
 
         try {
             if (logger.isDebugEnabled()) {
-                logger.debug("Deleting job: " + jobKey);
+                logger.debug("Deleting job: {}", jobKey);
             }
             ps = conn.prepareStatement(rtp(DELETE_JOB_DETAIL));
             ps.setString(1, jobKey.getName());
@@ -774,11 +774,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
             ps.setString(1, jobKey.getName());
             ps.setString(2, jobKey.getGroup());
             rs = ps.executeQuery();
-            if (rs.next()) {
-                return true;
-            } else {
-                return false;
-            }
+            return rs.next();
         } finally {
             closeResultSet(rs);
             closeStatement(ps);
@@ -853,7 +849,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
                 job.setDurability(getBoolean(rs, COL_IS_DURABLE));
                 job.setRequestsRecovery(getBoolean(rs, COL_REQUESTS_RECOVERY));
 
-                Map<?, ?> map = null;
+                Map<?, ?> map;
                 if (canUseProperties()) {
                     map = getMapFromProperties(rs);
                 } else {
@@ -875,22 +871,16 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
     /**
      * build Map from java.util.Properties encoding.
      */
-    private Map<?, ?> getMapFromProperties(ResultSet rs)
-        throws ClassNotFoundException, IOException, SQLException {
+    private Map<?, ?> getMapFromProperties(ResultSet rs) throws ClassNotFoundException, IOException, SQLException {
         Map<?, ?> map;
-        InputStream is = (InputStream) getJobDataFromBlob(rs, COL_JOB_DATAMAP);
-        if(is == null) {
-            return null;
-        }
-        Properties properties = new Properties();
-        if (is != null) {
-            try {
-                properties.load(is);
-            } finally {
-                is.close();
+        try (InputStream is = (InputStream) getJobDataFromBlob(rs, COL_JOB_DATAMAP)) {
+            if (is == null) {
+                return null;
             }
+            Properties properties = new Properties();
+            properties.load(is);
+            map = convertFromProperty(properties);
         }
-        map = convertFromProperty(properties);
         return map;
     }
 
@@ -940,7 +930,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
             ps = conn.prepareStatement(rtp(SELECT_JOB_GROUPS));
             rs = ps.executeQuery();
 
-            LinkedList<String> list = new LinkedList<String>();
+            LinkedList<String> list = new LinkedList<>();
             while (rs.next()) {
                 list.add(rs.getString(1));
             }
@@ -979,12 +969,12 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
             }
             rs = ps.executeQuery();
 
-            LinkedList<JobKey> list = new LinkedList<JobKey>();
+            LinkedList<JobKey> list = new LinkedList<>();
             while (rs.next()) {
                 list.add(jobKey(rs.getString(1), rs.getString(2)));
             }
 
-            return new HashSet<JobKey>(list);
+            return new HashSet<>(list);
         } finally {
             closeResultSet(rs);
             closeStatement(ps);
@@ -1044,13 +1034,13 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
             JobDetail jobDetail) throws SQLException, IOException {
 
         ByteArrayOutputStream baos = null;
-        if(trigger.getJobDataMap().size() > 0) {
+        if(!trigger.getJobDataMap().isEmpty()) {
             baos = serializeJobData(trigger.getJobDataMap());
         }
         
         PreparedStatement ps = null;
 
-        int insertResult = 0;
+        int insertResult;
 
         try {
             ps = conn.prepareStatement(rtp(INSERT_TRIGGER));
@@ -1118,7 +1108,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
     public int insertBlobTrigger(Connection conn, OperableTrigger trigger)
         throws SQLException, IOException {
         PreparedStatement ps = null;
-        ByteArrayOutputStream os = null;
+        ByteArrayOutputStream os;
 
         try {
             // update the blob
@@ -1166,7 +1156,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
                 
         PreparedStatement ps = null;
 
-        int insertResult = 0;
+        int insertResult;
 
 
         try {
@@ -1247,11 +1237,9 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
     public int updateBlobTrigger(Connection conn, OperableTrigger trigger)
         throws SQLException, IOException {
         PreparedStatement ps = null;
-        ByteArrayOutputStream os = null;
 
-        try {
+        try (ByteArrayOutputStream os = new ByteArrayOutputStream()) {
             // update the blob
-            os = new ByteArrayOutputStream();
             ObjectOutputStream oos = new ObjectOutputStream(os);
             oos.writeObject(trigger);
             oos.close();
@@ -1267,9 +1255,6 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
             return ps.executeUpdate();
         } finally {
             closeStatement(ps);
-            if (os != null) {
-                os.close();
-            }
         }
     }
 
@@ -1292,11 +1277,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
             ps.setString(2, triggerKey.getGroup());
             rs = ps.executeQuery();
 
-            if (rs.next()) {
-                return true;
-            } else {
-                return false;
-            }
+            return rs.next();
         } finally {
             closeResultSet(rs);
             closeStatement(ps);
@@ -1665,7 +1646,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
                 return job;
             } else {
                 if (logger.isDebugEnabled()) {
-                    logger.debug("No job for trigger '" + triggerKey + "'.");
+                    logger.debug("No job for trigger '{}'.", triggerKey);
                 }
                 return null;
             }
@@ -1690,7 +1671,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
     public List<OperableTrigger> selectTriggersForJob(Connection conn, JobKey jobKey) throws SQLException, ClassNotFoundException,
             IOException, JobPersistenceException {
 
-        LinkedList<OperableTrigger> trigList = new LinkedList<OperableTrigger>();
+        LinkedList<OperableTrigger> trigList = new LinkedList<>();
         PreparedStatement ps = null;
         ResultSet rs = null;
 
@@ -1717,7 +1698,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
     public List<OperableTrigger> selectTriggersForCalendar(Connection conn, String calName)
         throws SQLException, ClassNotFoundException, IOException, JobPersistenceException {
 
-        LinkedList<OperableTrigger> trigList = new LinkedList<OperableTrigger>();
+        LinkedList<OperableTrigger> trigList = new LinkedList<>();
         PreparedStatement ps = null;
         ResultSet rs = null;
 
@@ -1773,7 +1754,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
                 int misFireInstr = rs.getInt(COL_MISFIRE_INSTRUCTION);
                 int priority = rs.getInt(COL_PRIORITY);
 
-                Map<?, ?> map = null;
+                Map<?, ?> map;
                 if (canUseProperties()) {
                     map = getMapFromProperties(rs);
                 } else {
@@ -1814,7 +1795,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
                     if(tDel == null)
                         throw new JobPersistenceException("No TriggerPersistenceDelegate for trigger discriminator type: " + triggerType);
 
-                    TriggerPropertyBundle triggerProps = null;
+                    TriggerPropertyBundle triggerProps;
                     try {
                         triggerProps = tDel.loadExtendedTriggerProperties(conn, triggerKey);
                     } catch (IllegalStateException isex) {
@@ -1904,7 +1885,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
 
             if (rs.next()) {
 
-                Map<?, ?> map = null;
+                Map<?, ?> map;
                 if (canUseProperties()) { 
                     map = getMapFromProperties(rs);
                 } else {
@@ -1941,7 +1922,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         ResultSet rs = null;
 
         try {
-            String state = null;
+            String state;
 
             ps = conn.prepareStatement(rtp(SELECT_TRIGGER_STATE));
             ps.setString(1, triggerKey.getName());
@@ -1964,7 +1945,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
 
     /**
      * <p>
-     * Select a trigger' status (state & next fire time).
+     * Select a trigger' status (state and next fire time).
      * </p>
      * 
      * @param conn
@@ -2054,7 +2035,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
             ps = conn.prepareStatement(rtp(SELECT_TRIGGER_GROUPS));
             rs = ps.executeQuery();
 
-            LinkedList<String> list = new LinkedList<String>();
+            LinkedList<String> list = new LinkedList<>();
             while (rs.next()) {
                 list.add(rs.getString(1));
             }
@@ -2075,7 +2056,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
             ps.setString(1, toSqlLikeClause(matcher));
             rs = ps.executeQuery();
 
-            LinkedList<String> list = new LinkedList<String>();
+            LinkedList<String> list = new LinkedList<>();
             while (rs.next()) {
                 list.add(rs.getString(1));
             }
@@ -2114,7 +2095,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
             }
             rs = ps.executeQuery();
 
-            Set<TriggerKey> keys = new HashSet<TriggerKey>();
+            Set<TriggerKey> keys = new HashSet<>();
             while (rs.next()) {
                 keys.add(triggerKey(rs.getString(1), rs.getString(2)));
             }
@@ -2133,9 +2114,8 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         try {
             ps = conn.prepareStatement(rtp(INSERT_PAUSED_TRIGGER_GROUP));
             ps.setString(1, groupName);
-            int rows = ps.executeUpdate();
 
-            return rows;
+            return ps.executeUpdate();
         } finally {
             closeStatement(ps);
         }
@@ -2148,9 +2128,8 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         try {
             ps = conn.prepareStatement(rtp(DELETE_PAUSED_TRIGGER_GROUP));
             ps.setString(1, groupName);
-            int rows = ps.executeUpdate();
 
-            return rows;
+            return ps.executeUpdate();
         } finally {
             closeStatement(ps);
         }
@@ -2163,9 +2142,8 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         try {
             ps = conn.prepareStatement(rtp(DELETE_PAUSED_TRIGGER_GROUP));
             ps.setString(1, toSqlLikeClause(matcher));
-            int rows = ps.executeUpdate();
 
-            return rows;
+            return ps.executeUpdate();
         } finally {
             closeStatement(ps);
         }
@@ -2177,9 +2155,8 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
 
         try {
             ps = conn.prepareStatement(rtp(DELETE_PAUSED_TRIGGER_GROUPS));
-            int rows = ps.executeUpdate();
 
-            return rows;
+            return ps.executeUpdate();
         } finally {
             closeStatement(ps);
         }
@@ -2312,11 +2289,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
             ps.setString(1, calendarName);
             rs = ps.executeQuery();
 
-            if (rs.next()) {
-                return true;
-            } else {
-                return false;
-            }
+            return rs.next();
         } finally {
             closeResultSet(rs);
             closeStatement(ps);
@@ -2354,8 +2327,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
                 cal = (Calendar) getObjectFromBlob(rs, COL_CALENDAR);
             }
             if (null == cal) {
-                logger.warn("Couldn't find calendar with name '" + calendarName
-                        + "'.");
+                logger.warn("Couldn't find calendar with name '{}'.", calendarName);
             }
             return cal;
         } finally {
@@ -2384,11 +2356,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
             ps.setString(1, calendarName);
             rs = ps.executeQuery();
 
-            if (rs.next()) {
-                return true;
-            } else {
-                return false;
-            }
+            return rs.next();
         } finally {
             closeResultSet(rs);
             closeStatement(ps);
@@ -2467,7 +2435,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
             ps = conn.prepareStatement(rtp(SELECT_CALENDARS));
             rs = ps.executeQuery();
 
-            LinkedList<String> list = new LinkedList<String>();
+            LinkedList<String> list = new LinkedList<>();
             while (rs.next()) {
                 list.add(rs.getString(1));
             }
@@ -2494,6 +2462,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
      * 
      * @deprecated Does not account for misfires.
      */
+    @Deprecated
     public long selectNextFireTime(Connection conn) throws SQLException {
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -2505,7 +2474,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
             if (rs.next()) {
                 return rs.getLong(ALIAS_COL_NEXT_FIRE_TIME);
             } else {
-                return 0l;
+                return 0L;
             }
         } finally {
             closeResultSet(rs);
@@ -2567,6 +2536,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
      * 
      * @deprecated - This remained for compatibility reason. Use {@link #selectTriggerToAcquire(Connection, long, long, int)} instead. 
      */
+    @Deprecated
     public List<TriggerKey> selectTriggerToAcquire(Connection conn, long noLaterThan, long noEarlierThan)
             throws SQLException {
         // This old API used to always return 1 trigger.
@@ -2594,7 +2564,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         throws SQLException {
         PreparedStatement ps = null;
         ResultSet rs = null;
-        List<TriggerKey> nextTriggers = new LinkedList<TriggerKey>();
+        List<TriggerKey> nextTriggers = new LinkedList<>();
         try {
             ps = conn.prepareStatement(rtp(SELECT_NEXT_TRIGGER_TO_ACQUIRE));
             
@@ -2653,7 +2623,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
             if (job != null) {
                 ps.setString(8, trigger.getJobKey().getName());
                 ps.setString(9, trigger.getJobKey().getGroup());
-                setBoolean(ps, 10, job.isConcurrentExectionDisallowed());
+                setBoolean(ps, 10, job.isConcurrentExecutionDisallowed());
                 setBoolean(ps, 11, job.requestsRecovery());
             } else {
                 ps.setString(8, null);
@@ -2697,7 +2667,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
             if (job != null) {
                 ps.setString(5, trigger.getJobKey().getName());
                 ps.setString(6, trigger.getJobKey().getGroup());
-                setBoolean(ps, 7, job.isConcurrentExectionDisallowed());
+                setBoolean(ps, 7, job.isConcurrentExecutionDisallowed());
                 setBoolean(ps, 8, job.requestsRecovery());
             } else {
                 ps.setString(5, null);
@@ -2727,7 +2697,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-            List<FiredTriggerRecord> lst = new LinkedList<FiredTriggerRecord>();
+            List<FiredTriggerRecord> lst = new LinkedList<>();
 
             if (triggerName != null) {
                 ps = conn.prepareStatement(rtp(SELECT_FIRED_TRIGGER));
@@ -2779,7 +2749,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-            List<FiredTriggerRecord> lst = new LinkedList<FiredTriggerRecord>();
+            List<FiredTriggerRecord> lst = new LinkedList<>();
 
             if (jobName != null) {
                 ps = conn.prepareStatement(rtp(SELECT_FIRED_TRIGGERS_OF_JOB));
@@ -2826,7 +2796,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-            List<FiredTriggerRecord> lst = new LinkedList<FiredTriggerRecord>();
+            List<FiredTriggerRecord> lst = new LinkedList<>();
 
             ps = conn.prepareStatement(rtp(SELECT_INSTANCES_FIRED_TRIGGERS));
             ps.setString(1, instanceName);
@@ -2877,7 +2847,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-            Set<String> instanceNames = new HashSet<String>();
+            Set<String> instanceNames = new HashSet<>();
 
             ps = conn.prepareStatement(rtp(SELECT_FIRED_TRIGGER_INSTANCE_NAMES));
             rs = ps.executeQuery();
@@ -2983,7 +2953,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-            List<SchedulerStateRecord> lst = new LinkedList<SchedulerStateRecord>();
+            List<SchedulerStateRecord> lst = new LinkedList<>();
 
             if (theInstanceId != null) {
                 ps = conn.prepareStatement(rtp(SELECT_SCHEDULER_STATE));
@@ -3022,7 +2992,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
      * </p>
      * 
      * @param query
-     *          the unsubstitued query
+     *          the unsubstituted query
      * @return the query, with proper table prefix substituted
      */
     protected final String rtp(String query) {
@@ -3095,18 +3065,12 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
      * null if all values are serializable.
      */
     protected Object getKeyOfNonSerializableValue(Map<?, ?> data) {
-        for (Iterator<?> entryIter = data.entrySet().iterator(); entryIter.hasNext();) {
-            Map.Entry<?, ?> entry = (Map.Entry<?, ?>)entryIter.next();
-            
-            ByteArrayOutputStream baos = null;
+        for (Map.Entry<?, ?> value : data.entrySet()) {
+
             try {
-                baos = serializeObject(entry.getValue());
+                serializeObject(value.getValue()).close();
             } catch (IOException e) {
-                return entry.getKey();
-            } finally {
-                if (baos != null) {
-                    try { baos.close(); } catch (IOException ignore) {}
-                }
+                return value.getKey();
             }
         }
         
@@ -3132,8 +3096,8 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
     /**
      * convert the JobDataMap into a list of properties
      */
-    protected Map<?, ?> convertFromProperty(Properties properties) throws IOException {
-        return new HashMap<Object, Object>(properties);
+    protected Map<?, ?> convertFromProperty(Properties properties) {
+        return new HashMap<>(properties);
     }
 
     /**
@@ -3141,25 +3105,24 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
      */
     protected Properties convertToProperty(Map<?, ?> data) throws IOException {
         Properties properties = new Properties();
-        
-        for (Iterator<?> entryIter = data.entrySet().iterator(); entryIter.hasNext();) {
-            Map.Entry<?, ?> entry = (Map.Entry<?, ?>)entryIter.next();
-            
-            Object key = entry.getKey();
-            Object val = (entry.getValue() == null) ? "" : entry.getValue();
-            
-            if(!(key instanceof String)) {
-                throw new IOException("JobDataMap keys/values must be Strings " 
-                        + "when the 'useProperties' property is set. " 
+
+        for (Map.Entry<?, ?> value : data.entrySet()) {
+
+            Object key = value.getKey();
+            Object val = (value.getValue() == null) ? "" : value.getValue();
+
+            if (!(key instanceof String)) {
+                throw new IOException("JobDataMap keys/values must be Strings "
+                        + "when the 'useProperties' property is set. "
                         + " offending Key: " + key);
             }
-            
-            if(!(val instanceof String)) {
-                throw new IOException("JobDataMap values must be Strings " 
-                        + "when the 'useProperties' property is set. " 
+
+            if (!(val instanceof String)) {
+                throw new IOException("JobDataMap values must be Strings "
+                        + "when the 'useProperties' property is set. "
                         + " Key of offending value: " + key);
             }
-            
+
             properties.put(key, val);
         }
         
@@ -3196,11 +3159,8 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
                     && ((ByteArrayInputStream) binaryInput).available() == 0 ) {
                     //do nothing
                 } else {
-                    ObjectInputStream in = new ObjectInputStream(binaryInput);
-                    try {
+                    try (ObjectInputStream in = new ObjectInputStream(binaryInput)) {
                         obj = in.readObject();
-                    } finally {
-                        in.close();
                     }
                 }
             }
@@ -3231,8 +3191,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         if (canUseProperties()) {
             Blob blobLocator = rs.getBlob(colName);
             if (blobLocator != null) {
-                InputStream binaryInput = blobLocator.getBinaryStream();
-                return binaryInput;
+                return blobLocator.getBinaryStream();
             } else {
                 return null;
             }
@@ -3248,7 +3207,7 @@ public class StdJDBCDelegate implements DriverDelegate, StdJDBCConstants {
         PreparedStatement ps = null;
         ResultSet rs = null;
 
-        HashSet<String> set = new HashSet<String>();
+        HashSet<String> set = new HashSet<>();
         try {
             ps = conn.prepareStatement(rtp(SELECT_PAUSED_TRIGGER_GROUPS));
             rs = ps.executeQuery();

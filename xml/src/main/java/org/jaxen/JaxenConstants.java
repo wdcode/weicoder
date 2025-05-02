@@ -65,12 +65,12 @@ public class JaxenConstants
      * An iterator with no elements. <code>hasNext()</code> always
      * returns false. This is thread-safe. 
      */
-    public static final Iterator<Object> EMPTY_ITERATOR = Collections.emptyIterator();
+    public static final Iterator<Object> EMPTY_ITERATOR = Collections.EMPTY_LIST.iterator();
     
     /**
      * A list iterator with no elements. <code>hasNext()</code> always
      * returns false. This is thread-safe. 
      */
-    public static final ListIterator<Object> EMPTY_LIST_ITERATOR = Collections.emptyListIterator();
+    public static final ListIterator<Object> EMPTY_LIST_ITERATOR = Collections.EMPTY_LIST.listIterator();
     
 }

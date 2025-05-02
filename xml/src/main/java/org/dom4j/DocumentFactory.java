@@ -42,7 +42,6 @@ import org.jaxen.VariableContext;
  */
 @SuppressWarnings("unused")
 public class DocumentFactory implements Serializable {
-	private static final long serialVersionUID = 1L;
     private static SingletonStrategy<DocumentFactory> singleton = null;
 
     protected transient QNameCache cache;
@@ -50,8 +49,7 @@ public class DocumentFactory implements Serializable {
     /** Default namespace prefix → URI mappings for XPath expressions to use */
     private Map<String, String> xpathNamespaceURIs;
 
-    @SuppressWarnings("unchecked")
-	private static SingletonStrategy<DocumentFactory> createSingleton() {
+    private static SingletonStrategy<DocumentFactory> createSingleton() {
         SingletonStrategy<DocumentFactory> result;
         
         String documentFactoryClassName;
@@ -66,8 +64,8 @@ public class DocumentFactory implements Serializable {
             String singletonClass = System.getProperty(
                     "org.dom4j.DocumentFactory.singleton.strategy",
                     "org.dom4j.util.SimpleSingleton");
-            Class<SingletonStrategy<DocumentFactory>> clazz = (Class<SingletonStrategy<DocumentFactory>>) Class.forName(singletonClass);
-            result = clazz.getDeclaredConstructor().newInstance();
+            Class<SingletonStrategy> clazz = (Class<SingletonStrategy>) Class.forName(singletonClass);
+            result = clazz.newInstance();
         } catch (Exception e) {
             result = new SimpleSingleton<DocumentFactory>();
         }
@@ -361,8 +359,7 @@ public class DocumentFactory implements Serializable {
      * 
      * @return a new singleton instance.
      */
-    @SuppressWarnings("unchecked")
-	protected static DocumentFactory createSingleton(String className) {
+    protected static DocumentFactory createSingleton(String className) {
         // let's try and class load an implementation?
         try {
             // I'll use the current class loader
@@ -370,7 +367,7 @@ public class DocumentFactory implements Serializable {
             Class<DocumentFactory> theClass = (Class<DocumentFactory>) Class.forName(className, true,
                     DocumentFactory.class.getClassLoader());
 
-            return theClass.getDeclaredConstructor().newInstance();
+            return theClass.newInstance();
         } catch (Throwable e) {
             System.out.println("WARNING: Cannot load DocumentFactory: "
                     + className);

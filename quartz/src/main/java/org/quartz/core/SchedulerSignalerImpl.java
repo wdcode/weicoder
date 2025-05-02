@@ -1,6 +1,7 @@
 
 /* 
  * All content copyright Terracotta, Inc., unless otherwise indicated. All rights reserved.
+ * Copyright Super iPaaS Integration LLC, an IBM Company 2024
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not 
  * use this file except in compliance with the License. You may obtain a copy 
@@ -17,9 +18,9 @@
  */
 
 package org.quartz.core;
- 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.quartz.JobKey;
 import org.quartz.SchedulerException;
 import org.quartz.Trigger;
@@ -33,7 +34,7 @@ import org.quartz.spi.SchedulerSignaler;
  */
 public class SchedulerSignalerImpl implements SchedulerSignaler {
 
-    Logger log = LogManager.getLogger(SchedulerSignalerImpl.class);
+    final Logger log = LoggerFactory.getLogger(SchedulerSignalerImpl.class);
     
     /*
      * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -43,8 +44,8 @@ public class SchedulerSignalerImpl implements SchedulerSignaler {
      * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
      */
 
-    protected QuartzScheduler sched;
-    protected QuartzSchedulerThread schedThread;
+    protected final QuartzScheduler sched;
+    protected final QuartzSchedulerThread schedThread;
 
     /*
      * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -57,8 +58,8 @@ public class SchedulerSignalerImpl implements SchedulerSignaler {
     public SchedulerSignalerImpl(QuartzScheduler sched, QuartzSchedulerThread schedThread) {
         this.sched = sched;
         this.schedThread = schedThread;
-        
-        log.info("Initialized Scheduler Signaller of type: " + getClass());
+
+        log.info("Initialized Scheduler Signaller of type: {}", getClass());
     }
 
     /*

@@ -1,5 +1,6 @@
 /* 
  * All content copyright Terracotta, Inc., unless otherwise indicated. All rights reserved.
+ * Copyright Super iPaaS Integration LLC, an IBM Company 2024
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not 
  * use this file except in compliance with the License. You may obtain a copy 
@@ -39,7 +40,7 @@ public interface ClassLoadHelper {
     /**
      * Return the class with the given name.
      *
-     * @param name the fqcn of the class to load.
+     * @param name the FQCN of the class to load.
      * @return the requested class.
      * @throws ClassNotFoundException if the class can be found in the classpath.
      */
@@ -48,7 +49,7 @@ public interface ClassLoadHelper {
     /**
      * Return the class of the given type with the given name.
      *
-     * @param name the fqcn of the class to load.
+     * @param name the FQCN of the class to load.
      * @return the requested class.
      * @throws ClassNotFoundException if the class can be found in the classpath.
      */

@@ -83,7 +83,7 @@ public class CountFunction implements Function
      *     item; or that item is not a <code>List</code>
      */
     public Object call(Context context,
-                       List<Object> args) throws FunctionCallException
+                       List args) throws FunctionCallException
     {
         if (args.size() == 1)
         {
@@ -107,7 +107,7 @@ public class CountFunction implements Function
       
         if (obj instanceof List)
         {
-            return Double.valueOf( ((List<?>) obj).size() );
+            return Double.valueOf( ((List) obj).size() );
         }
       
         throw new FunctionCallException("count() function can only be used for node-sets");

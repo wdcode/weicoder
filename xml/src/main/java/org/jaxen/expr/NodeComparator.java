@@ -64,9 +64,9 @@ class NodeComparator implements Comparator<Object> {
     
     public int compare(Object o1, Object o2) {
         
-    	if (o1 == o2) return 0;
-    	
-    	// treat all objects as equal
+        if (o1 == o2) return 0;
+        
+        // treat all objects as equal
         if (navigator == null) return 0;
         
         if (isNonChild(o1) && isNonChild(o2)) {
@@ -83,14 +83,14 @@ class NodeComparator implements Comparator<Object> {
                         return 1;
                     }
                     else if (navigator.isNamespace(o1)) {
-                    	String prefix1 = navigator.getNamespacePrefix(o1);
-                    	String prefix2 = navigator.getNamespacePrefix(o2);
-                    	return prefix1.compareTo(prefix2);
+                        String prefix1 = navigator.getNamespacePrefix(o1);
+                        String prefix2 = navigator.getNamespacePrefix(o2);
+                        return prefix1.compareTo(prefix2);
                     }
                     else if (navigator.isAttribute(o1)) {
-                    	String name1 = navigator.getAttributeQName(o1);
-                    	String name2 = navigator.getAttributeQName(o2);
-                    	return name1.compareTo(name2);
+                        String name1 = navigator.getAttributeQName(o1);
+                        String name2 = navigator.getAttributeQName(o2);
+                        return name1.compareTo(name2);
                     }
                 }
 
@@ -146,14 +146,14 @@ class NodeComparator implements Comparator<Object> {
     private int compareSiblings(Object sib1, Object sib2) 
       throws UnsupportedAxisException {
 
-    	// attributes and namespaces sort before child nodes 
-    	if (isNonChild(sib1)) {
-    		return 1;
-    	} else if (isNonChild(sib2)) {
-    		return -1;
-    	}
-    	
-        Iterator<Object> following = navigator.getFollowingSiblingAxisIterator(sib1);
+        // attributes and namespaces sort before child nodes 
+        if (isNonChild(sib1)) {
+            return 1;
+        } else if (isNonChild(sib2)) {
+            return -1;
+        }
+        
+        Iterator following = navigator.getFollowingSiblingAxisIterator(sib1);
         while (following.hasNext()) {
             Object next = following.next();
             if (next.equals(sib2)) return -1;

@@ -1,5 +1,6 @@
 /* 
  * All content copyright Terracotta, Inc., unless otherwise indicated. All rights reserved.
+ * Copyright Super iPaaS Integration LLC, an IBM Company 2024
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not 
  * use this file except in compliance with the License. You may obtain a copy 
@@ -26,9 +27,9 @@ import javax.naming.InitialContext;
 import javax.sql.DataSource;
 import javax.sql.XADataSource;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
- 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * <p>
  * A <code>ConnectionProvider</code> that provides connections from a <code>DataSource</code>
@@ -55,15 +56,15 @@ public class JNDIConnectionProvider implements ConnectionProvider {
      * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
      */
 
-    private String url;
+    private final String url;
 
     private Properties props;
 
     private Object datasource;
 
-    private boolean alwaysLookup = false;
+    private boolean alwaysLookup;
 
-    private final Logger log = LogManager.getLogger(getClass());
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
     /*
      * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -123,8 +124,7 @@ public class JNDIConnectionProvider implements ConnectionProvider {
 
                 datasource = (DataSource) ctx.lookup(url);
             } catch (Exception e) {
-                getLog().error(
-                        "Error looking up datasource: " + e.getMessage(), e);
+                getLog().error("Error looking up datasource: {}", e.getMessage(), e);
             } finally {
                 if (ctx != null) {
                     try { ctx.close(); } catch(Exception ignore) {}

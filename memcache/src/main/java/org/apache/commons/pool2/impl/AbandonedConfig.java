@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.apache.commons.pool2.impl;
 
 import java.io.OutputStreamWriter;
@@ -103,7 +102,8 @@ public class AbandonedConfig {
      * Creates a new instance with values from the given instance.
      *
      * @param abandonedConfig the source.
-     */ 
+     */
+    @SuppressWarnings("resource")
     private AbandonedConfig(final AbandonedConfig abandonedConfig) {
         this.setLogAbandoned(abandonedConfig.getLogAbandoned());
         this.setLogWriter(abandonedConfig.getLogWriter());
@@ -124,7 +124,6 @@ public class AbandonedConfig {
      *
      * @return boolean true if stack trace logging is turned on for abandoned
      * objects
-     *
      */
     public boolean getLogAbandoned() {
         return this.logAbandoned;
@@ -167,7 +166,7 @@ public class AbandonedConfig {
      * <p>If set to true, abandoned objects are removed by the pool
      * maintenance thread when it runs.  This setting has no effect
      * unless maintenance is enabled by setting
-     *{@link GenericObjectPool#getDurationBetweenEvictionRuns() durationBetweenEvictionRuns}
+     * {@link GenericObjectPool#getDurationBetweenEvictionRuns()}
      * to a positive number.</p>
      *
      * @return true if abandoned objects are to be removed by the evictor
@@ -241,7 +240,6 @@ public class AbandonedConfig {
      *
      * @param logAbandoned true turns on abandoned stack trace logging
      * @see #getLogAbandoned()
-     *
      */
     public void setLogAbandoned(final boolean logAbandoned) {
         this.logAbandoned = logAbandoned;

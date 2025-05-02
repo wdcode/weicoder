@@ -18,11 +18,7 @@ import org.dom4j.Element;
 import org.dom4j.ElementHandler;
 import org.dom4j.Namespace;
 import org.dom4j.QName;
-import org.dom4j.dtd.AttributeDecl;
-import org.dom4j.dtd.Decl;
-import org.dom4j.dtd.ElementDecl;
-import org.dom4j.dtd.ExternalEntityDecl;
-import org.dom4j.dtd.InternalEntityDecl;
+import org.dom4j.dtd.*;
 import org.dom4j.tree.AbstractElement;
 import org.dom4j.tree.NamespaceStack;
 

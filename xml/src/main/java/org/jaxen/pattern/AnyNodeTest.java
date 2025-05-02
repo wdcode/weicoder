@@ -53,11 +53,10 @@ import org.jaxen.Context;
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
   * @version $Revision$
-  * @deprecated will be removed in Jaxen 2.0
   */
 public class AnyNodeTest extends NodeTest {
 
-    private static AnyNodeTest instance = new AnyNodeTest();
+    private static final AnyNodeTest instance = new AnyNodeTest();
     
     public static AnyNodeTest getInstance() 
     {

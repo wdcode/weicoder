@@ -54,9 +54,7 @@ import org.jaxen.function.BooleanFunction;
 
 class DefaultAndExpr extends DefaultLogicalExpr
 {
-    /**
-     * 
-     */
+
     private static final long serialVersionUID = -5237984010263103742L;
 
     DefaultAndExpr(Expr lhs,
@@ -66,16 +64,18 @@ class DefaultAndExpr extends DefaultLogicalExpr
                rhs );
     }
 
+    @Override
     public String getOperator()
     {
         return "and";
     }
 
+    @Override
     public String toString()
     {
         return "[(DefaultAndExpr): " + getLHS() + ", " + getRHS() + "]";
     }
-
+    
     public Object evaluate(Context context) throws JaxenException
     {
         Navigator nav = context.getNavigator();

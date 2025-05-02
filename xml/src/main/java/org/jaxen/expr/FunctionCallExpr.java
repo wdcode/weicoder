@@ -88,6 +88,6 @@ public interface FunctionCallExpr extends Expr
      * 
      * @return the ordered list of function arguments
      */
-    public List<?> getParameters();
+    public List getParameters();
     
 }

@@ -1,6 +1,7 @@
 
 /* 
  * All content copyright Terracotta, Inc., unless otherwise indicated. All rights reserved.
+ * Copyright Super iPaaS Integration LLC, an IBM Company 2024
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not 
  * use this file except in compliance with the License. You may obtain a copy 
@@ -26,9 +27,9 @@ import jakarta.transaction.RollbackException;
 import jakarta.transaction.SystemException;
 import jakarta.transaction.UserTransaction;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.quartz.SchedulerException; 
+import org.quartz.SchedulerException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <p>
@@ -184,12 +185,12 @@ public class UserTransactionHelper {
                     closeContext();
                 }
             } finally {
-//                super.finalize();
+                super.finalize();
             }
         }
 
         private static Logger getLog() {
-            return LogManager.getLogger(UserTransactionWithContext.class);
+            return LoggerFactory.getLogger(UserTransactionWithContext.class);
         }
         
         // Wrapper methods that just delegate to the underlying UserTransaction

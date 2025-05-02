@@ -28,7 +28,6 @@ import java.util.StringTokenizer;
  */
 public abstract class AbstractProcessingInstruction extends AbstractNode
         implements ProcessingInstruction {
-	private static final long serialVersionUID = 1L;
     public AbstractProcessingInstruction() {
     }
 

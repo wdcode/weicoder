@@ -1,5 +1,6 @@
 /*
  * All content copyright Terracotta, Inc., unless otherwise indicated. All rights reserved.
+ * Copyright Super iPaaS Integration LLC, an IBM Company 2024
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not 
  * use this file except in compliance with the License. You may obtain a copy 
@@ -114,11 +115,8 @@ public abstract class StringMatcher<T extends Key<?>> implements Matcher<T> {
         } else if (!compareTo.equals(other.compareTo))
             return false;
         if (compareWith == null) {
-            if (other.compareWith != null)
-                return false;
-        } else if (!compareWith.equals(other.compareWith))
-            return false;
-        return true;
+            return other.compareWith == null;
+        } else return compareWith.equals(other.compareWith);
     }
 
     public String getCompareToValue() {

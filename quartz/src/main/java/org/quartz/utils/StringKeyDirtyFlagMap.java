@@ -1,5 +1,6 @@
 /* 
  * All content copyright Terracotta, Inc., unless otherwise indicated. All rights reserved.
+ * Copyright Super iPaaS Integration LLC, an IBM Company 2024
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not 
  * use this file except in compliance with the License. You may obtain a copy 
@@ -29,13 +30,14 @@ import java.io.Serializable;
  * </p>
  */
 public class StringKeyDirtyFlagMap extends DirtyFlagMap<String, Object> {
-    static final long serialVersionUID = -9076749120524952280L;
+    private static final long serialVersionUID = -9076749120524952280L;
     
     /**
      * @deprecated JDBCJobStores no longer prune out transient data.  If you
      * include non-Serializable values in the Map, you will now get an 
      * exception when attempting to store it in a database.
      */
+    @Deprecated
     private boolean allowsTransientData = false;
 
     public StringKeyDirtyFlagMap() {
@@ -77,6 +79,7 @@ public class StringKeyDirtyFlagMap extends DirtyFlagMap<String, Object> {
      * include non-Serializable values in the Map, you will now get an 
      * exception when attempting to store it in a database.
      */
+    @Deprecated
     public void setAllowsTransientData(boolean allowsTransientData) {
     
         if (containsTransientData() && !allowsTransientData) {
@@ -96,6 +99,7 @@ public class StringKeyDirtyFlagMap extends DirtyFlagMap<String, Object> {
      * include non-Serializable values in the Map, you will now get an 
      * exception when attempting to store it in a database.
      */
+    @Deprecated
     public boolean getAllowsTransientData() {
         return allowsTransientData;
     }
@@ -109,14 +113,15 @@ public class StringKeyDirtyFlagMap extends DirtyFlagMap<String, Object> {
      * include non-Serializable values in the Map, you will now get an 
      * exception when attempting to store it in a database.
      */
+    @Deprecated
     public boolean containsTransientData() {
         if (!getAllowsTransientData()) { // short circuit...
             return false;
         }
     
         String[] keys = getKeys();
-        for (int i = 0; i < keys.length; i++) {
-            Object o = super.get(keys[i]);
+        for (String key : keys) {
+            Object o = super.get(key);
             if (!(o instanceof Serializable)) {
                 return true;
             }
@@ -133,16 +138,17 @@ public class StringKeyDirtyFlagMap extends DirtyFlagMap<String, Object> {
      * include non-Serializable values in the Map, you will now get an 
      * exception when attempting to store it in a database.
      */
+    @Deprecated
     public void removeTransientData() {
         if (!getAllowsTransientData()) { // short circuit...
             return;
         }
     
         String[] keys = getKeys();
-        for (int i = 0; i < keys.length; i++) {
-            Object o = super.get(keys[i]);
+        for (String key : keys) {
+            Object o = super.get(key);
             if (!(o instanceof Serializable)) {
-                remove(keys[i]);
+                remove(key);
             }
         }
     }
@@ -174,7 +180,7 @@ public class StringKeyDirtyFlagMap extends DirtyFlagMap<String, Object> {
      * </p>
      */
     public void put(String key, int value) {
-        super.put(key, Integer.valueOf(value));
+        super.put(key, value);
     }
 
     /**
@@ -183,7 +189,7 @@ public class StringKeyDirtyFlagMap extends DirtyFlagMap<String, Object> {
      * </p>
      */
     public void put(String key, long value) {
-        super.put(key, Long.valueOf(value));
+        super.put(key, value);
     }
 
     /**
@@ -192,7 +198,7 @@ public class StringKeyDirtyFlagMap extends DirtyFlagMap<String, Object> {
      * </p>
      */
     public void put(String key, float value) {
-        super.put(key, Float.valueOf(value));
+        super.put(key, value);
     }
 
     /**
@@ -201,7 +207,7 @@ public class StringKeyDirtyFlagMap extends DirtyFlagMap<String, Object> {
      * </p>
      */
     public void put(String key, double value) {
-        super.put(key, Double.valueOf(value));
+        super.put(key, value);
     }
 
     /**
@@ -210,7 +216,7 @@ public class StringKeyDirtyFlagMap extends DirtyFlagMap<String, Object> {
      * </p>
      */
     public void put(String key, boolean value) {
-        super.put(key, Boolean.valueOf(value));
+        super.put(key, value);
     }
 
     /**
@@ -219,7 +225,7 @@ public class StringKeyDirtyFlagMap extends DirtyFlagMap<String, Object> {
      * </p>
      */
     public void put(String key, char value) {
-        super.put(key, Character.valueOf(value));
+        super.put(key, value);
     }
 
     /**
@@ -254,7 +260,7 @@ public class StringKeyDirtyFlagMap extends DirtyFlagMap<String, Object> {
     
         try {
             if(obj instanceof Integer)
-                return ((Integer) obj).intValue();
+                return (Integer) obj;
             return Integer.parseInt((String)obj);
         } catch (Exception e) {
             throw new ClassCastException("Identified object is not an Integer.");
@@ -274,7 +280,7 @@ public class StringKeyDirtyFlagMap extends DirtyFlagMap<String, Object> {
     
         try {
             if(obj instanceof Long)
-                return ((Long) obj).longValue();
+                return (Long) obj;
             return Long.parseLong((String)obj);
         } catch (Exception e) {
             throw new ClassCastException("Identified object is not a Long.");
@@ -294,7 +300,7 @@ public class StringKeyDirtyFlagMap extends DirtyFlagMap<String, Object> {
     
         try {
             if(obj instanceof Float)
-                return ((Float) obj).floatValue();
+                return (Float) obj;
             return Float.parseFloat((String)obj);
         } catch (Exception e) {
             throw new ClassCastException("Identified object is not a Float.");
@@ -314,7 +320,7 @@ public class StringKeyDirtyFlagMap extends DirtyFlagMap<String, Object> {
     
         try {
             if(obj instanceof Double)
-                return ((Double) obj).doubleValue();
+                return (Double) obj;
             return Double.parseDouble((String)obj);
         } catch (Exception e) {
             throw new ClassCastException("Identified object is not a Double.");
@@ -334,7 +340,7 @@ public class StringKeyDirtyFlagMap extends DirtyFlagMap<String, Object> {
     
         try {
             if(obj instanceof Boolean)
-                return ((Boolean) obj).booleanValue();
+                return (Boolean) obj;
             return Boolean.parseBoolean((String)obj);
         } catch (Exception e) {
             throw new ClassCastException("Identified object is not a Boolean.");
@@ -354,7 +360,7 @@ public class StringKeyDirtyFlagMap extends DirtyFlagMap<String, Object> {
     
         try {
             if(obj instanceof Character)
-                return ((Character) obj).charValue();
+                return (Character) obj;
             return ((String)obj).charAt(0);
         } catch (Exception e) {
             throw new ClassCastException("Identified object is not a Character.");

@@ -120,7 +120,7 @@ public class BooleanFunction implements Function
      * @throws FunctionCallException if <code>args</code> has more or less than one item
      */
     public Object call(Context context,
-                       List<Object> args) throws FunctionCallException
+                       List args) throws FunctionCallException
     {
         if ( args.size() == 1 )
         {
@@ -151,7 +151,7 @@ public class BooleanFunction implements Function
     {
         if ( obj instanceof List )
         {
-            List<?> list = (List<?>) obj;
+            List list = (List) obj;
             
             // if it's an empty list, then we have a null node-set -> false            
             if (list.size() == 0)

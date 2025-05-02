@@ -19,7 +19,6 @@ import org.quartz.Job;
 import org.quartz.JobDetail;
 import org.quartz.impl.JobDetailImpl;
 
-@SuppressWarnings("rawtypes")
 public class JobDetailSupport {
     private static final String COMPOSITE_TYPE_NAME = "JobDetail";
     private static final String COMPOSITE_TYPE_DESCRIPTION = "Job Execution Details";
@@ -131,7 +130,7 @@ public class JobDetailSupport {
     public static TabularData toTabularData(JobDetail[] jobDetails) {
         TabularData tData = new TabularDataSupport(TABULAR_TYPE);
         if (jobDetails != null) {
-            ArrayList<CompositeData> list = new ArrayList<CompositeData>();
+            ArrayList<CompositeData> list = new ArrayList<>();
             for (JobDetail jobDetail : jobDetails) {
                 list.add(toCompositeData(jobDetail));
             }

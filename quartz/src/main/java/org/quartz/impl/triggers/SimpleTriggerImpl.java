@@ -1,6 +1,7 @@
 
 /* 
  * All content copyright Terracotta, Inc., unless otherwise indicated. All rights reserved.
+ * Copyright Super iPaaS Integration LLC, an IBM Company 2024
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not 
  * use this file except in compliance with the License. You may obtain a copy 
@@ -89,7 +90,7 @@ public class SimpleTriggerImpl extends AbstractTrigger<SimpleTrigger> implements
 
     private int timesTriggered = 0;
 
-    private boolean complete = false;
+    private final boolean complete = false;
 
     /*
      * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -137,7 +138,7 @@ public class SimpleTriggerImpl extends AbstractTrigger<SimpleTrigger> implements
     /**
      * <p>
      * Create a <code>SimpleTrigger</code> that will occur immediately, and
-     * repeat at the the given interval the given number of times.
+     * repeat at the given interval the given number of times.
      * </p>
      * 
      * @deprecated use a TriggerBuilder instead
@@ -150,7 +151,7 @@ public class SimpleTriggerImpl extends AbstractTrigger<SimpleTrigger> implements
     /**
      * <p>
      * Create a <code>SimpleTrigger</code> that will occur immediately, and
-     * repeat at the the given interval the given number of times.
+     * repeat at the given interval the given number of times.
      * </p>
      * 
      * @deprecated use a TriggerBuilder instead
@@ -190,7 +191,7 @@ public class SimpleTriggerImpl extends AbstractTrigger<SimpleTrigger> implements
     /**
      * <p>
      * Create a <code>SimpleTrigger</code> that will occur at the given time,
-     * and repeat at the the given interval the given number of times, or until
+     * and repeat at the given interval the given number of times, or until
      * the given end time.
      * </p>
      * 
@@ -217,7 +218,7 @@ public class SimpleTriggerImpl extends AbstractTrigger<SimpleTrigger> implements
     /**
      * <p>
      * Create a <code>SimpleTrigger</code> that will occur at the given time,
-     * and repeat at the the given interval the given number of times, or until
+     * and repeat at the given interval the given number of times, or until
      * the given end time.
      * </p>
      * 
@@ -249,7 +250,7 @@ public class SimpleTriggerImpl extends AbstractTrigger<SimpleTrigger> implements
     /**
      * <p>
      * Create a <code>SimpleTrigger</code> that will occur at the given time,
-     * fire the identified <code>Job</code> and repeat at the the given
+     * fire the identified <code>Job</code> and repeat at the given
      * interval the given number of times, or until the given end time.
      * </p>
      * 
@@ -261,7 +262,7 @@ public class SimpleTriggerImpl extends AbstractTrigger<SimpleTrigger> implements
      *          to quit repeat firing.
      * @param repeatCount
      *          The number of times for the <code>Trigger</code> to repeat
-     *          firing, use {@link #REPEAT_INDEFINITELY}for unlimitted times.
+     *          firing, use {@link #REPEAT_INDEFINITELY}for unlimited times.
      * @param repeatInterval
      *          The number of milliseconds to pause between the repeat firing.
      * 
@@ -312,7 +313,7 @@ public class SimpleTriggerImpl extends AbstractTrigger<SimpleTrigger> implements
         }
 
         Date eTime = getEndTime();
-        if (eTime != null && startTime != null && eTime.before(startTime)) {
+        if (eTime != null && eTime.before(startTime)) {
             throw new IllegalArgumentException(
                 "End time cannot be before start time");    
         }
@@ -323,7 +324,7 @@ public class SimpleTriggerImpl extends AbstractTrigger<SimpleTrigger> implements
     /**
      * <p>
      * Get the time at which the <code>SimpleTrigger</code> should quit
-     * repeating - even if repeastCount isn't yet satisfied.
+     * repeating - even if repeatCount isn't yet satisfied.
      * </p>
      * 
      * @see #getFinalFireTime()
@@ -362,13 +363,13 @@ public class SimpleTriggerImpl extends AbstractTrigger<SimpleTrigger> implements
 
     /**
      * <p>
-     * Set the the number of time the <code>SimpleTrigger</code> should
+     * Set the number of time the <code>SimpleTrigger</code> should
      * repeat, after which it will be automatically deleted.
      * </p>
      * 
      * @see #REPEAT_INDEFINITELY
      * @exception IllegalArgumentException
-     *              if repeatCount is < 0
+     *              if repeatCount is &lt; 0
      */
     public void setRepeatCount(int repeatCount) {
         if (repeatCount < 0 && repeatCount != REPEAT_INDEFINITELY) {
@@ -389,12 +390,12 @@ public class SimpleTriggerImpl extends AbstractTrigger<SimpleTrigger> implements
 
     /**
      * <p>
-     * Set the the time interval (in milliseconds) at which the <code>SimpleTrigger</code>
+     * Set the time interval (in milliseconds) at which the <code>SimpleTrigger</code>
      * should repeat.
      * </p>
      * 
      * @exception IllegalArgumentException
-     *              if repeatInterval is <= 0
+     *              if repeatInterval is &lt; 0
      */
     public void setRepeatInterval(long repeatInterval) {
         if (repeatInterval < 0) {
@@ -431,11 +432,7 @@ public class SimpleTriggerImpl extends AbstractTrigger<SimpleTrigger> implements
             return false;
         }
 
-        if (misfireInstruction > MISFIRE_INSTRUCTION_RESCHEDULE_NEXT_WITH_EXISTING_COUNT) {
-            return false;
-        }
-
-        return true;
+        return misfireInstruction <= MISFIRE_INSTRUCTION_RESCHEDULE_NEXT_WITH_EXISTING_COUNT;
     }
 
     /**
@@ -447,7 +444,7 @@ public class SimpleTriggerImpl extends AbstractTrigger<SimpleTrigger> implements
      * 
      * <p>
      * If the misfire instruction is set to MISFIRE_INSTRUCTION_SMART_POLICY,
-     * then the following scheme will be used: <br>
+     * then the following scheme will be used: </p>
      * <ul>
      * <li>If the Repeat Count is <code>0</code>, then the instruction will
      * be interpreted as <code>MISFIRE_INSTRUCTION_FIRE_NOW</code>.</li>
@@ -461,7 +458,6 @@ public class SimpleTriggerImpl extends AbstractTrigger<SimpleTrigger> implements
      * will be interpreted as <code>MISFIRE_INSTRUCTION_RESCHEDULE_NOW_WITH_EXISTING_REPEAT_COUNT</code>.
      * </li>
      * </ul>
-     * </p>
      */
     @Override
     public void updateAfterMisfire(Calendar cal) {
@@ -648,7 +644,6 @@ public class SimpleTriggerImpl extends AbstractTrigger<SimpleTrigger> implements
      * @return the first time at which the <code>Trigger</code> will be fired
      *         by the scheduler, which is also the same value <code>getNextFireTime()</code>
      *         will return (until after the first firing of the <code>Trigger</code>).
-     *         </p>
      */
     @Override
     public Date computeFirstFireTime(Calendar calendar) {

@@ -1,5 +1,6 @@
 /* 
  * All content copyright Terracotta, Inc., unless otherwise indicated. All rights reserved.
+ * Copyright Super iPaaS Integration LLC, an IBM Company 2024
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not 
  * use this file except in compliance with the License. You may obtain a copy 
@@ -15,9 +16,9 @@
  * 
  */
 package org.quartz.simpl;
- 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.quartz.Job;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
@@ -36,29 +37,26 @@ import org.quartz.spi.TriggerFiredBundle;
  */
 public class SimpleJobFactory implements JobFactory {
 
-    private final Logger log = LogManager.getLogger(getClass());
+    private final Logger log = LoggerFactory.getLogger(getClass());
     
     protected Logger getLog() {
         return log;
     }
     
-    public Job newJob(TriggerFiredBundle bundle, Scheduler Scheduler) throws SchedulerException {
+    public Job newJob(TriggerFiredBundle bundle, Scheduler scheduler) throws SchedulerException {
 
         JobDetail jobDetail = bundle.getJobDetail();
         Class<? extends Job> jobClass = jobDetail.getJobClass();
         try {
             if(log.isDebugEnabled()) {
-                log.debug(
-                    "Producing instance of Job '" + jobDetail.getKey() + 
-                    "', class=" + jobClass.getName());
+                log.debug("Producing instance of Job '{}', class={}", jobDetail.getKey(), jobClass.getName());
             }
-            
+
             return jobClass.getDeclaredConstructor().newInstance();
         } catch (Exception e) {
-            SchedulerException se = new SchedulerException(
+            throw new SchedulerException(
                     "Problem instantiating class '"
                             + jobDetail.getJobClass().getName() + "'", e);
-            throw se;
         }
     }
 

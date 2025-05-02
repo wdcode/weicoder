@@ -34,7 +34,6 @@ import org.apache.commons.pool2.TrackedUse;
  * </p>
  *
  * @param <T> the type of object in the pool
- *
  * @since 2.0
  */
 public class DefaultPooledObject<T> implements PooledObject<T> {
@@ -79,9 +78,11 @@ public class DefaultPooledObject<T> implements PooledObject<T> {
             }
             return true;
         }
-        if (state == PooledObjectState.EVICTION) { 
+        if (state == PooledObjectState.EVICTION) {
+            // TODO Allocate anyway and ignore eviction test
             state = PooledObjectState.EVICTION_RETURN_TO_HEAD;
-        } 
+        }
+        // TODO if validating and testOnBorrow == true then pre-allocate for
         // performance
         return false;
     }
@@ -128,8 +129,7 @@ public class DefaultPooledObject<T> implements PooledObject<T> {
         }
         if (state == PooledObjectState.EVICTION_RETURN_TO_HEAD) {
             state = PooledObjectState.IDLE;
-            if (!idleQueue.offerFirst(this)) { 
-            }
+            idleQueue.offerFirst(this);
         }
 
         return false;
@@ -328,7 +328,8 @@ public class DefaultPooledObject<T> implements PooledObject<T> {
         synchronized (this) {
             result.append(state.toString());
         }
-        return result.toString();  
+        return result.toString();
+        // TODO add other attributes
     }
 
     @Override
@@ -336,6 +337,5 @@ public class DefaultPooledObject<T> implements PooledObject<T> {
         lastUseInstant = now();
         usedBy.fillInStackTrace();
     }
-
 
 }

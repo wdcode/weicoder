@@ -26,7 +26,6 @@ import org.dom4j.Text;
  * @version $Revision: 1.7 $
  */
 public class FlyweightText extends AbstractText implements Text {
-	private static final long serialVersionUID = 1L;
     /** Text of the <code>Text</code> node */
     protected String text;
 

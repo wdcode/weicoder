@@ -1,5 +1,6 @@
 /*
  * All content copyright Terracotta, Inc., unless otherwise indicated. All rights reserved.
+ * Copyright Super iPaaS Integration LLC, an IBM Company 2024
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,8 +20,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.quartz.SchedulerException;
 
 /**
@@ -34,7 +35,7 @@ import org.quartz.SchedulerException;
  */
 class SchedulerDetailsSetter {
 
-    private static final Logger LOGGER = LogManager.getLogger(SchedulerDetailsSetter.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SchedulerDetailsSetter.class);
 
     private SchedulerDetailsSetter() {
         //
@@ -53,21 +54,18 @@ class SchedulerDetailsSetter {
         try {
             setter = target.getClass().getMethod(method, String.class);
         } catch (SecurityException e) {
-            LOGGER.error("A SecurityException occured: " + e.getMessage(), e);
+            LOGGER.error("A SecurityException occurred: {}", e.getMessage(), e);
             return;
         } catch (NoSuchMethodException e) {
             // This probably won't happen since the interface has the method
-            LOGGER.warn(target.getClass().getName()
-                    + " does not contain public method " + method + "(String)");
+            LOGGER.warn("{} does not contain public method {}(String)", target.getClass().getName(), method);
             return;
         }
 
         if (Modifier.isAbstract(setter.getModifiers())) {
             // expected if method not implemented (but is present on
             // interface)
-            LOGGER.warn(target.getClass().getName()
-                    + " does not implement " + method
-                    + "(String)");
+            LOGGER.warn("{} does not implement {}(String)", target.getClass().getName(), method);
             return;
         }
 

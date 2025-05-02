@@ -1,6 +1,7 @@
 
 /*
  * All content copyright Terracotta, Inc., unless otherwise indicated. All rights reserved.
+ * Copyright Super iPaaS Integration LLC, an IBM Company 2024
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy
@@ -68,9 +69,9 @@ public class JobRunShell extends SchedulerListenerSupport implements Runnable {
 
     protected QuartzScheduler qs = null;
     
-    protected TriggerFiredBundle firedTriggerBundle = null;
+    protected TriggerFiredBundle firedTriggerBundle;
 
-    protected Scheduler scheduler = null;
+    protected Scheduler scheduler;
 
     protected volatile boolean shutdownRequested = false;
 
@@ -93,9 +94,9 @@ public class JobRunShell extends SchedulerListenerSupport implements Runnable {
      *          The <code>Scheduler</code> instance that should be made
      *          available within the <code>JobExecutionContext</code>.
      */
-    public JobRunShell(Scheduler scheduler, TriggerFiredBundle bndle) {
+    public JobRunShell(Scheduler scheduler, TriggerFiredBundle bundle) {
         this.scheduler = scheduler;
-        this.firedTriggerBundle = bndle;
+        this.firedTriggerBundle = bundle;
     }
 
     /*
@@ -120,14 +121,14 @@ public class JobRunShell extends SchedulerListenerSupport implements Runnable {
         throws SchedulerException {
         this.qs = sched;
 
-        Job job = null;
+        Job job;
         JobDetail jobDetail = firedTriggerBundle.getJobDetail();
 
         try {
             job = sched.getJobFactory().newJob(firedTriggerBundle, scheduler);
         } catch (SchedulerException se) {
             sched.notifySchedulerListenersError(
-                    "An error occured instantiating job to be executed. job= '"
+                    "An error occurred instantiating job to be executed. job= '"
                             + jobDetail.getKey() + "'", se);
             throw se;
         } catch (Throwable ncdfe) { // such as NoClassDefFoundError
@@ -135,7 +136,7 @@ public class JobRunShell extends SchedulerListenerSupport implements Runnable {
                     "Problem instantiating class '"
                             + jobDetail.getJobClass().getName() + "' - ", ncdfe);
             sched.notifySchedulerListenersError(
-                    "An error occured instantiating job to be executed. job= '"
+                    "An error occurred instantiating job to be executed. job= '"
                             + jobDetail.getKey() + "'", se);
             throw se;
         }
@@ -194,25 +195,22 @@ public class JobRunShell extends SchedulerListenerSupport implements Runnable {
                 }
 
                 long startTime = System.currentTimeMillis();
-                long endTime = startTime;
+                long endTime;
 
                 // execute the job
                 try {
-                    log.debug("Calling execute on job " + jobDetail.getKey());
+                    log.debug("Calling execute on job {}", jobDetail.getKey());
                     job.execute(jec);
                     endTime = System.currentTimeMillis();
                 } catch (JobExecutionException jee) {
                     endTime = System.currentTimeMillis();
                     jobExEx = jee;
-                    getLog().info("Job " + jobDetail.getKey() +
-                            " threw a JobExecutionException: ", jobExEx);
+                    getLog().info("Job {} threw a JobExecutionException: ", jobDetail.getKey(), jobExEx);
                 } catch (Throwable e) {
                     endTime = System.currentTimeMillis();
-                    getLog().error("Job " + jobDetail.getKey() +
-                            " threw an unhandled Exception: ", e);
-                    SchedulerException se = new SchedulerException(
-                            "Job threw an unhandled exception.", e);
-                    qs.notifySchedulerListenersError("Job ("
+                    getLog().error("Job {} threw an unhandled Exception: ", jobDetail.getKey(), e);
+                    SchedulerException se = new JobExecutionProcessException(jec, e);
+                    qs.notifySchedulerListenersError("Job "
                             + jec.getJobDetail().getKey()
                             + " threw an exception.", se);
                     jobExEx = new JobExecutionException(se, false);
@@ -287,33 +285,33 @@ public class JobRunShell extends SchedulerListenerSupport implements Runnable {
         qs = null;
     }
 
-    private boolean notifyListenersBeginning(JobExecutionContext jobExCtxt) throws VetoedException {
+    private boolean notifyListenersBeginning(JobExecutionContext jobExCtx) throws VetoedException {
 
-        boolean vetoed = false;
+        boolean vetoed;
 
         // notify all trigger listeners
         try {
-            vetoed = qs.notifyTriggerListenersFired(jobExCtxt);
+            vetoed = qs.notifyTriggerListenersFired(jobExCtx);
         } catch (SchedulerException se) {
             qs.notifySchedulerListenersError(
                     "Unable to notify TriggerListener(s) while firing trigger "
                             + "(Trigger and Job will NOT be fired!). trigger= "
-                            + jobExCtxt.getTrigger().getKey() + " job= "
-                            + jobExCtxt.getJobDetail().getKey(), se);
+                            + jobExCtx.getTrigger().getKey() + " job= "
+                            + jobExCtx.getJobDetail().getKey(), se);
 
             return false;
         }
 
         if(vetoed) {
             try {
-                qs.notifyJobListenersWasVetoed(jobExCtxt);
+                qs.notifyJobListenersWasVetoed(jobExCtx);
             } catch (SchedulerException se) {
                 qs.notifySchedulerListenersError(
                         "Unable to notify JobListener(s) of vetoed execution " +
                         "while firing trigger (Trigger and Job will NOT be " +
                         "fired!). trigger= "
-                        + jobExCtxt.getTrigger().getKey() + " job= "
-                        + jobExCtxt.getJobDetail().getKey(), se);
+                        + jobExCtx.getTrigger().getKey() + " job= "
+                        + jobExCtx.getJobDetail().getKey(), se);
 
             }
             throw new VetoedException();
@@ -321,13 +319,13 @@ public class JobRunShell extends SchedulerListenerSupport implements Runnable {
 
         // notify all job listeners
         try {
-            qs.notifyJobListenersToBeExecuted(jobExCtxt);
+            qs.notifyJobListenersToBeExecuted(jobExCtx);
         } catch (SchedulerException se) {
             qs.notifySchedulerListenersError(
                     "Unable to notify JobListener(s) of Job to be executed: "
                             + "(Job will NOT be executed!). trigger= "
-                            + jobExCtxt.getTrigger().getKey() + " job= "
-                            + jobExCtxt.getJobDetail().getKey(), se);
+                            + jobExCtx.getTrigger().getKey() + " job= "
+                            + jobExCtx.getJobDetail().getKey(), se);
 
             return false;
         }
@@ -335,15 +333,15 @@ public class JobRunShell extends SchedulerListenerSupport implements Runnable {
         return true;
     }
 
-    private boolean notifyJobListenersComplete(JobExecutionContext jobExCtxt, JobExecutionException jobExEx) {
+    private boolean notifyJobListenersComplete(JobExecutionContext jobExCtx, JobExecutionException jobExEx) {
         try {
-            qs.notifyJobListenersWasExecuted(jobExCtxt, jobExEx);
+            qs.notifyJobListenersWasExecuted(jobExCtx, jobExEx);
         } catch (SchedulerException se) {
             qs.notifySchedulerListenersError(
                     "Unable to notify JobListener(s) of Job that was executed: "
                             + "(error will be ignored). trigger= "
-                            + jobExCtxt.getTrigger().getKey() + " job= "
-                            + jobExCtxt.getJobDetail().getKey(), se);
+                            + jobExCtx.getTrigger().getKey() + " job= "
+                            + jobExCtx.getJobDetail().getKey(), se);
 
             return false;
         }
@@ -351,21 +349,21 @@ public class JobRunShell extends SchedulerListenerSupport implements Runnable {
         return true;
     }
 
-    private boolean notifyTriggerListenersComplete(JobExecutionContext jobExCtxt, CompletedExecutionInstruction instCode) {
+    private boolean notifyTriggerListenersComplete(JobExecutionContext jobExCtx, CompletedExecutionInstruction instCode) {
         try {
-            qs.notifyTriggerListenersComplete(jobExCtxt, instCode);
+            qs.notifyTriggerListenersComplete(jobExCtx, instCode);
 
         } catch (SchedulerException se) {
             qs.notifySchedulerListenersError(
                     "Unable to notify TriggerListener(s) of Job that was executed: "
                             + "(error will be ignored). trigger= "
-                            + jobExCtxt.getTrigger().getKey() + " job= "
-                            + jobExCtxt.getJobDetail().getKey(), se);
+                            + jobExCtx.getTrigger().getKey() + " job= "
+                            + jobExCtx.getJobDetail().getKey(), se);
 
             return false;
         }
-        if (jobExCtxt.getTrigger().getNextFireTime() == null) {
-            qs.notifySchedulerListenersFinalized(jobExCtxt.getTrigger());
+        if (jobExCtx.getTrigger().getNextFireTime() == null) {
+            qs.notifySchedulerListenersFinalized(jobExCtx.getTrigger());
         }
 
         return true;

@@ -78,7 +78,6 @@ import org.jaxen.saxpath.helpers.XPathReaderFactory;
   * XSLT patterns
   *
   * @author <a href="mailto:jstrachan@apache.org">James Strachan</a>
-  * @deprecated will be removed in Jaxen 2.0
   */
 public class PatternParser 
 {
@@ -148,12 +147,12 @@ public class PatternParser
     {
         LocationPathPattern answer = new LocationPathPattern();        
         //answer.setAbsolute( locationPath.isAbsolute() );
-        List<Step> steps = locationPath.getSteps();
+        List steps = locationPath.getSteps();
         
         // go through steps backwards
         LocationPathPattern path = answer;
         boolean first = true;
-        for ( ListIterator<Step> iter = steps.listIterator( steps.size() ); iter.hasPrevious(); ) 
+        for ( ListIterator iter = steps.listIterator( steps.size() ); iter.hasPrevious(); ) 
         {
             Step step = (Step) iter.previous();
             if ( first )
@@ -267,13 +266,13 @@ public class PatternParser
     
     protected static LocationPathPattern convertDefaultStep(LocationPathPattern path, DefaultStep step) throws JaxenException
     {
-    	List<Predicate> predicates = step.getPredicates();
+        List predicates = step.getPredicates();
         if ( ! predicates.isEmpty() ) 
         {
             FilterExpr filter = new DefaultFilterExpr(new PredicateSet());
-            for ( Iterator<Predicate> iter = predicates.iterator(); iter.hasNext(); )
+            for ( Iterator iter = predicates.iterator(); iter.hasNext(); )
             {
-                filter.addPredicate( iter.next() );
+                filter.addPredicate( (Predicate) iter.next() );
             }
             path.addFilter( filter );
         }         

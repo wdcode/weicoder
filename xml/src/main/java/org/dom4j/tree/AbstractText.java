@@ -23,7 +23,6 @@ import org.dom4j.Visitor;
  */
 public abstract class AbstractText extends AbstractCharacterData implements
         org.dom4j.Text {
-	private static final long serialVersionUID = 1L;
     public AbstractText() {
     }
 

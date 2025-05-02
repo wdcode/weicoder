@@ -65,7 +65,7 @@ public class DocumentFunction implements Function
 {
 
     public Object call(Context context,
-                       List<Object> args) throws FunctionCallException
+                       List args) throws FunctionCallException
     {
         if (args.size() == 1)
         {

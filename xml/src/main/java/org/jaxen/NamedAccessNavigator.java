@@ -66,7 +66,7 @@ public interface NamedAccessNavigator extends Navigator {
      * @throws UnsupportedAxisException if the child axis is
      *         not supported by this object model
      */
-    Iterator<?> getChildAxisIterator(
+    Iterator<Object> getChildAxisIterator(
         Object contextNode, 
         String localName, String namespacePrefix, String namespaceURI)
             throws UnsupportedAxisException;
