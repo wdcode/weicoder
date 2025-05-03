@@ -151,13 +151,9 @@ public class XPathReaderFactory
 
         try
         {
-            reader = (XPathReader) readerClass.newInstance();
+            reader = (XPathReader) readerClass.getDeclaredConstructor().newInstance();
         }
-        catch (IllegalAccessException e)
-        {
-            throw new SAXPathException( e );
-        }
-        catch (InstantiationException e)
+        catch (Exception e)
         {
             throw new SAXPathException( e );
         }

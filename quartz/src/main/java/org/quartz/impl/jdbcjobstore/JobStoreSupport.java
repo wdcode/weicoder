@@ -63,6 +63,8 @@ import org.quartz.utils.DBConnectionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.weicoder.common.util.U;
+
 
 /**
  * <p>
@@ -72,6 +74,7 @@ import org.slf4j.LoggerFactory;
  * @author <a href="mailto:jeff@binaryfeed.org">Jeffrey Wescott</a>
  * @author James House
  */
+@SuppressWarnings({ "unchecked", "rawtypes" })
 public abstract class JobStoreSupport implements JobStore, Constants {
 
     /*
@@ -215,7 +218,7 @@ public abstract class JobStoreSupport implements JobStore, Constants {
      * Set whether String-only properties will be handled in JobDataMaps.
      * </p>
      */
-    @SuppressWarnings("UnusedDeclaration") /* called reflectively */
+     /* called reflectively */
     public void setUseProperties(String useProp) {
         if (useProp == null) {
             useProp = "false";
@@ -289,7 +292,7 @@ public abstract class JobStoreSupport implements JobStore, Constants {
      * Set whether this instance is part of a cluster.
      * </p>
      */
-    @SuppressWarnings("UnusedDeclaration") /* called reflectively */
+     /* called reflectively */
     public void setIsClustered(boolean isClustered) {
         this.isClustered = isClustered;
     }
@@ -321,7 +324,7 @@ public abstract class JobStoreSupport implements JobStore, Constants {
      * detecting failed instances.
      * </p>
      */
-    @SuppressWarnings("UnusedDeclaration") /* called reflectively */
+     /* called reflectively */
     public void setClusterCheckinInterval(long l) {
         clusterCheckinInterval = l;
     }
@@ -344,7 +347,7 @@ public abstract class JobStoreSupport implements JobStore, Constants {
      * default is 20.
      * </p>
      */
-    @SuppressWarnings("UnusedDeclaration") /* called reflectively */
+     /* called reflectively */
     public void setMaxMisfiresToHandleAtATime(int maxToRecoverAtATime) {
         this.maxToRecoverAtATime = maxToRecoverAtATime;
     }
@@ -402,7 +405,7 @@ public abstract class JobStoreSupport implements JobStore, Constants {
      * 
      * @param lockOnInsert whether locking should be used when inserting new jobs/triggers
      */
-    @SuppressWarnings("UnusedDeclaration") /* called reflectively */
+     /* called reflectively */
     public void setLockOnInsert(boolean lockOnInsert) {
         this.lockOnInsert = lockOnInsert;
     }
@@ -418,7 +421,7 @@ public abstract class JobStoreSupport implements JobStore, Constants {
      * 
      * @param misfireThreshold the misfire threshold to use, in millis
      */
-    @SuppressWarnings("UnusedDeclaration") /* called reflectively */
+     /* called reflectively */
     public void setMisfireThreshold(long misfireThreshold) {
         if (misfireThreshold < 1) {
             throw new IllegalArgumentException(
@@ -438,7 +441,7 @@ public abstract class JobStoreSupport implements JobStore, Constants {
      * 
      * @param b whether or not autocommit should be set to false on db connections
      */
-    @SuppressWarnings("UnusedDeclaration") /* called reflectively */
+     /* called reflectively */
     public void setDontSetAutoCommitFalse(boolean b) {
         dontSetAutoCommitFalse = b;
     }
@@ -452,7 +455,7 @@ public abstract class JobStoreSupport implements JobStore, Constants {
      * 
      * @param b whether isolation level should be set to sequential.
      */
-    @SuppressWarnings("UnusedDeclaration") /* called reflectively */
+     /* called reflectively */
     public void setTxIsolationLevelSerializable(boolean b) {
         setTxIsolationLevelSequential = b;
     }
@@ -478,7 +481,7 @@ public abstract class JobStoreSupport implements JobStore, Constants {
      * However, if batch acquisition is used, it is important for this behavior
      * to be used for all dbs.
      */
-    @SuppressWarnings("UnusedDeclaration") /* called reflectively */
+     /* called reflectively */
     public void setAcquireTriggersWithinLock(boolean acquireTriggersWithinLock) {
         this.acquireTriggersWithinLock = acquireTriggersWithinLock;
     }
@@ -492,7 +495,7 @@ public abstract class JobStoreSupport implements JobStore, Constants {
      * @param delegateClassName
      *          the delegate class name
      */
-    @SuppressWarnings("UnusedDeclaration") /* called reflectively */
+     /* called reflectively */
     public void setDriverDelegateClass(String delegateClassName)
         throws InvalidConfigurationException {
         synchronized(this) {
@@ -519,7 +522,7 @@ public abstract class JobStoreSupport implements JobStore, Constants {
      * @param delegateInitString
      *          the delegate init string
      */
-    @SuppressWarnings("UnusedDeclaration") /* called reflectively */
+     /* called reflectively */
     public void setDriverDelegateInitString(String delegateInitString)
         throws InvalidConfigurationException {
         this.delegateInitString = delegateInitString;
@@ -574,7 +577,7 @@ public abstract class JobStoreSupport implements JobStore, Constants {
      *
      * @see Thread#setDaemon(boolean)
      */
-    @SuppressWarnings("UnusedDeclaration") /* called reflectively */
+     /* called reflectively */
     public void setMakeThreadsDaemons(boolean makeThreadsDaemons) {
         this.makeThreadsDaemons = makeThreadsDaemons;
     }
@@ -612,7 +615,7 @@ public abstract class JobStoreSupport implements JobStore, Constants {
      * set to false if the majority of the time, there are misfired
      * Triggers.
      */
-    @SuppressWarnings("UnusedDeclaration") /* called reflectively */
+     /* called reflectively */
     public void setDoubleCheckLockMisfireHandler(
             boolean doubleCheckLockMisfireHandler) {
         this.doubleCheckLockMisfireHandler = doubleCheckLockMisfireHandler;
@@ -1167,7 +1170,7 @@ public abstract class JobStoreSupport implements JobStore, Constants {
      * Insert or update a trigger.
      * </p>
      */
-    @SuppressWarnings("ConstantConditions")
+    
     protected void storeTrigger(Connection conn,
             OperableTrigger newTrigger, JobDetail job, boolean replaceExisting, String state,
             boolean forceState, boolean recovering)
@@ -1865,7 +1868,7 @@ public abstract class JobStoreSupport implements JobStore, Constants {
      * If there are no jobs in the given group name, the result should be an empty Set
      * </p>
      */
-    @SuppressWarnings("unchecked")
+    
     public Set<JobKey> getJobKeys(final GroupMatcher<JobKey> matcher)
         throws JobPersistenceException {
         return (Set<JobKey>)executeWithoutLock( // no locks necessary for read...
@@ -1966,7 +1969,7 @@ public abstract class JobStoreSupport implements JobStore, Constants {
      * an empty Set (not <code>null</code>).
      * </p>
      */
-    @SuppressWarnings("unchecked")
+    
     public Set<TriggerKey> getTriggerKeys(final GroupMatcher<TriggerKey> matcher)
         throws JobPersistenceException {
         return (Set<TriggerKey>)executeWithoutLock( // no locks necessary for read...
@@ -1999,8 +2002,7 @@ public abstract class JobStoreSupport implements JobStore, Constants {
      * If there are no known group names, the result should be a zero-length
      * array (not <code>null</code>).
      * </p>
-     */
-    @SuppressWarnings("unchecked")
+     */ 
     public List<String> getJobGroupNames()
         throws JobPersistenceException {
         return (List<String>)executeWithoutLock( // no locks necessary for read...
@@ -2033,7 +2035,7 @@ public abstract class JobStoreSupport implements JobStore, Constants {
      * array (not <code>null</code>).
      * </p>
      */
-    @SuppressWarnings("unchecked")
+    
     public List<String> getTriggerGroupNames()
         throws JobPersistenceException {
         return (List<String>)executeWithoutLock( // no locks necessary for read...
@@ -2065,7 +2067,7 @@ public abstract class JobStoreSupport implements JobStore, Constants {
      * a zero-length array (not <code>null</code>).
      * </p>
      */
-    @SuppressWarnings("unchecked")
+    
     public List<String> getCalendarNames()
         throws JobPersistenceException {
         return (List<String>)executeWithoutLock( // no locks necessary for read...
@@ -2091,7 +2093,7 @@ public abstract class JobStoreSupport implements JobStore, Constants {
      * If there are no matches, a zero-length array should be returned.
      * </p>
      */
-    @SuppressWarnings("unchecked")
+    
     public List<OperableTrigger> getTriggersForJob(final JobKey jobKey) throws JobPersistenceException {
         return (List<OperableTrigger>)executeWithoutLock( // no locks necessary for read...
                 (TransactionCallback) conn -> getTriggersForJob(conn, jobKey));
@@ -2189,7 +2191,7 @@ public abstract class JobStoreSupport implements JobStore, Constants {
      * 
      * @see #resumeJobs(org.quartz.impl.matchers.GroupMatcher)
      */
-    @SuppressWarnings("unchecked")
+    
     public Set<String> pauseJobs(final GroupMatcher<JobKey> matcher)
         throws JobPersistenceException {
         return (Set<String>) executeInLock(
@@ -2365,7 +2367,7 @@ public abstract class JobStoreSupport implements JobStore, Constants {
      * 
      * @see #pauseJobs(org.quartz.impl.matchers.GroupMatcher)
      */
-    @SuppressWarnings("unchecked")
+    
     public Set<String> resumeJobs(final GroupMatcher<JobKey> matcher)
         throws JobPersistenceException {
         return (Set<String>) executeInLock(
@@ -2393,7 +2395,7 @@ public abstract class JobStoreSupport implements JobStore, Constants {
      * 
      * @see #resumeTriggerGroup(java.sql.Connection, org.quartz.impl.matchers.GroupMatcher)
      */
-    @SuppressWarnings("unchecked")
+    
     public Set<String> pauseTriggers(final GroupMatcher<TriggerKey> matcher)
         throws JobPersistenceException {
         return (Set<String>) executeInLock(
@@ -2442,8 +2444,7 @@ public abstract class JobStoreSupport implements JobStore, Constants {
                     + matcher + "': " + e.getMessage(), e);
         }
     }
-
-    @SuppressWarnings("unchecked")
+ 
     public Set<String> getPausedTriggerGroups() 
         throws JobPersistenceException {
         return (Set<String>)executeWithoutLock( // no locks necessary for read...
@@ -2482,7 +2483,7 @@ public abstract class JobStoreSupport implements JobStore, Constants {
      * 
      * @see #pauseTriggers(org.quartz.impl.matchers.GroupMatcher)
      */
-    @SuppressWarnings("unchecked")
+    
     public Set<String> resumeTriggers(final GroupMatcher<TriggerKey> matcher)
         throws JobPersistenceException {
         return (Set<String>) executeInLock(
@@ -2689,7 +2690,7 @@ public abstract class JobStoreSupport implements JobStore, Constants {
      * 
      * @see #releaseAcquiredTrigger(OperableTrigger)
      */
-    @SuppressWarnings("unchecked")
+    
     public List<OperableTrigger> acquireNextTriggers(final long noLaterThan, final int maxCount, final long timeWindow)
         throws JobPersistenceException {
         
@@ -2866,7 +2867,7 @@ public abstract class JobStoreSupport implements JobStore, Constants {
      *         if the trigger was not successfully put into the 'executing'
      *         state.
      */
-    @SuppressWarnings("unchecked")
+    
     public List<TriggerFiredResult> triggersFired(final List<OperableTrigger> triggers) throws JobPersistenceException {
         return executeInNonManagedTXLock(LOCK_TRIGGER_ACCESS,
                 conn -> {
@@ -3096,14 +3097,11 @@ public abstract class JobStoreSupport implements JobStore, Constants {
                         delegateClass = getClassLoadHelper().loadClass(delegateClassName, DriverDelegate.class);
                     }
 
-                    delegate = delegateClass.newInstance();
+                    delegate = U.C.newInstance(delegateClass);
 
                     delegate.initialize(getLog(), tablePrefix, instanceName, instanceId, getClassLoadHelper(), canUseProperties(), getDriverDelegateInitString());
 
-                } catch (InstantiationException | IllegalAccessException e) {
-                    throw new NoSuchDelegateException("Couldn't create delegate: "
-                            + e.getMessage(), e);
-                } catch (ClassNotFoundException e) {
+                }catch (ClassNotFoundException e) {
                     throw new NoSuchDelegateException("Couldn't load delegate class: "
                             + e.getMessage(), e);
                 }
@@ -3366,7 +3364,7 @@ public abstract class JobStoreSupport implements JobStore, Constants {
         return failedInstances;
     }
 
-    @SuppressWarnings("ConstantConditions")
+    
     protected void clusterRecover(Connection conn, List<SchedulerStateRecord> failedInstances)
         throws JobPersistenceException {
 

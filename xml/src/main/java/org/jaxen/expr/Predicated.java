@@ -71,7 +71,7 @@ public interface Predicated extends Serializable
      * 
      * @return the list of predicates
      */
-    List getPredicates();
+    List<Predicate> getPredicates();
     
     
     /**

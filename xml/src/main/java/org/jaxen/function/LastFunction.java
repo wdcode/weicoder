@@ -86,7 +86,7 @@ public class LastFunction implements Function
      * @see Context#getSize()
      */
     public Object call(Context context,
-                       List args) throws FunctionCallException
+                       List<Object> args) throws FunctionCallException
     {
         if (args.size() == 0)
         {

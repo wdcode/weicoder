@@ -15,7 +15,9 @@ package org.dom4j;
  */
 public class DocumentException extends Exception {
 
-    public DocumentException() {
+    private static final long serialVersionUID = 1L;
+
+	public DocumentException() {
     }
 
     public DocumentException(String message) {

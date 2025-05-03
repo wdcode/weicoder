@@ -174,8 +174,7 @@ public class RAMJobStore implements JobStore {
      * have its misfire instruction applied.
      * 
      * @param misfireThreshold the new misfire threshold
-     */
-    @SuppressWarnings("UnusedDeclaration")
+     */ 
     public void setMisfireThreshold(long misfireThreshold) {
         if (misfireThreshold < 1) {
             throw new IllegalArgumentException("Misfire threshold must be larger than 0");
@@ -1680,8 +1679,7 @@ public class RAMJobStore implements JobStore {
             }
         }
     }
-    
-    @SuppressWarnings("UnusedDeclaration")
+     
     protected String peekTriggers() {
 
         StringBuilder str = new StringBuilder();
@@ -1800,8 +1798,7 @@ class TriggerWrapper {
     public static final int STATE_WAITING = 0;
 
     public static final int STATE_ACQUIRED = 1;
-
-    @SuppressWarnings("UnusedDeclaration")
+ 
     public static final int STATE_EXECUTING = 2;
 
     public static final int STATE_COMPLETE = 3;

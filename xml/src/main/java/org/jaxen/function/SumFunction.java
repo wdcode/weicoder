@@ -87,7 +87,7 @@ public class SumFunction implements Function
      *     or if the first argument is not a <code>List</code>
      */
     public Object call(Context context,
-                       List args) throws FunctionCallException
+                       List<Object> args) throws FunctionCallException
     {
 
         if (args.size() == 1)
@@ -111,14 +111,15 @@ public class SumFunction implements Function
      * 
      * @throws FunctionCallException if <code>obj</code> is not a <code>List</code>
      */
-    public static Double evaluate(Object obj,
+    @SuppressWarnings("unchecked")
+	public static Double evaluate(Object obj,
                                   Navigator nav) throws FunctionCallException
     {
         double sum  = 0;
 
         if (obj instanceof List)
         {
-            Iterator nodeIter = ((List)obj).iterator();
+            Iterator<Object> nodeIter = ((List<Object>)obj).iterator();
             while ( nodeIter.hasNext() )
             {
                 double term = NumberFunction.evaluate( nodeIter.next(),

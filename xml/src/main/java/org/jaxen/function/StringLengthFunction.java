@@ -97,7 +97,7 @@ public class StringLengthFunction implements Function
      * @throws FunctionCallException if args has more than one item
      */
     public Object call(Context context,
-                       List args) throws FunctionCallException
+                       List<Object> args) throws FunctionCallException
     {
         if (args.size() == 0)
         {

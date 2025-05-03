@@ -185,7 +185,7 @@ public class UserTransactionHelper {
                     closeContext();
                 }
             } finally {
-                super.finalize();
+//                super.finalize();
             }
         }
 

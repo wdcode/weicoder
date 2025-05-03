@@ -25,8 +25,7 @@ import java.util.List;
  * 
  * @see #supportsParent
  * @see #isReadOnly
- */
-@SuppressWarnings("unused")
+ */ 
 public interface Node extends Cloneable {
     // W3C DOM complient node type codes
 

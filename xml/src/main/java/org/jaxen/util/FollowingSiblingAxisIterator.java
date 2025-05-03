@@ -67,11 +67,11 @@ import org.jaxen.UnsupportedAxisException;
  * @version 2.0.0
  *
  */
-public class FollowingSiblingAxisIterator implements Iterator
+public class FollowingSiblingAxisIterator implements Iterator<Object>
 {
     private Object    contextNode;
     private Navigator navigator;
-    private Iterator  siblingIter;
+    private Iterator<Object>  siblingIter;
 
     /**
      * Create a new <code>following-sibling</code> axis iterator.

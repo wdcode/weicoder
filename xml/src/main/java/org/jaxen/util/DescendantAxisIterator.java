@@ -64,11 +64,11 @@ import java.util.ArrayList;
  * 
  * @version 2.0.0
  */
-public class DescendantAxisIterator implements Iterator
+public class DescendantAxisIterator implements Iterator<Object>
 {
 
-    private ArrayList stack = new ArrayList();
-    private Iterator children;
+    private ArrayList<Iterator<Object>> stack = new ArrayList<>();
+    private Iterator<Object> children;
     private Navigator navigator;
 
     /**
@@ -85,7 +85,7 @@ public class DescendantAxisIterator implements Iterator
     }
 
     public DescendantAxisIterator(Navigator navigator,
-                                  Iterator iterator)
+    		Iterator<Object> iterator)
     {
         this.navigator = navigator;
         this.children = iterator;
@@ -106,7 +106,7 @@ public class DescendantAxisIterator implements Iterator
             {
                 return false;
             }
-            children = (Iterator) stack.remove(stack.size()-1);
+            children = stack.remove(stack.size()-1);
         }
         return true;
     }

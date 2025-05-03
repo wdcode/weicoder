@@ -16,7 +16,7 @@
  */
 package org.apache.commons.pool2.impl;
 
-import java.security.AccessControlException;
+import java.security.AccessControlException; 
 
 /**
  * Utility methods for {@link CallStack}.
@@ -30,8 +30,9 @@ public final class CallStackUtils {
      *
      * @return {@code true} if it is able to create a security manager in the current environment, {@code false}
      *         otherwise.
-     */
-    private static boolean canCreateSecurityManager() {
+     */  
+	@SuppressWarnings({ "removal" })
+	private static boolean canCreateSecurityManager() {
         final SecurityManager manager = System.getSecurityManager();
         if (manager == null) {
             return true;

@@ -25,7 +25,9 @@ import org.dom4j.Visitor;
  */
 public abstract class AbstractComment extends AbstractCharacterData implements
         Comment {
-    public AbstractComment() {
+    private static final long serialVersionUID = 1L;
+
+	public AbstractComment() {
     }
 
     public short getNodeType() {

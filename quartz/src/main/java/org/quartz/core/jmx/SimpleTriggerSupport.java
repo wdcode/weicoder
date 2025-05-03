@@ -22,6 +22,7 @@ import org.quartz.SimpleTrigger;
 import org.quartz.impl.triggers.SimpleTriggerImpl;
 import org.quartz.spi.OperableTrigger;
 
+@SuppressWarnings("rawtypes")
 public class SimpleTriggerSupport {
     private static final String COMPOSITE_TYPE_NAME = "SimpleTrigger";
     private static final String COMPOSITE_TYPE_DESCRIPTION = "SimpleTrigger Details";

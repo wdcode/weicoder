@@ -125,7 +125,7 @@ public class LangFunction implements Function
      * 
      */
     public Object call(Context context,
-                       List args) throws FunctionCallException
+                       List<Object> args) throws FunctionCallException
     {
         if (args.size() != 1) {
             throw new FunctionCallException("lang() requires exactly one argument.");   
@@ -143,7 +143,7 @@ public class LangFunction implements Function
        
     }
 
-    private static Boolean evaluate(List contextNodes, Object lang, Navigator nav)
+    private static Boolean evaluate(List<Object> contextNodes, Object lang, Navigator nav)
       throws UnsupportedAxisException
     {
         return evaluate(contextNodes.get(0), 
@@ -161,7 +161,7 @@ public class LangFunction implements Function
         }
         while (element != null && nav.isElement(element)) 
         {
-            Iterator attrs = nav.getAttributeAxisIterator(element);
+            Iterator<Object> attrs = nav.getAttributeAxisIterator(element);
             while(attrs.hasNext())
             {
                 Object attr = attrs.next();

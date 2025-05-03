@@ -16,6 +16,7 @@ import javax.management.openmbean.TabularType;
 
 import org.quartz.JobDataMap;
 
+@SuppressWarnings("rawtypes")
 public class JobDataMapSupport {
     private static final String TYPE_NAME = "JobDataMap";
     private static final String[] keyValue = new String[] { "key", "value" };

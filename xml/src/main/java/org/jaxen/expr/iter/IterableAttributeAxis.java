@@ -68,7 +68,7 @@ public class IterableAttributeAxis extends IterableAxis {
      * @param contextNode  the current context node to work from
      * @param support  the additional context information
      */
-    public Iterator iterator(Object contextNode, ContextSupport support) throws UnsupportedAxisException {
+    public Iterator<Object> iterator(Object contextNode, ContextSupport support) throws UnsupportedAxisException {
         return support.getNavigator().getAttributeAxisIterator(contextNode);
     }
 
@@ -81,7 +81,7 @@ public class IterableAttributeAxis extends IterableAxis {
      * @param namespacePrefix  the prefix of the namespace of the attributes to return
      * @param namespaceURI  the uri of the namespace of the attributes to return
      */
-    public Iterator namedAccessIterator(
+    public Iterator<Object> namedAccessIterator(
         Object contextNode,
         ContextSupport support,
         String localName,

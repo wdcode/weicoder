@@ -64,7 +64,7 @@ public class EndsWithFunction implements Function
 {
 
     public Object call(Context context,
-                       List args) throws FunctionCallException
+                       List<Object> args) throws FunctionCallException
     {
         if (args.size() == 2)
         {

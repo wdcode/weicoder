@@ -91,7 +91,7 @@ public class LocalNameFunction implements Function
      * @throws FunctionCallException if <code>args</code> has more than one item
      */
     public Object call(Context context,
-                       List args) throws FunctionCallException
+                       List<Object> args) throws FunctionCallException
     {
         if ( args.size() == 0 )
         {
@@ -118,7 +118,8 @@ public class LocalNameFunction implements Function
      * 
      * @throws FunctionCallException if <code>list.get(0)</code> is not a node
      */
-    public static String evaluate(List list,
+    @SuppressWarnings("unchecked")
+	public static String evaluate(List<Object> list,
                                   Navigator nav) throws FunctionCallException
     {
         if ( ! list.isEmpty() )
@@ -127,7 +128,7 @@ public class LocalNameFunction implements Function
 
             if (first instanceof List)
             {
-                return evaluate( (List) first,
+                return evaluate( (List<Object>) first,
                                  nav );
             }
             else if ( nav.isElement( first ) )

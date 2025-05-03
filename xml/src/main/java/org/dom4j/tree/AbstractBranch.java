@@ -22,7 +22,8 @@ import java.util.StringTokenizer;
  * @version $Revision: 1.44 $
  */
 public abstract class AbstractBranch extends AbstractNode implements Branch {
-    protected static final int DEFAULT_CONTENT_LIST_SIZE = 5;
+    private static final long serialVersionUID = 1L;
+	protected static final int DEFAULT_CONTENT_LIST_SIZE = 5;
 
     public AbstractBranch() {
     }

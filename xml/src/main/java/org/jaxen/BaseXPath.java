@@ -51,6 +51,7 @@ package org.jaxen;
 import java.io.Serializable;
 import java.util.List;
 
+import org.dom4j.Node;
 import org.jaxen.expr.Expr;
 import org.jaxen.expr.XPathExpr;
 import org.jaxen.function.BooleanFunction;
@@ -172,7 +173,7 @@ public class BaseXPath implements XPath, Serializable
      */
     public Object evaluate(Object context) throws JaxenException
     {
-        List answer = selectNodes(context);
+        List<Node> answer = selectNodes(context);
 
         if ( answer != null
              &&
@@ -209,7 +210,7 @@ public class BaseXPath implements XPath, Serializable
      *
      * @see #selectNodesForContext
      */
-    public List selectNodes(Object node) throws JaxenException
+    public List<Node> selectNodes(Object node) throws JaxenException
     {
         Context context = getContext( node );
         return selectNodesForContext( context );
@@ -233,7 +234,7 @@ public class BaseXPath implements XPath, Serializable
      */
     public Object selectSingleNode(Object node) throws JaxenException
     {
-        List results = selectNodes( node );
+        List<Node> results = selectNodes( node );
 
         if ( results.isEmpty() )
         {
@@ -296,7 +297,7 @@ public class BaseXPath implements XPath, Serializable
     public boolean booleanValueOf(Object node) throws JaxenException
     {
         Context context = getContext( node );
-        List result = selectNodesForContext( context );
+        List<Node> result = selectNodesForContext( context );
         if ( result == null ) return false;
         return BooleanFunction.evaluate( result, context.getNavigator() ).booleanValue();
     }
@@ -553,7 +554,8 @@ public class BaseXPath implements XPath, Serializable
      *
      *  @return a <code>Context</code> wrapper around the object
      */
-    protected Context getContext(Object node)
+    @SuppressWarnings("unchecked")
+	protected Context getContext(Object node)
     {
         if ( node instanceof Context )
         {
@@ -564,11 +566,11 @@ public class BaseXPath implements XPath, Serializable
 
         if ( node instanceof List )
         {
-            fullContext.setNodeSet( (List) node );
+            fullContext.setNodeSet( (List<Object>) node );
         }
         else
         {
-            List list = new SingletonList(node);
+            List<Object> list = new SingletonList(node);
             fullContext.setNodeSet( list );
         }
 
@@ -657,9 +659,9 @@ public class BaseXPath implements XPath, Serializable
      * @throws JaxenException if an XPath error occurs during expression evaluation
      *
      */
-    protected List selectNodesForContext(Context context) throws JaxenException
+    protected List<Node> selectNodesForContext(Context context) throws JaxenException
     {
-        List list = this.xpath.asList( context );
+        List<Node> list = this.xpath.asList( context );
         return list;
         
     }
@@ -682,7 +684,7 @@ public class BaseXPath implements XPath, Serializable
      */
     protected Object selectSingleNodeForContext(Context context) throws JaxenException
     {
-        List results = selectNodesForContext(context);
+        List<Node> results = selectNodesForContext(context);
 
         if ( results.isEmpty() )
         {

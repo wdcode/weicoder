@@ -47,8 +47,7 @@
 
 package org.jaxen.function;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.ArrayList; 
 import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -57,6 +56,8 @@ import org.jaxen.Context;
 import org.jaxen.Function;
 import org.jaxen.FunctionCallException;
 import org.jaxen.Navigator;
+
+import com.weicoder.common.lang.W;
 
 /**
  * <p><b>4.1</b> <code><i>node-set</i> id(<i>object</i>)</code> </p>
@@ -102,7 +103,7 @@ public class IdFunction implements Function
      * 
      * @throws FunctionCallException if <code>args</code> has more or less than one item
      */
-    public Object call(Context context, List args) throws FunctionCallException
+    public Object call(Context context, List<Object> args) throws FunctionCallException
     {
         if ( args.size() == 1 ) {
             return evaluate( context.getNodeSet(),
@@ -126,16 +127,17 @@ public class IdFunction implements Function
      *     an empty list if there are no such nodes
      * 
      */
-    public static List evaluate(List contextNodes, Object arg, Navigator nav)
+    @SuppressWarnings("unchecked")
+	public static List<Object> evaluate(List<Object> contextNodes, Object arg, Navigator nav)
     {
-        if (contextNodes.size() == 0) return Collections.EMPTY_LIST;
+        if (contextNodes.size() == 0) return W.L.empty();
       
-        List nodes = new ArrayList();
+        List<Object> nodes = new ArrayList<>();
 
         Object contextNode = contextNodes.get(0);
 
         if (arg instanceof List) {
-            Iterator iter = ((List)arg).iterator();
+            Iterator<Object> iter = ((List<Object>)arg).iterator();
             while (iter.hasNext()) {
                 String id = StringFunction.evaluate(iter.next(), nav);
                 nodes.addAll( evaluate( contextNodes, id, nav ) );

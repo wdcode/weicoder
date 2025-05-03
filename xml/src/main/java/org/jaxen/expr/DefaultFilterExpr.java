@@ -77,7 +77,7 @@ public class DefaultFilterExpr extends DefaultExpr implements FilterExpr, Predic
         this.predicates.addPredicate( predicate );
     }
 
-    public List getPredicates()
+    public List<Predicate> getPredicates()
     {
         return this.predicates.getPredicates();
     }
@@ -127,7 +127,8 @@ public class DefaultFilterExpr extends DefaultExpr implements FilterExpr, Predic
 
     /** Returns true if the current filter matches at least one of the context nodes
      */
-    public boolean asBoolean(Context context) throws JaxenException 
+    @SuppressWarnings("unchecked")
+	public boolean asBoolean(Context context) throws JaxenException 
     {
         Object results = null;
         if ( expr != null ) 
@@ -136,8 +137,8 @@ public class DefaultFilterExpr extends DefaultExpr implements FilterExpr, Predic
         }
         else
         {
-            List nodeSet = context.getNodeSet();
-            ArrayList list = new ArrayList(nodeSet.size());
+            List<Object> nodeSet = context.getNodeSet();
+            ArrayList<Object> list = new ArrayList<>(nodeSet.size());
             list.addAll( nodeSet );
             results = list;
         }
@@ -150,20 +151,21 @@ public class DefaultFilterExpr extends DefaultExpr implements FilterExpr, Predic
         if ( results instanceof List )
         {
             return getPredicateSet().evaluateAsBoolean( 
-                (List) results, context.getContextSupport() 
+                (List<Object>) results, context.getContextSupport() 
             );
         }
         
         return false;
     }
     
-    public Object evaluate(Context context) throws JaxenException
+    @SuppressWarnings("unchecked")
+	public Object evaluate(Context context) throws JaxenException
     {
         Object results = getExpr().evaluate( context );
         
         if ( results instanceof List )
         {
-            List newresults = getPredicateSet().evaluatePredicates( (List) results,
+            List<Object> newresults = getPredicateSet().evaluatePredicates( (List<Object>) results,
                                     context.getContextSupport() );
         results = newresults;
         }

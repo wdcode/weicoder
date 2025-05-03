@@ -51,8 +51,11 @@ package org.jaxen.expr;
 
 import java.util.List;
 
+import org.dom4j.Node;
 import org.jaxen.Context;
 import org.jaxen.JaxenException;
+
+import com.weicoder.common.lang.W;
 
 class DefaultXPathExpr implements XPathExpr
 {
@@ -90,11 +93,14 @@ class DefaultXPathExpr implements XPathExpr
         setRootExpr( getRootExpr().simplify() );
     }
 
-    public List asList(Context context) throws JaxenException
+    public List<Node> asList(Context context) throws JaxenException
     {
         Expr expr = getRootExpr();
         Object value = expr.evaluate( context );
-        List result = DefaultExpr.convertToList( value );
+        List<Node> result = W.L.list();
+        for(Object o:DefaultExpr.convertToList( value )){
+        	result.add((Node) o);
+        }
         return result;
     }
 }

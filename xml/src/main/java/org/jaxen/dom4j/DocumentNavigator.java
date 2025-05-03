@@ -75,6 +75,8 @@ import org.jaxen.JaxenConstants;
 import org.jaxen.saxpath.SAXPathException;
 import org.jaxen.util.SingleObjectIterator;
 
+import com.weicoder.common.lang.W;
+
 /** 
  * Interface for navigating around the DOM4J object model.
  *
@@ -198,13 +200,17 @@ public class DocumentNavigator extends DefaultNavigator implements NamedAccessNa
         return attr.getQualifiedName();
     }
 
-    public Iterator getChildAxisIterator(Object contextNode)
+    public Iterator<Object> getChildAxisIterator(Object contextNode)
     {
-        Iterator result = null;
+        Iterator<Object> result = null;
         if ( contextNode instanceof Branch )
         {
             Branch node = (Branch) contextNode;
-            result = node.nodeIterator();
+            List<Object> ls = W.L.list();
+            Iterator<Node> ns = node.nodeIterator();
+            while(ns.hasNext())
+            	ls.add(ns.next());
+            result = ls.iterator();
         }
         if (result != null) {
             return result;
@@ -223,12 +229,16 @@ public class DocumentNavigator extends DefaultNavigator implements NamedAccessNa
      * 
      * @return an Iterator that traverses the named children, or null if none
      */
-    public Iterator getChildAxisIterator(
+    public Iterator<Object> getChildAxisIterator(
             Object contextNode, String localName, String namespacePrefix, String namespaceURI) {
 
         if ( contextNode instanceof Element ) {
             Element node = (Element) contextNode;
-            return node.elementIterator(QName.get(localName, namespacePrefix, namespaceURI));
+            List<Object> ls = W.L.list();
+            Iterator<Element> it = node.elementIterator(QName.get(localName, namespacePrefix, namespaceURI));
+            while(it.hasNext())
+            	ls.add(it.next());
+            return ls.iterator();
         }
         if ( contextNode instanceof Document ) {
             Document node = (Document) contextNode;
@@ -247,7 +257,7 @@ public class DocumentNavigator extends DefaultNavigator implements NamedAccessNa
         return JaxenConstants.EMPTY_ITERATOR;
     }
 
-    public Iterator getParentAxisIterator(Object contextNode)
+    public Iterator<Object> getParentAxisIterator(Object contextNode)
     {
         if ( contextNode instanceof Document )
         {
@@ -266,7 +276,7 @@ public class DocumentNavigator extends DefaultNavigator implements NamedAccessNa
         return new SingleObjectIterator( parent );
     }
 
-    public Iterator getAttributeAxisIterator(Object contextNode)
+    public Iterator<Object> getAttributeAxisIterator(Object contextNode)
     {
         if ( ! ( contextNode instanceof Element ) )
         {
@@ -274,8 +284,11 @@ public class DocumentNavigator extends DefaultNavigator implements NamedAccessNa
         }
 
         Element elem = (Element) contextNode;
-
-        return elem.attributeIterator();
+        List<Object> ls = W.L.list();
+        Iterator<Attribute> it = elem.attributeIterator();
+        while(it.hasNext())
+        	ls.add(it.next());
+        return ls.iterator();
     }
 
     /**
@@ -288,7 +301,7 @@ public class DocumentNavigator extends DefaultNavigator implements NamedAccessNa
      * @param namespaceURI  the URI of the namespace of the attributes to return
      * @return an Iterator that traverses the named attributes, not null
      */
-    public Iterator getAttributeAxisIterator(
+    public Iterator<Object> getAttributeAxisIterator(
             Object contextNode, String localName, String namespacePrefix, String namespaceURI) {
 
         if ( contextNode instanceof Element ) {
@@ -302,7 +315,7 @@ public class DocumentNavigator extends DefaultNavigator implements NamedAccessNa
         return JaxenConstants.EMPTY_ITERATOR;
     }
         
-    public Iterator getNamespaceAxisIterator(Object contextNode)
+    public Iterator<Object> getNamespaceAxisIterator(Object contextNode)
     {
         if ( ! ( contextNode instanceof Element ) )
         {
@@ -310,21 +323,21 @@ public class DocumentNavigator extends DefaultNavigator implements NamedAccessNa
         }
 
         Element element = (Element) contextNode;
-        List nsList = new ArrayList();
-        HashSet prefixes = new HashSet();
+        List<Node> nsList = new ArrayList<>();
+        HashSet<String> prefixes = new HashSet<>();
         for ( Element context = element; context != null; context = context.getParent() ) {
-            List declaredNS = new ArrayList(context.declaredNamespaces());
+            List<Namespace> declaredNS = new ArrayList<>(context.declaredNamespaces());
             declaredNS.add(context.getNamespace());
 
-            for ( Iterator iter = context.attributes().iterator(); iter.hasNext(); )
+            for ( Iterator<Attribute> iter = context.attributes().iterator(); iter.hasNext(); )
             {
-                Attribute attr = (Attribute) iter.next();
+                Attribute attr = iter.next();
                 declaredNS.add(attr.getNamespace());
             }
 
-            for ( Iterator iter = declaredNS.iterator(); iter.hasNext(); )
+            for ( Iterator<Namespace> iter = declaredNS.iterator(); iter.hasNext(); )
             {
-                Namespace namespace = (Namespace) iter.next();
+                Namespace namespace = iter.next();
                 if (namespace != Namespace.NO_NAMESPACE)
                 {
                     String prefix = namespace.getPrefix();
@@ -336,7 +349,10 @@ public class DocumentNavigator extends DefaultNavigator implements NamedAccessNa
             }
         }
         nsList.add( Namespace.XML_NAMESPACE.asXPathResult( element ) );
-        return nsList.iterator();
+        List<Object> ls = W.L.list();
+        for(Node d:nsList)
+        	ls.add(d);
+        return ls.iterator();
     }
 
     public Object getDocumentNode(Object contextNode)

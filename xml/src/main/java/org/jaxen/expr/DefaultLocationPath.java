@@ -59,14 +59,15 @@ import org.jaxen.JaxenException;
 
 abstract class DefaultLocationPath extends DefaultExpr implements LocationPath
 {
-    private List steps;
+    private static final long serialVersionUID = 1L;
+	private List<Step> steps;
     
     /**
      * Create a new empty location path.
      */
     DefaultLocationPath()
     {
-        this.steps = new LinkedList();
+        this.steps = new LinkedList<>();
     }
 
     public void addStep(Step step)
@@ -74,14 +75,14 @@ abstract class DefaultLocationPath extends DefaultExpr implements LocationPath
         getSteps().add(step);
     }
 
-    public List getSteps()
+    public List<Step> getSteps()
     {
         return this.steps;
     }
 
     public Expr simplify()
     {
-        Iterator stepIter = getSteps().iterator();
+        Iterator<Step> stepIter = getSteps().iterator();
         Step eachStep = null;
         while (stepIter.hasNext())
         {
@@ -94,7 +95,7 @@ abstract class DefaultLocationPath extends DefaultExpr implements LocationPath
     public String getText()
     {
         StringBuffer buf = new StringBuffer();
-        Iterator stepIter = getSteps().iterator();
+        Iterator<Step> stepIter = getSteps().iterator();
         while (stepIter.hasNext())
         {
             buf.append(((Step) stepIter.next()).getText());
@@ -109,7 +110,7 @@ abstract class DefaultLocationPath extends DefaultExpr implements LocationPath
     public String toString()
     {
         StringBuffer buf = new StringBuffer();
-        Iterator stepIter = getSteps().iterator();
+        Iterator<Step> stepIter = getSteps().iterator();
         while (stepIter.hasNext())
         {
             buf.append(stepIter.next().toString());
@@ -128,14 +129,14 @@ abstract class DefaultLocationPath extends DefaultExpr implements LocationPath
 
     public Object evaluate(Context context) throws JaxenException
     {
-        List nodeSet = context.getNodeSet();
-        List contextNodeSet = new ArrayList(nodeSet);
+        List<Object> nodeSet = context.getNodeSet();
+        List<Object> contextNodeSet = new ArrayList<>(nodeSet);
         ContextSupport support = context.getContextSupport();
         Context stepContext = new Context(support);
-        Iterator stepIter = getSteps().iterator();
+        Iterator<Step> stepIter = getSteps().iterator();
         while ( stepIter.hasNext() )
         {
-            Step eachStep = (Step) stepIter.next();
+            Step eachStep = stepIter.next();
             stepContext.setNodeSet(contextNodeSet);
             contextNodeSet = eachStep.evaluate(stepContext);
             // now we need to reverse the list if this is a reverse axis

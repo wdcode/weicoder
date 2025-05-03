@@ -464,7 +464,8 @@ public class QuartzScheduler implements RemotableQuartzScheduler {
      * Returns the name of the thread group for Quartz's main threads.
      * </p>
      */
-    public ThreadGroup getSchedulerThreadGroup() {
+    @SuppressWarnings("removal")
+	public ThreadGroup getSchedulerThreadGroup() {
         if (threadGroup == null) {
             threadGroup = new ThreadGroup("QuartzScheduler:"
                     + getSchedulerName());
@@ -1131,8 +1132,7 @@ public class QuartzScheduler implements RemotableQuartzScheduler {
      * Trigger the identified <code>{@link org.quartz.Job}</code> (execute it
      * now) - with a non-volatile trigger.
      * </p>
-     */
-    @SuppressWarnings("deprecation")
+     */ 
     public void triggerJob(JobKey jobKey, JobDataMap data) throws SchedulerException {
         validateState();
 

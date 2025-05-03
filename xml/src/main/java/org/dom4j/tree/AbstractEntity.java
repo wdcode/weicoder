@@ -24,7 +24,9 @@ import org.dom4j.Visitor;
  * @version $Revision: 1.15 $
  */
 public abstract class AbstractEntity extends AbstractNode implements Entity {
-    public AbstractEntity() {
+    private static final long serialVersionUID = 1L;
+
+	public AbstractEntity() {
     }
 
     public short getNodeType() {

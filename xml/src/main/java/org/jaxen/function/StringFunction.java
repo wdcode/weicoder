@@ -212,7 +212,7 @@ public class StringFunction implements Function
      * @throws FunctionCallException if <code>args</code> has more than one item
      */    
     public Object call(Context context,
-                       List args) throws FunctionCallException
+                       List<Object> args) throws FunctionCallException
     {
         int size = args.size();
 
@@ -243,7 +243,8 @@ public class StringFunction implements Function
      * 
      * @return a <code>String</code>. May be empty but is never null.
      */    
-    public static String evaluate(Object obj,
+    @SuppressWarnings("unchecked")
+	public static String evaluate(Object obj,
                                   Navigator nav)
     {
         try
@@ -257,7 +258,7 @@ public class StringFunction implements Function
             
             if (obj instanceof List)
             {
-                List list = (List) obj;
+                List<Object> list = (List<Object>) obj;
                 if (list.isEmpty())
                 {
                     return "";
@@ -280,7 +281,7 @@ public class StringFunction implements Function
     
                 else if (nav.isDocument(obj))
                 {
-                    Iterator childAxisIterator = nav.getChildAxisIterator(obj);
+                    Iterator<Object> childAxisIterator = nav.getChildAxisIterator(obj);
                     while (childAxisIterator.hasNext())
                     {
                         Object descendant = childAxisIterator.next();

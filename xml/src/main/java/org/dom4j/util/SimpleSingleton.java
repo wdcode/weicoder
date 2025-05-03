@@ -31,17 +31,18 @@ public class SimpleSingleton<T> implements SingletonStrategy<T> {
         return singletonInstance;
     }
 
-    public void reset() {
+    @SuppressWarnings("unchecked")
+	public void reset() {
         if (singletonClassName != null) {
             Class<T> clazz;
             try {
                 clazz = (Class<T>) Thread.currentThread().getContextClassLoader().loadClass(
                         singletonClassName);
-                singletonInstance = clazz.newInstance();
+                singletonInstance = clazz.getDeclaredConstructor().newInstance();
             } catch (Exception ignore) {
                 try {
                     clazz = (Class<T>) Class.forName(singletonClassName);
-                    singletonInstance = clazz.newInstance();
+                    singletonInstance = clazz.getDeclaredConstructor().newInstance();
                 } catch (Exception ignore2) {
                 }
             }

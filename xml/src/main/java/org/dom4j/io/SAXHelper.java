@@ -91,7 +91,7 @@ class SAXHelper {
 
         if (reader == null) {
             try {
-                reader = XMLReaderFactory.createXMLReader();
+                reader = SAXHelper.createXMLReader(validating); //XMLReaderFactory.createXMLReader();
             } catch (Exception e) {
                 if (isVerboseErrorReporting()) {
                     // log all exceptions as warnings and carry

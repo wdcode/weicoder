@@ -40,7 +40,8 @@ public class SecurityManagerCallStack implements CallStack {
     /**
      * A custom security manager.
      */
-    private static final class PrivateSecurityManager extends SecurityManager {
+    @SuppressWarnings("removal")
+	private static final class PrivateSecurityManager extends SecurityManager {
 
         /**
          * Gets the class stack.
@@ -84,8 +85,9 @@ public class SecurityManagerCallStack implements CallStack {
      *
      * @param messageFormat message format
      * @param useTimestamp whether to format the dates in the output message or not
-     */
-    public SecurityManagerCallStack(final String messageFormat, final boolean useTimestamp) {
+     */ 
+	@SuppressWarnings("removal")
+	public SecurityManagerCallStack(final String messageFormat, final boolean useTimestamp) {
         this.messageFormat = messageFormat;
         this.dateFormat = useTimestamp ? new SimpleDateFormat(messageFormat) : null;
         this.securityManager = AccessController.doPrivileged((PrivilegedAction<PrivateSecurityManager>) PrivateSecurityManager::new);

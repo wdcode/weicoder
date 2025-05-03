@@ -83,5 +83,5 @@ public interface Function
      *     for instance, if the number or type of the arguments is incorrect
      */
     Object call(Context context,
-                List args) throws FunctionCallException;
+                List<Object> args) throws FunctionCallException;
 }

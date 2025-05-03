@@ -20,7 +20,8 @@ import org.dom4j.Element;
  * @version $Revision: 1.12 $
  */
 public class DefaultCDATA extends FlyweightCDATA {
-    /** The parent of this node */
+    private static final long serialVersionUID = 1L;
+	/** The parent of this node */
     private Element parent;
 
     /**

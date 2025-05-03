@@ -33,8 +33,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 package org.jaxen.expr;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.ArrayList; 
 import java.util.Iterator;
 import java.util.List;
 
@@ -45,6 +44,8 @@ import org.jaxen.UnresolvableException;
 import org.jaxen.Navigator;
 import org.jaxen.expr.iter.IterableAxis;
 import org.jaxen.saxpath.Axis;
+
+import com.weicoder.common.lang.W;
 
 /** 
  * Expression object that represents any flavor
@@ -148,13 +149,13 @@ public class DefaultNameStep extends DefaultStep implements NameStep {
      * <p>
      * This method overrides the version in <code>DefaultStep</code> for performance.
      */
-    public List evaluate(Context context) throws JaxenException {
+    public List<Object> evaluate(Context context) throws JaxenException {
 
-        List contextNodeSet  = context.getNodeSet();
+        List<Object> contextNodeSet  = context.getNodeSet();
         int contextSize = contextNodeSet.size();
         // optimize for context size 0
         if (contextSize == 0) {
-            return Collections.EMPTY_LIST;
+            return W.L.empty();
         }
         ContextSupport support = context.getContextSupport();
         IterableAxis iterableAxis = getIterableAxis();
@@ -172,15 +173,15 @@ public class DefaultNameStep extends DefaultStep implements NameStep {
                         throw new UnresolvableException("XPath expression uses unbound namespace prefix " + prefix);
                     }
                 }
-                Iterator axisNodeIter = iterableAxis.namedAccessIterator(
+                Iterator<Object> axisNodeIter = iterableAxis.namedAccessIterator(
                                 contextNode, support, localName, prefix, uri);
                 if (axisNodeIter == null || !axisNodeIter.hasNext()) {
-                    return Collections.EMPTY_LIST;
+                    return W.L.empty();
                 }
 
                 // convert iterator to list for predicate test
                 // no need to filter as named access guarantees this
-                List newNodeSet = new ArrayList();
+                List<Object> newNodeSet = new ArrayList<>();
                 while (axisNodeIter.hasNext()) {
                     newNodeSet.add(axisNodeIter.next());
                 }
@@ -191,14 +192,14 @@ public class DefaultNameStep extends DefaultStep implements NameStep {
             } 
             else {
                 // get the iterator over the nodes and check it
-                Iterator axisNodeIter = iterableAxis.iterator(contextNode, support);
+                Iterator<Object> axisNodeIter = iterableAxis.iterator(contextNode, support);
                 if (axisNodeIter == null || !axisNodeIter.hasNext()) {
-                    return Collections.EMPTY_LIST;
+                    return W.L.empty();
                 }
 
                 // run through iterator, filtering using matches()
                 // adding to list for predicate test
-                List newNodeSet = new ArrayList(contextSize);
+                List<Object> newNodeSet = new ArrayList<>(contextSize);
                 while (axisNodeIter.hasNext()) {
                     Object eachAxisNode = axisNodeIter.next();
                     if (matches(eachAxisNode, support)) {
@@ -227,7 +228,7 @@ public class DefaultNameStep extends DefaultStep implements NameStep {
             for (int i = 0; i < contextSize; ++i) {
                 Object eachContextNode = contextNodeSet.get(i);
 
-                Iterator axisNodeIter = iterableAxis.namedAccessIterator(
+                Iterator<Object> axisNodeIter = iterableAxis.namedAccessIterator(
                                 eachContextNode, support, localName, prefix, uri);
                 if (axisNodeIter == null || !axisNodeIter.hasNext()) {
                     continue;
@@ -240,10 +241,10 @@ public class DefaultNameStep extends DefaultStep implements NameStep {
                 }
 
                 // evaluate the predicates
-                List predicateNodes = getPredicateSet().evaluatePredicates(interimSet, support);
+                List<Object> predicateNodes = getPredicateSet().evaluatePredicates(interimSet, support);
 
                 // ensure only one of each node in the result
-                Iterator predicateNodeIter = predicateNodes.iterator();
+                Iterator<Object> predicateNodeIter = predicateNodes.iterator();
                 while (predicateNodeIter.hasNext())
                 {
                     Object eachPredicateNode = predicateNodeIter.next();
@@ -260,7 +261,7 @@ public class DefaultNameStep extends DefaultStep implements NameStep {
             for (int i = 0; i < contextSize; ++i) {
                 Object eachContextNode = contextNodeSet.get(i);
 
-                Iterator axisNodeIter = axisIterator(eachContextNode, support);
+                Iterator<Object> axisNodeIter = axisIterator(eachContextNode, support);
                 if (axisNodeIter == null || !axisNodeIter.hasNext()) {
                     continue;
                 }
@@ -283,10 +284,10 @@ public class DefaultNameStep extends DefaultStep implements NameStep {
                 }
 
                 // evaluate the predicates
-                List predicateNodes = getPredicateSet().evaluatePredicates(interimSet, support);
+                List<Object> predicateNodes = getPredicateSet().evaluatePredicates(interimSet, support);
 
                 // ensure only one of each node in the result
-                Iterator predicateNodeIter = predicateNodes.iterator();
+                Iterator<Object> predicateNodeIter = predicateNodes.iterator();
                 while (predicateNodeIter.hasNext())
                 {
                     Object eachPredicateNode = predicateNodeIter.next();

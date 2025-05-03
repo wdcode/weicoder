@@ -6,8 +6,7 @@ import static org.quartz.core.JobExecutionProcessException.ProcessErrorMessage.T
 
 import org.quartz.JobExecutionContext;
 import org.quartz.JobListener;
-import org.quartz.SchedulerException;
-import org.quartz.SchedulerListener;
+import org.quartz.SchedulerException; 
 import org.quartz.TriggerListener;
 
 /**
@@ -23,7 +22,9 @@ import org.quartz.TriggerListener;
  */
 public class JobExecutionProcessException extends SchedulerException
 {
-    enum ProcessErrorMessage
+    private static final long serialVersionUID = 1L;
+
+	enum ProcessErrorMessage
     {
         JobExecution("Job threw an unhandled exception"),
         JobListenerExecution("JobListener '%s' threw exception: %s."),

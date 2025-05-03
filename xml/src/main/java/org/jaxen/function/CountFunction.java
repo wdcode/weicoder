@@ -83,7 +83,7 @@ public class CountFunction implements Function
      *     item; or that item is not a <code>List</code>
      */
     public Object call(Context context,
-                       List args) throws FunctionCallException
+                       List<Object> args) throws FunctionCallException
     {
         if (args.size() == 1)
         {
@@ -102,12 +102,13 @@ public class CountFunction implements Function
      * @return the integral number of items in the list
      * @throws FunctionCallException if obj is not a <code>List</code>
      */
-    public static Double evaluate(Object obj) throws FunctionCallException
+    @SuppressWarnings("unchecked")
+	public static Double evaluate(Object obj) throws FunctionCallException
     {
       
         if (obj instanceof List)
         {
-            return Double.valueOf( ((List) obj).size() );
+            return Double.valueOf( ((List<Object>) obj).size() );
         }
       
         throw new FunctionCallException("count() function can only be used for node-sets");

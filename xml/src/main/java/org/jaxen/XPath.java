@@ -36,6 +36,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import java.util.List;
 
+import org.dom4j.Node;
+
 /** Represents an XPath 1.0 expression which
  *  can be evaluated against a variety of different XML object models.
  *
@@ -199,7 +201,7 @@ public interface XPath
      *  @throws JaxenException if an error occurs while attempting
      *          to evaluate the expression
      */
-    List selectNodes(Object context)
+    List<Node> selectNodes(Object context)
         throws JaxenException;
 
     /** 

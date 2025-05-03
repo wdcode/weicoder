@@ -51,7 +51,9 @@ package org.jaxen.expr;
 
 abstract class DefaultArithExpr extends DefaultBinaryExpr 
 {
-    DefaultArithExpr(Expr lhs,
+    private static final long serialVersionUID = 1L;
+
+	DefaultArithExpr(Expr lhs,
                             Expr rhs)
     {
         super( lhs,

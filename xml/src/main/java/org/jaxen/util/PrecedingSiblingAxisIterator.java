@@ -68,12 +68,12 @@ import org.jaxen.UnsupportedAxisException;
  * @version 2.0.0
  *
  */
-public class PrecedingSiblingAxisIterator implements Iterator
+public class PrecedingSiblingAxisIterator implements Iterator<Object>
 {
     private Object    contextNode;
     private Navigator navigator;
 
-    private Iterator  siblingIter;
+    private Iterator<Object>  siblingIter;
     private Object    nextObj;
 
     /**
@@ -103,8 +103,8 @@ public class PrecedingSiblingAxisIterator implements Iterator
 
         if ( parent != null )
         {
-            Iterator childIter = this.navigator.getChildAxisIterator( parent );
-            LinkedList siblings = new LinkedList();
+            Iterator<Object> childIter = this.navigator.getChildAxisIterator( parent );
+            LinkedList<Object> siblings = new LinkedList<>();
             
             while ( childIter.hasNext() )
             {

@@ -87,13 +87,13 @@ public class JaxenHandler implements XPathHandler
      * if you are please try to use it as a generic List. Don't use the 
      * methods that are only available in LinkedList.
      */
-    protected LinkedList stack;
+    protected LinkedList<LinkedList<Step>> stack;
 
     /** Constructor
      */
     public JaxenHandler()
     {
-        this.stack        = new LinkedList();
+        this.stack        = new LinkedList<>();
         this.xpathFactory = new DefaultXPathFactory();
     }
     
@@ -253,11 +253,11 @@ public class JaxenHandler implements XPathHandler
     }
 
     protected void addSteps(LocationPath locationPath,
-                          Iterator stepIter)
+                          Iterator<Step> stepIter)
     {
         while ( stepIter.hasNext() )
         {
-            locationPath.addStep( (Step) stepIter.next() );
+            locationPath.addStep( stepIter.next() );
         }
     }
 
@@ -363,7 +363,7 @@ public class JaxenHandler implements XPathHandler
         
         FilterExpr filter = getXPathFactory().createFilterExpr( expr );
 
-        Iterator predIter = popFrame().iterator();
+        Iterator<Step> predIter = popFrame().iterator();
 
         addPredicates( filter,
                        predIter );
@@ -372,7 +372,7 @@ public class JaxenHandler implements XPathHandler
     }
 
     protected void addPredicates(Predicated obj,
-                               Iterator predIter)
+                               Iterator<Step> predIter)
     {
         while ( predIter.hasNext() )
         {
@@ -571,7 +571,7 @@ public class JaxenHandler implements XPathHandler
     }
 
     protected void addParameters(FunctionCallExpr function,
-                               Iterator paramIter)
+                               Iterator<Step> paramIter)
     {
         while ( paramIter.hasNext() )
         {
@@ -586,7 +586,7 @@ public class JaxenHandler implements XPathHandler
 
     protected void push(Object obj)
     {
-        peekFrame().addLast( obj );
+        peekFrame().addLast( (Step) obj );
     }
 
     protected Object pop()
@@ -601,16 +601,16 @@ public class JaxenHandler implements XPathHandler
 
     protected void pushFrame()
     {
-        this.stack.addLast( new LinkedList() );
+        this.stack.addLast( new LinkedList<Step>() );
     }
 
-    protected LinkedList popFrame()
+    protected LinkedList<Step> popFrame()
     {
-        return (LinkedList) this.stack.removeLast();
+        return this.stack.removeLast();
     }
 
-    protected LinkedList peekFrame()
+    protected LinkedList<Step> peekFrame()
     {
-        return (LinkedList) this.stack.getLast();
+        return this.stack.getLast();
     }
 }

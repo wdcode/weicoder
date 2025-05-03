@@ -85,7 +85,7 @@ class DefaultAbsoluteLocationPath extends DefaultLocationPath
         ContextSupport support = context.getContextSupport();
         Navigator      nav     = support.getNavigator();
         Context absContext = new Context( support );
-        List contextNodes = context.getNodeSet();
+        List<Object> contextNodes = context.getNodeSet();
 
         if ( contextNodes.isEmpty() )
         {
@@ -100,7 +100,7 @@ class DefaultAbsoluteLocationPath extends DefaultLocationPath
             return Collections.EMPTY_LIST;
         }
 
-        List list = new SingletonList(docNode);
+        List<Object> list = new SingletonList(docNode);
 
         absContext.setNodeSet( list );
 

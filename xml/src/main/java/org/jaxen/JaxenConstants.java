@@ -1,5 +1,7 @@
 package org.jaxen;
 
+import java.util.ArrayList;
+
 /*
  * $Header: $
  * $Revision: $
@@ -47,8 +49,7 @@ package org.jaxen;
  *
  * $Id: $
 */
-
-import java.util.Collections;
+ 
 import java.util.Iterator;
 import java.util.ListIterator;
 
@@ -65,12 +66,12 @@ public class JaxenConstants
      * An iterator with no elements. <code>hasNext()</code> always
      * returns false. This is thread-safe. 
      */
-    public static final Iterator<Object> EMPTY_ITERATOR = Collections.EMPTY_LIST.iterator();
+    public static final Iterator<Object> EMPTY_ITERATOR = new ArrayList<Object>().iterator();// Collections.EMPTY_LIST.iterator();
     
     /**
      * A list iterator with no elements. <code>hasNext()</code> always
      * returns false. This is thread-safe. 
      */
-    public static final ListIterator<Object> EMPTY_LIST_ITERATOR = Collections.EMPTY_LIST.listIterator();
+    public static final ListIterator<Object> EMPTY_LIST_ITERATOR = new ArrayList<Object>().listIterator(); //Collections.EMPTY_LIST.listIterator();
     
 }

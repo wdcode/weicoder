@@ -54,6 +54,7 @@ import org.jaxen.JaxenException;
 import org.jaxen.JaxenHandler;
 import org.jaxen.expr.Expr;
 import org.jaxen.expr.FilterExpr;
+import org.jaxen.expr.Step;
 import org.jaxen.saxpath.Axis;
 
 /** SAXPath <code>XPathHandler</code> implementation capable
@@ -136,7 +137,7 @@ public class PatternHandler extends JaxenHandler
         // primary expr of some flavor.  But that's for another
         // method...
 
-        LinkedList frame = popFrame();
+        LinkedList<Step> frame = popFrame();
         
         System.out.println( "endPathExpr(): " + frame );
             
@@ -200,7 +201,7 @@ public class PatternHandler extends JaxenHandler
     protected void endLocationPath() throws JaxenException
     {
         // start at the back, its the main pattern then add everything else as 
-        LinkedList list = popFrame();
+        LinkedList<Step> list = popFrame();
         
         System.out.println( "endLocationPath: " + list );
 
@@ -303,7 +304,7 @@ public class PatternHandler extends JaxenHandler
     
     protected void endStep()
     {
-        LinkedList list = popFrame();
+        LinkedList<Step> list = popFrame();
         if ( ! list.isEmpty() ) 
         {
             push( list.removeFirst() );

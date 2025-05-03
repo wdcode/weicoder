@@ -51,7 +51,8 @@ package org.jaxen.expr;
 
 abstract class DefaultBinaryExpr extends DefaultExpr implements BinaryExpr
 {
-    private Expr lhs;
+    private static final long serialVersionUID = 1L;
+	private Expr lhs;
     private Expr rhs;
 
     DefaultBinaryExpr(Expr lhs, Expr rhs)

@@ -51,7 +51,9 @@ package org.jaxen.expr;
 
 abstract class DefaultLogicalExpr extends DefaultTruthExpr implements LogicalExpr
 {
-    DefaultLogicalExpr(Expr lhs,
+    private static final long serialVersionUID = 1L;
+
+	DefaultLogicalExpr(Expr lhs,
                               Expr rhs)
     {
         super( lhs,

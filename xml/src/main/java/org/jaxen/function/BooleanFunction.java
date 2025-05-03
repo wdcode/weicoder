@@ -120,7 +120,7 @@ public class BooleanFunction implements Function
      * @throws FunctionCallException if <code>args</code> has more or less than one item
      */
     public Object call(Context context,
-                       List args) throws FunctionCallException
+                       List<Object> args) throws FunctionCallException
     {
         if ( args.size() == 1 )
         {
@@ -147,11 +147,12 @@ public class BooleanFunction implements Function
      * 
      * @return <code>Boolean.TRUE</code> or <code>Boolean.FALSE</code>
      */
-    public static Boolean evaluate(Object obj, Navigator nav)
+    @SuppressWarnings("unchecked")
+	public static Boolean evaluate(Object obj, Navigator nav)
     {
         if ( obj instanceof List )
         {
-            List list = (List) obj;
+            List<Object> list = (List<Object>) obj;
             
             // if it's an empty list, then we have a null node-set -> false            
             if (list.size() == 0)

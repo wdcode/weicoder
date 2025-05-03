@@ -206,7 +206,7 @@ public abstract class RemoteMBeanScheduler implements Scheduler {
                     (Boolean)getAttribute(attributeList, 2).getValue(),
                     (Boolean)getAttribute(attributeList, 3).getValue(),
                     null,
-                    Integer.parseInt(((Map)getAttribute(attributeList, 8).getValue()).get("JobsExecuted").toString()),
+                    Integer.parseInt(((Map<?,?>)getAttribute(attributeList, 8).getValue()).get("JobsExecuted").toString()),
                     Class.forName((String)getAttribute(attributeList, 4).getValue()),
                     false,
                     false,
@@ -326,8 +326,7 @@ public abstract class RemoteMBeanScheduler implements Scheduler {
      * <p>
      * Calls the equivalent method on the 'proxied' <code>QuartzScheduler</code>.
      * </p>
-     */
-    @SuppressWarnings("unchecked")
+     */ 
     public List<JobExecutionContext> getCurrentlyExecutingJobs() throws SchedulerException {
         throw new SchedulerException("Operation not supported for remote schedulers.");
     }
@@ -730,8 +729,7 @@ public abstract class RemoteMBeanScheduler implements Scheduler {
      * passing the <code>SchedulingContext</code> associated with this
      * instance.
      * </p>
-     */
-    @SuppressWarnings("unchecked")
+     */ 
     public List<Trigger> getTriggersOfJob(JobKey jobKey) throws SchedulerException {
         throw new SchedulerException("Operation not supported for remote schedulers.");
     }
@@ -754,8 +752,7 @@ public abstract class RemoteMBeanScheduler implements Scheduler {
      * passing the <code>SchedulingContext</code> associated with this
      * instance.
      * </p>
-     */
-    @SuppressWarnings("unchecked")
+     */ 
     public Set<TriggerKey> getTriggerKeys(GroupMatcher<TriggerKey> matcher) throws SchedulerException {
         throw new SchedulerException("Operation not supported for remote schedulers.");
     }

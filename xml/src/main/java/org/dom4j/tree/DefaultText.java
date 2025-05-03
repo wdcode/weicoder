@@ -20,7 +20,8 @@ import org.dom4j.Element;
  * @version $Revision: 1.11 $
  */
 public class DefaultText extends FlyweightText {
-    /** The parent of this node */
+    private static final long serialVersionUID = 1L;
+	/** The parent of this node */
     private Element parent;
 
     /**

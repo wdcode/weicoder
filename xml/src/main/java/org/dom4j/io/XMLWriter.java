@@ -13,8 +13,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
-import java.util.HashMap;
-import java.util.Iterator;
+import java.util.HashMap; 
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
@@ -1066,11 +1065,7 @@ public class XMLWriter extends XMLFilterImpl implements LexicalHandler {
                             // only add the PAD_TEXT if the text itself ends
                             // with whitespace
                             final boolean endsWithWhitespace;
-                            if (buff != null) {
-                                endsWithWhitespace = endsWithWhitespace(buff);
-                            } else {
-                                endsWithWhitespace = endsWithWhitespace(lastTextNode.getText());
-                            }
+                            endsWithWhitespace = endsWithWhitespace(lastTextNode.getText());
 
                             if (endsWithWhitespace) {
                                 writer.write(PAD_TEXT);

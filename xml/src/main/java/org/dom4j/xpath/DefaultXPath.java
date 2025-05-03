@@ -39,7 +39,9 @@ import org.jaxen.dom4j.Dom4jXPath;
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  */
 public class DefaultXPath implements org.dom4j.XPath, NodeFilter, Serializable {
-    private String text;
+    private static final long serialVersionUID = 1L;
+
+	private String text;
 
     private XPath xpath;
 
@@ -107,7 +109,7 @@ public class DefaultXPath implements org.dom4j.XPath, NodeFilter, Serializable {
         try {
             setNSContext(context);
 
-            List<Object> answer = xpath.selectNodes(context);
+            List<Node> answer = xpath.selectNodes(context);
 
             if ((answer != null) && (answer.size() == 1)) {
                 return answer.get(0);
@@ -259,7 +261,7 @@ public class DefaultXPath implements org.dom4j.XPath, NodeFilter, Serializable {
         try {
             setNSContext(node);
 
-            List<Object> answer = xpath.selectNodes(node);
+            List<Node> answer = xpath.selectNodes(node);
 
             if ((answer != null) && (answer.size() > 0)) {
                 Object item = answer.get(0);
@@ -289,7 +291,8 @@ public class DefaultXPath implements org.dom4j.XPath, NodeFilter, Serializable {
      */
     protected void sort(List<Node> list, final Map<Node, Object> sortValues) {
         Collections.sort(list, new Comparator<Node>() {
-            public int compare(Node n1, Node n2) {
+            @SuppressWarnings("unchecked")
+			public int compare(Node n1, Node n2) {
                 Object o1 = sortValues.get(n1);
                 Object o2 = sortValues.get(n2);
 

@@ -22,6 +22,7 @@ import org.quartz.CronTrigger;
 import org.quartz.impl.triggers.CronTriggerImpl;
 import org.quartz.spi.OperableTrigger;
 
+@SuppressWarnings("rawtypes")
 public class CronTriggerSupport {
     private static final String COMPOSITE_TYPE_NAME = "CronTrigger";
     private static final String COMPOSITE_TYPE_DESCRIPTION = "CronTrigger Details";

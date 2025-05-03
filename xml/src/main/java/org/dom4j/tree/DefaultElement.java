@@ -23,8 +23,11 @@ import java.util.List;
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  * @version $Revision: 1.59 $
  */
+@SuppressWarnings("unchecked")
 public class DefaultElement extends AbstractElement {
-    /** The <code>DocumentFactory</code> instance used by default */
+    private static final long serialVersionUID = 1L;
+
+	/** The <code>DocumentFactory</code> instance used by default */
     private static final transient DocumentFactory DOCUMENT_FACTORY = 
             DocumentFactory.getInstance();
 
@@ -61,7 +64,7 @@ public class DefaultElement extends AbstractElement {
         this.qname = qname;
 
         if (attributeCount > 1) {
-            this.attributes = new ArrayList(attributeCount);
+            this.attributes = new ArrayList<>(attributeCount);
         }
     }
 
@@ -128,8 +131,8 @@ public class DefaultElement extends AbstractElement {
             }
         }
     }
-
-    public String getStringValue() {
+ 
+	public String getStringValue() {
         final Object contentShadow = content;
 
         if (contentShadow instanceof List) {
@@ -185,8 +188,8 @@ public class DefaultElement extends AbstractElement {
 
         return answer;
     }
-
-    public Namespace getNamespaceForPrefix(String prefix) {
+ 
+	public Namespace getNamespaceForPrefix(String prefix) {
         if (prefix == null) {
             prefix = "";
         }
@@ -235,8 +238,8 @@ public class DefaultElement extends AbstractElement {
 
         return null;
     }
-
-    public Namespace getNamespaceForURI(String uri) {
+ 
+	public Namespace getNamespaceForURI(String uri) {
         if ((uri == null) || (uri.length() <= 0)) {
             return Namespace.NO_NAMESPACE;
         } else if (uri.equals(getNamespaceURI())) {
@@ -273,8 +276,8 @@ public class DefaultElement extends AbstractElement {
             return null;
         }
     }
-
-    public List<Namespace> declaredNamespaces() {
+ 
+	public List<Namespace> declaredNamespaces() {
         BackedList<Namespace> answer = createResultList();
 
         // if (getNamespaceURI().length() > 0) {
@@ -300,8 +303,8 @@ public class DefaultElement extends AbstractElement {
 
         return answer;
     }
-
-    public List<Namespace> additionalNamespaces() {
+ 
+	public List<Namespace> additionalNamespaces() {
         final Object contentShadow = content;
 
         if (contentShadow instanceof List) {
@@ -334,8 +337,8 @@ public class DefaultElement extends AbstractElement {
             }
         }
     }
-
-    public List<Namespace> additionalNamespaces(String defaultNamespaceURI) {
+ 
+	public List<Namespace> additionalNamespaces(String defaultNamespaceURI) {
         final Object contentShadow = content;
 
         if (contentShadow instanceof List) {
@@ -367,8 +370,8 @@ public class DefaultElement extends AbstractElement {
         return createEmptyList();
     }
 
-    // Processing instruction API
-    public List<ProcessingInstruction> processingInstructions() {
+    // Processing instruction API 
+	public List<ProcessingInstruction> processingInstructions() {
         final Object contentShadow = content;
 
         if (contentShadow instanceof List) {
@@ -391,8 +394,8 @@ public class DefaultElement extends AbstractElement {
             return createEmptyList();
         }
     }
-
-    public List<ProcessingInstruction> processingInstructions(String target) {
+ 
+	public List<ProcessingInstruction> processingInstructions(String target) {
         final Object shadow = content;
 
         if (shadow instanceof List) {
@@ -910,7 +913,8 @@ public class DefaultElement extends AbstractElement {
         }
     }
 
-    protected List<Attribute> attributeList(int size) {
+    
+	protected List<Attribute> attributeList(int size) {
         final Object attributesShadow = this.attributes;
 
         if (attributesShadow instanceof List) {

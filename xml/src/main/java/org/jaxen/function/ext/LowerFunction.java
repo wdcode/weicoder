@@ -76,7 +76,7 @@ public class LowerFunction extends LocaleFunctionSupport
 {
 
     public Object call(Context context,
-                       List args) throws FunctionCallException
+                       List<Object> args) throws FunctionCallException
     {
         Navigator navigator = context.getNavigator();
         int size = args.size();

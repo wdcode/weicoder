@@ -26,7 +26,8 @@ import org.dom4j.Node;
  * @version $Revision: 1.7 $
  */
 public class FlyweightComment extends AbstractComment implements Comment {
-    /** Text of the <code>Comment</code> node */
+    private static final long serialVersionUID = 1L;
+	/** Text of the <code>Comment</code> node */
     protected String text;
 
     /**

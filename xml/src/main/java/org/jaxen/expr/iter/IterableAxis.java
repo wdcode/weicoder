@@ -48,7 +48,8 @@ import org.jaxen.UnsupportedAxisException;
  */
 public abstract class IterableAxis implements Serializable {
     
-    /** The axis type */
+    private static final long serialVersionUID = 1L;
+	/** The axis type */
     private int value;
 
     /**
@@ -77,7 +78,7 @@ public abstract class IterableAxis implements Serializable {
      * @return an iterator for the axis 
      * @throws UnsupportedAxisException if the axis is not iterable
      */
-    public abstract Iterator iterator(Object contextNode, ContextSupport support) throws UnsupportedAxisException;
+    public abstract Iterator<Object> iterator(Object contextNode, ContextSupport support) throws UnsupportedAxisException;
 
     /**
      * Gets the iterator for a specific XPath axis that supports named access.
@@ -89,7 +90,7 @@ public abstract class IterableAxis implements Serializable {
      * @param namespaceURI  the URI of the namespace of the nodes to return
      * @throws UnsupportedAxisException always until overridden
      */
-    public Iterator namedAccessIterator(
+    public Iterator<Object> namedAccessIterator(
         Object contextNode,
         ContextSupport support,
         String localName,

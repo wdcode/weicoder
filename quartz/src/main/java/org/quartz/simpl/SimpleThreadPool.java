@@ -234,7 +234,8 @@ public class SimpleThreadPool implements ThreadPool {
         schedulerInstanceName = schedName;
     }
 
-    public void initialize() throws SchedulerConfigException {
+    @SuppressWarnings("removal")
+	public void initialize() throws SchedulerConfigException {
 
         if(workers != null && !workers.isEmpty()) // already initialized...
             return;

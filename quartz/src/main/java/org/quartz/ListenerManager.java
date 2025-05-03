@@ -36,6 +36,7 @@ import java.util.List;
  * @author jhouse
  * @since 2.0 - previously listeners were managed directly on the Scheduler interface.
  */
+@SuppressWarnings("unchecked")
 public interface ListenerManager {
 
     /**
@@ -178,8 +179,8 @@ public interface ListenerManager {
      * 
      * @see Matcher
      * @see org.quartz.impl.matchers.EverythingMatcher
-     */
-    void addTriggerListener(TriggerListener triggerListener, Matcher<TriggerKey>... matchers);
+     */ 
+	void addTriggerListener(TriggerListener triggerListener, Matcher<TriggerKey>... matchers);
 
     /**
      * Add the given <code>{@link TriggerListener}</code> to the <code>Scheduler</code>,

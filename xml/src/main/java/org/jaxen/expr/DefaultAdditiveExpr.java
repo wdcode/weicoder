@@ -49,7 +49,9 @@ package org.jaxen.expr;
 
 abstract class DefaultAdditiveExpr extends DefaultArithExpr implements AdditiveExpr
 {
-    DefaultAdditiveExpr( Expr lhs,
+    private static final long serialVersionUID = 1L;
+
+	DefaultAdditiveExpr( Expr lhs,
                                 Expr rhs )
     {
         super( lhs,

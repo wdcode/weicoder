@@ -109,7 +109,7 @@ public interface Step extends Predicated
      * @return an iterator over the nodes along the axis
      * @throws UnsupportedAxisException if the navigator does not support this step's axis 
      */
-    Iterator axisIterator(Object contextNode,
+    Iterator<Object> axisIterator(Object contextNode,
                           ContextSupport support) throws UnsupportedAxisException;
     
 
@@ -120,7 +120,7 @@ public interface Step extends Predicated
      * @param context the node in context of its position in the document
      * @return a list of matching nodes
      */
-    List evaluate(Context context) throws JaxenException;
+    List<Object> evaluate(Context context) throws JaxenException;
 
 }
 

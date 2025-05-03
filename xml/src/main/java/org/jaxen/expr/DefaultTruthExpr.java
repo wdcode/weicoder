@@ -53,7 +53,9 @@ import java.util.List;
 
 abstract class DefaultTruthExpr extends DefaultBinaryExpr 
 {
-    DefaultTruthExpr(Expr lhs,
+    private static final long serialVersionUID = 1L;
+
+	DefaultTruthExpr(Expr lhs,
                             Expr rhs)
     {
         super( lhs,

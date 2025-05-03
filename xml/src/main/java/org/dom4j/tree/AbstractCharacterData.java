@@ -21,7 +21,9 @@ import org.dom4j.Element;
  */
 public abstract class AbstractCharacterData extends AbstractNode implements
         CharacterData {
-    public AbstractCharacterData() {
+    private static final long serialVersionUID = 1L;
+
+	public AbstractCharacterData() {
     }
 
     public String getPath(Element context) {

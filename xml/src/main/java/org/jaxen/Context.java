@@ -35,9 +35,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.ArrayList; 
 import java.util.List;
+  
+import com.weicoder.common.lang.W; 
 
 /** Wrapper around implementation-specific objects used
  *  as the context of an expression evaluation.
@@ -75,7 +76,7 @@ public class Context implements Serializable {
     private ContextSupport contextSupport;
 
     /** Context node-set */
-    private List nodeSet;
+    private List<Object> nodeSet;
 
     /** Current context size */
     private int size;
@@ -94,7 +95,7 @@ public class Context implements Serializable {
     public Context(ContextSupport contextSupport)
     {
         this.contextSupport = contextSupport;
-        this.nodeSet        = Collections.EMPTY_LIST;
+        this.nodeSet        = W.L.empty();
         this.size           = 0;
         this.position       = 0;
     }
@@ -119,7 +120,7 @@ public class Context implements Serializable {
      *
      *  @param nodeSet the context node-set
      */
-    public void setNodeSet(List nodeSet)
+    public void setNodeSet(List<Object> nodeSet)
     {
         this.nodeSet = nodeSet;
         this.size    = nodeSet.size();
@@ -132,7 +133,7 @@ public class Context implements Serializable {
      *
      *  @return the context node-set
      */
-    public List getNodeSet()
+    public List<Object> getNodeSet()
     {
         return this.nodeSet;
     }
@@ -267,11 +268,11 @@ public class Context implements Serializable {
     {
         Context dupe = new Context( getContextSupport() );
 
-        List thisNodeSet = getNodeSet();
+        List<Object> thisNodeSet = getNodeSet();
 
         if ( thisNodeSet != null )
         {
-            List dupeNodeSet = new ArrayList( thisNodeSet.size() );
+            List<Object> dupeNodeSet = new ArrayList<>( thisNodeSet.size() );
             dupeNodeSet.addAll( thisNodeSet );
             dupe.setNodeSet( dupeNodeSet );
             dupe.setPosition(this.position);

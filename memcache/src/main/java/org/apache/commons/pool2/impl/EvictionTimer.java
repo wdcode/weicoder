@@ -51,8 +51,9 @@ final class EvictionTimer {
      * Thread factory that creates a daemon thread, with the context class loader from this class.
      */
     private static final class EvictorThreadFactory implements ThreadFactory {
-
-        @Override
+ 
+		@SuppressWarnings("removal")
+		@Override
         public Thread newThread(final Runnable runnable) {
             final Thread thread = new Thread(null, runnable, "commons-pool-evictor");
             thread.setDaemon(true); // POOL-363 - Required for applications using Runtime.addShutdownHook().

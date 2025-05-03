@@ -98,7 +98,7 @@ public class CeilingFunction implements Function
      * @throws FunctionCallException if <code>args</code> has more or less than one item
      */
     public Object call(Context context,
-                       List args) throws FunctionCallException
+                       List<Object> args) throws FunctionCallException
     {
         if (args.size() == 1)
         {

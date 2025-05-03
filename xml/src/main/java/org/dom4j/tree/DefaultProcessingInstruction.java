@@ -23,7 +23,8 @@ import java.util.Map;
  */
 public class DefaultProcessingInstruction extends
         org.dom4j.tree.FlyweightProcessingInstruction {
-    /** The parent of this node */
+    private static final long serialVersionUID = 1L;
+	/** The parent of this node */
     private Element parent;
 
     /**

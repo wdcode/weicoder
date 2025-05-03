@@ -52,7 +52,9 @@ package org.jaxen.expr;
 abstract class DefaultMultiplicativeExpr extends DefaultArithExpr 
     implements MultiplicativeExpr
 {
-    DefaultMultiplicativeExpr(Expr lhs,
+    private static final long serialVersionUID = 1L;
+
+	DefaultMultiplicativeExpr(Expr lhs,
                                      Expr rhs)
     {
         super( lhs,

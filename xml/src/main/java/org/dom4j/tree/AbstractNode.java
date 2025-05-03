@@ -25,7 +25,9 @@ import java.util.List;
  * @version $Revision: 1.31 $
  */
 public abstract class AbstractNode implements Node, Cloneable, Serializable {
-    protected static final String[] NODE_TYPE_NAMES = {"Node", "Element",
+    private static final long serialVersionUID = 1L;
+
+	protected static final String[] NODE_TYPE_NAMES = {"Node", "Element",
             "Attribute", "Text", "CDATA", "Entity", "Entity",
             "ProcessingInstruction", "Comment", "Document", "DocumentType",
             "DocumentFragment", "Notation", "Namespace", "Unknown" };

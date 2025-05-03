@@ -81,7 +81,8 @@ class DefaultUnionExpr extends DefaultBinaryExpr implements UnionExpr
         return "[(DefaultUnionExpr): " + getLHS() + ", " + getRHS() + "]";
     }
 
-    public Object evaluate(Context context) throws JaxenException
+    @SuppressWarnings("unchecked")
+	public Object evaluate(Context context) throws JaxenException
     {
         List<Object> results = new ArrayList<Object>();
 

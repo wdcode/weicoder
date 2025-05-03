@@ -21,7 +21,8 @@ import org.dom4j.Namespace;
  * @version $Revision: 1.16 $
  */
 public class DefaultNamespace extends Namespace {
-    /** The parent of this node */
+    private static final long serialVersionUID = 1L;
+	/** The parent of this node */
     private Element parent;
 
     /**

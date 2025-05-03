@@ -59,7 +59,8 @@ import org.jaxen.saxpath.Axis;
 
 public abstract class DefaultStep implements Step
 {
-    private IterableAxis axis;
+    private static final long serialVersionUID = 1L;
+	private IterableAxis axis;
     private PredicateSet predicates;
 
     DefaultStep(IterableAxis axis, PredicateSet predicates)
@@ -73,7 +74,7 @@ public abstract class DefaultStep implements Step
         this.predicates.addPredicate(predicate);
     }
 
-    public List getPredicates()
+    public List<Predicate> getPredicates()
     {
         return this.predicates.getPredicates();
     }
@@ -114,15 +115,15 @@ public abstract class DefaultStep implements Step
         this.predicates.simplify();
     }
 
-    public Iterator axisIterator(Object contextNode, ContextSupport support)
+    public Iterator<Object> axisIterator(Object contextNode, ContextSupport support)
         throws UnsupportedAxisException
     {
         return getIterableAxis().iterator(contextNode, support);
     }
 
-    public List evaluate(final Context context) throws JaxenException
+    public List<Object> evaluate(final Context context) throws JaxenException
     {
-        final List contextNodeSet  = context.getNodeSet();
+        final List<Object> contextNodeSet  = context.getNodeSet();
         final IdentitySet unique = new IdentitySet();
         final int contextSize = contextNodeSet.size();
 

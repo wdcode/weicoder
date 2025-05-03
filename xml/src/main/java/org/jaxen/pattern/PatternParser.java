@@ -147,12 +147,12 @@ public class PatternParser
     {
         LocationPathPattern answer = new LocationPathPattern();        
         //answer.setAbsolute( locationPath.isAbsolute() );
-        List steps = locationPath.getSteps();
+        List<Step> steps = locationPath.getSteps();
         
         // go through steps backwards
         LocationPathPattern path = answer;
         boolean first = true;
-        for ( ListIterator iter = steps.listIterator( steps.size() ); iter.hasPrevious(); ) 
+        for ( ListIterator<Step> iter = steps.listIterator( steps.size() ); iter.hasPrevious(); ) 
         {
             Step step = (Step) iter.previous();
             if ( first )
@@ -266,11 +266,11 @@ public class PatternParser
     
     protected static LocationPathPattern convertDefaultStep(LocationPathPattern path, DefaultStep step) throws JaxenException
     {
-        List predicates = step.getPredicates();
+        List<Predicate> predicates = step.getPredicates();
         if ( ! predicates.isEmpty() ) 
         {
             FilterExpr filter = new DefaultFilterExpr(new PredicateSet());
-            for ( Iterator iter = predicates.iterator(); iter.hasNext(); )
+            for ( Iterator<Predicate> iter = predicates.iterator(); iter.hasNext(); )
             {
                 filter.addPredicate( (Predicate) iter.next() );
             }

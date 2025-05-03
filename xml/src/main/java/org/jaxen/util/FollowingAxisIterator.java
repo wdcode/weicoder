@@ -64,15 +64,15 @@ import org.jaxen.JaxenConstants;
  * 
  * @version 2.0.0
  */
-public class FollowingAxisIterator implements Iterator
+public class FollowingAxisIterator implements Iterator<Object>
 {
     private Object contextNode;
     
     private Navigator navigator;
 
-    private Iterator siblings;
+    private Iterator<Object> siblings;
 
-    private Iterator currentSibling;
+    private Iterator<Object> currentSibling;
 
     /**
      * Create a new <code>following</code> axis iterator.

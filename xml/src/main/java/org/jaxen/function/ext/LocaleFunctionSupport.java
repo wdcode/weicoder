@@ -79,7 +79,8 @@ public abstract class LocaleFunctionSupport implements Function
      * @return the Locale for the value or null if one could 
      *      not be deduced
      */
-    protected Locale getLocale(Object value, Navigator navigator) 
+    @SuppressWarnings("unchecked")
+	protected Locale getLocale(Object value, Navigator navigator) 
     {
         if (value instanceof Locale)
         {
@@ -87,7 +88,7 @@ public abstract class LocaleFunctionSupport implements Function
         }
         else if (value instanceof List)
         {
-            List list = (List) value;
+            List<Object> list = (List<Object>) value;
             if ( ! list.isEmpty() ) 
             {
                 return getLocale( list.get(0), navigator );
@@ -126,12 +127,12 @@ public abstract class LocaleFunctionSupport implements Function
                 String country = tokens.nextToken();
                 if (! tokens.hasMoreTokens())
                 {
-                    return new Locale(language, country);
+                    return Locale.of(language, country);
                 }
                 else 
                 {
                     String variant = tokens.nextToken();
-                    return new Locale(language, country, variant);
+                    return Locale.of(language, country, variant);
                 }
             }
         }

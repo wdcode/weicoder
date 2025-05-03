@@ -17,6 +17,7 @@ import org.quartz.TriggerKey;
 import org.quartz.TriggerListener;
 import org.quartz.impl.matchers.EverythingMatcher;
 
+@SuppressWarnings("unchecked")
 public class ListenerManagerImpl implements ListenerManager {
 
     private final Map<String, JobListener> globalJobListeners = new LinkedHashMap<>(10);

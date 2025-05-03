@@ -88,12 +88,12 @@ import java.util.NoSuchElementException;
  * 
  * @version 2.0.0
  */
-public class PrecedingAxisIterator implements Iterator
+public class PrecedingAxisIterator implements Iterator<Object>
 {
     private Iterator<Object> ancestorOrSelf;
     private Iterator<Object> precedingSibling;
     private ListIterator<Object> childrenOrSelf;
-    private ArrayList<Object> stack;
+    private ArrayList<ListIterator<Object>> stack;
 
     private Navigator navigator;
 
@@ -110,7 +110,7 @@ public class PrecedingAxisIterator implements Iterator
         this.ancestorOrSelf = navigator.getAncestorOrSelfAxisIterator(contextNode);
         this.precedingSibling = JaxenConstants.EMPTY_ITERATOR;
         this.childrenOrSelf = JaxenConstants.EMPTY_LIST_ITERATOR;
-        this.stack = new ArrayList<Object>();
+        this.stack = new ArrayList<ListIterator<Object>>();
     }
 
 
@@ -143,7 +143,7 @@ public class PrecedingAxisIterator implements Iterator
                 }
                 else
                 {
-                    childrenOrSelf = (ListIterator) stack.remove(stack.size()-1);
+                    childrenOrSelf = stack.remove(stack.size()-1);
                 }
             }
             return true;

@@ -77,7 +77,7 @@ public class LocationPathPattern extends Pattern {
     private Pattern ancestorPattern;
         
     /** The filters to match against */
-    private List filters;
+    private List<FilterExpr> filters;
 
     /** Whether this lcoation path is absolute or not */
     private boolean absolute;
@@ -125,7 +125,7 @@ public class LocationPathPattern extends Pattern {
     {
         if ( filters == null )
         {
-            filters = new ArrayList();
+            filters = new ArrayList<>();
         }
         filters.add( filter );
     }
@@ -212,7 +212,7 @@ public class LocationPathPattern extends Pattern {
         
         if (filters != null) 
         {
-            List list = new SingletonList(node);
+            List<Object> list = new SingletonList(node);
 
             context.setNodeSet( list );
             
@@ -220,9 +220,9 @@ public class LocationPathPattern extends Pattern {
 
             boolean answer = true;
 
-            for (Iterator iter = filters.iterator(); iter.hasNext(); ) 
+            for (Iterator<FilterExpr> iter = filters.iterator(); iter.hasNext(); ) 
             {
-                FilterExpr filter = (FilterExpr) iter.next();
+                FilterExpr filter = iter.next();
 
                 if ( ! filter.asBoolean( context ) )
                 {
@@ -284,9 +284,9 @@ public class LocationPathPattern extends Pattern {
         if ( filters != null ) 
         {
             buffer.append( "[" );
-            for (Iterator iter = filters.iterator(); iter.hasNext(); ) 
+            for (Iterator<FilterExpr> iter = filters.iterator(); iter.hasNext(); ) 
             {
-                FilterExpr filter = (FilterExpr) iter.next();
+                FilterExpr filter = iter.next();
                 buffer.append( filter.getText() );
             }
             buffer.append( "]" );

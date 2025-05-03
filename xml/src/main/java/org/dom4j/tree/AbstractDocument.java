@@ -29,7 +29,8 @@ import java.util.Map;
 public abstract class AbstractDocument extends AbstractBranch implements
         Document {
 
-    /** The encoding of this document as stated in the XML declaration */
+    private static final long serialVersionUID = 1L;
+	/** The encoding of this document as stated in the XML declaration */
     protected String encoding;
 
     public AbstractDocument() {

@@ -23,7 +23,9 @@ import java.util.List;
  * @version $Revision: 1.34 $
  */
 public class DefaultDocument extends AbstractDocument {
-    /** The name of the document */
+    private static final long serialVersionUID = 1L;
+
+	/** The name of the document */
     private String name;
 
     /** The root element of this document */

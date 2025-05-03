@@ -153,7 +153,7 @@ class NodeComparator implements Comparator<Object> {
             return -1;
         }
         
-        Iterator following = navigator.getFollowingSiblingAxisIterator(sib1);
+        Iterator<Object> following = navigator.getFollowingSiblingAxisIterator(sib1);
         while (following.hasNext()) {
             Object next = following.next();
             if (next.equals(sib2)) return -1;

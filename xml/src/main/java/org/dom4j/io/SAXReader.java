@@ -64,6 +64,7 @@ import javax.xml.parsers.SAXParserFactory;
  * @author <a href="mailto:james.strachan@metastuff.com">James Strachan </a>
  * @version $Revision: 1.58 $
  */
+@SuppressWarnings("deprecation")
 public class SAXReader {
   private static final String SAX_STRING_INTERNING =
           "http://xml.org/sax/features/string-interning";
@@ -770,8 +771,8 @@ public class SAXReader {
    * @param xmlReaderClassName is the class name of the <code>XMLReader</code> to parse SAX
    *                           events
    * @throws SAXException DOCUMENT ME!
-   */
-  public void setXMLReaderClassName(String xmlReaderClassName)
+   */ 
+public void setXMLReaderClassName(String xmlReaderClassName)
           throws SAXException {
     setXMLReader(XMLReaderFactory.createXMLReader(xmlReaderClassName));
   }
@@ -964,7 +965,8 @@ public class SAXReader {
 
   protected static class SAXEntityResolver implements EntityResolver,
           Serializable {
-    protected String uriPrefix;
+    private static final long serialVersionUID = 1L;
+	protected String uriPrefix;
 
     public SAXEntityResolver(String uriPrefix) {
       this.uriPrefix = uriPrefix;

@@ -25,6 +25,7 @@ import org.quartz.TriggerKey;
 import org.quartz.spi.MutableTrigger;
 import org.quartz.spi.OperableTrigger;
 
+@SuppressWarnings("rawtypes")
 public class TriggerSupport {
     private static final String COMPOSITE_TYPE_NAME = "Trigger";
     private static final String COMPOSITE_TYPE_DESCRIPTION = "Trigger Details";

@@ -52,6 +52,7 @@ package org.jaxen.expr;
 import java.io.Serializable;
 import java.util.List;
 
+import org.dom4j.Node;
 import org.jaxen.Context;
 import org.jaxen.JaxenException;
 
@@ -103,6 +104,6 @@ public interface XPathExpr extends Serializable
      * @return a list
      * @throws JaxenException if expression evaluation fails
      */
-    List asList(Context context) throws JaxenException;
+    List<Node> asList(Context context) throws JaxenException;
 
 }

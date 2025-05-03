@@ -62,13 +62,13 @@ class DefaultFunctionCallExpr extends DefaultExpr implements FunctionCallExpr
     private static final long serialVersionUID = -4747789292572193708L;
     private String prefix;
     private String functionName;
-    private List parameters;
+    private List<Expr> parameters;
 
     public DefaultFunctionCallExpr(String prefix, String functionName)
     {
         this.prefix = prefix;
         this.functionName = functionName;
-        this.parameters = new ArrayList();
+        this.parameters = new ArrayList<>();
     }
 
     public void addParameter(Expr parameter)
@@ -77,7 +77,7 @@ class DefaultFunctionCallExpr extends DefaultExpr implements FunctionCallExpr
     }
 
 
-    public List getParameters()
+    public List<Expr> getParameters()
     {
         return this.parameters;
     }
@@ -108,7 +108,7 @@ class DefaultFunctionCallExpr extends DefaultExpr implements FunctionCallExpr
         buf.append(getFunctionName());
         buf.append("(");
 
-        Iterator paramIter = getParameters().iterator();
+        Iterator<Expr> paramIter = getParameters().iterator();
 
         while (paramIter.hasNext()) {
             Expr eachParam = (Expr) paramIter.next();
@@ -128,10 +128,10 @@ class DefaultFunctionCallExpr extends DefaultExpr implements FunctionCallExpr
 
     public Expr simplify()
     {
-        List paramExprs = getParameters();
+        List<Expr> paramExprs = getParameters();
         int paramSize = paramExprs.size();
 
-        List newParams = new ArrayList(paramSize);
+        List<Expr> newParams = new ArrayList<>(paramSize);
 
         for (int i = 0; i < paramSize; ++i)
         {
@@ -170,17 +170,17 @@ class DefaultFunctionCallExpr extends DefaultExpr implements FunctionCallExpr
         Function func = context.getFunction(namespaceURI,
                 prefix,
                 getFunctionName());
-        List paramValues = evaluateParams(context);
+        List<Object> paramValues = evaluateParams(context);
 
         return func.call(context, paramValues);
     }
 
-    public List evaluateParams(Context context) throws JaxenException
+    public List<Object> evaluateParams(Context context) throws JaxenException
     {
-        List paramExprs = getParameters();
+        List<Expr> paramExprs = getParameters();
         int paramSize = paramExprs.size();
 
-        List paramValues = new ArrayList(paramSize);
+        List<Object> paramValues = new ArrayList<>(paramSize);
 
         for (int i = 0; i < paramSize; ++i)
         {

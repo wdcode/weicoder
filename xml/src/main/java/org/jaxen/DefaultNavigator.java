@@ -84,7 +84,9 @@ import org.jaxen.util.SelfAxisIterator;
 public abstract class DefaultNavigator implements Navigator
 {
 
-    /** 
+    private static final long serialVersionUID = 1L;
+
+	/** 
      * Throws <code>UnsupportedAxisException</code>.
      * Subclasses should override this method.
      * 
@@ -92,7 +94,7 @@ public abstract class DefaultNavigator implements Navigator
      * @return never returns
      * @throws UnsupportedAxisException always
      */
-    public Iterator getChildAxisIterator(Object contextNode) throws UnsupportedAxisException
+    public Iterator<Object> getChildAxisIterator(Object contextNode) throws UnsupportedAxisException
     {
         throw new UnsupportedAxisException("child");
     }
@@ -100,7 +102,7 @@ public abstract class DefaultNavigator implements Navigator
     /**
      * {@inheritDoc}
      */
-    public Iterator getDescendantAxisIterator(Object contextNode) throws UnsupportedAxisException
+    public Iterator<Object> getDescendantAxisIterator(Object contextNode) throws UnsupportedAxisException
     {
         return new DescendantAxisIterator( contextNode,
                                            this );
@@ -115,7 +117,7 @@ public abstract class DefaultNavigator implements Navigator
      * @throws UnsupportedAxisException always
      */
     @Override
-    public Iterator getParentAxisIterator(Object contextNode) throws UnsupportedAxisException
+    public Iterator<Object> getParentAxisIterator(Object contextNode) throws UnsupportedAxisException
     {
         throw new UnsupportedAxisException("parent");
     }
@@ -123,7 +125,7 @@ public abstract class DefaultNavigator implements Navigator
     /**
      * {@inheritDoc}
      */
-    public Iterator getAncestorAxisIterator(Object contextNode) throws UnsupportedAxisException
+    public Iterator<Object> getAncestorAxisIterator(Object contextNode) throws UnsupportedAxisException
     {
         return new AncestorAxisIterator( contextNode,
                                          this );
@@ -133,7 +135,7 @@ public abstract class DefaultNavigator implements Navigator
     /**
      * {@inheritDoc}
      */
-    public Iterator getFollowingSiblingAxisIterator(Object contextNode) throws UnsupportedAxisException
+    public Iterator<Object> getFollowingSiblingAxisIterator(Object contextNode) throws UnsupportedAxisException
     {
         return new FollowingSiblingAxisIterator( contextNode,
                                                  this );
@@ -143,7 +145,7 @@ public abstract class DefaultNavigator implements Navigator
     /**
      * {@inheritDoc}
      */
-    public Iterator getPrecedingSiblingAxisIterator(Object contextNode) throws UnsupportedAxisException
+    public Iterator<Object> getPrecedingSiblingAxisIterator(Object contextNode) throws UnsupportedAxisException
     {
         return new PrecedingSiblingAxisIterator( contextNode,
                                                  this );
@@ -152,7 +154,7 @@ public abstract class DefaultNavigator implements Navigator
     /**
      * {@inheritDoc}
      */
-    public Iterator getFollowingAxisIterator(Object contextNode) throws UnsupportedAxisException
+    public Iterator<Object> getFollowingAxisIterator(Object contextNode) throws UnsupportedAxisException
     {
         return new FollowingAxisIterator( contextNode,
                                           this );
@@ -161,7 +163,7 @@ public abstract class DefaultNavigator implements Navigator
     /**
      * {@inheritDoc}
      */
-    public Iterator getPrecedingAxisIterator(Object contextNode) throws UnsupportedAxisException
+    public Iterator<Object> getPrecedingAxisIterator(Object contextNode) throws UnsupportedAxisException
     {
         return new PrecedingAxisIterator( contextNode,
                                          this );
@@ -170,7 +172,7 @@ public abstract class DefaultNavigator implements Navigator
     /**
      * {@inheritDoc}
      */
-    public Iterator getAttributeAxisIterator(Object contextNode) throws UnsupportedAxisException
+    public Iterator<Object> getAttributeAxisIterator(Object contextNode) throws UnsupportedAxisException
     {
         throw new UnsupportedAxisException("attribute");
     }
@@ -183,7 +185,7 @@ public abstract class DefaultNavigator implements Navigator
      * @return never returns
      * @throws UnsupportedAxisException always
      */
-    public Iterator getNamespaceAxisIterator(Object contextNode) throws UnsupportedAxisException
+    public Iterator<Object> getNamespaceAxisIterator(Object contextNode) throws UnsupportedAxisException
     {
         throw new UnsupportedAxisException("namespace");
     }
@@ -191,7 +193,7 @@ public abstract class DefaultNavigator implements Navigator
     /**
      * {@inheritDoc}
      */
-    public Iterator getSelfAxisIterator(Object contextNode) throws UnsupportedAxisException
+    public Iterator<Object> getSelfAxisIterator(Object contextNode) throws UnsupportedAxisException
     {
         return new SelfAxisIterator( contextNode );
     }
@@ -199,7 +201,7 @@ public abstract class DefaultNavigator implements Navigator
     /**
      * {@inheritDoc}
      */
-    public Iterator getDescendantOrSelfAxisIterator(Object contextNode) throws UnsupportedAxisException
+    public Iterator<Object> getDescendantOrSelfAxisIterator(Object contextNode) throws UnsupportedAxisException
     {
         return new DescendantOrSelfAxisIterator( contextNode,
                                                  this );
@@ -208,7 +210,7 @@ public abstract class DefaultNavigator implements Navigator
     /**
      * {@inheritDoc}
      */
-    public Iterator getAncestorOrSelfAxisIterator(Object contextNode) throws UnsupportedAxisException
+    public Iterator<Object> getAncestorOrSelfAxisIterator(Object contextNode) throws UnsupportedAxisException
     {
         return new AncestorOrSelfAxisIterator( contextNode,
                                                this );
@@ -306,7 +308,7 @@ public abstract class DefaultNavigator implements Navigator
      */
     public Object getParentNode(Object contextNode) throws UnsupportedAxisException
     {
-        Iterator iter = getParentAxisIterator( contextNode );
+        Iterator<Object> iter = getParentAxisIterator( contextNode );
         if ( iter != null && iter.hasNext() )
         {
             return iter.next();

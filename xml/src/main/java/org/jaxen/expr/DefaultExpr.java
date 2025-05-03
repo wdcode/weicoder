@@ -55,6 +55,7 @@ import java.util.List;
 import org.jaxen.util.SingleObjectIterator;
 import org.jaxen.util.SingletonList;
 
+@SuppressWarnings("unchecked")
 abstract class DefaultExpr implements Expr
 {
     private static final long serialVersionUID = 1L;
@@ -78,8 +79,8 @@ abstract class DefaultExpr implements Expr
 
         return new SingleObjectIterator( obj );
     }
-
-    static public List<Object> convertToList(Object obj)
+ 
+	static public List<Object> convertToList(Object obj)
     {
         if ( obj instanceof List )
         {

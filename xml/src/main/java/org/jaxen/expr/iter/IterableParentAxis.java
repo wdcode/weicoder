@@ -63,7 +63,7 @@ public class IterableParentAxis extends IterableAxis
         super( value );
     }
 
-    public Iterator iterator(Object contextNode,
+    public Iterator<Object> iterator(Object contextNode,
                              ContextSupport support) throws UnsupportedAxisException
     {
         return support.getNavigator().getParentAxisIterator( contextNode );
