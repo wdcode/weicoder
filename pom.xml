@@ -23,7 +23,7 @@
 		<kafka-clients>4.0.0</kafka-clients>
 		<sofa-rpc>5.13.4</sofa-rpc>
 		<guava>33.4.8-jre</guava>
-		<elasticsearch-java>8.18.0</elasticsearch-java><!-- 9.0.0 -->
+		<elasticsearch-java>9.0.0</elasticsearch-java>
 		<poi>5.4.1</poi>
 		<tomcat-embed>11.0.6</tomcat-embed>
 		<nacos-client>3.0.0</nacos-client>
@@ -40,7 +40,7 @@
 		<curator-framework>5.8.0</curator-framework>
 		<hbase-client>2.6.2</hbase-client>
 		<jackson-databind>2.19.0</jackson-databind> 
-		<disruptor>4.0.0</disruptor> <!-- 3.4.4-->
+		<disruptor>4.0.0</disruptor>
 		<commons-compress>1.27.1</commons-compress>
 		<aparapi>3.0.2</aparapi>
 		<mysql-connector-java>8.0.33</mysql-connector-java>
@@ -51,10 +51,10 @@
 		<!--     
 		<dom4j>2.1.4</dom4j>
 		<jaxen>2.0.0</jaxen>
-		<quartz>2.3.2</quartz>2.5.0
-		<commons-email>1.5</commons-email>1.6.0
+		<quartz>2.5.0</quartz>
+		<commons-email>1.6.0</commons-email>
 		<Memcached-Java-Client>3.0.2</Memcached-Java-Client> 
-		<commons-pool2>2.11.1</commons-pool2>2.12.1  
+		<commons-pool2>2.12.1</commons-pool2>  
 		<dependency>
 			<groupId>org.dom4j</groupId>
 			<artifactId>dom4j</artifactId>

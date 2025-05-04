@@ -1,10 +1,11 @@
 package com.weicoder.elasticsearch;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Map;
-import org.apache.http.HttpHost;
-import org.elasticsearch.client.RestClient;
+
+import org.apache.hc.core5.http.HttpHost;
 
 import com.weicoder.common.lang.W;
 import com.weicoder.common.log.Logs;
@@ -20,7 +21,8 @@ import co.elastic.clients.elasticsearch.core.search.SourceConfig;
 import co.elastic.clients.elasticsearch.indices.CreateIndexRequest;
 import co.elastic.clients.elasticsearch.indices.DeleteIndexRequest;
 import co.elastic.clients.json.jackson.JacksonJsonpMapper;
-import co.elastic.clients.transport.rest_client.RestClientTransport;
+import co.elastic.clients.transport.rest5_client.Rest5ClientTransport;
+import co.elastic.clients.transport.rest5_client.low_level.Rest5Client; 
 
 import com.weicoder.elasticsearch.annotation.Index;
 import com.weicoder.elasticsearch.params.ElasticSearchParams;
@@ -41,9 +43,14 @@ public class ElasticSearch {
 	 * @param name
 	 */
 	public ElasticSearch(String name) {
-		RestClient rc = RestClient
-				.builder(W.L.toArray(ElasticSearchParams.getHosts(name).stream().map(HttpHost::create).toList())).build();
-		client = new ElasticsearchClient(new RestClientTransport(rc, new JacksonJsonpMapper()));
+		Rest5Client rc = Rest5Client.builder(W.L.toArray(ElasticSearchParams.getHosts(name).stream().map(t -> {
+			try {
+				return HttpHost.create(t);
+			} catch (URISyntaxException e) {
+			}
+			return null;
+		}).toList())).build();
+		client = new ElasticsearchClient(new Rest5ClientTransport(rc, new JacksonJsonpMapper()));
 	}
 
 	/**
