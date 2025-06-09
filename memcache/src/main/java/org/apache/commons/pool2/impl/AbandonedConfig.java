@@ -102,8 +102,7 @@ public class AbandonedConfig {
      * Creates a new instance with values from the given instance.
      *
      * @param abandonedConfig the source.
-     */
-    @SuppressWarnings("resource")
+     */ 
     private AbandonedConfig(final AbandonedConfig abandonedConfig) {
         this.setLogAbandoned(abandonedConfig.getLogAbandoned());
         this.setLogWriter(abandonedConfig.getLogWriter());

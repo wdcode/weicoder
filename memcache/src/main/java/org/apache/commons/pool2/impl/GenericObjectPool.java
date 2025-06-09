@@ -975,8 +975,7 @@ public class GenericObjectPool<T> extends BaseGenericObjectPool<T>
      * not used since longer than the removeAbandonedTimeout.
      *
      * @param abandonedConfig The configuration to use to identify abandoned objects
-     */
-    @SuppressWarnings("resource") // PrintWriter is managed elsewhere
+     */ 
     private void removeAbandoned(final AbandonedConfig abandonedConfig) {
         // Generate a list of abandoned objects to remove
         final ArrayList<PooledObject<T>> remove = createRemoveList(abandonedConfig, allObjects);

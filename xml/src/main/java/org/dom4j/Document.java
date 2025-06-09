@@ -16,8 +16,7 @@ import java.util.Map;
  *
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  * @version $Revision: 1.14 $
- */
-@SuppressWarnings("unused")
+ */ 
 public interface Document extends Branch {
     /**
      * Returns the root {@link Element}for this document.

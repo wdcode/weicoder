@@ -127,7 +127,7 @@ public final class ZookeeperClient {
 	 */
 	public static void getDataAsync(final String path, Calls.EoV<byte[]> callback) {
 		// 异步读取数据回调
-		BackgroundCallback background = (client, event) -> callback.call(event.getData());
+		BackgroundCallback background = (_, event) -> callback.call(event.getData());
 		// 每次接收ZK事件都要重新注册Watcher，然后才异步读数据
 		Watcher watcher = new Watcher() {
 			@Override

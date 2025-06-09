@@ -129,7 +129,7 @@ public class RedisCache<K, V> extends BeanCache<K, V> {
 	 * 加载所以缓存
 	 */
 	public void fill() {
-		redis.hgetAll(name).forEach((k, v) -> super.put(J.toBean(v, val)));
+		redis.hgetAll(name).forEach((_, v) -> super.put(J.toBean(v, val)));
 	}
 
 	/**

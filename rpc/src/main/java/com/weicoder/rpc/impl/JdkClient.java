@@ -15,6 +15,6 @@ public class JdkClient implements RpcClient {
 
 	@Override
 	public <E> E client(Class<E> rpc, InetSocketAddress addr) {
-		return U.C.newProxyInstance(rpc, (proxy, method, args) -> Rpcs.rpc(addr, method.getName(), args[0]));
+		return U.C.newProxyInstance(rpc, (_, method, args) -> Rpcs.rpc(addr, method.getName(), args[0]));
 	}
 }

@@ -21,8 +21,7 @@ import java.util.Map;
  *
  * @author <a href="mailto:jstrachan@apache.org">James Strachan </a>
  * @version $Revision: 1.47 $
- */
-@SuppressWarnings("unused")
+ */ 
 public interface Element extends Branch {
 	// Name and namespace related methods
 	// -------------------------------------------------------------------------

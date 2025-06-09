@@ -127,7 +127,7 @@ public final class Rpcs {
 		List<E> rs = W.L.list();
 		RPCS.get(getName(rpc)).forEach(i -> rs.add(client(rpc, i)));
 		// 使用jdk代理调用所有rpc
-		return U.C.newProxyInstance(rpc, (proxy, method, args) -> {
+		return U.C.newProxyInstance(rpc, (_, method, args) -> {
 			List<Object> res = W.L.list();
 			rs.forEach(r -> res.add(U.B.invoke(r, method, args[0])));
 			return res;

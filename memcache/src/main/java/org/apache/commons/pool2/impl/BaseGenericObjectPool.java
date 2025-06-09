@@ -264,7 +264,7 @@ public abstract class BaseGenericObjectPool<T> extends BaseObject implements Aut
         StatsStore(final int size) {
             this.size = size;
             this.values = new AtomicLong[size];
-            Arrays.setAll(values, i -> new AtomicLong(NONE));
+            Arrays.setAll(values, _ -> new AtomicLong(NONE));
         }
 
         void add(final Duration value) {

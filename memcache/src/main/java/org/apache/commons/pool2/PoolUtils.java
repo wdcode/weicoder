@@ -498,13 +498,12 @@ public final class PoolUtils {
         protected ErodingFactor getErodingFactor(final K key) {
             // This may result in two ErodingFactors being created for a key
             // since they are small and cheap this is okay.
-            return factors.computeIfAbsent(key, k -> new ErodingFactor(this.factor));
+            return factors.computeIfAbsent(key, _ -> new ErodingFactor(this.factor));
         }
 
         /**
          * {@inheritDoc}
-         */
-        @SuppressWarnings("resource") // getKeyedPool(): ivar access
+         */ 
         @Override
         public String toString() {
             return "ErodingPerKeyKeyedObjectPool{" + "factor=" + factor +

@@ -20,8 +20,7 @@ import java.util.Map;
  *
  * @author <a href="mailto:james.strachan@metastuff.com">James Strachan </a>
  * @version $Revision: 1.20 $
- */
-@SuppressWarnings("unused")
+ */ 
 public interface XPath extends NodeFilter {
 	/**
 	 * <code>getText</code> will return the textual version of the XPath
