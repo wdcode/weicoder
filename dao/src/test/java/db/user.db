@@ -1,6 +1,0 @@
-url=127.0.0.1:3306/user
-username=root
-password=123456
-#package=com.weicoder.po.user
-package=com.weicoder.test
-show_sql=true
