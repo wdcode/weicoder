@@ -1,4 +1,4 @@
-package com.weicoder.hibernate6;
+package com.weicoder.hibernate;
  
 import java.util.List;
 import java.util.Map;

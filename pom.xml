@@ -3,30 +3,50 @@
 	<parent>
 		<groupId>com.weicoder</groupId>
 		<artifactId>build</artifactId>
-		<version>2.7</version>
+		<version>2.7.0</version>
 	</parent>
 	<artifactId>weicoder</artifactId>
-	<version>3.6.3</version>
+	<version>3.7.0</version>
 	<packaging>pom</packaging>
+	<name>weicoder</name>
+	<description>java weicoder tools</description>
+	<url>https://github.com/wdcode/weicoder</url>
+	<licenses>
+		<license>
+			<name>木兰公共许可证, 第2版</name>
+			<url>http://license.coscl.org.cn/MulanPubL-2.0/</url>
+		</license>
+	</licenses>
+	<developers>
+		<developer>
+			<name>wdcode</name>
+			<email>wdcode@qq.com</email>
+		</developer>
+	</developers>
+	<scm>
+		<connection>scm:git@github.com:wdcode/</connection>
+		<developerConnection>scm:git@github.com:wdcode</developerConnection>
+		<url>git@github.com:wdcode</url>
+	</scm>
 
 	<properties>
-		<log4j-core>2.24.3</log4j-core>
+		<log4j-core>2.25.0</log4j-core>
 		<fastjson2>2.0.57</fastjson2> 
-		<hibernate-envers>6.6.17.Final</hibernate-envers><!-- 7.0.2.Final-->
+		<hibernate-envers>7.0.4.Final</hibernate-envers>
 		<netty-all>4.2.2.Final</netty-all>
 		<mongo-java-driver>3.12.14</mongo-java-driver>
 		<influxdb-java>2.25</influxdb-java>
 		<flink-java>1.20.1</flink-java>
 		<jedis>6.0.0</jedis>
-		<jsoup>1.20.1</jsoup> 
-		<seata>2.3.0</seata>
+		<jsoup>1.21.1</jsoup> 
+		<seata>2.4.0</seata>
 		<kafka-clients>4.0.0</kafka-clients>
 		<sofa-rpc>5.13.5</sofa-rpc>
 		<guava>33.4.8-jre</guava>
-		<elasticsearch-java>9.0.2</elasticsearch-java>
+		<elasticsearch-java>9.0.3</elasticsearch-java>
 		<poi>5.4.1</poi>
 		<tomcat-embed>11.0.8</tomcat-embed>
-		<nacos-client>3.0.1</nacos-client>
+		<nacos-client>3.0.2</nacos-client>
 		<hadoop-client>3.4.1</hadoop-client>
 		<protobuf-java>4.31.1</protobuf-java>
 		<httpclient5>5.5</httpclient5>
@@ -34,19 +54,19 @@
 		<HikariCP>6.3.0</HikariCP>
 		<solr-solrj>9.8.1</solr-solrj>
 		<snakeyaml>2.4</snakeyaml>
-		<opencsv>5.11.1</opencsv>
+		<opencsv>5.11.2</opencsv>
 		<druid>1.2.25</druid>
 		<shiro>2.0.4</shiro>
 		<curator-framework>5.8.0</curator-framework>
 		<hbase-client>2.6.2</hbase-client>
-		<jackson-databind>2.19.0</jackson-databind> 
+		<jackson-databind>2.19.1</jackson-databind> 
 		<disruptor>4.0.0</disruptor>
 		<commons-compress>1.27.1</commons-compress>
 		<aparapi>3.0.2</aparapi>
 		<mysql-connector-java>8.0.33</mysql-connector-java>
 		<hibernate-core>5.6.15.Final</hibernate-core>
 		<xstream>1.4.21</xstream>
-		<retrofit>2.12.0</retrofit><!-- 3.0.0-->
+		<retrofit>3.0.0</retrofit>
 
 		<!--     
 		<dom4j>2.1.4</dom4j>
@@ -102,7 +122,7 @@
 		<module>httpclient</module>
 		<module>http</module>
 		<module>html</module>
-		<module>hibernate6</module>
+		<module>hibernate</module>
 		<module>image</module>
 		<module>json</module>
 		<module>kafka</module>
@@ -200,7 +220,7 @@
 			</dependency>
 			<dependency>
 				<groupId>com.weicoder</groupId>
-				<artifactId>hibernate6</artifactId>
+				<artifactId>hibernate</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
