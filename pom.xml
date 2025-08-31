@@ -3,10 +3,10 @@
 	<parent>
 		<groupId>com.weicoder</groupId>
 		<artifactId>build</artifactId>
-		<version>2.7.0</version>
+		<version>2.7.1</version>
 	</parent>
 	<artifactId>weicoder</artifactId>
-	<version>3.7.0</version>
+	<version>3.7.1</version>
 	<packaging>pom</packaging>
 	<name>weicoder</name>
 	<description>java weicoder tools</description>
