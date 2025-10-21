@@ -50,8 +50,8 @@
 		<hadoop-client>3.4.2</hadoop-client>
 		<protobuf-java>4.32.1</protobuf-java>
 		<httpclient5>5.5</httpclient5>
-		<okhttp>4.12.0</okhttp> <!--5.1.0-->
-		<HikariCP>7.0.2</HikariCP><!--6.3.0-->
+		<okhttp>4.12.0</okhttp> 
+		<HikariCP>7.0.2</HikariCP>
 		<solr-solrj>9.9.0</solr-solrj>
 		<snakeyaml>2.5</snakeyaml>
 		<opencsv>5.12.0</opencsv>
