@@ -3,10 +3,10 @@
 	<parent>
 		<groupId>com.weicoder</groupId>
 		<artifactId>build</artifactId>
-		<version>2.8.0</version>
+		<version>2.8.1</version> 
 	</parent>
 	<artifactId>weicoder</artifactId>
-	<version>3.8.0</version>
+	<version>3.8.1</version>
 	<packaging>pom</packaging>
 	<name>weicoder</name>
 	<description>java weicoder tools</description>
@@ -14,7 +14,7 @@
 	<licenses>
 		<license>
 			<name>木兰公共许可证, 第2版</name>
-			<url>http://license.coscl.org.cn/MulanPubL-2.0/</url>
+			<url>http://license.coscl.org.cn/MulanPubL-2.0</url>
 		</license>
 	</licenses>
 	<developers>
@@ -30,36 +30,36 @@
 	</scm>
 
 	<properties>
-		<log4j-core>2.25.1</log4j-core>
-		<fastjson2>2.0.58</fastjson2> 
-		<hibernate-envers>7.1.1.Final</hibernate-envers>
-		<netty-all>4.2.6.Final</netty-all>
+		<log4j-core>2.25.2</log4j-core>
+		<fastjson2>2.0.60</fastjson2> 
+		<hibernate-envers>7.1.10.Final</hibernate-envers>
+		<netty-all>4.2.7.Final</netty-all>
 		<mongo-java-driver>3.12.14</mongo-java-driver>
 		<influxdb-java>2.25</influxdb-java>
-		<flink-java>1.20.2</flink-java>
-		<jedis>6.2.0</jedis>
+		<flink-java>1.20.3</flink-java>
+		<jedis>7.1.0</jedis>
 		<jsoup>1.21.2</jsoup> 
 		<seata>2.5.0</seata>
-		<kafka-clients>4.1.0</kafka-clients>
-		<sofa-rpc>5.13.5</sofa-rpc>
+		<kafka-clients>4.1.1</kafka-clients>
+		<sofa-rpc>5.14.1</sofa-rpc>
 		<guava>33.5.0-jre</guava>
-		<elasticsearch-java>9.1.4</elasticsearch-java>
-		<poi>5.4.1</poi>
-		<tomcat-embed>11.0.11</tomcat-embed>
-		<nacos-client>3.0.3</nacos-client>
+		<elasticsearch-java>9.2.1</elasticsearch-java>
+		<poi>5.5.0</poi>
+		<tomcat-embed>11.0.14</tomcat-embed>
+		<nacos-client>3.1.0</nacos-client>
 		<hadoop-client>3.4.2</hadoop-client>
-		<protobuf-java>4.32.1</protobuf-java>
-		<httpclient5>5.5</httpclient5>
-		<okhttp>4.12.0</okhttp> 
+		<protobuf-java>4.33.1</protobuf-java>
+		<httpclient5>5.5.1</httpclient5>
+		<okhttp>4.12.0</okhttp>
 		<HikariCP>7.0.2</HikariCP>
-		<solr-solrj>9.9.0</solr-solrj>
+		<solr-solrj>9.10.0</solr-solrj>
 		<snakeyaml>2.5</snakeyaml>
 		<opencsv>5.12.0</opencsv>
 		<druid>1.2.27</druid>
-		<shiro>2.0.5</shiro>
+		<shiro>2.0.6</shiro>
 		<curator-framework>5.9.0</curator-framework>
-		<hbase-client>2.6.3</hbase-client>
-		<jackson-databind>2.20.0</jackson-databind> 
+		<hbase-client>2.6.4</hbase-client>
+		<jackson-databind>2.20.1</jackson-databind> 
 		<disruptor>4.0.0</disruptor>
 		<commons-compress>1.28.0</commons-compress>
 		<aparapi>3.0.2</aparapi>
@@ -68,10 +68,11 @@
 		<xstream>1.4.21</xstream>
 		<retrofit>3.0.0</retrofit>
 		<dom4j>2.2.0</dom4j>
+		<quartz>2.5.1</quartz>
 
 		<!--      
 		<jaxen>2.0.0</jaxen>
-		<quartz>2.5.0</quartz>
+		
 		<commons-email>1.6.0</commons-email>
 		<Memcached-Java-Client>3.0.2</Memcached-Java-Client> 
 		<commons-pool2>2.12.1</commons-pool2>  
@@ -81,11 +82,7 @@
 			<artifactId>jaxen</artifactId>
 			<version>${jaxen}</version>
 		</dependency>
-		<dependency>
-			<groupId>org.quartz-scheduler</groupId>
-			<artifactId>quartz</artifactId>
-			<version>${quartz}</version>
-		</dependency>
+		
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-email</artifactId>
@@ -583,6 +580,11 @@
 				<groupId>org.dom4j</groupId>
 				<artifactId>dom4j</artifactId>
 				<version>${dom4j}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.quartz-scheduler</groupId>
+				<artifactId>quartz</artifactId>
+				<version>${quartz}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
