@@ -69,35 +69,16 @@
 		<retrofit>3.0.0</retrofit>
 		<dom4j>2.2.0</dom4j>
 		<quartz>2.5.1</quartz>
-
-		<!--      
-		<jaxen>2.0.0</jaxen>
-		
 		<commons-email>1.6.0</commons-email>
-		<Memcached-Java-Client>3.0.2</Memcached-Java-Client> 
-		<commons-pool2>2.12.1</commons-pool2>  
+		<commons-pool2>2.12.1</commons-pool2> 
 		
-		<dependency>
-			<groupId>jaxen</groupId>
-			<artifactId>jaxen</artifactId>
-			<version>${jaxen}</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-email</artifactId>
-			<version>${commons-email}</version>
-		</dependency>
+		<!--      		
+		<Memcached-Java-Client>3.0.2</Memcached-Java-Client> 	
 		<dependency>
 			<groupId>com.whalin</groupId>
 			<artifactId>Memcached-Java-Client</artifactId>
 			<version>${Memcached-Java-Client}</version>
-		</dependency> 
-		<dependency>
-		  <groupId>org.apache.commons</groupId>
-		  <artifactId>commons-pool2</artifactId>
-		  <version>${commons-pool2}</version>
-		</dependency>
+		</dependency> 		
 		-->
 	</properties>
 
@@ -585,6 +566,16 @@
 				<groupId>org.quartz-scheduler</groupId>
 				<artifactId>quartz</artifactId>
 				<version>${quartz}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-email</artifactId>
+				<version>${commons-email}</version>
+			</dependency>
+			<dependency>
+			  <groupId>org.apache.commons</groupId>
+			  <artifactId>commons-pool2</artifactId>
+			  <version>${commons-pool2}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
