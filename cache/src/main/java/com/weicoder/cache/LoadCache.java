@@ -2,11 +2,11 @@ package com.weicoder.cache;
 
 import static com.weicoder.cache.params.CacheParams.*;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.ExecutionException; 
 
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
@@ -47,7 +47,7 @@ public class LoadCache<K, V> {
 	LoadCache(long max, int init, int level, long refresh, long expire, Calls.EoR<K, V> load) {
 		// 初始化取缓存
 		cache = CacheBuilder.newBuilder().maximumSize(max).initialCapacity(init).concurrencyLevel(level)
-				.refreshAfterWrite(refresh, TimeUnit.SECONDS).expireAfterAccess(expire, TimeUnit.SECONDS)
+				.refreshAfterWrite(Duration.ofSeconds(refresh)).expireAfterAccess(Duration.ofSeconds(expire))
 				.build(new CacheLoader<K, V>() {
 					// 读取缓存
 					public V load(K key) throws Exception {

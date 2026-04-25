@@ -17,6 +17,7 @@ import redis.clients.jedis.JedisCluster;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 import redis.clients.jedis.Protocol;
+import redis.clients.jedis.RedisClusterClient;
 
 /**
  * jedis 构建者
@@ -46,6 +47,7 @@ public final class JedisBuilder {
 		}
 		// 生成JedisCluster
 		Logs.info("redis init cluster nodes={}", nodes);
+//		RedisClusterClient.builder().nodes(nodes).
 		return new JedisCluster(nodes, RedisParams.getTimeOut(name), RedisParams.getTimeOut(name), 5, RedisParams.getPassword(name), config);
 	}
 

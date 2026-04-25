@@ -8,6 +8,8 @@ import com.weicoder.common.thread.T;
 import com.weicoder.json.J;
 import com.weicoder.redis.Redis;
 
+import redis.clients.jedis.params.SetParams;
+
 /**
  * Redis基类
  * 
@@ -139,7 +141,7 @@ public abstract class BaseRedis implements Redis {
 				if (seconds == -1)
 					r.set(key, key);
 				else
-					r.setex(key, W.C.toLong(seconds), key);
+					r.set(key, key,SetParams.setParams().ex(seconds)); 
 			});
 			return true;
 		} catch (Exception e) {
