@@ -6,8 +6,8 @@ import java.util.Set;
 
 import com.weicoder.common.interfaces.Calls;
 
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.Transaction;
+import redis.clients.jedis.AbstractTransaction;
+import redis.clients.jedis.RedisClient; 
 import redis.clients.jedis.resps.Tuple;
 
 /**
@@ -28,21 +28,21 @@ public interface Redis {
 	 * 
 	 * @return Jedis
 	 */
-	Jedis getResource(String key);
+	RedisClient getResource(String key);
 
 	/**
 	 * 执行Redis 回调使用 内部处理jedis的关闭问题带事务功能
 	 * 
 	 * @param callback
 	 */
-	void multi(Calls.EoV<Transaction> callback);
+	void multi(Calls.EoV<AbstractTransaction> callback);
 
 	/**
 	 * 执行Redis 回调使用 内部处理jedis的关闭问题
 	 * 
 	 * @param callback
 	 */
-	void exec(Calls.EoV<Jedis> callback);
+	void exec(Calls.EoV<RedisClient> callback);
 
 	/**
 	 * 从大到小获取有序集合里的数据
@@ -450,7 +450,7 @@ public interface Redis {
 	 * @param max 最大
 	 * @return 结果
 	 */
-	List<String> zrangeByScore(String key, String min, String max);
+	List<String> zrangeByScore(String key, double min, double max);
 
 	/**
 	 * 添加列表数据

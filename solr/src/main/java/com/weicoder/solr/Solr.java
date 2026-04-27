@@ -3,9 +3,9 @@ package com.weicoder.solr;
 import java.util.Collection;
 import java.util.List;
 
-import org.apache.solr.client.solrj.SolrClient;
-import org.apache.solr.client.solrj.SolrQuery;
-import org.apache.solr.client.solrj.impl.Http2SolrClient.Builder;
+import org.apache.solr.client.solrj.SolrClient; 
+import org.apache.solr.client.solrj.impl.HttpJdkSolrClient.Builder;
+import org.apache.solr.client.solrj.request.SolrQuery;
 
 import com.weicoder.common.lang.W;
 import com.weicoder.common.log.Logs;

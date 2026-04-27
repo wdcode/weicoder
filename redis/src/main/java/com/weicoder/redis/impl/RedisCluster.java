@@ -9,14 +9,17 @@ import com.weicoder.common.interfaces.Calls;
 import com.weicoder.common.lang.W;
 import com.weicoder.common.log.Logs;
 import com.weicoder.redis.base.BaseRedis;
-import com.weicoder.redis.builder.JedisBuilder;
+import com.weicoder.redis.builder.RedisBuilder;
 
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisCluster;
+import redis.clients.jedis.AbstractTransaction;
+import redis.clients.jedis.Jedis; 
 import redis.clients.jedis.JedisPubSub;
+import redis.clients.jedis.RedisClient;
+import redis.clients.jedis.RedisClusterClient;
 import redis.clients.jedis.Transaction;
-import redis.clients.jedis.resps.Tuple;
-import redis.clients.jedis.util.JedisClusterCRC16;
+import redis.clients.jedis.params.SetParams;
+import redis.clients.jedis.params.ZRangeParams;
+import redis.clients.jedis.resps.Tuple; 
 
 /**
  * redis 集群
@@ -25,7 +28,7 @@ import redis.clients.jedis.util.JedisClusterCRC16;
  */
 public final class RedisCluster extends BaseRedis {
 	// 声明JedisCluster
-	private JedisCluster cluster;
+	private RedisClusterClient cluster;
 
 	/**
 	 * 构造
@@ -34,7 +37,7 @@ public final class RedisCluster extends BaseRedis {
 	 */
 	public RedisCluster(String name) {
 		super(name);
-		cluster = JedisBuilder.buildCluster(name);
+		cluster = RedisBuilder.cluster(name);
 	}
 
 	@Override
@@ -59,7 +62,7 @@ public final class RedisCluster extends BaseRedis {
 
 	@Override
 	public String setex(String key, long seconds, String value) {
-		return cluster.setex(key, seconds, value);
+		return cluster.set(key, value, SetParams.setParams().ex(seconds));
 	}
 
 	@Override
@@ -182,7 +185,7 @@ public final class RedisCluster extends BaseRedis {
 
 	@Override
 	public List<String> zrevrange(String key, long start, long end) {
-		return cluster.zrevrange(key, start, end);
+		return cluster.zrange(key, ZRangeParams.zrangeParams(start, end).rev());
 	}
 
 	@Override
@@ -191,8 +194,8 @@ public final class RedisCluster extends BaseRedis {
 	}
 
 	@Override
-	public List<String> zrangeByScore(String key, String min, String max) {
-		return cluster.zrangeByScore(key, min, max);
+	public List<String> zrangeByScore(String key, double min, double max) {
+		return cluster.zrange(key, ZRangeParams.zrangeByScoreParams(min, max));
 	}
 
 	@Override
@@ -231,7 +234,7 @@ public final class RedisCluster extends BaseRedis {
 	}
 
 	@Override
-	public void exec(Calls.EoV<Jedis> callback) {
+	public void exec(Calls.EoV<RedisClient> callback) {
 		callback.call(getResource(C.S.EMPTY));
 	}
 
@@ -241,13 +244,14 @@ public final class RedisCluster extends BaseRedis {
 	}
 
 	@Override
-	public Jedis getResource(String key) {
-		return new Jedis(cluster.getConnectionFromSlot(JedisClusterCRC16.getCRC16(key)));
+	public RedisClient getResource(String key) {  
+//		return new RedisClient(cluster.getConnectionFromSlot(JedisClusterCRC16.getCRC16(key)));
+		 return null;		 
 	}
 
 	@Override
 	public List<Tuple> zrevrangeByScoreWithScores(String key, double max, double min, int offset, int count) {
-		return cluster.zrevrangeByScoreWithScores(key, max, min, offset, count);
+		return cluster.zrangeWithScores(key, ZRangeParams.zrangeByScoreParams(min, max).limit(offset, count).rev());
 	}
 
 	@Override
@@ -256,7 +260,7 @@ public final class RedisCluster extends BaseRedis {
 	}
 
 	@Override
-	public void multi(Calls.EoV<Transaction> callback) {
+	public void multi(Calls.EoV<AbstractTransaction> callback) {
 		try (Jedis jedis = getJedis()) {
 			Transaction t = jedis.multi();
 			try {
